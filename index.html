@@ -2060,6 +2060,9 @@ function renderCarrusel(categoria) {
         var open = descEl.classList.contains('expanded');
         descEl.classList.toggle('expanded', !open);
         leerMasBtn.textContent = open ? (T[idiomaActual]||T.es).leerMas : (T[idiomaActual]||T.es).leerMenos;
+        // Ocultar/mostrar botón añadir punto del mapa al expandir/colapsar
+        var btnAdd = document.getElementById('btn-add-poi-map');
+        if (btnAdd) btnAdd.style.display = open ? 'flex' : 'none';
       });
     }
     // Listener directo en botón ruta
@@ -3014,6 +3017,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if(btn&&btn.classList.contains('poi-leer-mas'))
           btn.innerHTML=(T[idiomaActual]||T.es).leerMas;
       });
+      // Restaurar botón añadir punto al colapsar por scroll
+      var btnAdd = document.getElementById('btn-add-poi-map');
+      if (btnAdd) btnAdd.style.display = 'flex';
     });
     c.addEventListener('mousemove',function(e){if(!isDown)return;e.preventDefault();
       if(!dragged){
