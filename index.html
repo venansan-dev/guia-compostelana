@@ -1076,14 +1076,18 @@ function refrescarUbicacion() {
 
 function añadirMarcadorUsuario(p) {
   var m = L.marker([p.lat, p.lng], { icon: crearIconoUsuario() }).addTo(mapa);
+  // Guardar referencia al marcador para poder eliminarlo del mapa
+  p._marker = m;
   m.on('click', (function(punto) {
     return function() {
-      var content = '<div style="font-family:DM Sans,sans-serif;min-width:180px;max-width:260px">' +
+      var popupId = 'popup-del-' + punto.id;
+      var content = '<div style="font-family:DM Sans,sans-serif;min-width:200px;max-width:260px">' +
         '<strong style="font-size:14px">👤 ' + punto.nombre + '</strong><br>' +
         '<small style="color:#6b7280;font-size:11px">Punto añadido por usuario' +
         (punto.estado === 'pendiente' ? ' · <span style="color:#f59e0b">⏳ Pendiente revisión</span>' : '') +
         '</small>' +
-        (punto.descripcion ? '<p style="font-size:13px;margin:6px 0 0;color:#374151">' + punto.descripcion + '</p>' : '') +
+        (punto.descripcion ? '<p style="font-size:13px;margin:6px 0 4px;color:#374151">' + punto.descripcion + '</p>' : '') +
+        '<button onclick="eliminarPOIUsuario(\'' + punto.id + '\')" style="margin-top:8px;width:100%;background:#fff2f2;color:#ef4444;border:1.5px solid #ef4444;border-radius:8px;padding:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">🗑️ Eliminar este punto</button>' +
         '</div>';
       mapa.openPopup(L.popup({ className:'poi-popup' }).setLatLng([punto.lat,punto.lng]).setContent(content));
     };
@@ -1429,17 +1433,24 @@ function eliminarPOIUsuario(poiId) {
   var conf = confirm((t2.confirmarEliminar)||'¿Eliminar este punto? Esta acción no se puede deshacer.');
   if (!conf) return;
 
-  // 1. Quitar de PUNTOS
-  PUNTOS = PUNTOS.filter(function(p){ return p.id !== poiId; });
+  // 1. Cerrar popup del mapa
+  mapa.closePopup();
 
-  // 2. Quitar de PUNTOS_USUARIO y localStorage
+  // 2. Quitar marcador del mapa
+  var poi = PUNTOS.find(function(p){ return p.id === poiId; });
+  if (poi && poi._marker) {
+    mapa.removeLayer(poi._marker);
+  }
+
+  // 3. Quitar de PUNTOS y PUNTOS_USUARIO
+  PUNTOS = PUNTOS.filter(function(p){ return p.id !== poiId; });
   PUNTOS_USUARIO = PUNTOS_USUARIO.filter(function(p){ return p.id !== poiId; });
   try { localStorage.setItem('poi_usuario', JSON.stringify(PUNTOS_USUARIO)); } catch(e) {}
 
-  // 3. Eliminar de Firebase
+  // 4. Eliminar de Firebase
   db.ref('poi_usuarios/' + poiId).remove().catch(function(e){ console.warn('No se pudo eliminar de Firebase:', e); });
 
-  // 4. Actualizar carrusel y mapa
+  // 5. Actualizar carrusel
   renderCarrusel(categoriaActiva);
 }
 
@@ -1777,7 +1788,10 @@ function formatDist(km) { return km<1 ? Math.round(km*1000)+' m' : km.toFixed(1)
 function renderCarrusel(categoria) {
   categoriaActiva = categoria;
   var carousel = document.getElementById('carousel');
-  var filtrados = PUNTOS.filter(function(p){return categoria==='todos'||p.categoria===categoria;});
+  // Solo POIs oficiales en el carrusel — los de usuario van solo en el mapa
+  var filtrados = PUNTOS.filter(function(p){
+    return !p.esUsuario && !(p.id && p.id.indexOf('u_')===0) && (categoria==='todos'||p.categoria===categoria);
+  });
   if (!filtrados.length) { carousel.innerHTML='<p style="color:#6b7280;padding:1rem">No hay puntos en esta categoria.</p>'; return; }
   carousel.innerHTML = '';
   filtrados.forEach(function(p) {
@@ -1804,11 +1818,6 @@ function renderCarrusel(categoria) {
     var pNombre = idiomaActual==='gl'&&p.nombre_gl?p.nombre_gl:idiomaActual==='en'&&p.nombre_en?p.nombre_en:p.nombre;
     var pDesc = idiomaActual==='gl'&&p.descripcion_gl ? p.descripcion_gl : idiomaActual==='en'&&p.descripcion_en ? p.descripcion_en : p.descripcion;
     var pSub = idiomaActual==='gl'&&p.subtitulo_gl ? p.subtitulo_gl : idiomaActual==='en'&&p.subtitulo_en ? p.subtitulo_en : (p.subtitulo||'');
-    var esPoiUsuario = p.esUsuario || (p.id && p.id.indexOf('u_') === 0);
-    var btnEliminarHtml = esPoiUsuario
-      ? '<button class="poi-eliminar-btn" data-poi-del="'+p.id+'" style="width:calc(100% - 24px);margin:0 12px 12px;display:block;background:#fff2f2;color:#ef4444;border:1.5px solid #ef4444;border-radius:10px;padding:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;touch-action:manipulation">🗑️ Eliminar este punto</button>'
-      : '';
-
     card.innerHTML =
       '<div class="poi-img '+p.color+'">' +
         (p.imagen ? '<img src="'+p.imagen+'" alt="'+p.nombre+'" class="poi-img-cover" loading="lazy"/>' : '') +
@@ -1840,8 +1849,7 @@ function renderCarrusel(categoria) {
           '</div>'+
           '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'">'+(enRuta?'&#10003; '+(T[idiomaActual]||T.es).enRuta.replace('✓ ',''):(T[idiomaActual]||T.es).añadirRuta)+'</button>'+
         '</div>'+
-      '</div>'+
-      btnEliminarHtml;
+      '</div>';
     carousel.appendChild(card);
 
     // Añadir estrellas con createElement — igual que el test que funciona
