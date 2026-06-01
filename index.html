@@ -24,9 +24,12 @@
   0%,100% { box-shadow: 0 0 0 0 rgba(255,220,100,0); }
   50%      { box-shadow: 0 0 40px 12px rgba(255,220,100,0.25), 0 0 80px 20px rgba(29,158,117,0.2); }
 }
-@keyframes donBounce {
-  0%,100% { transform: translateY(0) rotate(-5deg); }
-  50%      { transform: translateY(-8px) rotate(5deg); }
+@keyframes donCoin {
+  0%   { transform: translateY(0) scaleX(1); }
+  25%  { transform: translateY(-14px) scaleX(1); }
+  50%  { transform: translateY(-18px) scaleX(0.1); }
+  75%  { transform: translateY(-14px) scaleX(1); }
+  100% { transform: translateY(0) scaleX(1); }
 }
 @keyframes donFloat {
   0%,100% { transform: translateY(0) scale(1); }
@@ -215,11 +218,11 @@
   <div style='position:absolute;top:-30px;right:-30px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.07);animation:donFloat 4s ease-in-out infinite;pointer-events:none'></div>
   <div style='position:absolute;bottom:-20px;left:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.05);animation:donFloat 5s ease-in-out infinite reverse;pointer-events:none'></div>
   <div style='position:relative;z-index:2;max-width:640px;margin:0 auto'>
-    <div style='display:flex;align-items:center;gap:10px;margin-bottom:8px'>
-      <span style='font-size:28px;animation:donBounce 2s ease-in-out infinite'>🙏</span>
-      <h4 id='footer-don-title' style='font-family:Playfair Display,serif;font-size:18px;font-weight:700;color:#fff;margin:0;text-shadow:0 1px 4px rgba(0,0,0,0.2)'>Apoya esta guía compostelana</h4>
+    <div style='display:flex;align-items:center;gap:12px;margin-bottom:8px'>
+      <span style='font-size:34px;display:inline-block;animation:donCoin 1.6s ease-in-out infinite;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.3))'>🪙</span>
+      <h4 id='footer-don-title' style='font-family:Playfair Display,serif;font-size:19px;font-weight:700;color:#FFE066;margin:0;text-shadow:0 2px 6px rgba(0,0,0,0.35);letter-spacing:0.3px'>Apoya esta guía compostelana</h4>
     </div>
-    <p id='footer-don-sub' style='font-size:13px;color:rgba(255,255,255,0.85);margin:0 0 14px;line-height:1.5'>Proyecto gratuito y sin publicidad. Tu apoyo nos permite seguir creciendo.</p>
+    <p id='footer-don-sub' style='font-size:13px;color:rgba(255,255,255,0.92);margin:0 0 14px;line-height:1.5'>Proyecto gratuito y sin publicidad. Tu apoyo nos permite seguir creciendo.</p>
     <div style='display:flex;gap:8px;flex-wrap:wrap'>
       <button onclick='abrirBizum()' style='display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.2);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:8px 16px;cursor:pointer;color:#fff;font-size:13px;font-weight:600;font-family:DM Sans,sans-serif;transition:background 0.2s'>📱 Bizum</button>
       <a href='https://paypal.me/guiacompostelana' target='_blank' style='display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.2);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:8px 16px;color:#fff;font-size:13px;font-weight:600;font-family:DM Sans,sans-serif;text-decoration:none'>💳 PayPal</a>
@@ -283,8 +286,8 @@
   <div style='position:absolute;top:50%;right:10%;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.06);animation:donFloat 4s ease-in-out infinite 1s'></div>
   <div style='position:relative;z-index:2;max-width:640px;margin:0 auto;text-align:center'>
     <!-- Emoji animado -->
-    <div style='font-size:52px;margin-bottom:12px;animation:donBounce 1.8s ease-in-out infinite;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.3))'>🙏</div>
-    <h2 id='donaciones-h2' style='font-family:Playfair Display,serif;font-size:30px;color:#fff;margin-bottom:10px;text-shadow:0 2px 12px rgba(0,0,0,0.3)'>Donaciones / Ayuda al soporte</h2>
+    <div style='font-size:56px;margin-bottom:12px;display:inline-block;animation:donCoin 1.6s ease-in-out infinite;filter:drop-shadow(0 4px 10px rgba(0,0,0,0.35))'>🪙</div>
+    <h2 id='donaciones-h2' style='font-family:Playfair Display,serif;font-size:30px;color:#FFE066;margin-bottom:10px;text-shadow:0 2px 12px rgba(0,0,0,0.4);letter-spacing:0.3px'>Donaciones / Ayuda al soporte</h2>
     <!-- Línea decorativa -->
     <div style='width:80px;height:3px;background:rgba(255,220,100,0.8);border-radius:2px;margin:0 auto 14px;animation:donGlow 2s ease-in-out infinite'></div>
     <p id='don-sub' style='font-size:14px;color:rgba(255,255,255,0.85);margin-bottom:2rem;line-height:1.6;max-width:460px;margin-left:auto;margin-right:auto'>Esta guía es gratuita y sin publicidad. Con tu donación ayudas a mantenerla viva y a seguir descubriendo el patrimonio compostelano de Vigo.</p>
@@ -752,6 +755,45 @@ firebase.initializeApp({
   appId: "1:454833387853:web:61e784528b2d7b081e1f04"
 });
 var db = firebase.database();
+
+// ── OCULTAR BOTÓN MAPA CUANDO TARJETA EXPANDIDA SE SUPERPONE ────────────────
+// Usa IntersectionObserver para detectar si el carrusel está encima del mapa
+(function() {
+  function initCarouselObserver() {
+    var carousel = document.getElementById('carousel');
+    var mapBlock = document.querySelector('.map-block');
+    if (!carousel || !mapBlock) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+      // No hacemos nada aquí — el control lo lleva el leer-mas listener
+    }, { threshold: 0 });
+
+    // En móvil, cuando hay tarjeta expandida y el usuario hace scroll
+    // el botón ya se oculta por el listener de leerMas
+    // Aquí añadimos control por scroll: si el carousel está visible en pantalla
+    // junto con el mapa, ocultar el botón si hay tarjeta expandida
+    window.addEventListener('scroll', function() {
+      var btnAdd = document.getElementById('btn-add-poi-map');
+      if (!btnAdd) return;
+      var expanded = document.querySelector('.poi-desc.expanded');
+      if (!expanded) {
+        btnAdd.style.display = 'flex';
+        return;
+      }
+      // Hay tarjeta expandida — verificar si se superpone visualmente con el mapa
+      var mapRect = mapBlock ? mapBlock.getBoundingClientRect() : null;
+      var carouselEl = document.querySelector('.carousel-wrap');
+      var carouselRect = carouselEl ? carouselEl.getBoundingClientRect() : null;
+      if (mapRect && carouselRect) {
+        var overlap = mapRect.bottom > carouselRect.top;
+        btnAdd.style.display = overlap ? 'none' : 'flex';
+      }
+    }, { passive: true });
+  }
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(initCarouselObserver, 1000);
+  });
+})();
 
 // ── BOTÓN PRINCIPAL: INSTALAR APP o ACTIVAR NOTIFICACIONES ──────────────────
 // - En el navegador normal: ofrece instalar la PWA (Android) o guía (iOS)
@@ -1825,6 +1867,16 @@ function initMapa() {
     maxZoom:19
   }).addTo(mapa);
 
+  // Ocultar botón ➕ cuando se abre un popup, restaurar al cerrar
+  mapa.on('popupopen', function() {
+    var btn = document.getElementById('btn-add-poi-map');
+    if (btn) btn.style.display = 'none';
+  });
+  mapa.on('popupclose', function() {
+    var btn = document.getElementById('btn-add-poi-map');
+    if (btn) btn.style.display = 'flex';
+  });
+
   PUNTOS.forEach(function(p) {
     var m = L.marker([p.lat,p.lng], { icon:crearIcono(p.emoji) }).addTo(mapa);
     m.on('click', (function(punto) {
@@ -2411,7 +2463,7 @@ var T={
     historiaH3a:'🐚 El Cabaleiro das Cunchas — La leyenda que nació en Bouzas',
     historiaH3b:'⚔️ Vigo, tierra de templarios',
     donSub:'Esta guía es gratuita y sin publicidad. Con tu donación ayudas a mantenerla viva y a seguir descubriendo el patrimonio compostelano de Vigo.',
-    footerDonTitle:'🙏 Apoya esta guía compostelana',
+    footerDonTitle:'Apoya esta guía compostelana',
     footerDonSub:'Proyecto gratuito y sin publicidad. Tu apoyo nos permite seguir creciendo.',
     heroDonateTitle:'🙏 Apoya este proyecto',
     instrT1:'Activa tu ubicación',
