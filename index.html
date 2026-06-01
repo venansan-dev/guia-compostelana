@@ -1672,7 +1672,7 @@ var iconoBusqueda = L.divIcon({
 function initMapa() {
   var radioCtrl = document.getElementById('map-radio-control');
   if (radioCtrl) radioCtrl.style.display = 'flex';
-  mapa = L.map('map', { center:[42.2220,-8.7580], zoom:14, zoomControl: window.innerWidth >= 768 });
+  mapa = L.map('map', { center:[42.2220,-8.7580], zoom:14, zoomControl: false });
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     maxZoom:19
