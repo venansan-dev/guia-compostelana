@@ -1,7 +1,7 @@
 // sw.js — Service Worker para Guía Compostelana Local
 // Gestiona caché offline y notificaciones push
 
-const CACHE_NAME = 'guia-compostelana-v27';
+const CACHE_NAME = 'guia-compostelana-v29';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
