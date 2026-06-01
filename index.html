@@ -1179,22 +1179,56 @@ function activarMarcarEnMapa() {
     document.getElementById('poi-coords-display').textContent = '❌ El mapa no está disponible';
     return;
   }
-  // Minimizar modal y mostrar instrucción sobre el mapa
-  var modal = document.getElementById('modal-add-poi');
-  modal.style.opacity = '0.15';
-  modal.style.pointerEvents = 'none';
 
-  // Mostrar banner de instrucción
-  var banner = document.getElementById('banner-marcar-mapa');
-  if (!banner) {
-    banner = document.createElement('div');
-    banner.id = 'banner-marcar-mapa';
-    banner.style.cssText = 'position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:2000;background:#1D9E75;color:#fff;padding:10px 18px;border-radius:20px;font-size:13px;font-weight:600;font-family:DM Sans,sans-serif;box-shadow:0 4px 12px rgba(0,0,0,0.2);white-space:nowrap;pointer-events:none';
-    banner.textContent = '📍 Toca en el mapa para marcar el punto';
-    var mapSection = document.querySelector('.map-section');
-    if (mapSection) mapSection.appendChild(banner);
+  // Ocultar completamente el modal
+  var modal = document.getElementById('modal-add-poi');
+  modal.style.display = 'none';
+
+  // Mostrar cajetín de búsqueda + instrucción sobre el mapa
+  var overlay = document.getElementById('overlay-marcar-mapa');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'overlay-marcar-mapa';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:9998;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:16px;pointer-events:none';
+
+    // Cajétín de búsqueda de dirección
+    var searchBox = document.createElement('div');
+    searchBox.style.cssText = 'pointer-events:all;background:#fff;border-radius:14px;padding:10px 14px;box-shadow:0 4px 20px rgba(0,0,0,0.18);width:calc(100% - 32px);max-width:420px;display:flex;flex-direction:column;gap:8px';
+
+    var searchRow = document.createElement('div');
+    searchRow.style.cssText = 'display:flex;gap:8px;align-items:center';
+
+    var input = document.createElement('input');
+    input.id = 'input-buscar-dir';
+    input.type = 'text';
+    input.placeholder = '🔍 Buscar dirección o lugar...';
+    input.style.cssText = 'flex:1;border:1px solid #d1d5db;border-radius:8px;padding:9px 12px;font-size:14px;font-family:DM Sans,sans-serif;outline:none';
+
+    var btnBuscar = document.createElement('button');
+    btnBuscar.textContent = 'Buscar';
+    btnBuscar.style.cssText = 'background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap';
+    btnBuscar.addEventListener('click', function() { buscarDireccionPOI(input.value); });
+    input.addEventListener('keydown', function(e) { if (e.key === 'Enter') buscarDireccionPOI(input.value); });
+
+    var btnCancelar = document.createElement('button');
+    btnCancelar.textContent = '✕';
+    btnCancelar.style.cssText = 'background:#f3f4f6;color:#374151;border:none;border-radius:8px;padding:9px 12px;font-size:15px;cursor:pointer;';
+    btnCancelar.addEventListener('click', function() { cancelarMarcarMapa(); });
+
+    searchRow.appendChild(input);
+    searchRow.appendChild(btnBuscar);
+    searchRow.appendChild(btnCancelar);
+
+    var hint = document.createElement('div');
+    hint.style.cssText = 'font-size:12px;color:#6b7280;font-family:DM Sans,sans-serif;text-align:center';
+    hint.textContent = '— o toca directamente en el mapa para marcar el punto —';
+
+    searchBox.appendChild(searchRow);
+    searchBox.appendChild(hint);
+    overlay.appendChild(searchBox);
+    document.body.appendChild(overlay);
   }
-  banner.style.display = 'block';
+  overlay.style.display = 'flex';
 
   // Cambiar cursor del mapa
   mapa.getContainer().style.cursor = 'crosshair';
@@ -1203,41 +1237,78 @@ function activarMarcarEnMapa() {
   function onMapClick(e) {
     poiFormLat = parseFloat(e.latlng.lat.toFixed(6));
     poiFormLng = parseFloat(e.latlng.lng.toFixed(6));
-
-    // Mostrar marcador temporal
-    if (window._tempMarkerPOI) mapa.removeLayer(window._tempMarkerPOI);
-    window._tempMarkerPOI = L.marker([poiFormLat, poiFormLng], {
-      icon: L.divIcon({
-        className: '',
-        html: '<div style="width:18px;height:18px;border-radius:50%;background:#1D9E75;border:3px solid #fff;box-shadow:0 0 0 3px rgba(29,158,117,0.5)"></div>',
-        iconSize:[18,18], iconAnchor:[9,9]
-      })
-    }).addTo(mapa);
-
-    // Restaurar modal
-    modal.style.opacity = '1';
-    modal.style.pointerEvents = '';
-    banner.style.display = 'none';
-    mapa.getContainer().style.cursor = '';
-
-    // Mostrar coordenadas en el formulario
-    document.getElementById('poi-coords-display').innerHTML =
-      '✅ ' + poiFormLat.toFixed(5) + ', ' + poiFormLng.toFixed(5);
-
+    confirmarUbicacionMapa();
     mapa.off('click', onMapClick);
   }
   mapa.on('click', onMapClick);
+  window._onMapClickPOI = onMapClick;
+}
+
+function buscarDireccionPOI(query) {
+  if (!query.trim()) return;
+  var btnBuscar = document.querySelector('#overlay-marcar-mapa button');
+  fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(query) + '&limit=1&viewbox=-8.9,-8.5,42.0,42.4&bounded=0')
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      if (!data.length) {
+        alert('No se encontró esa dirección. Prueba a ser más específico o toca en el mapa.');
+        return;
+      }
+      poiFormLat = parseFloat(parseFloat(data[0].lat).toFixed(6));
+      poiFormLng = parseFloat(parseFloat(data[0].lon).toFixed(6));
+      mapa.setView([poiFormLat, poiFormLng], 17);
+      confirmarUbicacionMapa();
+    })
+    .catch(function() {
+      alert('Error al buscar. Toca en el mapa para marcar el punto.');
+    });
+}
+
+function confirmarUbicacionMapa() {
+  // Quitar listener del mapa
+  if (window._onMapClickPOI) { mapa.off('click', window._onMapClickPOI); window._onMapClickPOI = null; }
+  mapa.getContainer().style.cursor = '';
+
+  // Marcador temporal
+  if (window._tempMarkerPOI) mapa.removeLayer(window._tempMarkerPOI);
+  window._tempMarkerPOI = L.marker([poiFormLat, poiFormLng], {
+    icon: L.divIcon({
+      className: '',
+      html: '<div style="width:18px;height:18px;border-radius:50%;background:#1D9E75;border:3px solid #fff;box-shadow:0 0 0 3px rgba(29,158,117,0.5)"></div>',
+      iconSize:[18,18], iconAnchor:[9,9]
+    })
+  }).addTo(mapa);
+
+  // Ocultar overlay y restaurar modal
+  var overlay = document.getElementById('overlay-marcar-mapa');
+  if (overlay) overlay.style.display = 'none';
+  var modal = document.getElementById('modal-add-poi');
+  modal.style.display = 'flex';
+
+  // Mostrar coordenadas
+  document.getElementById('poi-coords-display').innerHTML =
+    '✅ ' + poiFormLat.toFixed(5) + ', ' + poiFormLng.toFixed(5);
+}
+
+function cancelarMarcarMapa() {
+  if (window._onMapClickPOI) { mapa.off('click', window._onMapClickPOI); window._onMapClickPOI = null; }
+  mapa.getContainer().style.cursor = '';
+  var overlay = document.getElementById('overlay-marcar-mapa');
+  if (overlay) overlay.style.display = 'none';
+  var modal = document.getElementById('modal-add-poi');
+  modal.style.display = 'flex';
 }
 
 // Limpiar marcador temporal al cerrar el formulario
 var _origCerrarFormPOI = cerrarFormPOI;
 cerrarFormPOI = function() {
   if (window._tempMarkerPOI) { mapa.removeLayer(window._tempMarkerPOI); window._tempMarkerPOI = null; }
-  var banner = document.getElementById('banner-marcar-mapa');
-  if (banner) banner.style.display = 'none';
+  if (window._onMapClickPOI) { mapa.off('click', window._onMapClickPOI); window._onMapClickPOI = null; }
+  var overlay = document.getElementById('overlay-marcar-mapa');
+  if (overlay) overlay.style.display = 'none';
   if (typeof mapa !== 'undefined' && mapa) mapa.getContainer().style.cursor = '';
   var modal = document.getElementById('modal-add-poi');
-  if (modal) { modal.style.opacity = '1'; modal.style.pointerEvents = ''; }
+  if (modal) { modal.style.display = 'none'; modal.style.opacity = '1'; modal.style.pointerEvents = ''; }
   _origCerrarFormPOI();
 };
 
