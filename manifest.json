@@ -22,7 +22,12 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["travel", "navigation", "education"],
+  "categories": [
+    "travel",
+    "navigation",
+    "education"
+  ],
   "screenshots": [],
-  "prefer_related_applications": false
+  "prefer_related_applications": false,
+  "scope": "/"
 }
