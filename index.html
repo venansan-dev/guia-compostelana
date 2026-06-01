@@ -1976,7 +1976,7 @@ function renderCarrusel(categoria) {
     var pSub = idiomaActual==='gl'&&p.subtitulo_gl ? p.subtitulo_gl : idiomaActual==='en'&&p.subtitulo_en ? p.subtitulo_en : (p.subtitulo||'');
     card.innerHTML =
       '<div class="poi-img '+p.color+'">' +
-        (p.imagen ? '<img src="'+p.imagen+'" alt="'+p.nombre+'" class="poi-img-cover" loading="lazy"/>' : '') +
+        '<img src="'+(p.imagen||'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png')+'" alt="'+p.nombre+'" class="poi-img-cover" loading="lazy"/>' +
       '</div>'+
       '<div class="poi-ranking" id="rank-'+p.id+'">&#9733; '+(val.votos>0?media:'-')+'</div>'+
       '<div class="poi-body">'+
