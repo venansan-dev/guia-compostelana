@@ -52,7 +52,7 @@
     <a href='#historia' id='nav-historia'>Historia Compostelana</a>
     <a href='#puntos' id='nav-puntos'>Puntos de interés</a>
     <a href='#emergencias' id='nav-emergencias'>🆘 Emergencias</a>
-    <a href='#instrucciones' id='nav-comousar'>📖 Cómo usar</a>
+    <a href='#instrucciones' id='nav-comousar'>🧭 Cómo usar</a>
     <a href='#contacto' id='nav-contacto'>Contacto</a>
   </nav>
   <!-- HAMBURGUESA solo visible en móvil -->
@@ -67,7 +67,7 @@
   <a href='#historia' id='nav-m-historia' onclick='cerrarMenu()'>Historia Compostelana</a>
   <a href='#puntos' id='nav-m-puntos' onclick='cerrarMenu()'>Puntos de interés</a>
   <a href='#emergencias' id='nav-m-emergencias' onclick='cerrarMenu()'>🆘 Emergencias</a>
-  <a href='#instrucciones' id='nav-m-comousar' onclick='cerrarMenu()'>📖 Cómo usar</a>
+  <a href='#instrucciones' id='nav-m-comousar' onclick='cerrarMenu()'>🧭 Cómo usar</a>
   <a class='dona-link' href='#donaciones' onclick='cerrarMenu()'>🙏 Donaciones / Ayuda al soporte</a>
   <a href='#contacto' id='nav-m-contacto' onclick='cerrarMenu()'>Contacto</a>
 </nav>
@@ -226,7 +226,7 @@
       <span style='display:inline-flex;flex-direction:column;align-items:center;animation:donCatBody 1.2s ease-in-out infinite;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.3));position:relative'>
         <span style='font-size:34px;position:relative;display:inline-block'>
           🐱
-          <span style='position:absolute;top:-4px;left:-22px;font-size:18px;display:inline-block;transform-origin:bottom center;animation:donCoin 0.7s ease-in-out infinite;transform:scaleX(-1)'>🤚</span>
+          <span style='position:absolute;top:-10px;right:-20px;font-size:18px;display:inline-block;transform-origin:bottom center;animation:donCoin 0.7s ease-in-out infinite'>👋</span>
         </span>
       </span>
       <h4 id='footer-don-title' style='font-family:Playfair Display,serif;font-size:19px;font-weight:700;color:#FFE066;margin:0;text-shadow:0 2px 6px rgba(0,0,0,0.35);letter-spacing:0.3px'>Apoya esta guía compostelana</h4>
@@ -298,7 +298,7 @@
     <div style='display:inline-flex;flex-direction:column;align-items:center;margin-bottom:12px;animation:donCatBody 1.2s ease-in-out infinite;filter:drop-shadow(0 4px 10px rgba(0,0,0,0.35))'>
       <span style='font-size:60px;position:relative;display:inline-block'>
         🐱
-        <span style='position:absolute;top:-8px;left:-34px;font-size:28px;display:inline-block;transform-origin:bottom center;animation:donCoin 0.7s ease-in-out infinite;transform:scaleX(-1)'>🤚</span>
+        <span style='position:absolute;top:-14px;right:-32px;font-size:28px;display:inline-block;transform-origin:bottom center;animation:donCoin 0.7s ease-in-out infinite'>👋</span>
       </span>
     </div>
     <h2 id='donaciones-h2' style='font-family:Playfair Display,serif;font-size:30px;color:#FFE066;margin-bottom:10px;text-shadow:0 2px 12px rgba(0,0,0,0.4);letter-spacing:0.3px'>Donaciones / Ayuda al soporte</h2>
@@ -478,7 +478,7 @@
 
   <!-- Cabecera -->
   <div style='display:flex;align-items:center;gap:12px;margin-bottom:6px'>
-    <div style='width:40px;height:40px;background:#E1F5EE;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0'>📖</div>
+    <div style='width:40px;height:40px;background:#E1F5EE;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0'>🧭</div>
     <div>
       <h2 id='comousar-h2' style='font-family:Playfair Display,serif;font-size:22px;color:#1a1a1a;margin:0;line-height:1.2'>Cómo usar la guía</h2>
       <p id='comousar-sub' style='font-size:13px;color:#6b7280;margin:0'>Instrucciones básicas para sacarle el máximo partido</p>
@@ -2411,7 +2411,7 @@ var T={
     navHistoria:'Historia Compostelana',
     navPuntos:'Puntos de interés',
     navEmergencias:'🆘 Emergencias',
-    navComoUsar:'📖 Cómo usar',
+    navComoUsar:'🧭 Cómo usar',
     navContacto:'Contacto',
     buscarPlaceholder:'Cafetería, calle, monumento, playa...',
     buscarBtn:'🔍 Buscar',
@@ -2543,7 +2543,7 @@ var T={
     navHistoria:'Historia Compostelá',
     navPuntos:'Puntos de interese',
     navEmergencias:'🆘 Emerxencias',
-    navComoUsar:'📖 Como usar',
+    navComoUsar:'🧭 Como usar',
     navContacto:'Contacto',
     buscarPlaceholder:'Cafetería, rúa, monumento, praia...',
     buscarBtn:'🔍 Buscar',
@@ -2675,7 +2675,7 @@ var T={
     navHistoria:'Compostelan History',
     navPuntos:'Points of interest',
     navEmergencias:'🆘 Emergencies',
-    navComoUsar:'📖 How to use',
+    navComoUsar:'🧭 How to use',
     navContacto:'Contact',
     buscarPlaceholder:'Café, street, monument, beach...',
     buscarBtn:'🔍 Search',
@@ -2821,7 +2821,7 @@ function cambiarIdioma(lang){
   el=document.getElementById('nav-m-historia');if(el)el.textContent=t.navHistoria;
   el=document.getElementById('nav-m-puntos');if(el)el.textContent=t.navPuntos;
   el=document.getElementById('nav-m-emergencias');if(el)el.textContent='🆘 '+t.navEmergencias.replace(/^🆘\s*/,'');
-  el=document.getElementById('nav-m-comousar');if(el)el.textContent='📖 '+t.navComoUsar.replace(/^📖\s*/,'');
+  el=document.getElementById('nav-m-comousar');if(el)el.textContent='🧭 '+t.navComoUsar.replace(/^🧭\s*/,'');
   el=document.getElementById('nav-m-contacto');if(el)el.textContent=t.navContacto;
   // Secciones
   el=document.getElementById('puntos-h2');if(el)el.textContent=t.puntosH2;
