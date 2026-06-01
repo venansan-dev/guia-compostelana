@@ -25,11 +25,15 @@
   50%      { box-shadow: 0 0 40px 12px rgba(255,220,100,0.25), 0 0 80px 20px rgba(29,158,117,0.2); }
 }
 @keyframes donCoin {
-  0%   { transform: translateY(0) scaleX(1); }
-  25%  { transform: translateY(-14px) scaleX(1); }
-  50%  { transform: translateY(-18px) scaleX(0.1); }
-  75%  { transform: translateY(-14px) scaleX(1); }
-  100% { transform: translateY(0) scaleX(1); }
+  0%,100% { transform: rotate(0deg); }
+  20%     { transform: rotate(20deg); }
+  40%     { transform: rotate(-5deg); }
+  60%     { transform: rotate(18deg); }
+  80%     { transform: rotate(-3deg); }
+}
+@keyframes donCatBody {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-3px); }
 }
 @keyframes donFloat {
   0%,100% { transform: translateY(0) scale(1); }
@@ -219,7 +223,10 @@
   <div style='position:absolute;bottom:-20px;left:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.05);animation:donFloat 5s ease-in-out infinite reverse;pointer-events:none'></div>
   <div style='position:relative;z-index:2;max-width:640px;margin:0 auto'>
     <div style='display:flex;align-items:center;gap:12px;margin-bottom:8px'>
-      <span style='font-size:34px;display:inline-block;animation:donCoin 1.6s ease-in-out infinite;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.3))'>🪙</span>
+      <span style='font-size:34px;display:inline-block;animation:donCatBody 1.2s ease-in-out infinite;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.3));position:relative'>
+        🐱
+        <span style='position:absolute;top:-8px;right:-10px;font-size:18px;display:inline-block;transform-origin:bottom center;animation:donCoin 0.7s ease-in-out infinite'>🤚</span>
+      </span>
       <h4 id='footer-don-title' style='font-family:Playfair Display,serif;font-size:19px;font-weight:700;color:#FFE066;margin:0;text-shadow:0 2px 6px rgba(0,0,0,0.35);letter-spacing:0.3px'>Apoya esta guía compostelana</h4>
     </div>
     <p id='footer-don-sub' style='font-size:13px;color:rgba(255,255,255,0.92);margin:0 0 14px;line-height:1.5'>Proyecto gratuito y sin publicidad. Tu apoyo nos permite seguir creciendo.</p>
@@ -286,7 +293,10 @@
   <div style='position:absolute;top:50%;right:10%;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.06);animation:donFloat 4s ease-in-out infinite 1s'></div>
   <div style='position:relative;z-index:2;max-width:640px;margin:0 auto;text-align:center'>
     <!-- Emoji animado -->
-    <div style='font-size:56px;margin-bottom:12px;display:inline-block;animation:donCoin 1.6s ease-in-out infinite;filter:drop-shadow(0 4px 10px rgba(0,0,0,0.35))'>🪙</div>
+    <div style='font-size:60px;margin-bottom:12px;display:inline-block;animation:donCatBody 1.2s ease-in-out infinite;filter:drop-shadow(0 4px 10px rgba(0,0,0,0.35));position:relative'>
+      🐱
+      <span style='position:absolute;top:-14px;right:-14px;font-size:28px;display:inline-block;transform-origin:bottom center;animation:donCoin 0.7s ease-in-out infinite'>🤚</span>
+    </div>
     <h2 id='donaciones-h2' style='font-family:Playfair Display,serif;font-size:30px;color:#FFE066;margin-bottom:10px;text-shadow:0 2px 12px rgba(0,0,0,0.4);letter-spacing:0.3px'>Donaciones / Ayuda al soporte</h2>
     <!-- Línea decorativa -->
     <div style='width:80px;height:3px;background:rgba(255,220,100,0.8);border-radius:2px;margin:0 auto 14px;animation:donGlow 2s ease-in-out infinite'></div>
@@ -573,6 +583,7 @@
   <div class='footer-brand'>
     <div class='logo'><img alt='Guía Compostelana de Vigo' src='https://i.postimg.cc/vmb63LGX/IMG-0208.jpg' style='width:180px;height:48px;border-radius:4px'/></div>
     <p id='footer-desc'>Tu guía local de puntos de interés en Vigo. Descubre lo mejor de la ciudad a tu alrededor.</p>
+    <p id='footer-about' style='margin-top:10px;font-size:13px;color:var(--texto-suave);line-height:1.7;max-width:260px;font-style:italic'>Simplemente esperamos que la guía os sea útil y disfrutéis de las experiencias del Camino. Si podéis, no olvidéis aportar. Gracias. 🙏</p>
   </div>
   <div class='footer-col'>
     <h4 id='footer-explora'>Explora</h4>
@@ -634,7 +645,7 @@ var PUNTOS = [
     descripcion:'Puente medieval de piedra de aproximadamente 10 metros de longitud sobre el río Lagares, en el barrio de Sárdoma. Es el único superviviente de los dos puentes medievales que existieron en este punto del río — el otro, situado en Balaídos, ha desaparecido. El topónimo del lugar proviene del antiguo río Sárdoma, nombre con el que se conocía el actual río Lagares en esta zona. Históricamente se enmarca en la red viaria que la Orden del Temple gestionó en el sur de Galicia desde su encomienda de San Martiño de Coia, desde donde controlaban el territorio entre Vigo y la comarca do Fragoso. El puente forma parte del corredor templario que conectaba Coia con Bembrive, canalizando el flujo de peregrinos procedentes de Tuy hacia Compostela. Este itinerario estaba reforzado por el hospital que la Orden mantenía junto a Santa María de Castrelos, situado en la misma ruta. Su ubicación estratégica en predios templarios y la época estimada de construcción apuntan a un origen vinculado a la actividad de la Orden en la región.',
     descripcion_gl:'Ponte medieval de pedra de aproximadamente 10 metros de lonxitude sobre o río Lagares, no barrio de Sárdoma. É o único supervivente das dúas pontes medievais que existiron neste punto do río — a outra, situada en Balaídos, desapareceu. O topónimo do lugar provén do antigo río Sárdoma, nome co que se coñecía o actual río Lagares nesta zona. Historicamente enmárcase na rede viaria que a Orde do Temple xestionou no sur de Galicia desde a súa encomenda de San Martiño de Coia, desde onde controlaban o territorio entre Vigo e a comarca do Fragoso. A ponte forma parte do corredor templario que conectaba Coia con Bembrive, canalizando o fluxo de peregrinos procedentes de Tui cara a Compostela, reforzado polo hospital que a Orde mantiña xunto a Santa María de Castrelos na mesma ruta.',
     descripcion_en:'A medieval stone bridge approximately 10 metres long over the Lagares river in the Sárdoma district of Vigo. It is the sole survivor of two medieval bridges that once crossed the river at this point — the other, located in Balaídos, no longer exists. The place name derives from the ancient Sárdoma river, the former name of the Lagares in this area. The bridge sits within the road network managed by the Knights Templar from their commandery of San Martiño de Coia, which controlled the territory between Vigo and the Fragoso district. It formed part of the Templar corridor linking Coia to Bembrive, channelling pilgrims arriving from Tui towards Compostela. The route was further supported by the Templar hospital maintained beside Santa María de Castrelos along the same path. Its strategic position within Templar landholdings and its estimated period of construction point to a direct connection with the Order\'s presence in the region.',
-    lat:42.2057, lng:-8.6821, emoji:'🌉', color:'ambar', imagen:'https://i.postimg.cc/L5HDVXtt/IMG-1026.jpg' },
+    lat:42.21917, lng:-8.71583, emoji:'🌉', color:'ambar', imagen:'https://i.postimg.cc/L5HDVXtt/IMG-1026.jpg' },
   { id:'hospital-magdalena', nombre:'Hospital de la Magdalena', nombre_gl:'Hospital da Magdalena', nombre_en:'Hospital of the Magdalene', categoria:'localización histórica', descripcion:'Emplazado en la rúa Oliva, junto a la desaparecida iglesia románica de Santa María y su olivo templario, el Hospital de la Magdalena fue una de las dos instituciones hospitalarias que la Orden del Temple habilitó en la comarca para la atención del peregrino — la otra se situaba en Castrelos. Su primer registro data de 1559, en una visita pastoral que constata su deterioro y abandono, presumiblemente acontecido tras la extinción de la caballería templaria siglo y medio antes. Desapareció definitivamente con la construcción de la actual concatedral y el retranqueo de la calle Oliva.', subtitulo:'El hospital templario que atendió al peregrino', subtitulo_gl:'O hospital templario que atendeu o peregrino', subtitulo_en:'The Templar hospital that cared for pilgrims', descripcion_gl:'Emprazado na rúa Oliva, xunto á desaparecida igrexa románica de Santa María e o seu oliveiro templario, o Hospital da Magdalena foi unha das dúas institucións hospitalarias que a Orde do Temple habilitou na comarca viguesa para a atención do peregrino — a outra situábase en Castrelos. O seu primeiro rexistro data de 1559, nunha visita pastoral que constata o seu deterioro e abandono, presumiblemente acontecido tras a extinción da cabalería templaria século e medio antes. Desapareceu definitivamente coa construción da actual concatedral e o retranqueo da rúa Oliva.', descripcion_en:'Located on Rúa Oliva, beside the vanished Romanesque church of Santa María and its Templar olive tree, the Hospital de la Magdalena was one of two hospital institutions the Knights Templar established in the Vigo area to care for pilgrims — the other was in Castrelos. Its earliest record dates to 1559, in a pastoral visit that notes its decay and abandonment, presumably having occurred after the extinction of the Templar order a century and a half earlier. It disappeared definitively with the construction of the current co-cathedral and the realignment of Rúa Oliva.', lat:42.239439, lng:-8.726071, emoji:'🏥', color:'coral' },
   { id:'pazo-escudos', nombre:'Pazo Los Escudos — Réplica del Tímpano de Santa María', nombre_gl:'Pazo Los Escudos - Réplica do Tímpano de Santa María', nombre_en:'Pazo Los Escudos - Replica of the Santa María Tympanum', categoria:'vestigio arqueológico',
     descripcion:'En el interior del Pazo Los Escudos, hotel de cinco estrellas en el barrio de Alcabre, se conserva una réplica del tímpano de la antigua iglesia románica de Santa María de Vigo — la misma que precedió a la actual concatedral. Un fragmento de la villa medieval, preservado en un espacio inesperado.', subtitulo:'Un fragmento de la villa medieval en lugar inesperado', subtitulo_gl:'Un fragmento da vila medieval nun lugar inesperado', subtitulo_en:'A fragment of the medieval town in an unexpected place', descripcion_gl:'No interior do Pazo Los Escudos, hotel de cinco estrelas no barrio de Alcabre, consérvase unha réplica do tímpano da antiga igrexa románica de Santa María de Vigo — a mesma que precedeu á actual concatedral. Un fragmento da vila medieval, preservado nun espazo inesperado.', descripcion_en:'Inside the Pazo Los Escudos, a five-star hotel in the Alcabre neighbourhood, a replica of the tympanum from the ancient Romanesque church of Santa María de Vigo is preserved — the same church that preceded the current co-cathedral. A fragment of the medieval town, preserved in an unexpected space.',
