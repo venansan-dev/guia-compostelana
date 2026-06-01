@@ -1834,9 +1834,9 @@ function renderCarrusel(categoria) {
             '<button class="poi-btn" data-lat="'+p.lat+'" data-lng="'+p.lng+'">'+(T[idiomaActual]||T.es).comoLlegar+'</button>'+
           '</div>'+
           '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'">'+(enRuta?'&#10003; '+(T[idiomaActual]||T.es).enRuta.replace('✓ ',''):(T[idiomaActual]||T.es).añadirRuta)+'</button>'+
-          btnEliminarHtml+
         '</div>'+
-      '</div>';
+      '</div>'+
+      btnEliminarHtml;
     carousel.appendChild(card);
 
     // Añadir estrellas con createElement — igual que el test que funciona
