@@ -1469,10 +1469,15 @@ function eliminarPOIUsuario(poiId) {
   PUNTOS_USUARIO = PUNTOS_USUARIO.filter(function(p){ return p.id !== poiId; });
   try { localStorage.setItem('poi_usuario', JSON.stringify(PUNTOS_USUARIO)); } catch(e) {}
 
-  // 4. Eliminar de Firebase
+  // 4. Quitar de la ruta si estaba añadido
+  if (rutaPuntos.find(function(x){ return x.id === poiId; })) {
+    quitarDeRuta(poiId);
+  }
+
+  // 5. Eliminar de Firebase
   db.ref('poi_usuarios/' + poiId).remove().catch(function(e){ console.warn('No se pudo eliminar de Firebase:', e); });
 
-  // 5. Actualizar carrusel
+  // 6. Actualizar carrusel
   renderCarrusel(categoriaActiva);
 }
 
