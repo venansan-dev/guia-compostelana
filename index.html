@@ -1184,6 +1184,12 @@ function activarMarcarEnMapa() {
   var modal = document.getElementById('modal-add-poi');
   modal.style.display = 'none';
 
+  // Ocultar botones de añadir punto
+  var btnMap = document.getElementById('btn-add-poi-map');
+  var btnSec = document.getElementById('btn-add-poi');
+  if (btnMap) btnMap.style.display = 'none';
+  if (btnSec) btnSec.style.display = 'none';
+
   // Mostrar solo el banner de instrucción sobre el mapa
   var overlay = document.getElementById('overlay-marcar-mapa');
   if (!overlay) {
@@ -1246,6 +1252,12 @@ function confirmarUbicacionMapa() {
   var modal = document.getElementById('modal-add-poi');
   modal.style.display = 'flex';
 
+  // Restaurar botones de añadir punto
+  var btnMap = document.getElementById('btn-add-poi-map');
+  var btnSec = document.getElementById('btn-add-poi');
+  if (btnMap) btnMap.style.display = 'flex';
+  if (btnSec) btnSec.style.display = 'flex';
+
   // Mostrar coordenadas
   document.getElementById('poi-coords-display').innerHTML =
     '✅ ' + poiFormLat.toFixed(5) + ', ' + poiFormLng.toFixed(5);
@@ -1258,6 +1270,11 @@ function cancelarMarcarMapa() {
   if (overlay) overlay.style.display = 'none';
   var modal = document.getElementById('modal-add-poi');
   modal.style.display = 'flex';
+  // Restaurar botones de añadir punto
+  var btnMap = document.getElementById('btn-add-poi-map');
+  var btnSec = document.getElementById('btn-add-poi');
+  if (btnMap) btnMap.style.display = 'flex';
+  if (btnSec) btnSec.style.display = 'flex';
 }
 
 // Limpiar marcador temporal al cerrar el formulario
