@@ -1184,48 +1184,29 @@ function activarMarcarEnMapa() {
   var modal = document.getElementById('modal-add-poi');
   modal.style.display = 'none';
 
-  // Mostrar cajetín de búsqueda + instrucción sobre el mapa
+  // Mostrar solo el banner de instrucción sobre el mapa
   var overlay = document.getElementById('overlay-marcar-mapa');
   if (!overlay) {
     overlay = document.createElement('div');
     overlay.id = 'overlay-marcar-mapa';
     overlay.style.cssText = 'position:fixed;inset:0;z-index:9998;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:16px;pointer-events:none';
 
-    // Cajétín de búsqueda de dirección
-    var searchBox = document.createElement('div');
-    searchBox.style.cssText = 'pointer-events:all;background:#fff;border-radius:14px;padding:10px 14px;box-shadow:0 4px 20px rgba(0,0,0,0.18);width:calc(100% - 32px);max-width:420px;display:flex;flex-direction:column;gap:8px';
+    var banner = document.createElement('div');
+    banner.style.cssText = 'pointer-events:all;background:#1D9E75;color:#fff;border-radius:20px;padding:11px 20px;box-shadow:0 4px 16px rgba(0,0,0,0.2);display:flex;align-items:center;gap:10px;font-family:DM Sans,sans-serif';
 
-    var searchRow = document.createElement('div');
-    searchRow.style.cssText = 'display:flex;gap:8px;align-items:center';
-
-    var input = document.createElement('input');
-    input.id = 'input-buscar-dir';
-    input.type = 'text';
-    input.placeholder = '🔍 Buscar dirección o lugar...';
-    input.style.cssText = 'flex:1;border:1px solid #d1d5db;border-radius:8px;padding:9px 12px;font-size:14px;font-family:DM Sans,sans-serif;outline:none';
-
-    var btnBuscar = document.createElement('button');
-    btnBuscar.textContent = 'Buscar';
-    btnBuscar.style.cssText = 'background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap';
-    btnBuscar.addEventListener('click', function() { buscarDireccionPOI(input.value); });
-    input.addEventListener('keydown', function(e) { if (e.key === 'Enter') buscarDireccionPOI(input.value); });
+    var texto = document.createElement('span');
+    texto.style.cssText = 'font-size:13px;font-weight:600';
+    texto.textContent = '📍 Toca en el mapa para marcar el punto';
 
     var btnCancelar = document.createElement('button');
     btnCancelar.textContent = '✕';
-    btnCancelar.style.cssText = 'background:#f3f4f6;color:#374151;border:none;border-radius:8px;padding:9px 12px;font-size:15px;cursor:pointer;';
-    btnCancelar.addEventListener('click', function() { cancelarMarcarMapa(); });
+    btnCancelar.style.cssText = 'background:rgba(255,255,255,0.25);color:#fff;border:none;border-radius:50%;width:26px;height:26px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0';
+    btnCancelar.addEventListener('touchend', function(e){ e.preventDefault(); cancelarMarcarMapa(); });
+    btnCancelar.addEventListener('click', function(){ cancelarMarcarMapa(); });
 
-    searchRow.appendChild(input);
-    searchRow.appendChild(btnBuscar);
-    searchRow.appendChild(btnCancelar);
-
-    var hint = document.createElement('div');
-    hint.style.cssText = 'font-size:12px;color:#6b7280;font-family:DM Sans,sans-serif;text-align:center';
-    hint.textContent = '— o toca directamente en el mapa para marcar el punto —';
-
-    searchBox.appendChild(searchRow);
-    searchBox.appendChild(hint);
-    overlay.appendChild(searchBox);
+    banner.appendChild(texto);
+    banner.appendChild(btnCancelar);
+    overlay.appendChild(banner);
     document.body.appendChild(overlay);
   }
   overlay.style.display = 'flex';
@@ -1242,26 +1223,6 @@ function activarMarcarEnMapa() {
   }
   mapa.on('click', onMapClick);
   window._onMapClickPOI = onMapClick;
-}
-
-function buscarDireccionPOI(query) {
-  if (!query.trim()) return;
-  var btnBuscar = document.querySelector('#overlay-marcar-mapa button');
-  fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(query) + '&limit=1&viewbox=-8.9,-8.5,42.0,42.4&bounded=0')
-    .then(function(r){ return r.json(); })
-    .then(function(data) {
-      if (!data.length) {
-        alert('No se encontró esa dirección. Prueba a ser más específico o toca en el mapa.');
-        return;
-      }
-      poiFormLat = parseFloat(parseFloat(data[0].lat).toFixed(6));
-      poiFormLng = parseFloat(parseFloat(data[0].lon).toFixed(6));
-      mapa.setView([poiFormLat, poiFormLng], 17);
-      confirmarUbicacionMapa();
-    })
-    .catch(function() {
-      alert('Error al buscar. Toca en el mapa para marcar el punto.');
-    });
 }
 
 function confirmarUbicacionMapa() {
