@@ -964,6 +964,8 @@ function cargarPOIsUsuario() {
     PUNTOS_USUARIO = JSON.parse(stored);
     PUNTOS_USUARIO.forEach(function(p) {
       p.esUsuario = true;
+      if (!valoraciones[p.id]) valoraciones[p.id] = {total:0, votos:0, miVoto:0};
+      if (!opiniones[p.id]) opiniones[p.id] = [];
       if (!PUNTOS.find(function(x){return x.id===p.id;})) {
         PUNTOS.push(p);
       }
@@ -1782,6 +1784,9 @@ function renderCarrusel(categoria) {
     var distHtml = p.distancia!==undefined
       ? '<span class="poi-dist">&#128205; '+formatDist(p.distancia)+'</span>'
       : '<span class="poi-dist calculando">&#128205; ...</span>';
+    // Garantizar que valoraciones y opiniones existen para cualquier POI
+    if (!valoraciones[p.id]) valoraciones[p.id] = {total:0, votos:0, miVoto:0};
+    if (!opiniones[p.id]) opiniones[p.id] = [];
     var val = valoraciones[p.id];
     var media = val.votos>0 ? (val.total/val.votos).toFixed(1) : '-';
     var pageUrl = encodeURIComponent(window.location.href);
