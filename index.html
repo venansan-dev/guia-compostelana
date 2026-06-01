@@ -956,6 +956,16 @@ var PUNTOS_USUARIO = []; // POIs locales del usuario (localStorage)
 var poiFormLat = null, poiFormLng = null;
 var USER_POI_PREFIX = 'u_'; // prefijo para distinguir POIs de usuario
 
+// ID único del dispositivo — se genera una vez y se guarda en localStorage
+var DEVICE_ID = (function() {
+  var id = localStorage.getItem('gcl_device_id');
+  if (!id) {
+    id = 'dev_' + Math.random().toString(36).substr(2,9) + '_' + Date.now();
+    localStorage.setItem('gcl_device_id', id);
+  }
+  return id;
+})();
+
 // Cargar POIs del usuario desde localStorage
 function cargarPOIsUsuario() {
   try {
@@ -1081,13 +1091,15 @@ function añadirMarcadorUsuario(p) {
   m.on('click', (function(punto) {
     return function() {
       var popupId = 'popup-del-' + punto.id;
+      var esMiPunto = punto.deviceId === DEVICE_ID ||
+        PUNTOS_USUARIO.find(function(x){ return x.id === punto.id; });
       var content = '<div style="font-family:DM Sans,sans-serif;min-width:200px;max-width:260px">' +
         '<strong style="font-size:14px">👤 ' + punto.nombre + '</strong><br>' +
         '<small style="color:#6b7280;font-size:11px">Punto añadido por usuario' +
         (punto.estado === 'pendiente' ? ' · <span style="color:#f59e0b">⏳ Pendiente revisión</span>' : '') +
         '</small>' +
         (punto.descripcion ? '<p style="font-size:13px;margin:6px 0 4px;color:#374151">' + punto.descripcion + '</p>' : '') +
-        '<button onclick="eliminarPOIUsuario(\'' + punto.id + '\')" style="margin-top:8px;width:100%;background:#fff2f2;color:#ef4444;border:1.5px solid #ef4444;border-radius:8px;padding:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">🗑️ Eliminar este punto</button>' +
+        (esMiPunto ? '<button onclick="eliminarPOIUsuario(\'' + punto.id + '\')" style="margin-top:8px;width:100%;background:#fff2f2;color:#ef4444;border:1.5px solid #ef4444;border-radius:8px;padding:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">🗑️ Eliminar este punto</button>' : '') +
         '</div>';
       mapa.openPopup(L.popup({ className:'poi-popup' }).setLatLng([punto.lat,punto.lng]).setContent(content));
     };
@@ -1175,7 +1187,8 @@ function guardarPOIUsuario() {
     color: 'ambar',
     esUsuario: true,
     estado: 'pendiente',
-    ts: Date.now()
+    ts: Date.now(),
+    deviceId: DEVICE_ID
   };
 
   var btn = document.getElementById('btn-poi-guardar');
