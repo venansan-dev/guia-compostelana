@@ -1093,13 +1093,22 @@ function añadirMarcadorUsuario(p) {
       var popupId = 'popup-del-' + punto.id;
       var esMiPunto = punto.deviceId === DEVICE_ID ||
         PUNTOS_USUARIO.find(function(x){ return x.id === punto.id; });
+      var enRuta = rutaPuntos.find(function(x){ return x.id === punto.id; });
+      var t2 = T[idiomaActual]||T.es;
+      var btnRutaLabel = enRuta
+        ? '✓ ' + (t2.enRuta||'En ruta').replace('✓ ','')
+        : '+ ' + (t2.añadirRuta||'Añadir a ruta');
+      var btnRutaStyle = enRuta
+        ? 'margin-top:8px;width:100%;background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'
+        : 'margin-top:8px;width:100%;background:#E1F5EE;color:#0F6E56;border:1px solid #1D9E75;border-radius:8px;padding:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
       var content = '<div style="font-family:DM Sans,sans-serif;min-width:200px;max-width:260px">' +
         '<strong style="font-size:14px">👤 ' + punto.nombre + '</strong><br>' +
         '<small style="color:#6b7280;font-size:11px">Punto añadido por usuario' +
         (punto.estado === 'pendiente' ? ' · <span style="color:#f59e0b">⏳ Pendiente revisión</span>' : '') +
         '</small>' +
         (punto.descripcion ? '<p style="font-size:13px;margin:6px 0 4px;color:#374151">' + punto.descripcion + '</p>' : '') +
-        (esMiPunto ? '<button onclick="eliminarPOIUsuario(\'' + punto.id + '\')" style="margin-top:8px;width:100%;background:#fff2f2;color:#ef4444;border:1.5px solid #ef4444;border-radius:8px;padding:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">🗑️ Eliminar este punto</button>' : '') +
+        '<button onclick="addToRoute(\'' + punto.id + '\');mapa.closePopup();" style="' + btnRutaStyle + '">' + btnRutaLabel + '</button>' +
+        (esMiPunto ? '<button onclick="eliminarPOIUsuario(\'' + punto.id + '\')" style="margin-top:6px;width:100%;background:#fff2f2;color:#ef4444;border:1.5px solid #ef4444;border-radius:8px;padding:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">🗑️ Eliminar este punto</button>' : '') +
         '</div>';
       mapa.openPopup(L.popup({ className:'poi-popup' }).setLatLng([punto.lat,punto.lng]).setContent(content));
     };
