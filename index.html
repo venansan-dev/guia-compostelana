@@ -812,15 +812,26 @@ function lanzarOndaTitulo(elId) {
 }
 
 function initOndaTitulos() {
-  ['footer-don-title', 'donaciones-h2'].forEach(function(id) {
-    aplicarOndaTitulo(id);
-    // Lanzar onda cada 22 segundos con offset
-    var offset = id === 'donaciones-h2' ? 5000 : 0;
-    setTimeout(function() {
-      lanzarOndaTitulo(id);
-      setInterval(function() { lanzarOndaTitulo(id); }, 8000);
-    }, 1500 + offset);
-  });
+  // Solo aplicar onda al banner pequeño — el grande tiene estructura HTML interna
+  aplicarOndaTitulo('footer-don-title');
+  setTimeout(function() {
+    lanzarOndaTitulo('footer-don-title');
+    setInterval(function() { lanzarOndaTitulo('footer-don-title'); }, 8000);
+  }, 1500);
+
+  // Para el banner grande, aplicar onda solo al primer div hijo (Donaciones)
+  var donH2 = document.getElementById('donaciones-h2');
+  if (donH2) {
+    var firstLine = donH2.querySelector('div');
+    if (firstLine) {
+      firstLine.id = 'donaciones-h2-title';
+      aplicarOndaTitulo('donaciones-h2-title');
+      setTimeout(function() {
+        lanzarOndaTitulo('donaciones-h2-title');
+        setInterval(function() { lanzarOndaTitulo('donaciones-h2-title'); }, 8000);
+      }, 6500);
+    }
+  }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -1970,7 +1981,7 @@ function initMapa() {
           '</div>' +
           '<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">' +
           '<a href="https://www.google.com/maps/dir/?api=1&destination=' + punto.lat + ',' + punto.lng + '" target="_blank" style="display:inline-block;background:#1D9E75;color:#fff;padding:5px 12px;border-radius:12px;font-size:12px;text-decoration:none">'+pComoLlegar+'</a>' +
-          '<span id="mpbtn-' + punto.id + '" data-poi="' + punto.id + '" onclick="addToRoute(this.getAttribute(\'data-poi\'))" style="display:inline-block;background:' + (enR?'#1D9E75':'#E1F5EE') + ';color:' + (enR?'#fff':'#0F6E56') + ';border:1px solid rgba(29,158,117,0.3);border-radius:12px;padding:5px 12px;font-size:12px;cursor:pointer;">' + (enR ? '&#10003; '+(T[idiomaActual]||T.es).enRuta.replace('✓ ','') : (T[idiomaActual]||T.es).añadirRuta) + '</span>' +
+          '<span id="mpbtn-' + punto.id + '" data-poi="' + punto.id + '" onclick="addToRoute(this.getAttribute(\'data-poi\')); mapa.closePopup();" style="display:inline-block;background:' + (enR?'#1D9E75':'#E1F5EE') + ';color:' + (enR?'#fff':'#0F6E56') + ';border:1px solid rgba(29,158,117,0.3);border-radius:12px;padding:5px 12px;font-size:12px;cursor:pointer;">' + (enR ? '&#10003; '+(T[idiomaActual]||T.es).enRuta.replace('✓ ','') : (T[idiomaActual]||T.es).añadirRuta) + '</span>' +
           '</div></div>';
         L.popup({maxWidth:320, className:"poi-popup"}).setLatLng(m.getLatLng()).setContent(content).openOn(mapa);
       };
@@ -2923,7 +2934,7 @@ function cambiarIdioma(lang){
   // Donaciones
   el=document.getElementById('don-sub');if(el)el.textContent=t.donSub;
   el=document.getElementById('footer-don-title');if(el){el.textContent=t.footerDonTitle;aplicarOndaTitulo('footer-don-title');}
-  el=document.getElementById('donaciones-h2');if(el){el.innerHTML=t.donacionesH2;aplicarOndaTitulo('donaciones-h2');}
+  el=document.getElementById('donaciones-h2');if(el){el.innerHTML=t.donacionesH2;var fl=el.querySelector('div');if(fl){fl.id='donaciones-h2-title';aplicarOndaTitulo('donaciones-h2-title');}}
   el=document.getElementById('footer-don-sub');if(el)el.textContent=t.footerDonSub;
   el=document.getElementById('hero-donate-title');if(el)el.innerHTML=t.heroDonateTitle;
   // Instrucciones - títulos de tarjeta
