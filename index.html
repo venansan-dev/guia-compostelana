@@ -318,7 +318,7 @@
 </section>
 
 <!-- SECCION DONACIONES -->
-<section id='donaciones' style='scroll-margin-top:70px' style='background:linear-gradient(145deg,#0a5240 0%,#0F6E56 40%,#1D9E75 100%);padding:3rem 2rem;position:relative;overflow:hidden;animation:donGlow 2.5s ease-in-out infinite;border-top:4px solid rgba(255,220,100,0.6);border-bottom:4px solid rgba(255,220,100,0.6)'>
+<section id='donaciones' style='scroll-margin-top:70px;background:linear-gradient(145deg,#0a5240 0%,#0F6E56 40%,#1D9E75 100%);padding:3rem 2rem;position:relative;overflow:hidden;animation:donGlow 2.5s ease-in-out infinite;border-top:4px solid rgba(255,220,100,0.6);border-bottom:4px solid rgba(255,220,100,0.6)'>
   <!-- Formas decorativas de fondo -->
   <div style='position:absolute;top:-60px;right:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,0.05);animation:donFloat 5s ease-in-out infinite'></div>
   <div style='position:absolute;bottom:-50px;left:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.04);animation:donFloat 6s ease-in-out infinite reverse'></div>
@@ -349,7 +349,7 @@
 
 <!-- FOOTER -->
 
-<section id='emergencias' style='scroll-margin-top:70px' style='background:#fff;padding:3rem 2rem;border-top:1px solid rgba(0,0,0,0.08)'>
+<section id='emergencias' style='scroll-margin-top:70px;background:#fff;padding:3rem 2rem;border-top:1px solid rgba(0,0,0,0.08)'>
 <div style='max-width:680px;margin:0 auto'>
 
   <!-- Cabecera -->
@@ -506,7 +506,7 @@
 
 </div>
 </section>
-<section id='instrucciones' style='scroll-margin-top:70px' style='background:#F5F5F0;padding:3rem 2rem;border-top:1px solid rgba(0,0,0,0.08)'>
+<section id='instrucciones' style='scroll-margin-top:70px;background:#F5F5F0;padding:3rem 2rem;border-top:1px solid rgba(0,0,0,0.08)'>
 <div style='max-width:680px;margin:0 auto'>
 
   <!-- Cabecera -->
@@ -2017,6 +2017,14 @@ var iconoBusqueda = L.divIcon({
 
 // ── PUNTOS DE FIESTAS (solo visibles en su rango de fechas) ─────────────────
 var FIESTAS_PUNTOS = [
+  { id:'fiesta-san-blas-bembrive', nombre:'🎉 San Blas — Bembrive', categoria:'fiesta', emoji:'🍷', color:'ambar',
+    descripcion:'Fiesta de Interés Turístico de Galicia, la gran romería invernal de Vigo. Desde el 9 de enero al 3 de febrero los furanchos de Bembrive abren sus puertas: locales improvisados con vino de la casa, zorza, orella, cocido gallego y churrasco. El día grande es el 3 de febrero, con misa solemne, procesión y concierto. Origen en el siglo XVII, patrón de la garganta.',
+    lat:42.2003, lng:-8.7432, mesIni:1, diaIni:8, mesFin:2, diaFin:3 },
+
+  { id:'fiesta-candelaria-castrelos', nombre:'🎉 Virgen de las Candelas y San Blas — Castrelos', categoria:'fiesta', emoji:'🕯️', color:'verde',
+    descripcion:'Fiesta religiosa en la parroquia de Castrelos en honor a la Virgen de las Candelas y San Blas. Del 2 al 4 de febrero, con salva de bombas, gaitas, charanga, misa mayor cantada por la Coral San Roque y procesión. Una de las celebraciones más tradicionales del barrio.',
+    lat:42.2187, lng:-8.7356, mesIni:2, diaIni:1, mesFin:2, diaFin:4 },
+
   { id:'fiesta-reconquista-vigo', nombre:'🎉 Reconquista de Vigo', categoria:'fiesta', emoji:'⚔️', color:'coral',
     descripcion:'Vigo vuelve al siglo XIX. Reenactment del alzamiento popular del 28 de marzo de 1809 que expulsó al ejército de Napoleón — primera ciudad de Europa en lograrlo. Casco histórico ambientado, uniformes, batallas y mercado de época.',
     lat:42.2328, lng:-8.7218, mesIni:3, diaIni:26, mesFin:3, diaFin:29 },
