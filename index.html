@@ -306,7 +306,7 @@
         <span style='position:absolute;top:4px;right:-32px;font-size:28px;display:inline-block;transform-origin:bottom center;animation:donCoin 0.7s ease-in-out infinite'>🤚</span>
       </span>
     </div>
-    <h2 id='donaciones-h2' style='font-family:Playfair Display,serif;font-size:24px;color:#FFE066;margin-bottom:10px;text-shadow:0 2px 12px rgba(0,0,0,0.4);letter-spacing:0.3px'>Donaciones / Ayuda al soporte</h2>
+    <h2 id='donaciones-h2' style='font-family:Playfair Display,serif;font-size:24px;color:#FFE066;margin-bottom:10px;text-shadow:0 2px 12px rgba(0,0,0,0.4);letter-spacing:0.3px'>Donaciones / Ayuda<br>al soporte</h2>
     <!-- Línea decorativa -->
     <div style='width:80px;height:3px;background:rgba(255,220,100,0.8);border-radius:2px;margin:0 auto 14px;animation:donGlow 2s ease-in-out infinite'></div>
     <p id='don-sub' style='font-size:14px;color:rgba(255,255,255,0.85);margin-bottom:2rem;line-height:1.6;max-width:460px;margin-left:auto;margin-right:auto'>Esta guía es gratuita y sin publicidad. Con tu donación ayudas a mantenerla viva y a seguir descubriendo el patrimonio compostelano de Vigo.</p>
@@ -2482,7 +2482,7 @@ var T={
     emergenciasSub:'Números de llamada directa · Camino Portugués de la Costa',
     comoUsarH2:'Cómo usar la guía',
     comoUsarSub:'Instrucciones básicas para sacarle el máximo partido',
-    donacionesH2:'Donaciones / Ayuda al soporte',
+    donacionesH2:'Donaciones / Ayuda<br>al soporte',
     footerDesc:'Tu guía local de puntos de interés en Vigo. Descubre lo mejor de la ciudad a tu alrededor.',
     footerExplora:'Explora',
     footerInfo:'Información',
@@ -2879,7 +2879,7 @@ function cambiarIdioma(lang){
   el=document.getElementById('emergencias-sub');if(el)el.textContent=t.emergenciasSub;
   el=document.getElementById('comousar-h2');if(el)el.textContent=t.comoUsarH2;
   el=document.getElementById('comousar-sub');if(el)el.textContent=t.comoUsarSub;
-  el=document.getElementById('donaciones-h2');if(el)el.textContent=t.donacionesH2;
+  el=document.getElementById('donaciones-h2');if(el)el.innerHTML=t.donacionesH2;
   el=document.getElementById('footer-desc');if(el)el.textContent=t.footerDesc;
   el=document.getElementById('footer-explora');if(el)el.textContent=t.footerExplora;
   el=document.getElementById('footer-info');if(el)el.textContent=t.footerInfo;
@@ -2912,7 +2912,7 @@ function cambiarIdioma(lang){
   // Donaciones
   el=document.getElementById('don-sub');if(el)el.textContent=t.donSub;
   el=document.getElementById('footer-don-title');if(el){el.textContent=t.footerDonTitle;aplicarOndaTitulo('footer-don-title');}
-  el=document.getElementById('donaciones-h2');if(el){el.textContent=t.donacionesH2;aplicarOndaTitulo('donaciones-h2');}
+  el=document.getElementById('donaciones-h2');if(el){el.innerHTML=t.donacionesH2;aplicarOndaTitulo('donaciones-h2');}
   el=document.getElementById('footer-don-sub');if(el)el.textContent=t.footerDonSub;
   el=document.getElementById('hero-donate-title');if(el)el.innerHTML=t.heroDonateTitle;
   // Instrucciones - títulos de tarjeta
