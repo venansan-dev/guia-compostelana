@@ -178,8 +178,8 @@
   <div id='map'></div>
   <!-- Botón refrescar ubicación (izquierda) -->
   <button id='btn-refresh-loc' onclick='refrescarUbicacion()' title='Actualizar mi ubicación' style='position:absolute;top:10px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0;line-height:1'><svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='#333' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='23 4 23 10 17 10'/><polyline points='1 20 1 14 7 14'/><path d='M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15'/></svg></button>
-  <!-- Botón añadir punto (derecha) -->
-  <button id='btn-add-poi-map' onclick='abrirFormPOI()' title='Añadir un punto' style='position:absolute;top:10px;right:10px;z-index:400;height:36px;background:#1D9E75;color:#fff;border:none;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;font-size:13px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,0.2);padding:0 12px;font-family:DM Sans,sans-serif;white-space:nowrap'>➕ <span id='btn-add-poi-map-txt'>Punto</span></button>
+  <!-- Botón añadir punto (derecha) — position:fixed para no moverse con scroll -->
+  <button id='btn-add-poi-map' onclick='abrirFormPOI()' title='Añadir un punto' style='position:fixed;z-index:1050;height:36px;background:#1D9E75;color:#fff;border:none;border-radius:6px;cursor:pointer;display:none;align-items:center;justify-content:center;gap:5px;font-size:13px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,0.2);padding:0 12px;font-family:DM Sans,sans-serif;white-space:nowrap'>➕ <span id='btn-add-poi-map-txt'>Punto</span></button>
 </div>
 
 <!-- BARRA RADIO + BUSCADOR -->
@@ -783,11 +783,13 @@ var db = firebase.database();
 function aplicarOndaTitulo(elId) {
   var el = document.getElementById(elId);
   if (!el) return;
+  // Leer texto limpio — si ya tiene spans de onda anterior, usar textContent
   var texto = el.textContent.trim();
+  if (!texto) return;
   // Envolver cada letra en un span
-  el.innerHTML = texto.split('').map(function(ch, i) {
-    if (ch === ' ') return '<span style="display:inline-block;width:0.3em"> </span>';
-    return '<span class="don-letra" style="display:inline-block;transition:transform 0.3s ease">' + ch + '</span>';
+  el.innerHTML = texto.split('').map(function(ch) {
+    if (ch === ' ') return '<span style="display:inline-block;width:0.3em"> </span>';
+    return '<span class="don-letra" style="display:inline-block;transition:transform 0.3s ease,color 0.3s ease">' + ch + '</span>';
   }).join('');
 }
 
@@ -821,6 +823,35 @@ function initOndaTitulos() {
 
 document.addEventListener('DOMContentLoaded', function() {
   setTimeout(initOndaTitulos, 800);
+});
+
+// ── BOTÓN AÑADIR PUNTO FIJO SOBRE EL MAPA ───────────────────────────────────
+function actualizarPosicionBtnAddPoi() {
+  var btn = document.getElementById('btn-add-poi-map');
+  var mapEl = document.getElementById('map');
+  if (!btn || !mapEl) return;
+  if (_popupAbierto) { btn.style.display = 'none'; return; }
+  var rect = mapEl.getBoundingClientRect();
+  // Solo mostrar si el mapa está visible en pantalla
+  if (rect.bottom < 0 || rect.top > window.innerHeight) {
+    btn.style.display = 'none';
+    return;
+  }
+  // Posicionar en la esquina superior derecha del mapa visible
+  var top = Math.max(rect.top, 0) + 10;
+  var right = window.innerWidth - rect.right + 10;
+  btn.style.top = top + 'px';
+  btn.style.right = right + 'px';
+  btn.style.display = 'flex';
+}
+
+// Actualizar posición en scroll y resize
+window.addEventListener('scroll', actualizarPosicionBtnAddPoi, { passive: true });
+window.addEventListener('resize', actualizarPosicionBtnAddPoi, { passive: true });
+
+// Inicializar cuando el mapa esté listo
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(actualizarPosicionBtnAddPoi, 1200);
 });
 
 // ── OCULTAR BOTÓN MAPA CUANDO TARJETA EXPANDIDA SE SUPERPONE ────────────────
@@ -1944,18 +1975,8 @@ function initMapa() {
   });
   mapa.on('popupclose', function() {
     _popupAbierto = false;
-    var btn = document.getElementById('btn-add-poi-map');
-    if (btn) btn.style.display = 'flex';
+    actualizarPosicionBtnAddPoi();
   });
-
-  // Mantener botón oculto durante scroll si hay popup abierto
-  window.addEventListener('scroll', function() {
-    var btn = document.getElementById('btn-add-poi-map');
-    if (!btn) return;
-    if (_popupAbierto) {
-      btn.style.display = 'none';
-    }
-  }, { passive: true });
 
   PUNTOS.forEach(function(p) {
     var m = L.marker([p.lat,p.lng], { icon:crearIcono(p.emoji) }).addTo(mapa);
@@ -2675,7 +2696,7 @@ var T={
     historiaH3a:'🐚 O Cabaleiro das Cunchas — A lenda que naceu en Bouzas',
     historiaH3b:'⚔️ Vigo, terra de templarios',
     donSub:'Esta guía é gratuíta e sen publicidade. Coa túa doazón axúdanos a mantela viva e a seguir descubrindo o patrimonio compostelán de Vigo.',
-    footerDonTitle:'🙏 Apoia esta guía compostelá',
+    footerDonTitle:'Apoia esta guía compostelana',
     footerDonSub:'Proxecto gratuíto e sen publicidade. O teu apoio permítenos seguir medrando.',
     heroDonateTitle:'🙏 Apoia este proxecto',
     instrT1:'Activa a túa localización',
@@ -2807,7 +2828,7 @@ var T={
     historiaH3a:'🐚 The Knight of the Shells — The legend born in Bouzas',
     historiaH3b:'⚔️ Vigo, land of the Templars',
     donSub:'This guide is free and ad-free. Your donation helps us keep it alive and continue discovering the Compostelan heritage of Vigo.',
-    footerDonTitle:'🙏 Support this compostelan guide',
+    footerDonTitle:'Support this compostelan guide',
     footerDonSub:'Free project with no advertising. Your support helps us keep growing.',
     heroDonateTitle:'🙏 Support this project',
     instrT1:'Enable your location',
