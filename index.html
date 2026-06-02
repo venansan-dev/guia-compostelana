@@ -269,29 +269,29 @@
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;mirador&quot;)' id='chip-miradores'>🔭 Miradores</div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;fiesta&quot;)' id='chip-fiestas'>🎉 Fiestas</div>
   </div>
-  <div class='carousel-wrap'>
-    <div class='carousel' id='carousel'></div>
-
-    <!-- MINI GENERADOR DE RUTA bajo el carrusel -->
-    <div style='margin-top:1.5rem;background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);padding:1rem 1.25rem;box-shadow:0 2px 12px rgba(0,0,0,0.06)'>
-      <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;gap:8px;flex-wrap:wrap'>
-        <div style='display:flex;align-items:center;gap:8px'>
-          <span style='font-size:18px'>🗺️</span>
-          <span style='font-family:Playfair Display,serif;font-size:15px;font-weight:600;color:var(--texto)' id='poi-ruta-titulo'>Generador de ruta</span>
-        </div>
-        <div id='poi-ruta-stats' style='display:none;gap:6px;flex-wrap:wrap'>
-          <span id='poi-ruta-count' style='font-size:12px;font-weight:600;color:#fff;background:var(--verde);padding:2px 10px;border-radius:10px'>0 📍</span>
-          <span id='poi-ruta-dist2' style='font-size:12px;font-weight:600;color:var(--verde-oscuro);background:var(--verde-claro);padding:2px 10px;border-radius:10px;border:1px solid rgba(29,158,117,0.25)'>0 km</span>
-          <span id='poi-ruta-time2' style='font-size:12px;font-weight:600;color:var(--verde-oscuro);background:var(--verde-claro);padding:2px 10px;border-radius:10px;border:1px solid rgba(29,158,117,0.25)'>0 min</span>
-        </div>
+  <!-- GENERADOR DE RUTA encima del carrusel -->
+  <div style='margin-bottom:1.25rem;background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);padding:1rem 1.25rem;box-shadow:0 2px 12px rgba(0,0,0,0.06)'>
+    <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;gap:8px;flex-wrap:wrap'>
+      <div style='display:flex;align-items:center;gap:8px'>
+        <span style='font-size:18px'>🗺️</span>
+        <span style='font-family:Playfair Display,serif;font-size:15px;font-weight:600;color:var(--texto)' id='poi-ruta-titulo'>Generador de ruta</span>
       </div>
-      <div id='poi-ruta-vacia' style='font-size:13px;color:var(--texto-suave);font-style:italic;margin-bottom:0.75rem'>Añade puntos desde las tarjetas o el mapa 👆</div>
-      <div id='poi-ruta-lista2' style='display:none;flex-direction:column;gap:4px;margin-bottom:0.75rem;max-height:120px;overflow-y:auto'></div>
-      <div style='display:flex;gap:8px;flex-wrap:wrap'>
-        <button onclick='iniciarRuta()' id='poi-ruta-btn-ir' style='display:flex;align-items:center;gap:6px;background:var(--verde);color:#fff;border:none;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.2s;opacity:0.4'>▶ Ir</button>
-        <button onclick='limpiarRuta()' id='poi-ruta-btn-clear' style='background:none;border:1px solid #fca5a5;color:#dc2626;padding:8px 14px;border-radius:20px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s;opacity:0.4'>🗑</button>
+      <div id='poi-ruta-stats' style='display:none;gap:6px;flex-wrap:wrap'>
+        <span id='poi-ruta-count' style='font-size:12px;font-weight:600;color:#fff;background:var(--verde);padding:2px 10px;border-radius:10px'>0 📍</span>
+        <span id='poi-ruta-dist2' style='font-size:12px;font-weight:600;color:var(--verde-oscuro);background:var(--verde-claro);padding:2px 10px;border-radius:10px;border:1px solid rgba(29,158,117,0.25)'>0 km</span>
+        <span id='poi-ruta-time2' style='font-size:12px;font-weight:600;color:var(--verde-oscuro);background:var(--verde-claro);padding:2px 10px;border-radius:10px;border:1px solid rgba(29,158,117,0.25)'>0 min</span>
       </div>
     </div>
+    <div id='poi-ruta-vacia' style='font-size:13px;color:var(--texto-suave);font-style:italic;margin-bottom:0.75rem'>Añade puntos desde las tarjetas o el mapa 👆</div>
+    <div id='poi-ruta-lista2' style='display:none;flex-direction:column;gap:4px;margin-bottom:0.75rem;max-height:120px;overflow-y:auto'></div>
+    <div style='display:flex;gap:8px;flex-wrap:wrap'>
+      <button onclick='iniciarRuta()' id='poi-ruta-btn-ir' style='display:flex;align-items:center;gap:6px;background:var(--verde);color:#fff;border:none;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.2s;opacity:0.4'>▶ Ir</button>
+      <button onclick='limpiarRuta()' id='poi-ruta-btn-clear' style='background:none;border:1px solid #fca5a5;color:#dc2626;padding:8px 14px;border-radius:20px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s;opacity:0.4'>🗑</button>
+    </div>
+  </div>
+
+  <div class='carousel-wrap'>
+    <div class='carousel' id='carousel'></div>
   </div>
 </section>
 
@@ -2337,8 +2337,9 @@ function renderCarrusel(categoria) {
     var pDesc = idiomaActual==='gl'&&p.descripcion_gl ? p.descripcion_gl : idiomaActual==='en'&&p.descripcion_en ? p.descripcion_en : p.descripcion;
     var pSub = idiomaActual==='gl'&&p.subtitulo_gl ? p.subtitulo_gl : idiomaActual==='en'&&p.subtitulo_en ? p.subtitulo_en : (p.subtitulo||'');
     card.innerHTML =
-      '<div class="poi-img '+p.color+'">' +
+      '<div class="poi-img '+p.color+'" style="position:relative;overflow:hidden">' +
         '<img src="'+(p.imagen||'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png')+'" alt="'+p.nombre+'" class="poi-img-cover" loading="lazy"/>' +
+        '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'" style="position:absolute;top:8px;left:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);background:'+(enRuta?'#1D9E75':'rgba(255,255,255,0.92)')+';color:'+(enRuta?'#fff':'#0F6E56')+';border:1px solid '+(enRuta?'#1D9E75':'rgba(29,158,117,0.4)')+'">'+(enRuta?'&#10003; '+(T[idiomaActual]||T.es).enRuta.replace('✓ ',''):(T[idiomaActual]||T.es).añadirRuta)+'</button>'+
       '</div>'+
       '<div class="poi-ranking" id="rank-'+p.id+'">&#9733; '+(val.votos>0?media:'-')+'</div>'+
       '<div class="poi-body">'+
@@ -2365,7 +2366,6 @@ function renderCarrusel(categoria) {
           '<div class="poi-footer-top">'+distHtml+
             '<button class="poi-btn" data-lat="'+p.lat+'" data-lng="'+p.lng+'">'+(T[idiomaActual]||T.es).comoLlegar+'</button>'+
           '</div>'+
-          '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'">'+(enRuta?'&#10003; '+(T[idiomaActual]||T.es).enRuta.replace('✓ ',''):(T[idiomaActual]||T.es).añadirRuta)+'</button>'+
         '</div>'+
       '</div>';
     carousel.appendChild(card);
