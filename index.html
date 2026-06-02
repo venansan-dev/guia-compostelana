@@ -1935,14 +1935,27 @@ function initMapa() {
   }).addTo(mapa);
 
   // Ocultar botón ➕ cuando se abre un popup, restaurar al cerrar
+  var _popupAbierto = false;
+
   mapa.on('popupopen', function() {
+    _popupAbierto = true;
     var btn = document.getElementById('btn-add-poi-map');
     if (btn) btn.style.display = 'none';
   });
   mapa.on('popupclose', function() {
+    _popupAbierto = false;
     var btn = document.getElementById('btn-add-poi-map');
     if (btn) btn.style.display = 'flex';
   });
+
+  // Mantener botón oculto durante scroll si hay popup abierto
+  window.addEventListener('scroll', function() {
+    var btn = document.getElementById('btn-add-poi-map');
+    if (!btn) return;
+    if (_popupAbierto) {
+      btn.style.display = 'none';
+    }
+  }, { passive: true });
 
   PUNTOS.forEach(function(p) {
     var m = L.marker([p.lat,p.lng], { icon:crearIcono(p.emoji) }).addTo(mapa);
