@@ -1254,6 +1254,7 @@ function refrescarUbicacion() {
       window._userMarker = L.marker([userLat,userLng],{icon:iconUser,zIndexOffset:1000}).addTo(mapa);
     }
     mapa.setView([userLat, userLng], mapa.getZoom());
+    aplicarRadio(radioKm);
     // Recalcular distancias y reordenar
     PUNTOS.forEach(function(p){ p.distancia = haversine(userLat,userLng,p.lat,p.lng); });
     PUNTOS.sort(function(a,b){ return a.distancia - b.distancia; });
@@ -3406,6 +3407,18 @@ document.addEventListener('DOMContentLoaded', function() {
 </style>
 
 
+
+<!-- MODAL BIZUM -->
+<div id='modal-bizum' class='modal-bg' onclick='cerrarModal("modal-bizum",event)'>
+  <div class='modal-box'>
+    <button class='modal-close' onclick='document.getElementById("modal-bizum").classList.remove("visible")'>×</button>
+    <h3>📱 Bizum</h3>
+    <p id='bizum-modal-txt'>Envía tu donación por Bizum al número:</p>
+    <div class='bizum-number' id='bizum-num'>657 281 137</div>
+    <button class='bizum-copy-btn' onclick='copiarBizum()' id='bizum-copy-btn-txt'>Copiar número</button>
+    <div class='bizum-copied' id='bizum-copied'></div>
+  </div>
+</div>
 
 <!-- MODAL AÑADIR POI DE USUARIO -->
 <div id='modal-add-poi' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;align-items:flex-end;justify-content:center;overflow-y:auto'>
