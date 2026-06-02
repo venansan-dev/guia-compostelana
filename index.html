@@ -270,6 +270,27 @@
       <div class='carousel-arrow' onclick='moverCarrusel(-1)'>&#8592;</div>
       <div class='carousel-arrow' onclick='moverCarrusel(1)'>&#8594;</div>
     </div>
+
+    <!-- MINI GENERADOR DE RUTA bajo el carrusel -->
+    <div style='margin-top:1.5rem;background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);padding:1rem 1.25rem;box-shadow:0 2px 12px rgba(0,0,0,0.06)'>
+      <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;gap:8px;flex-wrap:wrap'>
+        <div style='display:flex;align-items:center;gap:8px'>
+          <span style='font-size:18px'>🗺️</span>
+          <span style='font-family:Playfair Display,serif;font-size:15px;font-weight:600;color:var(--texto)' id='poi-ruta-titulo'>Generador de ruta</span>
+        </div>
+        <div id='poi-ruta-stats' style='display:none;gap:6px;flex-wrap:wrap' style='display:flex'>
+          <span id='poi-ruta-count' style='font-size:12px;font-weight:600;color:#fff;background:var(--verde);padding:2px 10px;border-radius:10px'>0 📍</span>
+          <span id='poi-ruta-dist2' style='font-size:12px;font-weight:600;color:var(--verde-oscuro);background:var(--verde-claro);padding:2px 10px;border-radius:10px;border:1px solid rgba(29,158,117,0.25)'>0 km</span>
+          <span id='poi-ruta-time2' style='font-size:12px;font-weight:600;color:var(--verde-oscuro);background:var(--verde-claro);padding:2px 10px;border-radius:10px;border:1px solid rgba(29,158,117,0.25)'>0 min</span>
+        </div>
+      </div>
+      <div id='poi-ruta-vacia' style='font-size:13px;color:var(--texto-suave);font-style:italic;margin-bottom:0.75rem'>Añade puntos desde las tarjetas o el mapa 👆</div>
+      <div id='poi-ruta-lista2' style='display:none;flex-direction:column;gap:4px;margin-bottom:0.75rem;max-height:120px;overflow-y:auto'></div>
+      <div style='display:flex;gap:8px;flex-wrap:wrap'>
+        <button onclick='iniciarRuta()' id='poi-ruta-btn-ir' disabled style='display:flex;align-items:center;gap:6px;background:var(--verde);color:#fff;border:none;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.2s;opacity:0.5'>▶ Ir</button>
+        <button onclick='limpiarRuta()' id='poi-ruta-btn-clear' disabled style='background:none;border:1px solid #fca5a5;color:#dc2626;padding:8px 14px;border-radius:20px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s;opacity:0.5'>🗑</button>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -2371,6 +2392,40 @@ function actualizarRuta() {
   distEl.textContent = distTotal < 1 ? Math.round(distTotal*1000)+' m' : distTotal.toFixed(1)+' km';
   var countEl = document.getElementById('ruta-bar-count');
   if (countEl) countEl.textContent = rutaPuntos.length + ' 📍';
+
+  // Sync mini route box in POI section
+  var statsEl = document.getElementById('poi-ruta-stats');
+  var vaciaEl = document.getElementById('poi-ruta-vacia');
+  var listaEl = document.getElementById('poi-ruta-lista2');
+  var btnIr   = document.getElementById('poi-ruta-btn-ir');
+  var btnClr  = document.getElementById('poi-ruta-btn-clear');
+  var cnt2    = document.getElementById('poi-ruta-count');
+  var dst2    = document.getElementById('poi-ruta-dist2');
+  var tim2    = document.getElementById('poi-ruta-time2');
+
+  if (rutaPuntos.length === 0) {
+    if (statsEl)  { statsEl.style.display  = 'none'; }
+    if (vaciaEl)  { vaciaEl.style.display  = 'block'; }
+    if (listaEl)  { listaEl.style.display  = 'none'; }
+    if (btnIr)    { btnIr.disabled  = true;  btnIr.style.opacity  = '0.5'; }
+    if (btnClr)   { btnClr.disabled = true;  btnClr.style.opacity = '0.5'; }
+  } else {
+    if (statsEl)  { statsEl.style.display  = 'flex'; }
+    if (vaciaEl)  { vaciaEl.style.display  = 'none'; }
+    if (listaEl)  { listaEl.style.display  = 'flex';
+      listaEl.innerHTML = rutaPuntos.map(function(p, i) {
+        return '<div style="display:flex;align-items:center;gap:8px;font-size:12px;padding:4px 8px;background:var(--fondo);border-radius:8px">' +
+          '<span style="width:18px;height:18px;border-radius:50%;background:var(--verde);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">'+(i+1)+'</span>' +
+          '<span style="flex:1;font-weight:500;color:var(--texto)">'+p.nombre+'</span>' +
+          '</div>';
+      }).join('');
+    }
+    if (btnIr)    { btnIr.disabled  = false; btnIr.style.opacity  = '1'; }
+    if (btnClr)   { btnClr.disabled = false; btnClr.style.opacity = '1'; }
+    if (cnt2) cnt2.textContent = rutaPuntos.length + ' 📍';
+    if (dst2) dst2.textContent = distEl ? distEl.textContent : '';
+    if (tim2) tim2.textContent = timeEl ? timeEl.textContent : '';
+  }
   timeEl.textContent = tMin >= 60 ? Math.floor(tMin/60)+'h '+(tMin%60)+'min' : tMin+' min';
 
   puntEl.innerHTML = '';
