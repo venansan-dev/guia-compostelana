@@ -2322,7 +2322,15 @@ function renderCarrusel(categoria) {
     var db = b.distancia !== undefined ? b.distancia : 999999;
     return da - db;
   });
-  if (!filtrados.length) { carousel.innerHTML='<p style="color:#6b7280;padding:1rem">No hay puntos en esta categoria.</p>'; return; }
+  if (!filtrados.length) {
+    var msgs = {
+      'alerta': { es:'🚨 Sin alertas activas en este momento', gl:'🚨 Sen alertas activas neste momento', en:'🚨 No active alerts at this time' },
+      'fiesta': { es:'🎉 Sin fiestas activas hoy · consulta el calendario', gl:'🎉 Sen festas activas hoxe · consulta o calendario', en:'🎉 No active festivals today · check the calendar' }
+    };
+    var msg = (msgs[categoria] && msgs[categoria][idiomaActual]) || (msgs[categoria] && msgs[categoria].es) || 'No hay puntos en esta categoría.';
+    carousel.innerHTML = '<p style="color:#6b7280;padding:1rem;font-style:italic">' + msg + '</p>';
+    return;
+  }
   carousel.innerHTML = '';
   filtrados.forEach(function(p) {
     var distHtml = p.distancia!==undefined
