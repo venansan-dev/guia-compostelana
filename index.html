@@ -3449,53 +3449,12 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
     navigator.serviceWorker.register('/guia-compostelana/sw.js').then(function(reg) {
 
-      // Mostrar banner cuando el SW está instalando (descargando cache)
-      if (reg.installing) {
-        mostrarBannerOffline(reg.installing);
-      }
-      reg.addEventListener('updatefound', function() {
-        mostrarBannerOffline(reg.installing);
-      });
+
 
     }).catch(function(err) {
       console.warn('SW error:', err);
     });
   });
-}
-
-function mostrarBannerOffline(worker) {
-  if (!worker) return;
-  var banner = document.getElementById('offline-banner');
-  if (!banner) {
-    banner = document.createElement('div');
-    banner.id = 'offline-banner';
-    banner.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1D9E75;color:#fff;border-radius:20px;padding:10px 18px;font-size:13px;font-family:DM Sans,sans-serif;font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,0.2);z-index:9999;display:flex;align-items:center;gap:8px;white-space:nowrap;max-width:90vw;transition:opacity 0.5s';
-    banner.innerHTML = '<span style="font-size:16px">⬇️</span><span id="offline-banner-txt">Descargando mapa para uso offline...</span>';
-    document.body.appendChild(banner);
-  }
-  banner.style.display = 'flex';
-  banner.style.opacity = '1';
-
-  function ocultarBanner() {
-    var txt = document.getElementById('offline-banner-txt');
-    if (txt) txt.textContent = '✅ App lista para usar sin conexión';
-    setTimeout(function() {
-      banner.style.opacity = '0';
-      setTimeout(function() { banner.style.display = 'none'; }, 500);
-    }, 2500);
-  }
-
-  // Escuchar statechange
-  worker.addEventListener('statechange', function() {
-    if (worker.state === 'installed' || worker.state === 'activated') {
-      ocultarBanner();
-    }
-  });
-
-  // Fallback: si en 60 segundos no hay statechange, ocultar igualmente
-  setTimeout(function() {
-    if (banner.style.display !== 'none') ocultarBanner();
-  }, 60000);
 }
 
 // Detectar si estamos offline y avisar
