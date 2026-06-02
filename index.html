@@ -676,42 +676,42 @@
     <div style='width:60px;height:3px;background:#FFE066;border-radius:2px;margin:1rem 0 2rem'></div>
 
     <!-- Dos brújulas lado a lado -->
-    <div style='display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem'>
+    <div style='display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:2rem'>
 
       <!-- Norte magnético -->
-      <div style='background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:1.5rem;display:flex;flex-direction:column;align-items:center;gap:1rem'>
+      <div style='background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:1rem 0.75rem;display:flex;flex-direction:column;align-items:center;gap:0.75rem'>
         <div id='brujula-norte-label' style='font-size:11px;font-weight:600;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1.5px'>Norte</div>
-        <div style='position:relative;width:140px;height:140px'>
+        <div style='position:relative;width:110px;height:110px'>
           <!-- Rosa de los vientos -->
-          <canvas id='canvas-norte' width='140' height='140' style='position:absolute;top:0;left:0'></canvas>
+          <canvas id='canvas-norte' width='110' height='110' style='position:absolute;top:0;left:0'></canvas>
           <!-- Aguja -->
-          <div id='aguja-norte' style='position:absolute;top:50%;left:50%;width:4px;height:56px;margin-left:-2px;margin-top:-50px;transform-origin:bottom center;transition:transform 0.3s ease'>
-            <div style='width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:32px solid #E74C3C;margin-left:-4px'></div>
-            <div style='width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:24px solid rgba(255,255,255,0.5);margin-left:-4px'></div>
+          <div id='aguja-norte' style='position:absolute;top:50%;left:50%;width:4px;height:56px;margin-left:-2px;margin-top:-40px;transform-origin:bottom center;transition:transform 0.3s ease'>
+            <div style='width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:26px solid #E74C3C;margin-left:-4px'></div>
+            <div style='width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:18px solid rgba(255,255,255,0.5);margin-left:-3px'></div>
           </div>
           <!-- Centro -->
-          <div style='position:absolute;top:50%;left:50%;width:12px;height:12px;background:#FFE066;border-radius:50%;margin:-6px 0 0 -6px;z-index:10'></div>
+          <div style='position:absolute;top:50%;left:50%;width:10px;height:10px;background:#FFE066;border-radius:50%;margin:-5px 0 0 -5px;z-index:10'></div>
         </div>
         <div style='text-align:center'>
-          <div id='grados-norte' style='font-size:28px;font-weight:700;color:#FFE066;font-family:monospace'>---°</div>
+          <div id='grados-norte' style='font-size:22px;font-weight:700;color:#FFE066;font-family:monospace'>---°</div>
           <div id='rumbo-texto' style='font-size:13px;color:rgba(255,255,255,0.8);margin-top:2px'>--</div>
         </div>
       </div>
 
       <!-- Rumbo a Santiago -->
-      <div style='background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:1.5rem;display:flex;flex-direction:column;align-items:center;gap:1rem'>
+      <div style='background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:1rem 0.75rem;display:flex;flex-direction:column;align-items:center;gap:0.75rem'>
         <div id='brujula-stgo-label' style='font-size:11px;font-weight:600;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1.5px'>Santiago</div>
-        <div style='position:relative;width:140px;height:140px'>
-          <canvas id='canvas-stgo' width='140' height='140' style='position:absolute;top:0;left:0'></canvas>
+        <div style='position:relative;width:110px;height:110px'>
+          <canvas id='canvas-stgo' width='110' height='110' style='position:absolute;top:0;left:0'></canvas>
           <!-- Aguja hacia Santiago -->
-          <div id='aguja-stgo' style='position:absolute;top:50%;left:50%;width:4px;height:56px;margin-left:-2px;margin-top:-50px;transform-origin:bottom center;transition:transform 0.3s ease'>
-            <div style='width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:32px solid #FFE066;margin-left:-4px'></div>
-            <div style='width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:24px solid rgba(255,255,255,0.5);margin-left:-4px'></div>
+          <div id='aguja-stgo' style='position:absolute;top:50%;left:50%;width:4px;height:56px;margin-left:-2px;margin-top:-40px;transform-origin:bottom center;transition:transform 0.3s ease'>
+            <div style='width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:26px solid #FFE066;margin-left:-4px'></div>
+            <div style='width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:18px solid rgba(255,255,255,0.5);margin-left:-3px'></div>
           </div>
-          <div style='position:absolute;top:50%;left:50%;width:12px;height:12px;background:#fff;border-radius:50%;margin:-6px 0 0 -6px;z-index:10'></div>
+          <div style='position:absolute;top:50%;left:50%;width:10px;height:10px;background:#fff;border-radius:50%;margin:-5px 0 0 -5px;z-index:10'></div>
         </div>
         <div style='text-align:center'>
-          <div id='grados-stgo' style='font-size:28px;font-weight:700;color:#FFE066;font-family:monospace'>---°</div>
+          <div id='grados-stgo' style='font-size:22px;font-weight:700;color:#FFE066;font-family:monospace'>---°</div>
           <div id='dist-stgo' style='font-size:13px;color:rgba(255,255,255,0.8);margin-top:2px'>-- km</div>
         </div>
       </div>
@@ -735,7 +735,7 @@
 
   function dibujarRosa(canvas) {
     var ctx = canvas.getContext('2d');
-    var cx = 70, cy = 70, r = 60;
+    var cx = canvas.width/2, cy = canvas.height/2, r = canvas.width/2 - 10;
     ctx.clearRect(0, 0, 140, 140);
     // Círculo exterior
     ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2);
@@ -788,10 +788,14 @@
   }
 
   function actualizarBrujulas(heading) {
-    // Norte
-    document.getElementById('aguja-norte').style.transform = 'rotate('+heading+'deg)';
-    document.getElementById('grados-norte').textContent = Math.round((360-heading+360)%360)+'°';
-    document.getElementById('rumbo-texto').textContent = rumboTexto((360-heading+360)%360);
+    // La aguja apunta "arriba" por defecto.
+    // heading = dirección en la que apunta el dispositivo (donde está el norte en pantalla)
+    // Para que la aguja apunte al norte: rotamos -heading
+    var agujaRot = -heading;
+    document.getElementById('aguja-norte').style.transform = 'rotate('+agujaRot+'deg)';
+    // Los grados que muestra = dirección en la que miras (heading del dispositivo)
+    document.getElementById('grados-norte').textContent = Math.round(heading)+'°';
+    document.getElementById('rumbo-texto').textContent = rumboTexto(heading);
     // Santiago
     if (userLat2 !== null) {
       var r = haversineRumbo(userLat2, userLng2, STGO_LAT, STGO_LNG);
@@ -848,21 +852,51 @@
   function iniciarOrientacion() {
     dibujarRosa(document.getElementById('canvas-norte'));
     dibujarRosa(document.getElementById('canvas-stgo'));
-    window.addEventListener('deviceorientationabsolute', manejarOrientacion, true);
     window.addEventListener('deviceorientation', manejarOrientacion, true);
   }
 
+  var _lastHeading = null;
+  var _useWebkit = false;
+  var _useAbsolute = false;
+
   function manejarOrientacion(e) {
     var heading = null;
-    if (e.webkitCompassHeading !== undefined) {
-      heading = e.webkitCompassHeading; // iOS: 0=Norte directo
-    } else if (e.absolute && e.alpha !== null) {
-      heading = (360 - e.alpha) % 360;
-    } else if (e.alpha !== null) {
-      heading = (360 - e.alpha) % 360;
+
+    // Prioridad 1: webkitCompassHeading (iOS/iPadOS con brújula real)
+    // Solo si el valor es estable y diferente de 0 constante
+    if (typeof e.webkitCompassHeading === 'number' && e.webkitCompassHeading >= 0) {
+      heading = e.webkitCompassHeading;
+      _useWebkit = true;
     }
-    if (heading !== null) actualizarBrujulas(heading);
+    // Prioridad 2: deviceorientationabsolute (Android, Firefox)
+    else if (e.absolute === true && e.alpha !== null) {
+      heading = (360 - e.alpha + 360) % 360;
+      _useAbsolute = true;
+    }
+    // Prioridad 3: deviceorientation relativo — menos fiable
+    else if (!_useWebkit && !_useAbsolute && e.alpha !== null) {
+      heading = (360 - e.alpha + 360) % 360;
+    }
+
+    if (heading !== null) {
+      // Suavizado: media exponencial para evitar saltos bruscos
+      if (_lastHeading === null) {
+        _lastHeading = heading;
+      } else {
+        // Manejo del salto 359→0
+        var diff = heading - _lastHeading;
+        if (diff > 180) diff -= 360;
+        if (diff < -180) diff += 360;
+        _lastHeading = (_lastHeading + diff * 0.3 + 360) % 360;
+      }
+      actualizarBrujulas(_lastHeading);
+    }
   }
+
+  // Escuchar deviceorientationabsolute primero si está disponible
+  window.addEventListener('deviceorientationabsolute', function(e) {
+    if (e.alpha !== null) manejarOrientacion(e);
+  }, true);
 
   // Dibujar rosas al cargar por si la sección ya es visible
   window.addEventListener('load', function() {
