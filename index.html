@@ -259,10 +259,15 @@
   <p class='section-subtitle2' id='poi-sub2'>Ayuda a otros peregrinos puntuando, comentando y compartiendo cada lugar</p>
   <div class='categories'>
     <div class='cat-chip active' onclick='filtrarCategoria(this,&quot;todos&quot;)' id='chip-todos'>Todos</div>
-    <div class='cat-chip' onclick='filtrarCategoria(this,&quot;naturaleza&quot;)' id='chip-naturaleza'>Naturaleza</div>
-    <div class='cat-chip' onclick='filtrarCategoria(this,&quot;monumento&quot;)' id='chip-monumentos'>Monumentos</div>
-    <div class='cat-chip' onclick='filtrarCategoria(this,&quot;albergue&quot;)' id='chip-albergues'>Albergues</div>
-    <div class='cat-chip' onclick='filtrarCategoria(this,&quot;mirador&quot;)' id='chip-miradores'>Miradores</div>
+    <div class='cat-chip' onclick='filtrarCategoria(this,&quot;alerta&quot;)' id='chip-alertas'>🚨 Alertas</div>
+    <div class='cat-chip' onclick='filtrarCategoria(this,&quot;naturaleza&quot;)' id='chip-naturaleza'>🌿 Naturaleza</div>
+    <div class='cat-chip' onclick='filtrarCategoria(this,&quot;monumento&quot;)' id='chip-monumentos'>🏛️ Monumentos</div>
+    <div class='cat-chip' onclick='filtrarCategoria(this,&quot;edificación religiosa&quot;)' id='chip-religiosa'>⛪ Religiosa</div>
+    <div class='cat-chip' onclick='filtrarCategoria(this,&quot;localización histórica&quot;)' id='chip-historica'>📜 Histórica</div>
+    <div class='cat-chip' onclick='filtrarCategoria(this,&quot;vestigio arqueológico&quot;)' id='chip-arqueologico'>🔍 Arqueológico</div>
+    <div class='cat-chip' onclick='filtrarCategoria(this,&quot;albergue&quot;)' id='chip-albergues'>🏠 Albergues</div>
+    <div class='cat-chip' onclick='filtrarCategoria(this,&quot;mirador&quot;)' id='chip-miradores'>🔭 Miradores</div>
+    <div class='cat-chip' onclick='filtrarCategoria(this,&quot;fiesta&quot;)' id='chip-fiestas'>🎉 Fiestas</div>
   </div>
   <div class='carousel-wrap'>
     <div class='carousel' id='carousel'></div>
@@ -2005,6 +2010,75 @@ var iconoBusqueda = L.divIcon({
   iconSize:[32,32], iconAnchor:[16,32], popupAnchor:[0,-32]
 });
 
+
+// ── PUNTOS DE FIESTAS (solo visibles en su rango de fechas) ─────────────────
+var FIESTAS_PUNTOS = [
+  { id:'fiesta-reconquista-vigo', nombre:'🎉 Reconquista de Vigo', categoria:'fiesta', emoji:'⚔️', color:'coral',
+    descripcion:'Vigo vuelve al siglo XIX. Reenactment del alzamiento popular del 28 de marzo de 1809 que expulsó al ejército de Napoleón — primera ciudad de Europa en lograrlo. Casco histórico ambientado, uniformes, batallas y mercado de época.',
+    lat:42.2328, lng:-8.7218, mesIni:3, diaIni:26, mesFin:3, diaFin:29 },
+
+  { id:'fiesta-ostra-arcade', nombre:'🎉 Festa da Ostra — Arcade', categoria:'fiesta', emoji:'🦪', color:'azul',
+    descripcion:'Más de 25.000 personas y 100.000 ostras en el muelle de Arcade. Desde 1987, Fiesta de Interés Turístico de Galicia. La ostra de la desembocadura del Verdugo, al natural o cocinada, acompañada de Albariño. Pasacalles, música y ambiente marinero.',
+    lat:42.3497, lng:-8.6312, mesIni:4, diaIni:2, mesFin:4, diaFin:6 },
+
+  { id:'fiesta-lamprea-arbo', nombre:'🎉 Festa da Lamprea — Arbo', categoria:'fiesta', emoji:'🐟', color:'verde',
+    descripcion:'El cuarto domingo de abril, Arbo celebra la lamprea del río Miño — un pez que existe desde hace 500 millones de años. Degustaciones, maridaje y cultura fluvial en uno de los municipios más bonitos de la Paradanta.',
+    lat:42.1167, lng:-8.3167, mesIni:4, diaIni:25, mesFin:4, diaFin:28 },
+
+  { id:'fiesta-choco-redondela', nombre:'🎉 Jornadas del Choco — Redondela', categoria:'fiesta', emoji:'🦑', color:'ambar',
+    descripcion:'El choco de la ensenada de San Simón es el alma de Redondela — sus vecinos son los "choqueiros". Desde 1987, la primera quincena de mayo la villa se viste de fiesta gastronómica con concurso de recetas, carpa popular y verbena.',
+    lat:42.2826, lng:-8.6090, mesIni:5, diaIni:8, mesFin:5, diaFin:12 },
+
+  { id:'fiesta-langosta-aguarda', nombre:'🎉 Festa da Langosta — A Guarda', categoria:'fiesta', emoji:'🦞', color:'coral',
+    descripcion:'Fiesta de Galicia de Interés Turístico desde 1991. Carpa de 1.000 m² en el puerto de A Guarda con langosta y cocina marinera. Rosca de yema guardesa, vinos Albariño y O Rosal, música y animación. El arranque del Camino Portugués de la Costa tiene mejor sabor estos días.',
+    lat:41.9015, lng:-8.8732, mesIni:7, diaIni:2, mesFin:7, diaFin:6 },
+
+  { id:'fiesta-santiago-compostela', nombre:'🎉 Día de Santiago', categoria:'fiesta', emoji:'✨', color:'ambar',
+    descripcion:'El 25 de julio es el Día del Apóstol y Día Nacional de Galicia. La Catedral celebra la misa del peregrino con el botafumeiro, procesión, fuegos artificiales y ambiente único. La meta del Camino en su día más sagrado.',
+    lat:42.8805, lng:-8.5446, mesIni:7, diaIni:24, mesFin:7, diaFin:25 },
+
+  { id:'fiesta-albarino-cambados', nombre:'🎉 Festa do Albariño — Cambados', categoria:'fiesta', emoji:'🍷', color:'morado',
+    descripcion:'La fiesta de vino más antigua de Galicia, desde 1953. Una semana de Albariño, 150.000 personas, la proclamación del Capítulo Serenísimo y degustaciones en la Plaza de Fefiñáns. A 35 km del Camino, merece el desvío.',
+    lat:42.5156, lng:-8.8156, mesIni:7, diaIni:27, mesFin:8, diaFin:3 },
+
+  { id:'fiesta-pemento-padron', nombre:'🎉 Festa do Pimiento de Herbón', categoria:'fiesta', emoji:'🫑', color:'verde',
+    descripcion:'Fiesta de Interés Turístico. El primer sábado de agosto, Herbón celebra el pimiento que lleva su nombre. Pasacalles, misa campestre, procesión agrícola motorizada y degustación gratuita. "Os pementos de Padrón, uns pican e outros non."',
+    lat:42.7333, lng:-8.6500, mesIni:8, diaIni:2, mesFin:8, diaFin:5 },
+
+  { id:'fiesta-mexilon-chapela', nombre:'🎉 Festa do Mexilón — Chapela', categoria:'fiesta', emoji:'🦪', color:'azul',
+    descripcion:'Fiesta gastronómica del mejillón en el Paseo Marítimo de Chapela. El mejor mejillón de las rías al vapor, en vinagreta y en empanada. Segunda semana de agosto, ambiente marinero junto a la ría de Vigo.',
+    lat:42.2965, lng:-8.6547, mesIni:8, diaIni:10, mesFin:8, diaFin:14 },
+
+  { id:'fiesta-san-roque-vigo', nombre:'🎉 San Roque — Vigo', categoria:'fiesta', emoji:'🕍', color:'verde',
+    descripcion:'La romería urbana más grande de Galicia. San Roque llegó a Vigo en 1598 durante una epidemia y desde entonces es el patrón de la ciudad. El 16 de agosto el Casco Vello se llena de gente, música y devoción.',
+    lat:42.2362, lng:-8.7204, mesIni:8, diaIni:15, mesFin:8, diaFin:17 },
+
+  { id:'fiesta-peregrina-pontevedra', nombre:'🎉 Festas da Peregrina — Pontevedra', categoria:'fiesta', emoji:'🐚', color:'verde',
+    descripcion:'Las fiestas más importantes de Pontevedra, dedicadas a la Virgen Peregrina, patrona del Camino Portugués. Segunda semana de agosto con conciertos, actos religiosos y ambiente festivo.',
+    lat:42.4306, lng:-8.6435, mesIni:8, diaIni:12, mesFin:8, diaFin:17 },
+
+  { id:'fiesta-anguia-valga', nombre:'🎉 Festa da Anguía — Valga', categoria:'fiesta', emoji:'🐍', color:'ambar',
+    descripcion:'Fiesta gastronómica de la anguila y Muestra de Caña del País (aguardiente gallego) en Valga, entre Padrón y Caldas de Reis. Del 24 al 26 de agosto, orillas del río Ulla.',
+    lat:42.7167, lng:-8.6333, mesIni:8, diaIni:23, mesFin:8, diaFin:26 },
+
+  { id:'fiesta-feira-franca', nombre:'🎉 Feira Franca Medieval — Pontevedra', categoria:'fiesta', emoji:'🏰', color:'morado',
+    descripcion:'El primer fin de semana de septiembre, Pontevedra vuelve a la Edad Media. Disfraces, reenactments históricos, mercado medieval, artesanía y gastronomía de época. Una de las ferias medievales más espectaculares de Galicia.',
+    lat:42.4306, lng:-8.6435, mesIni:9, diaIni:3, mesFin:9, diaFin:6 },
+];
+
+// Comprobar si una fiesta es visible hoy (incluyendo día previo)
+function fiestaActivaHoy(f) {
+  var ahora = new Date();
+  var mes = ahora.getMonth() + 1; // 1-12
+  var dia  = ahora.getDate();
+  // Convertir todo a número de día del año para comparación simple
+  function toDayNum(m, d) { return m * 100 + d; }
+  var hoy  = toDayNum(mes, dia);
+  var ini  = toDayNum(f.mesIni, f.diaIni);
+  var fin  = toDayNum(f.mesFin, f.diaFin);
+  return hoy >= ini && hoy <= fin;
+}
+
 function initMapa() {
   var radioCtrl = document.getElementById('map-radio-control');
   if (radioCtrl) radioCtrl.style.display = 'flex';
@@ -2034,6 +2108,27 @@ function initMapa() {
       mapa.closePopup();
     }
   }, { passive: true });
+
+  // Añadir marcadores de fiestas si están activas hoy
+  FIESTAS_PUNTOS.forEach(function(p) {
+    if (!fiestaActivaHoy(p)) return;
+    var iconFiesta = L.divIcon({
+      className: '',
+      html: '<div style="font-size:26px;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));animation:donCatBody 1s ease-in-out infinite">' + p.emoji + '</div>',
+      iconSize: [30, 30],
+      iconAnchor: [15, 15]
+    });
+    var mf = L.marker([p.lat, p.lng], { icon: iconFiesta, zIndexOffset: 500 }).addTo(mapa);
+    mf.on('click', function() {
+      var content = '<div style="font-family:DM Sans,sans-serif;min-width:190px;max-width:260px">' +
+        '<strong style="font-size:14px;color:#1D9E75">' + p.nombre + '</strong><br>' +
+        '<small style="color:#6b7280;text-transform:uppercase;letter-spacing:1px">FIESTA HOY 🎉</small>' +
+        '<div style="font-size:13px;margin-top:6px;color:#444;max-height:150px;overflow-y:auto">' + p.descripcion + '</div>' +
+        '<a href="https://www.google.com/maps/dir/?api=1&destination=' + p.lat + ',' + p.lng + '" target="_blank" style="display:inline-block;margin-top:8px;background:#1D9E75;color:#fff;padding:5px 12px;border-radius:12px;font-size:12px;text-decoration:none">🗺️ Cómo llegar</a>' +
+        '</div>';
+      mapa.openPopup(L.popup({ className:'poi-popup', maxWidth:260 }).setLatLng([p.lat,p.lng]).setContent(content));
+    });
+  });
 
   PUNTOS.forEach(function(p) {
     var m = L.marker([p.lat,p.lng], { icon:crearIcono(p.emoji) }).addTo(mapa);
@@ -2185,8 +2280,35 @@ function renderCarrusel(categoria) {
   categoriaActiva = categoria;
   var carousel = document.getElementById('carousel');
   // Solo POIs oficiales en el carrusel — los de usuario van solo en el mapa
-  var filtrados = PUNTOS.filter(function(p){
-    return !p.esUsuario && !(p.id && p.id.indexOf('u_')===0) && (categoria==='todos'||p.categoria===categoria);
+  var filtrados;
+  if (categoria === 'fiesta') {
+    // Fiestas: mostrar todas del año, con indicador si está activa hoy
+    filtrados = FIESTAS_PUNTOS.map(function(p) {
+      var activa = fiestaActivaHoy(p);
+      return Object.assign({}, p, {
+        distancia: (userLat && userLng) ? haversine(userLat, userLng, p.lat, p.lng) : undefined,
+        _activaHoy: activa
+      });
+    });
+  } else {
+    filtrados = PUNTOS.filter(function(p){
+      if (categoria === 'alerta') {
+        return p.categoria === 'alerta';
+      }
+      return !p.esUsuario && !(p.id && p.id.indexOf('u_')===0) && (categoria==='todos'||p.categoria===categoria);
+    });
+  }
+  // Ordenar por distancia si está disponible
+  filtrados = filtrados.slice().sort(function(a, b) {
+    var da = a.distancia !== undefined ? a.distancia : 999999;
+    var db = b.distancia !== undefined ? b.distancia : 999999;
+    return da - db;
+  });
+  // Ordenar por distancia si está disponible
+  filtrados = filtrados.slice().sort(function(a, b) {
+    var da = a.distancia !== undefined ? a.distancia : 999999;
+    var db = b.distancia !== undefined ? b.distancia : 999999;
+    return da - db;
   });
   if (!filtrados.length) { carousel.innerHTML='<p style="color:#6b7280;padding:1rem">No hay puntos en esta categoria.</p>'; return; }
   carousel.innerHTML = '';
