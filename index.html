@@ -51,7 +51,7 @@
 
 <!-- HEADER -->
 <header class='header'>
-  <div class='logo'><img alt='Guía Compostelana de Vigo' src='https://i.postimg.cc/vmb63LGX/IMG-0208.jpg' style='width:222px;height:60px;vertical-align:middle;border-radius:4px'/></div>
+  <div class='logo'><img alt='Guía Compostelana de Vigo' src='https://i.postimg.cc/C1gNNsDK/IMG-0213.jpg' style='width:222px;height:60px;vertical-align:middle;border-radius:4px'/></div>
   <nav id='nav-desktop'>
     <a href='#inicio' id='nav-inicio'>Inicio</a>
     <a href='#historia' id='nav-historia'>Historia Compostelana</a>
@@ -857,32 +857,40 @@
     // Dibujar rosas
     dibujarRosa(document.getElementById('canvas-norte'));
     dibujarRosa(document.getElementById('canvas-stgo'));
-    // Obtener GPS
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(pos) {
-        userLat2 = pos.coords.latitude;
-        userLng2 = pos.coords.longitude;
-      });
-    }
-    // iOS requiere permiso explícito
+
+    // iOS: requestPermission debe llamarse DIRECTAMENTE desde el gesto, sin async antes
     if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
       DeviceOrientationEvent.requestPermission().then(function(state) {
         if (state === 'granted') {
           iniciarOrientacion();
           btn.textContent = '⏹ Desactivar';
-          btnRef.style.display = 'inline-block';
+          if (btnRef) btnRef.style.display = 'inline-block';
           msg.textContent = '✅ Brújula activa';
           activa = true;
+          // GPS después del permiso
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(pos) {
+              userLat2 = pos.coords.latitude;
+              userLng2 = pos.coords.longitude;
+            });
+          }
         } else {
-          msg.textContent = '⚠️ Permiso denegado — activa en Ajustes > Safari';
+          msg.textContent = '⚠️ Permiso denegado — ve a Ajustes > Safari > Movimiento y orientación';
         }
-      }).catch(function() {
-        msg.textContent = '⚠️ No disponible en este dispositivo';
+      }).catch(function(err) {
+        msg.textContent = '⚠️ Error al solicitar permiso: ' + err.message;
       });
     } else if (window.DeviceOrientationEvent) {
+      // Android y otros
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(pos) {
+          userLat2 = pos.coords.latitude;
+          userLng2 = pos.coords.longitude;
+        });
+      }
       iniciarOrientacion();
       btn.textContent = '⏹ Desactivar';
-      btnRef.style.display = 'inline-block';
+      if (btnRef) btnRef.style.display = 'inline-block';
       msg.textContent = '✅ Brújula activa';
       activa = true;
     } else {
@@ -952,7 +960,7 @@
 
 <footer class='footer' id='contacto'>
   <div class='footer-brand'>
-    <div class='logo'><img alt='Guía Compostelana de Vigo' src='https://i.postimg.cc/vmb63LGX/IMG-0208.jpg' style='width:180px;height:48px;border-radius:4px'/></div>
+    <div class='logo'><img alt='Guía Compostelana de Vigo' src='https://i.postimg.cc/C1gNNsDK/IMG-0213.jpg' style='width:180px;height:48px;border-radius:4px'/></div>
     <p id='footer-desc'>Tu guía local de puntos de interés en Vigo. Descubre lo mejor de la ciudad a tu alrededor.</p>
     <p id='footer-about' style='margin-top:10px;font-size:13px;color:var(--texto-suave);line-height:1.7;max-width:260px;font-style:italic'>Simplemente esperamos que la guía os sea útil y disfrutéis de las experiencias del Camino. Si podéis, no olvidéis aportar. Gracias. 🙏</p>
   </div>
