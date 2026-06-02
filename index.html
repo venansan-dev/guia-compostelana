@@ -236,7 +236,7 @@
           <span style='position:absolute;top:-10px;right:-20px;font-size:18px;display:inline-block;transform-origin:bottom center;animation:donCoin 0.7s ease-in-out infinite;transform:scaleX(-1)'>🤚</span>
         </span>
       </span>
-      <h4 id='footer-don-title' style='font-family:Playfair Display,serif;font-size:19px;font-weight:700;color:#FFE066;margin:0;text-shadow:0 2px 6px rgba(0,0,0,0.35);letter-spacing:0.3px'>Apoya esta guía compostelana</h4>
+      <h4 id='footer-don-title' style='font-family:Playfair Display,serif;font-size:19px;font-weight:700;color:#FFE066;margin:0;text-shadow:0 2px 6px rgba(0,0,0,0.35);letter-spacing:0.3px;word-break:keep-all;overflow-wrap:normal;hyphens:none'>Apoya esta guía compostelana</h4>
     </div>
     <p id='footer-don-sub' style='font-size:13px;color:rgba(255,255,255,0.92);margin:0 0 10px;line-height:1.5'>Proyecto gratuito y sin publicidad. Tu apoyo nos permite seguir creciendo.</p>
     <div style='width:80px;height:3px;background:rgba(255,220,100,0.8);border-radius:2px;margin:0 auto 12px;animation:donGlow 2s ease-in-out infinite'></div>
@@ -250,7 +250,7 @@
 </div>
 
 <!-- PUNTOS DE INTERÉS &#8212; CARRUSEL -->
-<section class='section' id='puntos'>
+<section class='section' id='puntos' style='scroll-margin-top:70px'>
   <div class='section-header'>
     <h2 id='puntos-h2'>Puntos de interés cercanos</h2>
     <button onclick='abrirFormPOI()' id='btn-add-poi' style='display:flex;align-items:center;gap:6px;background:var(--verde);color:#fff;border:none;border-radius:20px;padding:8px 16px;font-size:13px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap;flex-shrink:0'>➕ <span id='btn-add-poi-txt'>Punto</span></button>
@@ -318,7 +318,7 @@
 </section>
 
 <!-- SECCION DONACIONES -->
-<section id='donaciones' style='background:linear-gradient(145deg,#0a5240 0%,#0F6E56 40%,#1D9E75 100%);padding:3rem 2rem;position:relative;overflow:hidden;animation:donGlow 2.5s ease-in-out infinite;border-top:4px solid rgba(255,220,100,0.6);border-bottom:4px solid rgba(255,220,100,0.6)'>
+<section id='donaciones' style='scroll-margin-top:70px' style='background:linear-gradient(145deg,#0a5240 0%,#0F6E56 40%,#1D9E75 100%);padding:3rem 2rem;position:relative;overflow:hidden;animation:donGlow 2.5s ease-in-out infinite;border-top:4px solid rgba(255,220,100,0.6);border-bottom:4px solid rgba(255,220,100,0.6)'>
   <!-- Formas decorativas de fondo -->
   <div style='position:absolute;top:-60px;right:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,0.05);animation:donFloat 5s ease-in-out infinite'></div>
   <div style='position:absolute;bottom:-50px;left:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.04);animation:donFloat 6s ease-in-out infinite reverse'></div>
@@ -349,7 +349,7 @@
 
 <!-- FOOTER -->
 
-<section id='emergencias' style='background:#fff;padding:3rem 2rem;border-top:1px solid rgba(0,0,0,0.08)'>
+<section id='emergencias' style='scroll-margin-top:70px' style='background:#fff;padding:3rem 2rem;border-top:1px solid rgba(0,0,0,0.08)'>
 <div style='max-width:680px;margin:0 auto'>
 
   <!-- Cabecera -->
@@ -506,7 +506,7 @@
 
 </div>
 </section>
-<section id='instrucciones' style='background:#F5F5F0;padding:3rem 2rem;border-top:1px solid rgba(0,0,0,0.08)'>
+<section id='instrucciones' style='scroll-margin-top:70px' style='background:#F5F5F0;padding:3rem 2rem;border-top:1px solid rgba(0,0,0,0.08)'>
 <div style='max-width:680px;margin:0 auto'>
 
   <!-- Cabecera -->
@@ -581,6 +581,7 @@
       <div style='width:36px;height:36px;background:#FEF3C7;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0'>➕</div>
       <div>
         <div style='font-size:13px;font-weight:500;color:#1a1a1a;margin-bottom:3px' id='instr-t7'>Añade tu propio punto</div>
+        <div style='font-size:11px;color:var(--verde);font-weight:500;margin-bottom:3px'>Mapa · Formulario · GPS</div>
         <div style='font-size:12px;color:#6b7280;line-height:1.6' id='instr-b7'>Pulsa <strong style='color:#1a1a1a'>➕ Punto</strong> en el mapa. Rellena el nombre, categoría y ubicación — puedes usar tu posición GPS o tocar directamente el mapa. Quedará visible de inmediato en tu dispositivo.</div>
       </div>
     </div>
@@ -590,6 +591,7 @@
       <div style='width:36px;height:36px;background:#FEE2E2;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0'>🚨</div>
       <div>
         <div style='font-size:13px;font-weight:500;color:#1a1a1a;margin-bottom:3px' id='instr-t8'>Crea una alerta</div>
+        <div style='font-size:11px;color:#dc2626;font-weight:500;margin-bottom:3px'>Aviso para peregrinos</div>
         <div style='font-size:12px;color:#6b7280;line-height:1.6' id='instr-b8'>Al añadir un punto elige la categoría <strong style='color:#1a1a1a'>🚨 Alerta</strong> para avisar a otros peregrinos de cortes de camino, obras, zonas peligrosas o cualquier incidencia relevante.</div>
       </div>
     </div>
@@ -599,6 +601,7 @@
       <div style='width:36px;height:36px;background:#E0F2FE;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0'>🔄</div>
       <div>
         <div style='font-size:13px;font-weight:500;color:#1a1a1a;margin-bottom:3px' id='instr-t9'>Actualiza tu posición</div>
+        <div style='font-size:11px;color:var(--verde);font-weight:500;margin-bottom:3px'>Botón ↺ · Esquina superior izquierda del mapa</div>
         <div style='font-size:12px;color:#6b7280;line-height:1.6' id='instr-b9'>El botón de flechas <strong style='color:#1a1a1a'>↺</strong> en la esquina superior izquierda del mapa recalcula tu posición, mueve el círculo de radio y reordena los POIs por distancia.</div>
       </div>
     </div>
@@ -608,6 +611,7 @@
       <div style='width:36px;height:36px;background:#F3F4F6;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0'>📴</div>
       <div>
         <div style='font-size:13px;font-weight:500;color:#1a1a1a;margin-bottom:3px' id='instr-t10'>Funciona sin conexión</div>
+        <div style='font-size:11px;color:#6b7280;font-weight:500;margin-bottom:3px'>Primera visita con WiFi · Se descarga automáticamente</div>
         <div style='font-size:12px;color:#6b7280;line-height:1.6' id='instr-b10'>La primera vez que abres la guía con WiFi se descarga el mapa de la zona y los contenidos. Después puedes consultarla sin datos, ideal en zonas del camino sin cobertura.</div>
       </div>
     </div>
@@ -2346,6 +2350,10 @@ function renderCarrusel(categoria) {
         '<div class="poi-category">'+(function(c){var t2=T[idiomaActual]||T.es;var cm={'naturaleza':t2.chipNaturaleza,'monumento':t2.chipMonumento,'albergue':t2.chipAlbergue,'mirador':t2.chipMirador,'edificación religiosa':t2.chipEdif,'localización histórica':t2.chipHist,'vestigio arqueológico':t2.chipVest,'edificación histórica':t2.chipEdifH,'naturaleza':t2.chipNat};return cm[c]||c;})(p.categoria)+'</div>'+
         '<div class="poi-nombre-row"><span class="poi-emoji">'+p.emoji+'</span><span class="poi-nombre">'+pNombre+'</span></div>'+
         (pSub ? '<div class="poi-subtitulo">'+pSub+'</div>' : '')+
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin:4px 0 8px">'+
+          distHtml+
+          '<button class="poi-btn" data-lat="'+p.lat+'" data-lng="'+p.lng+'">'+(T[idiomaActual]||T.es).comoLlegar+'</button>'+
+        '</div>'+
         '<p class="poi-desc" id="desc-'+p.id+'">'+pDesc+'</p>'+
         '<button class="poi-leer-mas" id="leer-mas-'+p.id+'">'+(T[idiomaActual]||T.es).leerMas+'</button>'+
         '<div class="poi-stars"><div class="stars" id="stars-'+p.id+'"></div><span class="stars-count" id="scount-'+p.id+'">'+(val.votos>0?media+' &middot; '+val.votos+' votos':'')+'</span></div>'+
@@ -2362,11 +2370,7 @@ function renderCarrusel(categoria) {
             '<button class="opinion-send" data-pid="'+p.id+'">'+(T[idiomaActual]||T.es).enviar+'</button>'+
           '</div>'+
         '</div>'+
-        '<div class="poi-footer">'+
-          '<div class="poi-footer-top">'+distHtml+
-            '<button class="poi-btn" data-lat="'+p.lat+'" data-lng="'+p.lng+'">'+(T[idiomaActual]||T.es).comoLlegar+'</button>'+
-          '</div>'+
-        '</div>'+
+
       '</div>';
     carousel.appendChild(card);
 
@@ -2791,6 +2795,7 @@ var T={
     chipMirador:'Miradores',
     rutaLabel:'Generador de ruta',
     rutaVacio:'Añade puntos desde el mapa o las tarjetas',
+    rutaBtnIr:'▶ Ir',
     poiRutaTitulo:'Generador de ruta',
     poiRutaVacia:'Añade puntos desde las tarjetas o el mapa 👆',
     poiRutaBtnIr:'▶ Ir',
@@ -2926,6 +2931,7 @@ var T={
     chipMirador:'Miradoiros',
     rutaLabel:'Xerador de ruta',
     rutaVacio:'Engade puntos desde o mapa ou as tarxetas',
+    rutaBtnIr:'▶ Ir',
     poiRutaTitulo:'Xerador de ruta',
     poiRutaVacia:'Engade puntos desde as tarxetas ou o mapa 👆',
     poiRutaBtnIr:'▶ Ir',
@@ -3070,6 +3076,7 @@ var T={
     chipMirador:'Viewpoints',
     rutaLabel:'Route builder',
     rutaVacio:'Add points from the map or the cards',
+    rutaBtnIr:'▶ Go',
     poiRutaTitulo:'Route builder',
     poiRutaVacia:'Add points from the cards or the map 👆',
     poiRutaBtnIr:'▶ Go',
@@ -3219,6 +3226,7 @@ function cambiarIdioma(lang){
   // Ruta bar
   el=document.getElementById('ruta-label');if(el)el.textContent=t.rutaLabel;
   el=document.getElementById('ruta-bar-empty');if(el&&el.style.display!=='none')el.textContent=t.rutaVacio;
+  el=document.getElementById('ruta-bar-btn-go');if(el)el.innerHTML=t.rutaBtnIr||'▶ Ir';
   el=document.getElementById('poi-ruta-titulo');if(el)el.textContent=t.poiRutaTitulo||t.rutaLabel;
   el=document.getElementById('poi-ruta-vacia');if(el)el.textContent=t.poiRutaVacia||t.rutaVacio;
   el=document.getElementById('ruta-stat-label');if(el)el.textContent=t.rutaStatLabel;
