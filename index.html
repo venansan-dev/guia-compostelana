@@ -2373,6 +2373,17 @@ function quitarDeRuta(id) {
 }
 function limpiarRuta() {
   rutaPuntos=[];
+  // Sync POI generator directly — no depende de actualizarRuta
+  var statsEl = document.getElementById('poi-ruta-stats');
+  var vaciaEl = document.getElementById('poi-ruta-vacia');
+  var listaEl = document.getElementById('poi-ruta-lista2');
+  var btnIr   = document.getElementById('poi-ruta-btn-ir');
+  var btnClr2 = document.getElementById('poi-ruta-btn-clear');
+  if (statsEl) statsEl.style.display = 'none';
+  if (vaciaEl) vaciaEl.style.display = 'block';
+  if (listaEl) { listaEl.style.display = 'none'; listaEl.innerHTML = ''; }
+  if (btnIr)   { btnIr.style.opacity = '0.4'; btnIr.style.cursor = 'default'; }
+  if (btnClr2) { btnClr2.style.opacity = '0.4'; btnClr2.style.cursor = 'default'; }
   actualizarRuta();
   actualizarBotonesRuta();
 }
