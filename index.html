@@ -208,6 +208,7 @@
       <!-- Fila 2: estadísticas -->
       <div class='ruta-bar-info' id='ruta-bar-info' style='display:none'>
         <span class='ruta-bar-label' id='ruta-stat-label'>Ruta:</span>
+        <span class='ruta-bar-stat' id='ruta-bar-count' style='background:var(--verde);color:#fff;border-color:var(--verde)'>0 📍</span>
         <span class='ruta-bar-stat' id='ruta-bar-dist'>0 km</span>
         <span class='ruta-bar-stat' id='ruta-bar-time'>0 min</span>
         <div class='ruta-bar-puntos' id='ruta-bar-puntos'></div>
@@ -2358,6 +2359,8 @@ function actualizarRuta() {
   });
   var tMin = Math.round(distTotal / 4 * 60);
   distEl.textContent = distTotal < 1 ? Math.round(distTotal*1000)+' m' : distTotal.toFixed(1)+' km';
+  var countEl = document.getElementById('ruta-bar-count');
+  if (countEl) countEl.textContent = rutaPuntos.length + ' 📍';
   timeEl.textContent = tMin >= 60 ? Math.floor(tMin/60)+'h '+(tMin%60)+'min' : tMin+' min';
 
   puntEl.innerHTML = '';
