@@ -1963,6 +1963,16 @@ function initMapa() {
     if (btn) btn.style.display = 'flex';
   });
 
+  // En scroll: ocultar botón si hay popup visible en el DOM
+  window.addEventListener('scroll', function() {
+    var btn = document.getElementById('btn-add-poi-map');
+    if (!btn) return;
+    var popupVisible = document.querySelector('.leaflet-popup') !== null;
+    if (popupVisible) {
+      btn.style.display = 'none';
+    }
+  }, { passive: true });
+
   PUNTOS.forEach(function(p) {
     var m = L.marker([p.lat,p.lng], { icon:crearIcono(p.emoji) }).addTo(mapa);
     m.on('click', (function(punto) {
