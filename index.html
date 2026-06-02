@@ -2631,6 +2631,8 @@ var T={
     chipMirador:'Miradores',
     rutaLabel:'Generador de ruta',
     rutaVacio:'Añade puntos desde el mapa o las tarjetas',
+    poiRutaTitulo:'Generador de ruta',
+    poiRutaVacia:'Añade puntos desde las tarjetas o el mapa 👆',
     rutaStatLabel:'Ruta:',
     radioLabel:'Radio:',
     heroDonateTitle:'Apoya este proyecto',
@@ -2763,6 +2765,8 @@ var T={
     chipMirador:'Miradoiros',
     rutaLabel:'Xerador de ruta',
     rutaVacio:'Engade puntos desde o mapa ou as tarxetas',
+    poiRutaTitulo:'Xerador de ruta',
+    poiRutaVacia:'Engade puntos desde as tarxetas ou o mapa 👆',
     rutaStatLabel:'Ruta:',
     radioLabel:'Radio:',
     heroDonateTitle:'Apoia este proxecto',
@@ -2895,6 +2899,8 @@ var T={
     chipMirador:'Viewpoints',
     rutaLabel:'Route builder',
     rutaVacio:'Add points from the map or the cards',
+    poiRutaTitulo:'Route builder',
+    poiRutaVacia:'Add points from the cards or the map 👆',
     rutaStatLabel:'Route:',
     radioLabel:'Radius:',
     heroDonateTitle:'Support this project',
@@ -3032,6 +3038,8 @@ function cambiarIdioma(lang){
   // Ruta bar
   el=document.getElementById('ruta-label');if(el)el.textContent=t.rutaLabel;
   el=document.getElementById('ruta-bar-empty');if(el&&el.style.display!=='none')el.textContent=t.rutaVacio;
+  el=document.getElementById('poi-ruta-titulo');if(el)el.textContent=t.poiRutaTitulo||t.rutaLabel;
+  el=document.getElementById('poi-ruta-vacia');if(el)el.textContent=t.poiRutaVacia||t.rutaVacio;
   el=document.getElementById('ruta-stat-label');if(el)el.textContent=t.rutaStatLabel;
   // Radio
   el=document.getElementById('radio-label');if(el)el.textContent=t.radioLabel;
