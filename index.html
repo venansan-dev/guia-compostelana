@@ -570,6 +570,43 @@
       </div>
     </div>
 
+
+    <!-- 7. Añadir punto -->
+    <div style='background:#fff;border:0.5px solid rgba(0,0,0,0.08);border-radius:12px;padding:1.1rem 1.25rem;display:flex;gap:14px;align-items:flex-start'>
+      <div style='width:36px;height:36px;background:#FEF3C7;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0'>➕</div>
+      <div>
+        <div style='font-size:13px;font-weight:500;color:#1a1a1a;margin-bottom:3px' id='instr-t7'>Añade tu propio punto</div>
+        <div style='font-size:12px;color:#6b7280;line-height:1.6' id='instr-b7'>Pulsa <strong style='color:#1a1a1a'>➕ Punto</strong> en el mapa. Rellena el nombre, categoría y ubicación — puedes usar tu posición GPS o tocar directamente el mapa. Quedará visible de inmediato en tu dispositivo.</div>
+      </div>
+    </div>
+
+    <!-- 8. Alertas -->
+    <div style='background:#fff;border:0.5px solid rgba(0,0,0,0.08);border-radius:12px;padding:1.1rem 1.25rem;display:flex;gap:14px;align-items:flex-start'>
+      <div style='width:36px;height:36px;background:#FEE2E2;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0'>🚨</div>
+      <div>
+        <div style='font-size:13px;font-weight:500;color:#1a1a1a;margin-bottom:3px' id='instr-t8'>Crea una alerta</div>
+        <div style='font-size:12px;color:#6b7280;line-height:1.6' id='instr-b8'>Al añadir un punto elige la categoría <strong style='color:#1a1a1a'>🚨 Alerta</strong> para avisar a otros peregrinos de cortes de camino, obras, zonas peligrosas o cualquier incidencia relevante.</div>
+      </div>
+    </div>
+
+    <!-- 9. Refrescar ubicación -->
+    <div style='background:#fff;border:0.5px solid rgba(0,0,0,0.08);border-radius:12px;padding:1.1rem 1.25rem;display:flex;gap:14px;align-items:flex-start'>
+      <div style='width:36px;height:36px;background:#E0F2FE;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0'>🔄</div>
+      <div>
+        <div style='font-size:13px;font-weight:500;color:#1a1a1a;margin-bottom:3px' id='instr-t9'>Actualiza tu posición</div>
+        <div style='font-size:12px;color:#6b7280;line-height:1.6' id='instr-b9'>El botón de flechas <strong style='color:#1a1a1a'>↺</strong> en la esquina superior izquierda del mapa recalcula tu posición, mueve el círculo de radio y reordena los POIs por distancia.</div>
+      </div>
+    </div>
+
+    <!-- 10. Offline -->
+    <div style='background:#fff;border:0.5px solid rgba(0,0,0,0.08);border-radius:12px;padding:1.1rem 1.25rem;display:flex;gap:14px;align-items:flex-start'>
+      <div style='width:36px;height:36px;background:#F3F4F6;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0'>📴</div>
+      <div>
+        <div style='font-size:13px;font-weight:500;color:#1a1a1a;margin-bottom:3px' id='instr-t10'>Funciona sin conexión</div>
+        <div style='font-size:12px;color:#6b7280;line-height:1.6' id='instr-b10'>La primera vez que abres la guía con WiFi se descarga el mapa de la zona y los contenidos. Después puedes consultarla sin datos, ideal en zonas del camino sin cobertura.</div>
+      </div>
+    </div>
+
   </div>
 
   <!-- Tarjeta acceso directo móvil -->
@@ -2634,6 +2671,7 @@ var T={
     rutaVacio:'Añade puntos desde el mapa o las tarjetas',
     poiRutaTitulo:'Generador de ruta',
     poiRutaVacia:'Añade puntos desde las tarjetas o el mapa 👆',
+    poiRutaBtnIr:'▶ Ir',
     rutaStatLabel:'Ruta:',
     radioLabel:'Radio:',
     heroDonateTitle:'Apoya este proyecto',
@@ -2768,6 +2806,7 @@ var T={
     rutaVacio:'Engade puntos desde o mapa ou as tarxetas',
     poiRutaTitulo:'Xerador de ruta',
     poiRutaVacia:'Engade puntos desde as tarxetas ou o mapa 👆',
+    poiRutaBtnIr:'▶ Ir',
     rutaStatLabel:'Ruta:',
     radioLabel:'Radio:',
     heroDonateTitle:'Apoia este proxecto',
@@ -2808,6 +2847,15 @@ var T={
     instrT4:'Crea a túa ruta',
     instrT5:'Valora e opina',
     instrT6:'Cambia o idioma',
+    instrB6:'As bandeiras na cabeceira cambian entre <strong style=\'color:#1a1a1a\'>Galego</strong>, <strong style=\'color:#1a1a1a\'>Español</strong> e <strong style=\'color:#1a1a1a\'>English</strong>.',
+    instrT7:'Engade o teu propio punto',
+    instrB7:'Preme <strong style=\'color:#1a1a1a\'>➕ Punto</strong> no mapa. Enche o nome, categoría e situación — podes usar o GPS ou tocar directamente o mapa.',
+    instrT8:'Crea un aviso',
+    instrB8:'Ao engadir un punto escolle a categoría <strong style=\'color:#1a1a1a\'>🚨 Alerta</strong> para avisar a outros peregrinos de cortes, obras ou incidencias no camiño.',
+    instrT9:'Actualiza a túa posición',
+    instrB9:'O botón <strong style=\'color:#1a1a1a\'>↺</strong> na esquina superior esquerda do mapa recalcula a túa posición e reordena os POIs por distancia.',
+    instrT10:'Funciona sen conexión',
+    instrB10:'A primeira vez que abres a guía con WiFi descárgase o mapa da zona. Despois podes consultala sen datos, ideal en zonas do camiño sen cobertura.',
     instrB1:'Cando o navegador cho pida, preme <strong style="color:#1a1a1a">Permitir</strong>. Verás os puntos ordenados por distancia e a túa posición no mapa.',
     instrB2:'Toca calquera marcador para ver a ficha. Usa o selector de radio na parte inferior do mapa para filtrar por distancia.',
     instrB3:'Escribe calquera nome — cafetería, praia, rúa — e preme <strong style="color:#1a1a1a">Enter</strong>. Os resultados aparecen como marcadores.',
@@ -2902,6 +2950,7 @@ var T={
     rutaVacio:'Add points from the map or the cards',
     poiRutaTitulo:'Route builder',
     poiRutaVacia:'Add points from the cards or the map 👆',
+    poiRutaBtnIr:'▶ Go',
     rutaStatLabel:'Route:',
     radioLabel:'Radius:',
     heroDonateTitle:'Support this project',
@@ -2942,6 +2991,15 @@ var T={
     instrT4:'Build your route',
     instrT5:'Rate and comment',
     instrT6:'Change language',
+    instrB6:'The flags in the header switch between <strong style=\'color:#1a1a1a\'>Galego</strong>, <strong style=\'color:#1a1a1a\'>Español</strong> and <strong style=\'color:#1a1a1a\'>English</strong>.',
+    instrT7:'Add your own point',
+    instrB7:'Tap <strong style=\'color:#1a1a1a\'>➕ Point</strong> on the map. Fill in the name, category and location — you can use your GPS position or tap directly on the map.',
+    instrT8:'Create an alert',
+    instrB8:'When adding a point choose category <strong style=\'color:#1a1a1a\'>🚨 Alert</strong> to warn other pilgrims of path closures, works or any incident on the way.',
+    instrT9:'Update your position',
+    instrB9:'The <strong style=\'color:#1a1a1a\'>↺</strong> button in the top left corner of the map recalculates your position and reorders POIs by distance.',
+    instrT10:'Works offline',
+    instrB10:'The first time you open the guide on WiFi the map of the area is downloaded. You can then browse it without data — ideal in areas of the way without coverage.',
     instrB1:'When the browser asks, tap <strong style="color:#1a1a1a">Allow</strong>. You will see points sorted by distance and your position on the map.',
     instrB2:'Tap any marker to see the details. Use the radius selector at the bottom of the map to filter by distance.',
     instrB3:'Type any name — café, beach, street — and press <strong style="color:#1a1a1a">Enter</strong>. Results appear as markers on the map.',
@@ -3073,6 +3131,14 @@ function cambiarIdioma(lang){
   el=document.getElementById('instr-b4');if(el)el.innerHTML=t.instrB4;
   el=document.getElementById('instr-b5');if(el)el.innerHTML=t.instrB5;
   el=document.getElementById('instr-b6');if(el)el.innerHTML=t.instrB6;
+  el=document.getElementById('instr-t7');if(el)el.textContent=t.instrT7;
+  el=document.getElementById('instr-b7');if(el)el.innerHTML=t.instrB7;
+  el=document.getElementById('instr-t8');if(el)el.textContent=t.instrT8;
+  el=document.getElementById('instr-b8');if(el)el.innerHTML=t.instrB8;
+  el=document.getElementById('instr-t9');if(el)el.textContent=t.instrT9;
+  el=document.getElementById('instr-b9');if(el)el.innerHTML=t.instrB9;
+  el=document.getElementById('instr-t10');if(el)el.textContent=t.instrT10;
+  el=document.getElementById('instr-b10');if(el)el.innerHTML=t.instrB10;
   // Instrucciones - móvil
   el=document.getElementById('instr-mobile-title');if(el)el.textContent=t.instrMobileTitle;
   el=document.getElementById('instr-ios-title');if(el)el.textContent=t.instrIosTitle;
