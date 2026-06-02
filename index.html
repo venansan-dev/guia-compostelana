@@ -57,7 +57,8 @@
     <a href='#historia' id='nav-historia'>Historia Compostelana</a>
     <a href='#puntos' id='nav-puntos'>Puntos de interés</a>
     <a href='#emergencias' id='nav-emergencias'>🆘 Emergencias</a>
-    <a href='#instrucciones' id='nav-comousar'>🧭 Cómo usar</a>
+    <a href='#instrucciones' id='nav-comousar'>📖 Cómo usar</a>
+    <a href='#brujula' id='nav-brujula'>🧭 Brújula</a>
     <a href='#contacto' id='nav-contacto'>Contacto</a>
   </nav>
   <!-- HAMBURGUESA solo visible en móvil -->
@@ -72,7 +73,8 @@
   <a href='#historia' id='nav-m-historia' onclick='cerrarMenu()'>Historia Compostelana</a>
   <a href='#puntos' id='nav-m-puntos' onclick='cerrarMenu()'>Puntos de interés</a>
   <a href='#emergencias' id='nav-m-emergencias' onclick='cerrarMenu()'>🆘 Emergencias</a>
-  <a href='#instrucciones' id='nav-m-comousar' onclick='cerrarMenu()'>🧭 Cómo usar</a>
+  <a href='#instrucciones' id='nav-m-comousar' onclick='cerrarMenu()'>📖 Cómo usar</a>
+  <a href='#brujula' id='nav-m-brujula' onclick='cerrarMenu()'>🧭 Brújula</a>
   <a class='dona-link' href='#donaciones' onclick='cerrarMenu()'>🙏 Donaciones / Ayuda al soporte</a>
   <a href='#contacto' id='nav-m-contacto' onclick='cerrarMenu()'>Contacto</a>
 </nav>
@@ -655,6 +657,222 @@
 </div>
 </section>
 
+
+
+<!-- SECCIÓN BRÚJULA -->
+<section id='brujula' style='scroll-margin-top:70px;background:linear-gradient(160deg,#0F6E56 0%,#1D9E75 100%);padding:3rem 2rem;position:relative;overflow:hidden'>
+  <div style='position:absolute;top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,0.04);pointer-events:none'></div>
+  <div style='position:absolute;bottom:-60px;left:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,0.04);pointer-events:none'></div>
+  <div style='max-width:680px;margin:0 auto;position:relative;z-index:2'>
+
+    <!-- Cabecera -->
+    <div style='display:flex;align-items:center;gap:12px;margin-bottom:6px'>
+      <div style='width:44px;height:44px;background:rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0'>🧭</div>
+      <div>
+        <h2 id='brujula-h2' style='font-family:Playfair Display,serif;font-size:26px;color:#fff;margin:0;line-height:1.2'>Brújula</h2>
+        <p id='brujula-sub' style='font-size:13px;color:rgba(255,255,255,0.7);margin:0'>Norte magnético y rumbo a Santiago de Compostela</p>
+      </div>
+    </div>
+    <div style='width:60px;height:3px;background:#FFE066;border-radius:2px;margin:1rem 0 2rem'></div>
+
+    <!-- Dos brújulas lado a lado -->
+    <div style='display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem'>
+
+      <!-- Norte magnético -->
+      <div style='background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:1.5rem;display:flex;flex-direction:column;align-items:center;gap:1rem'>
+        <div id='brujula-norte-label' style='font-size:11px;font-weight:600;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1.5px'>Norte</div>
+        <div style='position:relative;width:140px;height:140px'>
+          <!-- Rosa de los vientos -->
+          <canvas id='canvas-norte' width='140' height='140' style='position:absolute;top:0;left:0'></canvas>
+          <!-- Aguja -->
+          <div id='aguja-norte' style='position:absolute;top:50%;left:50%;width:4px;height:56px;margin-left:-2px;margin-top:-50px;transform-origin:bottom center;transition:transform 0.3s ease'>
+            <div style='width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:32px solid #E74C3C;margin-left:-4px'></div>
+            <div style='width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:24px solid rgba(255,255,255,0.5);margin-left:-4px'></div>
+          </div>
+          <!-- Centro -->
+          <div style='position:absolute;top:50%;left:50%;width:12px;height:12px;background:#FFE066;border-radius:50%;margin:-6px 0 0 -6px;z-index:10'></div>
+        </div>
+        <div style='text-align:center'>
+          <div id='grados-norte' style='font-size:28px;font-weight:700;color:#FFE066;font-family:monospace'>---°</div>
+          <div id='rumbo-texto' style='font-size:13px;color:rgba(255,255,255,0.8);margin-top:2px'>--</div>
+        </div>
+      </div>
+
+      <!-- Rumbo a Santiago -->
+      <div style='background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:1.5rem;display:flex;flex-direction:column;align-items:center;gap:1rem'>
+        <div id='brujula-stgo-label' style='font-size:11px;font-weight:600;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1.5px'>Santiago</div>
+        <div style='position:relative;width:140px;height:140px'>
+          <canvas id='canvas-stgo' width='140' height='140' style='position:absolute;top:0;left:0'></canvas>
+          <!-- Aguja hacia Santiago -->
+          <div id='aguja-stgo' style='position:absolute;top:50%;left:50%;width:4px;height:56px;margin-left:-2px;margin-top:-50px;transform-origin:bottom center;transition:transform 0.3s ease'>
+            <div style='width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:32px solid #FFE066;margin-left:-4px'></div>
+            <div style='width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:24px solid rgba(255,255,255,0.5);margin-left:-4px'></div>
+          </div>
+          <div style='position:absolute;top:50%;left:50%;width:12px;height:12px;background:#fff;border-radius:50%;margin:-6px 0 0 -6px;z-index:10'></div>
+        </div>
+        <div style='text-align:center'>
+          <div id='grados-stgo' style='font-size:28px;font-weight:700;color:#FFE066;font-family:monospace'>---°</div>
+          <div id='dist-stgo' style='font-size:13px;color:rgba(255,255,255,0.8);margin-top:2px'>-- km</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botón activar + mensaje estado -->
+    <div style='text-align:center'>
+      <button id='btn-brujula' onclick='activarBrujula()' style='background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:10px 28px;color:#fff;font-size:14px;font-weight:600;font-family:DM Sans,sans-serif;cursor:pointer;transition:background 0.2s'>🧭 Activar brújula</button>
+      <p id='msg-brujula' style='font-size:12px;color:rgba(255,255,255,0.6);margin:10px 0 0;min-height:18px'></p>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function() {
+  var STGO_LAT = 42.8805, STGO_LNG = -8.5446;
+  var activa = false;
+  var userLat2 = null, userLng2 = null;
+  var agujaAngle = 0;
+
+  function dibujarRosa(canvas) {
+    var ctx = canvas.getContext('2d');
+    var cx = 70, cy = 70, r = 60;
+    ctx.clearRect(0, 0, 140, 140);
+    // Círculo exterior
+    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(255,255,255,0.3)'; ctx.lineWidth = 1.5; ctx.stroke();
+    // Círculo interior
+    ctx.beginPath(); ctx.arc(cx, cy, r*0.4, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 1; ctx.stroke();
+    // Marcas N S E O
+    var dirs = [{a:0,l:'N'},{a:90,l:'E'},{a:180,l:'S'},{a:270,l:'O'}];
+    dirs.forEach(function(d) {
+      var rad = (d.a - 90) * Math.PI/180;
+      var x1 = cx + Math.cos(rad)*(r-8), y1 = cy + Math.sin(rad)*(r-8);
+      var x2 = cx + Math.cos(rad)*(r+2), y2 = cy + Math.sin(rad)*(r+2);
+      ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2);
+      ctx.strokeStyle = d.l==='N'?'#E74C3C':'rgba(255,255,255,0.6)'; ctx.lineWidth = d.l==='N'?2:1; ctx.stroke();
+      var tx = cx + Math.cos(rad)*(r-20), ty = cy + Math.sin(rad)*(r-20);
+      ctx.fillStyle = d.l==='N'?'#E74C3C':'rgba(255,255,255,0.7)';
+      ctx.font = 'bold 11px DM Sans,sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(d.l, tx, ty);
+    });
+    // Marcas menores
+    for (var i=0; i<36; i++) {
+      var rad2 = (i*10 - 90) * Math.PI/180;
+      var isMajor = i%9===0;
+      var x1b = cx + Math.cos(rad2)*(r - (isMajor?8:4));
+      var y1b = cy + Math.sin(rad2)*(r - (isMajor?8:4));
+      var x2b = cx + Math.cos(rad2)*r, y2b = cy + Math.sin(rad2)*r;
+      ctx.beginPath(); ctx.moveTo(x1b,y1b); ctx.lineTo(x2b,y2b);
+      ctx.strokeStyle = 'rgba(255,255,255,'+(isMajor?0.4:0.2)+')';
+      ctx.lineWidth = isMajor?1:0.5; ctx.stroke();
+    }
+  }
+
+  function haversineRumbo(lat1, lng1, lat2, lng2) {
+    var R = 6371;
+    var dLat = (lat2-lat1)*Math.PI/180;
+    var dLng = (lng2-lng1)*Math.PI/180;
+    var a = Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)*Math.sin(dLng/2);
+    var dist = R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+    var y = Math.sin((lng2-lng1)*Math.PI/180)*Math.cos(lat2*Math.PI/180);
+    var x = Math.cos(lat1*Math.PI/180)*Math.sin(lat2*Math.PI/180)-Math.sin(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.cos((lng2-lng1)*Math.PI/180);
+    var bearing = (Math.atan2(y,x)*180/Math.PI+360)%360;
+    return { dist:dist, bearing:bearing };
+  }
+
+  function rumboTexto(deg) {
+    var dirs=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSO','SO','OSO','O','ONO','NO','NNO'];
+    return dirs[Math.round(deg/22.5)%16];
+  }
+
+  function actualizarBrujulas(heading) {
+    // Norte
+    document.getElementById('aguja-norte').style.transform = 'rotate('+heading+'deg)';
+    document.getElementById('grados-norte').textContent = Math.round((360-heading+360)%360)+'°';
+    document.getElementById('rumbo-texto').textContent = rumboTexto((360-heading+360)%360);
+    // Santiago
+    if (userLat2 !== null) {
+      var r = haversineRumbo(userLat2, userLng2, STGO_LAT, STGO_LNG);
+      var stgoAngle = r.bearing - heading;
+      document.getElementById('aguja-stgo').style.transform = 'rotate('+stgoAngle+'deg)';
+      document.getElementById('grados-stgo').textContent = Math.round(r.bearing)+'°';
+      document.getElementById('dist-stgo').textContent = r.dist<100 ? r.dist.toFixed(1)+' km' : Math.round(r.dist)+' km';
+    } else {
+      var r0 = haversineRumbo(42.24, -8.72, STGO_LAT, STGO_LNG);
+      document.getElementById('aguja-stgo').style.transform = 'rotate('+(r0.bearing-heading)+'deg)';
+      document.getElementById('grados-stgo').textContent = Math.round(r0.bearing)+'°';
+      document.getElementById('dist-stgo').textContent = Math.round(r0.dist)+' km';
+    }
+  }
+
+  window.activarBrujula = function() {
+    if (activa) return;
+    var msg = document.getElementById('msg-brujula');
+    var btn = document.getElementById('btn-brujula');
+    // Dibujar rosas
+    dibujarRosa(document.getElementById('canvas-norte'));
+    dibujarRosa(document.getElementById('canvas-stgo'));
+    // Obtener GPS
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(pos) {
+        userLat2 = pos.coords.latitude;
+        userLng2 = pos.coords.longitude;
+      });
+    }
+    // iOS requiere permiso explícito
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+      DeviceOrientationEvent.requestPermission().then(function(state) {
+        if (state === 'granted') {
+          iniciarOrientacion();
+          btn.style.display = 'none';
+          msg.textContent = '✅ Brújula activa';
+          activa = true;
+        } else {
+          msg.textContent = '⚠️ Permiso denegado — activa en Ajustes > Safari';
+        }
+      }).catch(function() {
+        msg.textContent = '⚠️ No disponible en este dispositivo';
+      });
+    } else if (window.DeviceOrientationEvent) {
+      iniciarOrientacion();
+      btn.style.display = 'none';
+      msg.textContent = '✅ Brújula activa';
+      activa = true;
+    } else {
+      msg.textContent = '⚠️ Brújula no disponible en este dispositivo';
+    }
+  };
+
+  function iniciarOrientacion() {
+    dibujarRosa(document.getElementById('canvas-norte'));
+    dibujarRosa(document.getElementById('canvas-stgo'));
+    window.addEventListener('deviceorientationabsolute', manejarOrientacion, true);
+    window.addEventListener('deviceorientation', manejarOrientacion, true);
+  }
+
+  function manejarOrientacion(e) {
+    var heading = null;
+    if (e.webkitCompassHeading !== undefined) {
+      heading = e.webkitCompassHeading; // iOS: 0=Norte directo
+    } else if (e.absolute && e.alpha !== null) {
+      heading = (360 - e.alpha) % 360;
+    } else if (e.alpha !== null) {
+      heading = (360 - e.alpha) % 360;
+    }
+    if (heading !== null) actualizarBrujulas(heading);
+  }
+
+  // Dibujar rosas al cargar por si la sección ya es visible
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      dibujarRosa(document.getElementById('canvas-norte'));
+      dibujarRosa(document.getElementById('canvas-stgo'));
+    }, 500);
+  });
+})();
+</script>
 
 
 <footer class='footer' id='contacto'>
