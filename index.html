@@ -762,7 +762,7 @@ var PUNTOS = [
     lat:42.235, lng:-8.597, emoji:'⛪', color:'verde' },
   { id:'miliario-vilar', nombre:'Miliario Romano de Vilar-Guizán-Louredo', nombre_gl:'Miliario Romano de Vilar-Guizán-Louredo', nombre_en:'Roman Milestone of Vilar-Guizán-Louredo', categoria:'vestigio arqueológico',
     descripcion:'A 130 metros al norte de la capilla de Santiaguiño, este miliario es el único vestigio romano visible en el municipio de Mos. Perteneció a la vía romana XIX — la misma que los peregrinos medievales reconvirtieron en Camino de Santiago. Dos mil años de caminantes pisando la misma tierra.', subtitulo:'Dos mil años de caminantes en la misma calzada', subtitulo_gl:'Dous mil anos de camiñantes na mesma calzada', subtitulo_en:'Two thousand years of walkers on the same road', descripcion_gl:'A 130 metros ao norte da capela de Santiaguiño, este miliario é o único vestigio romano visible no municipio de Mos. Pertenceu á vía romana XIX — a mesma que os peregrinos medievais reconvertiron en Camiño de Santiago. Dous mil anos de camiñantes pisando a mesma terra.', descripcion_en:'Some 130 metres north of the Santiaguiño chapel, this milestone is the only visible Roman remnant in the municipality of Mos. It belonged to Roman road XIX — the same one that medieval pilgrims converted into the Way of Saint James. Two thousand years of walkers treading the same ground.',
-    lat:42.236, lng:-8.596, emoji:'🪨', color:'ambar' },
+    lat:42.236, lng:-8.596, emoji:'🔣', color:'ambar' },
   { id:'albergue-mos', nombre:'Albergue Santa Baia de Mos', nombre_gl:'Albergue Santa Baia de Mos', nombre_en:'Santa Baia de Mos Hostel', categoria:'albergue',
     descripcion:'Albergue público de la red Xacobeo en el Pazo de Mos. 38 plazas, abierto todo el año. Un edificio con solera para peregrinos con prisa o con ganas de quedarse.', subtitulo:'Un pazo con solera para peregrinos con prisa', subtitulo_gl:'Un pazo con soleira para peregrinos con presa', subtitulo_en:'A manor house with character for pilgrims in a hurry', descripcion_gl:'Albergue público da rede Xacobeo no Pazo de Mos. 38 prazas, aberto todo o ano. Un edificio con soleira para peregrinos con presa ou con ganas de quedarse.', descripcion_en:'Public hostel of the Xacobeo network in the Pazo de Mos. 38 places, open all year. A building with character for pilgrims in a hurry or keen to linger.',
     lat:42.204592, lng:-8.606356, emoji:'🛏', color:'azul' },
@@ -2339,8 +2339,6 @@ function addToRoute(id) {
   rutaPuntos.push({id:p.id,nombre:p.nombre,lat:p.lat,lng:p.lng});
   actualizarRuta();
   actualizarBtnMapa(id, true);
-  var bar=document.getElementById('ruta-bar');
-  if(bar) bar.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
 function actualizarBtnMapa(id, enRuta) {
