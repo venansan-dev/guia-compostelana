@@ -2512,8 +2512,11 @@ var galeria_idx = 0;   // siguiente imagen a cargar
 var galeria_slot = 0;  // slot que cambia en este turno (0, 1 o 2)
 var galeria_slots = [null, null, null]; // img actual en cada slot
 
+var _galeriaIniciada = false;
 function iniciarGaleria() {
   if (window.innerWidth < 769) return;
+  if (_galeriaIniciada) return;
+  _galeriaIniciada = true;
   // Cargar las 3 imágenes iniciales
   for (var i = 0; i < 3; i++) {
     cargarEnSlot(i, galeria_idx % GALERIA_IMGS.length);
@@ -3314,6 +3317,13 @@ document.addEventListener('DOMContentLoaded', function() {
   cargarPOIsFirebase();
   iniciarTiempo();
   iniciarGaleria();
+
+  // Relanzar galería al girar pantalla (iPad landscape)
+  window.addEventListener('resize', function() {
+    if (!_galeriaIniciada && window.innerWidth >= 769) {
+      iniciarGaleria();
+    }
+  });
   iniciarFrases();
   cambiarIdioma(idiomaActual);
   actualizarBtnPrincipal();
