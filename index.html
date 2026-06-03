@@ -2569,8 +2569,8 @@ function toggleSeguimiento() {
     mapa.doubleClickZoom.disable();
     mapa.scrollWheelZoom.disable();
     mapa.closePopup();
-    // Centrar en posición al zoom actual
-    if (userLat) mapa.panTo([userLat, userLng], {animate:true});
+    // Zoom máximo y centrar en posición del usuario
+    if (userLat) mapa.setView([userLat, userLng], 19, {animate:true});
     mostrarToast('📡 Seguimiento activado');
     // watchPosition seguimiento
     if (!window._seguimientoId && navigator.geolocation) {
@@ -4215,6 +4215,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v175</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v176</div>
 </body>
 </html>
