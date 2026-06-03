@@ -187,11 +187,11 @@
 
 
   <!-- Panel ruta flotante esquina inferior derecha del mapa -->
-  <div id='map-ruta-panel' style='display:none;position:absolute;bottom:10px;right:10px;z-index:400;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);border-radius:10px;padding:6px 10px;box-shadow:0 2px 12px rgba(0,0,0,0.2);display:none;align-items:center;gap:6px;font-family:DM Sans,sans-serif;font-size:12px'>
-    <span style='font-weight:600;color:#333'>Ruta:</span>
+  <div id='map-ruta-panel' style='display:none;position:absolute;bottom:10px;left:50%;transform:translateX(-50%);z-index:400;background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);border-radius:20px;padding:6px 14px;box-shadow:0 2px 16px rgba(0,0,0,0.35);align-items:center;gap:8px;font-family:DM Sans,sans-serif;font-size:12px;white-space:nowrap'>
+    <span style='font-weight:600;color:rgba(255,255,255,0.8)'>Ruta:</span>
     <span id='ruta-bar-count' style='background:#1D9E75;color:#fff;padding:2px 8px;border-radius:10px;font-weight:700'>0 📍</span>
-    <span id='ruta-bar-dist' style='color:#0F6E56;font-weight:600'>0 km</span>
-    <span id='ruta-bar-time' style='color:#0F6E56;font-weight:600'>0 min</span>
+    <span id='ruta-bar-dist' style='color:#7EE8C0;font-weight:600'>0 km</span>
+    <span id='ruta-bar-time' style='color:#7EE8C0;font-weight:600'>0 min</span>
     <button id='ruta-bar-btn-go' onclick='iniciarRuta()' style='background:#1D9E75;color:#fff;border:none;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;opacity:0.5'>▶ Ir</button>
     <button id='ruta-bar-btn-clear' onclick='limpiarRuta()' style='background:none;border:1px solid #fca5a5;color:#dc2626;padding:4px 8px;border-radius:12px;font-size:11px;cursor:pointer;font-family:DM Sans,sans-serif;opacity:0.5'>🗑</button>
   </div>
@@ -4399,6 +4399,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v192</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v193</div>
 </body>
 </html>
