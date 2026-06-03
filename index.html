@@ -72,7 +72,7 @@
   <a href='#inicio' id='nav-m-inicio' onclick='cerrarMenu()'><span style='font-size:18px;margin-right:8px'>🏠</span>Inicio</a>
   <a href='#emergencias' id='nav-m-emergencias' onclick='cerrarMenu()'><span style='font-size:18px;margin-right:8px'>🆘</span>Emergencias</a>
   <a href='#historia' id='nav-m-historia' onclick='cerrarMenu()'><span style='font-size:18px;margin-right:8px'>🐚</span>Historia Compostelana</a>
-  <a href='#puntos' id='nav-m-mapa' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("map");if(m)m.scrollIntoView({behavior:"smooth"})},300)'><span style='font-size:18px;margin-right:8px'>🗺️</span>Mapa</a>
+  <a href='#puntos' id='nav-m-mapa' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("map-block");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300)'><span style='font-size:18px;margin-right:8px'>🗺️</span>Mapa</a>
   <a href='#puntos' id='nav-m-puntos' onclick='cerrarMenu()'><span style='font-size:18px;margin-right:8px'>📍</span>Puntos de interés</a>
   <a href='#brujula' id='nav-m-brujula' onclick='cerrarMenu()'><span style='font-size:18px;margin-right:8px'>🧭</span>Brújula</a>
   <a href='#instrucciones' id='nav-m-comousar' onclick='cerrarMenu()'><span style='font-size:18px;margin-right:8px'>📖</span>Cómo usar</a>
@@ -175,7 +175,7 @@
   <p id='map-subtitle' style='font-size:13px;color:var(--texto-suave);margin:0 0 0'>Puntos de interés en tu entorno · selecciona el radio · toca un marcador para ver la ficha o añadirlo a tu ruta</p>
   <button id='btn-notif-m' onclick='accionBtnPrincipal()' style='display:none;font-size:13px;font-weight:500;font-family:DM Sans,sans-serif;padding:8px 18px;border-radius:24px;border:none;background:var(--verde);color:#fff;cursor:pointer;width:100%;margin-top:10px;box-shadow:0 2px 8px rgba(29,158,117,0.3);transition:background 0.2s'>📲 Instala la app y recibe avisos de los puntos de interés más cercanos a ti</button>
 </div>
-<div class='map-block'>
+<div class='map-block' id='map-block'>
 <!-- MAPA INTERACTIVO -->
 <div class='map-section' style='position:relative'>
   <div class='map-status' id='map-status'><span id='map-status-text'>📍 Obteniendo tu ubicación...</span></div>
