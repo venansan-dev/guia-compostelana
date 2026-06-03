@@ -192,8 +192,9 @@
     <span id='ruta-bar-count' style='background:#1D9E75;color:#fff;padding:2px 8px;border-radius:10px;font-weight:700;font-size:11px'>0 📍</span>
     <span id='ruta-bar-dist' style='color:#7EE8C0;font-weight:600;font-size:11px'>0 km</span>
     <span id='ruta-bar-time' style='color:#7EE8C0;font-weight:600;font-size:11px'>0 min</span>
-    <button onclick='iniciarRuta()' id='ruta-bar-btn-go' style='width:100%;background:#1D9E75;color:#fff;border:none;padding:5px 8px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center;opacity:0.5'>▶ Ir</button>
-    <button onclick='limpiarRuta()' id='ruta-bar-btn-clear' style='width:100%;background:rgba(220,38,38,0.15);border:1px solid #fca5a5;color:#fca5a5;padding:5px 8px;border-radius:8px;font-size:11px;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center;opacity:0.5'>🗑 Limpiar</button>
+    <button onclick='toggleVerRutaMapa()' id='ruta-bar-btn-ver' style='width:100%;background:#185FA5;color:#fff;border:none;padding:6px 8px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center'>🗺️ Ver ruta</button>
+    <button onclick='iniciarRuta()' id='ruta-bar-btn-go' style='width:100%;background:#1D9E75;color:#fff;border:none;padding:6px 8px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center'>▶ Ir</button>
+    <button onclick='limpiarRuta()' id='ruta-bar-btn-clear' style='width:100%;background:#dc2626;border:none;color:#fff;padding:6px 8px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center'>🗑 Limpiar</button>
   </div>
   <!-- IDs ocultos para compatibilidad con JS existente -->
   <span id='ruta-bar-empty' style='display:none'></span>
@@ -3056,6 +3057,8 @@ function quitarDeRuta(id) {
 function limpiarRuta() {
   _verRutaMapa = false;
   if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
+  var btnVer=document.getElementById('ruta-bar-btn-ver');
+  if(btnVer) btnVer.style.background='#185FA5';
   var panel=document.getElementById('map-ruta-panel');
   if(panel) panel.style.display='none';
   rutaPuntos=[];
@@ -3079,21 +3082,15 @@ var _rutaLinea = null;
 var _verRutaMapa = false;
 
 function toggleVerRutaMapa() {
-  if (rutaPuntos.length < 2) return;
+  if (rutaPuntos.length < 1) return;
   var btn = document.getElementById('ruta-bar-btn-ver');
   _verRutaMapa = !_verRutaMapa;
   if (_verRutaMapa) {
-    // Mostrar línea
-    btn.style.background = '#1D9E75';
-    btn.style.color = '#fff';
-    btn.style.border = '1px solid #1D9E75';
+    if (btn) { btn.style.background = '#0a3d6b'; }
     dibujarLineaEstática();
-    mostrarToast('🗺️ Ruta en el mapa');
+    mostrarToast('🗺️ Ruta trazada');
   } else {
-    // Ocultar línea
-    btn.style.background = 'none';
-    btn.style.color = '#0F6E56';
-    btn.style.border = '1px solid rgba(29,158,117,0.4)';
+    if (btn) { btn.style.background = '#185FA5'; }
     if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
     mostrarToast('🗺️ Ruta ocultada');
   }
@@ -4399,6 +4396,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v198</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v201</div>
 </body>
 </html>
