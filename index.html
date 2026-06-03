@@ -2567,9 +2567,15 @@ function toggleSeguimiento() {
         userLat = pos.coords.latitude;
         userLng = pos.coords.longitude;
         if (window._userMarker) window._userMarker.setLatLng([userLat, userLng]);
+        // Actualizar círculo sin fitBounds
         if (circuloRadio) { mapa.removeLayer(circuloRadio); circuloRadio = L.circle([userLat,userLng],{radius:radioKm*1000,color:'#1D9E75',fillColor:'#1D9E75',fillOpacity:0.07,weight:2,dashArray:'6 4'}).addTo(mapa); }
-        mapa.setView([userLat, userLng], mapa.getZoom(), {animate:true, noMoveStart:true});
-      }, function(){}, {enableHighAccuracy:true, maximumAge:2000});
+        // Centrar suavemente SIN bloquear interacción — solo si el punto sale del área visible
+        var mapBounds = mapa.getBounds();
+        var latlng = L.latLng(userLat, userLng);
+        if (!mapBounds.contains(latlng)) {
+          mapa.panTo(latlng, {animate:true, duration:0.5, noMoveStart:true});
+        }
+      }, function(){}, {enableHighAccuracy:true, maximumAge:3000});
     }
   } else {
     btn.style.background = '#fff';
@@ -4187,6 +4193,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v171</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v172</div>
 </body>
 </html>
