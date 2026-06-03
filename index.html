@@ -1575,6 +1575,7 @@ var _modoSeguimiento = false;
 
 function refrescarUbicacion() {
   mapa.closePopup();
+  desactivarSeguimientoYBrujula();
   limpiarBusqueda();
   var btn = document.getElementById('btn-refresh-loc');
   var statusTxt = document.getElementById('map-status-text');
@@ -2552,12 +2553,14 @@ function toggleSeguimiento() {
   var btn = document.getElementById('btn-seguimiento');
   if (_modoSeguimiento) {
     btn.style.background = '#1D9E75';
-    btn.style.color = '#fff';
-    btn.innerHTML = '📡';
     btn.style.border = '2px solid #1D9E75';
+    btn.style.color = '#fff';
+    // Activar brujula también
+    pedirOrientacion();
     // Centrar en posición actual al máximo zoom
     if (userLat) mapa.setView([userLat, userLng], 19, {animate:true});
-    // Activar watchPosition de seguimiento
+    mostrarToast('📡 Seguimiento activado');
+    // watchPosition seguimiento
     if (!window._seguimientoId && navigator.geolocation) {
       window._seguimientoId = navigator.geolocation.watchPosition(function(pos) {
         if (!_modoSeguimiento) return;
@@ -2570,13 +2573,40 @@ function toggleSeguimiento() {
     }
   } else {
     btn.style.background = '#fff';
-    btn.style.color = '';
-    btn.innerHTML = '📡';
     btn.style.border = '2px solid rgba(0,0,0,0.2)';
-    if (window._seguimientoId) {
-      navigator.geolocation.clearWatch(window._seguimientoId);
-      window._seguimientoId = null;
-    }
+    btn.style.color = '';
+    desactivarSeguimientoYBrujula();
+  }
+}
+
+function mostrarToast(msg) {
+  var t = document.getElementById('map-toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'map-toast';
+    t.style.cssText = 'position:absolute;bottom:60px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.75);color:#fff;padding:7px 16px;border-radius:20px;font-size:13px;font-family:DM Sans,sans-serif;z-index:500;pointer-events:none;white-space:nowrap;transition:opacity 0.3s';
+    document.querySelector('.map-section').appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(function(){ t.style.opacity = '0'; }, 2000);
+}
+
+function desactivarSeguimientoYBrujula() {
+  // Desactivar seguimiento
+  if (_modoSeguimiento) {
+    _modoSeguimiento = false;
+    var btnS = document.getElementById('btn-seguimiento');
+    if (btnS) { btnS.style.background='#fff'; btnS.style.border='2px solid rgba(0,0,0,0.2)'; btnS.innerHTML='📡'; }
+    if (window._seguimientoId) { navigator.geolocation.clearWatch(window._seguimientoId); window._seguimientoId = null; }
+  }
+  // Desactivar brujula orientacion mapa
+  if (window._orientacionActiva) {
+    window._orientacionActiva = false;
+    window.removeEventListener('deviceorientation', actualizarFlecha, true);
+    var btnO = document.getElementById('btn-orientacion-mapa');
+    if (btnO) { btnO.style.background='#fff'; btnO.style.border='2px solid rgba(0,0,0,0.2)'; btnO.style.color=''; }
   }
 }
 
@@ -2612,6 +2642,7 @@ function aplicarRadio(km) {
 }
 
 function cambiarRadio(km,btn) {
+  desactivarSeguimientoYBrujula();
   radioKm = km;
   document.querySelectorAll('.map-radio-btn').forEach(function(b){b.classList.remove('active');});
   btn.classList.add('active');
@@ -4156,6 +4187,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v170</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v171</div>
 </body>
 </html>
