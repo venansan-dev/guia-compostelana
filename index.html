@@ -201,6 +201,7 @@
       <div class='map-radio-btn active' onclick='cambiarRadio(1,this)'>1 km</div>
       <div class='map-radio-btn' onclick='cambiarRadio(2,this)'>2 km</div>
       <div class='map-radio-btn' onclick='cambiarRadio(3,this)'>3 km</div>
+      <button id='ruta-bar-btn-ver' onclick='toggleVerRutaMapa()' style='opacity:0.4;cursor:default;background:none;border:1px solid rgba(29,158,117,0.4);color:#0F6E56;padding:4px 10px;border-radius:16px;font-size:12px;font-family:DM Sans,sans-serif;transition:all 0.15s;white-space:nowrap'>🗺️ Ruta</button>
       <div class='weather-widget' id='weather-widget'><span class='weather-loading'>&#9729;&#65039;</span></div>
     </div>
     <!-- FILA GENERADOR DE RUTA -->
@@ -3050,6 +3051,9 @@ function quitarDeRuta(id) {
   actualizarBtnMapa(id, false);
 }
 function limpiarRuta() {
+  _verRutaMapa = false;
+  var btnVer3=document.getElementById('ruta-bar-btn-ver');
+  if(btnVer3){btnVer3.style.background='none';btnVer3.style.color='#0F6E56';btnVer3.style.border='1px solid rgba(29,158,117,0.4)';}
   rutaPuntos=[];
   // Sync POI generator directly — no depende de actualizarRuta
   var statsEl = document.getElementById('poi-ruta-stats');
@@ -3067,6 +3071,59 @@ function limpiarRuta() {
 }
 
 var _rutaLinea = null;
+
+var _verRutaMapa = false;
+
+function toggleVerRutaMapa() {
+  if (rutaPuntos.length < 2) return;
+  var btn = document.getElementById('ruta-bar-btn-ver');
+  _verRutaMapa = !_verRutaMapa;
+  if (_verRutaMapa) {
+    // Mostrar línea
+    btn.style.background = '#1D9E75';
+    btn.style.color = '#fff';
+    btn.style.border = '1px solid #1D9E75';
+    dibujarLineaEstática();
+    mostrarToast('🗺️ Ruta en el mapa');
+  } else {
+    // Ocultar línea
+    btn.style.background = 'none';
+    btn.style.color = '#0F6E56';
+    btn.style.border = '1px solid rgba(29,158,117,0.4)';
+    if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
+    mostrarToast('🗺️ Ruta ocultada');
+  }
+}
+
+function dibujarLineaEstática() {
+  if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
+  if (rutaPuntos.length < 2) return;
+  var osrmCoords = rutaPuntos.map(function(p){ return p.lng+','+p.lat; });
+  var endpoints = [
+    'https://routing.openstreetmap.de/routed-foot/route/v1/foot/' + osrmCoords.join(';') + '?overview=full&geometries=geojson',
+    'https://router.project-osrm.org/route/v1/foot/' + osrmCoords.join(';') + '?overview=full&geometries=geojson'
+  ];
+  function dibujarGeoJSON2(geojson) {
+    if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
+    _rutaLinea = L.geoJSON(geojson, {
+      style: { color:'#1D9E75', weight:4, opacity:0.85, dashArray:'12 6', lineJoin:'round' }
+    }).addTo(mapa);
+  }
+  function fallback2() {
+    var coords2 = rutaPuntos.map(function(p){ return [p.lat, p.lng]; });
+    if (_rutaLinea) mapa.removeLayer(_rutaLinea);
+    _rutaLinea = L.polyline(coords2, {color:'#1D9E75',weight:3,opacity:0.7,dashArray:'10 8'}).addTo(mapa);
+  }
+  function intentar2(i) {
+    if (i >= endpoints.length) { fallback2(); return; }
+    fetch(endpoints[i]).then(function(r){ return r.json(); })
+      .then(function(data) {
+        if (data.routes && data.routes[0]) dibujarGeoJSON2(data.routes[0].geometry);
+        else intentar2(i+1);
+      }).catch(function(){ intentar2(i+1); });
+  }
+  intentar2(0);
+}
 
 function actualizarLineaRuta() {
   if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
@@ -4307,6 +4364,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v184</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v186</div>
 </body>
 </html>
