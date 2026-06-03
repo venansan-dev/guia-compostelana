@@ -2423,6 +2423,9 @@ function initMapa() {
     var btn = document.getElementById('btn-add-poi-map');
     if (btn) btn.style.display = 'flex';
   });
+  // Cerrar popup al arrastrar o hacer scroll en el mapa
+  mapa.on('dragstart', function() { mapa.closePopup(); });
+  mapa.on('zoomstart', function() { mapa.closePopup(); });
 
   // En scroll: ocultar botón si hay popup visible en el DOM
   window.addEventListener('scroll', function() {
@@ -4212,6 +4215,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v174</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v175</div>
 </body>
 </html>
