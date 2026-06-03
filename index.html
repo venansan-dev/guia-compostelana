@@ -3082,26 +3082,42 @@ function actualizarLineaRuta() {
   var coords = waypoints.join(';').replace(/,/g, ',');
   var osrmCoords = rutaPuntos.map(function(p){ return p.lng+','+p.lat; });
   if (userLat && userLng) osrmCoords.unshift(userLng+','+userLat);
-  var url = 'https://router.project-osrm.org/route/v1/foot/' + osrmCoords.join(';') + '?overview=full&geometries=geojson';
+  // Intentar varios servidores OSRM con perfil a pie
+  var endpoints = [
+    'https://routing.openstreetmap.de/routed-foot/route/v1/foot/' + osrmCoords.join(';') + '?overview=full&geometries=geojson',
+    'https://router.project-osrm.org/route/v1/foot/' + osrmCoords.join(';') + '?overview=full&geometries=geojson'
+  ];
 
-  fetch(url)
-    .then(function(r){ return r.json(); })
-    .then(function(data) {
-      if (!data.routes || !data.routes[0]) return;
-      var geojson = data.routes[0].geometry;
-      if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
-      _rutaLinea = L.geoJSON(geojson, {
-        style: { color:'#185FA5', weight:4, opacity:0.85, dashArray:'12 6', lineJoin:'round' }
-      }).addTo(mapa);
-    })
-    .catch(function() {
-      // Fallback: línea recta si OSRM falla
-      var fallback = [];
-      if (userLat && userLng) fallback.push([userLat, userLng]);
-      rutaPuntos.forEach(function(p){ fallback.push([p.lat, p.lng]); });
-      if (_rutaLinea) mapa.removeLayer(_rutaLinea);
-      _rutaLinea = L.polyline(fallback, {color:'#185FA5',weight:3,opacity:0.7,dashArray:'10 8'}).addTo(mapa);
-    });
+  function dibujarGeoJSON(geojson) {
+    if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
+    _rutaLinea = L.geoJSON(geojson, {
+      style: { color:'#185FA5', weight:4, opacity:0.85, dashArray:'12 6', lineJoin:'round' }
+    }).addTo(mapa);
+  }
+
+  function fallbackLinea() {
+    var coords2 = [];
+    if (userLat && userLng) coords2.push([userLat, userLng]);
+    rutaPuntos.forEach(function(p){ coords2.push([p.lat, p.lng]); });
+    if (_rutaLinea) mapa.removeLayer(_rutaLinea);
+    _rutaLinea = L.polyline(coords2, {color:'#185FA5',weight:3,opacity:0.7,dashArray:'10 8'}).addTo(mapa);
+  }
+
+  function intentarEndpoint(i) {
+    if (i >= endpoints.length) { fallbackLinea(); return; }
+    fetch(endpoints[i])
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.routes && data.routes[0]) {
+          dibujarGeoJSON(data.routes[0].geometry);
+        } else {
+          intentarEndpoint(i + 1);
+        }
+      })
+      .catch(function() { intentarEndpoint(i + 1); });
+  }
+
+  intentarEndpoint(0);
 }
 
 function actualizarRuta() {
@@ -4291,6 +4307,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v183</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v184</div>
 </body>
 </html>
