@@ -2280,11 +2280,26 @@ function cerrarMenu() {
 }
 
 // MAPA
-var iconoUsuario = L.divIcon({
-  className: '',
-  html: '<div style="width:18px;height:18px;background:#185FA5;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 5px rgba(24,95,165,0.25)"></div>',
-  iconSize:[18,18], iconAnchor:[9,9]
-});
+var _userHeading = null;
+
+function crearIconoUsuario(heading) {
+  var rot = (heading !== null && heading !== undefined) ? heading : 0;
+  var hasHeading = (heading !== null && heading !== undefined);
+  return L.divIcon({
+    className: '',
+    html: hasHeading
+      ? '<div style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;transform:rotate('+rot+'deg);transition:transform 0.3s ease">' +
+        '<svg width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">' +
+        '<circle cx="18" cy="18" r="17" fill="rgba(24,95,165,0.2)" stroke="rgba(24,95,165,0.4)" stroke-width="1"/>' +
+        '<polygon points="18,4 24,28 18,23 12,28" fill="#185FA5" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>' +
+        '</svg></div>'
+      : '<div style="width:18px;height:18px;background:#185FA5;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 5px rgba(24,95,165,0.25)"></div>',
+    iconSize: hasHeading ? [36,36] : [18,18],
+    iconAnchor: hasHeading ? [18,18] : [9,9]
+  });
+}
+
+var iconoUsuario = crearIconoUsuario(null);
 
 function crearIcono(emoji) {
   return L.divIcon({
@@ -2380,10 +2395,13 @@ function fiestaActivaHoy(f) {
 function initMapa() {
   var radioCtrl = document.getElementById('map-radio-control');
   if (radioCtrl) radioCtrl.style.display = 'flex';
-  mapa = L.map('map', { center:[42.2220,-8.7580], zoom:14, zoomControl: false });
+  mapa = L.map('map', { center:[42.2220,-8.7580], zoom:14, zoomControl:false, preferCanvas:true });
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    maxZoom:19
+    maxZoom:19,
+    keepBuffer:4,
+    updateWhenIdle:false,
+    updateWhenZooming:false
   }).addTo(mapa);
 
   // Ocultar botón ➕ cuando se abre un popup, restaurar al cerrar
@@ -2497,6 +2515,29 @@ function initMapa() {
         calcularDistancias();
       }
     }, function(){}, { enableHighAccuracy:true });
+
+    // Escuchar orientación para rotar la flecha
+    function actualizarFlecha(e) {
+      var h = null;
+      if (typeof e.webkitCompassHeading === 'number' && e.webkitCompassHeading >= 0) {
+        h = e.webkitCompassHeading;
+      } else if (e.alpha !== null) {
+        h = (360 - e.alpha + 360) % 360;
+      }
+      if (h === null) return;
+      _userHeading = h;
+      if (window._userMarker) {
+        window._userMarker.setIcon(crearIconoUsuario(h));
+      }
+    }
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+      // iOS — solo si ya hay permiso concedido (no pedir aquí)
+      DeviceOrientationEvent.requestPermission().then(function(s) {
+        if (s === 'granted') window.addEventListener('deviceorientation', actualizarFlecha, true);
+      }).catch(function(){});
+    } else if (window.DeviceOrientationEvent) {
+      window.addEventListener('deviceorientation', actualizarFlecha, true);
+    }
   } else {
     statusEl.innerHTML = (T[idiomaActual]||T.es).noGeolocal;
     setTimeout(function(){statusEl.classList.remove('visible');},3000);
