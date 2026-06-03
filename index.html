@@ -70,13 +70,14 @@
 <!-- MENU MOVIL -->
 <nav class='nav-mobile' id='nav-mobile'>
   <a href='#inicio' id='nav-m-inicio' onclick='cerrarMenu()'><span style='font-size:18px;margin-right:8px'>🏠</span>Inicio</a>
-  <a href='#historia' id='nav-m-historia' onclick='cerrarMenu()'><span style='font-size:18px;margin-right:8px'>🐚</span>Historia Compostelana</a>
-  <a href='#puntos' id='nav-m-puntos' onclick='cerrarMenu()'><span style='font-size:18px;margin-right:8px'>📍</span>Puntos de interés</a>
   <a href='#emergencias' id='nav-m-emergencias' onclick='cerrarMenu()'><span style='font-size:18px;margin-right:8px'>🆘</span>Emergencias</a>
-  <a href='#instrucciones' id='nav-m-comousar' onclick='cerrarMenu()'><span style='font-size:18px;margin-right:8px'>📖</span>Cómo usar</a>
+  <a href='#historia' id='nav-m-historia' onclick='cerrarMenu()'><span style='font-size:18px;margin-right:8px'>🐚</span>Historia Compostelana</a>
+  <a href='#puntos' id='nav-m-mapa' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("map");if(m)m.scrollIntoView({behavior:"smooth"})},300)'><span style='font-size:18px;margin-right:8px'>🗺️</span>Mapa</a>
+  <a href='#puntos' id='nav-m-puntos' onclick='cerrarMenu()'><span style='font-size:18px;margin-right:8px'>📍</span>Puntos de interés</a>
   <a href='#brujula' id='nav-m-brujula' onclick='cerrarMenu()'><span style='font-size:18px;margin-right:8px'>🧭</span>Brújula</a>
-  <a class='dona-link' href='#donaciones' onclick='cerrarMenu()' style='grid-column:1/-1;border-right:none'><span style='font-size:18px;margin-right:8px'>🙏</span>Donaciones / Ayuda al soporte</a>
+  <a href='#instrucciones' id='nav-m-comousar' onclick='cerrarMenu()'><span style='font-size:18px;margin-right:8px'>📖</span>Cómo usar</a>
   <a href='#contacto' id='nav-m-contacto' onclick='cerrarMenu()'><span style='font-size:18px;margin-right:8px'>✉️</span>Contacto</a>
+  <a class='dona-link' href='#donaciones' onclick='cerrarMenu()' style='grid-column:1/-1;border-right:none'><span style='font-size:18px;margin-right:8px'>🙏</span>Donaciones / Ayuda al soporte</a>
 </nav>
 
 <!-- HERO -->
