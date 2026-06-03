@@ -177,11 +177,6 @@
   <button id='btn-notif-m' onclick='accionBtnPrincipal()' style='display:none;font-size:13px;font-weight:500;font-family:DM Sans,sans-serif;padding:8px 18px;border-radius:24px;border:none;background:var(--verde);color:#fff;cursor:pointer;width:100%;margin-top:10px;box-shadow:0 2px 8px rgba(29,158,117,0.3);transition:background 0.2s'>📲 Instala la app y recibe avisos de los puntos de interés más cercanos a ti</button>
 </div>
 <div class='map-block' id='map-block'>
-  <div id='debug-panel' style='position:absolute;top:0;left:0;right:0;z-index:9999;background:rgba(0,0,0,0.75);color:#fff;font-size:10px;padding:4px 8px;font-family:monospace;line-height:1.6'>
-    <div id='dbg-geo'>📍 GPS: esperando...</div>
-    <div id='dbg-orient'>🧭 Orientación: -</div>
-    <div id='dbg-marker'>📌 Marcador: -</div>
-  </div>
 <!-- MAPA INTERACTIVO -->
 <div class='map-section' style='position:relative'>
   <div class='map-status' id='map-status'><span id='map-status-text'>📍 Obteniendo tu ubicación...</span></div>
@@ -2476,14 +2471,11 @@ function initMapa() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       function(pos) {
-        var d=document.getElementById('dbg-geo');if(d)d.textContent='📍 OK lat='+pos.coords.latitude.toFixed(4)+' uL='+userLat;
         userLat = pos.coords.latitude; userLng = pos.coords.longitude;
         statusEl.classList.remove('visible');
         var mt=document.getElementById('map-title');if(mt)mt.textContent=(T[idiomaActual]||T.es).mapTitle;
         var ms=document.getElementById('map-subtitle');if(ms)ms.textContent=(T[idiomaActual]||T.es).mapSubtitle;
-        var dm2=document.getElementById('dbg-marker');if(dm2)dm2.textContent='📌 creando marker...';
-      window._userMarker = L.marker([userLat,userLng],{icon:iconoUsuario,zIndexOffset:1000}).addTo(mapa).bindPopup('<strong>'+(T[idiomaActual]||T.es).tuUbicacion+'</strong>');
-      var dm3=document.getElementById('dbg-marker');if(dm3)dm3.textContent='📌 marker OK';
+  window._userMarker = L.marker([userLat,userLng],{icon:iconoUsuario,zIndexOffset:1000}).addTo(mapa).bindPopup('<strong>'+(T[idiomaActual]||T.es).tuUbicacion+'</strong>');
         mapa.setView([userLat,userLng],15);
         aplicarRadio(radioKm);
         calcularDistancias();
@@ -2497,12 +2489,9 @@ function initMapa() {
     );
     // Fallback: watchPosition por si getCurrentPosition tarda demasiado
     var _watchId = navigator.geolocation.watchPosition(function(pos) {
-      var d=document.getElementById('dbg-geo');if(d)d.textContent='📍 GPS watch: '+pos.coords.latitude.toFixed(4);
       if (!userLat) {
         userLat = pos.coords.latitude; userLng = pos.coords.longitude;
-        var dm2=document.getElementById('dbg-marker');if(dm2)dm2.textContent='📌 creando marker...';
-      window._userMarker = L.marker([userLat,userLng],{icon:iconoUsuario,zIndexOffset:1000}).addTo(mapa).bindPopup('<strong>'+(T[idiomaActual]||T.es).tuUbicacion+'</strong>');
-      var dm3=document.getElementById('dbg-marker');if(dm3)dm3.textContent='📌 marker OK';
+  window._userMarker = L.marker([userLat,userLng],{icon:iconoUsuario,zIndexOffset:1000}).addTo(mapa).bindPopup('<strong>'+(T[idiomaActual]||T.es).tuUbicacion+'</strong>');
         mapa.setView([userLat,userLng],15);
         aplicarRadio(radioKm);
         calcularDistancias();
@@ -2526,11 +2515,7 @@ function initMapa() {
     if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission !== 'function') {
       window.addEventListener('deviceorientation', actualizarFlecha, true);
     }
-    // iOS — mostrar botón para activar desde gesto del usuario
-    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-      var btnFlecha = document.getElementById('btn-flecha-orientacion');
-      if (btnFlecha) btnFlecha.style.display = 'flex';
-    }
+
   } else {
     statusEl.innerHTML = (T[idiomaActual]||T.es).noGeolocal;
     setTimeout(function(){statusEl.classList.remove('visible');},3000);
@@ -2538,7 +2523,6 @@ function initMapa() {
 }
 
 function actualizarFlecha(e) {
-  var d=document.getElementById('dbg-orient');if(d)d.textContent='🧭 heading: '+(e.webkitCompassHeading||e.alpha||'null');
   var h = null;
   if (typeof e.webkitCompassHeading === 'number' && e.webkitCompassHeading >= 0) {
     h = e.webkitCompassHeading;
