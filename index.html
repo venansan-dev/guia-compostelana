@@ -1595,10 +1595,19 @@ function refrescarUbicacion() {
       });
       window._userMarker = L.marker([userLat,userLng],{icon:iconUser,zIndexOffset:1000}).addTo(mapa);
     }
-    mapa.setView([userLat, userLng], mapa.getZoom(), {animate:true});
-    // Redibujar círculo sin fitBounds
-    if (circuloRadio) mapa.removeLayer(circuloRadio);
-    circuloRadio = L.circle([userLat,userLng],{radius:radioKm*1000,color:'#1D9E75',fillColor:'#1D9E75',fillOpacity:0.07,weight:2,dashArray:'6 4'}).addTo(mapa);
+    if (_modoSeguimiento) {
+      // En modo seguimiento: volver al punto usuario sin cambiar zoom
+      mapa.panTo([userLat, userLng], {animate:true});
+      if (circuloRadio) mapa.removeLayer(circuloRadio);
+      circuloRadio = L.circle([userLat,userLng],{radius:radioKm*1000,color:'#1D9E75',fillColor:'#1D9E75',fillOpacity:0.07,weight:2,dashArray:'6 4'}).addTo(mapa);
+    } else {
+      // Sin seguimiento: volver a radio 1km con fitBounds
+      radioKm = 1;
+      document.querySelectorAll('.map-radio-btn').forEach(function(b){ b.classList.remove('active'); });
+      var r1 = document.querySelector('.map-radio-btn');
+      if (r1) r1.classList.add('active');
+      aplicarRadio(1);
+    }
     // Recalcular distancias y reordenar
     PUNTOS.forEach(function(p){ p.distancia = haversine(userLat,userLng,p.lat,p.lng); });
     PUNTOS.sort(function(a,b){ return a.distancia - b.distancia; });
@@ -2563,11 +2572,7 @@ function toggleSeguimiento() {
     if (btnO) { btnO.style.display='flex'; btnO.style.background='#1D9E75'; btnO.style.border='2px solid #1D9E75'; btnO.style.color='#fff'; }
     // Activar brújula
     pedirOrientacion();
-    // Bloquear mapa (sin drag ni zoom)
-    mapa.dragging.disable();
-    mapa.touchZoom.disable();
-    mapa.doubleClickZoom.disable();
-    mapa.scrollWheelZoom.disable();
+    // Cerrar popup al activar seguimiento
     mapa.closePopup();
     // Zoom máximo y centrar en posición del usuario
     if (userLat) mapa.setView([userLat, userLng], 19, {animate:true});
@@ -2590,11 +2595,7 @@ function toggleSeguimiento() {
     btn.style.border = '2px solid rgba(0,0,0,0.2)';
     btn.style.color = '';
     if (btnO) { btnO.style.background='#fff'; btnO.style.border='2px solid rgba(0,0,0,0.2)'; btnO.style.color=''; }
-    // Desbloquear mapa
-    mapa.dragging.enable();
-    mapa.touchZoom.enable();
-    mapa.doubleClickZoom.enable();
-    mapa.scrollWheelZoom.enable();
+
     // Detener watch
     if (window._seguimientoId) { navigator.geolocation.clearWatch(window._seguimientoId); window._seguimientoId = null; }
     window._orientacionActiva = false;
@@ -2632,8 +2633,7 @@ function desactivarSeguimientoYBrujula() {
     var btnS = document.getElementById('btn-seguimiento');
     if (btnS) { btnS.style.background='#fff'; btnS.style.border='2px solid rgba(0,0,0,0.2)'; }
     if (window._seguimientoId) { navigator.geolocation.clearWatch(window._seguimientoId); window._seguimientoId = null; }
-    // Desbloquear mapa
-    if (mapa) { mapa.dragging.enable(); mapa.touchZoom.enable(); mapa.doubleClickZoom.enable(); mapa.scrollWheelZoom.enable(); }
+
   }
   if (window._orientacionActiva) {
     window._orientacionActiva = false;
@@ -4282,6 +4282,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v179</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v180</div>
 </body>
 </html>
