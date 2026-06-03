@@ -186,14 +186,13 @@
 
 
 
-  <!-- Panel ruta flotante esquina inferior derecha del mapa -->
-  <div id='map-ruta-panel' style='display:none;position:absolute;bottom:10px;left:50%;transform:translateX(-50%);z-index:400;background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);border-radius:20px;padding:6px 14px;box-shadow:0 2px 16px rgba(0,0,0,0.35);align-items:center;gap:8px;font-family:DM Sans,sans-serif;font-size:12px;white-space:nowrap'>
-    <span style='font-weight:600;color:rgba(255,255,255,0.8)'>Ruta:</span>
-    <span id='ruta-bar-count' style='background:#1D9E75;color:#fff;padding:2px 8px;border-radius:10px;font-weight:700'>0 📍</span>
-    <span id='ruta-bar-dist' style='color:#7EE8C0;font-weight:600'>0 km</span>
-    <span id='ruta-bar-time' style='color:#7EE8C0;font-weight:600'>0 min</span>
-    <button id='ruta-bar-btn-go' onclick='iniciarRuta()' style='background:#1D9E75;color:#fff;border:none;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;opacity:0.5'>▶ Ir</button>
-    <button id='ruta-bar-btn-clear' onclick='limpiarRuta()' style='background:none;border:1px solid #fca5a5;color:#dc2626;padding:4px 8px;border-radius:12px;font-size:11px;cursor:pointer;font-family:DM Sans,sans-serif;opacity:0.5'>🗑</button>
+  <!-- Panel ruta flotante lado derecho del mapa, bajo botón añadir punto -->
+  <div id='map-ruta-panel' style='display:none;position:absolute;top:98px;left:10px;z-index:400;background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);border-radius:12px;padding:8px 6px;box-shadow:0 2px 16px rgba(0,0,0,0.35);flex-direction:column;align-items:center;gap:7px;font-family:DM Sans,sans-serif;font-size:11px;width:40px'>
+    <span id='ruta-bar-count' style='background:#1D9E75;color:#fff;padding:2px 4px;border-radius:8px;font-weight:700;font-size:10px;text-align:center;width:100%;display:block'>0📍</span>
+    <span id='ruta-bar-dist' style='color:#7EE8C0;font-weight:600;font-size:10px;text-align:center;line-height:1.2'>0km</span>
+    <span id='ruta-bar-time' style='color:#7EE8C0;font-weight:600;font-size:10px;text-align:center;line-height:1.2'>0m</span>
+    <button id='ruta-bar-btn-go' onclick='iniciarRuta()' title='Iniciar ruta' style='background:#1D9E75;color:#fff;border:none;padding:0;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;opacity:0.5;width:28px;height:28px;display:flex;align-items:center;justify-content:center;line-height:1'>▶</button>
+    <button id='ruta-bar-btn-clear' onclick='limpiarRuta()' title='Limpiar ruta' style='background:rgba(220,38,38,0.15);border:1px solid #fca5a5;color:#dc2626;padding:0;border-radius:8px;font-size:14px;cursor:pointer;font-family:DM Sans,sans-serif;opacity:0.5;width:28px;height:28px;display:flex;align-items:center;justify-content:center;line-height:1'>🗑</button>
   </div>
   <!-- IDs ocultos para compatibilidad con JS existente -->
   <span id='ruta-bar-empty' style='display:none'></span>
@@ -4399,6 +4398,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v193</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v194</div>
 </body>
 </html>
