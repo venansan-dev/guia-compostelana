@@ -3097,11 +3097,32 @@ function toggleVerRutaMapa() {
   }
 }
 
+
+function ordenarRutaPorCercania(origen) {
+  if (rutaPuntos.length < 2) return rutaPuntos.slice();
+  var puntos = rutaPuntos.slice();
+  var ordenados = [];
+  var actual = { lat: origen.lat, lng: origen.lng };
+  while (puntos.length > 0) {
+    var minDist = Infinity, minIdx = 0;
+    for (var i = 0; i < puntos.length; i++) {
+      var d = haversine(actual.lat, actual.lng, puntos[i].lat, puntos[i].lng);
+      if (d < minDist) { minDist = d; minIdx = i; }
+    }
+    ordenados.push(puntos[minIdx]);
+    actual = puntos[minIdx];
+    puntos.splice(minIdx, 1);
+  }
+  return ordenados;
+}
+
 function dibujarLineaEstática() {
   if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
   if (rutaPuntos.length < 1) return;
-  var osrmCoords = rutaPuntos.map(function(p){ return p.lng+','+p.lat; });
-  // Añadir posición del usuario como punto de origen
+  // Ordenar puntos por proximidad (vecino más cercano desde posición usuario)
+  var origen = (userLat && userLng) ? {lat:userLat, lng:userLng} : {lat:rutaPuntos[0].lat, lng:rutaPuntos[0].lng};
+  var puntosOrdenados = ordenarRutaPorCercania(origen);
+  var osrmCoords = puntosOrdenados.map(function(p){ return p.lng+','+p.lat; });
   if (userLat && userLng) osrmCoords.unshift(userLng+','+userLat);
   if (osrmCoords.length < 2) return;
   var endpoints = [
@@ -3133,17 +3154,12 @@ function dibujarLineaEstática() {
 function actualizarLineaRuta() {
   if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
   if (!_modoSeguimiento || rutaPuntos.length < 1) return;
-
-  // Construir lista de coordenadas: usuario + puntos de ruta
-  var waypoints = [];
-  if (userLat && userLng) waypoints.push(userLat + ',' + userLng);
-  rutaPuntos.forEach(function(p) { waypoints.push(p.lat + ',' + p.lng); });
-  if (waypoints.length < 2) return;
-
-  // Llamar a OSRM para ruta a pie por calles reales
-  var coords = waypoints.join(';').replace(/,/g, ',');
-  var osrmCoords = rutaPuntos.map(function(p){ return p.lng+','+p.lat; });
+  // Ordenar puntos por proximidad desde posición usuario
+  var origen2 = (userLat && userLng) ? {lat:userLat, lng:userLng} : {lat:rutaPuntos[0].lat, lng:rutaPuntos[0].lng};
+  var puntosOrd2 = ordenarRutaPorCercania(origen2);
+  var osrmCoords = puntosOrd2.map(function(p){ return p.lng+','+p.lat; });
   if (userLat && userLng) osrmCoords.unshift(userLng+','+userLat);
+  if (osrmCoords.length < 2) return;
   // Intentar varios servidores OSRM con perfil a pie
   var endpoints = [
     'https://routing.openstreetmap.de/routed-foot/route/v1/foot/' + osrmCoords.join(';') + '?overview=full&geometries=geojson',
@@ -4369,6 +4385,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v188</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v189</div>
 </body>
 </html>
