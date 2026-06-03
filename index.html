@@ -2476,12 +2476,14 @@ function initMapa() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       function(pos) {
-        var d=document.getElementById('dbg-geo');if(d)d.textContent='📍 GPS: '+pos.coords.latitude.toFixed(4)+','+pos.coords.longitude.toFixed(4);
+        var d=document.getElementById('dbg-geo');if(d)d.textContent='📍 OK lat='+pos.coords.latitude.toFixed(4)+' uL='+userLat;
         userLat = pos.coords.latitude; userLng = pos.coords.longitude;
         statusEl.classList.remove('visible');
         var mt=document.getElementById('map-title');if(mt)mt.textContent=(T[idiomaActual]||T.es).mapTitle;
         var ms=document.getElementById('map-subtitle');if(ms)ms.textContent=(T[idiomaActual]||T.es).mapSubtitle;
-        window._userMarker = L.marker([userLat,userLng],{icon:iconoUsuario,zIndexOffset:1000}).addTo(mapa).bindPopup('<strong>'+(T[idiomaActual]||T.es).tuUbicacion+'</strong>');
+        var dm2=document.getElementById('dbg-marker');if(dm2)dm2.textContent='📌 creando marker...';
+      window._userMarker = L.marker([userLat,userLng],{icon:iconoUsuario,zIndexOffset:1000}).addTo(mapa).bindPopup('<strong>'+(T[idiomaActual]||T.es).tuUbicacion+'</strong>');
+      var dm3=document.getElementById('dbg-marker');if(dm3)dm3.textContent='📌 marker OK';
         mapa.setView([userLat,userLng],15);
         aplicarRadio(radioKm);
         calcularDistancias();
@@ -2498,7 +2500,9 @@ function initMapa() {
       var d=document.getElementById('dbg-geo');if(d)d.textContent='📍 GPS watch: '+pos.coords.latitude.toFixed(4);
       if (!userLat) {
         userLat = pos.coords.latitude; userLng = pos.coords.longitude;
-        window._userMarker = L.marker([userLat,userLng],{icon:iconoUsuario,zIndexOffset:1000}).addTo(mapa).bindPopup('<strong>'+(T[idiomaActual]||T.es).tuUbicacion+'</strong>');
+        var dm2=document.getElementById('dbg-marker');if(dm2)dm2.textContent='📌 creando marker...';
+      window._userMarker = L.marker([userLat,userLng],{icon:iconoUsuario,zIndexOffset:1000}).addTo(mapa).bindPopup('<strong>'+(T[idiomaActual]||T.es).tuUbicacion+'</strong>');
+      var dm3=document.getElementById('dbg-marker');if(dm3)dm3.textContent='📌 marker OK';
         mapa.setView([userLat,userLng],15);
         aplicarRadio(radioKm);
         calcularDistancias();
