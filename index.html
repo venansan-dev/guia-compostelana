@@ -177,6 +177,11 @@
   <button id='btn-notif-m' onclick='accionBtnPrincipal()' style='display:none;font-size:13px;font-weight:500;font-family:DM Sans,sans-serif;padding:8px 18px;border-radius:24px;border:none;background:var(--verde);color:#fff;cursor:pointer;width:100%;margin-top:10px;box-shadow:0 2px 8px rgba(29,158,117,0.3);transition:background 0.2s'>📲 Instala la app y recibe avisos de los puntos de interés más cercanos a ti</button>
 </div>
 <div class='map-block' id='map-block'>
+  <div id='debug-panel' style='position:absolute;top:0;left:0;right:0;z-index:9999;background:rgba(0,0,0,0.75);color:#fff;font-size:10px;padding:4px 8px;font-family:monospace;line-height:1.6'>
+    <div id='dbg-geo'>📍 GPS: esperando...</div>
+    <div id='dbg-orient'>🧭 Orientación: -</div>
+    <div id='dbg-marker'>📌 Marcador: -</div>
+  </div>
 <!-- MAPA INTERACTIVO -->
 <div class='map-section' style='position:relative'>
   <div class='map-status' id='map-status'><span id='map-status-text'>📍 Obteniendo tu ubicación...</span></div>
@@ -2471,6 +2476,7 @@ function initMapa() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       function(pos) {
+        var d=document.getElementById('dbg-geo');if(d)d.textContent='📍 GPS: '+pos.coords.latitude.toFixed(4)+','+pos.coords.longitude.toFixed(4);
         userLat = pos.coords.latitude; userLng = pos.coords.longitude;
         statusEl.classList.remove('visible');
         var mt=document.getElementById('map-title');if(mt)mt.textContent=(T[idiomaActual]||T.es).mapTitle;
@@ -2489,6 +2495,7 @@ function initMapa() {
     );
     // Fallback: watchPosition por si getCurrentPosition tarda demasiado
     var _watchId = navigator.geolocation.watchPosition(function(pos) {
+      var d=document.getElementById('dbg-geo');if(d)d.textContent='📍 GPS watch: '+pos.coords.latitude.toFixed(4);
       if (!userLat) {
         userLat = pos.coords.latitude; userLng = pos.coords.longitude;
         window._userMarker = L.marker([userLat,userLng],{icon:iconoUsuario,zIndexOffset:1000}).addTo(mapa).bindPopup('<strong>'+(T[idiomaActual]||T.es).tuUbicacion+'</strong>');
@@ -2527,6 +2534,7 @@ function initMapa() {
 }
 
 function actualizarFlecha(e) {
+  var d=document.getElementById('dbg-orient');if(d)d.textContent='🧭 heading: '+(e.webkitCompassHeading||e.alpha||'null');
   var h = null;
   if (typeof e.webkitCompassHeading === 'number' && e.webkitCompassHeading >= 0) {
     h = e.webkitCompassHeading;
@@ -4049,6 +4057,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <script>
 if ('serviceWorker' in navigator) {
+  // Forzar actualización del SW si la versión no coincide
+  navigator.serviceWorker.getRegistrations().then(function(regs) {
+    regs.forEach(function(reg) {
+      reg.update();
+    });
+  });
   window.addEventListener('load', function() {
     navigator.serviceWorker.register('/guia-compostelana/sw.js').then(function(reg) {
 
@@ -4098,6 +4112,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:9px;color:rgba(0,0,0,0.3);z-index:9999;pointer-events:none'>v161</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:9px;color:rgba(0,0,0,0.3);z-index:9999;pointer-events:none'>v162</div>
 </body>
 </html>
