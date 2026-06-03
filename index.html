@@ -1587,13 +1587,10 @@ function refrescarUbicacion() {
     // Mover o crear el marcador de usuario
     if (window._userMarker) {
       window._userMarker.setLatLng([userLat, userLng]);
+      // Actualizar icono según estado actual
+      window._userMarker.setIcon(crearIconoUsuario(_modoSeguimiento ? _userHeading : null));
     } else {
-      var iconUser = L.divIcon({
-        className:'',
-        html:'<div style="width:18px;height:18px;border-radius:50%;background:#1D9E75;border:3px solid #fff;box-shadow:0 0 0 3px rgba(29,158,117,0.4)"></div>',
-        iconSize:[18,18], iconAnchor:[9,9]
-      });
-      window._userMarker = L.marker([userLat,userLng],{icon:iconUser,zIndexOffset:1000}).addTo(mapa);
+      window._userMarker = L.marker([userLat,userLng],{icon:crearIconoUsuario(null),zIndexOffset:1000}).addTo(mapa).bindPopup('<strong>'+(T[idiomaActual]||T.es).tuUbicacion+'</strong>');
     }
     if (_modoSeguimiento) {
       // En modo seguimiento: volver al punto usuario sin cambiar zoom
@@ -2523,7 +2520,11 @@ function initMapa() {
       } else {
         // Ya tenemos posición, actualizar marcador y círculo SIN cambiar vista
         userLat = pos.coords.latitude; userLng = pos.coords.longitude;
-        if (window._userMarker) window._userMarker.setLatLng([userLat, userLng]);
+        if (window._userMarker) {
+          window._userMarker.setLatLng([userLat, userLng]);
+          // Mantener icono correcto según estado
+          if (!window._orientacionActiva) window._userMarker.setIcon(crearIconoUsuario(null));
+        }
         // Redibujar círculo sin fitBounds
         if (circuloRadio) mapa.removeLayer(circuloRadio);
         circuloRadio = L.circle([userLat, userLng], {
@@ -4290,6 +4291,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v182</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v183</div>
 </body>
 </html>
