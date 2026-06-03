@@ -2551,14 +2551,23 @@ function actualizarFlecha(e) {
 function toggleSeguimiento() {
   _modoSeguimiento = !_modoSeguimiento;
   var btn = document.getElementById('btn-seguimiento');
+  var btnO = document.getElementById('btn-orientacion-mapa');
   if (_modoSeguimiento) {
+    // Poner ambos botones en verde
     btn.style.background = '#1D9E75';
     btn.style.border = '2px solid #1D9E75';
     btn.style.color = '#fff';
-    // Activar brujula también
+    if (btnO) { btnO.style.display='flex'; btnO.style.background='#1D9E75'; btnO.style.border='2px solid #1D9E75'; btnO.style.color='#fff'; }
+    // Activar brújula
     pedirOrientacion();
-    // Centrar en posición actual al máximo zoom
-    if (userLat) mapa.setView([userLat, userLng], 19, {animate:true});
+    // Bloquear mapa (sin drag ni zoom)
+    mapa.dragging.disable();
+    mapa.touchZoom.disable();
+    mapa.doubleClickZoom.disable();
+    mapa.scrollWheelZoom.disable();
+    mapa.closePopup();
+    // Centrar en posición al zoom actual
+    if (userLat) mapa.panTo([userLat, userLng], {animate:true});
     mostrarToast('📡 Seguimiento activado');
     // watchPosition seguimiento
     if (!window._seguimientoId && navigator.geolocation) {
@@ -2567,21 +2576,33 @@ function toggleSeguimiento() {
         userLat = pos.coords.latitude;
         userLng = pos.coords.longitude;
         if (window._userMarker) window._userMarker.setLatLng([userLat, userLng]);
-        // Actualizar círculo sin fitBounds
         if (circuloRadio) { mapa.removeLayer(circuloRadio); circuloRadio = L.circle([userLat,userLng],{radius:radioKm*1000,color:'#1D9E75',fillColor:'#1D9E75',fillOpacity:0.07,weight:2,dashArray:'6 4'}).addTo(mapa); }
-        // Centrar suavemente SIN bloquear interacción — solo si el punto sale del área visible
-        var mapBounds = mapa.getBounds();
-        var latlng = L.latLng(userLat, userLng);
-        if (!mapBounds.contains(latlng)) {
-          mapa.panTo(latlng, {animate:true, duration:0.5, noMoveStart:true});
-        }
-      }, function(){}, {enableHighAccuracy:true, maximumAge:3000});
+        mapa.panTo([userLat, userLng], {animate:true, duration:0.5});
+      }, function(){}, {enableHighAccuracy:true, maximumAge:2000});
     }
   } else {
+    // Desactivar — restaurar todo
     btn.style.background = '#fff';
     btn.style.border = '2px solid rgba(0,0,0,0.2)';
     btn.style.color = '';
-    desactivarSeguimientoYBrujula();
+    if (btnO) { btnO.style.background='#fff'; btnO.style.border='2px solid rgba(0,0,0,0.2)'; btnO.style.color=''; }
+    // Desbloquear mapa
+    mapa.dragging.enable();
+    mapa.touchZoom.enable();
+    mapa.doubleClickZoom.enable();
+    mapa.scrollWheelZoom.enable();
+    // Detener watch
+    if (window._seguimientoId) { navigator.geolocation.clearWatch(window._seguimientoId); window._seguimientoId = null; }
+    window._orientacionActiva = false;
+    window.removeEventListener('deviceorientation', actualizarFlecha, true);
+    _modoSeguimiento = false;
+    // Volver a radio 1km
+    aplicarRadio(1);
+    radioKm = 1;
+    document.querySelectorAll('.map-radio-btn').forEach(function(b){ b.classList.remove('active'); });
+    var r1 = document.querySelector('.map-radio-btn');
+    if (r1) r1.classList.add('active');
+    mostrarToast('📡 Seguimiento desactivado');
   }
 }
 
@@ -2600,14 +2621,14 @@ function mostrarToast(msg) {
 }
 
 function desactivarSeguimientoYBrujula() {
-  // Desactivar seguimiento
   if (_modoSeguimiento) {
     _modoSeguimiento = false;
     var btnS = document.getElementById('btn-seguimiento');
-    if (btnS) { btnS.style.background='#fff'; btnS.style.border='2px solid rgba(0,0,0,0.2)'; btnS.innerHTML='📡'; }
+    if (btnS) { btnS.style.background='#fff'; btnS.style.border='2px solid rgba(0,0,0,0.2)'; }
     if (window._seguimientoId) { navigator.geolocation.clearWatch(window._seguimientoId); window._seguimientoId = null; }
+    // Desbloquear mapa
+    if (mapa) { mapa.dragging.enable(); mapa.touchZoom.enable(); mapa.doubleClickZoom.enable(); mapa.scrollWheelZoom.enable(); }
   }
-  // Desactivar brujula orientacion mapa
   if (window._orientacionActiva) {
     window._orientacionActiva = false;
     window.removeEventListener('deviceorientation', actualizarFlecha, true);
@@ -4193,6 +4214,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v172</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v173</div>
 </body>
 </html>
