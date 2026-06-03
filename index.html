@@ -2641,12 +2641,36 @@ function desactivarSeguimientoYBrujula() {
 }
 
 function pedirOrientacion() {
+  var btn = document.getElementById('btn-orientacion-mapa');
+
+  // Si ya está activa y seguimiento NO está activo → desactivar
+  if (window._orientacionActiva && !_modoSeguimiento) {
+    window._orientacionActiva = false;
+    window.removeEventListener('deviceorientation', actualizarFlecha, true);
+    if (btn) { btn.style.background='#fff'; btn.style.border='2px solid rgba(0,0,0,0.2)'; btn.style.color=''; }
+    if (window._userMarker) window._userMarker.setIcon(crearIconoUsuario(null));
+    mostrarToast('🧭 Brújula desactivada');
+    return;
+  }
+
+  // Si ya está activa y seguimiento SÍ está activo → ignorar
+  if (window._orientacionActiva) return;
+
+  // Activar brújula
+  function activar() {
+    window._orientacionActiva = true;
+    window.removeEventListener('deviceorientation', actualizarFlecha, true);
+    window.addEventListener('deviceorientation', actualizarFlecha, true);
+    if (btn) { btn.style.background='#1D9E75'; btn.style.border='2px solid #1D9E75'; btn.style.color='#fff'; }
+    mostrarToast('🧭 Brújula activada');
+  }
+
   if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
     DeviceOrientationEvent.requestPermission().then(function(s) {
-      if (s === 'granted') {
-        window.addEventListener('deviceorientation', actualizarFlecha, true);
-      }
+      if (s === 'granted') activar();
     }).catch(function(){});
+  } else if (window.DeviceOrientationEvent) {
+    activar();
   }
 }
 
@@ -4215,6 +4239,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v176</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v177</div>
 </body>
 </html>
