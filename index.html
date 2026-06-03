@@ -2577,6 +2577,7 @@ function toggleSeguimiento() {
     // Zoom máximo y centrar en posición del usuario
     if (userLat) mapa.setView([userLat, userLng], 19, {animate:true});
     mostrarToast('📡 Seguimiento activado');
+    actualizarLineaRuta();
     // watchPosition seguimiento
     if (!window._seguimientoId && navigator.geolocation) {
       window._seguimientoId = navigator.geolocation.watchPosition(function(pos) {
@@ -2586,7 +2587,12 @@ function toggleSeguimiento() {
         if (window._userMarker) window._userMarker.setLatLng([userLat, userLng]);
         if (circuloRadio) { mapa.removeLayer(circuloRadio); circuloRadio = L.circle([userLat,userLng],{radius:radioKm*1000,color:'#1D9E75',fillColor:'#1D9E75',fillOpacity:0.07,weight:2,dashArray:'6 4'}).addTo(mapa); }
         mapa.panTo([userLat, userLng], {animate:true, duration:0.5});
-        actualizarLineaRuta();
+        // Actualizar línea máx cada 10s para no saturar OSRM
+        var ahora = Date.now();
+        if (!window._ultimaActLinea || ahora - window._ultimaActLinea > 10000) {
+          window._ultimaActLinea = ahora;
+          actualizarLineaRuta();
+        }
       }, function(){}, {enableHighAccuracy:true, maximumAge:2000});
     }
   } else {
@@ -2600,6 +2606,8 @@ function toggleSeguimiento() {
     if (window._seguimientoId) { navigator.geolocation.clearWatch(window._seguimientoId); window._seguimientoId = null; }
     window._orientacionActiva = false;
     window.removeEventListener('deviceorientation', actualizarFlecha, true);
+    // Volver a punto azul
+    if (window._userMarker) window._userMarker.setIcon(crearIconoUsuario(null));
     _modoSeguimiento = false;
     // Eliminar línea de ruta
     if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
@@ -4282,6 +4290,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v180</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v182</div>
 </body>
 </html>
