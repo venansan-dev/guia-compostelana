@@ -2530,18 +2530,29 @@ function initMapa() {
         window._userMarker.setIcon(crearIconoUsuario(h));
       }
     }
-    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-      // iOS — solo si ya hay permiso concedido (no pedir aquí)
-      DeviceOrientationEvent.requestPermission().then(function(s) {
-        if (s === 'granted') window.addEventListener('deviceorientation', actualizarFlecha, true);
-      }).catch(function(){});
-    } else if (window.DeviceOrientationEvent) {
+    // Android — activar orientación directamente
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission !== 'function') {
       window.addEventListener('deviceorientation', actualizarFlecha, true);
+    }
+    // iOS — mostrar botón para activar desde gesto del usuario
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+      var btnFlecha = document.getElementById('btn-flecha-orientacion');
+      if (btnFlecha) btnFlecha.style.display = 'flex';
     }
   } else {
     statusEl.innerHTML = (T[idiomaActual]||T.es).noGeolocal;
     setTimeout(function(){statusEl.classList.remove('visible');},3000);
   }
+}
+
+function activarFlechaOrientacion() {
+  DeviceOrientationEvent.requestPermission().then(function(s) {
+    if (s === 'granted') {
+      window.addEventListener('deviceorientation', actualizarFlecha, true);
+      var btn = document.getElementById('btn-flecha-orientacion');
+      if (btn) { btn.style.background = '#1D9E75'; btn.innerHTML = '▲'; btn.style.color = '#fff'; btn.style.fontSize = '14px'; }
+    }
+  }).catch(function(){});
 }
 
 function aplicarRadio(km) {
