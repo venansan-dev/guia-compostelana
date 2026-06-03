@@ -2581,6 +2581,7 @@ function toggleSeguimiento() {
         if (window._userMarker) window._userMarker.setLatLng([userLat, userLng]);
         if (circuloRadio) { mapa.removeLayer(circuloRadio); circuloRadio = L.circle([userLat,userLng],{radius:radioKm*1000,color:'#1D9E75',fillColor:'#1D9E75',fillOpacity:0.07,weight:2,dashArray:'6 4'}).addTo(mapa); }
         mapa.panTo([userLat, userLng], {animate:true, duration:0.5});
+        actualizarLineaRuta();
       }, function(){}, {enableHighAccuracy:true, maximumAge:2000});
     }
   } else {
@@ -2599,6 +2600,8 @@ function toggleSeguimiento() {
     window._orientacionActiva = false;
     window.removeEventListener('deviceorientation', actualizarFlecha, true);
     _modoSeguimiento = false;
+    // Eliminar línea de ruta
+    if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
     // Volver a radio 1km
     aplicarRadio(1);
     radioKm = 1;
@@ -3053,7 +3056,30 @@ function limpiarRuta() {
   actualizarRuta();
   actualizarBotonesRuta();
 }
+
+var _rutaLinea = null;
+
+function actualizarLineaRuta() {
+  // Eliminar línea anterior
+  if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
+  // Solo dibujar si seguimiento activo y hay puntos en ruta
+  if (!_modoSeguimiento || rutaPuntos.length < 1) return;
+  // Incluir posición del usuario como punto inicial si existe
+  var coords = [];
+  if (userLat && userLng) coords.push([userLat, userLng]);
+  rutaPuntos.forEach(function(p) { coords.push([p.lat, p.lng]); });
+  if (coords.length < 2) return;
+  _rutaLinea = L.polyline(coords, {
+    color: '#185FA5',
+    weight: 3,
+    opacity: 0.8,
+    dashArray: '10 8',
+    lineJoin: 'round'
+  }).addTo(mapa);
+}
+
 function actualizarRuta() {
+  actualizarLineaRuta();
   var empty  = document.getElementById('ruta-bar-empty');
   var info   = document.getElementById('ruta-bar-info');
   var distEl = document.getElementById('ruta-bar-dist');
@@ -4239,6 +4265,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v177</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v178</div>
 </body>
 </html>
