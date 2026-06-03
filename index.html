@@ -183,12 +183,24 @@
   <div id='map'></div>
   <!-- Botón refrescar ubicación (izquierda) -->
   <button id='btn-refresh-loc' onclick='refrescarUbicacion()' title='Actualizar mi ubicación' style='position:absolute;top:10px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0;line-height:1'><svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='#333' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='23 4 23 10 17 10'/><polyline points='1 20 1 14 7 14'/><path d='M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15'/></svg></button>
-  <!-- Botón ver ruta (esquina inferior izquierda del mapa) -->
-  <button id='ruta-bar-btn-ver' onclick='toggleVerRutaMapa()' title='Ver ruta en el mapa'
-    style='opacity:0.55;position:absolute;bottom:10px;left:10px;z-index:400;background:#1D9E75;border:none;border-radius:6px;padding:0 12px;height:36px;font-size:12px;font-weight:600;font-family:DM Sans,sans-serif;box-shadow:0 2px 6px rgba(0,0,0,0.2);white-space:nowrap;display:flex;align-items:center;gap:5px;color:#fff'>🗺️ Ruta</button>
-  <!-- Botón seguimiento (izquierda bajo orientación) -->
-  <button id='btn-seguimiento' onclick='toggleSeguimiento()' title='Modo seguimiento'
-    style='position:absolute;top:98px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>📡</button>
+
+
+
+  <!-- Panel ruta flotante esquina inferior derecha del mapa -->
+  <div id='map-ruta-panel' style='display:none;position:absolute;bottom:10px;right:10px;z-index:400;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);border-radius:10px;padding:6px 10px;box-shadow:0 2px 12px rgba(0,0,0,0.2);display:none;align-items:center;gap:6px;font-family:DM Sans,sans-serif;font-size:12px'>
+    <span style='font-weight:600;color:#333'>Ruta:</span>
+    <span id='ruta-bar-count' style='background:#1D9E75;color:#fff;padding:2px 8px;border-radius:10px;font-weight:700'>0 📍</span>
+    <span id='ruta-bar-dist' style='color:#0F6E56;font-weight:600'>0 km</span>
+    <span id='ruta-bar-time' style='color:#0F6E56;font-weight:600'>0 min</span>
+    <button id='ruta-bar-btn-go' onclick='iniciarRuta()' style='background:#1D9E75;color:#fff;border:none;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;opacity:0.5'>▶ Ir</button>
+    <button id='ruta-bar-btn-clear' onclick='limpiarRuta()' style='background:none;border:1px solid #fca5a5;color:#dc2626;padding:4px 8px;border-radius:12px;font-size:11px;cursor:pointer;font-family:DM Sans,sans-serif;opacity:0.5'>🗑</button>
+  </div>
+  <!-- IDs ocultos para compatibilidad con JS existente -->
+  <span id='ruta-bar-empty' style='display:none'></span>
+  <span id='ruta-label' style='display:none'></span>
+  <span id='ruta-stat-label' style='display:none'></span>
+  <span id='ruta-bar-info' style='display:none'></span>
+  <span id='ruta-bar-puntos' style='display:none'></span>
   <!-- Botón orientación (izquierda bajo refrescar) -->
   <button id='btn-orientacion-mapa' onclick='pedirOrientacion()' title='Activar flecha orientación'
     style='display:flex;position:absolute;top:54px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>🧭</button>
@@ -206,26 +218,7 @@
       <div class='map-radio-btn' onclick='cambiarRadio(3,this)'>3 km</div>
       <div class='weather-widget' id='weather-widget'><span class='weather-loading'>&#9729;&#65039;</span></div>
     </div>
-    <!-- FILA GENERADOR DE RUTA -->
-    <div class='ruta-bar' id='ruta-bar'>
-      <!-- Fila 1: título + botones -->
-      <div class='ruta-bar-top-row'>
-        <span class='ruta-bar-label' id='ruta-label'>Generador de ruta</span>
-        <span class='ruta-bar-empty' id='ruta-bar-empty' style='flex:1;text-align:center;font-size:12px;color:var(--texto-suave);font-style:italic'>Añade puntos desde el mapa o las tarjetas</span>
-        <div class='ruta-bar-actions'>
-          <button class='ruta-bar-btn-go' id='ruta-bar-btn-go' onclick='iniciarRuta()' style='opacity:0.65'>&#9654;&#65039; Ir</button>
-          <button class='ruta-bar-btn-clear' id='ruta-bar-btn-clear' onclick='limpiarRuta()' style='opacity:0.65'>🗑</button>
-        </div>
-      </div>
-      <!-- Fila 2: estadísticas -->
-      <div class='ruta-bar-info' id='ruta-bar-info' style='display:none'>
-        <span class='ruta-bar-label' id='ruta-stat-label'>Ruta:</span>
-        <span class='ruta-bar-stat' id='ruta-bar-count' style='background:var(--verde);color:#fff;border-color:var(--verde)'>0 📍</span>
-        <span class='ruta-bar-stat' id='ruta-bar-dist'>0 km</span>
-        <span class='ruta-bar-stat' id='ruta-bar-time'>0 min</span>
-        <div class='ruta-bar-puntos' id='ruta-bar-puntos'></div>
-      </div>
-    </div>
+
     <div class='search-radio-top'>
       <input autocomplete='off' id='buscar-input' placeholder='Cafetería, calle, monumento, playa...' type='text'/>
       <button id='buscar-clear' onclick='limpiarBusqueda()' title='Limpiar búsqueda' style='display:none;background:none;border:1px solid var(--borde);border-radius:var(--radio-sm);padding:9px 11px;cursor:pointer;font-size:14px;color:var(--texto-suave);transition:all 0.15s;flex-shrink:0' onmouseover="this.style.background='#fee2e2';this.style.color='#dc2626'" onmouseout="this.style.background='none';this.style.color='var(--texto-suave)'">✕</button>
@@ -301,6 +294,7 @@
       <div id='ruta-scroll-track' style='display:none;position:absolute;top:0;right:1px;width:3px;height:100%;background:rgba(0,0,0,0.07);border-radius:3px'><div id='ruta-scroll-bar' style='position:absolute;top:0;width:3px;height:28%;background:rgba(29,158,117,0.6);border-radius:3px;transition:top 0.1s'></div></div>
     </div>
     <div style='display:flex;gap:8px;flex-wrap:wrap'>
+      <button onclick='irAlMapaConRuta()' id='poi-ruta-btn-mapa' style='display:flex;align-items:center;gap:6px;background:#185FA5;color:#fff;border:none;padding:8px 14px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.2s;opacity:0.4'>🗺️</button>
       <button onclick='iniciarRuta()' id='poi-ruta-btn-ir' style='display:flex;align-items:center;gap:6px;background:var(--verde);color:#fff;border:none;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.2s;opacity:0.4'>▶ Ir</button>
       <button onclick='limpiarRuta()' id='poi-ruta-btn-clear' style='background:none;border:1px solid #fca5a5;color:#dc2626;padding:8px 14px;border-radius:20px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s;opacity:0.4'>🗑</button>
     </div>
@@ -1578,7 +1572,15 @@ var _modoSeguimiento = false;
 
 function refrescarUbicacion() {
   mapa.closePopup();
+  // Siempre: apagar seguimiento y brújula
   desactivarSeguimientoYBrujula();
+  // Ocultar ruta del mapa
+  if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
+  _verRutaMapa = false;
+  var btnVer = document.getElementById('ruta-bar-btn-ver');
+  if (btnVer) { btnVer.style.background='#1D9E75'; btnVer.style.opacity='0.55'; btnVer.style.border='none'; }
+  // Volver a punto azul
+  if (window._userMarker) window._userMarker.setIcon(crearIconoUsuario(null));
   limpiarBusqueda();
   var btn = document.getElementById('btn-refresh-loc');
   var statusTxt = document.getElementById('map-status-text');
@@ -1595,19 +1597,12 @@ function refrescarUbicacion() {
     } else {
       window._userMarker = L.marker([userLat,userLng],{icon:crearIconoUsuario(null),zIndexOffset:1000}).addTo(mapa).bindPopup('<strong>'+(T[idiomaActual]||T.es).tuUbicacion+'</strong>');
     }
-    if (_modoSeguimiento) {
-      // En modo seguimiento: volver al punto usuario sin cambiar zoom
-      mapa.panTo([userLat, userLng], {animate:true});
-      if (circuloRadio) mapa.removeLayer(circuloRadio);
-      circuloRadio = L.circle([userLat,userLng],{radius:radioKm*1000,color:'#1D9E75',fillColor:'#1D9E75',fillOpacity:0.07,weight:2,dashArray:'6 4'}).addTo(mapa);
-    } else {
-      // Sin seguimiento: volver a radio 1km con fitBounds
-      radioKm = 1;
-      document.querySelectorAll('.map-radio-btn').forEach(function(b){ b.classList.remove('active'); });
-      var r1 = document.querySelector('.map-radio-btn');
-      if (r1) r1.classList.add('active');
-      aplicarRadio(1);
-    }
+    // Siempre volver a radio 1km
+    radioKm = 1;
+    document.querySelectorAll('.map-radio-btn').forEach(function(b){ b.classList.remove('active'); });
+    var r1 = document.querySelector('.map-radio-btn');
+    if (r1) r1.classList.add('active');
+    aplicarRadio(1);
     // Recalcular distancias y reordenar
     PUNTOS.forEach(function(p){ p.distancia = haversine(userLat,userLng,p.lat,p.lng); });
     PUNTOS.sort(function(a,b){ return a.distancia - b.distancia; });
@@ -2422,15 +2417,21 @@ function initMapa() {
   // Ocultar botón ➕ cuando se abre un popup, restaurar al cerrar
   var _popupAbierto = false;
 
+  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc','btn-orientacion-mapa','map-ruta-panel'];
   mapa.on('popupopen', function() {
     _popupAbierto = true;
-    var btn = document.getElementById('btn-add-poi-map');
-    if (btn) btn.style.display = 'none';
+    _mapBtns.forEach(function(id){
+      var b=document.getElementById(id); if(b) b.style.display='none';
+    });
   });
   mapa.on('popupclose', function() {
     _popupAbierto = false;
-    var btn = document.getElementById('btn-add-poi-map');
-    if (btn) btn.style.display = 'flex';
+    var b;
+    b=document.getElementById('btn-add-poi-map'); if(b) b.style.display='flex';
+    b=document.getElementById('btn-refresh-loc'); if(b) b.style.display='flex';
+    b=document.getElementById('btn-orientacion-mapa'); if(b) b.style.display='flex';
+    // Solo mostrar panel si hay puntos en ruta
+    b=document.getElementById('map-ruta-panel'); if(b&&rutaPuntos.length>0) b.style.display='flex';
   });
   // Cerrar popup al arrastrar o hacer scroll en el mapa
   mapa.on('dragstart', function() { mapa.closePopup(); });
@@ -3132,7 +3133,7 @@ function dibujarLineaEstática() {
   function dibujarGeoJSON2(geojson) {
     if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
     _rutaLinea = L.geoJSON(geojson, {
-      style: { color:'#1D9E75', weight:4, opacity:0.85, dashArray:'12 6', lineJoin:'round' }
+      style: { color:'#185FA5', weight:4, opacity:0.85, dashArray:'12 6', lineJoin:'round' }
     }).addTo(mapa);
   }
   function fallback2() {
@@ -3200,6 +3201,7 @@ function actualizarLineaRuta() {
 
 function actualizarRuta() {
   actualizarLineaRuta();
+  var panel = document.getElementById('map-ruta-panel');
   var empty  = document.getElementById('ruta-bar-empty');
   var info   = document.getElementById('ruta-bar-info');
   var distEl = document.getElementById('ruta-bar-dist');
@@ -3214,6 +3216,7 @@ function actualizarRuta() {
     info.style.display  = 'none';
     btnGo.style.opacity='0.55'; btnGo.style.cursor='default';
     if(btnClr){btnClr.style.opacity='0.55'; btnClr.style.cursor='default';}
+    var btnMapaPoi2=document.getElementById('poi-ruta-btn-mapa');if(btnMapaPoi2)btnMapaPoi2.style.opacity='0.4';
     actualizarBotonesRuta(); return;
   }
   empty.style.display = 'none';
@@ -3300,6 +3303,17 @@ function actualizarBotonesRuta() {
     btn.innerHTML        = enRuta ? '&#10003; En ruta' : '+ a ruta';
   });
 }
+function irAlMapaConRuta() {
+  if (rutaPuntos.length < 1) return;
+  // Ir a sección mapa y activar línea
+  var mb = document.getElementById('map-block');
+  if (mb) mb.scrollIntoView({behavior:'smooth', block:'start'});
+  setTimeout(function() {
+    _verRutaMapa = true;
+    dibujarLineaEstática();
+  }, 600);
+}
+
 function iniciarRuta() {
   if(rutaPuntos.length<2)return;
   var origen=rutaPuntos[0].lat+','+rutaPuntos[0].lng;
@@ -4385,6 +4399,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v190</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v192</div>
 </body>
 </html>
