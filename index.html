@@ -3313,11 +3313,15 @@ function irAlMapaConRuta() {
 
 function iniciarRuta() {
   if(rutaPuntos.length<2)return;
-  var origen=rutaPuntos[0].lat+','+rutaPuntos[0].lng;
-  var destino=rutaPuntos[rutaPuntos.length-1].lat+','+rutaPuntos[rutaPuntos.length-1].lng;
-  var url='https://www.google.com/maps/dir/?api=1&origin='+origen+'&destination='+destino+'&travelmode=walking';
-  if(rutaPuntos.length>2){
-    var wp=rutaPuntos.slice(1,rutaPuntos.length-1).map(function(p){return p.lat+','+p.lng;}).join('|');
+  // Ordenar por vecino más cercano desde posición usuario
+  var origenCoord = (userLat&&userLng) ? {lat:userLat,lng:userLng} : {lat:rutaPuntos[0].lat,lng:rutaPuntos[0].lng};
+  var ordenados = ordenarRutaPorCercania(origenCoord);
+  var inicio = (userLat&&userLng) ? userLat+','+userLng : ordenados[0].lat+','+ordenados[0].lng;
+  var fin = ordenados[ordenados.length-1].lat+','+ordenados[ordenados.length-1].lng;
+  var url='https://www.google.com/maps/dir/?api=1&origin='+inicio+'&destination='+fin+'&travelmode=walking';
+  var wpArr = (userLat&&userLng) ? ordenados : ordenados.slice(1, ordenados.length-1);
+  if(wpArr.length>0){
+    var wp=wpArr.map(function(p){return p.lat+','+p.lng;}).join('|');
     url+='&waypoints='+encodeURIComponent(wp);
   }
   window.open(url,'_blank');
@@ -4396,6 +4400,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v201</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v202</div>
 </body>
 </html>
