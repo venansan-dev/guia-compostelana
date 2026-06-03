@@ -3208,18 +3208,22 @@ function actualizarRuta() {
   var puntEl = document.getElementById('ruta-bar-puntos');
   var btnGo  = document.getElementById('ruta-bar-btn-go');
   var btnClr = document.getElementById('ruta-bar-btn-clear');
-  if (!empty) return;
+
+  // Mostrar u ocultar el panel flotante del mapa
+  if (panel) {
+    panel.style.display = rutaPuntos.length > 0 ? 'flex' : 'none';
+  }
 
   if (rutaPuntos.length === 0) {
-    empty.style.display = '';
-    info.style.display  = 'none';
-    btnGo.style.opacity='0.55'; btnGo.style.cursor='default';
+    if(empty) empty.style.display = '';
+    if(info)  info.style.display  = 'none';
+    if(btnGo){btnGo.style.opacity='0.55'; btnGo.style.cursor='default';}
     if(btnClr){btnClr.style.opacity='0.55'; btnClr.style.cursor='default';}
     var btnMapaPoi2=document.getElementById('poi-ruta-btn-mapa');if(btnMapaPoi2)btnMapaPoi2.style.opacity='0.4';
     actualizarBotonesRuta(); return;
   }
-  empty.style.display = 'none';
-  info.style.display  = 'flex';
+  if(empty) empty.style.display = 'none';
+  if(info)  info.style.display  = 'flex';
 
   var distTotal = 0;
   // Si tenemos ubicación del usuario, añadir distancia hasta el primer punto
@@ -4398,6 +4402,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v194</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v195</div>
 </body>
 </html>
