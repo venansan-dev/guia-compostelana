@@ -3402,7 +3402,7 @@ function actualizarRuta() {
 
   btnGo.disabled  = rutaPuntos.length < 2;
   btnClr.disabled = false; btnClr.style.display='block';
-  var btnNavEl=document.getElementById('ruta-nav-btn');if(btnNavEl&&rutaPuntos.length>=2){btnNavEl.style.display='block';}
+  var btnNavEl=document.getElementById('ruta-nav-btn');if(btnNavEl&&!_navActiva){btnNavEl.style.display='block';}
   actualizarBotonesRuta();
   // Auto-guardar ruta en localStorage
   try { if(rutaPuntos.length>0) localStorage.setItem('rutaGuardada', JSON.stringify(rutaPuntos)); } catch(e) {}
@@ -3527,7 +3527,7 @@ function distanciaTexto(m) {
 }
 
 function activarNavegacionVoz() {
-  if (rutaPuntos.length < 2) { mostrarToast('Añade al menos 2 puntos a la ruta'); return; }
+  if (rutaPuntos.length < 1) { mostrarToast('Añade al menos 1 punto a la ruta'); return; }
 
   // Ordenar puntos por cercanía al usuario
   var origen = (userLat && userLng) ? {lat:userLat, lng:userLng} : {lat:rutaPuntos[0].lat, lng:rutaPuntos[0].lng};
@@ -4779,6 +4779,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v225</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v226</div>
 </body>
 </html>
