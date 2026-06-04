@@ -3646,17 +3646,29 @@ function activarNavegacionVoz() {
       'https://router.project-osrm.org/route/v1/foot/' + coords.join(';') + '?overview=full&geometries=geojson&steps=true'
     ];
     function _navFetchFallback(i) {
-      if (i >= navEps.length) { mostrarToast('❌ No se pudo calcular la ruta'); _navActiva=false; return; }
+      if (i >= navEps.length) { mostrarToast('❌ No se pudo calcular la ruta'); return; }
       fetch(navEps[i]).then(function(r){ return r.json(); }).then(function(data) {
         if (!data.routes || !data.routes[0]) { _navFetchFallback(i+1); return; }
+        var route = data.routes[0];
+        // Extraer pasos
         var pasos = [];
-        data.routes[0].legs.forEach(function(leg) {
+        route.legs.forEach(function(leg) {
           leg.steps.forEach(function(step) {
             var man = step.maneuver;
             pasos.push({ tipo: man.type+(man.modifier?'-'+man.modifier:''), calle: step.name||'', distancia: step.distance, lat: man.location[1], lng: man.location[0] });
           });
         });
         _navPasosCache = pasos;
+        // Dibujar trazado amarillo con flechas directamente desde esta respuesta
+        if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
+        if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); }); window._rutaFlechas = []; }
+        var z = mapa.getZoom();
+        var lw = z>=17?6:z>=15?5:z>=13?4:3;
+        _rutaLinea = L.geoJSON(route.geometry, {
+          style:{color:'#FFD700',weight:lw,opacity:0.9,dashArray:'14 6',lineJoin:'round',lineCap:'round'}
+        }).addTo(mapa);
+        var latlngs = route.geometry.coordinates.map(function(c){return[c[1],c[0]];});
+        dibujarFlechas(latlngs);
         _iniciarConPasos(pasos);
       }).catch(function(){ _navFetchFallback(i+1); });
     }
@@ -4847,6 +4859,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v243</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v244</div>
 </body>
 </html>
