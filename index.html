@@ -2742,9 +2742,6 @@ function cambiarRadio(km,btn) {
   btn.style.color='#fff';
   btn.style.border='2px solid #1D9E75';
   if (userLat) aplicarRadio(km);
-  // Centrar la sección del mapa en pantalla
-  var mapBlock = document.getElementById('map-block');
-  if (mapBlock) mapBlock.scrollIntoView({behavior:'smooth', block:'center'});
 }
 
 // BUSCADOR NOMINATIM
@@ -3235,10 +3232,9 @@ function dibujarLineaEstática() {
   if (userLat && userLng) osrmCoords.unshift(userLng+','+userLat);
   if (osrmCoords.length < 2) return;
   var endpoints = [
-    'https://routing.openstreetmap.de/routed-foot/route/v1/foot/' + osrmCoords.join(';') + '?overview=full&geometries=geojson&steps=true',
-    'https://router.project-osrm.org/route/v1/foot/' + osrmCoords.join(';') + '?overview=full&geometries=geojson&steps=true'
+    'https://routing.openstreetmap.de/routed-foot/route/v1/foot/' + osrmCoords.join(';') + '?overview=full&geometries=geojson',
+    'https://router.project-osrm.org/route/v1/foot/' + osrmCoords.join(';') + '?overview=full&geometries=geojson'
   ];
-  _navOrdenadosCache = puntosOrdenados.slice(); // guardar orden para navegación
   function dibujarGeoJSON2(geojson) {
     if (_navActiva) return; // navegación activa: no sobreescribir línea verde
     if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
@@ -3264,24 +3260,7 @@ function dibujarLineaEstática() {
     if (i >= endpoints.length) { fallback2(); return; }
     fetch(endpoints[i]).then(function(r){ return r.json(); })
       .then(function(data) {
-        if (data.routes && data.routes[0]) {
-          // Cachear pasos y geometría para navegación por voz
-          _navPasosCache = [];
-          window._navGeomCache = data.routes[0].geometry;
-          data.routes[0].legs.forEach(function(leg) {
-            leg.steps.forEach(function(step) {
-              var man = step.maneuver;
-              _navPasosCache.push({
-                tipo: man.type + (man.modifier ? '-' + man.modifier : ''),
-                calle: step.name || '',
-                distancia: step.distance,
-                lat: man.location[1],
-                lng: man.location[0]
-              });
-            });
-          });
-          dibujarGeoJSON2(data.routes[0].geometry);
-        }
+        if (data.routes && data.routes[0]) dibujarGeoJSON2(data.routes[0].geometry);
         else intentar2(i+1);
       }).catch(function(){ intentar2(i+1); });
   }
@@ -3299,10 +3278,9 @@ function actualizarLineaRuta() {
   if (osrmCoords.length < 2) return;
   // Intentar varios servidores OSRM con perfil a pie
   var endpoints = [
-    'https://routing.openstreetmap.de/routed-foot/route/v1/foot/' + osrmCoords.join(';') + '?overview=full&geometries=geojson&steps=true',
-    'https://router.project-osrm.org/route/v1/foot/' + osrmCoords.join(';') + '?overview=full&geometries=geojson&steps=true'
+    'https://routing.openstreetmap.de/routed-foot/route/v1/foot/' + osrmCoords.join(';') + '?overview=full&geometries=geojson',
+    'https://router.project-osrm.org/route/v1/foot/' + osrmCoords.join(';') + '?overview=full&geometries=geojson'
   ];
-  _navOrdenadosCache = puntosOrdenados.slice(); // guardar orden para navegación
 
   function dibujarGeoJSON(geojson) {
     if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
@@ -3497,9 +3475,7 @@ function cargarRutaGuardada() {
 //  NAVEGACIÓN POR VOZ CON OSRM
 // ═══════════════════════════════════════════════
 var _navActiva = false;
-var _navPasos = [];
-var _navPasosCache = []; // pasos guardados por dibujarLineaEstática
-var _navOrdenadosCache = []; // orden de puntos guardado        // pasos OSRM [{instruccion, distancia, lat, lng}]
+var _navPasos = [];        // pasos OSRM [{instruccion, distancia, lat, lng}]
 var _navPasoActual = 0;
 var _navWatchId = null;
 var _navWakeLock = null;
@@ -3563,126 +3539,124 @@ function activarNavegacionVoz() {
   var coords = [];
   if (userLat && userLng) coords.push(userLng + ',' + userLat);
   ordenados.forEach(function(p){ coords.push(p.lng + ',' + p.lat); });
-  mostrarToast('🎙️ Iniciando navegación...');
+  var _navEndpoints = [
+    'https://routing.openstreetmap.de/routed-foot/route/v1/foot/' + coords.join(';') + '?steps=true&geometries=geojson&overview=full&annotations=false',
+    'https://router.project-osrm.org/route/v1/foot/' + coords.join(';') + '?steps=true&geometries=geojson&overview=full&annotations=false'
+  ];
+
+  mostrarToast('🔄 Calculando ruta...');
   if (window._navRestoreTimeout) { clearTimeout(window._navRestoreTimeout); window._navRestoreTimeout = null; }
-  _navActiva = true; // bloquear dibujarLineaEstática desde ya
+  _navActiva = true; // marcar inmediatamente para bloquear dibujarLineaEstática pendiente
+  // Limpiar trazado estático previo antes de calcular nav
+  if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
+  if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); }); window._rutaFlechas = []; }
 
-  // Anuncio inmediato (desbloquea speechSynthesis en iOS)
-  hablar('Navegación por voz activada.');
+  // Anuncio inmediato desde el gesto del usuario (necesario en iOS para activar speechSynthesis)
+  hablar('Navegación por voz activada. Calculando ruta.');
 
-  // Función interna que activa la navegación con los pasos dados
-  function _iniciarConPasos(pasos) {
-    _navPasos = pasos;
-    _navPasoActual = 0;
-    _navAnunciado = {};
+  function _navFetch(i) {
+    if (i >= _navEndpoints.length) { mostrarToast('❌ No se pudo calcular la ruta'); return; }
+    fetch(_navEndpoints[i])
+      .then(function(r){ return r.json(); })
+      .then(function(data) {
+        if (!data.routes || !data.routes[0]) { _navFetch(i+1); return; }
 
-    // UI: ocultar IR, mostrar STOP
-    var btnIr   = document.getElementById('ruta-nav-btn');
-    var btnStop = document.getElementById('ruta-nav-stop');
-    var btnClr  = document.getElementById('ruta-bar-btn-clear');
-    if (btnIr)   btnIr.style.display   = 'none';
-    if (btnStop) btnStop.style.display = 'block';
-    if (btnClr)  btnClr.style.display  = 'none';
-
-    // Agrandar mapa sin cambiar position (no destruye Leaflet)
-    var mapEl = document.getElementById('map');
-    if (mapEl) { mapEl._origHeight = mapEl.style.height; mapEl.style.height = '100dvh'; }
-    var mapTitleBlock = document.querySelector('.map-title-block');
-    if (mapTitleBlock) { mapTitleBlock._origDisplay = mapTitleBlock.style.display; mapTitleBlock.style.display = 'none'; }
-    var searchUnder = document.querySelector('.search-under-map');
-    if (searchUnder) { searchUnder._origDisplay = searchUnder.style.display; searchUnder.style.display = 'none'; }
-
-    // Scroll al mapa
-    var mapBlock = document.getElementById('map-block');
-    if (mapBlock) mapBlock.scrollIntoView({behavior:'smooth', block:'start'});
-
-    // Ocultar botones del mapa salvo refresh y brújula
-    ['btn-add-poi-map','map-radio-control'].forEach(function(id){
-      var el=document.getElementById(id); if(el) el.style.display='none';
-    });
-    ['ruta-bar-count','ruta-bar-dist','ruta-bar-time'].forEach(function(id){
-      var el=document.getElementById(id); if(el) el.style.display='none';
-    });
-
-    // Bloquear interacción
-    mapa.dragging.disable();
-    mapa.touchZoom.disable();
-    mapa.scrollWheelZoom.disable();
-    mapa.doubleClickZoom.disable();
-    mapa.boxZoom.disable();
-    mapa.keyboard.disable();
-    window._navBloqPopups = true;
-
-    // Centrar en usuario
-    if (userLat && userLng) mapa.setView([userLat, userLng], 18, {animate:true});
-
-    // Wake Lock
-    if (navigator.wakeLock) {
-      navigator.wakeLock.request('screen').then(function(wl){ _navWakeLock = wl; }).catch(function(){});
-    }
-
-    // Anuncio primer punto
-    var primerPunto = ordenados[0];
-    hablar('Navegación iniciada. Dirígete hacia ' + primerPunto.nombre);
-
-    // Iniciar GPS
-    if (window._navWatchId) navigator.geolocation.clearWatch(window._navWatchId);
-    window._navWatchId = navigator.geolocation.watchPosition(
-      function(pos) { _navTick(pos); },
-      function() {},
-      {enableHighAccuracy:true, maximumAge:1500, timeout:10000}
-    );
-
-    mostrarToast('🎙️ Navegación por voz activa');
-  }  // fin _iniciarConPasos
-
-  // Usar cache si disponible, si no hacer fetch
-  if (_navPasosCache.length > 0) {
-    // Redibujar ruta desde cache (por si dibujarLineaEstática la había borrado)
-    if (!_rutaLinea && window._navGeomCache) {
-      var z = mapa.getZoom(); var lw = z>=17?6:z>=15?5:z>=13?4:3;
-      _rutaLinea = L.geoJSON(window._navGeomCache, {style:{color:'#FFD700',weight:lw,opacity:0.9,dashArray:'14 6',lineJoin:'round',lineCap:'round'}}).addTo(mapa);
-      var ll = window._navGeomCache.coordinates.map(function(c){return[c[1],c[0]];});
-      dibujarFlechas(ll);
-    }
-    _iniciarConPasos(_navPasosCache.slice());
-  } else {
-    // Cache vacío: calcular ruta ahora
-    mostrarToast('🔄 Calculando ruta...');
-    var navEps = [
-      'https://routing.openstreetmap.de/routed-foot/route/v1/foot/' + coords.join(';') + '?overview=full&geometries=geojson&steps=true',
-      'https://router.project-osrm.org/route/v1/foot/' + coords.join(';') + '?overview=full&geometries=geojson&steps=true'
-    ];
-    function _navFetchFallback(i) {
-      if (i >= navEps.length) { mostrarToast('❌ No se pudo calcular la ruta'); return; }
-      fetch(navEps[i]).then(function(r){ return r.json(); }).then(function(data) {
-        if (!data.routes || !data.routes[0]) { _navFetchFallback(i+1); return; }
-        var route = data.routes[0];
-        // Extraer pasos
-        var pasos = [];
-        route.legs.forEach(function(leg) {
-          leg.steps.forEach(function(step) {
-            var man = step.maneuver;
-            pasos.push({ tipo: man.type+(man.modifier?'-'+man.modifier:''), calle: step.name||'', distancia: step.distance, lat: man.location[1], lng: man.location[0] });
+      var route = data.routes[0];
+      // Extraer todos los pasos de todas las legs
+      _navPasos = [];
+      route.legs.forEach(function(leg) {
+        leg.steps.forEach(function(step) {
+          var man = step.maneuver;
+          _navPasos.push({
+            tipo:      man.type + (man.modifier ? '-' + man.modifier : ''),
+            calle:     step.name || '',
+            distancia: step.distance,  // metros hasta el siguiente giro
+            lat:       man.location[1],
+            lng:       man.location[0]
           });
         });
-        _navPasosCache = pasos;
-        window._navGeomCache = route.geometry; // guardar geometría para reuso
-        // Dibujar trazado amarillo con flechas directamente desde esta respuesta
-        if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
-        if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); }); window._rutaFlechas = []; }
-        var z = mapa.getZoom();
-        var lw = z>=17?6:z>=15?5:z>=13?4:3;
-        _rutaLinea = L.geoJSON(route.geometry, {
-          style:{color:'#FFD700',weight:lw,opacity:0.9,dashArray:'14 6',lineJoin:'round',lineCap:'round'}
-        }).addTo(mapa);
-        var latlngs = route.geometry.coordinates.map(function(c){return[c[1],c[0]];});
-        dibujarFlechas(latlngs);
-        _iniciarConPasos(pasos);
-      }).catch(function(){ _navFetchFallback(i+1); });
-    }
-    _navFetchFallback(0);
+      });
+
+      _navPasoActual = 0;
+      _navActiva = true;
+      _navAnunciado = {};
+
+      // UI: ocultar IR, mostrar STOP, bloquear mapa
+      var btnIr   = document.getElementById('ruta-nav-btn');
+      var btnStop = document.getElementById('ruta-nav-stop');
+      var btnClr  = document.getElementById('ruta-bar-btn-clear');
+      if (btnIr)   btnIr.style.display   = 'none';
+      if (btnStop) btnStop.style.display = 'block';
+      if (btnClr)  btnClr.style.display  = 'none'; // ocultar mientras navega
+      // Pantalla completa durante navegación
+      var mapBlock = document.getElementById('map-block');
+      var mapEl    = document.getElementById('map');
+      if (mapBlock) {
+        mapBlock._origStyle = mapBlock.getAttribute('style') || '';
+        mapBlock.style.cssText = 'position:fixed;inset:0;z-index:9000;border-radius:0;margin:0;max-width:100%;box-shadow:none;border:none;';
+      }
+      if (mapEl) {
+        mapEl._origHeight = mapEl.style.height;
+        mapEl.style.height = '100dvh';
+      }
+      setTimeout(function(){ if(mapa) mapa.invalidateSize(); }, 100);
+
+      // Ocultar botones del mapa salvo refresh y brújula
+      ['btn-add-poi-map','map-radio-control'].forEach(function(id){
+        var el=document.getElementById(id); if(el) el.style.display='none';
+      });
+      // Reducir panel ruta a solo el Stop (ocultar count/dist/time/clear)
+      ['ruta-bar-count','ruta-bar-dist','ruta-bar-time'].forEach(function(id){
+        var el=document.getElementById(id); if(el) el.style.display='none';
+      });
+
+      // Bloquear interacción del mapa
+      mapa.dragging.disable();
+      // zoom permitido, solo bloquear drag y teclado
+      mapa.doubleClickZoom.disable();
+      mapa.boxZoom.disable();
+      mapa.keyboard.disable();
+      // Evitar apertura de popups durante navegación
+      window._navBloqPopups = true;
+
+      // Zoom máximo sobre usuario
+      if (userLat && userLng) mapa.setView([userLat, userLng], 18, {animate:true});
+
+      // Wake Lock — mantener pantalla activa
+      if (navigator.wakeLock) {
+        navigator.wakeLock.request('screen').then(function(wl){ _navWakeLock = wl; }).catch(function(){});
+      }
+
+      // Primer anuncio
+      var primerPunto = ordenados[0];
+      hablar((T[idiomaActual]||T.es).navInicio
+        ? (T[idiomaActual]||T.es).navInicio.replace('{nombre}', primerPunto.nombre)
+        : 'Navegación iniciada. Dirígete hacia ' + primerPunto.nombre);
+
+      // Dibujar ruta en mapa con flechas amarillas (igual que trazado estático)
+      if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
+      if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); }); window._rutaFlechas = []; }
+      var geojsonCoords = route.geometry.coordinates.map(function(c){ return [c[1], c[0]]; });
+      var z = mapa.getZoom();
+      var lineWeight = z >= 17 ? 6 : z >= 15 ? 5 : z >= 13 ? 4 : 3;
+      _rutaLinea = L.geoJSON(route.geometry, {
+        style: { color:'#FFD700', weight:lineWeight, opacity:0.9, dashArray:'14 6', lineJoin:'round', lineCap:'round' }
+      }).addTo(mapa);
+      dibujarFlechas(geojsonCoords);
+
+      // Iniciar seguimiento GPS
+      if (window._navWatchId) navigator.geolocation.clearWatch(window._navWatchId);
+      window._navWatchId = navigator.geolocation.watchPosition(
+        function(pos) { _navTick(pos); },
+        function() {},
+        {enableHighAccuracy:true, maximumAge:1500, timeout:10000}
+      );
+
+      mostrarToast('🎙️ Navegación por voz activa');
+    })
+      }).catch(function(){ _navFetch(i+1); });
   }
+  _navFetch(0);
 }
 
 function _navTick(pos) {
@@ -3736,21 +3710,23 @@ function detenerNavegacionVoz() {
 
   // Restaurar interacción del mapa
   mapa.dragging.enable();
-  mapa.dragging.enable();
   mapa.touchZoom.enable();
-  mapa.scrollWheelZoom.enable();
   mapa.doubleClickZoom.enable();
+  mapa.scrollWheelZoom.enable();
   mapa.boxZoom.enable();
   mapa.keyboard.enable();
   window._navBloqPopups = false;
 
-  // Restaurar tamaño del mapa
-  var mapEl = document.getElementById('map');
-  if (mapEl && mapEl._origHeight !== undefined) mapEl.style.height = mapEl._origHeight || '';
-  var mapTitleBlock = document.querySelector('.map-title-block');
-  if (mapTitleBlock && mapTitleBlock._origDisplay !== undefined) mapTitleBlock.style.display = mapTitleBlock._origDisplay;
-  var searchUnder = document.querySelector('.search-under-map');
-  if (searchUnder && searchUnder._origDisplay !== undefined) searchUnder.style.display = searchUnder._origDisplay;
+  // Salir de pantalla completa
+  var mapBlock = document.getElementById('map-block');
+  var mapEl    = document.getElementById('map');
+  if (mapBlock && mapBlock._origStyle !== undefined) {
+    mapBlock.setAttribute('style', mapBlock._origStyle);
+  }
+  if (mapEl && mapEl._origHeight !== undefined) {
+    mapEl.style.height = mapEl._origHeight || '';
+  }
+  setTimeout(function(){ if(mapa) mapa.invalidateSize(); }, 100);
 
   // Restaurar botones del mapa
   ['btn-add-poi-map','map-radio-control'].forEach(function(id){
@@ -4868,6 +4844,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v245</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v235</div>
 </body>
 </html>
