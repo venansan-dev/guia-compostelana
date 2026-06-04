@@ -195,6 +195,7 @@
 
     <button onclick='activarNavegacionVoz()' id='ruta-nav-btn' style='display:none;width:100%;background:#1D9E75;border:none;color:#fff;padding:6px 8px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center'>▶ Ir</button>
     <button onclick='detenerNavegacionVoz()' id='ruta-nav-stop' style='display:none;width:100%;background:#f59e0b;border:none;color:#fff;padding:6px 8px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center'>⏹ Stop</button>
+    <button onclick='pedirOrientacion()' id='ruta-nav-orientacion' style='display:none;width:100%;background:#fff;border:2px solid rgba(0,0,0,0.15);color:#333;padding:6px 8px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center'>🧭 Brújula</button>
     <button onclick='toggleVozNav()' id='ruta-nav-voz' style='display:none;width:100%;background:#444;border:none;color:#fff;padding:6px 8px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center'>🔇 Voz</button>
     <button onclick='guardarRuta()' id='ruta-bar-btn-save' style='display:none;width:100%;background:#6366f1;border:none;color:#fff;padding:6px 8px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center'>💾 Guardar</button>
     <button onclick='limpiarRuta()' id='ruta-bar-btn-clear' style='display:none;width:100%;background:#dc2626;border:none;color:#fff;padding:6px 8px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center'>🗑 Limpiar</button>
@@ -2443,9 +2444,9 @@ function initMapa() {
   mapa.on('popupclose', function() {
     _popupAbierto = false;
     var b;
-    b=document.getElementById('btn-add-poi-map'); if(b) b.style.display='flex';
+    b=document.getElementById('btn-add-poi-map'); if(b&&!_navActiva) b.style.display='flex';
     b=document.getElementById('btn-refresh-loc'); if(b) b.style.display='flex';
-    b=document.getElementById('btn-orientacion-mapa'); if(b) b.style.display='flex';
+    b=document.getElementById('btn-orientacion-mapa'); if(b&&!_navActiva) b.style.display='flex';
     // Restaurar panel ruta siempre visible
     b=document.getElementById('map-ruta-panel'); if(b){b.style.display='flex';b.style.flexDirection='column';}
     b=document.getElementById('map-radio-control'); if(b){b.style.display='flex';}
@@ -3612,6 +3613,11 @@ function activarNavegacionVoz() {
 
     // Ocultar botones del mapa salvo brújula
     var btnSaveNav=document.getElementById('ruta-bar-btn-save');if(btnSaveNav)btnSaveNav.style.display='none';
+    // Mover brújula al panel de ruta
+    var btnOrMap = document.getElementById('btn-orientacion-mapa');
+    if (btnOrMap) btnOrMap.style.display = 'none';
+    var btnOrPanel = document.getElementById('ruta-nav-orientacion');
+    if (btnOrPanel) btnOrPanel.style.display = 'block';
     ['btn-add-poi-map','map-radio-control','btn-refresh-loc'].forEach(function(id){
       var el=document.getElementById(id); if(el) el.style.display='none';
     });
@@ -3879,6 +3885,11 @@ function detenerNavegacionVoz() {
   var btnClr  = document.getElementById('ruta-bar-btn-clear');
   if (btnIr   && rutaPuntos.length >= 1) btnIr.style.display = 'block';
   var btnSaveRst=document.getElementById('ruta-bar-btn-save');if(btnSaveRst&&rutaPuntos.length>0)btnSaveRst.style.display='block';
+  // Restaurar brújula en mapa
+  var btnOrMapRst = document.getElementById('btn-orientacion-mapa');
+  if (btnOrMapRst) btnOrMapRst.style.display = 'flex';
+  var btnOrPanelRst = document.getElementById('ruta-nav-orientacion');
+  if (btnOrPanelRst) btnOrPanelRst.style.display = 'none';
   if (btnStop) btnStop.style.display = 'none';
   var btnVozOff = document.getElementById('ruta-nav-voz'); if(btnVozOff) btnVozOff.style.display = 'none';
   _navVozActiva = false;
@@ -4995,6 +5006,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v254</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v256</div>
 </body>
 </html>
