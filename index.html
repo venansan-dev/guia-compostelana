@@ -208,16 +208,19 @@
     style='display:flex;position:absolute;top:54px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>🧭</button>
   <!-- Botón añadir punto (derecha) -->
   <button id='btn-add-poi-map' onclick='abrirFormPOI()' title='Añadir un punto' style='position:absolute;top:10px;right:10px;z-index:400;height:36px;background:#1D9E75;color:#fff;border:none;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;font-size:13px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,0.2);padding:0 12px;font-family:DM Sans,sans-serif;white-space:nowrap'>➕ <span id='btn-add-poi-map-txt'>Punto</span></button>
+  <!-- Panel radio en mapa (columna derecha bajo +punto) -->
+  <div id='map-radio-control' style='display:flex;position:absolute;top:54px;right:10px;z-index:400;flex-direction:column;align-items:stretch;gap:4px;font-family:DM Sans,sans-serif'>
+    <span id='radio-label' style='font-size:10px;font-weight:700;color:#fff;text-align:center;background:rgba(0,0,0,0.45);border-radius:6px;padding:2px 6px;letter-spacing:0.5px;text-shadow:0 1px 2px rgba(0,0,0,0.5)'>Radio:</span>
+    <div class='map-radio-btn active' onclick='cambiarRadio(1,this)' style='background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.15);min-width:52px;transition:all 0.15s'>1 km</div>
+    <div class='map-radio-btn' onclick='cambiarRadio(2,this)' style='background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.15);min-width:52px;transition:all 0.15s'>2 km</div>
+    <div class='map-radio-btn' onclick='cambiarRadio(3,this)' style='background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.15);min-width:52px;transition:all 0.15s'>3 km</div>
+  </div>
 </div>
 
 <!-- BARRA RADIO + BUSCADOR -->
 <div class='search-under-map'>
   <div class='search-radio-bar'>
-    <div class='search-radio-bottom' id='map-radio-control'>
-      <span class='search-radio-label' id='radio-label'>Radio:</span>
-      <div class='map-radio-btn active' onclick='cambiarRadio(1,this)'>1 km</div>
-      <div class='map-radio-btn' onclick='cambiarRadio(2,this)'>2 km</div>
-      <div class='map-radio-btn' onclick='cambiarRadio(3,this)'>3 km</div>
+    <div class='search-radio-bottom' style='display:flex;align-items:center;padding:0.7rem 1rem;background:var(--fondo);border-bottom:1px solid var(--borde)'>
       <div class='weather-widget' id='weather-widget'><span class='weather-loading'>&#9729;&#65039;</span></div>
     </div>
 
@@ -2424,7 +2427,7 @@ function initMapa() {
   // Ocultar botón ➕ cuando se abre un popup, restaurar al cerrar
   var _popupAbierto = false;
 
-  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc','btn-orientacion-mapa','map-ruta-panel'];
+  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc','btn-orientacion-mapa','map-ruta-panel','map-radio-control'];
   mapa.on('popupopen', function() {
     _popupAbierto = true;
     _mapBtns.forEach(function(id){
@@ -2439,6 +2442,7 @@ function initMapa() {
     b=document.getElementById('btn-orientacion-mapa'); if(b) b.style.display='flex';
     // Restaurar panel ruta siempre visible
     b=document.getElementById('map-ruta-panel'); if(b){b.style.display='flex';b.style.flexDirection='column';}
+    b=document.getElementById('map-radio-control'); if(b){b.style.display='flex';}
   });
   // Cerrar popup al arrastrar o hacer scroll en el mapa
   mapa.on('dragstart', function() { mapa.closePopup(); });
@@ -4333,9 +4337,10 @@ document.addEventListener('DOMContentLoaded', function() {
       if (tgt.classList.contains('opinion-input')) {
         e.stopPropagation(); return;
       }
-      // Click en card — ir al mapa
+      // Click en card — ir al mapa (excepto zona de imagen)
       var card = tgt.closest('.poi-card');
       if (card && !dragged) {
+        if (tgt.closest('.poi-img')) return; // click en imagen: no hacer nada
         var lat = card.querySelector('.poi-btn') ? parseFloat(card.querySelector('.poi-btn').getAttribute('data-lat')) : null;
         // No hacer nada si no hay lat — el card hace verEnMapa por su propio onclick
       }
@@ -4380,9 +4385,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (t.classList && t.classList.contains('poi-btn') && t.getAttribute('data-lat')) {
       irIndicaciones(parseFloat(t.getAttribute('data-lat')), parseFloat(t.getAttribute('data-lng'))); return;
     }
-    // Click en tarjeta → ir al mapa
+    // Click en tarjeta → ir al mapa (excepto zona de imagen)
     var card = t.closest ? t.closest('.poi-card') : null;
     if (card && card.getAttribute('data-poi-id')) {
+      if (t.closest('.poi-img')) return; // click en imagen: no hacer nada
       var pid = card.getAttribute('data-poi-id');
       var p = PUNTOS.find(function(x){ return x.id===pid; });
       if (p) verEnMapa(p.lat, p.lng);
@@ -4538,6 +4544,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v217</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v219</div>
 </body>
 </html>
