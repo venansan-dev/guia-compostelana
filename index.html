@@ -3133,6 +3133,15 @@ function dibujarFlechas(latlngs) {
   var z = mapa.getZoom();
   var espaciado = z >= 17 ? 40 : z >= 15 ? 80 : z >= 13 ? 180 : z >= 11 ? 400 : 800;
   var acumulado = 0;
+  // Pre-count total arrows for gradient
+  var totalFlechas = 0, acum2 = 0;
+  for (var j = 0; j < latlngs.length - 1; j++) {
+    var aa = L.latLng(latlngs[j][0], latlngs[j][1]);
+    var bb = L.latLng(latlngs[j+1][0], latlngs[j+1][1]);
+    acum2 += aa.distanceTo(bb);
+    if (acum2 >= espaciado) { totalFlechas++; acum2 = 0; }
+  }
+  var flechaIdx = 0;
   for (var i = 0; i < latlngs.length - 1; i++) {
     var a = L.latLng(latlngs[i][0], latlngs[i][1]);
     var b = L.latLng(latlngs[i+1][0], latlngs[i+1][1]);
@@ -3146,9 +3155,33 @@ function dibujarFlechas(latlngs) {
       // Convertir a bearing: ángulo desde el norte en sentido horario
       var bearing = Math.atan2(dLng * Math.cos(latlngs[i][0] * Math.PI/180), dLat) * 180 / Math.PI;
       var mid = [(latlngs[i][0]+latlngs[i+1][0])/2, (latlngs[i][1]+latlngs[i+1][1])/2];
+      // Degradado: verde inicio → amarillo → naranja → rojo final
+      var progreso = totalFlechas > 0 ? flechaIdx / totalFlechas : 0;
+      var r, g, b;
+      if (progreso < 0.33) {
+        // Verde → Amarillo
+        var t = progreso / 0.33;
+        r = Math.round(34 + (255-34)*t);
+        g = Math.round(197 + (215-197)*t);
+        b = Math.round(94 * (1-t));
+      } else if (progreso < 0.66) {
+        // Amarillo → Naranja
+        var t = (progreso - 0.33) / 0.33;
+        r = 255;
+        g = Math.round(215 - (215-140)*t);
+        b = 0;
+      } else {
+        // Naranja → Rojo
+        var t = (progreso - 0.66) / 0.34;
+        r = 255;
+        g = Math.round(140 * (1-t));
+        b = 0;
+      }
+      var fill = 'rgb('+r+','+g+','+b+')';
       var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">' +
-        '<polygon points="10,1 18,18 10,13 2,18" fill="#FFD700" stroke="#B8860B" stroke-width="1.2" stroke-linejoin="round"/>' +
+        '<polygon points="10,1 18,18 10,13 2,18" fill="'+fill+'" stroke="rgba(0,0,0,0.4)" stroke-width="1.2" stroke-linejoin="round"/>' +
         '</svg>';
+      flechaIdx++;
       var arrow = L.marker(mid, {
         icon: L.divIcon({
           className: '',
@@ -4459,6 +4492,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v207</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v208</div>
 </body>
 </html>
