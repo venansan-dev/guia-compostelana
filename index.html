@@ -3630,16 +3630,7 @@ function activarNavegacionVoz() {
         ? (T[idiomaActual]||T.es).navInicio.replace('{nombre}', primerPunto.nombre)
         : 'Navegación iniciada. Dirígete hacia ' + primerPunto.nombre);
 
-      // Dibujar ruta en mapa con flechas amarillas (igual que trazado estático)
-      if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
-      if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); }); window._rutaFlechas = []; }
-      var geojsonCoords = route.geometry.coordinates.map(function(c){ return [c[1], c[0]]; });
-      var z = mapa.getZoom();
-      var lineWeight = z >= 17 ? 6 : z >= 15 ? 5 : z >= 13 ? 4 : 3;
-      _rutaLinea = L.geoJSON(route.geometry, {
-        style: { color:'#FFD700', weight:lineWeight, opacity:0.9, dashArray:'14 6', lineJoin:'round', lineCap:'round' }
-      }).addTo(mapa);
-      dibujarFlechas(geojsonCoords);
+      // La ruta ya está dibujada en el mapa — no redibujar
 
       // Iniciar seguimiento GPS
       if (window._navWatchId) navigator.geolocation.clearWatch(window._navWatchId);
@@ -4838,6 +4829,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v237</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v238</div>
 </body>
 </html>
