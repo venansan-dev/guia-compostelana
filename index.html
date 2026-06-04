@@ -51,6 +51,7 @@
   50%      { transform: translateY(-12px) scale(1.08); }
 }
 </style>
+<style>@keyframes bounceDownArrow{0%,100%{transform:translateY(0);}45%{transform:translateY(8px);}65%{transform:translateY(3px);}}</style>
 </head>
 <body>
 
@@ -222,10 +223,8 @@
     style='display:flex;position:absolute;top:54px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>🧭</button>
   <button id='btn-ar-mode' onclick='activarModoAR()' title='Vista de Realidad Aumentada'
     style='display:flex;position:absolute;top:98px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>📷</button>
-  <!-- Overlay AR -->
   <div id='ar-overlay' style='display:none;position:fixed;inset:0;z-index:99000;background:#000;flex-direction:column'>
     <video id='ar-video' autoplay playsinline muted style='position:absolute;inset:0;width:100%;height:100%;object-fit:cover'></video>
-    <canvas id='ar-canvas' style='position:absolute;inset:0;width:100%;height:100%;pointer-events:none'></canvas>
     <div id='ar-labels' style='position:absolute;inset:0;pointer-events:none;overflow:hidden'></div>
     <button onclick='cerrarModoAR()' style='position:absolute;top:20px;right:20px;z-index:10;background:rgba(0,0,0,0.6);color:#fff;border:none;border-radius:50%;width:44px;height:44px;font-size:22px;cursor:pointer;backdrop-filter:blur(4px)'>✕</button>
     <div style='position:absolute;bottom:30px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.7);font-size:12px;font-family:DM Sans,sans-serif;text-align:center;pointer-events:none'>Apunta hacia los puntos de interés del Camino</div>
@@ -303,6 +302,7 @@
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;vestigio arqueológico&quot;)' id='chip-arqueologico'>🔍 Arqueológico</div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;albergue&quot;)' id='chip-albergues'>🏠 Albergues</div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;etapa&quot;)' id='chip-etapas'>🥾 <span id='chip-etapas-txt'>Etapas</span></div>
+    <div class='cat-chip' onclick='filtrarCategoria(this,&quot;mirador&quot;)' id='chip-etapas' onclick='filtrarCategoria(this,&quot;etapa&quot;)'>🥾 <span id='chip-etapas-txt'>Etapas</span></div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;mirador&quot;)' id='chip-miradores'>🔭 Miradores</div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;fiesta&quot;)' id='chip-fiestas'>🎉 Fiestas</div>
   </div>
@@ -1258,6 +1258,119 @@ var PUNTOS = [
     descripcion:'La etapa más exigente del tramo sur del camino interior. Desde O Porriño el camino asciende por Mos, donde la iglesia de Santa Eulalia conserva una pila bautismal románica y una cruz de término medieval que marcaba el límite de la encomienda templaria de la zona. La ruta atraviesa monte bajo antes de descender a Redondela, donde el Camino Interior converge con el Camino de la Costa. 📍 18 km · ↑280 m / ↓300 m · Dificultad: Media',
     descripcion_gl:'Desde O Porriño o camiño ascende por Mos —igrexa de Santa Eulalia con pila románica e marcas templarias— antes de descender a Redondela, onde converxen o Camiño Interior e o da Costa. 📍 18 km · ↑280 m / ↓300 m · Dificultade: Media',
     descripcion_en:'From O Porriño the Way climbs through Mos, where the church of Santa Eulalia preserves Romanesque stonework and Templar boundary markers, before descending to Redondela where the Interior and Coastal routes converge. 📍 18 km · ↑280 m / ↓300 m · Difficulty: Medium',
+    emoji:'🥾', color:'azul' },
+
+
+  // ═══════════════════════════════════════════
+  //  POIs NUEVOS
+  // ═══════════════════════════════════════════
+  { id:'panxon-playa', nombre:'Playa de Panxón y Praia de América', nombre_gl:'Praia de Panxón e Praia de América', nombre_en:'Panxón and América Beach',
+    categoria:'naturaleza', lat:42.1419, lng:-8.8046,
+    descripcion:'Dos de las playas más hermosas del Camino Portugués de la Costa, encuadradas entre el Cabo Silleiro y la ría de Vigo. La Praia de América, con más de un kilómetro de arena fina, fue durante siglos fondeadero de las embarcaciones que transportaban peregrinos por vía marítima desde Portugal. El monte Ferro, que separa ambas playas, alberga restos de un castro y una capilla dedicada a la Virgen, desde donde en días claros se divisa la silueta de las Islas Cíes.',
+    descripcion_gl:'Dúas das praias máis fermosas do Camiño da Costa, encadradas entre o Cabo Silleiro e a ría de Vigo. A Praia de América foi durante séculos fondeadoiro de embarcacións que transportaban peregrinos desde Portugal.',
+    descripcion_en:'Two of the most beautiful beaches on the Portuguese Coastal Way. América Beach was for centuries an anchorage for vessels carrying pilgrims by sea from Portugal. Monte Ferro separates both beaches and offers views of the Cíes Islands.',
+    emoji:'🏖', color:'verde' },
+
+  { id:'arcade-ostra', nombre:'Arcade — Villa de la Ostra y el Camino', nombre_gl:'Arcade — Vila da Ostra e o Camiño', nombre_en:'Arcade — Village of the Oyster and the Way',
+    categoria:'localización histórica', lat:42.3544, lng:-8.6186,
+    descripcion:'Arcade es una de las paradas más queridas del Camino Portugués, famosa desde el siglo XVI por sus ostras de ría cultivadas en las aguas del Verdugo desde época romana. El puente medieval de Ponte Sampaio fue escenario el 7 y 8 de junio de 1809 de la Batalla de Ponte Sampaio, en la que milicias gallegas armadas con azadas y guadañas derrotaron a las tropas del mariscal Ney, frenando el avance napoleónico hacia Portugal.',
+    descripcion_gl:'Arcade é famosa polas súas ostras de ría e polo histórico Ponte Sampaio, onde en 1809 as milicias galegas derrotaron ás tropas napoleónicas de Ney.',
+    descripcion_en:'Arcade is famous for its estuary oysters and the medieval Ponte Sampaio bridge, where Galician militias defeated Napoleon’s marshal Ney in June 1809.',
+    emoji:'🦪', color:'azul' },
+
+  { id:'torres-oeste-catoira', nombre:'Torres do Oeste — Catoira', nombre_gl:'Torres do Oeste — Catoira', nombre_en:'Torres do Oeste — Catoira',
+    categoria:'edificación histórica', lat:42.6648, lng:-8.7064,
+    descripcion:'Las Torres do Oeste son los restos de una fortaleza medieval erigida en el siglo X para defender la ría del Ulla de los ataques normandos y sarracenos. Esta vía fluvial fue la que en el año 830 utilizó el obispo Teodomiro para transportar en barca los restos del Apóstol desde Iria Flavia hasta el lugar donde se levantaría la Catedral de Compostela.',
+    descripcion_gl:'As Torres do Oeste son os restos dunha fortaleza do século X para defender a ría do Ulla dos normandos. Este río foi o que en 830 utilizou o bispo Teodomiro para levar os restos do Apóstolo ata Compostela.',
+    descripcion_en:'The Torres do Oeste are remains of a 10th-century fortress defending the Ulla estuary from Norman raids. This same river was used in 830 AD to transport the Apostle’s remains from Iria Flavia to the site of the future Cathedral.',
+    emoji:'🏰', color:'amarillo' },
+
+  { id:'castello-torono-oia', nombre:'Castillo de Torroño — Ruinas de Lousado · Oia', nombre_gl:'Castelo de Torroño — Ruínas de Lousado · Oia', nombre_en:'Torroño Castle — Lousado Ruins · Oia',
+    categoria:'edificación histórica', lat:41.9720, lng:-8.8750,
+    descripcion:'En las alturas de Oia, cerca del lugar de Torroña, se elevan los restos del Castelo de Lousado a 537 metros, candidato al antiguo castillo de Turonio citado en el siglo V por el cronista Idacio. El topónimo «Torroña» es asociado por diversos investigadores con este territorio. Algunos investigadores también relacionan este enclave con la red de control territorial de la Orden del Temple en el suroeste de Galicia. El cercano Castillo de Chavella, sobre la bahía del monasterio de Oia, completa un sistema defensivo litoral que custodiaba el paso del Camino y las rutas marítimas de peregrinos.',
+    descripcion_gl:'Nas alturas de Oia, preto de Torroña, álzanse os restos do Castelo de Lousado a 537 metros, candidato á antiga praza forte de Turonio. O topónimo «Torroña» é asociado por investigadores con este territorio. O Castelo de Chavella custodiaba a baía do mosteiro de Oia.',
+    descripcion_en:'In the heights of Oia near Torroña stand the remains of Castelo de Lousado at 537 metres — a candidate for the ancient Turonio fortress cited in the 5th century. Nearby Castillo de Chavella guarded the bay of Oia monastery, part of a coastal defensive system protecting pilgrim routes.',
+    subtitulo:'La fortaleza que vigiló el camino y el mar durante siglos',
+    subtitulo_gl:'A fortaleza que vixiou o camiño e o mar durante séculos',
+    subtitulo_en:'The fortress that watched over the road and the sea for centuries',
+    emoji:'🏰', color:'morado' },
+
+  // ═══════════════════════════════════════════
+  //  ETAPAS — CAMINO PORTUGUÉS DE LA COSTA
+  // ═══════════════════════════════════════════
+  { id:'etapa-costa-1', nombre:'Etapa 1 · A Guarda → Baiona', nombre_gl:'Etapa 1 · A Guarda → Baiona', nombre_en:'Stage 1 · A Guarda → Baiona',
+    categoria:'etapa', variante:'costa', km:28, desnivel_pos:420, desnivel_neg:390, dificultad:'Media',
+    lat:42.1197, lng:-8.8508,
+    descripcion:'La primera etapa del Camino Portugués de la Costa arranca desde el pie del Castro de Santa Trega, donde hace dos mil años los celtas miraban al Atlántico con los mismos ojos con que hoy el peregrino inicia su andadura hacia Compostela. El camino abraza el litoral, avanza por Oia —cuyo monasterio cisterciense del siglo XII domina la costa con nueve siglos de presencia— y corona en Baiona, donde en 1493 la carabela Pinta trajo la primera noticia del Nuevo Mundo. 📍 28 km · ↑420 m / ↓390 m · Dificultad: Media',
+    descripcion_gl:'A primeira etapa arrinca desde o pé do Castro de Santa Trega e avanza por Oia —cuxo mosteiro cisterciense do século XII domina a costa con nove séculos de presenza— ata Baiona, onde en 1493 a carabela Pinta trouxo a primeira noticia do Novo Mundo. 📍 28 km · ↑420 m / ↓390 m · Dificultade: Media',
+    descripcion_en:'The first stage begins at Castro de Santa Trega and passes through Oia — whose 12th-century Cistercian monastery has commanded the coast for nine centuries — ending at Baiona where in 1493 the Pinta brought the first news of the New World. 📍 28 km · ↑420 m / ↓390 m · Difficulty: Medium',
+    emoji:'🥾', color:'verde' },
+
+  { id:'etapa-costa-2', nombre:'Etapa 2 · Baiona → Vigo', nombre_gl:'Etapa 2 · Baiona → Vigo', nombre_en:'Stage 2 · Baiona → Vigo',
+    categoria:'etapa', variante:'costa', km:25, desnivel_pos:310, desnivel_neg:320, dificultad:'Media',
+    lat:42.2406, lng:-8.7207,
+    descripcion:'De Baiona a Vigo el Camino recorre uno de los tramos más bellos del litoral atlántico ibérico. Panxón y la Praia de América ofrecen vistas privilegiadas antes de entrar en Vigo por el barrio histórico de Bouzas, donde la leyenda cuenta que un caballero emergió del mar cubierto de vieiras al llegar los restos del Apóstol. 📍 25 km · ↑310 m / ↓320 m · Dificultad: Media',
+    descripcion_gl:'De Baiona a Vigo o Camiño percorre un dos treitos máis fermosos do litoral. Panxón e a Praia de América ofrecen vistas privilexiadas antes de entrar en Vigo por Bouzas. 📍 25 km · ↑310 m / ↓320 m · Dificultade: Media',
+    descripcion_en:'From Baiona to Vigo the Way follows a beautiful Atlantic coastal stretch past Panxón and América Beach before descending into Vigo through Bouzas. 📍 25 km · ↑310 m / ↓320 m · Difficulty: Medium',
+    emoji:'🥾', color:'verde' },
+
+  { id:'etapa-costa-3', nombre:'Etapa 3 · Vigo → Redondela', nombre_gl:'Etapa 3 · Vigo → Redondela', nombre_en:'Stage 3 · Vigo → Redondela',
+    categoria:'etapa', variante:'costa', km:18, desnivel_pos:240, desnivel_neg:210, dificultad:'Moderada',
+    lat:42.2843, lng:-8.6097,
+    descripcion:'Etapa breve pero cargada de historia. El camino asciende por el Casco Vello de Vigo —donde el barrio templario de Coia custodia siglos de devoción jacobea— para descender hacia Redondela, llamada "ciudad de los viaductos" y antigua encomienda templaria de Galicia. 📍 18 km · ↑240 m / ↓210 m · Dificultad: Moderada',
+    descripcion_gl:'Etapa breve polo Casco Vello de Vigo e o barrio templario de Coia ata Redondela, chamada a cidade dos viaductos. 📍 18 km · ↑240 m / ↓210 m · Dificultade: Moderada',
+    descripcion_en:'Short but historically rich stage through Vigo’s Old Quarter and Templar Coia quarter, descending to Redondela, the "city of viaducts". 📍 18 km · ↑240 m / ↓210 m · Difficulty: Moderate',
+    emoji:'🥾', color:'verde' },
+
+  { id:'etapa-costa-4', nombre:'Etapa 4 · Redondela → Pontevedra', nombre_gl:'Etapa 4 · Redondela → Pontevedra', nombre_en:'Stage 4 · Redondela → Pontevedra',
+    categoria:'etapa', variante:'costa', km:20, desnivel_pos:180, desnivel_neg:200, dificultad:'Fácil',
+    lat:42.4333, lng:-8.6483,
+    descripcion:'La etapa más amable del tramo sur. Desde Redondela el camino bordea la ría hasta Arcade y el histórico Ponte Sampaio, antes de entrar en Pontevedra, cuya Basílica de Santa María la Mayor fue construida por el gremio de mareantes como ofrenda al Apóstol. 📍 20 km · ↑180 m / ↓200 m · Dificultad: Fácil',
+    descripcion_gl:'Desde Redondela o camiño bordea a ría ata Arcade e o histórico Ponte Sampaio, antes de entrar en Pontevedra. 📍 20 km · ↑180 m / ↓200 m · Dificultade: Fácil',
+    descripcion_en:'From Redondela past Arcade and the historic Ponte Sampaio bridge into Pontevedra, whose Basilica of Santa María was built by the fishermen’s guild. 📍 20 km · ↑180 m / ↓200 m · Difficulty: Easy',
+    emoji:'🥾', color:'verde' },
+
+  { id:'etapa-costa-5', nombre:'Etapa 5 · Pontevedra → Caldas de Reis', nombre_gl:'Etapa 5 · Pontevedra → Caldas de Reis', nombre_en:'Stage 5 · Pontevedra → Caldas de Reis',
+    categoria:'etapa', variante:'costa', km:22, desnivel_pos:260, desnivel_neg:240, dificultad:'Media',
+    lat:42.6040, lng:-8.6440,
+    descripcion:'El camino abandona Pontevedra siguiendo el río Lérez, por un paisaje que conserva varios tramos del antiguo enlosado medieval, hasta Caldas de Reis, cuyas aguas termales ya conocían los romanos. 📍 22 km · ↑260 m / ↓240 m · Dificultad: Media',
+    descripcion_gl:'O camiño segue o río Lérez por treitos de empedrado medieval ata Caldas de Reis, cuxas termas xa coñecían os romanos. 📍 22 km · ↑260 m / ↓240 m · Dificultade: Media',
+    descripcion_en:'The Way follows the Lérez river through a landscape preserving medieval paved road sections to Caldas de Reis, whose Roman thermal springs await. 📍 22 km · ↑260 m / ↓240 m · Difficulty: Medium',
+    emoji:'🥾', color:'verde' },
+
+  { id:'etapa-costa-6', nombre:'Etapa 6 · Caldas de Reis → Padrón', nombre_gl:'Etapa 6 · Caldas de Reis → Padrón', nombre_en:'Stage 6 · Caldas de Reis → Padrón',
+    categoria:'etapa', variante:'costa', km:19, desnivel_pos:150, desnivel_neg:160, dificultad:'Fácil',
+    lat:42.7456, lng:-8.6572,
+    descripcion:'Etapa suave por el Valle del Ulla. El camino pasa por Catoira, donde las Torres do Oeste recuerdan que esta vía fluvial fue la que en el año 830 utilizó el obispo Teodomiro para transportar los restos del Apóstol hasta Compostela. Termina en Padrón, donde amarró la barca con el cuerpo de Santiago. 📍 19 km · ↑150 m / ↓160 m · Dificultad: Fácil',
+    descripcion_gl:'Etapa suave polo Val do Ulla por Catoira —Torres do Oeste, defensas do século X— ata Padrón, onde atracou a barca con Santiago. 📍 19 km · ↑150 m / ↓160 m · Dificultade: Fácil',
+    descripcion_en:'A gentle stage through the Ulla Valley past Catoira’s Torres do Oeste — defending the same river used in 830 AD to bring the Apostle’s remains to Compostela — ending at Padrón. 📍 19 km · ↑150 m / ↓160 m · Difficulty: Easy',
+    emoji:'🥾', color:'verde' },
+
+  { id:'etapa-costa-7', nombre:'Etapa 7 · Padrón → Santiago de Compostela', nombre_gl:'Etapa 7 · Padrón → Santiago de Compostela', nombre_en:'Stage 7 · Padrón → Santiago de Compostela',
+    categoria:'etapa', variante:'costa', km:25, desnivel_pos:380, desnivel_neg:210, dificultad:'Media',
+    lat:42.8782, lng:-8.5448,
+    descripcion:'La etapa final del Camino de la Costa. Desde Padrón el camino asciende por Iria Flavia —donde el obispo Teodomiro descubrió el sepulcro apostólico— y el Santuario da Escravitude hasta la Plaza del Obradoiro. Ultreia et Suseia. 📍 25 km · ↑380 m / ↓210 m · Dificultad: Media',
+    descripcion_gl:'A etapa final. Desde Padrón por Iria Flavia e o Santuario da Escravitude ata a Praza do Obradoiro. Ultreia et Suseia. 📍 25 km · ↑380 m / ↓210 m · Dificultade: Media',
+    descripcion_en:'The final stage. From Padrón through Iria Flavia — where Teodomiro discovered the apostolic tomb — to Santiago’s Plaza del Obradoiro. Ultreia et Suseia. 📍 25 km · ↑380 m / ↓210 m · Difficulty: Medium',
+    emoji:'🥾', color:'verde' },
+
+  // ═══════════════════════════════════════════
+  //  ETAPAS — CAMINO PORTUGUÉS INTERIOR (TUI)
+  // ═══════════════════════════════════════════
+  { id:'etapa-tui-1', nombre:'Etapa 1 · Tui → O Porriño', nombre_gl:'Etapa 1 · Tui → O Porriño', nombre_en:'Stage 1 · Tui → O Porriño',
+    categoria:'etapa', variante:'interior', km:16, desnivel_pos:140, desnivel_neg:120, dificultad:'Fácil',
+    lat:42.1681, lng:-8.6196,
+    descripcion:'El Camino Portugués Interior comienza en Tui, ciudad episcopal cuya catedral-fortaleza del siglo XII es una de las joyas del románico gallego. El cruce del Miño por el puente internacional marca el inicio en tierra gallega, siguiendo la antigua calzada romana con varios miliarios conservados hasta O Porriño. 📍 16 km · ↑140 m / ↓120 m · Dificultad: Fácil',
+    descripcion_gl:'O Camiño Interior comeza en Tui, cidade episcopal de románico excepcional. Cruza o Miño seguindo a calzada romana con miliarios conservados ata O Porriño. 📍 16 km · ↑140 m / ↓120 m · Dificultade: Fácil',
+    descripcion_en:'The Portuguese Interior Way begins in Tui, whose 12th-century cathedral-fortress is a Romanesque masterpiece. Crossing the Miño the route follows a Roman road with preserved milestones to O Porriño. 📍 16 km · ↑140 m / ↓120 m · Difficulty: Easy',
+    emoji:'🥾', color:'azul' },
+
+  { id:'etapa-tui-2', nombre:'Etapa 2 · O Porriño → Redondela', nombre_gl:'Etapa 2 · O Porriño → Redondela', nombre_en:'Stage 2 · O Porriño → Redondela',
+    categoria:'etapa', variante:'interior', km:18, desnivel_pos:280, desnivel_neg:300, dificultad:'Media',
+    lat:42.2843, lng:-8.6097,
+    descripcion:'La etapa más exigente del tramo sur. Desde O Porriño el camino asciende por Mos, donde la iglesia de Santa Eulalia conserva elementos románicos y marcas de término medieval, antes de descender a Redondela donde convergen el Camino Interior y el de la Costa. 📍 18 km · ↑280 m / ↓300 m · Dificultad: Media',
+    descripcion_gl:'Desde O Porriño o camiño ascende por Mos —igrexa de Santa Eulalia con elementos románicos— antes de descender a Redondela onde converxen os dous camiños portugueses. 📍 18 km · ↑280 m / ↓300 m · Dificultade: Media',
+    descripcion_en:'From O Porriño the Way climbs through Mos, where the church of Santa Eulalia preserves Romanesque elements, before descending to Redondela where the Interior and Coastal routes converge. 📍 18 km · ↑280 m / ↓300 m · Difficulty: Medium',
     emoji:'🥾', color:'azul' },
 
   { id:'catedral-santiago', nombre:'Catedral de Santiago de Compostela', categoria:'edificación religiosa', descripcion:'Destino final del Camino y meta de millones de peregrinos desde el siglo IX. Sobre la tumba del Apóstol Santiago, el templo combina románico, gótico, barroco y neoclásico en una arquitectura que ha crecido durante mil años. El Pórtico de la Gloria de Maestro Mateo, el Botafumeiro y el abrazo al Apóstol esperan al final de la ruta.', subtitulo:'La meta de un millón de pasos', subtitulo_gl:'A meta dun millón de pasos', subtitulo_en:'The destination of a million steps', descripcion_gl:'Destino final do Camiño e meta de millóns de peregrinos desde o século IX. Sobre a tumba do Apóstolo Santiago, o templo combina románico, gótico, barroco e neoclásico nunha arquitectura que creceu durante mil anos. O Pórtico da Gloria do Mestre Mateo, o Botafumeiro e o abrazo ao Apóstolo esperan ao final da ruta.', descripcion_en:'The final destination of the Way and the goal of millions of pilgrims since the 9th century. Above the tomb of the Apostle James, the temple combines Romanesque, Gothic, Baroque, and Neoclassical in an architecture that has grown over a thousand years. The Portico of Glory by Master Mateo, the Botafumeiro, and the embrace of the Apostle await at the end of the route.', lat:42.8805, lng:-8.5457, emoji:'✨', color:'verde', imagen:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Catedral_de_Santiago_de_Compostela,_la_Praza_do_Obradoiro.jpg/800px-Catedral_de_Santiago_de_Compostela,_la_Praza_do_Obradoiro.jpg' }
@@ -2564,50 +2677,29 @@ var _arAnimFrame = null;
 var _arOrientHandler = null;
 
 function activarModoAR() {
-  if (!userLat || !userLng) {
-    mostrarToast('📍 Activa la ubicación primero');
-    return;
-  }
+  if (!userLat || !userLng) { mostrarToast('📍 Activa la ubicación primero'); return; }
   var overlay = document.getElementById('ar-overlay');
   var video   = document.getElementById('ar-video');
   if (!overlay || !video) return;
-
-  // Pedir cámara trasera
   navigator.mediaDevices.getUserMedia({
-    video: { facingMode: { ideal: 'environment' }, width:{ideal:1280}, height:{ideal:720} },
-    audio: false
+    video: { facingMode: { ideal: 'environment' }, width:{ideal:1280}, height:{ideal:720} }, audio: false
   }).then(function(stream) {
     _arStream = stream;
     video.srcObject = stream;
     overlay.style.display = 'flex';
     _arActivo = true;
-
-    // Pedir orientación en iOS
     if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-      DeviceOrientationEvent.requestPermission().then(function(s) {
-        if (s === 'granted') _arIniciarOrientacion();
-      }).catch(function(){});
-    } else {
-      _arIniciarOrientacion();
-    }
-
-    // Bloquear scroll
+      DeviceOrientationEvent.requestPermission().then(function(s) { if (s === 'granted') _arIniciarOrientacion(); }).catch(function(){});
+    } else { _arIniciarOrientacion(); }
     document.body.style.overflow = 'hidden';
     _arLoop();
-  }).catch(function(e) {
-    mostrarToast('❌ No se pudo acceder a la cámara');
-  });
+  }).catch(function() { mostrarToast('❌ No se pudo acceder a la cámara'); });
 }
 
 function _arIniciarOrientacion() {
   _arOrientHandler = function(e) {
-    // Calcular heading real desde deviceorientation
-    var alpha = e.alpha || 0;
-    if (e.webkitCompassHeading !== undefined) {
-      _arHeading = e.webkitCompassHeading; // iOS: 0=Norte directo
-    } else {
-      _arHeading = (360 - alpha) % 360;   // Android
-    }
+    if (e.webkitCompassHeading !== undefined) { _arHeading = e.webkitCompassHeading; }
+    else { _arHeading = (360 - (e.alpha || 0)) % 360; }
     var st = document.getElementById('ar-status');
     if (st) st.textContent = '🧭 ' + Math.round(_arHeading) + '°';
   };
@@ -2623,76 +2715,47 @@ function _arLoop() {
 function _arRenderLabels() {
   var labels = document.getElementById('ar-labels');
   if (!labels || !userLat || !userLng) return;
-
-  var vW = window.innerWidth;
-  var vH = window.innerHeight;
-  var FOV_H = 60; // campo visual horizontal en grados (aprox cámara móvil)
-  var MAX_DIST = 2000; // metros
-
-  // Obtener POIs cercanos
+  var vW = window.innerWidth, vH = window.innerHeight;
+  var FOV_H = 60, MAX_DIST = 2000;
   var cercanos = [];
   var allPuntos = PUNTOS.concat(PUNTOS_USUARIO || []);
   allPuntos.forEach(function(p) {
     if (!p.lat || !p.lng) return;
     var dist = haversine(userLat, userLng, p.lat, p.lng) * 1000;
     if (dist > MAX_DIST) return;
-    // Calcular rumbo hacia el POI
     var dLat = (p.lat - userLat) * Math.PI / 180;
     var dLng = (p.lng - userLng) * Math.PI / 180;
-    var lat1 = userLat * Math.PI / 180;
-    var lat2 = p.lat  * Math.PI / 180;
+    var lat1 = userLat * Math.PI / 180, lat2 = p.lat * Math.PI / 180;
     var y = Math.sin(dLng) * Math.cos(lat2);
     var x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLng);
     var bearing = (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
     cercanos.push({ p: p, dist: dist, bearing: bearing });
   });
-
-  // Ordenar por distancia, tomar los 8 más cercanos
-  cercanos.sort(function(a, b){ return a.dist - b.dist; });
+  cercanos.sort(function(a,b){ return a.dist-b.dist; });
   cercanos = cercanos.slice(0, 8);
-
-  // Renderizar etiquetas
   var html = '';
   cercanos.forEach(function(item) {
-    // Ángulo relativo al heading actual
     var relAngle = item.bearing - _arHeading;
-    // Normalizar a [-180, 180]
-    while (relAngle > 180)  relAngle -= 360;
+    while (relAngle > 180) relAngle -= 360;
     while (relAngle < -180) relAngle += 360;
-
-    // Solo mostrar si está en el campo visual
     if (Math.abs(relAngle) > FOV_H / 2 + 10) return;
-
-    // Posición X en pantalla
     var x = vW / 2 + (relAngle / FOV_H) * vW;
-    // Posición Y: más cerca = más abajo
     var yFactor = Math.min(1, item.dist / MAX_DIST);
     var y = vH * 0.25 + yFactor * (vH * 0.45);
-
-    // Opacidad según si está en el centro del frame
     var opacity = Math.max(0.5, 1 - Math.abs(relAngle) / (FOV_H / 2));
-
     var distStr = item.dist < 1000 ? Math.round(item.dist) + ' m' : (item.dist/1000).toFixed(1) + ' km';
-    var nombre = item.p.nombre;
-    if (nombre.length > 24) nombre = nombre.substring(0, 22) + '…';
-
-    // Color según categoría
-    var catColor = {
-      'naturaleza':'#10b981','edificación religiosa':'#8b5cf6','monumentos':'#f59e0b',
-      'albergue':'#3b82f6','mirador':'#06b6d4','etapa':'#1D9E75'
-    }[item.p.categoria] || '#fff';
-
-    html += '<div style="position:absolute;transform:translate(-50%,-50%);left:'+x+'px;top:'+y+'px;opacity:'+opacity+';pointer-events:none;text-align:center;transition:left 0.1s,top 0.1s">' +
-      '<div style="background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);border-radius:10px;padding:6px 10px;border:1.5px solid '+catColor+';box-shadow:0 2px 12px rgba(0,0,0,0.4)">' +
-        '<div style="font-size:18px;line-height:1">'+(item.p.emoji||'📍')+'</div>' +
-        '<div style="color:#fff;font-size:11px;font-weight:700;font-family:DM Sans,sans-serif;white-space:nowrap;margin-top:2px">'+nombre+'</div>' +
-        '<div style="color:'+catColor+';font-size:10px;font-weight:600;font-family:DM Sans,sans-serif">'+distStr+'</div>' +
-      '</div>' +
-      '<div style="width:2px;height:16px;background:'+catColor+';margin:0 auto;opacity:0.8"></div>' +
-      '<div style="width:6px;height:6px;border-radius:50%;background:'+catColor+';margin:0 auto"></div>' +
+    var nombre = item.p.nombre; if (nombre.length > 24) nombre = nombre.substring(0,22) + '…';
+    var catColor = {'naturaleza':'#10b981','edificación religiosa':'#8b5cf6','monumento':'#f59e0b','albergue':'#3b82f6','mirador':'#06b6d4','etapa':'#1D9E75'}[item.p.categoria] || '#fff';
+    html += '<div style="position:absolute;transform:translate(-50%,-50%);left:'+x+'px;top:'+y+'px;opacity:'+opacity+';pointer-events:none;text-align:center">'+
+      '<div style="background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);border-radius:10px;padding:6px 10px;border:1.5px solid '+catColor+'">'+
+        '<div style="font-size:18px;line-height:1">'+(item.p.emoji||'📍')+'</div>'+
+        '<div style="color:#fff;font-size:11px;font-weight:700;font-family:DM Sans,sans-serif;white-space:nowrap;margin-top:2px">'+nombre+'</div>'+
+        '<div style="color:'+catColor+';font-size:10px;font-weight:600;font-family:DM Sans,sans-serif">'+distStr+'</div>'+
+      '</div>'+
+      '<div style="width:2px;height:14px;background:'+catColor+';margin:0 auto;opacity:0.8"></div>'+
+      '<div style="width:6px;height:6px;border-radius:50%;background:'+catColor+';margin:0 auto"></div>'+
     '</div>';
   });
-
   labels.innerHTML = html;
 }
 
@@ -3218,6 +3281,13 @@ function renderCarrusel(categoria) {
           (p.dificultad ? '<span style="background:#F3E8FF;color:#6B21A8;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">'+p.dificultad+'</span>' : '')+
           (p.variante ? '<span style="background:'+(p.variante==="costa"?"#E0F2FE":"#FCE7F3")+';color:'+(p.variante==="costa"?"#0369A1":"#9D174D")+';border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">'+(p.variante==="costa"?"🌊 Costa":"🛤️ Interior")+' </span>' : '')+
         '</div>' : '')+
+        (p.categoria==='etapa' && p.km ? '<div style="display:flex;gap:6px;flex-wrap:wrap;margin:5px 0 3px">'+
+          '<span style="background:#E1F5EE;color:#0F6E56;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">📍 '+p.km+' km</span>'+
+          (p.desnivel_pos ? '<span style="background:#FEF3C7;color:#92400E;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">↑'+p.desnivel_pos+' m</span>' : '')+
+          (p.desnivel_neg ? '<span style="background:#FEF3C7;color:#92400E;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">↓'+p.desnivel_neg+' m</span>' : '')+
+          (p.dificultad ? '<span style="background:#F3E8FF;color:#6B21A8;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">'+p.dificultad+'</span>' : '')+
+          (p.variante ? '<span style="background:'+(p.variante==="costa"?"#E0F2FE":"#FCE7F3")+';color:'+(p.variante==="costa"?"#0369A1":"#9D174D")+';border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">'+(p.variante==="costa"?"🌊 Costa":"🛤️ Interior")+' </span>' : '')+
+        '</div>' : '')+
         (pSub ? '<div class="poi-subtitulo">'+pSub+'</div>' : '')+
         '<div style="display:flex;align-items:center;justify-content:space-between;margin:4px 0 8px">'+
           distHtml+
@@ -3370,7 +3440,6 @@ function copiarCripto(el){
 // GENERADOR DE RUTA
 function addToRoute(id) {
   var p=PUNTOS.find(function(x){return x.id===id;});
-  if(!p) p=PUNTOS_USUARIO.find(function(x){return x.id===id;});
   if(!p) return;
   var yaEsta=rutaPuntos.find(function(x){return x.id===id;});
   if(yaEsta){quitarDeRuta(id);return;}
@@ -3385,7 +3454,6 @@ function actualizarBtnMapa(id, enRuta) {
   if (mpbtn) {
     mpbtn.style.background = enRuta ? '#1D9E75' : '#E1F5EE';
     mpbtn.style.color      = enRuta ? '#fff'    : '#0F6E56';
-    mpbtn.style.border     = enRuta ? '1px solid #1D9E75' : '1px solid rgba(29,158,117,0.3)';
     mpbtn.innerHTML        = enRuta ? '&#10003; En ruta' : '+ a ruta';
   }
   // Tarjeta POI sección
@@ -3776,21 +3844,7 @@ function actualizarBotonesRuta() {
     var enRuta=rutaPuntos.find(function(x){return x.id===id;});
     btn.style.background = enRuta ? '#1D9E75' : '#E1F5EE';
     btn.style.color      = enRuta ? '#fff'    : '#0F6E56';
-    btn.style.border     = enRuta ? '1px solid #1D9E75' : '1px solid rgba(29,158,117,0.3)';
     btn.innerHTML        = enRuta ? '&#10003; En ruta' : '+ a ruta';
-  });
-  // Botón "ver en mapa" de la sección POI
-  var btnMapa=document.getElementById('poi-ruta-btn-mapa');
-  if(btnMapa){btnMapa.style.opacity=rutaPuntos.length>0?'1':'0.4';btnMapa.style.cursor=rutaPuntos.length>0?'pointer':'default';}
-  // Sincronizar marcadores del mapa (icono resaltado si está en ruta)
-  PUNTOS.forEach(function(p){
-    if (!p.marker) return;
-    var enRuta = rutaPuntos.find(function(x){return x.id===p.id;});
-    var iconEl = p.marker.getElement ? p.marker.getElement() : null;
-    if (iconEl) {
-      iconEl.style.filter = enRuta ? 'drop-shadow(0 0 6px #1D9E75) drop-shadow(0 0 3px #1D9E75)' : '';
-      iconEl.style.transform = enRuta ? (iconEl.style.transform||'').replace(' scale(1.2)','') + ' scale(1.2)' : (iconEl.style.transform||'').replace(' scale(1.2)','');
-    }
   });
 }
 function irAlMapaConRuta() {
@@ -4866,6 +4920,7 @@ function cambiarIdioma(lang){
   el=document.getElementById('chip-albergues');if(el)el.textContent=t.chipAlbergue;
   el=document.getElementById('chip-miradores');if(el)el.textContent=t.chipMirador;
   el=document.getElementById('chip-etapas-txt');if(el)el.textContent=t.chipEtapa||'Etapas';
+  el=document.getElementById('chip-etapas-txt');if(el)el.textContent=t.chipEtapa||'Etapas';
   // Ruta bar
   el=document.getElementById('ruta-label');if(el)el.textContent=t.rutaLabel;
   el=document.getElementById('ruta-bar-empty');if(el&&el.style.display!=='none')el.textContent=t.rutaVacio;
@@ -5369,6 +5424,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v293</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v294</div>
 </body>
 </html>
