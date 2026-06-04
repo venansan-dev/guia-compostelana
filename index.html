@@ -2432,9 +2432,7 @@ function initMapa() {
     var b;
     b=document.getElementById('btn-add-poi-map'); if(b) b.style.display='flex';
     b=document.getElementById('btn-refresh-loc'); if(b) b.style.display='flex';
-
-    // Solo mostrar panel si hay puntos en ruta
-    b=document.getElementById('map-ruta-panel'); if(b&&rutaPuntos.length>0){b.style.display='flex';b.style.flexDirection='column';}
+    // Panel siempre visible (no se oculta)
   });
   // Cerrar popup al arrastrar o hacer scroll en el mapa
   mapa.on('dragstart', function() { mapa.closePopup(); });
@@ -3034,14 +3032,27 @@ function addToRoute(id) {
   rutaPuntos.push({id:p.id, nombre:p.nombre, lat:p.lat, lng:p.lng});
   actualizarRuta();
   actualizarBtnMapa(id, true);
-  // Auto-activar brújula al añadir primer punto
-  if (typeof pedirOrientacion === 'function' && !window._orientacionActiva) {
-    pedirOrientacion();
+  // Confirmar visualmente que se añadió
+  mostrarToast('📍 '+p.nombre.substring(0,20)+' añadido');
+  // Activar brújula si no está activa (iOS: desde gesto del usuario en click)
+  if (!window._orientacionActiva) {
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+      DeviceOrientationEvent.requestPermission().then(function(s) {
+        if (s === 'granted') {
+          window._orientacionActiva = true;
+          window.addEventListener('deviceorientation', actualizarFlecha, true);
+          mostrarToast('🧭 Brújula activada');
+        }
+      }).catch(function(){});
+    } else if (window.DeviceOrientationEvent) {
+      window._orientacionActiva = true;
+      window.addEventListener('deviceorientation', actualizarFlecha, true);
+    }
   }
-  // Dibujar trazado en el mapa
-  if (typeof dibujarLineaEstática === 'function') {
-    setTimeout(dibujarLineaEstática, 200);
-  }
+  // Dibujar trazado
+  setTimeout(function() {
+    if (rutaPuntos.length >= 1 && typeof dibujarLineaEstática === 'function') dibujarLineaEstática();
+  }, 300);
 }
 
 function actualizarBtnMapa(id, enRuta) {
@@ -4537,6 +4548,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v221</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v222</div>
 </body>
 </html>
