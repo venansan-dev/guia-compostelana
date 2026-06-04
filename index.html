@@ -2420,19 +2420,23 @@ function initMapa() {
   // Ocultar botón ➕ cuando se abre un popup, restaurar al cerrar
   var _popupAbierto = false;
 
-  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc','map-ruta-panel'];
+  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc'];
   mapa.on('popupopen', function() {
     _popupAbierto = true;
     _mapBtns.forEach(function(id){
       var b=document.getElementById(id); if(b) b.style.display='none';
     });
+    // Ocultar panel de ruta pero con visibility para no bloquear clicks
+    var rp=document.getElementById('map-ruta-panel');
+    if(rp) rp.style.visibility='hidden';
   });
   mapa.on('popupclose', function() {
     _popupAbierto = false;
     var b;
     b=document.getElementById('btn-add-poi-map'); if(b) b.style.display='flex';
     b=document.getElementById('btn-refresh-loc'); if(b) b.style.display='flex';
-    b=document.getElementById('map-ruta-panel'); if(b) b.style.display='flex';
+    var rp=document.getElementById('map-ruta-panel');
+    if(rp) rp.style.visibility='visible';
   });
   // Cerrar popup al arrastrar o hacer scroll en el mapa
   mapa.on('dragstart', function() { mapa.closePopup(); });
@@ -4556,6 +4560,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v224</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v225</div>
 </body>
 </html>
