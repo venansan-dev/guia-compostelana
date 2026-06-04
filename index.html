@@ -3265,8 +3265,9 @@ function dibujarLineaEstática() {
     fetch(endpoints[i]).then(function(r){ return r.json(); })
       .then(function(data) {
         if (data.routes && data.routes[0]) {
-          // Cachear pasos para navegación por voz
+          // Cachear pasos y geometría para navegación por voz
           _navPasosCache = [];
+          window._navGeomCache = data.routes[0].geometry;
           data.routes[0].legs.forEach(function(leg) {
             leg.steps.forEach(function(step) {
               var man = step.maneuver;
@@ -3564,13 +3565,13 @@ function activarNavegacionVoz() {
   ordenados.forEach(function(p){ coords.push(p.lng + ',' + p.lat); });
   mostrarToast('🎙️ Iniciando navegación...');
   if (window._navRestoreTimeout) { clearTimeout(window._navRestoreTimeout); window._navRestoreTimeout = null; }
+  _navActiva = true; // bloquear dibujarLineaEstática desde ya
 
   // Anuncio inmediato (desbloquea speechSynthesis en iOS)
   hablar('Navegación por voz activada.');
 
   // Función interna que activa la navegación con los pasos dados
   function _iniciarConPasos(pasos) {
-    _navActiva = true;
     _navPasos = pasos;
     _navPasoActual = 0;
     _navAnunciado = {};
@@ -3637,6 +3638,13 @@ function activarNavegacionVoz() {
 
   // Usar cache si disponible, si no hacer fetch
   if (_navPasosCache.length > 0) {
+    // Redibujar ruta desde cache (por si dibujarLineaEstática la había borrado)
+    if (!_rutaLinea && window._navGeomCache) {
+      var z = mapa.getZoom(); var lw = z>=17?6:z>=15?5:z>=13?4:3;
+      _rutaLinea = L.geoJSON(window._navGeomCache, {style:{color:'#FFD700',weight:lw,opacity:0.9,dashArray:'14 6',lineJoin:'round',lineCap:'round'}}).addTo(mapa);
+      var ll = window._navGeomCache.coordinates.map(function(c){return[c[1],c[0]];});
+      dibujarFlechas(ll);
+    }
     _iniciarConPasos(_navPasosCache.slice());
   } else {
     // Cache vacío: calcular ruta ahora
@@ -3659,6 +3667,7 @@ function activarNavegacionVoz() {
           });
         });
         _navPasosCache = pasos;
+        window._navGeomCache = route.geometry; // guardar geometría para reuso
         // Dibujar trazado amarillo con flechas directamente desde esta respuesta
         if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
         if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); }); window._rutaFlechas = []; }
@@ -4859,6 +4868,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v244</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v245</div>
 </body>
 </html>
