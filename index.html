@@ -3056,6 +3056,7 @@ function quitarDeRuta(id) {
 function limpiarRuta() {
   _verRutaMapa = false;
   if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
+  if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); }); window._rutaFlechas = []; }
   var btnVer=document.getElementById('ruta-bar-btn-ver');
   if(btnVer) btnVer.style.background='#185FA5';
   var panel=document.getElementById('map-ruta-panel');
@@ -3114,8 +3115,44 @@ function ordenarRutaPorCercania(origen) {
   return ordenados;
 }
 
+function dibujarFlechas(latlngs) {
+  // Eliminar flechas anteriores
+  if (window._rutaFlechas) {
+    window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); });
+  }
+  window._rutaFlechas = [];
+  // Colocar flecha cada N metros de camino
+  var minDist = 0.04; // ~40m entre flechas
+  var prev = null;
+  for (var i = 0; i < latlngs.length - 1; i++) {
+    var a = L.latLng(latlngs[i]);
+    var b = L.latLng(latlngs[i+1]);
+    var d = a.distanceTo(b) / 1000;
+    if (prev === null || (prev !== null && a.distanceTo(L.latLng(latlngs[prev])) / 1000 > minDist)) {
+      // Calcular ángulo
+      var dy = b.lat - a.lat;
+      var dx = (b.lng - a.lng) * Math.cos(a.lat * Math.PI / 180);
+      var angle = Math.atan2(dx, dy) * 180 / Math.PI;
+      var mid = L.latLng((a.lat + b.lat) / 2, (a.lng + b.lng) / 2);
+      var arrow = L.marker(mid, {
+        icon: L.divIcon({
+          className: '',
+          html: '<div style="font-size:18px;line-height:1;transform:rotate('+angle+'deg);filter:drop-shadow(0 1px 2px rgba(0,0,0,0.5))">➤</div>',
+          iconSize: [20, 20],
+          iconAnchor: [10, 10]
+        }),
+        interactive: false,
+        zIndexOffset: -1
+      }).addTo(mapa);
+      window._rutaFlechas.push(arrow);
+      prev = i;
+    }
+  }
+}
+
 function dibujarLineaEstática() {
   if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
+  if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); }); window._rutaFlechas = []; }
   if (rutaPuntos.length < 1) return;
   // Ordenar puntos por proximidad (vecino más cercano desde posición usuario)
   var origen = (userLat && userLng) ? {lat:userLat, lng:userLng} : {lat:rutaPuntos[0].lat, lng:rutaPuntos[0].lng};
@@ -3130,8 +3167,14 @@ function dibujarLineaEstática() {
   function dibujarGeoJSON2(geojson) {
     if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
     _rutaLinea = L.geoJSON(geojson, {
-      style: { color:'#185FA5', weight:4, opacity:0.85, dashArray:'12 6', lineJoin:'round' }
+      style: { color:'rgba(255,200,0,0.6)', weight:3, opacity:0.7, dashArray:'8 6', lineJoin:'round' }
     }).addTo(mapa);
+    // Dibujar flechas amarillas sobre la línea
+    var coords = geojson.coordinates;
+    if (coords && coords.length > 1) {
+      var latlngs = coords.map(function(c){ return [c[1],c[0]]; });
+      dibujarFlechas(latlngs);
+    }
   }
   function fallback2() {
     var coords2 = rutaPuntos.map(function(p){ return [p.lat, p.lng]; });
@@ -4402,6 +4445,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v203</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v204</div>
 </body>
 </html>
