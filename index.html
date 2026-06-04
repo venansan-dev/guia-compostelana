@@ -3064,6 +3064,7 @@ function quitarDeRuta(id) {
 }
 function limpiarRuta() {
   _verRutaMapa = false;
+  try { localStorage.removeItem('rutaGuardada'); } catch(e) {}
   if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
   if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); }); window._rutaFlechas = []; }
   var btnVer=document.getElementById('ruta-bar-btn-ver');
@@ -3401,6 +3402,32 @@ function irAlMapaConRuta() {
     _verRutaMapa = true;
     dibujarLineaEstática();
   }, 600);
+}
+
+
+function guardarRuta() {
+  if (rutaPuntos.length === 0) return;
+  try {
+    localStorage.setItem('rutaGuardada', JSON.stringify(rutaPuntos));
+    mostrarToast('💾 Ruta guardada');
+    var btn = document.getElementById('ruta-bar-btn-save');
+    if (btn) { btn.style.background='#4f46e5'; btn.textContent='✅ Guardada'; }
+    setTimeout(function() {
+      if (btn) { btn.style.background='#6366f1'; btn.textContent='💾 Guardar'; }
+    }, 2000);
+  } catch(e) { mostrarToast('⚠️ No se pudo guardar'); }
+}
+
+function cargarRutaGuardada() {
+  try {
+    var saved = localStorage.getItem('rutaGuardada');
+    if (!saved) return;
+    var puntos = JSON.parse(saved);
+    if (!puntos || puntos.length === 0) return;
+    rutaPuntos = puntos;
+    actualizarRuta();
+    mostrarToast('📍 Ruta restaurada (' + puntos.length + ' puntos)');
+  } catch(e) {}
 }
 
 function iniciarRuta() {
@@ -4492,6 +4519,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v208</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v209</div>
 </body>
 </html>
