@@ -3236,6 +3236,7 @@ function dibujarLineaEstática() {
     'https://router.project-osrm.org/route/v1/foot/' + osrmCoords.join(';') + '?overview=full&geometries=geojson'
   ];
   function dibujarGeoJSON2(geojson) {
+    if (_navActiva) return; // navegación activa: no sobreescribir línea verde
     if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
     var z = mapa.getZoom();
     var lineWeight = z >= 17 ? 6 : z >= 15 ? 5 : z >= 13 ? 4 : 3;
@@ -3250,6 +3251,7 @@ function dibujarLineaEstática() {
     }
   }
   function fallback2() {
+    if (_navActiva) return;
     var coords2 = rutaPuntos.map(function(p){ return [p.lat, p.lng]; });
     if (_rutaLinea) mapa.removeLayer(_rutaLinea);
     _rutaLinea = L.polyline(coords2, {color:'#1D9E75',weight:3,opacity:0.7,dashArray:'10 8'}).addTo(mapa);
@@ -3541,6 +3543,9 @@ function activarNavegacionVoz() {
     '?steps=true&geometries=geojson&overview=full&annotations=false';
 
   mostrarToast('🔄 Calculando ruta...');
+  // Limpiar trazado estático previo antes de calcular nav
+  if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
+  if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); }); window._rutaFlechas = []; }
 
   // Anuncio inmediato desde el gesto del usuario (necesario en iOS para activar speechSynthesis)
   hablar('Navegación por voz activada. Calculando ruta.');
@@ -3577,6 +3582,19 @@ function activarNavegacionVoz() {
       if (btnIr)   btnIr.style.display   = 'none';
       if (btnStop) btnStop.style.display = 'block';
       if (btnClr)  btnClr.style.display  = 'none'; // ocultar mientras navega
+      // Pantalla completa durante navegación
+      var mapBlock = document.getElementById('map-block');
+      var mapEl    = document.getElementById('map');
+      if (mapBlock) {
+        mapBlock._origStyle = mapBlock.getAttribute('style') || '';
+        mapBlock.style.cssText = 'position:fixed;inset:0;z-index:9000;border-radius:0;margin:0;max-width:100%;box-shadow:none;border:none;';
+      }
+      if (mapEl) {
+        mapEl._origHeight = mapEl.style.height;
+        mapEl.style.height = '100dvh';
+      }
+      setTimeout(function(){ if(mapa) mapa.invalidateSize(); }, 100);
+
       // Ocultar botones del mapa salvo refresh y brújula
       ['btn-add-poi-map','map-radio-control'].forEach(function(id){
         var el=document.getElementById(id); if(el) el.style.display='none';
@@ -3685,6 +3703,17 @@ function detenerNavegacionVoz() {
   mapa.boxZoom.enable();
   mapa.keyboard.enable();
   window._navBloqPopups = false;
+
+  // Salir de pantalla completa
+  var mapBlock = document.getElementById('map-block');
+  var mapEl    = document.getElementById('map');
+  if (mapBlock && mapBlock._origStyle !== undefined) {
+    mapBlock.setAttribute('style', mapBlock._origStyle);
+  }
+  if (mapEl && mapEl._origHeight !== undefined) {
+    mapEl.style.height = mapEl._origHeight || '';
+  }
+  setTimeout(function(){ if(mapa) mapa.invalidateSize(); }, 100);
 
   // Restaurar botones del mapa
   ['btn-add-poi-map','map-radio-control'].forEach(function(id){
@@ -4801,6 +4830,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v229</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v231</div>
 </body>
 </html>
