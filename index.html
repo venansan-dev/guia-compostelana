@@ -170,9 +170,23 @@
 
 <div class='map-title-block' style='padding:1.5rem 2rem 0.6rem;background:var(--fondo);position:relative;z-index:0'>
   <div style='display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px'>
-  <h2 id='map-title' style='font-family:Playfair Display,serif;font-size:26px;font-weight:600;color:var(--texto);margin:0'>Esto está cerca de ti ⬇️</h2>
+  <h2 id='map-title' style='font-family:Playfair Display,serif;font-size:26px;font-weight:600;color:var(--texto);margin:0'>Esto está cerca de ti</h2>
   <button id='btn-notif' onclick='accionBtnPrincipal()' style='font-size:13px;font-weight:500;font-family:DM Sans,sans-serif;padding:8px 18px;border-radius:24px;border:none;background:var(--verde);color:#fff;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(29,158,117,0.3);transition:background 0.2s;flex-shrink:0'>📲 Instala la app y recibe avisos de los puntos de interés más cercanos a ti</button>
 </div>
+  <div style='text-align:left;margin:4px 0 2px;line-height:1;'>
+    <svg width='24' height='28' viewBox='0 0 24 28' fill='none' xmlns='http://www.w3.org/2000/svg'
+      style='animation:bounceDownArrow 1.4s ease-in-out infinite;display:inline-block;'>
+      <path d='M12 2 L12 20 M4 13 L12 22 L20 13' stroke='#dc2626' stroke-width='3.5'
+        stroke-linecap='round' stroke-linejoin='round'/>
+    </svg>
+  </div>
+  <style>
+    @keyframes bounceDownArrow {
+      0%,100%{transform:translateY(0);}
+      45%{transform:translateY(7px);}
+      65%{transform:translateY(3px);}
+    }
+  </style>
   <p id='map-subtitle' style='font-size:13px;color:var(--texto-suave);margin:0 0 0'>Puntos de interés en tu entorno · selecciona el radio · toca un marcador para ver la ficha o añadirlo a tu ruta</p>
 
   <button id='btn-notif-m' onclick='accionBtnPrincipal()' style='display:none;font-size:13px;font-weight:500;font-family:DM Sans,sans-serif;padding:8px 18px;border-radius:24px;border:none;background:var(--verde);color:#fff;cursor:pointer;width:100%;margin-top:10px;box-shadow:0 2px 8px rgba(29,158,117,0.3);transition:background 0.2s'>📲 Instala la app y recibe avisos de los puntos de interés más cercanos a ti</button>
@@ -4180,7 +4194,7 @@ var T={
     histDest2:'El olivo del escudo de Vigo fue plantado por los propios Caballeros Templarios junto a la Colegiata de Santa María. Del árbol original se conservó una rama de la que nació un nuevo olivo, actualmente plantado en el Paseo de Alfonso XII.',
     histP7:'Coia, Bouzas, Teis, Valladares, Castrelos, Sárdoma y el propio casco histórico de Vigo guardan aún los símbolos que estos monjes guerreros dejaron tras de sí — un legado oculto a plena vista, esperando ser descubierto por quien sabe mirarlo.',
     histNota:'Fuente: Venancio R. Riobó, <em>Guía templaria de Vigo</em> (Edición Sator, 2021)',
-    mapTitle:'Esto está cerca de ti ⬇️',
+    mapTitle:'Esto está cerca de ti',
     mapSubtitle:'Puntos de interés en tu entorno · selecciona el radio · toca un marcador para ver la ficha o añadirlo a tu ruta',
     mapTitleNoGeo:'Explora el mapa',
     mapSubtitleNoGeo:'Puntos de interés · selecciona el radio · toca un marcador para ver la ficha o añadirlo a tu ruta',
@@ -4325,7 +4339,7 @@ var T={
     histDest2:'O oliveiro do escudo de Vigo foi plantado polos propios Cabaleiros Templarios xunto á Colexiata de Santa María. Da árbore orixinal conservouse unha rama da que naceu un novo oliveiro, actualmente plantado no Paseo de Afonso XII.',
     histP7:'Coia, Bouzas, Teis, Valadares, Castrelos, Sárdoma e o propio casco histórico de Vigo gardan aínda os símbolos que estes monxes guerreiros deixaron tras de si — un legado oculto á plena vista, agardando ser descuberto por quen sabe miralo.',
     histNota:'Fonte: Venancio R. Riobó, <em>Guía templaria de Vigo</em> (Edición Sator, 2021)',
-    mapTitle:'Isto está preto de ti ⬇️',
+    mapTitle:'Isto está preto de ti',
     mapSubtitle:'Puntos de interese na túa contorna · selecciona o radio · toca un marcador para ver a ficha ou engadilo á túa ruta',
     mapTitleNoGeo:'Explora o mapa',
     mapSubtitleNoGeo:'Puntos de interese · selecciona o radio · toca un marcador para ver a ficha ou engadilo á túa ruta',
@@ -4475,7 +4489,7 @@ var T={
     histDest2:'The olive tree on the coat of arms of Vigo was planted by the Knights Templar themselves beside the Collegiate Church of Santa María. A branch from the original tree was preserved, from which a new olive tree grew — currently planted on the Paseo de Alfonso XII.',
     histP7:'Coia, Bouzas, Teis, Valladares, Castrelos, Sárdoma and the historic centre of Vigo itself still guard the symbols these warrior monks left behind — a legacy hidden in plain sight, waiting to be discovered by those who know how to look.',
     histNota:'Source: Venancio R. Riobó, <em>Guía templaria de Vigo</em> (Edición Sator, 2021)',
-    mapTitle:'This is near you ⬇️',
+    mapTitle:'This is near you',
     mapSubtitle:'Points of interest around you · select the radius · tap a marker to see the details or add it to your route',
     mapTitleNoGeo:'Explore the map',
     mapSubtitleNoGeo:'Points of interest · select the radius · tap a marker to see the details or add it to your route',
@@ -5040,6 +5054,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v271</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v272</div>
 </body>
 </html>
