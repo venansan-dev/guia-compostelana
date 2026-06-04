@@ -170,23 +170,11 @@
 
 <div class='map-title-block' style='padding:1.5rem 2rem 0.6rem;background:var(--fondo);position:relative;z-index:0'>
   <div style='display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px'>
-  <h2 id='map-title' style='font-family:Playfair Display,serif;font-size:26px;font-weight:600;color:var(--texto);margin:0'>Esto está cerca de ti</h2>
+  <h2 id='map-title' style='font-family:Playfair Display,serif;font-size:26px;font-weight:600;color:var(--texto);margin:0;display:flex;align-items:center;gap:10px;'>Esto está cerca de ti <svg width='22' height='30' viewBox='0 0 22 30' fill='none' xmlns='http://www.w3.org/2000/svg' style='animation:bounceDownArrow 1.4s ease-in-out infinite;flex-shrink:0;'><path d='M11 2 L11 22 M3 15 L11 24 L19 15' stroke='#dc2626' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/></svg></h2>
+<style>@keyframes bounceDownArrow{0%,100%{transform:translateY(0);}45%{transform:translateY(8px);}65%{transform:translateY(3px);}}</style>
   <button id='btn-notif' onclick='accionBtnPrincipal()' style='font-size:13px;font-weight:500;font-family:DM Sans,sans-serif;padding:8px 18px;border-radius:24px;border:none;background:var(--verde);color:#fff;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(29,158,117,0.3);transition:background 0.2s;flex-shrink:0'>📲 Instala la app y recibe avisos de los puntos de interés más cercanos a ti</button>
 </div>
-  <div style='text-align:left;margin:4px 0 2px;line-height:1;'>
-    <svg width='24' height='28' viewBox='0 0 24 28' fill='none' xmlns='http://www.w3.org/2000/svg'
-      style='animation:bounceDownArrow 1.4s ease-in-out infinite;display:inline-block;'>
-      <path d='M12 2 L12 20 M4 13 L12 22 L20 13' stroke='#dc2626' stroke-width='3.5'
-        stroke-linecap='round' stroke-linejoin='round'/>
-    </svg>
-  </div>
-  <style>
-    @keyframes bounceDownArrow {
-      0%,100%{transform:translateY(0);}
-      45%{transform:translateY(7px);}
-      65%{transform:translateY(3px);}
-    }
-  </style>
+
   <p id='map-subtitle' style='font-size:13px;color:var(--texto-suave);margin:0 0 0'>Puntos de interés en tu entorno · selecciona el radio · toca un marcador para ver la ficha o añadirlo a tu ruta</p>
 
   <button id='btn-notif-m' onclick='accionBtnPrincipal()' style='display:none;font-size:13px;font-weight:500;font-family:DM Sans,sans-serif;padding:8px 18px;border-radius:24px;border:none;background:var(--verde);color:#fff;cursor:pointer;width:100%;margin-top:10px;box-shadow:0 2px 8px rgba(29,158,117,0.3);transition:background 0.2s'>📲 Instala la app y recibe avisos de los puntos de interés más cercanos a ti</button>
@@ -5054,6 +5042,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v272</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v273</div>
 </body>
 </html>
