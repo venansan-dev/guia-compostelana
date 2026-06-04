@@ -174,6 +174,11 @@
   <button id='btn-notif' onclick='accionBtnPrincipal()' style='font-size:13px;font-weight:500;font-family:DM Sans,sans-serif;padding:8px 18px;border-radius:24px;border:none;background:var(--verde);color:#fff;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(29,158,117,0.3);transition:background 0.2s;flex-shrink:0'>📲 Instala la app y recibe avisos de los puntos de interés más cercanos a ti</button>
 </div>
   <p id='map-subtitle' style='font-size:13px;color:var(--texto-suave);margin:0 0 0'>Puntos de interés en tu entorno · selecciona el radio · toca un marcador para ver la ficha o añadirlo a tu ruta</p>
+  <div style='text-align:center;margin-top:6px;line-height:1'>
+    <svg width='28' height='18' viewBox='0 0 28 18' fill='none' xmlns='http://www.w3.org/2000/svg'>
+      <path d='M2 2 L14 15 L26 2' stroke='#dc2626' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/>
+    </svg>
+  </div>
   <button id='btn-notif-m' onclick='accionBtnPrincipal()' style='display:none;font-size:13px;font-weight:500;font-family:DM Sans,sans-serif;padding:8px 18px;border-radius:24px;border:none;background:var(--verde);color:#fff;cursor:pointer;width:100%;margin-top:10px;box-shadow:0 2px 8px rgba(29,158,117,0.3);transition:background 0.2s'>📲 Instala la app y recibe avisos de los puntos de interés más cercanos a ti</button>
 </div>
 <div class='map-block' id='map-block'>
@@ -2532,8 +2537,7 @@ function initMapa() {
         var mt=document.getElementById('map-title');if(mt)mt.textContent=(T[idiomaActual]||T.es).mapTitle;
         var ms=document.getElementById('map-subtitle');if(ms)ms.textContent=(T[idiomaActual]||T.es).mapSubtitle;
   window._userMarker = L.marker([userLat,userLng],{icon:iconoUsuario,zIndexOffset:1000}).addTo(mapa).bindPopup('<strong>'+(T[idiomaActual]||T.es).tuUbicacion+'</strong>');
-        mapa.setView([userLat,userLng],15);
-        radioKm = 1; aplicarRadio(1);
+        radioKm = 1; aplicarRadio(1); // fitBounds ajusta el zoom al círculo de 1km
         calcularDistancias();
         cargarTiempo(userLat, userLng);
       },
@@ -2548,7 +2552,6 @@ function initMapa() {
       if (!userLat) {
         userLat = pos.coords.latitude; userLng = pos.coords.longitude;
   window._userMarker = L.marker([userLat,userLng],{icon:iconoUsuario,zIndexOffset:1000}).addTo(mapa).bindPopup('<strong>'+(T[idiomaActual]||T.es).tuUbicacion+'</strong>');
-        mapa.setView([userLat,userLng],15);
         radioKm = 1; aplicarRadio(1);
         calcularDistancias();
         cargarTiempo(userLat, userLng);
@@ -5023,6 +5026,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v261</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v264</div>
 </body>
 </html>
