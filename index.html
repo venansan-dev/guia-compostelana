@@ -2420,7 +2420,7 @@ function initMapa() {
   // Ocultar botón ➕ cuando se abre un popup, restaurar al cerrar
   var _popupAbierto = false;
 
-  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc'];
+  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc','map-ruta-panel'];
   mapa.on('popupopen', function() {
     _popupAbierto = true;
     _mapBtns.forEach(function(id){
@@ -3297,19 +3297,19 @@ function actualizarRuta() {
   var puntEl = document.getElementById('ruta-bar-puntos');
   var btnGo  = document.getElementById('ruta-bar-btn-go');
   var btnClr = document.getElementById('ruta-bar-btn-clear');
-  var emptyState = document.getElementById('map-ruta-empty-state');
+  var countEl = document.getElementById('ruta-bar-count');
+
+  // Panel SIEMPRE visible — mostrar/ocultar elementos según estado
   if (rutaPuntos.length === 0) {
-    // Panel siempre visible pero mostrando estado vacío
-    if(emptyState) emptyState.style.display='block';
-    var countEl2=document.getElementById('ruta-bar-count');if(countEl2)countEl2.style.display='none';
-    var distEl2=document.getElementById('ruta-bar-dist');if(distEl2)distEl2.style.display='none';
-    var timeEl2=document.getElementById('ruta-bar-time');if(timeEl2)timeEl2.style.display='none';
-    if(btnClr){ btnClr.style.display='none'; }
+    if(countEl) { countEl.textContent='0 📍'; }
+    if(distEl)  { distEl.textContent='0 km'; }
+    if(timeEl)  { timeEl.textContent='0 min'; }
+    if(btnClr)  { btnClr.style.display='none'; }
+    if(btnGo)   { btnGo.style.display='none'; }
     var btnMapaPoi2=document.getElementById('poi-ruta-btn-mapa');if(btnMapaPoi2)btnMapaPoi2.style.opacity='0.4';
     actualizarBotonesRuta(); return;
   }
-  empty.style.display = 'none';
-  info.style.display  = 'flex';
+  if(btnClr) { btnClr.style.display='block'; }
 
   var distTotal = 0;
   // Si tenemos ubicación del usuario, añadir distancia hasta el primer punto
@@ -3321,7 +3321,6 @@ function actualizarRuta() {
   });
   var tMin = Math.round(distTotal / 4 * 60);
   distEl.textContent = distTotal < 1 ? Math.round(distTotal*1000)+' m' : distTotal.toFixed(1)+' km';
-  var countEl = document.getElementById('ruta-bar-count');
   if (countEl) countEl.textContent = rutaPuntos.length + ' 📍';
 
   // Sync mini route box in POI section
@@ -4371,7 +4370,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (t.classList && t.classList.contains('poi-btn') && t.getAttribute('data-lat')) {
       irIndicaciones(parseFloat(t.getAttribute('data-lat')), parseFloat(t.getAttribute('data-lng'))); return;
     }
-    // Click en tarjeta → ir al mapa
+    // Click en tarjeta → ir al mapa (excepto en la imagen)
+    if (t.tagName === 'IMG' || (t.classList && t.classList.contains('poi-img-cover'))) return;
     var card = t.closest ? t.closest('.poi-card') : null;
     if (card && card.getAttribute('data-poi-id')) {
       var pid = card.getAttribute('data-poi-id');
@@ -4529,6 +4529,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v216</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v219</div>
 </body>
 </html>
