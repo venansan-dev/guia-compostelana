@@ -3063,6 +3063,9 @@ function quitarDeRuta(id) {
   actualizarBtnMapa(id, false);
 }
 function limpiarRuta() {
+  if (rutaPuntos.length > 0) {
+    if (!confirm((T[idiomaActual]||T.es).confirmLimpiar||'¿Eliminar la ruta? Este cambio no puede deshacerse.')) return;
+  }
   _verRutaMapa = false;
   try { localStorage.removeItem('rutaGuardada'); } catch(e) {}
   if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
@@ -3214,8 +3217,10 @@ function dibujarLineaEstática() {
   ];
   function dibujarGeoJSON2(geojson) {
     if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
+    var z = mapa.getZoom();
+    var lineWeight = z >= 17 ? 6 : z >= 15 ? 5 : z >= 13 ? 4 : 3;
     _rutaLinea = L.geoJSON(geojson, {
-      style: { color:'rgba(255,200,0,0.6)', weight:3, opacity:0.7, dashArray:'8 6', lineJoin:'round' }
+      style: { color:'#FFD700', weight:lineWeight, opacity:0.9, dashArray:'14 6', lineJoin:'round', lineCap:'round' }
     }).addTo(mapa);
     // Dibujar flechas amarillas sobre la línea
     var coords = geojson.coordinates;
@@ -3372,6 +3377,8 @@ function actualizarRuta() {
   btnGo.disabled  = rutaPuntos.length < 2;
   btnClr.disabled = false;
   actualizarBotonesRuta();
+  // Auto-guardar ruta en localStorage
+  try { if(rutaPuntos.length>0) localStorage.setItem('rutaGuardada', JSON.stringify(rutaPuntos)); } catch(e) {}
   // Auto-dibujar siempre que hay puntos
   if (rutaPuntos.length >= 1) { setTimeout(dibujarLineaEstática, 150); }
   else if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
@@ -3584,6 +3591,7 @@ var T={
     rutaLabel:'Generador de ruta',
     rutaVacio:'Añade puntos desde el mapa o las tarjetas',
     rutaBtnIr:'▶ Ir',
+    confirmLimpiar:'¿Eliminar la ruta? Este cambio no puede deshacerse.',
     poiRutaTitulo:'Generador de ruta',
     poiRutaVacia:'Añade puntos desde las tarjetas o el mapa 👆',
     poiRutaBtnIr:'▶ Ir',
@@ -3873,6 +3881,7 @@ var T={
     rutaLabel:'Route builder',
     rutaVacio:'Add points from the map or the cards',
     rutaBtnIr:'▶ Go',
+    confirmLimpiar:'Delete route? This cannot be undone.',
     poiRutaTitulo:'Route builder',
     poiRutaVacia:'Add points from the cards or the map 👆',
     poiRutaBtnIr:'▶ Go',
@@ -4519,6 +4528,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v209</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v211</div>
 </body>
 </html>
