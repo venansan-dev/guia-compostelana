@@ -3570,81 +3570,69 @@ function activarNavegacionVoz() {
 
   // Función interna que activa la navegación con los pasos dados
   function _iniciarConPasos(pasos) {
-    _navActiva = true; // marcar aquí, no antes, para no bloquear dibujarLineaEstática
+    _navActiva = true;
     _navPasos = pasos;
     _navPasoActual = 0;
     _navAnunciado = {};
-      // UI: ocultar IR, mostrar STOP, bloquear mapa
-      var btnIr   = document.getElementById('ruta-nav-btn');
-      var btnStop = document.getElementById('ruta-nav-stop');
-      var btnClr  = document.getElementById('ruta-bar-btn-clear');
-      if (btnIr)   btnIr.style.display   = 'none';
-      if (btnStop) btnStop.style.display = 'block';
-      if (btnClr)  btnClr.style.display  = 'none'; // ocultar mientras navega
-      // Pantalla completa durante navegación
-      var mapBlock = document.getElementById('map-block');
-      var mapEl    = document.getElementById('map');
-      if (mapBlock) {
-        mapBlock._origStyle = mapBlock.getAttribute('style') || '';
-        mapBlock.style.cssText = 'position:fixed;inset:0;z-index:9000;border-radius:0;margin:0;max-width:100%;box-shadow:none;border:none;';
-      }
-      if (mapEl) {
-        mapEl._origHeight = mapEl.style.height;
-        mapEl.style.height = '100dvh';
-      }
-      setTimeout(function(){
-        if(mapa) {
-          mapa.invalidateSize();
-          // Redibujar ruta tras resize del mapa
-          if (_navPasosCache.length > 0 && rutaPuntos.length > 0) dibujarLineaEstática();
-        }
-      }, 150);
 
-      // Ocultar botones del mapa salvo refresh y brújula
-      ['btn-add-poi-map','map-radio-control'].forEach(function(id){
-        var el=document.getElementById(id); if(el) el.style.display='none';
-      });
-      // Reducir panel ruta a solo el Stop (ocultar count/dist/time/clear)
-      ['ruta-bar-count','ruta-bar-dist','ruta-bar-time'].forEach(function(id){
-        var el=document.getElementById(id); if(el) el.style.display='none';
-      });
+    // UI: ocultar IR, mostrar STOP
+    var btnIr   = document.getElementById('ruta-nav-btn');
+    var btnStop = document.getElementById('ruta-nav-stop');
+    var btnClr  = document.getElementById('ruta-bar-btn-clear');
+    if (btnIr)   btnIr.style.display   = 'none';
+    if (btnStop) btnStop.style.display = 'block';
+    if (btnClr)  btnClr.style.display  = 'none';
 
-      // Bloquear interacción del mapa
-      mapa.dragging.disable();
-      // bloquear drag, zoom y teclado
-      mapa.touchZoom.disable();
-      mapa.scrollWheelZoom.disable();
-      mapa.doubleClickZoom.disable();
-      mapa.boxZoom.disable();
-      mapa.keyboard.disable();
-      // Evitar apertura de popups durante navegación
-      window._navBloqPopups = true;
+    // Agrandar mapa sin cambiar position (no destruye Leaflet)
+    var mapEl = document.getElementById('map');
+    if (mapEl) { mapEl._origHeight = mapEl.style.height; mapEl.style.height = '100dvh'; }
+    var mapTitleBlock = document.querySelector('.map-title-block');
+    if (mapTitleBlock) { mapTitleBlock._origDisplay = mapTitleBlock.style.display; mapTitleBlock.style.display = 'none'; }
+    var searchUnder = document.querySelector('.search-under-map');
+    if (searchUnder) { searchUnder._origDisplay = searchUnder.style.display; searchUnder.style.display = 'none'; }
 
-      // Zoom máximo sobre usuario
-      if (userLat && userLng) mapa.setView([userLat, userLng], 18, {animate:true});
+    // Scroll al mapa
+    var mapBlock = document.getElementById('map-block');
+    if (mapBlock) mapBlock.scrollIntoView({behavior:'smooth', block:'start'});
 
-      // Wake Lock — mantener pantalla activa
-      if (navigator.wakeLock) {
-        navigator.wakeLock.request('screen').then(function(wl){ _navWakeLock = wl; }).catch(function(){});
-      }
+    // Ocultar botones del mapa salvo refresh y brújula
+    ['btn-add-poi-map','map-radio-control'].forEach(function(id){
+      var el=document.getElementById(id); if(el) el.style.display='none';
+    });
+    ['ruta-bar-count','ruta-bar-dist','ruta-bar-time'].forEach(function(id){
+      var el=document.getElementById(id); if(el) el.style.display='none';
+    });
 
-      // Primer anuncio
-      var primerPunto = ordenados[0];
-      hablar((T[idiomaActual]||T.es).navInicio
-        ? (T[idiomaActual]||T.es).navInicio.replace('{nombre}', primerPunto.nombre)
-        : 'Navegación iniciada. Dirígete hacia ' + primerPunto.nombre);
+    // Bloquear interacción
+    mapa.dragging.disable();
+    mapa.touchZoom.disable();
+    mapa.scrollWheelZoom.disable();
+    mapa.doubleClickZoom.disable();
+    mapa.boxZoom.disable();
+    mapa.keyboard.disable();
+    window._navBloqPopups = true;
 
-      // La ruta ya está dibujada en el mapa — no redibujar
+    // Centrar en usuario
+    if (userLat && userLng) mapa.setView([userLat, userLng], 18, {animate:true});
 
-      // Iniciar seguimiento GPS
-      if (window._navWatchId) navigator.geolocation.clearWatch(window._navWatchId);
-      window._navWatchId = navigator.geolocation.watchPosition(
-        function(pos) { _navTick(pos); },
-        function() {},
-        {enableHighAccuracy:true, maximumAge:1500, timeout:10000}
-      );
+    // Wake Lock
+    if (navigator.wakeLock) {
+      navigator.wakeLock.request('screen').then(function(wl){ _navWakeLock = wl; }).catch(function(){});
+    }
 
-      mostrarToast('🎙️ Navegación por voz activa');
+    // Anuncio primer punto
+    var primerPunto = ordenados[0];
+    hablar('Navegación iniciada. Dirígete hacia ' + primerPunto.nombre);
+
+    // Iniciar GPS
+    if (window._navWatchId) navigator.geolocation.clearWatch(window._navWatchId);
+    window._navWatchId = navigator.geolocation.watchPosition(
+      function(pos) { _navTick(pos); },
+      function() {},
+      {enableHighAccuracy:true, maximumAge:1500, timeout:10000}
+    );
+
+    mostrarToast('🎙️ Navegación por voz activa');
   }  // fin _iniciarConPasos
 
   // Usar cache si disponible, si no hacer fetch
@@ -3669,9 +3657,7 @@ function activarNavegacionVoz() {
           });
         });
         _navPasosCache = pasos;
-        // Redibujar ruta antes de entrar en modo nav (invalidateSize la borrará)
-        dibujarLineaEstática();
-        setTimeout(function(){ _iniciarConPasos(pasos); }, 800);
+        _iniciarConPasos(pasos);
       }).catch(function(){ _navFetchFallback(i+1); });
     }
     _navFetchFallback(0);
@@ -3737,16 +3723,13 @@ function detenerNavegacionVoz() {
   mapa.keyboard.enable();
   window._navBloqPopups = false;
 
-  // Salir de pantalla completa
-  var mapBlock = document.getElementById('map-block');
-  var mapEl    = document.getElementById('map');
-  if (mapBlock && mapBlock._origStyle !== undefined) {
-    mapBlock.setAttribute('style', mapBlock._origStyle);
-  }
-  if (mapEl && mapEl._origHeight !== undefined) {
-    mapEl.style.height = mapEl._origHeight || '';
-  }
-  setTimeout(function(){ if(mapa) mapa.invalidateSize(); }, 100);
+  // Restaurar tamaño del mapa
+  var mapEl = document.getElementById('map');
+  if (mapEl && mapEl._origHeight !== undefined) mapEl.style.height = mapEl._origHeight || '';
+  var mapTitleBlock = document.querySelector('.map-title-block');
+  if (mapTitleBlock && mapTitleBlock._origDisplay !== undefined) mapTitleBlock.style.display = mapTitleBlock._origDisplay;
+  var searchUnder = document.querySelector('.search-under-map');
+  if (searchUnder && searchUnder._origDisplay !== undefined) searchUnder.style.display = searchUnder._origDisplay;
 
   // Restaurar botones del mapa
   ['btn-add-poi-map','map-radio-control'].forEach(function(id){
@@ -4864,6 +4847,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v242</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v243</div>
 </body>
 </html>
