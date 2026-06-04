@@ -3592,7 +3592,13 @@ function activarNavegacionVoz() {
         mapEl._origHeight = mapEl.style.height;
         mapEl.style.height = '100dvh';
       }
-      setTimeout(function(){ if(mapa) mapa.invalidateSize(); }, 100);
+      setTimeout(function(){
+        if(mapa) {
+          mapa.invalidateSize();
+          // Redibujar ruta tras resize del mapa
+          if (_navPasosCache.length > 0 && rutaPuntos.length > 0) dibujarLineaEstática();
+        }
+      }, 150);
 
       // Ocultar botones del mapa salvo refresh y brújula
       ['btn-add-poi-map','map-radio-control'].forEach(function(id){
@@ -3605,7 +3611,9 @@ function activarNavegacionVoz() {
 
       // Bloquear interacción del mapa
       mapa.dragging.disable();
-      // zoom permitido, solo bloquear drag y teclado
+      // bloquear drag, zoom y teclado
+      mapa.touchZoom.disable();
+      mapa.scrollWheelZoom.disable();
       mapa.doubleClickZoom.disable();
       mapa.boxZoom.disable();
       mapa.keyboard.disable();
@@ -3661,7 +3669,9 @@ function activarNavegacionVoz() {
           });
         });
         _navPasosCache = pasos;
-        _iniciarConPasos(pasos);
+        // Redibujar ruta antes de entrar en modo nav (invalidateSize la borrará)
+        dibujarLineaEstática();
+        setTimeout(function(){ _iniciarConPasos(pasos); }, 800);
       }).catch(function(){ _navFetchFallback(i+1); });
     }
     _navFetchFallback(0);
@@ -3719,9 +3729,10 @@ function detenerNavegacionVoz() {
 
   // Restaurar interacción del mapa
   mapa.dragging.enable();
+  mapa.dragging.enable();
   mapa.touchZoom.enable();
-  mapa.doubleClickZoom.enable();
   mapa.scrollWheelZoom.enable();
+  mapa.doubleClickZoom.enable();
   mapa.boxZoom.enable();
   mapa.keyboard.enable();
   window._navBloqPopups = false;
@@ -4853,6 +4864,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v241</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v242</div>
 </body>
 </html>
