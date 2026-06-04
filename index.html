@@ -193,7 +193,7 @@
     <span id='ruta-bar-dist' style='color:#7EE8C0;font-weight:600;font-size:11px'>0 km</span>
     <span id='ruta-bar-time' style='color:#7EE8C0;font-weight:600;font-size:11px'>0 min</span>
 
-    <button onclick='limpiarRuta()' id='ruta-bar-btn-clear' style='width:100%;background:#dc2626;border:none;color:#fff;padding:6px 8px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center'>🗑 Limpiar</button>
+    <button onclick='limpiarRuta()' id='ruta-bar-btn-clear' style='display:none;width:100%;background:#dc2626;border:none;color:#fff;padding:6px 8px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center'>🗑 Limpiar</button>
   </div>
   <!-- btn-go oculto para compatibilidad con JS existente -->
   <span id='ruta-bar-btn-go' style='display:none'></span>
@@ -211,7 +211,7 @@
   <!-- Panel radio en mapa (columna derecha bajo +punto) -->
   <div id='map-radio-control' style='display:flex;position:absolute;top:54px;right:10px;z-index:400;flex-direction:column;align-items:stretch;gap:4px;font-family:DM Sans,sans-serif'>
     <span id='radio-label' style='font-size:10px;font-weight:700;color:#fff;text-align:center;background:rgba(0,0,0,0.45);border-radius:6px;padding:2px 6px;letter-spacing:0.5px;text-shadow:0 1px 2px rgba(0,0,0,0.5)'>Radio:</span>
-    <div class='map-radio-btn active' onclick='cambiarRadio(1,this)' style='background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.15);min-width:52px;transition:all 0.15s'>1 km</div>
+    <div class='map-radio-btn active' onclick='cambiarRadio(1,this)' style='background:#1D9E75;color:#fff;border:2px solid #1D9E75;border-radius:6px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.15);min-width:52px;transition:all 0.15s'>1 km</div>
     <div class='map-radio-btn' onclick='cambiarRadio(2,this)' style='background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.15);min-width:52px;transition:all 0.15s'>2 km</div>
     <div class='map-radio-btn' onclick='cambiarRadio(3,this)' style='background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.15);min-width:52px;transition:all 0.15s'>3 km</div>
   </div>
@@ -2726,8 +2726,16 @@ function aplicarRadio(km) {
 function cambiarRadio(km,btn) {
   desactivarSeguimientoYBrujula();
   radioKm = km;
-  document.querySelectorAll('.map-radio-btn').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.map-radio-btn').forEach(function(b){
+    b.classList.remove('active');
+    b.style.background='#fff';
+    b.style.color='#333';
+    b.style.border='2px solid rgba(0,0,0,0.2)';
+  });
   btn.classList.add('active');
+  btn.style.background='#1D9E75';
+  btn.style.color='#fff';
+  btn.style.border='2px solid #1D9E75';
   if (userLat) aplicarRadio(km);
 }
 
@@ -4544,6 +4552,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v219</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v221</div>
 </body>
 </html>
