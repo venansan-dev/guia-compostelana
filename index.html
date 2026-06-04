@@ -2420,7 +2420,7 @@ function initMapa() {
   // Ocultar botón ➕ cuando se abre un popup, restaurar al cerrar
   var _popupAbierto = false;
 
-  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc'];
+  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc','map-ruta-panel'];
   mapa.on('popupopen', function() {
     _popupAbierto = true;
     _mapBtns.forEach(function(id){
@@ -2432,7 +2432,7 @@ function initMapa() {
     var b;
     b=document.getElementById('btn-add-poi-map'); if(b) b.style.display='flex';
     b=document.getElementById('btn-refresh-loc'); if(b) b.style.display='flex';
-    // Panel siempre visible (no se oculta)
+    b=document.getElementById('map-ruta-panel'); if(b) b.style.display='flex';
   });
   // Cerrar popup al arrastrar o hacer scroll en el mapa
   mapa.on('dragstart', function() { mapa.closePopup(); });
@@ -3037,21 +3037,28 @@ function addToRoute(id) {
   mostrarToast('📍 '+p.nombre.substring(0,20)+' añadido');
   // Activar brújula si no está activa (iOS: desde gesto del usuario en click)
   if (!window._orientacionActiva) {
+    mostrarToast('🧭 Solicitando brújula...');
     if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
       DeviceOrientationEvent.requestPermission().then(function(s) {
         if (s === 'granted') {
           window._orientacionActiva = true;
           window.addEventListener('deviceorientation', actualizarFlecha, true);
           mostrarToast('🧭 Brújula activada');
+        } else {
+          mostrarToast('🧭 Permiso denegado');
         }
-      }).catch(function(){});
+      }).catch(function(e){ mostrarToast('🧭 Error: '+e.message); });
     } else if (window.DeviceOrientationEvent) {
       window._orientacionActiva = true;
       window.addEventListener('deviceorientation', actualizarFlecha, true);
+      mostrarToast('🧭 Brújula activada');
+    } else {
+      mostrarToast('🧭 No disponible');
     }
   }
   // Dibujar trazado
   setTimeout(function() {
+    mostrarToast('🗺️ Trazando...');
     if (rutaPuntos.length >= 1 && typeof dibujarLineaEstática === 'function') dibujarLineaEstática();
   }, 300);
 }
@@ -4549,6 +4556,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v223</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v224</div>
 </body>
 </html>
