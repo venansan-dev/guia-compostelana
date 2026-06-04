@@ -3129,12 +3129,7 @@ function renderCarrusel(categoria) {
         if (btnAdd && !_navActiva) btnAdd.style.display = open ? 'flex' : 'none';
       });
     }
-    // Listener directo en botón ruta
-    var rutaBtn = card.querySelector('.poi-ruta-btn');
-    if (rutaBtn) rutaBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      addToRoute(rutaBtn.getAttribute('data-poi'));
-    });
+    // El botón ruta es manejado por el listener global del carrusel (sin listener directo)
     // Listener directo en botón llegar
     var llegarBtn = card.querySelector('.poi-btn');
     if (llegarBtn) llegarBtn.addEventListener('click', function(e) {
@@ -3191,6 +3186,7 @@ function irIndicaciones(lat,lng) {
   var url='https://www.google.com/maps/dir/?api=1&destination='+lat+','+lng;
   if (userLat) url+='&origin='+userLat+','+userLng;
   window.open(url,'_blank');
+  actualizarBotonesRuta();
 }
 function filtrarCategoria(chip,categoria) {
   document.querySelectorAll('.cat-chip').forEach(function(c){c.classList.remove('active');});
@@ -5201,6 +5197,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v296</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v297</div>
 </body>
 </html>
