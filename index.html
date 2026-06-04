@@ -1528,7 +1528,7 @@ function sincronizarPOIsLocalesConFirebase() {
         categoria: p.categoria || '',
         lat: p.lat,
         lng: p.lng,
-        emoji: p.emoji || '👤',
+        emoji: p.emoji || '👤', _esUsuario: true,
         color: p.color || 'ambar',
         esUsuario: true,
         estado: p.estado || 'pendiente',
@@ -1620,7 +1620,12 @@ function refrescarUbicacion() {
 }
 
 function añadirMarcadorUsuario(p) {
-  var m = L.marker([p.lat, p.lng], { icon: crearIconoUsuario() }).addTo(mapa);
+  var iconPersona = L.divIcon({
+    className: '',
+    html: '<div style="background:#f59e0b;color:#fff;width:34px;height:34px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3)"><span style="transform:rotate(45deg);font-size:15px">👤</span></div>',
+    iconSize:[34,34], iconAnchor:[17,34], popupAnchor:[0,-34]
+  });
+  var m = L.marker([p.lat, p.lng], { icon: iconPersona }).addTo(mapa);
   // Guardar referencia al marcador para poder eliminarlo del mapa
   p._marker = m;
   m.on('click', (function(punto) {
@@ -3116,36 +3121,39 @@ function ordenarRutaPorCercania(origen) {
 }
 
 function dibujarFlechas(latlngs) {
-  // Eliminar flechas anteriores
   if (window._rutaFlechas) {
     window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); });
   }
   window._rutaFlechas = [];
-  // Colocar flecha cada N metros de camino
-  var minDist = 0.04; // ~40m entre flechas
-  var prev = null;
+  var espaciado = 60; // metros entre flechas
+  var acumulado = 0;
   for (var i = 0; i < latlngs.length - 1; i++) {
-    var a = L.latLng(latlngs[i]);
-    var b = L.latLng(latlngs[i+1]);
-    var d = a.distanceTo(b) / 1000;
-    if (prev === null || (prev !== null && a.distanceTo(L.latLng(latlngs[prev])) / 1000 > minDist)) {
-      // Calcular ángulo
-      var dy = b.lat - a.lat;
-      var dx = (b.lng - a.lng) * Math.cos(a.lat * Math.PI / 180);
-      var angle = Math.atan2(dx, dy) * 180 / Math.PI;
-      var mid = L.latLng((a.lat + b.lat) / 2, (a.lng + b.lng) / 2);
+    var a = L.latLng(latlngs[i][0], latlngs[i][1]);
+    var b = L.latLng(latlngs[i+1][0], latlngs[i+1][1]);
+    var segDist = a.distanceTo(b);
+    acumulado += segDist;
+    if (acumulado >= espaciado) {
+      acumulado = 0;
+      // Ángulo: Norte=0, Este=90 — Leaflet usa lat/lng
+      var dLat = latlngs[i+1][0] - latlngs[i][0];
+      var dLng = latlngs[i+1][1] - latlngs[i][1];
+      // Convertir a bearing: ángulo desde el norte en sentido horario
+      var bearing = Math.atan2(dLng * Math.cos(latlngs[i][0] * Math.PI/180), dLat) * 180 / Math.PI;
+      var mid = [(latlngs[i][0]+latlngs[i+1][0])/2, (latlngs[i][1]+latlngs[i+1][1])/2];
+      var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">' +
+        '<polygon points="10,1 18,18 10,13 2,18" fill="#FFD700" stroke="#B8860B" stroke-width="1.2" stroke-linejoin="round"/>' +
+        '</svg>';
       var arrow = L.marker(mid, {
         icon: L.divIcon({
           className: '',
-          html: '<div style="font-size:18px;line-height:1;transform:rotate('+angle+'deg);filter:drop-shadow(0 1px 2px rgba(0,0,0,0.5))">➤</div>',
+          html: '<div style="transform:rotate('+bearing+'deg);transform-origin:center;width:20px;height:20px;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.6))">'+svg+'</div>',
           iconSize: [20, 20],
           iconAnchor: [10, 10]
         }),
         interactive: false,
-        zIndexOffset: -1
+        zIndexOffset: 100
       }).addTo(mapa);
       window._rutaFlechas.push(arrow);
-      prev = i;
     }
   }
 }
@@ -4445,6 +4453,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v204</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v206</div>
 </body>
 </html>
