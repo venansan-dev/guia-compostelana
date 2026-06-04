@@ -3539,8 +3539,10 @@ function activarNavegacionVoz() {
   var coords = [];
   if (userLat && userLng) coords.push(userLng + ',' + userLat);
   ordenados.forEach(function(p){ coords.push(p.lng + ',' + p.lat); });
-  var osrmUrl = 'https://router.project-osrm.org/route/v1/foot/' + coords.join(';') +
-    '?steps=true&geometries=geojson&overview=full&annotations=false';
+  var _navEndpoints = [
+    'https://routing.openstreetmap.de/routed-foot/route/v1/foot/' + coords.join(';') + '?steps=true&geometries=geojson&overview=full&annotations=false',
+    'https://router.project-osrm.org/route/v1/foot/' + coords.join(';') + '?steps=true&geometries=geojson&overview=full&annotations=false'
+  ];
 
   mostrarToast('🔄 Calculando ruta...');
   if (window._navRestoreTimeout) { clearTimeout(window._navRestoreTimeout); window._navRestoreTimeout = null; }
@@ -3552,10 +3554,12 @@ function activarNavegacionVoz() {
   // Anuncio inmediato desde el gesto del usuario (necesario en iOS para activar speechSynthesis)
   hablar('Navegación por voz activada. Calculando ruta.');
 
-  fetch(osrmUrl)
-    .then(function(r){ return r.json(); })
-    .then(function(data) {
-      if (!data.routes || !data.routes[0]) { mostrarToast('❌ No se pudo calcular la ruta'); return; }
+  function _navFetch(i) {
+    if (i >= _navEndpoints.length) { mostrarToast('❌ No se pudo calcular la ruta'); return; }
+    fetch(_navEndpoints[i])
+      .then(function(r){ return r.json(); })
+      .then(function(data) {
+        if (!data.routes || !data.routes[0]) { _navFetch(i+1); return; }
 
       var route = data.routes[0];
       // Extraer todos los pasos de todas las legs
@@ -3650,7 +3654,9 @@ function activarNavegacionVoz() {
 
       mostrarToast('🎙️ Navegación por voz activa');
     })
-    .catch(function(){ mostrarToast('❌ Error al conectar con el servidor de rutas'); });
+      }).catch(function(){ _navFetch(i+1); });
+  }
+  _navFetch(0);
 }
 
 function _navTick(pos) {
@@ -4838,6 +4844,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v234</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v235</div>
 </body>
 </html>
