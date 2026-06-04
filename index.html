@@ -187,8 +187,9 @@
 
 
   <!-- Panel ruta flotante esquina inferior derecha del mapa -->
-  <div id='map-ruta-panel' style='display:none;position:absolute;bottom:10px;left:10px;z-index:400;background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);border-radius:12px;padding:8px 10px;box-shadow:0 2px 16px rgba(0,0,0,0.35);flex-direction:column;align-items:flex-start;gap:5px;font-family:DM Sans,sans-serif;font-size:12px'>
+  <div id='map-ruta-panel' style='display:flex;flex-direction:column;align-items:stretch;position:absolute;bottom:10px;left:10px;z-index:400;background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);border-radius:12px;padding:8px 10px;box-shadow:0 2px 16px rgba(0,0,0,0.35);gap:5px;font-family:DM Sans,sans-serif;font-size:12px;min-width:80px'>
     <span style='font-weight:700;color:rgba(255,255,255,0.85);font-size:11px;letter-spacing:0.5px'>RUTA</span>
+    <div id='map-ruta-empty-state' style='display:none'></div>
     <span id='ruta-bar-count' style='background:#1D9E75;color:#fff;padding:2px 8px;border-radius:10px;font-weight:700;font-size:11px'>0 📍</span>
     <span id='ruta-bar-dist' style='color:#7EE8C0;font-weight:600;font-size:11px'>0 km</span>
     <span id='ruta-bar-time' style='color:#7EE8C0;font-weight:600;font-size:11px'>0 min</span>
@@ -201,9 +202,7 @@
   <span id='ruta-stat-label' style='display:none'></span>
   <span id='ruta-bar-info' style='display:none'></span>
   <span id='ruta-bar-puntos' style='display:none'></span>
-  <!-- Botón orientación (izquierda bajo refrescar) -->
-  <button id='btn-orientacion-mapa' onclick='pedirOrientacion()' title='Activar flecha orientación'
-    style='display:flex;position:absolute;top:54px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>🧭</button>
+
   <!-- Botón añadir punto (derecha) -->
   <button id='btn-add-poi-map' onclick='abrirFormPOI()' title='Añadir un punto' style='position:absolute;top:10px;right:10px;z-index:400;height:36px;background:#1D9E75;color:#fff;border:none;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;font-size:13px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,0.2);padding:0 12px;font-family:DM Sans,sans-serif;white-space:nowrap'>➕ <span id='btn-add-poi-map-txt'>Punto</span></button>
 </div>
@@ -2422,7 +2421,7 @@ function initMapa() {
   // Ocultar botón ➕ cuando se abre un popup, restaurar al cerrar
   var _popupAbierto = false;
 
-  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc','btn-orientacion-mapa','map-ruta-panel'];
+  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc'];
   mapa.on('popupopen', function() {
     _popupAbierto = true;
     _mapBtns.forEach(function(id){
@@ -2434,7 +2433,7 @@ function initMapa() {
     var b;
     b=document.getElementById('btn-add-poi-map'); if(b) b.style.display='flex';
     b=document.getElementById('btn-refresh-loc'); if(b) b.style.display='flex';
-    b=document.getElementById('btn-orientacion-mapa'); if(b) b.style.display='flex';
+
     // Solo mostrar panel si hay puntos en ruta
     b=document.getElementById('map-ruta-panel'); if(b&&rutaPuntos.length>0){b.style.display='flex';b.style.flexDirection='column';}
   });
@@ -2660,8 +2659,7 @@ function desactivarSeguimientoYBrujula() {
   if (window._orientacionActiva) {
     window._orientacionActiva = false;
     window.removeEventListener('deviceorientation', actualizarFlecha, true);
-    var btnO = document.getElementById('btn-orientacion-mapa');
-    if (btnO) { btnO.style.background='#fff'; btnO.style.border='2px solid rgba(0,0,0,0.2)'; btnO.style.color=''; }
+
   }
 }
 
@@ -3072,8 +3070,7 @@ function limpiarRuta() {
   if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); }); window._rutaFlechas = []; }
   var btnVer=document.getElementById('ruta-bar-btn-ver');
   if(btnVer) btnVer.style.background='#185FA5';
-  var panel=document.getElementById('map-ruta-panel');
-  if(panel) panel.style.display='none';
+  // panel permanece visible
   rutaPuntos=[];
   // Sync POI generator directly — no depende de actualizarRuta
   var statsEl = document.getElementById('poi-ruta-stats');
@@ -3302,12 +3299,14 @@ function actualizarRuta() {
   var puntEl = document.getElementById('ruta-bar-puntos');
   var btnGo  = document.getElementById('ruta-bar-btn-go');
   var btnClr = document.getElementById('ruta-bar-btn-clear');
+  var emptyState = document.getElementById('map-ruta-empty-state');
   if (rutaPuntos.length === 0) {
-    if(panel) panel.style.display='none';
-    if(empty) empty.style.display = '';
-    if(info) info.style.display  = 'none';
-    if(btnGo) { btnGo.style.opacity='0.5'; btnGo.style.cursor='default'; }
-    if(btnClr){ btnClr.style.opacity='0.5'; btnClr.style.cursor='default'; }
+    // Panel siempre visible pero mostrando estado vacío
+    if(emptyState) emptyState.style.display='block';
+    var countEl2=document.getElementById('ruta-bar-count');if(countEl2)countEl2.style.display='none';
+    var distEl2=document.getElementById('ruta-bar-dist');if(distEl2)distEl2.style.display='none';
+    var timeEl2=document.getElementById('ruta-bar-time');if(timeEl2)timeEl2.style.display='none';
+    if(btnClr){ btnClr.style.display='none'; }
     var btnMapaPoi2=document.getElementById('poi-ruta-btn-mapa');if(btnMapaPoi2)btnMapaPoi2.style.opacity='0.4';
     actualizarBotonesRuta(); return;
   }
@@ -4532,6 +4531,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v212</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v215</div>
 </body>
 </html>
