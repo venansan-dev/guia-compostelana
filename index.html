@@ -2638,7 +2638,7 @@ function initMapa() {
           (window.innerWidth<768 ? '<div style="position:absolute;top:0;right:2px;width:3px;height:100%;background:rgba(0,0,0,0.08);border-radius:3px;margin-top:6px"><div id="pp-bar-' + punto.id + '" style="position:absolute;top:0;right:0;width:3px;height:20%;background:rgba(0,0,0,0.25);border-radius:3px;transition:top 0.1s"></div></div>' : '') +
           '</div>' +
           '<div style="position:relative;margin-top:8px;border-top:1px solid #f0f0f0;padding-top:8px;min-height:28px">' +
-          '<span id="mpbtn-' + punto.id + '" data-poi="' + punto.id + '" onclick="addToRoute(this.getAttribute(\'data-poi\')); mapa.closePopup();" style="position:absolute;bottom:0;right:0;display:inline-block;background:' + (enR?'#1D9E75':'#E1F5EE') + ';color:' + (enR?'#fff':'#0F6E56') + ';border:1px solid rgba(29,158,117,0.3);border-radius:12px;padding:5px 12px;font-size:12px;cursor:pointer;font-weight:600;">' + (enR ? '&#10003; En ruta' : '+ a ruta') + '</span>' +
+          '<span id="mpbtn-' + punto.id + '" data-poi="' + punto.id + '" onclick="addToRoute(this.getAttribute(\'data-poi\')); mapa.closePopup();" style="position:absolute;bottom:0;right:0;display:inline-block;background:' + (enR?'#dc2626':'#E1F5EE') + ';color:' + (enR?'#fff':'#0F6E56') + ';border:1px solid ' + (enR?'#dc2626':'rgba(29,158,117,0.3)') + ';border-radius:12px;padding:5px 12px;font-size:12px;cursor:pointer;font-weight:600;">' + (enR ? '&#10005; Sacar' : '+ a ruta') + '</span>' +
           '</div></div>';
         L.popup({maxWidth:240, className:"poi-popup"}).setLatLng(m.getLatLng()).setContent(content).openOn(mapa);
       };
@@ -2653,7 +2653,7 @@ function initMapa() {
       function(pos) {
         userLat = pos.coords.latitude; userLng = pos.coords.longitude;
         statusEl.classList.remove('visible');
-        var mt=document.getElementById('map-title');if(mt)mt.textContent=(T[idiomaActual]||T.es).mapTitle;
+        var mt=document.getElementById('map-title');if(mt)mt.innerHTML=(T[idiomaActual]||T.es).mapTitle+" <svg width='22' height='30' viewBox='0 0 22 30' fill='none' xmlns='http://www.w3.org/2000/svg' style='animation:bounceDownArrow 1.4s ease-in-out infinite;flex-shrink:0;display:inline-block;vertical-align:middle;'><path d='M11 2 L11 22 M3 15 L11 24 L19 15' stroke='#dc2626' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/></svg>";
         var ms=document.getElementById('map-subtitle');if(ms)ms.textContent=(T[idiomaActual]||T.es).mapSubtitle;
   window._userMarker = L.marker([userLat,userLng],{icon:iconoUsuario,zIndexOffset:1000}).addTo(mapa).bindPopup('<strong>'+(T[idiomaActual]||T.es).tuUbicacion+'</strong>');
         radioKm = 1; aplicarRadio(1); // fitBounds ajusta el zoom al círculo de 1km
@@ -3216,9 +3216,10 @@ function actualizarBtnMapa(id, enRuta) {
   // Popup del mapa
   var mpbtn = document.getElementById('mpbtn-' + id);
   if (mpbtn) {
-    mpbtn.style.background = enRuta ? '#1D9E75' : '#E1F5EE';
+    mpbtn.style.background = enRuta ? '#dc2626' : '#E1F5EE';
     mpbtn.style.color      = enRuta ? '#fff'    : '#0F6E56';
-    mpbtn.innerHTML        = enRuta ? '&#10003; En ruta' : '+ a ruta';
+    mpbtn.style.border     = enRuta ? '1px solid #dc2626' : '1px solid rgba(29,158,117,0.3)';
+    mpbtn.innerHTML        = enRuta ? '&#10005; Sacar' : '+ a ruta';
   }
   // Tarjeta POI sección
   var rbtn = document.getElementById('rbtn-' + id);
@@ -5187,6 +5188,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v282</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v284</div>
 </body>
 </html>
