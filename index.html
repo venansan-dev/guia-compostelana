@@ -3934,6 +3934,10 @@ var T={
     rutaLabel:'Generador de ruta',
     rutaVacio:'Añade puntos desde el mapa o las tarjetas',
     rutaBtnIr:'▶ Ir',
+    panelBtnIr:'▶ Ir',
+    panelBtnStop:'⏹ Stop',
+    panelBtnLimpiar:'🗑 Limpiar',
+    poiVerMapa:'🗺️ Ver en mapa',
     confirmLimpiar:'¿Eliminar la ruta? Este cambio no puede deshacerse.',
     poiRutaTitulo:'Generador de ruta',
     poiRutaVacia:'Añade puntos desde las tarjetas o el mapa 👆',
@@ -4224,6 +4228,10 @@ var T={
     rutaLabel:'Route builder',
     rutaVacio:'Add points from the map or the cards',
     rutaBtnIr:'▶ Go',
+    panelBtnIr:'▶ Go',
+    panelBtnStop:'⏹ Stop',
+    panelBtnLimpiar:'🗑 Clear',
+    poiVerMapa:'🗺️ View on map',
     confirmLimpiar:'Delete route? This cannot be undone.',
     poiRutaTitulo:'Route builder',
     poiRutaVacia:'Add points from the cards or the map 👆',
@@ -4379,6 +4387,10 @@ function cambiarIdioma(lang){
   el=document.getElementById('ruta-bar-empty');if(el&&el.style.display!=='none')el.textContent=t.rutaVacio;
   el=document.getElementById('ruta-bar-btn-go');if(el)el.innerHTML=t.rutaBtnIr||'▶ Ir';
   el=document.getElementById('poi-ruta-btn-ir');if(el)el.innerHTML=t.poiRutaBtnIr||'▶ Ir';
+  el=document.getElementById('ruta-nav-btn');if(el&&!el.style.display.includes('none'))el.innerHTML=t.panelBtnIr||'▶ Ir';
+  el=document.getElementById('ruta-nav-stop');if(el)el.innerHTML=t.panelBtnStop||'⏹ Stop';
+  el=document.getElementById('ruta-bar-btn-clear');if(el)el.innerHTML=t.panelBtnLimpiar||'🗑 Limpiar';
+  el=document.getElementById('poi-ruta-btn-mapa');if(el)el.innerHTML=t.poiVerMapa||'🗺️ Ver en mapa';
   el=document.getElementById('poi-ruta-titulo');if(el)el.textContent=t.poiRutaTitulo||t.rutaLabel;
   el=document.getElementById('poi-ruta-vacia');if(el)el.textContent=t.poiRutaVacia||t.rutaVacio;
   el=document.getElementById('ruta-stat-label');if(el)el.textContent=t.rutaStatLabel;
@@ -4873,6 +4885,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v248</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v249</div>
 </body>
 </html>
