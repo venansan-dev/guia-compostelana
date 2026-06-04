@@ -170,15 +170,11 @@
 
 <div class='map-title-block' style='padding:1.5rem 2rem 0.6rem;background:var(--fondo);position:relative;z-index:0'>
   <div style='display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px'>
-  <h2 id='map-title' style='font-family:Playfair Display,serif;font-size:26px;font-weight:600;color:var(--texto);margin:0'>Esto está cerca de ti</h2>
+  <h2 id='map-title' style='font-family:Playfair Display,serif;font-size:26px;font-weight:600;color:var(--texto);margin:0'>Esto está cerca de ti ⬇️</h2>
   <button id='btn-notif' onclick='accionBtnPrincipal()' style='font-size:13px;font-weight:500;font-family:DM Sans,sans-serif;padding:8px 18px;border-radius:24px;border:none;background:var(--verde);color:#fff;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(29,158,117,0.3);transition:background 0.2s;flex-shrink:0'>📲 Instala la app y recibe avisos de los puntos de interés más cercanos a ti</button>
 </div>
   <p id='map-subtitle' style='font-size:13px;color:var(--texto-suave);margin:0 0 0'>Puntos de interés en tu entorno · selecciona el radio · toca un marcador para ver la ficha o añadirlo a tu ruta</p>
-  <div style='text-align:center;margin-top:6px;line-height:1'>
-    <svg width='28' height='18' viewBox='0 0 28 18' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      <path d='M2 2 L14 15 L26 2' stroke='#dc2626' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/>
-    </svg>
-  </div>
+
   <button id='btn-notif-m' onclick='accionBtnPrincipal()' style='display:none;font-size:13px;font-weight:500;font-family:DM Sans,sans-serif;padding:8px 18px;border-radius:24px;border:none;background:var(--verde);color:#fff;cursor:pointer;width:100%;margin-top:10px;box-shadow:0 2px 8px rgba(29,158,117,0.3);transition:background 0.2s'>📲 Instala la app y recibe avisos de los puntos de interés más cercanos a ti</button>
 </div>
 <div class='map-block' id='map-block'>
@@ -3489,12 +3485,21 @@ function guardarRuta() {
   if (rutaPuntos.length === 0) return;
   try {
     localStorage.setItem('rutaGuardada', JSON.stringify(rutaPuntos));
-    mostrarToast('💾 Ruta guardada');
     var btn = document.getElementById('ruta-bar-btn-save');
     if (btn) { btn.style.background='#4f46e5'; btn.textContent='✅ Guardada'; }
-    setTimeout(function() {
-      if (btn) { btn.style.background='#6366f1'; btn.textContent='💾 Guardar'; }
-    }, 2000);
+    setTimeout(function() { if (btn) { btn.style.background='#6366f1'; btn.textContent='💾 Guardar'; } }, 2500);
+    // Globo emergente
+    var cartel = document.getElementById('guardar-ruta-cartel');
+    if (!cartel) {
+      cartel = document.createElement('div');
+      cartel.id = 'guardar-ruta-cartel';
+      cartel.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:99999;background:rgba(0,0,0,0.82);color:#fff;padding:16px 22px;border-radius:16px;font-family:DM Sans,sans-serif;font-size:13px;font-weight:500;text-align:center;max-width:280px;line-height:1.5;box-shadow:0 4px 20px rgba(0,0,0,0.3);backdrop-filter:blur(8px);transition:opacity 0.5s;';
+      document.body.appendChild(cartel);
+    }
+    cartel.innerHTML = '💾 <strong>Guardando ruta...</strong><br><span style="font-size:12px;color:rgba(255,255,255,0.85)">Recuerda que este es un proyecto gratuito y necesitamos tu apoyo para el soporte. ¡Gracias! 🙏</span>';
+    cartel.style.opacity = '1';
+    clearTimeout(cartel._t);
+    cartel._t = setTimeout(function(){ cartel.style.opacity = '0'; }, 3500);
   } catch(e) { mostrarToast('⚠️ No se pudo guardar'); }
 }
 
@@ -3918,6 +3923,15 @@ function detenerNavegacionVoz() {
   document.body.style.touchAction = '';
   // Restaurar brújula si estaba encendida
   if (brujulaEstaba) setTimeout(pedirOrientacion, 300);
+  // Restaurar radio 1km
+  radioKm = 1;
+  document.querySelectorAll('.map-radio-btn').forEach(function(b){
+    b.classList.remove('active');
+    b.style.background='#fff'; b.style.color='#333'; b.style.border='2px solid rgba(0,0,0,0.2)';
+  });
+  var r1btn = document.querySelector('.map-radio-btn');
+  if (r1btn) { r1btn.classList.add('active'); r1btn.style.background='#1D9E75'; r1btn.style.color='#fff'; r1btn.style.border='2px solid #1D9E75'; }
+  if (userLat) aplicarRadio(1);
   mostrarToast('⏹ Navegación detenida');
 }
 // ═══════════════════════════════════════════════
@@ -5026,6 +5040,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v264</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v267</div>
 </body>
 </html>
