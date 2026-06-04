@@ -3375,6 +3375,7 @@ function actualizarRuta() {
       if(track) track.style.display=rutaPuntos.length>=5?'block':'none';
     }
     if (btnIr)    { btnIr.style.opacity  = '1'; btnIr.style.cursor  = 'pointer'; }
+    var btnMapa=document.getElementById('poi-ruta-btn-mapa');if(btnMapa){btnMapa.style.opacity='1';btnMapa.style.cursor='pointer';}
     if (btnClrPoi){ btnClrPoi.style.opacity = '1'; btnClrPoi.style.cursor = 'pointer'; }
     if (cnt2) cnt2.textContent = rutaPuntos.length + ' 📍';
     if (dst2) dst2.textContent = distEl ? distEl.textContent : '';
@@ -4552,6 +4553,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v223</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v224</div>
 </body>
 </html>
