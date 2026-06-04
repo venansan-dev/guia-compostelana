@@ -2742,6 +2742,9 @@ function cambiarRadio(km,btn) {
   btn.style.color='#fff';
   btn.style.border='2px solid #1D9E75';
   if (userLat) aplicarRadio(km);
+  // Centrar la sección del mapa en pantalla
+  var mapBlock = document.getElementById('map-block');
+  if (mapBlock) mapBlock.scrollIntoView({behavior:'smooth', block:'center'});
 }
 
 // BUSCADOR NOMINATIM
@@ -3566,18 +3569,11 @@ function activarNavegacionVoz() {
   // Anuncio inmediato (desbloquea speechSynthesis en iOS)
   hablar('Navegación por voz activada.');
 
-  // Usar pasos ya calculados por dibujarLineaEstática (sin fetch extra)
-  if (_navPasosCache.length > 0) {
-    _navPasos = _navPasosCache.slice();
-  } else {
-    mostrarToast('⚠️ Añade puntos y espera a que se dibuje la ruta');
-    _navActiva = false; return;
-  }
-
-  _navPasoActual = 0;
-  _navAnunciado = {};
-
-  {  // bloque para mantener indentación del código siguiente
+  // Función interna que activa la navegación con los pasos dados
+  function _iniciarConPasos(pasos) {
+    _navPasos = pasos;
+    _navPasoActual = 0;
+    _navAnunciado = {};
       // UI: ocultar IR, mostrar STOP, bloquear mapa
       var btnIr   = document.getElementById('ruta-nav-btn');
       var btnStop = document.getElementById('ruta-nav-stop');
@@ -3641,7 +3637,35 @@ function activarNavegacionVoz() {
       );
 
       mostrarToast('🎙️ Navegación por voz activa');
-  }  // fin bloque
+  }  // fin _iniciarConPasos
+
+  // Usar cache si disponible, si no hacer fetch
+  if (_navPasosCache.length > 0) {
+    _iniciarConPasos(_navPasosCache.slice());
+  } else {
+    // Cache vacío: calcular ruta ahora
+    mostrarToast('🔄 Calculando ruta...');
+    var navEps = [
+      'https://routing.openstreetmap.de/routed-foot/route/v1/foot/' + coords.join(';') + '?overview=full&geometries=geojson&steps=true',
+      'https://router.project-osrm.org/route/v1/foot/' + coords.join(';') + '?overview=full&geometries=geojson&steps=true'
+    ];
+    function _navFetchFallback(i) {
+      if (i >= navEps.length) { mostrarToast('❌ No se pudo calcular la ruta'); _navActiva=false; return; }
+      fetch(navEps[i]).then(function(r){ return r.json(); }).then(function(data) {
+        if (!data.routes || !data.routes[0]) { _navFetchFallback(i+1); return; }
+        var pasos = [];
+        data.routes[0].legs.forEach(function(leg) {
+          leg.steps.forEach(function(step) {
+            var man = step.maneuver;
+            pasos.push({ tipo: man.type+(man.modifier?'-'+man.modifier:''), calle: step.name||'', distancia: step.distance, lat: man.location[1], lng: man.location[0] });
+          });
+        });
+        _navPasosCache = pasos;
+        _iniciarConPasos(pasos);
+      }).catch(function(){ _navFetchFallback(i+1); });
+    }
+    _navFetchFallback(0);
+  }
 }
 
 function _navTick(pos) {
@@ -4829,6 +4853,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v238</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v240</div>
 </body>
 </html>
