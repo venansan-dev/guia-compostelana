@@ -51,6 +51,7 @@
   50%      { transform: translateY(-12px) scale(1.08); }
 }
 </style>
+<style>@keyframes bounceDownArrow{0%,100%{transform:translateY(0);}45%{transform:translateY(8px);}65%{transform:translateY(3px);}}</style>
 </head>
 <body>
 
@@ -176,7 +177,7 @@
 
 <div class='map-title-block' style='padding:1.5rem 2rem 0.6rem;background:var(--fondo);position:relative;z-index:0'>
   <div style='display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px'>
-  <h2 id='map-title' style='font-family:Playfair Display,serif;font-size:26px;font-weight:600;color:var(--texto);margin:0;display:flex;align-items:center;gap:10px;'>Esto está cerca de ti <svg width='22' height='30' viewBox='0 0 22 30' fill='none' xmlns='http://www.w3.org/2000/svg' style='animation:bounceDownArrow 1.4s ease-in-out infinite;flex-shrink:0;'><path d='M11 2 L11 22 M3 15 L11 24 L19 15' stroke='#dc2626' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/></svg></h2>
+  <h2 id='map-title' style='font-family:Playfair Display,serif;font-size:26px;font-weight:600;color:var(--texto);margin:0;display:flex;align-items:center;gap:10px;transition:opacity 0.4s ease;opacity:0;'>Esto está cerca de ti <svg width='22' height='30' viewBox='0 0 22 30' fill='none' xmlns='http://www.w3.org/2000/svg' style='animation:bounceDownArrow 1.4s ease-in-out infinite;flex-shrink:0;'><path d='M11 2 L11 22 M3 15 L11 24 L19 15' stroke='#dc2626' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/></svg></h2>
 <style>@keyframes bounceDownArrow{0%,100%{transform:translateY(0);}45%{transform:translateY(8px);}65%{transform:translateY(3px);}}</style>
   <button id='btn-notif' onclick='accionBtnPrincipal()' style='font-size:13px;font-weight:500;font-family:DM Sans,sans-serif;padding:8px 18px;border-radius:24px;border:none;background:var(--verde);color:#fff;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(29,158,117,0.3);transition:background 0.2s;flex-shrink:0'>📲 Instala la app y recibe avisos de los puntos de interés más cercanos a ti</button>
 </div>
@@ -220,11 +221,20 @@
   <!-- Botón orientación (izquierda bajo refrescar) -->
   <button id='btn-orientacion-mapa' onclick='pedirOrientacion()' title='Activar flecha orientación'
     style='display:flex;position:absolute;top:54px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>🧭</button>
+  <button id='btn-ar-mode' onclick='activarModoAR()' title='Vista AR'
+    style='display:flex;position:absolute;top:98px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>📷</button>
+  <div id='ar-overlay' style='display:none;position:fixed;inset:0;z-index:99000;background:#000;flex-direction:column'>
+    <video id='ar-video' autoplay playsinline muted style='position:absolute;inset:0;width:100%;height:100%;object-fit:cover'></video>
+    <div id='ar-labels' style='position:absolute;inset:0;pointer-events:none;overflow:hidden'></div>
+    <button onclick='cerrarModoAR()' style='position:absolute;top:20px;right:20px;z-index:10;background:rgba(0,0,0,0.6);color:#fff;border:none;border-radius:50%;width:44px;height:44px;font-size:22px;cursor:pointer'>✕</button>
+    <div style='position:absolute;bottom:30px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.7);font-size:12px;font-family:DM Sans,sans-serif;text-align:center'>Apunta hacia los puntos de interés del Camino</div>
+    <div id='ar-status' style='position:absolute;top:20px;left:20px;color:#fff;font-size:12px;font-family:DM Sans,sans-serif;background:rgba(0,0,0,0.5);padding:4px 10px;border-radius:8px'></div>
+  </div>
   <!-- Botón añadir punto (derecha) -->
   <button id='btn-add-poi-map' onclick='abrirFormPOI()' title='Añadir un punto' style='position:absolute;top:10px;right:10px;z-index:400;height:36px;background:#1D9E75;color:#fff;border:none;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;font-size:13px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,0.2);padding:0 12px;font-family:DM Sans,sans-serif;white-space:nowrap'>➕ <span id='btn-add-poi-map-txt'>Punto</span></button>
   <!-- Panel radio en mapa (columna derecha bajo +punto) -->
   <div id='map-radio-control' style='display:flex;position:absolute;top:54px;right:10px;z-index:400;flex-direction:column;align-items:stretch;gap:4px;font-family:DM Sans,sans-serif'>
-    <span id='radio-label' style='font-size:10px;font-weight:700;color:#fff;text-align:center;background:rgba(0,0,0,0.45);border-radius:6px;padding:2px 6px;letter-spacing:0.5px;text-shadow:0 1px 2px rgba(0,0,0,0.5)'>Radio:</span>
+    <div style='height:22px'></div>
     <div class='map-radio-btn active' onclick='cambiarRadio(1,this)' style='background:#1D9E75;color:#fff;border:2px solid #1D9E75;border-radius:6px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.15);min-width:52px;transition:all 0.15s'>1 km</div>
     <div class='map-radio-btn' onclick='cambiarRadio(2,this)' style='background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.15);min-width:52px;transition:all 0.15s'>2 km</div>
     <div class='map-radio-btn' onclick='cambiarRadio(3,this)' style='background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.15);min-width:52px;transition:all 0.15s'>3 km</div>
@@ -2566,7 +2576,7 @@ function initMapa() {
   // Ocultar botón ➕ cuando se abre un popup, restaurar al cerrar
   var _popupAbierto = false;
 
-  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc','btn-orientacion-mapa','map-ruta-panel','map-radio-control'];
+  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc','btn-orientacion-mapa','map-ruta-panel','map-radio-control','btn-ar-mode'];
   mapa.on('popupopen', function() {
     _popupAbierto = true;
     _mapBtns.forEach(function(id){
@@ -2653,7 +2663,7 @@ function initMapa() {
       function(pos) {
         userLat = pos.coords.latitude; userLng = pos.coords.longitude;
         statusEl.classList.remove('visible');
-        var mt=document.getElementById('map-title');if(mt)mt.textContent=(T[idiomaActual]||T.es).mapTitle;
+        var mt=document.getElementById('map-title');if(mt){mt.style.opacity='0';setTimeout(function(){mt.innerHTML=(T[idiomaActual]||T.es).mapTitle+" <svg width='22' height='30' viewBox='0 0 22 30' fill='none' xmlns='http://www.w3.org/2000/svg' style='animation:bounceDownArrow 1.4s ease-in-out infinite;flex-shrink:0;display:inline-block;vertical-align:middle;'><path d='M11 2 L11 22 M3 15 L11 24 L19 15' stroke='#dc2626' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/></svg>";mt.style.opacity='1';},300);}
         var ms=document.getElementById('map-subtitle');if(ms)ms.textContent=(T[idiomaActual]||T.es).mapSubtitle;
   window._userMarker = L.marker([userLat,userLng],{icon:iconoUsuario,zIndexOffset:1000}).addTo(mapa).bindPopup('<strong>'+(T[idiomaActual]||T.es).tuUbicacion+'</strong>');
         radioKm = 1; aplicarRadio(1); // fitBounds ajusta el zoom al círculo de 1km
@@ -3045,6 +3055,9 @@ function renderCarrusel(categoria) {
       '<div class="poi-body">'+
         '<div class="poi-category">'+(function(c){var t2=T[idiomaActual]||T.es;var cm={'naturaleza':t2.chipNaturaleza,'monumento':t2.chipMonumento,'albergue':t2.chipAlbergue,'mirador':t2.chipMirador,'edificación religiosa':t2.chipEdif,'localización histórica':t2.chipHist,'vestigio arqueológico':t2.chipVest,'edificación histórica':t2.chipEdifH,'naturaleza':t2.chipNat};return cm[c]||c;})(p.categoria)+'</div>'+
         '<div class="poi-nombre-row"><span class="poi-emoji">'+p.emoji+'</span><span class="poi-nombre">'+pNombre+'</span></div>'+
+        (p.categoria==='etapa'&&p.km?'<div style="display:flex;gap:6px;flex-wrap:wrap;margin:5px 0 3px">'+'<span style="background:#E1F5EE;color:#0F6E56;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">📍 '+p.km+' km</span>'+(p.desnivel_pos?'<span style="background:#FEF3C7;color:#92400E;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">↑'+p.desnivel_pos+' m</span>':'')+(p.desnivel_neg?'<span style="background:#FEF3C7;color:#92400E;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">↓'+p.desnivel_neg+' m</span>':'')+(p.dificultad?'<span style="background:#F3E8FF;color:#6B21A8;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">'+p.dificultad+'</span>':'')+(p.variante?'<span style="background:'+(p.variante==="costa"?"#E0F2FE":"#FCE7F3")+';color:'+(p.variante==="costa"?"#0369A1":"#9D174D")+';border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">'+(p.variante==="costa"?"🌊 Costa":"🛤️ Interior")+' </span>':'')+
+        '</div>':'')+
+
         (p.categoria==='etapa' && p.km ? '<div style="display:flex;gap:6px;flex-wrap:wrap;margin:5px 0 3px">'+
           '<span style="background:#E1F5EE;color:#0F6E56;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">📍 '+p.km+' km</span>'+
           (p.desnivel_pos ? '<span style="background:#FEF3C7;color:#92400E;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">↑'+p.desnivel_pos+' m</span>' : '')+
@@ -4684,6 +4697,7 @@ function cambiarIdioma(lang){
   el=document.getElementById('chip-albergues');if(el)el.textContent=t.chipAlbergue;
   el=document.getElementById('chip-miradores');if(el)el.textContent=t.chipMirador;
   el=document.getElementById('chip-etapas-txt');if(el)el.textContent=t.chipEtapa||'Etapas';
+  el=document.getElementById('chip-etapas-txt');if(el)el.textContent=t.chipEtapa||'Etapas';
   // Ruta bar
   el=document.getElementById('ruta-label');if(el)el.textContent=t.rutaLabel;
   el=document.getElementById('ruta-bar-empty');if(el&&el.style.display!=='none')el.textContent=t.rutaVacio;
@@ -5187,6 +5201,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v282</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v296</div>
 </body>
 </html>
