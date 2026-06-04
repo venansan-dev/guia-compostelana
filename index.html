@@ -2420,7 +2420,7 @@ function initMapa() {
   // Ocultar botón ➕ cuando se abre un popup, restaurar al cerrar
   var _popupAbierto = false;
 
-  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc','map-ruta-panel'];
+  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc'];
   mapa.on('popupopen', function() {
     _popupAbierto = true;
     _mapBtns.forEach(function(id){
@@ -2489,7 +2489,7 @@ function initMapa() {
           (window.innerWidth<768 ? '<div style="position:absolute;top:0;right:2px;width:3px;height:100%;background:rgba(0,0,0,0.08);border-radius:3px;margin-top:6px"><div id="pp-bar-' + punto.id + '" style="position:absolute;top:0;right:0;width:3px;height:20%;background:rgba(0,0,0,0.25);border-radius:3px;transition:top 0.1s"></div></div>' : '') +
           '</div>' +
           '<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;flex-shrink:0;border-top:1px solid #f0f0f0;padding-top:8px">' +
-          '<span id="mpbtn-' + punto.id + '" data-poi="' + punto.id + '" onclick="addToRoute(this.getAttribute(\'data-poi\')); mapa.closePopup();" style="display:inline-block;background:' + (enR?'#1D9E75':'#E1F5EE') + ';color:' + (enR?'#fff':'#0F6E56') + ';border:1px solid rgba(29,158,117,0.3);border-radius:12px;padding:5px 12px;font-size:12px;cursor:pointer;">' + (enR ? '&#10003; En ruta' : '+ a ruta') + '</span>' +
+          '<span id="mpbtn-' + punto.id + '" data-poi="' + punto.id + '" onclick="addToRoute(this.getAttribute(\'data-poi\'));" style="display:inline-block;background:' + (enR?'#1D9E75':'#E1F5EE') + ';color:' + (enR?'#fff':'#0F6E56') + ';border:1px solid rgba(29,158,117,0.3);border-radius:12px;padding:5px 12px;font-size:12px;cursor:pointer;">' + (enR ? '&#10003; En ruta' : '+ a ruta') + '</span>' +
           '</div></div>';
         L.popup({maxWidth:240, className:"poi-popup"}).setLatLng(m.getLatLng()).setContent(content).openOn(mapa);
       };
@@ -4529,6 +4529,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v219</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v220</div>
 </body>
 </html>
