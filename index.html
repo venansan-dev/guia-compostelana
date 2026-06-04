@@ -193,8 +193,6 @@
     <span id='ruta-bar-dist' style='color:#7EE8C0;font-weight:600;font-size:11px'>0 km</span>
     <span id='ruta-bar-time' style='color:#7EE8C0;font-weight:600;font-size:11px'>0 min</span>
 
-    <button onclick='activarNavegacionVoz()' id='ruta-nav-btn' style='display:none;width:100%;background:#1D9E75;border:none;color:#fff;padding:6px 8px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center'>▶ Ir</button>
-    <button onclick='detenerNavegacionVoz()' id='ruta-nav-stop' style='display:none;width:100%;background:#f59e0b;border:none;color:#fff;padding:6px 8px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center'>⏹ Stop</button>
     <button onclick='limpiarRuta()' id='ruta-bar-btn-clear' style='display:none;width:100%;background:#dc2626;border:none;color:#fff;padding:6px 8px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center'>🗑 Limpiar</button>
   </div>
   <!-- btn-go oculto para compatibilidad con JS existente -->
@@ -1637,7 +1635,6 @@ function añadirMarcadorUsuario(p) {
   p._marker = m;
   m.on('click', (function(punto) {
     return function() {
-      if (window._navBloqPopups) return;
       var popupId = 'popup-del-' + punto.id;
       var esMiPunto = punto.deviceId === DEVICE_ID ||
         PUNTOS_USUARIO.find(function(x){ return x.id === punto.id; });
@@ -2473,7 +2470,6 @@ function initMapa() {
     });
     var mf = L.marker([p.lat, p.lng], { icon: iconFiesta, zIndexOffset: 500 }).addTo(mapa);
     mf.on('click', function() {
-      if (window._navBloqPopups) return;
       var content = '<div style="font-family:DM Sans,sans-serif;min-width:190px;max-width:260px">' +
         '<strong style="font-size:14px;color:#1D9E75">' + p.nombre + '</strong><br>' +
         '<small style="color:#6b7280;text-transform:uppercase;letter-spacing:1px">FIESTA HOY 🎉</small>' +
@@ -2488,7 +2484,6 @@ function initMapa() {
     var m = L.marker([p.lat,p.lng], { icon:crearIcono(p.emoji) }).addTo(mapa);
     m.on('click', (function(punto) {
       return function() {
-        if (window._navBloqPopups) return;
         var enR = rutaPuntos.find(function(x){return x.id===punto.id;});
         var pPopupNombre = idiomaActual==='gl'&&punto.nombre_gl?punto.nombre_gl:idiomaActual==='en'&&punto.nombre_en?punto.nombre_en:punto.nombre;
         var pPopupDesc = idiomaActual==='gl'&&punto.descripcion_gl?punto.descripcion_gl:idiomaActual==='en'&&punto.descripcion_en?punto.descripcion_en:punto.descripcion;
@@ -3081,7 +3076,6 @@ function quitarDeRuta(id) {
   actualizarBtnMapa(id, false);
 }
 function limpiarRuta() {
-  if (_navActiva) detenerNavegacionVoz();
   if (rutaPuntos.length > 0) {
     if (!confirm((T[idiomaActual]||T.es).confirmLimpiar||'¿Eliminar la ruta? Este cambio no puede deshacerse.')) return;
   }
@@ -3236,7 +3230,6 @@ function dibujarLineaEstática() {
     'https://router.project-osrm.org/route/v1/foot/' + osrmCoords.join(';') + '?overview=full&geometries=geojson'
   ];
   function dibujarGeoJSON2(geojson) {
-    if (_navActiva) return; // navegación activa: no sobreescribir línea verde
     if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
     var z = mapa.getZoom();
     var lineWeight = z >= 17 ? 6 : z >= 15 ? 5 : z >= 13 ? 4 : 3;
@@ -3251,7 +3244,6 @@ function dibujarLineaEstática() {
     }
   }
   function fallback2() {
-    if (_navActiva) return;
     var coords2 = rutaPuntos.map(function(p){ return [p.lat, p.lng]; });
     if (_rutaLinea) mapa.removeLayer(_rutaLinea);
     _rutaLinea = L.polyline(coords2, {color:'#1D9E75',weight:3,opacity:0.7,dashArray:'10 8'}).addTo(mapa);
@@ -3334,7 +3326,6 @@ function actualizarRuta() {
     var timeEl0=document.getElementById('ruta-bar-time'); if(timeEl0) timeEl0.textContent='0 min';
     if(btnGo) { btnGo.style.opacity='0.5'; btnGo.style.cursor='default'; btnGo.disabled=true; }
     if(btnClr){ btnClr.style.display='none'; btnClr.disabled=true; }
-    var btnNav=document.getElementById('ruta-nav-btn');if(btnNav)btnNav.style.display='none';
     var btnMapaPoi2=document.getElementById('poi-ruta-btn-mapa');if(btnMapaPoi2)btnMapaPoi2.style.opacity='0.4';
     actualizarBotonesRuta(); return;
   }
@@ -3359,7 +3350,7 @@ function actualizarRuta() {
   var vaciaEl = document.getElementById('poi-ruta-vacia');
   var listaEl = document.getElementById('poi-ruta-lista2');
   var btnIr   = document.getElementById('poi-ruta-btn-ir');
-  var btnClrPoi = document.getElementById('poi-ruta-btn-clear');
+  var btnClr  = document.getElementById('poi-ruta-btn-clear');
   var cnt2    = document.getElementById('poi-ruta-count');
   var dst2    = document.getElementById('poi-ruta-dist2');
   var tim2    = document.getElementById('poi-ruta-time2');
@@ -3369,7 +3360,7 @@ function actualizarRuta() {
     if (vaciaEl)  { vaciaEl.style.display  = 'block'; }
     if (listaEl)  { listaEl.style.display  = 'none'; }
     if (btnIr)    { btnIr.style.opacity  = '0.4'; btnIr.style.cursor  = 'default'; }
-    if (btnClrPoi){ btnClrPoi.style.opacity = '0.4'; btnClrPoi.style.cursor = 'default'; }
+    if (btnClr)   { btnClr.style.opacity = '0.4'; btnClr.style.cursor = 'default'; }
   } else {
     if (statsEl)  { statsEl.style.display  = 'flex'; }
     if (vaciaEl)  { vaciaEl.style.display  = 'none'; }
@@ -3384,8 +3375,7 @@ function actualizarRuta() {
       if(track) track.style.display=rutaPuntos.length>=5?'block':'none';
     }
     if (btnIr)    { btnIr.style.opacity  = '1'; btnIr.style.cursor  = 'pointer'; }
-    var btnMapa=document.getElementById('poi-ruta-btn-mapa');if(btnMapa){btnMapa.style.opacity='1';btnMapa.style.cursor='pointer';}
-    if (btnClrPoi){ btnClrPoi.style.opacity = '1'; btnClrPoi.style.cursor = 'pointer'; }
+    if (btnClr)   { btnClr.style.opacity = '1'; btnClr.style.cursor = 'pointer'; }
     if (cnt2) cnt2.textContent = rutaPuntos.length + ' 📍';
     if (dst2) dst2.textContent = distEl ? distEl.textContent : '';
     if (tim2) tim2.textContent = timeEl ? timeEl.textContent : '';
@@ -3404,7 +3394,6 @@ function actualizarRuta() {
 
   btnGo.disabled  = rutaPuntos.length < 2;
   btnClr.disabled = false; btnClr.style.display='block';
-  var btnNavEl=document.getElementById('ruta-nav-btn');if(btnNavEl&&!_navActiva){btnNavEl.style.display='block';}
   actualizarBotonesRuta();
   // Auto-guardar ruta en localStorage
   try { if(rutaPuntos.length>0) localStorage.setItem('rutaGuardada', JSON.stringify(rutaPuntos)); } catch(e) {}
@@ -3470,287 +3459,6 @@ function cargarRutaGuardada() {
   } catch(e) { console.log('Error cargando ruta:', e); }
 }
 
-
-// ═══════════════════════════════════════════════
-//  NAVEGACIÓN POR VOZ CON OSRM
-// ═══════════════════════════════════════════════
-var _navActiva = false;
-var _navPasos = [];        // pasos OSRM [{instruccion, distancia, lat, lng}]
-var _navPasoActual = 0;
-var _navWatchId = null;
-var _navWakeLock = null;
-var _navAnunciado = {};    // evitar repetir el mismo anuncio
-var _navVoz = null;
-
-function hablar(texto) {
-  if (!window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
-  var u = new SpeechSynthesisUtterance(texto);
-  // Elegir voz en el idioma activo
-  var lang = idiomaActual === 'en' ? 'en' : idiomaActual === 'gl' ? 'gl-ES' : 'es-ES';
-  u.lang = lang;
-  u.rate = 0.95;
-  u.pitch = 1;
-  // Intentar voz local preferida
-  var voces = window.speechSynthesis.getVoices();
-  var voz = voces.find(function(v){ return v.lang.startsWith(lang.substring(0,2)) && v.localService; })
-         || voces.find(function(v){ return v.lang.startsWith(lang.substring(0,2)); });
-  if (voz) u.voice = voz;
-  window.speechSynthesis.speak(u);
-}
-
-function traducirManiobra(tipo, nombre) {
-  var t = T[idiomaActual] || T.es;
-  var calle = nombre ? ('" ' + nombre + '"') : '';
-  var mapa_man = {
-    'turn-left':        (t.navGiraIzq   || 'Gira a la izquierda') + calle,
-    'turn-right':       (t.navGiraDer   || 'Gira a la derecha') + calle,
-    'turn-slight-left': (t.navLigIzq    || 'Gira ligeramente a la izquierda') + calle,
-    'turn-slight-right':(t.navLigDer    || 'Gira ligeramente a la derecha') + calle,
-    'turn-sharp-left':  (t.navFuerteIzq || 'Gira fuerte a la izquierda') + calle,
-    'turn-sharp-right': (t.navFuerteDer || 'Gira fuerte a la derecha') + calle,
-    'uturn':            (t.navMedia     || 'Da media vuelta'),
-    'roundabout':       (t.navRota      || 'Toma la rotonda') + calle,
-    'straight':         (t.navRecto     || 'Continúa recto') + calle,
-    'depart':           (t.navSalida    || 'Inicia la ruta') + calle,
-    'arrive':           (t.navLlegada   || 'Has llegado a tu destino')
-  };
-  return mapa_man[tipo] || ((t.navDirigete || 'Dirígete hacia') + calle);
-}
-
-function distanciaTexto(m) {
-  if (m < 50)  return null; // demasiado cerca, no anunciar
-  if (m < 100) return '50 metros';
-  if (m < 200) return '100 metros';
-  if (m < 400) return '200 metros';
-  if (m < 800) return '400 metros';
-  if (m < 1500) return '1 kilómetro';
-  return Math.round(m/1000) + ' kilómetros';
-}
-
-function activarNavegacionVoz() {
-  if (rutaPuntos.length < 1) { mostrarToast('Añade al menos 1 punto a la ruta'); return; }
-
-  // Ordenar puntos por cercanía al usuario
-  var origen = (userLat && userLng) ? {lat:userLat, lng:userLng} : {lat:rutaPuntos[0].lat, lng:rutaPuntos[0].lng};
-  var ordenados = ordenarRutaPorCercania(origen);
-
-  // Construir waypoints para OSRM
-  var coords = [];
-  if (userLat && userLng) coords.push(userLng + ',' + userLat);
-  ordenados.forEach(function(p){ coords.push(p.lng + ',' + p.lat); });
-  var _navEndpoints = [
-    'https://routing.openstreetmap.de/routed-foot/route/v1/foot/' + coords.join(';') + '?steps=true&geometries=geojson&overview=full&annotations=false',
-    'https://router.project-osrm.org/route/v1/foot/' + coords.join(';') + '?steps=true&geometries=geojson&overview=full&annotations=false'
-  ];
-
-  mostrarToast('🔄 Calculando ruta...');
-  if (window._navRestoreTimeout) { clearTimeout(window._navRestoreTimeout); window._navRestoreTimeout = null; }
-  _navActiva = true; // marcar inmediatamente para bloquear dibujarLineaEstática pendiente
-  // Limpiar trazado estático previo antes de calcular nav
-  if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
-  if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); }); window._rutaFlechas = []; }
-
-  // Anuncio inmediato desde el gesto del usuario (necesario en iOS para activar speechSynthesis)
-  hablar('Navegación por voz activada. Calculando ruta.');
-
-  function _navFetch(i) {
-    if (i >= _navEndpoints.length) { mostrarToast('❌ No se pudo calcular la ruta'); return; }
-    fetch(_navEndpoints[i])
-      .then(function(r){ return r.json(); })
-      .then(function(data) {
-        if (!data.routes || !data.routes[0]) { _navFetch(i+1); return; }
-
-      var route = data.routes[0];
-      // Extraer todos los pasos de todas las legs
-      _navPasos = [];
-      route.legs.forEach(function(leg) {
-        leg.steps.forEach(function(step) {
-          var man = step.maneuver;
-          _navPasos.push({
-            tipo:      man.type + (man.modifier ? '-' + man.modifier : ''),
-            calle:     step.name || '',
-            distancia: step.distance,  // metros hasta el siguiente giro
-            lat:       man.location[1],
-            lng:       man.location[0]
-          });
-        });
-      });
-
-      _navPasoActual = 0;
-      _navActiva = true;
-      _navAnunciado = {};
-
-      // UI: ocultar IR, mostrar STOP, bloquear mapa
-      var btnIr   = document.getElementById('ruta-nav-btn');
-      var btnStop = document.getElementById('ruta-nav-stop');
-      var btnClr  = document.getElementById('ruta-bar-btn-clear');
-      if (btnIr)   btnIr.style.display   = 'none';
-      if (btnStop) btnStop.style.display = 'block';
-      if (btnClr)  btnClr.style.display  = 'none'; // ocultar mientras navega
-      // Pantalla completa durante navegación
-      var mapBlock = document.getElementById('map-block');
-      var mapEl    = document.getElementById('map');
-      if (mapBlock) {
-        mapBlock._origStyle = mapBlock.getAttribute('style') || '';
-        mapBlock.style.cssText = 'position:fixed;inset:0;z-index:9000;border-radius:0;margin:0;max-width:100%;box-shadow:none;border:none;';
-      }
-      if (mapEl) {
-        mapEl._origHeight = mapEl.style.height;
-        mapEl.style.height = '100dvh';
-      }
-      setTimeout(function(){ if(mapa) mapa.invalidateSize(); }, 100);
-
-      // Ocultar botones del mapa salvo refresh y brújula
-      ['btn-add-poi-map','map-radio-control'].forEach(function(id){
-        var el=document.getElementById(id); if(el) el.style.display='none';
-      });
-      // Reducir panel ruta a solo el Stop (ocultar count/dist/time/clear)
-      ['ruta-bar-count','ruta-bar-dist','ruta-bar-time'].forEach(function(id){
-        var el=document.getElementById(id); if(el) el.style.display='none';
-      });
-
-      // Bloquear interacción del mapa
-      mapa.dragging.disable();
-      // zoom permitido, solo bloquear drag y teclado
-      mapa.doubleClickZoom.disable();
-      mapa.boxZoom.disable();
-      mapa.keyboard.disable();
-      // Evitar apertura de popups durante navegación
-      window._navBloqPopups = true;
-
-      // Zoom máximo sobre usuario
-      if (userLat && userLng) mapa.setView([userLat, userLng], 18, {animate:true});
-
-      // Wake Lock — mantener pantalla activa
-      if (navigator.wakeLock) {
-        navigator.wakeLock.request('screen').then(function(wl){ _navWakeLock = wl; }).catch(function(){});
-      }
-
-      // Primer anuncio
-      var primerPunto = ordenados[0];
-      hablar((T[idiomaActual]||T.es).navInicio
-        ? (T[idiomaActual]||T.es).navInicio.replace('{nombre}', primerPunto.nombre)
-        : 'Navegación iniciada. Dirígete hacia ' + primerPunto.nombre);
-
-      // Dibujar ruta en mapa con flechas amarillas (igual que trazado estático)
-      if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
-      if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); }); window._rutaFlechas = []; }
-      var geojsonCoords = route.geometry.coordinates.map(function(c){ return [c[1], c[0]]; });
-      var z = mapa.getZoom();
-      var lineWeight = z >= 17 ? 6 : z >= 15 ? 5 : z >= 13 ? 4 : 3;
-      _rutaLinea = L.geoJSON(route.geometry, {
-        style: { color:'#FFD700', weight:lineWeight, opacity:0.9, dashArray:'14 6', lineJoin:'round', lineCap:'round' }
-      }).addTo(mapa);
-      dibujarFlechas(geojsonCoords);
-
-      // Iniciar seguimiento GPS
-      if (window._navWatchId) navigator.geolocation.clearWatch(window._navWatchId);
-      window._navWatchId = navigator.geolocation.watchPosition(
-        function(pos) { _navTick(pos); },
-        function() {},
-        {enableHighAccuracy:true, maximumAge:1500, timeout:10000}
-      );
-
-      mostrarToast('🎙️ Navegación por voz activa');
-    })
-      }).catch(function(){ _navFetch(i+1); });
-  }
-  _navFetch(0);
-}
-
-function _navTick(pos) {
-  if (!_navActiva) return;
-  var lat = pos.coords.latitude;
-  var lng = pos.coords.longitude;
-  userLat = lat; userLng = lng;
-
-  // Centrar mapa en usuario
-  mapa.panTo([lat, lng], {animate:true, duration:0.8});
-  if (window._userMarker) window._userMarker.setLatLng([lat, lng]);
-
-  if (_navPasoActual >= _navPasos.length) return;
-
-  var paso = _navPasos[_navPasoActual];
-  var distAlPaso = haversine(lat, lng, paso.lat, paso.lng) * 1000; // metros
-
-  // Si llegamos al paso actual (< 25m), avanzar al siguiente y anunciar
-  if (distAlPaso < 25) {
-    _navPasoActual++;
-    _navAnunciado = {}; // reset para el nuevo paso
-    if (_navPasoActual >= _navPasos.length) {
-      // Fin de ruta
-      hablar((T[idiomaActual]||T.es).navFin || '¡Has llegado a tu destino! Buen Camino.');
-      detenerNavegacionVoz();
-      return;
-    }
-    paso = _navPasos[_navPasoActual];
-  }
-
-  // Anunciar según distancia al siguiente giro
-  var distTexto = distanciaTexto(distAlPaso);
-  if (distTexto && !_navAnunciado[distTexto]) {
-    _navAnunciado[distTexto] = true;
-    var instruccion = traducirManiobra(paso.tipo, paso.calle);
-    hablar('En ' + distTexto + ', ' + instruccion);
-  }
-}
-
-function detenerNavegacionVoz() {
-  _navActiva = false;
-
-  // Detener GPS
-  if (window._navWatchId) { navigator.geolocation.clearWatch(window._navWatchId); window._navWatchId = null; }
-
-  // Liberar wake lock
-  if (_navWakeLock) { _navWakeLock.release().catch(function(){}); _navWakeLock = null; }
-
-  // Silenciar voz
-  if (window.speechSynthesis) window.speechSynthesis.cancel();
-
-  // Restaurar interacción del mapa
-  mapa.dragging.enable();
-  mapa.touchZoom.enable();
-  mapa.doubleClickZoom.enable();
-  mapa.scrollWheelZoom.enable();
-  mapa.boxZoom.enable();
-  mapa.keyboard.enable();
-  window._navBloqPopups = false;
-
-  // Salir de pantalla completa
-  var mapBlock = document.getElementById('map-block');
-  var mapEl    = document.getElementById('map');
-  if (mapBlock && mapBlock._origStyle !== undefined) {
-    mapBlock.setAttribute('style', mapBlock._origStyle);
-  }
-  if (mapEl && mapEl._origHeight !== undefined) {
-    mapEl.style.height = mapEl._origHeight || '';
-  }
-  setTimeout(function(){ if(mapa) mapa.invalidateSize(); }, 100);
-
-  // Restaurar botones del mapa
-  ['btn-add-poi-map','map-radio-control'].forEach(function(id){
-    var el=document.getElementById(id); if(el) el.style.display='flex';
-  });
-  // Restaurar stats del panel ruta
-  ['ruta-bar-count','ruta-bar-dist','ruta-bar-time'].forEach(function(id){
-    var el=document.getElementById(id); if(el) el.style.display='';
-  });
-
-  // UI: mostrar IR, ocultar STOP
-  var btnIr   = document.getElementById('ruta-nav-btn');
-  var btnStop = document.getElementById('ruta-nav-stop');
-  var btnClr  = document.getElementById('ruta-bar-btn-clear');
-  if (btnIr   && rutaPuntos.length >= 1) btnIr.style.display = 'block';
-  if (btnStop) btnStop.style.display = 'none';
-  if (btnClr  && rutaPuntos.length > 0)  btnClr.style.display = 'block';
-
-  // Restaurar trazado estático con flechas
-  if (window._navRestoreTimeout) clearTimeout(window._navRestoreTimeout);
-  if (rutaPuntos.length >= 1) window._navRestoreTimeout = setTimeout(dibujarLineaEstática, 300);
-  mostrarToast('⏹ Navegación detenida');
-}
-// ═══════════════════════════════════════════════
 function iniciarRuta() {
   if(rutaPuntos.length<2)return;
   // Ordenar por vecino más cercano desde posición usuario
@@ -4844,6 +4552,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v235</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v222</div>
 </body>
 </html>
