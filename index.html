@@ -220,6 +220,17 @@
   <!-- Botón orientación (izquierda bajo refrescar) -->
   <button id='btn-orientacion-mapa' onclick='pedirOrientacion()' title='Activar flecha orientación'
     style='display:flex;position:absolute;top:54px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>🧭</button>
+  <button id='btn-ar-mode' onclick='activarModoAR()' title='Vista de Realidad Aumentada'
+    style='display:flex;position:absolute;top:98px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>📷</button>
+  <!-- Overlay AR -->
+  <div id='ar-overlay' style='display:none;position:fixed;inset:0;z-index:99000;background:#000;flex-direction:column'>
+    <video id='ar-video' autoplay playsinline muted style='position:absolute;inset:0;width:100%;height:100%;object-fit:cover'></video>
+    <canvas id='ar-canvas' style='position:absolute;inset:0;width:100%;height:100%;pointer-events:none'></canvas>
+    <div id='ar-labels' style='position:absolute;inset:0;pointer-events:none;overflow:hidden'></div>
+    <button onclick='cerrarModoAR()' style='position:absolute;top:20px;right:20px;z-index:10;background:rgba(0,0,0,0.6);color:#fff;border:none;border-radius:50%;width:44px;height:44px;font-size:22px;cursor:pointer;backdrop-filter:blur(4px)'>✕</button>
+    <div style='position:absolute;bottom:30px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.7);font-size:12px;font-family:DM Sans,sans-serif;text-align:center;pointer-events:none'>Apunta hacia los puntos de interés del Camino</div>
+    <div id='ar-status' style='position:absolute;top:20px;left:20px;color:#fff;font-size:12px;font-family:DM Sans,sans-serif;background:rgba(0,0,0,0.5);padding:4px 10px;border-radius:8px;backdrop-filter:blur(4px)'></div>
+  </div>
   <!-- Botón añadir punto (derecha) -->
   <button id='btn-add-poi-map' onclick='abrirFormPOI()' title='Añadir un punto' style='position:absolute;top:10px;right:10px;z-index:400;height:36px;background:#1D9E75;color:#fff;border:none;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;font-size:13px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,0.2);padding:0 12px;font-family:DM Sans,sans-serif;white-space:nowrap'>➕ <span id='btn-add-poi-map-txt'>Punto</span></button>
   <!-- Panel radio en mapa (columna derecha bajo +punto) -->
@@ -2542,6 +2553,161 @@ function fiestaActivaHoy(f) {
   return hoy >= ini && hoy <= fin;
 }
 
+
+// ═══════════════════════════════════════════════
+//  MODO REALIDAD AUMENTADA
+// ═══════════════════════════════════════════════
+var _arActivo = false;
+var _arStream = null;
+var _arHeading = 0;
+var _arAnimFrame = null;
+var _arOrientHandler = null;
+
+function activarModoAR() {
+  if (!userLat || !userLng) {
+    mostrarToast('📍 Activa la ubicación primero');
+    return;
+  }
+  var overlay = document.getElementById('ar-overlay');
+  var video   = document.getElementById('ar-video');
+  if (!overlay || !video) return;
+
+  // Pedir cámara trasera
+  navigator.mediaDevices.getUserMedia({
+    video: { facingMode: { ideal: 'environment' }, width:{ideal:1280}, height:{ideal:720} },
+    audio: false
+  }).then(function(stream) {
+    _arStream = stream;
+    video.srcObject = stream;
+    overlay.style.display = 'flex';
+    _arActivo = true;
+
+    // Pedir orientación en iOS
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+      DeviceOrientationEvent.requestPermission().then(function(s) {
+        if (s === 'granted') _arIniciarOrientacion();
+      }).catch(function(){});
+    } else {
+      _arIniciarOrientacion();
+    }
+
+    // Bloquear scroll
+    document.body.style.overflow = 'hidden';
+    _arLoop();
+  }).catch(function(e) {
+    mostrarToast('❌ No se pudo acceder a la cámara');
+  });
+}
+
+function _arIniciarOrientacion() {
+  _arOrientHandler = function(e) {
+    // Calcular heading real desde deviceorientation
+    var alpha = e.alpha || 0;
+    if (e.webkitCompassHeading !== undefined) {
+      _arHeading = e.webkitCompassHeading; // iOS: 0=Norte directo
+    } else {
+      _arHeading = (360 - alpha) % 360;   // Android
+    }
+    var st = document.getElementById('ar-status');
+    if (st) st.textContent = '🧭 ' + Math.round(_arHeading) + '°';
+  };
+  window.addEventListener('deviceorientation', _arOrientHandler, true);
+}
+
+function _arLoop() {
+  if (!_arActivo) return;
+  _arRenderLabels();
+  _arAnimFrame = requestAnimationFrame(_arLoop);
+}
+
+function _arRenderLabels() {
+  var labels = document.getElementById('ar-labels');
+  if (!labels || !userLat || !userLng) return;
+
+  var vW = window.innerWidth;
+  var vH = window.innerHeight;
+  var FOV_H = 60; // campo visual horizontal en grados (aprox cámara móvil)
+  var MAX_DIST = 2000; // metros
+
+  // Obtener POIs cercanos
+  var cercanos = [];
+  var allPuntos = PUNTOS.concat(PUNTOS_USUARIO || []);
+  allPuntos.forEach(function(p) {
+    if (!p.lat || !p.lng) return;
+    var dist = haversine(userLat, userLng, p.lat, p.lng) * 1000;
+    if (dist > MAX_DIST) return;
+    // Calcular rumbo hacia el POI
+    var dLat = (p.lat - userLat) * Math.PI / 180;
+    var dLng = (p.lng - userLng) * Math.PI / 180;
+    var lat1 = userLat * Math.PI / 180;
+    var lat2 = p.lat  * Math.PI / 180;
+    var y = Math.sin(dLng) * Math.cos(lat2);
+    var x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLng);
+    var bearing = (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+    cercanos.push({ p: p, dist: dist, bearing: bearing });
+  });
+
+  // Ordenar por distancia, tomar los 8 más cercanos
+  cercanos.sort(function(a, b){ return a.dist - b.dist; });
+  cercanos = cercanos.slice(0, 8);
+
+  // Renderizar etiquetas
+  var html = '';
+  cercanos.forEach(function(item) {
+    // Ángulo relativo al heading actual
+    var relAngle = item.bearing - _arHeading;
+    // Normalizar a [-180, 180]
+    while (relAngle > 180)  relAngle -= 360;
+    while (relAngle < -180) relAngle += 360;
+
+    // Solo mostrar si está en el campo visual
+    if (Math.abs(relAngle) > FOV_H / 2 + 10) return;
+
+    // Posición X en pantalla
+    var x = vW / 2 + (relAngle / FOV_H) * vW;
+    // Posición Y: más cerca = más abajo
+    var yFactor = Math.min(1, item.dist / MAX_DIST);
+    var y = vH * 0.25 + yFactor * (vH * 0.45);
+
+    // Opacidad según si está en el centro del frame
+    var opacity = Math.max(0.5, 1 - Math.abs(relAngle) / (FOV_H / 2));
+
+    var distStr = item.dist < 1000 ? Math.round(item.dist) + ' m' : (item.dist/1000).toFixed(1) + ' km';
+    var nombre = item.p.nombre;
+    if (nombre.length > 24) nombre = nombre.substring(0, 22) + '…';
+
+    // Color según categoría
+    var catColor = {
+      'naturaleza':'#10b981','edificación religiosa':'#8b5cf6','monumentos':'#f59e0b',
+      'albergue':'#3b82f6','mirador':'#06b6d4','etapa':'#1D9E75'
+    }[item.p.categoria] || '#fff';
+
+    html += '<div style="position:absolute;transform:translate(-50%,-50%);left:'+x+'px;top:'+y+'px;opacity:'+opacity+';pointer-events:none;text-align:center;transition:left 0.1s,top 0.1s">' +
+      '<div style="background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);border-radius:10px;padding:6px 10px;border:1.5px solid '+catColor+';box-shadow:0 2px 12px rgba(0,0,0,0.4)">' +
+        '<div style="font-size:18px;line-height:1">'+(item.p.emoji||'📍')+'</div>' +
+        '<div style="color:#fff;font-size:11px;font-weight:700;font-family:DM Sans,sans-serif;white-space:nowrap;margin-top:2px">'+nombre+'</div>' +
+        '<div style="color:'+catColor+';font-size:10px;font-weight:600;font-family:DM Sans,sans-serif">'+distStr+'</div>' +
+      '</div>' +
+      '<div style="width:2px;height:16px;background:'+catColor+';margin:0 auto;opacity:0.8"></div>' +
+      '<div style="width:6px;height:6px;border-radius:50%;background:'+catColor+';margin:0 auto"></div>' +
+    '</div>';
+  });
+
+  labels.innerHTML = html;
+}
+
+function cerrarModoAR() {
+  _arActivo = false;
+  if (_arAnimFrame) { cancelAnimationFrame(_arAnimFrame); _arAnimFrame = null; }
+  if (_arStream) { _arStream.getTracks().forEach(function(t){ t.stop(); }); _arStream = null; }
+  if (_arOrientHandler) { window.removeEventListener('deviceorientation', _arOrientHandler, true); _arOrientHandler = null; }
+  var overlay = document.getElementById('ar-overlay');
+  if (overlay) overlay.style.display = 'none';
+  document.body.style.overflow = '';
+  var labels = document.getElementById('ar-labels');
+  if (labels) labels.innerHTML = '';
+}
+// ═══════════════════════════════════════════════
 function initMapa() {
   var radioCtrl = document.getElementById('map-radio-control');
   if (radioCtrl) radioCtrl.style.display = 'flex';
@@ -2566,7 +2732,7 @@ function initMapa() {
   // Ocultar botón ➕ cuando se abre un popup, restaurar al cerrar
   var _popupAbierto = false;
 
-  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc','btn-orientacion-mapa','map-ruta-panel','map-radio-control'];
+  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc','btn-orientacion-mapa','map-ruta-panel','map-radio-control','btn-ar-mode'];
   mapa.on('popupopen', function() {
     _popupAbierto = true;
     _mapBtns.forEach(function(id){
@@ -5195,6 +5361,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v290</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v291</div>
 </body>
 </html>
