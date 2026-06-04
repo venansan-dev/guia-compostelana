@@ -1232,7 +1232,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var carouselRect = carouselEl ? carouselEl.getBoundingClientRect() : null;
       if (mapRect && carouselRect) {
         var overlap = mapRect.bottom > carouselRect.top;
-        btnAdd.style.display = overlap ? 'none' : 'flex';
+        btnAdd.style.display = (overlap || _navActiva) ? 'none' : 'flex';
       }
     }, { passive: true });
   }
@@ -4795,7 +4795,7 @@ document.addEventListener('DOMContentLoaded', function() {
       });
       // Restaurar botón añadir punto al colapsar por scroll
       var btnAdd = document.getElementById('btn-add-poi-map');
-      if (btnAdd) btnAdd.style.display = 'flex';
+      if (btnAdd && !_navActiva) btnAdd.style.display = 'flex';
     });
     c.addEventListener('mousemove',function(e){if(!isDown)return;e.preventDefault();
       if(!dragged){
@@ -5040,6 +5040,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v270</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v271</div>
 </body>
 </html>
