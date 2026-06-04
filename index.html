@@ -2441,6 +2441,10 @@ function initMapa() {
   // Cerrar popup al arrastrar o hacer scroll en el mapa
   mapa.on('dragstart', function() { mapa.closePopup(); });
   mapa.on('zoomstart', function() { mapa.closePopup(); });
+  mapa.on('zoomend', function() {
+    // Redibujar flechas con nuevo espaciado si hay ruta activa
+    if (_rutaLinea && rutaPuntos.length >= 1) setTimeout(dibujarLineaEstática, 150);
+  });
 
   // En scroll: ocultar botón si hay popup visible en el DOM
   window.addEventListener('scroll', function() {
@@ -3125,7 +3129,9 @@ function dibujarFlechas(latlngs) {
     window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); });
   }
   window._rutaFlechas = [];
-  var espaciado = 60; // metros entre flechas
+  // Espaciado adaptativo según zoom — más zoom = más flechas, menos zoom = menos
+  var z = mapa.getZoom();
+  var espaciado = z >= 17 ? 40 : z >= 15 ? 80 : z >= 13 ? 180 : z >= 11 ? 400 : 800;
   var acumulado = 0;
   for (var i = 0; i < latlngs.length - 1; i++) {
     var a = L.latLng(latlngs[i][0], latlngs[i][1]);
@@ -4453,6 +4459,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v206</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v207</div>
 </body>
 </html>
