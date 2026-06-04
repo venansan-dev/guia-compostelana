@@ -2421,6 +2421,14 @@ function fiestaActivaHoy(f) {
 function initMapa() {
   var radioCtrl = document.getElementById('map-radio-control');
   if (radioCtrl) radioCtrl.style.display = 'flex';
+  // Forzar radio 1km al iniciar
+  radioKm = 1;
+  document.querySelectorAll('.map-radio-btn').forEach(function(b){
+    b.classList.remove('active');
+    b.style.background='#fff'; b.style.color='#333'; b.style.border='2px solid rgba(0,0,0,0.2)';
+  });
+  var r1btn = document.querySelector('.map-radio-btn');
+  if (r1btn) { r1btn.classList.add('active'); r1btn.style.background='#1D9E75'; r1btn.style.color='#fff'; r1btn.style.border='2px solid #1D9E75'; }
   setTimeout(cargarRutaGuardada, 1200); // cargar ruta guardada tras iniciar mapa
   mapa = L.map('map', { center:[42.2220,-8.7580], zoom:14, zoomControl:false, preferCanvas:true });
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -3835,10 +3843,8 @@ function toggleVozNav() {
     btn.innerHTML = _navVozActiva ? '🔊 Voz' : '🔇 Voz';
   }
   if (_navVozActiva) {
-    mostrarCartelVoz('🔊 Navegación por voz activada');
     hablar('Guía por voz activada.');
   } else {
-    mostrarCartelVoz('🔇 Navegación por voz desactivada');
     if (window.speechSynthesis) window.speechSynthesis.cancel();
   }
 }
@@ -5017,6 +5023,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v258</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v260</div>
 </body>
 </html>
