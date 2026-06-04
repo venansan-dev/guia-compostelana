@@ -1222,7 +1222,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var btnAdd = document.getElementById('btn-add-poi-map');
       if (!btnAdd) return;
       var expanded = document.querySelector('.poi-desc.expanded');
-      if (!expanded) {
+      if (!expanded && !_navActiva) {
         btnAdd.style.display = 'flex';
         return;
       }
@@ -1796,7 +1796,7 @@ function confirmarUbicacionMapa() {
   // Restaurar botones de añadir punto
   var btnMap = document.getElementById('btn-add-poi-map');
   var btnSec = document.getElementById('btn-add-poi');
-  if (btnMap) btnMap.style.display = 'flex';
+  if (btnMap && !_navActiva) btnMap.style.display = 'flex';
   if (btnSec) btnSec.style.display = 'flex';
 
   // Mostrar coordenadas
@@ -1814,7 +1814,7 @@ function cancelarMarcarMapa() {
   // Restaurar botones de añadir punto
   var btnMap = document.getElementById('btn-add-poi-map');
   var btnSec = document.getElementById('btn-add-poi');
-  if (btnMap) btnMap.style.display = 'flex';
+  if (btnMap && !_navActiva) btnMap.style.display = 'flex';
   if (btnSec) btnSec.style.display = 'flex';
 }
 
@@ -2971,7 +2971,7 @@ function renderCarrusel(categoria) {
         leerMasBtn.textContent = open ? (T[idiomaActual]||T.es).leerMas : (T[idiomaActual]||T.es).leerMenos;
         // Ocultar/mostrar botón añadir punto del mapa al expandir/colapsar
         var btnAdd = document.getElementById('btn-add-poi-map');
-        if (btnAdd) btnAdd.style.display = open ? 'flex' : 'none';
+        if (btnAdd && !_navActiva) btnAdd.style.display = open ? 'flex' : 'none';
       });
     }
     // Listener directo en botón ruta
@@ -5040,6 +5040,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v267</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v268</div>
 </body>
 </html>
