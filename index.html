@@ -3543,6 +3543,8 @@ function activarNavegacionVoz() {
     '?steps=true&geometries=geojson&overview=full&annotations=false';
 
   mostrarToast('🔄 Calculando ruta...');
+  if (window._navRestoreTimeout) { clearTimeout(window._navRestoreTimeout); window._navRestoreTimeout = null; }
+  _navActiva = true; // marcar inmediatamente para bloquear dibujarLineaEstática pendiente
   // Limpiar trazado estático previo antes de calcular nav
   if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
   if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); }); window._rutaFlechas = []; }
@@ -3606,9 +3608,8 @@ function activarNavegacionVoz() {
 
       // Bloquear interacción del mapa
       mapa.dragging.disable();
-      mapa.touchZoom.disable();
+      // zoom permitido, solo bloquear drag y teclado
       mapa.doubleClickZoom.disable();
-      mapa.scrollWheelZoom.disable();
       mapa.boxZoom.disable();
       mapa.keyboard.disable();
       // Evitar apertura de popups durante navegación
@@ -3733,7 +3734,8 @@ function detenerNavegacionVoz() {
   if (btnClr  && rutaPuntos.length > 0)  btnClr.style.display = 'block';
 
   // Restaurar trazado estático con flechas
-  if (rutaPuntos.length >= 1) setTimeout(dibujarLineaEstática, 200);
+  if (window._navRestoreTimeout) clearTimeout(window._navRestoreTimeout);
+  if (rutaPuntos.length >= 1) window._navRestoreTimeout = setTimeout(dibujarLineaEstática, 300);
   mostrarToast('⏹ Navegación detenida');
 }
 // ═══════════════════════════════════════════════
@@ -4830,6 +4832,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v231</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v233</div>
 </body>
 </html>
