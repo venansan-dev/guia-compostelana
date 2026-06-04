@@ -196,6 +196,7 @@
     <button onclick='activarNavegacionVoz()' id='ruta-nav-btn' style='display:none;width:100%;background:#1D9E75;border:none;color:#fff;padding:6px 8px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center'>▶ Ir</button>
     <button onclick='detenerNavegacionVoz()' id='ruta-nav-stop' style='display:none;width:100%;background:#f59e0b;border:none;color:#fff;padding:6px 8px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center'>⏹ Stop</button>
     <button onclick='toggleVozNav()' id='ruta-nav-voz' style='display:none;width:100%;background:#444;border:none;color:#fff;padding:6px 8px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center'>🔇 Voz</button>
+    <button onclick='guardarRuta()' id='ruta-bar-btn-save' style='display:none;width:100%;background:#6366f1;border:none;color:#fff;padding:6px 8px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center'>💾 Guardar</button>
     <button onclick='limpiarRuta()' id='ruta-bar-btn-clear' style='display:none;width:100%;background:#dc2626;border:none;color:#fff;padding:6px 8px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center'>🗑 Limpiar</button>
   </div>
   <!-- btn-go oculto para compatibilidad con JS existente -->
@@ -2419,6 +2420,7 @@ function fiestaActivaHoy(f) {
 function initMapa() {
   var radioCtrl = document.getElementById('map-radio-control');
   if (radioCtrl) radioCtrl.style.display = 'flex';
+  setTimeout(cargarRutaGuardada, 1200); // cargar ruta guardada tras iniciar mapa
   mapa = L.map('map', { center:[42.2220,-8.7580], zoom:14, zoomControl:false, preferCanvas:true });
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -3360,6 +3362,7 @@ function actualizarRuta() {
     if(btnGo) { btnGo.style.opacity='0.5'; btnGo.style.cursor='default'; btnGo.disabled=true; }
     if(btnClr){ btnClr.style.display='none'; btnClr.disabled=true; }
     var btnNav=document.getElementById('ruta-nav-btn');if(btnNav)btnNav.style.display='none';
+    var btnSave0=document.getElementById('ruta-bar-btn-save');if(btnSave0)btnSave0.style.display='none';
     var btnMapaPoi2=document.getElementById('poi-ruta-btn-mapa');if(btnMapaPoi2)btnMapaPoi2.style.opacity='0.4';
     actualizarBotonesRuta(); return;
   }
@@ -3430,6 +3433,7 @@ function actualizarRuta() {
   btnGo.disabled  = rutaPuntos.length < 2;
   btnClr.disabled = false; btnClr.style.display='block';
   var btnNavEl=document.getElementById('ruta-nav-btn');if(btnNavEl&&!_navActiva){btnNavEl.style.display='block';}
+  var btnSaveEl=document.getElementById('ruta-bar-btn-save');if(btnSaveEl)btnSaveEl.style.display='block';
   actualizarBotonesRuta();
   // Auto-guardar ruta en localStorage
   try { if(rutaPuntos.length>0) localStorage.setItem('rutaGuardada', JSON.stringify(rutaPuntos)); } catch(e) {}
@@ -3607,6 +3611,7 @@ function activarNavegacionVoz() {
     if (mapBlock) mapBlock.scrollIntoView({behavior:'smooth', block:'start'});
 
     // Ocultar botones del mapa salvo brújula
+    var btnSaveNav=document.getElementById('ruta-bar-btn-save');if(btnSaveNav)btnSaveNav.style.display='none';
     ['btn-add-poi-map','map-radio-control','btn-refresh-loc'].forEach(function(id){
       var el=document.getElementById(id); if(el) el.style.display='none';
     });
@@ -3873,6 +3878,7 @@ function detenerNavegacionVoz() {
   var btnStop = document.getElementById('ruta-nav-stop');
   var btnClr  = document.getElementById('ruta-bar-btn-clear');
   if (btnIr   && rutaPuntos.length >= 1) btnIr.style.display = 'block';
+  var btnSaveRst=document.getElementById('ruta-bar-btn-save');if(btnSaveRst&&rutaPuntos.length>0)btnSaveRst.style.display='block';
   if (btnStop) btnStop.style.display = 'none';
   var btnVozOff = document.getElementById('ruta-nav-voz'); if(btnVozOff) btnVozOff.style.display = 'none';
   _navVozActiva = false;
@@ -4989,6 +4995,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v253</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v254</div>
 </body>
 </html>
