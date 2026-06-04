@@ -3577,6 +3577,14 @@ function activarNavegacionVoz() {
       if (btnIr)   btnIr.style.display   = 'none';
       if (btnStop) btnStop.style.display = 'block';
       if (btnClr)  btnClr.style.display  = 'none'; // ocultar mientras navega
+      // Ocultar botones del mapa salvo refresh y brújula
+      ['btn-add-poi-map','map-radio-control'].forEach(function(id){
+        var el=document.getElementById(id); if(el) el.style.display='none';
+      });
+      // Reducir panel ruta a solo el Stop (ocultar count/dist/time/clear)
+      ['ruta-bar-count','ruta-bar-dist','ruta-bar-time'].forEach(function(id){
+        var el=document.getElementById(id); if(el) el.style.display='none';
+      });
 
       // Bloquear interacción del mapa
       mapa.dragging.disable();
@@ -3678,11 +3686,20 @@ function detenerNavegacionVoz() {
   mapa.keyboard.enable();
   window._navBloqPopups = false;
 
+  // Restaurar botones del mapa
+  ['btn-add-poi-map','map-radio-control'].forEach(function(id){
+    var el=document.getElementById(id); if(el) el.style.display='flex';
+  });
+  // Restaurar stats del panel ruta
+  ['ruta-bar-count','ruta-bar-dist','ruta-bar-time'].forEach(function(id){
+    var el=document.getElementById(id); if(el) el.style.display='';
+  });
+
   // UI: mostrar IR, ocultar STOP
   var btnIr   = document.getElementById('ruta-nav-btn');
   var btnStop = document.getElementById('ruta-nav-stop');
   var btnClr  = document.getElementById('ruta-bar-btn-clear');
-  if (btnIr   && rutaPuntos.length >= 2) btnIr.style.display = 'block';
+  if (btnIr   && rutaPuntos.length >= 1) btnIr.style.display = 'block';
   if (btnStop) btnStop.style.display = 'none';
   if (btnClr  && rutaPuntos.length > 0)  btnClr.style.display = 'block';
 
@@ -4782,6 +4799,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v227</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v228</div>
 </body>
 </html>
