@@ -3204,12 +3204,15 @@ function copiarCripto(el){
 // GENERADOR DE RUTA
 function addToRoute(id) {
   var p=PUNTOS.find(function(x){return x.id===id;});
+  if(!p) {
+    // Buscar también en POIs de usuario
+    p = PUNTOS_USUARIO.find(function(x){return x.id===id;});
+  }
   if(!p) return;
   var yaEsta=rutaPuntos.find(function(x){return x.id===id;});
   if(yaEsta){quitarDeRuta(id);return;}
   rutaPuntos.push({id:p.id,nombre:p.nombre,lat:p.lat,lng:p.lng});
-  actualizarRuta();
-  actualizarBtnMapa(id, true);
+  actualizarRuta(); // actualizarRuta llama a actualizarBotonesRuta que sincroniza todos los botones
 }
 
 function actualizarBtnMapa(id, enRuta) {
@@ -3235,8 +3238,7 @@ function rutaPillDel(btn) { quitarDeRuta(btn.getAttribute('data-rid')); }
 function quitarDeRuta(id) {
   if (typeof id !== 'string') id = id;
   rutaPuntos=rutaPuntos.filter(function(x){return x.id!==id;});
-  actualizarRuta();
-  actualizarBtnMapa(id, false);
+  actualizarRuta(); // actualizarRuta llama a actualizarBotonesRuta que sincroniza todos los botones
 }
 function limpiarRuta() {
   if (_navActiva) detenerNavegacionVoz();
@@ -3607,10 +3609,11 @@ function actualizarBotonesRuta() {
   document.querySelectorAll('[id^="mpbtn-"]').forEach(function(btn){
     var id=btn.id.replace('mpbtn-','');
     var enRuta=rutaPuntos.find(function(x){return x.id===id;});
+    var t2=T[idiomaActual]||T.es;
     btn.style.background = enRuta ? '#1D9E75' : '#E1F5EE';
     btn.style.color      = enRuta ? '#fff'    : '#0F6E56';
     btn.style.border     = enRuta ? '1px solid #1D9E75' : '1px solid rgba(29,158,117,0.3)';
-    btn.innerHTML        = enRuta ? '&#10003; En ruta' : '+ a ruta';
+    btn.innerHTML        = enRuta ? '&#10003; '+(t2.enRuta||'En ruta') : '+ '+(t2.aRuta||'a ruta');
   });
   // Botón "ver en mapa" de la sección POI
   var btnMapa=document.getElementById('poi-ruta-btn-mapa');
@@ -5192,6 +5195,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v289</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v290</div>
 </body>
 </html>
