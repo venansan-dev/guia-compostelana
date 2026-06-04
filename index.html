@@ -3074,6 +3074,9 @@ function actualizarBtnMapa(id, enRuta) {
   if (rbtn) {
     rbtn.classList.toggle('en-ruta', !!enRuta);
     rbtn.innerHTML = enRuta ? '&#10003; En ruta' : '+ Añadir a ruta';
+    rbtn.style.background = enRuta ? '#1D9E75' : 'rgba(255,255,255,0.92)';
+    rbtn.style.color      = enRuta ? '#fff'    : '#0F6E56';
+    rbtn.style.border     = enRuta ? '1px solid #1D9E75' : '1px solid rgba(29,158,117,0.4)';
   }
 }
 function rutaPillDel(btn) { quitarDeRuta(btn.getAttribute('data-rid')); }
@@ -3442,6 +3445,9 @@ function actualizarBotonesRuta() {
     var enRuta=rutaPuntos.find(function(x){return x.id===id;});
     btn.classList.toggle('en-ruta',!!enRuta);
     btn.innerHTML=enRuta?'&#10003; En ruta':'+ Añadir a ruta';
+    btn.style.background = enRuta ? '#1D9E75' : 'rgba(255,255,255,0.92)';
+    btn.style.color      = enRuta ? '#fff'    : '#0F6E56';
+    btn.style.border     = enRuta ? '1px solid #1D9E75' : '1px solid rgba(29,158,117,0.4)';
   });
   // Botones popup del mapa (mpbtn-)
   document.querySelectorAll('[id^="mpbtn-"]').forEach(function(btn){
@@ -4869,6 +4875,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v246</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v247</div>
 </body>
 </html>
