@@ -3027,13 +3027,21 @@ function copiarCripto(el){
 
 // GENERADOR DE RUTA
 function addToRoute(id) {
-  var p=PUNTOS.find(function(x){return x.id===id;});
-  if(!p) return;
-  var yaEsta=rutaPuntos.find(function(x){return x.id===id;});
-  if(yaEsta){quitarDeRuta(id);return;}
-  rutaPuntos.push({id:p.id,nombre:p.nombre,lat:p.lat,lng:p.lng});
+  var p = PUNTOS.find(function(x){ return x.id===id; });
+  if (!p) return;
+  var yaEsta = rutaPuntos.find(function(x){ return x.id===id; });
+  if (yaEsta) { quitarDeRuta(id); return; }
+  rutaPuntos.push({id:p.id, nombre:p.nombre, lat:p.lat, lng:p.lng});
   actualizarRuta();
   actualizarBtnMapa(id, true);
+  // Auto-activar brújula al añadir primer punto
+  if (typeof pedirOrientacion === 'function' && !window._orientacionActiva) {
+    pedirOrientacion();
+  }
+  // Dibujar trazado en el mapa
+  if (typeof dibujarLineaEstática === 'function') {
+    setTimeout(dibujarLineaEstática, 200);
+  }
 }
 
 function actualizarBtnMapa(id, enRuta) {
@@ -4529,6 +4537,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v220</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v221</div>
 </body>
 </html>
