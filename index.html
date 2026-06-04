@@ -3703,6 +3703,8 @@ function detenerNavegacionVoz() {
   if (btnStop) btnStop.style.display = 'none';
   if (btnClr  && rutaPuntos.length > 0)  btnClr.style.display = 'block';
 
+  // Restaurar trazado estático con flechas
+  if (rutaPuntos.length >= 1) setTimeout(dibujarLineaEstática, 200);
   mostrarToast('⏹ Navegación detenida');
 }
 // ═══════════════════════════════════════════════
@@ -4799,6 +4801,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v228</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v229</div>
 </body>
 </html>
