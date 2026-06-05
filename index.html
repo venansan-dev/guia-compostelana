@@ -2989,7 +2989,19 @@ function calcularDistancias() {
 function formatDist(km) { return km<1 ? Math.round(km*1000)+' m' : km.toFixed(1)+' km'; }
 
 // CARRUSEL
+var _renderDebounceTimer = null;
+var _renderDebounceCat = null;
+var _renderCarruselReal = null;
+
 function renderCarrusel(categoria) {
+  _renderDebounceCat = categoria;
+  clearTimeout(_renderDebounceTimer);
+  _renderDebounceTimer = setTimeout(function() {
+    _renderCarruselReal(_renderDebounceCat);
+  }, 80);
+}
+
+function _renderCarruselImpl(categoria) {
   categoriaActiva = categoria;
   var carousel = document.getElementById('carousel');
   // Solo POIs oficiales en el carrusel — los de usuario van solo en el mapa
@@ -3039,6 +3051,7 @@ function renderCarrusel(categoria) {
     carousel.innerHTML = '<p style="color:#6b7280;padding:1rem;font-style:italic">' + msg + '</p>';
     return;
   }
+  carousel.style.opacity = '0.6';
   carousel.innerHTML = '';
   filtrados.forEach(function(p) {
     var distHtml = p.distancia!==undefined
@@ -3161,11 +3174,13 @@ function renderCarrusel(categoria) {
     var llegarBtn = card.querySelector('.poi-btn');
     if (llegarBtn) llegarBtn.addEventListener('click', function(e) {
       e.stopPropagation();
-      verEnMapa(parseFloat(llegarBtn.getAttribute('data-lat')), parseFloat(llegarBtn.getAttribute('data-lng')));
+      irDesdeCarrusel(llegarBtn.getAttribute('data-id') || ''); 
     });
 
   });
 }
+
+_renderCarruselReal = _renderCarruselImpl;
 
 function moverCarrusel(dir) {
   var c=document.getElementById('carousel');
@@ -3206,6 +3221,23 @@ function enviarOpinion(btn) {
   setTimeout(function(){ btn.textContent = 'Enviar'; }, 1500);
 }
 
+function irDesdeCarrusel(id) {
+  // Añadir a ruta si no está ya
+  var p = PUNTOS.find(function(x){ return x.id === id; });
+  if (!p) return;
+  if (!rutaPuntos.find(function(x){ return x.id === id; })) {
+    addToRoute(id);
+  }
+  // Ir al mapa
+  verEnMapa(p.lat, p.lng);
+  // Activar navegación tras un breve delay para que el mapa se centre
+  setTimeout(function() {
+    var btnNav = document.getElementById('ruta-nav-btn');
+    if (btnNav && btnNav.style.display !== 'none') {
+      activarNavegacionVoz();
+    }
+  }, 600);
+}
 function verEnMapa(lat,lng) {
   mapa.setView([lat,lng],16);
   window.scrollTo({top:document.getElementById('map').offsetTop-70,behavior:'smooth'});
@@ -5028,7 +5060,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Botón cómo llegar
       if (tgt.classList.contains('poi-btn')) {
         e.stopPropagation();
-        activarNavegacionVoz(); return;
+        irDesdeCarrusel(tgt.getAttribute('data-id') || ''); return;
       }
       // Input opinión — no propagar al card
       if (tgt.classList.contains('opinion-input')) {
@@ -5080,7 +5112,7 @@ document.addEventListener('DOMContentLoaded', function() {
       addToRoute(t.getAttribute('data-poi')); return;
     }
     if (t.classList && t.classList.contains('poi-btn') && t.getAttribute('data-lat')) {
-      activarNavegacionVoz(); return;
+      irDesdeCarrusel(t.getAttribute('data-id') || ''); return;
     }
     // Click en tarjeta → ir al mapa (excepto zona de imagen)
     var card = t.closest ? t.closest('.poi-card') : null;
@@ -5242,6 +5274,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v359</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v360</div>
 </body>
 </html>
