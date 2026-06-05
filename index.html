@@ -52,13 +52,6 @@
   0%,100% { transform: translateY(0) scale(1); }
   50%      { transform: translateY(-12px) scale(1.08); }
 }
-
-  /* MarkerCluster personalizado */
-  .leaflet-cluster-anim .leaflet-marker-icon,
-  .leaflet-cluster-anim .leaflet-marker-shadow {
-    transition: transform 0.3s ease-out, opacity 0.3s ease-in;
-  }
-  .marker-cluster { background: none !important; }
 </style>
 <style>@keyframes bounceDownArrow{0%,100%{transform:translateY(0);}45%{transform:translateY(8px);}65%{transform:translateY(3px);}}</style>
 </head>
@@ -2661,29 +2654,6 @@ function initMapa() {
   if (r1btn) { r1btn.classList.add('active'); r1btn.style.background='#1D9E75'; r1btn.style.color='#fff'; r1btn.style.border='2px solid #1D9E75'; }
   setTimeout(cargarRutaGuardada, 1200); // cargar ruta guardada tras iniciar mapa
   mapa = L.map('map', { preferCanvas: true, center:[42.2220,-8.7580], zoom:14, zoomControl:false });
-  // Cluster group — agrupa marcadores al alejar el zoom
-  window._clusterGroup = L.markerClusterGroup({
-    maxClusterRadius: 50,
-    spiderfyOnMaxZoom: true,
-    showCoverageOnHover: false,
-    zoomToBoundsOnClick: true,
-    disableClusteringAtZoom: 16,
-    iconCreateFunction: function(cluster) {
-      var count = cluster.getChildCount();
-      var size = count < 10 ? 34 : count < 50 ? 40 : 46;
-      return L.divIcon({
-        className: '',
-        html: '<div style="width:'+size+'px;height:'+size+'px;border-radius:50%;' +
-          'background:var(--verde, #1D9E75);color:#fff;font-family:DM Sans,sans-serif;' +
-          'font-size:'+(count<10?13:11)+'px;font-weight:700;display:flex;align-items:center;' +
-          'justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.35);' +
-          'border:2px solid rgba(255,255,255,0.8)">' + count + '</div>',
-        iconSize: [size, size],
-        iconAnchor: [size/2, size/2]
-      });
-    }
-  });
-  mapa.addLayer(window._clusterGroup);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     maxZoom:19,
@@ -2691,6 +2661,24 @@ function initMapa() {
     updateWhenIdle:false,
     updateWhenZooming:false
   }).addTo(mapa);
+
+  // Cluster de marcadores POI
+  window._cluster = L.markerClusterGroup({
+    maxClusterRadius: 60,
+    disableClusteringAtZoom: 16,
+    spiderfyOnMaxZoom: true,
+    showCoverageOnHover: false,
+    iconCreateFunction: function(c) {
+      var n = c.getChildCount();
+      var s = n < 10 ? 32 : n < 50 ? 38 : 44;
+      return L.divIcon({
+        className:'',
+        html:'<div style="width:'+s+'px;height:'+s+'px;border-radius:50%;background:#1D9E75;color:#fff;font-family:DM Sans,sans-serif;font-size:'+(n<10?13:11)+'px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.3);border:2px solid #fff">'+n+'</div>',
+        iconSize:[s,s], iconAnchor:[s/2,s/2]
+      });
+    }
+  });
+  mapa.addLayer(window._cluster);
 
   // Ocultar botón ➕ cuando se abre un popup, restaurar al cerrar
   var _popupAbierto = false;
@@ -2750,10 +2738,8 @@ function initMapa() {
     });
   });
 
-  // Limpiar cluster previo si existe
-  if (window._clusterGroup) { window._clusterGroup.clearLayers(); }
   PUNTOS.forEach(function(p) {
-    var m = L.marker([p.lat,p.lng], { icon:crearIcono(p.emoji) }).addTo(window._clusterGroup || mapa);
+    var m = L.marker([p.lat,p.lng], { icon:crearIcono(p.emoji) }).addTo(window._cluster);
     m.on('click', (function(punto) {
       return function() {
         if (window._navBloqPopups) return;
@@ -5460,6 +5446,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v339</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v340</div>
 </body>
 </html>
