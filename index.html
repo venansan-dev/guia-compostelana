@@ -16,8 +16,6 @@
   <link rel="preconnect" href="https://www.gstatic.com"/>
   <link rel="preconnect" href="https://i.postimg.cc"/>
   <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet"/>
-  <link href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" rel="stylesheet"/>
-  <link href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" rel="stylesheet"/>
   <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:'DM Sans',sans-serif;background:#F5F5F0;color:#1a1a1a;line-height:1.6}a{text-decoration:none;color:inherit}:root{--verde:#1D9E75;--verde-oscuro:#0F6E56;--verde-claro:#E1F5EE;--blanco:#ffffff;--fondo:#F5F5F0;--texto:#1a1a1a;--texto-suave:#6b7280;--borde:rgba(0,0,0,0.1);--radio:12px;--radio-sm:8px}.navbar-iframe,#navbar-iframe{display:none !important}.widget,#sidebar,.blog-pager,.post-feeds,#comments{display:none !important}.header{background:var(--blanco);border-bottom:1px solid var(--borde);padding:0 1rem;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1100}#nav-desktop{display:flex;align-items:center;gap:2px;flex-wrap:nowrap}@media(max-width:768px){#nav-desktop{display:none}}#nav-desktop a{font-size:12px;padding:0 6px;white-space:nowrap;color:var(--texto-suave);text-decoration:none;transition:color 0.2s}#nav-desktop a:hover{color:var(--verde)}.logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:600}.logo span{color:var(--verde)}nav{display:flex;gap:2rem;align-items:center}nav a{font-size:14px;color:var(--texto-suave);transition:color 0.2s}nav a:hover{color:var(--texto)}.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none}.hamburger span{display:block;width:24px;height:2px;background:var(--texto);border-radius:2px;transition:all 0.25s}.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}.hamburger.open span:nth-child(2){opacity:0}.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}.nav-mobile{display:none;position:fixed;top:64px;left:0;right:0;background:var(--blanco);border-bottom:1px solid var(--borde);z-index:1090;box-shadow:0 8px 24px rgba(0,0,0,0.1);max-height:calc(100vh - 64px);overflow-y:auto}.nav-mobile.open{display:grid;grid-template-columns:1fr 1fr}.nav-mobile.open{display:flex}.nav-mobile a{padding:0 1rem;font-size:13px;color:var(--texto-suave);border-bottom:0.5px solid var(--borde);border-right:0.5px solid var(--borde);transition:background 0.15s;line-height:1.3;display:flex;align-items:center;height:48px;box-sizing:border-box;-webkit-tap-highlight-color:rgba(29,158,117,0.1)}.nav-mobile a:hover{background:var(--fondo);color:var(--texto)}.hero{background:linear-gradient(160deg,var(--verde-oscuro) 0%,var(--verde) 100%);padding:3rem 2rem 2rem;position:relative;overflow:hidden;isolation:isolate;z-index:1}.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:50px 50px;pointer-events:none}.hero-inner{position:relative;z-index:2;max-width:960px;margin:0 auto}.hero-layout{display:grid;grid-template-columns:1fr 280px;gap:2rem;align-items:start}.hero-tag-row{display:flex;align-items:center;gap:10px;margin-bottom:14px}.hero-tag{display:inline-flex;align-items:center;background:rgba(255,255,255,0.18);color:#fff;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,0.25);flex-shrink:0}.hero-share-inline{display:flex;gap:6px;align-items:center}.hero-share-btn{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background 0.2s;text-decoration:none}.hero-share-btn:hover{background:rgba(255,255,255,0.32)}.hero-share-btn svg{width:13px;height:13px;fill:#fff}.hero h1{font-family:'Playfair Display',serif;font-size:38px;color:#fff;line-height:1.15;margin-bottom:8px}.hero-sub{color:rgba(255,255,255,0.8);font-size:15px;margin-bottom:1.5rem}.hero-search-wrap{position:relative}.hero-search-bar{background:var(--blanco);border-radius:var(--radio);padding:0.9rem 1rem;display:flex;gap:8px;align-items:center;box-shadow:0 4px 24px rgba(0,0,0,0.15)}.hero-search-bar input{flex:1;border:none;background:none;font-size:14px;color:var(--texto);font-family:'DM Sans',sans-serif;outline:none}.hero-search-btn{background:var(--verde);color:var(--blanco);border:none;padding:9px 18px;border-radius:var(--radio-sm);font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:background 0.2s;flex-shrink:0}.hero-search-btn:hover{background:var(--verde-oscuro)}.hero-search-btn:disabled{background:#9ca3af;cursor:default}.hero-search-hint{font-size:11px;color:rgba(255,255,255,0.6);margin-top:6px}.donate-hero{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:var(--radio);padding:1.25rem}.donate-hero-title{font-size:13px;font-weight:600;color:#fff;margin-bottom:4px}.donate-hero-sub{font-size:11px;color:rgba(255,255,255,0.7);margin-bottom:12px;line-height:1.5}.donate-btns{display:flex;flex-direction:column;gap:8px}.donate-btn{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:8px;padding:9px 12px;cursor:pointer;transition:background 0.2s;text-decoration:none;color:#fff;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500}.donate-btn:hover{background:rgba(255,255,255,0.28);color:#fff}.donate-btn-icon{font-size:18px;flex-shrink:0}.donate-btn-info{display:flex;flex-direction:column}.donate-btn-label{font-size:13px;font-weight:500;line-height:1.2}.donate-btn-detail{font-size:11px;color:rgba(255,255,255,0.65)}.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center}.modal-bg.visible{display:flex}.modal-box{background:#fff;border-radius:var(--radio);padding:2rem;max-width:340px;width:90%;position:relative}.modal-close{position:absolute;top:12px;right:14px;font-size:20px;cursor:pointer;color:var(--texto-suave);background:none;border:none}.modal-box h3{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px}.modal-box p{font-size:13px;color:var(--texto-suave);margin-bottom:12px;line-height:1.6}.bizum-number{background:var(--verde-claro);border:2px solid var(--verde);border-radius:8px;padding:12px;font-size:22px;font-weight:700;color:var(--verde-oscuro);letter-spacing:2px;margin-bottom:12px;text-align:center}.bizum-copy-btn{background:var(--verde);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:14px;cursor:pointer;font-family:'DM Sans',sans-serif;width:100%;margin-bottom:6px}.bizum-copied{font-size:12px;color:var(--verde);text-align:center;height:16px}.cripto-row{margin-bottom:12px}.cripto-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--texto-suave);margin-bottom:4px;font-weight:500}.cripto-addr{background:var(--fondo);border:1px solid var(--borde);border-radius:6px;padding:8px 10px;font-size:11px;color:var(--texto);word-break:break-all;cursor:pointer;transition:background 0.15s}.cripto-addr:hover{background:var(--verde-claro)}.map-section{padding:0 2.5rem;position:relative;background:var(--fondo);z-index:0}#map{width:100%;height:420px;display:block;float:none}.map-status{position:absolute;top:50px;left:50%;transform:translateX(-50%);background:var(--blanco);border-radius:24px;padding:8px 18px;font-size:13px;color:var(--verde-oscuro);box-shadow:0 2px 12px rgba(0,0,0,0.12);z-index:500;display:none;border:1px solid var(--borde)}.map-status.visible{display:block}.map-radio-control{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blanco);border-radius:24px;padding:8px 16px;font-size:12px;color:var(--texto-suave);box-shadow:0 2px 12px rgba(0,0,0,0.12);z-index:500;border:1px solid var(--borde);display:flex;gap:8px;align-items:center}.map-radio-btn{padding:4px 12px;border-radius:12px;cursor:pointer;font-size:12px;font-weight:500;border:1px solid var(--borde);background:var(--fondo);color:var(--texto-suave);transition:all 0.15s}.map-radio-btn.active{background:var(--verde);color:#fff;border-color:var(--verde)}.footer-donate{background:var(--verde-claro);border-top:1px solid rgba(29,158,117,0.2);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}.footer-donate-text h4{font-size:15px;font-weight:600;color:var(--verde-oscuro);margin-bottom:3px}.footer-donate-text p{font-size:13px;color:var(--texto-suave)}.footer-donate-btns{display:flex;gap:8px;flex-wrap:wrap}.footer-donate-btn{display:flex;align-items:center;gap:6px;background:var(--blanco);border:1px solid rgba(29,158,117,0.3);border-radius:20px;padding:7px 14px;font-size:13px;font-weight:500;cursor:pointer;color:var(--verde-oscuro);transition:all 0.15s;text-decoration:none;font-family:'DM Sans',sans-serif}.footer-donate-btn:hover{background:var(--verde);color:#fff;border-color:var(--verde)}.section{padding:3rem 2rem;position:relative;z-index:500}.section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:0.5rem}.section-header h2{font-family:'Playfair Display',serif;font-size:26px;font-weight:600}.section-subtitle{font-size:14px;color:var(--texto-suave);margin-bottom:0.25rem}.section-subtitle2{font-size:13px;color:var(--texto-suave);font-style:italic;margin-bottom:1.5rem}.categories{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;margin-bottom:1.5rem;scrollbar-width:none}.categories::-webkit-scrollbar{display:none}.cat-chip-hidden{display:none!important}.cat-chip{padding:8px 18px;border-radius:24px;font-size:13px;cursor:pointer;white-space:nowrap;border:1px solid var(--borde);background:var(--blanco);color:var(--texto-suave);transition:all 0.15s;display:inline-flex;align-items:center;gap:5px;font-family:"DM Sans","Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}.cat-chip .chip-icon{font-style:normal;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:15px;line-height:1;flex-shrink:0}.cat-chip:hover{border-color:var(--verde);color:var(--verde)}.cat-chip.active{background:var(--verde);color:var(--blanco);border-color:var(--verde)}.carousel-wrap{position:relative;z-index:510;transform:translateZ(0);-webkit-transform:translateZ(0);will-change:transform;isolation:isolate}
 .poi-img-cover{content-visibility:auto}
@@ -1015,7 +1013,6 @@
   <p>Hecho con &#10084;&#65039; en Vigo</p>
 </div>
 <script src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'></script>
-<script src='https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js'></script>
 
 <script src='https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js'></script>
 <script src='https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js'></script>
@@ -1167,7 +1164,7 @@ var PUNTOS = [
     lat:41.9027, lng:-8.8722,
     km:7, desnivel_pos:180, desnivel_neg:160, dificultad:'Media',
     descripcion:'Arranca el Camino Portugués de la Costa desde el pie del Castro de Santa Trega. El camino asciende por la orilla hasta Oia, cuyo monasterio cisterciense del siglo XII domina la costa con nueve siglos de silencio. 📍 7 km · ↑180 m / ↓160 m · Media',
-    descripcion_gl:'Arrinca o Camiño Portugués da Costa desde o pé do Castro de Santa Trega. O camiño ascende pola beira ata Oia, cuxo mosteiro cisterciense do século XII domina a costa. 📍 7 km · ↑180 m / ↓160 m · Media',
+    descripcion_gl:'Arrinca o Camiño Portugués da Costa desde o pé do Castro de Santa Trega. O camiño ascende ata Oia, cuxo mosteiro cisterciense do século XII domina a costa con nove séculos de presenza. 📍 7 km · ↑180 m / ↓160 m · Media',
     descripcion_en:'The Portuguese Coastal Way begins at Castro de Santa Trega. The path climbs to Oia, whose 12th-century Cistercian monastery has commanded the coast for nine centuries. 📍 7 km · ↑180 m / ↓160 m · Medium',
     emoji:'🥾', color:'verde' },
 
@@ -1176,9 +1173,9 @@ var PUNTOS = [
     subtitulo:'Punto 2 de 9 · Ruta Costa',
     lat:41.9383, lng:-8.8746,
     km:15, desnivel_pos:120, desnivel_neg:110, dificultad:'Fácil',
-    descripcion:'Desde el monasterio de Oia el camino bordea el litoral atlántico entre viñedos de Albariño y playas de granito. Pasa por A Ramallosa, donde el puente medieval de Sabarís lleva sellando credenciales jacobeas desde el siglo XIV, hasta llegar a Baiona. 📍 15 km · ↑120 m / ↓110 m · Fácil',
-    descripcion_gl:'Desde o mosteiro de Oia o camiño bordea o litoral atlántico entre viñedos de Albariño e praias de granito. Pasa por A Ramallosa, onde a ponte medieval de Sabarís leva selando credenciais desde o século XIV, ata Baiona. 📍 15 km · ↑120 m / ↓110 m · Fácil',
-    descripcion_en:'From Oia the path follows the Atlantic shore between Albariño vineyards and granite beaches, passing A Ramallosa with its medieval Sabarís bridge to Baiona. 📍 15 km · ↑120 m / ↓110 m · Easy',
+    descripcion:'Desde el monasterio de Oia el camino bordea el litoral atlántico entre viñedos de Albariño y playas de granito. Pasa por A Ramallosa, donde el puente medieval de Sabarís lleva sellando credenciales desde el siglo XIV, hasta llegar a Baiona. 📍 15 km · ↑120 m / ↓110 m · Fácil',
+    descripcion_gl:'Desde o mosteiro de Oia o camiño bordea o litoral entre viñedos de Albariño e praias de granito ata Baiona, onde a carabela Pinta trouxo en 1493 a primeira noticia do Novo Mundo. 📍 15 km · ↑120 m / ↓110 m · Fácil',
+    descripcion_en:'From Oia the path follows the Atlantic shore between Albariño vineyards and granite beaches to Baiona, where in 1493 the Pinta brought the first news of the New World. 📍 15 km · ↑120 m / ↓110 m · Easy',
     emoji:'🥾', color:'verde' },
 
   { id:'ec-03', nombre:'Baiona', nombre_gl:'Baiona', nombre_en:'Baiona',
@@ -1186,9 +1183,9 @@ var PUNTOS = [
     subtitulo:'Punto 3 de 9 · Ruta Costa',
     lat:42.1197, lng:-8.8508,
     km:25, desnivel_pos:310, desnivel_neg:320, dificultad:'Media',
-    descripcion:'De Baiona a Vigo el camino recorre uno de los tramos más bellos del litoral ibérico, pasando por Panxón, la Praia de América y la iglesia medieval de Santiago de Parada en Nigrán. Entra en Vigo por el barrio marinero de Bouzas, donde la leyenda sitúa el origen de la vieira jacobea. 📍 25 km · ↑310 m / ↓320 m · Media',
-    descripcion_gl:'De Baiona a Vigo o camiño percorre un dos treitos máis fermosos do litoral, pasando por Panxón, a Praia de América e a igrexa medieval de Santiago de Parada en Nigrán. Entra en Vigo polo barrio mariñeiro de Bouzas. 📍 25 km · ↑310 m / ↓320 m · Media',
-    descripcion_en:'From Baiona to Vigo the path follows a beautiful coastal stretch past Panxón and Praia de América, entering Vigo through the historic Bouzas quarter where the scallop shell legend was born. 📍 25 km · ↑310 m / ↓320 m · Medium',
+    descripcion:'De Baiona a Vigo el camino recorre uno de los tramos más bellos del litoral ibérico, pasando por Panxón, la Praia de América y la iglesia medieval de Santiago de Parada en Nigrán. Entra en Vigo por el barrio marinero de Bouzas. 📍 25 km · ↑310 m / ↓320 m · Media',
+    descripcion_gl:'De Baiona a Vigo o camiño percorre un dos treitos máis fermosos do litoral, pasando por Panxón, a Praia de América e a igrexa medieval de Santiago de Parada en Nigrán. 📍 25 km · ↑310 m / ↓320 m · Media',
+    descripcion_en:'From Baiona to Vigo the path follows a beautiful coastal stretch past Panxón and Praia de América, entering Vigo through the historic Bouzas quarter. 📍 25 km · ↑310 m / ↓320 m · Medium',
     emoji:'🥾', color:'verde' },
 
   { id:'ec-04', nombre:'Vigo', nombre_gl:'Vigo', nombre_en:'Vigo',
@@ -1196,9 +1193,9 @@ var PUNTOS = [
     subtitulo:'Punto 4 de 9 · Ruta Costa',
     lat:42.2406, lng:-8.7207,
     km:18, desnivel_pos:240, desnivel_neg:210, dificultad:'Moderada',
-    descripcion:'El camino sale de Vigo y asciende hacia Redondela, el gran nodo donde convergen la ruta costera y la interior. El viaducto ferroviario que domina la villa es uno de los iconos más reconocibles del Camino Portugués de la Costa. 📍 18 km · ↑240 m / ↓210 m · Moderada',
-    descripcion_gl:'O camiño sae de Vigo e ascende cara a Redondela, o gran nodo onde converxen a ruta costeira e a interior. O viaduto ferroviario que domina a vila é un dos iconos máis recoñecibles do Camiño Portugués. 📍 18 km · ↑240 m / ↓210 m · Moderada',
-    descripcion_en:'The path leaves Vigo and climbs to Redondela, the great junction where the coastal and interior routes converge. The railway viaduct is one of the most iconic sights of the Portuguese Way. 📍 18 km · ↑240 m / ↓210 m · Moderate',
+    descripcion:'El camino sale de Vigo y asciende hacia Redondela, donde convergen la ruta costera y la interior. El viaducto ferroviario que domina la villa es uno de los iconos más reconocibles del Camino Portugués. 📍 18 km · ↑240 m / ↓210 m · Moderada',
+    descripcion_gl:'O camiño sae de Vigo e ascende cara a Redondela, onde converxen a ruta costeira e a interior. O viaduto ferroviario que domina a vila é un dos iconos máis recoñecibles do Camiño Portugués. 📍 18 km · ↑240 m / ↓210 m · Moderada',
+    descripcion_en:'The path leaves Vigo and climbs to Redondela, where the coastal and interior routes converge. The railway viaduct is one of the most iconic sights of the Portuguese Way. 📍 18 km · ↑240 m / ↓210 m · Moderate',
     emoji:'🥾', color:'verde' },
 
   { id:'ec-05', nombre:'Redondela', nombre_gl:'Redondela', nombre_en:'Redondela',
@@ -1206,7 +1203,7 @@ var PUNTOS = [
     subtitulo:'Punto 5 de 9 · Ruta Costa',
     lat:42.2843, lng:-8.6097,
     km:20, desnivel_pos:180, desnivel_neg:200, dificultad:'Fácil',
-    descripcion:'Desde Redondela el camino avanza a Pontevedra por Arcade — famosa por sus ostras — y el puente medieval de Pontesampaio, escenario de la victoria gallega sobre Napoleón en 1809. La Basílica de Santa María la Mayor aguarda en Pontevedra. 📍 20 km · ↑180 m / ↓200 m · Fácil',
+    descripcion:'Desde Redondela el camino avanza a Pontevedra por Arcade — famosa por sus ostras — y el puente medieval de Pontesampaio, escenario de la victoria gallega sobre Napoleón en 1809. 📍 20 km · ↑180 m / ↓200 m · Fácil',
     descripcion_gl:'Desde Redondela o camiño avanza a Pontevedra por Arcade — famosa polas ostras — e a ponte medieval de Pontesampaio, escenario da vitoria galega sobre Napoleón en 1809. 📍 20 km · ↑180 m / ↓200 m · Fácil',
     descripcion_en:'From Redondela the path advances to Pontevedra through Arcade and the medieval Pontesampaio bridge, scene of the Galician victory over Napoleon in 1809. 📍 20 km · ↑180 m / ↓200 m · Easy',
     emoji:'🥾', color:'verde' },
@@ -1216,9 +1213,9 @@ var PUNTOS = [
     subtitulo:'Punto 6 de 9 · Ruta Costa',
     lat:42.4333, lng:-8.6483,
     km:22, desnivel_pos:260, desnivel_neg:240, dificultad:'Media',
-    descripcion:'El camino sale por el puente romano del Burgo siguiendo el Lérez, con tramos del enlosado medieval bien conservado. Concluye en Caldas de Reis, cuyas aguas termales de 45°C han acogido peregrinos desde época romana y cuya iglesia guarda una pila bautismal románica. 📍 22 km · ↑260 m / ↓240 m · Media',
-    descripcion_gl:'O camiño sae pola ponte romana do Burgo seguindo o Lérez, con treitos do enlosado medieval ben conservado. Conclúe en Caldas de Reis, cuxas augas termais de 45°C acolleron peregrinos desde época romana. 📍 22 km · ↑260 m / ↓240 m · Media',
-    descripcion_en:'The path leaves over the Roman Burgo bridge following the Lérez with well-preserved medieval paving, ending at Caldas de Reis whose 45°C thermal waters have welcomed pilgrims since Roman times. 📍 22 km · ↑260 m / ↓240 m · Medium',
+    descripcion:'El camino sale por el puente romano del Burgo siguiendo el Lérez, con tramos del enlosado medieval conservado. Concluye en Caldas de Reis, cuyas aguas termales de 45°C han acogido peregrinos desde época romana. 📍 22 km · ↑260 m / ↓240 m · Media',
+    descripcion_gl:'O camiño sae pola ponte romana do Burgo seguindo o Lérez. Conclúe en Caldas de Reis, cuxas augas termais de 45°C acolleron peregrinos desde época romana. 📍 22 km · ↑260 m / ↓240 m · Media',
+    descripcion_en:'The path leaves over the Roman Burgo bridge following the Lérez to Caldas de Reis, whose 45°C thermal waters have welcomed pilgrims since Roman times. 📍 22 km · ↑260 m / ↓240 m · Medium',
     emoji:'🥾', color:'verde' },
 
   { id:'ec-07', nombre:'Caldas de Reis', nombre_gl:'Caldas de Reis', nombre_en:'Caldas de Reis',
@@ -1226,9 +1223,9 @@ var PUNTOS = [
     subtitulo:'Punto 7 de 9 · Ruta Costa',
     lat:42.604, lng:-8.644,
     km:19, desnivel_pos:150, desnivel_neg:160, dificultad:'Fácil',
-    descripcion:'El camino avanza por el Valle del Ulla pasando por Catoira, donde las Torres do Oeste del siglo X defendían la ría de los ataques vikingos. La etapa concluye en Padrón, donde la barca con los restos del Apóstol amarró según la tradición jacobea. 📍 19 km · ↑150 m / ↓160 m · Fácil',
-    descripcion_gl:'O camiño avanza polo Val do Ulla pasando por Catoira, onde as Torres do Oeste do século X defendían a ría dos ataques vikingos. A etapa conclúe en Padrón. 📍 19 km · ↑150 m / ↓160 m · Fácil',
-    descripcion_en:"The path follows the Ulla Valley through Catoira, where the 10th-century Torres do Oeste defended against Viking raids. The stage ends at Padrón where the Apostle's remains arrived by boat. 📍 19 km · ↑150 m / ↓160 m · Easy",
+    descripcion:'El camino avanza por el Valle del Ulla pasando por Catoira, donde las Torres do Oeste del siglo X defendían la ría de los ataques vikingos. Concluye en Padrón, donde la barca con los restos del Apóstol amarró según la tradición. 📍 19 km · ↑150 m / ↓160 m · Fácil',
+    descripcion_gl:'O camiño avanza polo Val do Ulla pasando por Catoira, onde as Torres do Oeste do século X defendían a ría dos ataques vikingos. Conclúe en Padrón. 📍 19 km · ↑150 m / ↓160 m · Fácil',
+    descripcion_en:'The path follows the Ulla Valley through Catoira, where the 10th-century Torres do Oeste defended against Viking raids. The stage ends at Padrón. 📍 19 km · ↑150 m / ↓160 m · Easy',
     emoji:'🥾', color:'verde' },
 
   { id:'ec-08', nombre:'Padrón', nombre_gl:'Padrón', nombre_en:'Padrón',
@@ -1236,8 +1233,8 @@ var PUNTOS = [
     subtitulo:'Punto 8 de 9 · Ruta Costa',
     lat:42.7456, lng:-8.6572,
     km:25, desnivel_pos:380, desnivel_neg:210, dificultad:'Media',
-    descripcion:'La última etapa. Desde Padrón el camino asciende por el Santuario da Escravitude — donde un esclavo recobró milagrosamente la libertad — y por Teo hasta A Concheira, desde donde se ven por primera vez las torres de la catedral de Santiago. Ultreia et Suseia. 📍 25 km · ↑380 m / ↓210 m · Media',
-    descripcion_gl:'A última etapa. Desde Padrón o camiño ascende polo Santuario da Escravitude e por Teo ata A Concheira, desde onde se ven por primeira vez as torres da catedral de Santiago. Ultreia et Suseia. 📍 25 km · ↑380 m / ↓210 m · Media',
+    descripcion:'La última etapa. Desde Padrón el camino asciende por el Santuario da Escravitude y por Teo hasta A Concheira, desde donde se ven por primera vez las torres de la catedral de Santiago. Ultreia et Suseia. 📍 25 km · ↑380 m / ↓210 m · Media',
+    descripcion_gl:'A última etapa. Desde Padrón o camiño ascende polo Santuario da Escravitude e por Teo ata A Concheira, desde onde se ven por primeira vez as torres da catedral. Ultreia et Suseia. 📍 25 km · ↑380 m / ↓210 m · Media',
     descripcion_en:'The final stage. From Padrón the path climbs past the Sanctuary of A Escravitude to Teo and A Concheira, from where the cathedral towers are seen for the first time. Ultreia et Suseia. 📍 25 km · ↑380 m / ↓210 m · Medium',
     emoji:'🥾', color:'verde' },
 
@@ -1246,10 +1243,10 @@ var PUNTOS = [
     subtitulo:'Punto 9 de 9 · Ruta Costa',
     lat:42.8782, lng:-8.5448,
     km:0, desnivel_pos:0, desnivel_neg:0, dificultad:'-',
-    descripcion:'Meta final del Camino Portugués de la Costa. La Plaza del Obradoiro, la Catedral, el abrazo al Apóstol y la Misa del Peregrino esperan al final de la ruta. Ultreia et Suseia.',
+    descripcion:'Meta final del Camino Portugués de la Costa. La Plaza del Obradoiro, la Catedral y la Misa del Peregrino esperan al final de la ruta. Ultreia et Suseia.',
     descripcion_gl:'Meta final do Camiño Portugués da Costa. A Praza do Obradoiro, a Catedral e a Misa do Peregrino esperan ao final da ruta.',
     descripcion_en:'Final destination of the Portuguese Coastal Way. The Praza do Obradoiro, the Cathedral and the Pilgrim Mass await.',
-    emoji:'🥾', color:'verde' }
+    emoji:'🥾', color:'verde' },
 
   // ═══ RUTA INTERIOR ═══
   { id:'ei-01', nombre:'Tui', nombre_gl:'Tui', nombre_en:'Tui',
@@ -1257,9 +1254,9 @@ var PUNTOS = [
     subtitulo:'Punto 1 de 7 · Ruta Interior',
     lat:42.0442, lng:-8.6454,
     km:16, desnivel_pos:140, desnivel_neg:120, dificultad:'Fácil',
-    descripcion:'El Camino Portugués Interior arranca desde la catedral románica de Tui, tras cruzar el río Miño desde Portugal. El camino asciende por Rebordáns — iglesia visigoda del siglo VII — hasta O Porriño, cruzando el valle del Louro por caminos rurales salpicados de cruceiros. 📍 16 km · ↑140 m / ↓120 m · Fácil',
-    descripcion_gl:'O Camiño Portugués Interior arrinca desde a catedral románica de Tui, tras cruzar o río Miño desde Portugal. O camiño ascende por Rebordáns — igrexa visigoda do século VII — ata O Porriño. 📍 16 km · ↑140 m / ↓120 m · Fácil',
-    descripcion_en:'The Interior Portuguese Way begins at the Romanesque cathedral of Tui, after crossing the Miño from Portugal. The path climbs through Rebordáns with its 7th-century Visigothic church to O Porriño. 📍 16 km · ↑140 m / ↓120 m · Easy',
+    descripcion:'El Camino Portugués Interior arranca desde la catedral románica de Tui, tras cruzar el río Miño desde Portugal. El camino sube por Rebordáns — con su iglesia visigoda del siglo VII — hasta O Porriño por el valle del Louro. 📍 16 km · ↑140 m / ↓120 m · Fácil',
+    descripcion_gl:'O Camiño Portugués Interior arrinca desde a catedral románica de Tui, tras cruzar o río Miño desde Portugal. O camiño sobe por Rebordáns — igrexa visigoda do século VII — ata O Porriño. 📍 16 km · ↑140 m / ↓120 m · Fácil',
+    descripcion_en:'The Interior Portuguese Way begins at the Romanesque cathedral of Tui, after crossing the Miño from Portugal, climbing through Rebordáns with its 7th-century Visigothic church to O Porriño. 📍 16 km · ↑140 m / ↓120 m · Easy',
     emoji:'🥾', color:'azul' },
 
   { id:'ei-02', nombre:'O Porriño', nombre_gl:'O Porriño', nombre_en:'O Porriño',
@@ -1267,7 +1264,7 @@ var PUNTOS = [
     subtitulo:'Punto 2 de 7 · Ruta Interior',
     lat:42.1681, lng:-8.6196,
     km:18, desnivel_pos:280, desnivel_neg:300, dificultad:'Media',
-    descripcion:'Desde O Porriño el camino asciende por Mos hasta el Alto da Portela (340 m), el punto más elevado de la ruta interior con vistas excepcionales sobre la ría de Vigo. El descenso hacia Redondela discurre por bosques de roble y castaño. 📍 18 km · ↑280 m / ↓300 m · Media',
+    descripcion:'Desde O Porriño el camino asciende por Mos hasta el Alto da Portela (340 m), punto más elevado de la ruta interior con vistas excepcionales sobre la ría de Vigo. El descenso hacia Redondela discurre por bosques de roble y castaño. 📍 18 km · ↑280 m / ↓300 m · Media',
     descripcion_gl:'Desde O Porriño o camiño ascende por Mos ata o Alto da Portela (340 m), o punto máis elevado da ruta interior con vistas excepcionais sobre a ría de Vigo. 📍 18 km · ↑280 m / ↓300 m · Media',
     descripcion_en:'From O Porriño the path climbs through Mos to Alto da Portela (340m), the highest point of the interior route with exceptional views over the Vigo estuary. 📍 18 km · ↑280 m / ↓300 m · Medium',
     emoji:'🥾', color:'azul' },
@@ -1277,8 +1274,8 @@ var PUNTOS = [
     subtitulo:'Punto 3 de 7 · Ruta Interior',
     lat:42.2843, lng:-8.6097,
     km:20, desnivel_pos:180, desnivel_neg:200, dificultad:'Fácil',
-    descripcion:'En Redondela convergen la ruta costera y la interior. Las dos rutas comparten trazado desde aquí hasta Santiago. El camino avanza por Arcade y el puente medieval de Pontesampaio hasta Pontevedra. 📍 20 km · ↑180 m / ↓200 m · Fácil',
-    descripcion_gl:'En Redondela converxen a ruta costeira e a interior. As dúas rutas comparten trazado desde aquí ata Santiago. 📍 20 km · ↑180 m / ↓200 m · Fácil',
+    descripcion:'En Redondela convergen la ruta costera y la interior. Desde aquí ambas rutas comparten trazado hasta Santiago, avanzando por Arcade y el puente medieval de Pontesampaio hasta Pontevedra. 📍 20 km · ↑180 m / ↓200 m · Fácil',
+    descripcion_gl:'En Redondela converxen a ruta costeira e a interior. Desde aquí ambas rutas comparten trazado ata Santiago. 📍 20 km · ↑180 m / ↓200 m · Fácil',
     descripcion_en:'At Redondela the coastal and interior routes converge and share the track to Santiago. 📍 20 km · ↑180 m / ↓200 m · Easy',
     emoji:'🥾', color:'azul' },
 
@@ -1287,7 +1284,7 @@ var PUNTOS = [
     subtitulo:'Punto 4 de 7 · Ruta Interior',
     lat:42.4333, lng:-8.6483,
     km:22, desnivel_pos:260, desnivel_neg:240, dificultad:'Media',
-    descripcion:'El camino sale por el puente romano del Burgo siguiendo el Lérez, con tramos del enlosado medieval bien conservado. Concluye en Caldas de Reis cuyas aguas termales de 45°C han acogido peregrinos desde tiempos romanos. 📍 22 km · ↑260 m / ↓240 m · Media',
+    descripcion:'El camino sale por el puente romano del Burgo siguiendo el Lérez. Concluye en Caldas de Reis cuyas aguas termales de 45°C han acogido peregrinos desde tiempos romanos. 📍 22 km · ↑260 m / ↓240 m · Media',
     descripcion_gl:'O camiño sae pola ponte romana do Burgo seguindo o Lérez. Conclúe en Caldas de Reis cuxas augas termais de 45°C acolleron peregrinos desde tempos romanos. 📍 22 km · ↑260 m / ↓240 m · Media',
     descripcion_en:'The path leaves over the Roman Burgo bridge following the Lérez to Caldas de Reis, whose 45°C thermal waters have welcomed pilgrims since Roman times. 📍 22 km · ↑260 m / ↓240 m · Medium',
     emoji:'🥾', color:'azul' },
@@ -1298,8 +1295,8 @@ var PUNTOS = [
     lat:42.604, lng:-8.644,
     km:19, desnivel_pos:150, desnivel_neg:160, dificultad:'Fácil',
     descripcion:'El camino avanza por el Valle del Ulla pasando por Catoira y Pontecesures, donde el Ulla se hace navegable. La tradición jacobea afirma que aquí entró por el río la barca con los restos del Apóstol en el año 830. 📍 19 km · ↑150 m / ↓160 m · Fácil',
-    descripcion_gl:'O camiño avanza polo Val do Ulla pasando por Catoira e Pontecesures, onde o Ulla se fai navegable. 📍 19 km · ↑150 m / ↓160 m · Fácil',
-    descripcion_en:"The path follows the Ulla Valley through Catoira and Pontecesures, where the river becomes navigable and tradition places the arrival of the Apostle's remains by boat. 📍 19 km · ↑150 m / ↓160 m · Easy",
+    descripcion_gl:'O camiño avanza polo Val do Ulla pasando por Catoira e Pontecesures, onde o Ulla se fai navegable e a tradición xacobea sitúa a chegada da barca do Apóstolo no ano 830. 📍 19 km · ↑150 m / ↓160 m · Fácil',
+    descripcion_en:"The path follows the Ulla Valley through Catoira and Pontecesures, where tradition places the river arrival of the Apostle's remains in 830. 📍 19 km · ↑150 m / ↓160 m · Easy",
     emoji:'🥾', color:'azul' },
 
   { id:'ei-06', nombre:'Padrón', nombre_gl:'Padrón', nombre_en:'Padrón',
@@ -1307,9 +1304,9 @@ var PUNTOS = [
     subtitulo:'Punto 6 de 7 · Ruta Interior',
     lat:42.7456, lng:-8.6572,
     km:25, desnivel_pos:380, desnivel_neg:210, dificultad:'Media',
-    descripcion:'La etapa final del Camino Portugués Interior. Desde Padrón el camino sube por Iria Flavia — donde el obispo Teodomiro descubrió el sepulcro apostólico en el siglo IX — y el Santuario da Escravitude hasta Santiago. Desde A Concheira se divisan las torres de la catedral. Ultreia et Suseia. 📍 25 km · ↑380 m / ↓210 m · Media',
+    descripcion:'La etapa final del Camino Portugués Interior. Desde Padrón el camino sube por Iria Flavia — donde el obispo Teodomiro descubrió el sepulcro apostólico — y el Santuario da Escravitude hasta Santiago. Ultreia et Suseia. 📍 25 km · ↑380 m / ↓210 m · Media',
     descripcion_gl:'A etapa final do Camiño Portugués Interior. Desde Padrón o camiño sobe por Iria Flavia — onde o bispo Teodomiro descubriu o sepulcro apostólico — e o Santuario da Escravitude ata Santiago. 📍 25 km · ↑380 m / ↓210 m · Media',
-    descripcion_en:'The final stage of the Interior Portuguese Way. From Padrón through Iria Flavia and the Sanctuary of A Escravitude to Santiago. Ultreia et Suseia. 📍 25 km · ↑380 m / ↓210 m · Medium',
+    descripcion_en:'The final stage. From Padrón through Iria Flavia and the Sanctuary of A Escravitude to Santiago. Ultreia et Suseia. 📍 25 km · ↑380 m / ↓210 m · Medium',
     emoji:'🥾', color:'azul' },
 
   { id:'ei-07', nombre:'Santiago de Compostela', nombre_gl:'Santiago de Compostela', nombre_en:'Santiago de Compostela',
@@ -1317,7 +1314,7 @@ var PUNTOS = [
     subtitulo:'Punto 7 de 7 · Ruta Interior',
     lat:42.8782, lng:-8.5448,
     km:0, desnivel_pos:0, desnivel_neg:0, dificultad:'-',
-    descripcion:'Meta final del Camino Portugués Interior. La Plaza del Obradoiro, la Catedral, el abrazo al Apóstol y la Misa del Peregrino esperan al final del camino. Ultreia et Suseia.',
+    descripcion:'Meta final del Camino Portugués Interior. La Plaza del Obradoiro, la Catedral y la Misa del Peregrino esperan al final del camino. Ultreia et Suseia.',
     descripcion_gl:'Meta final do Camiño Portugués Interior. A Praza do Obradoiro, a Catedral e a Misa do Peregrino esperan ao final do camiño.',
     descripcion_en:'Final destination of the Interior Portuguese Way. The Praza do Obradoiro, the Cathedral and the Pilgrim Mass await.',
     emoji:'🥾', color:'azul' },
@@ -2662,24 +2659,6 @@ function initMapa() {
     updateWhenZooming:false
   }).addTo(mapa);
 
-  // Cluster de marcadores POI
-  window._cluster = L.markerClusterGroup({
-    maxClusterRadius: 60,
-    disableClusteringAtZoom: 16,
-    spiderfyOnMaxZoom: true,
-    showCoverageOnHover: false,
-    iconCreateFunction: function(c) {
-      var n = c.getChildCount();
-      var s = n < 10 ? 32 : n < 50 ? 38 : 44;
-      return L.divIcon({
-        className:'',
-        html:'<div style="width:'+s+'px;height:'+s+'px;border-radius:50%;background:#1D9E75;color:#fff;font-family:DM Sans,sans-serif;font-size:'+(n<10?13:11)+'px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.3);border:2px solid #fff">'+n+'</div>',
-        iconSize:[s,s], iconAnchor:[s/2,s/2]
-      });
-    }
-  });
-  mapa.addLayer(window._cluster);
-
   // Ocultar botón ➕ cuando se abre un popup, restaurar al cerrar
   var _popupAbierto = false;
 
@@ -2739,7 +2718,7 @@ function initMapa() {
   });
 
   PUNTOS.forEach(function(p) {
-    var m = L.marker([p.lat,p.lng], { icon:crearIcono(p.emoji) }).addTo(window._cluster);
+    var m = L.marker([p.lat,p.lng], { icon:crearIcono(p.emoji) }).addTo(mapa);
     m.on('click', (function(punto) {
       return function() {
         if (window._navBloqPopups) return;
@@ -2763,37 +2742,8 @@ function initMapa() {
     })(p));
     p.marker = m;
 
-    // Marcadores de inicio y fin para etapas + waypoints numerados
+    // Marcadores de inicio y fin para etapas
     if (p.categoria === 'etapa' && p.lat_fin && p.lng_fin) {
-      // Waypoints intermedios numerados (excluir primer y último = inicio/fin)
-      if (p.waypoints && p.waypoints.length > 2) {
-        var wpMid = p.waypoints.slice(1, p.waypoints.length - 1);
-        wpMid.forEach(function(wp, idx) {
-          var num = idx + 2; // empieza en 2 (el 1 es el inicio)
-          var iconoWp = L.divIcon({
-            className: '',
-            html: '<div style="display:flex;flex-direction:column;align-items:center">' +
-              '<div style="background:#fff;border:2px solid #1D9E75;color:#1D9E75;font-size:10px;font-weight:800;' +
-              'width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;' +
-              'box-shadow:0 2px 6px rgba(0,0,0,0.25);font-family:DM Sans,sans-serif">' + num + '</div>' +
-              '<div style="width:2px;height:5px;background:#1D9E75;margin:0 auto"></div>' +
-              '<div style="width:4px;height:4px;border-radius:50%;background:#1D9E75"></div>' +
-              '</div>',
-            iconSize: [22, 33], iconAnchor: [11, 33]
-          });
-          var mWp = L.marker([wp[0], wp[1]], { icon: iconoWp, zIndexOffset: 150 }).addTo(mapa);
-          mWp.on('click', (function(punto, nombre, n) {
-            return function() {
-              L.popup({ maxWidth: 200, className: 'poi-popup' })
-                .setLatLng([punto[0], punto[1]])
-                .setContent('<div style="font-family:DM Sans,sans-serif;font-size:13px"><strong>📍 Punto ' + n + '</strong><br>' + nombre + '</div>')
-                .openOn(mapa);
-            };
-          })(wp, wp[2], num));
-          if (!p._wpMarkers) p._wpMarkers = [];
-          p._wpMarkers.push(mWp);
-        });
-      }
       // Marcador INICIO (bandera verde)
       var iconoIni = L.divIcon({
         className: '',
@@ -3169,12 +3119,6 @@ function renderCarrusel(categoria) {
     filtrados = PUNTOS.filter(function(p){ return p.categoria === 'etapa' && p.variante === 'costa'; });
   } else if (categoria === 'etapa-interior') {
     filtrados = PUNTOS.filter(function(p){ return p.categoria === 'etapa' && p.variante === 'interior'; });
-  } else if (categoria === 'etapa-costa') {
-    filtrados = PUNTOS.filter(function(p){ return p.categoria==='etapa' && p.variante==='costa'; });
-    filtrados.sort(function(a,b){ return a.orden-b.orden; });
-  } else if (categoria === 'etapa-interior') {
-    filtrados = PUNTOS.filter(function(p){ return p.categoria==='etapa' && p.variante==='interior'; });
-    filtrados.sort(function(a,b){ return a.orden-b.orden; });
   } else {
     filtrados = PUNTOS.filter(function(p){
       if (categoria === 'alerta') {
@@ -3183,13 +3127,10 @@ function renderCarrusel(categoria) {
       return !p.esUsuario && !(p.id && p.id.indexOf('u_')===0) && (categoria==='todos'||p.categoria===categoria);
     });
   }
-  // Para etapas: orden progresivo por id (no por distancia)
-  if (categoriaActiva === 'etapa-costa' || categoriaActiva === 'etapa-interior') {
-    filtrados = filtrados.slice().sort(function(a, b) {
-      return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
-    });
+  // Etapas: orden progresivo; resto: por distancia
+  if (cat === 'etapa-costa' || cat === 'etapa-interior') {
+    filtrados = filtrados.slice().sort(function(a, b) { return (a.orden||0) - (b.orden||0); });
   } else {
-    // Resto: ordenar por distancia
     filtrados = filtrados.slice().sort(function(a, b) {
       var da = a.distancia !== undefined ? a.distancia : 999999;
       var db = b.distancia !== undefined ? b.distancia : 999999;
@@ -5446,6 +5387,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v340</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v341</div>
 </body>
 </html>
