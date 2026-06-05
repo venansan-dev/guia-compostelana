@@ -301,7 +301,8 @@
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;localización histórica&quot;)' id='chip-historica'>📜 Histórica</div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;vestigio arqueológico&quot;)' id='chip-arqueologico'>🔍 Arqueológico</div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;albergue&quot;)' id='chip-albergues'>🏠 Albergues</div>
-    <div class='cat-chip' onclick='filtrarCategoria(this,&quot;etapa&quot;)' id='chip-etapas'>🥾 <span id='chip-etapas-txt'>Etapas</span></div>
+    <div class='cat-chip' onclick='filtrarCategoria(this,&quot;etapa-costa&quot;)' id='chip-etapas-costa'><span class='chip-icon'>🌊</span><span id='chip-etapas-costa-txt'>Costa</span></div>
+    <div class='cat-chip' onclick='filtrarCategoria(this,&quot;etapa-interior&quot;)' id='chip-etapas-interior'><span class='chip-icon'>🥾</span><span id='chip-etapas-interior-txt'>Interior</span></div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;mirador&quot;)' id='chip-miradores'>🔭 Miradores</div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;fiesta&quot;)' id='chip-fiestas'>🎉 Fiestas</div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;usuario&quot;)' id='chip-usuario' style='display:none'>👤 <span id='chip-usuario-txt'>Mis puntos</span></div>
@@ -3062,7 +3063,7 @@ function renderCarrusel(categoria) {
       if (categoria === 'alerta') {
         return p.categoria === 'alerta' || (p.esUsuario && p.categoria === 'alerta');
       }
-      return !p.esUsuario && !(p.id && p.id.indexOf('u_')===0) && (categoria==='todos'||p.categoria===categoria);
+      return !p.esUsuario && !(p.id && p.id.indexOf('u_')===0) && p.categoria!=='etapa' && (categoria==='todos'||p.categoria===categoria);
     });
   }
   // Etapas: orden progresivo; resto: por distancia
@@ -5293,6 +5294,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v343</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v344</div>
 </body>
 </html>
