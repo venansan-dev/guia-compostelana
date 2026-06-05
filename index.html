@@ -2653,7 +2653,7 @@ function initMapa() {
         var enR = rutaPuntos.find(function(x){return x.id===punto.id;});
         var pPopupNombre = idiomaActual==='gl'&&punto.nombre_gl?punto.nombre_gl:idiomaActual==='en'&&punto.nombre_en?punto.nombre_en:punto.nombre;
         var pPopupDesc = idiomaActual==='gl'&&punto.descripcion_gl?punto.descripcion_gl:idiomaActual==='en'&&punto.descripcion_en?punto.descripcion_en:punto.descripcion;
-        var pComoLlegar = '&#128506; '+t_cur.comoLlegar;
+        var pComoLlegar = '&#128506; '+(T[idiomaActual]||T.es).comoLlegar;
         var pPopupCat = (function(c){var t2=T[idiomaActual]||T.es;var cm={'naturaleza':t2.chipNaturaleza,'monumento':t2.chipMonumento,'albergue':t2.chipAlbergue,'mirador':t2.chipMirador,'edificación religiosa':t2.chipEdif,'localización histórica':t2.chipHist,'vestigio arqueológico':t2.chipVest,'edificación histórica':t2.chipEdifH,'etapa':t2.chipEtapa||'Etapa'};return cm[c]||c;})(punto.categoria);
         var content = '<div style="font-family:DM Sans,sans-serif;min-width:190px;max-width:280px;word-break:break-word;overflow-wrap:break-word;display:flex;flex-direction:column">' +
           '<strong style="font-size:14px">' + pPopupNombre + '</strong><br>' +
@@ -5231,6 +5231,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v301</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v302</div>
 </body>
 </html>
