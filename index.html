@@ -3369,7 +3369,7 @@ function dibujarFlechas(latlngs) {
   window._rutaFlechas = [];
   // Espaciado adaptativo según zoom — más zoom = más flechas, menos zoom = menos
   var z = mapa.getZoom();
-  var espaciado = z >= 17 ? 40 : z >= 15 ? 80 : z >= 13 ? 180 : z >= 11 ? 400 : 800;
+  var espaciado = z >= 17 ? 40 : z >= 15 ? 80 : z >= 13 ? 200 : z >= 11 ? 800 : z >= 9 ? 2500 : 6000;
   var acumulado = 0;
   // Pre-count total arrows for gradient
   var totalFlechas = 0, acum2 = 0;
@@ -3416,16 +3416,19 @@ function dibujarFlechas(latlngs) {
         b = 0;
       }
       var fill = 'rgb('+r+','+g+','+b+')';
-      var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">' +
+      // Tamaño de flecha según zoom: más pequeña a zoom lejano para no saturar
+      var sz = z >= 17 ? 20 : z >= 15 ? 18 : z >= 13 ? 14 : z >= 11 ? 11 : 9;
+      var half = Math.round(sz / 2);
+      var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="'+sz+'" height="'+sz+'" viewBox="0 0 20 20">' +
         '<polygon points="10,1 18,18 10,13 2,18" fill="'+fill+'" stroke="rgba(0,0,0,0.4)" stroke-width="1.2" stroke-linejoin="round"/>' +
         '</svg>';
       flechaIdx++;
       var arrow = L.marker(mid, {
         icon: L.divIcon({
           className: '',
-          html: '<div style="transform:rotate('+bearing+'deg);transform-origin:center;width:20px;height:20px;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.6))">'+svg+'</div>',
-          iconSize: [20, 20],
-          iconAnchor: [10, 10]
+          html: '<div style="transform:rotate('+bearing+'deg);transform-origin:center;width:'+sz+'px;height:'+sz+'px;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.6))">'+svg+'</div>',
+          iconSize: [sz, sz],
+          iconAnchor: [half, half]
         }),
         interactive: false,
         zIndexOffset: 100
@@ -5259,6 +5262,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v365</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v366</div>
 </body>
 </html>

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'guia-compostelana-v353';
+const CACHE_NAME = 'guia-compostelana-v366';
 const TILE_CACHE = 'guia-tiles-v5';
 const IMG_CACHE  = 'guia-imgs-v5';
 
