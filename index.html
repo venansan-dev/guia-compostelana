@@ -2650,7 +2650,8 @@ function initMapa() {
   mapa.on('dragstart', function() { mapa.closePopup(); });
   mapa.on('zoomstart', function() { mapa.closePopup(); });
   mapa.on('zoomend', function() {
-    // Redibujar flechas con nuevo espaciado si hay ruta activa
+    // Redibujar flechas SVG con nuevo espaciado si hay ruta activa
+    if (window._flechasData && window._rutaFlechaCanvas) _dibujarFlechasCanvas();
     if (_rutaLinea && rutaPuntos.length >= 1) setTimeout(dibujarLineaEstática, 150);
   });
 
@@ -3338,7 +3339,7 @@ function quitarDeRuta(id) {
   rutaPuntos=rutaPuntos.filter(function(x){return x.id!==id;});
   // Borrar línea inmediatamente antes de redibujar para evitar trazado fantasma
   if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
-  if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); }); window._rutaFlechas = []; }
+  if (window._rutaFlechaCanvas) { mapa.removeLayer(window._rutaFlechaCanvas); window._rutaFlechaCanvas = null; } window._flechasData = null; window._rutaFlechas = [];
   actualizarRuta();
   actualizarBtnMapa(id, false);
 }
@@ -3350,7 +3351,7 @@ function limpiarRuta() {
   _verRutaMapa = false;
   try { localStorage.removeItem('rutaGuardada'); } catch(e) {}
   if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
-  if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); }); window._rutaFlechas = []; }
+  if (window._rutaFlechaCanvas) { mapa.removeLayer(window._rutaFlechaCanvas); window._rutaFlechaCanvas = null; } window._flechasData = null; window._rutaFlechas = [];
   var btnVer=document.getElementById('ruta-bar-btn-ver');
   if(btnVer) btnVer.style.background='#185FA5';
   var panel=document.getElementById('map-ruta-panel');
@@ -3411,82 +3412,72 @@ function ordenarRutaPorCercania(origen) {
 }
 
 function dibujarFlechas(latlngs) {
-  if (window._rutaFlechas) {
-    window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); });
-  }
-  window._rutaFlechas = [];
-  // Espaciado adaptativo según zoom — más zoom = más flechas, menos zoom = menos
+  window._flechasData = latlngs;
+  _dibujarFlechasCanvas();
+}
+
+function _dibujarFlechasCanvas() {
+  var latlngs = window._flechasData;
+  if (!latlngs || latlngs.length < 2) return;
+
+  if (window._rutaFlechaCanvas) { mapa.removeLayer(window._rutaFlechaCanvas); window._rutaFlechaCanvas = null; }
+
   var z = mapa.getZoom();
   var espaciado = z >= 17 ? 40 : z >= 15 ? 80 : z >= 13 ? 180 : z >= 11 ? 400 : 800;
-  var acumulado = 0;
-  // Pre-count total arrows for gradient
-  var totalFlechas = 0, acum2 = 0;
+
+  var flechas = [], acumulado = 0, totalFlechas = 0, acum2 = 0;
   for (var j = 0; j < latlngs.length - 1; j++) {
-    var aa = L.latLng(latlngs[j][0], latlngs[j][1]);
-    var bb = L.latLng(latlngs[j+1][0], latlngs[j+1][1]);
-    acum2 += aa.distanceTo(bb);
+    acum2 += L.latLng(latlngs[j]).distanceTo(L.latLng(latlngs[j+1]));
     if (acum2 >= espaciado) { totalFlechas++; acum2 = 0; }
   }
   var flechaIdx = 0;
   for (var i = 0; i < latlngs.length - 1; i++) {
-    var a = L.latLng(latlngs[i][0], latlngs[i][1]);
-    var b = L.latLng(latlngs[i+1][0], latlngs[i+1][1]);
-    var segDist = a.distanceTo(b);
-    acumulado += segDist;
+    acumulado += L.latLng(latlngs[i]).distanceTo(L.latLng(latlngs[i+1]));
     if (acumulado >= espaciado) {
       acumulado = 0;
-      // Ángulo: Norte=0, Este=90 — Leaflet usa lat/lng
       var dLat = latlngs[i+1][0] - latlngs[i][0];
       var dLng = latlngs[i+1][1] - latlngs[i][1];
-      // Convertir a bearing: ángulo desde el norte en sentido horario
       var bearing = Math.atan2(dLng * Math.cos(latlngs[i][0] * Math.PI/180), dLat) * 180 / Math.PI;
       var mid = [(latlngs[i][0]+latlngs[i+1][0])/2, (latlngs[i][1]+latlngs[i+1][1])/2];
-      // Degradado: verde inicio → amarillo → naranja → rojo final
       var progreso = totalFlechas > 0 ? flechaIdx / totalFlechas : 0;
-      var r, g, b;
-      if (progreso < 0.33) {
-        // Verde → Amarillo
-        var t = progreso / 0.33;
-        r = Math.round(34 + (255-34)*t);
-        g = Math.round(197 + (215-197)*t);
-        b = Math.round(94 * (1-t));
-      } else if (progreso < 0.66) {
-        // Amarillo → Naranja
-        var t = (progreso - 0.33) / 0.33;
-        r = 255;
-        g = Math.round(215 - (215-140)*t);
-        b = 0;
-      } else {
-        // Naranja → Rojo
-        var t = (progreso - 0.66) / 0.34;
-        r = 255;
-        g = Math.round(140 * (1-t));
-        b = 0;
-      }
-      var fill = 'rgb('+r+','+g+','+b+')';
-      var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">' +
-        '<polygon points="10,1 18,18 10,13 2,18" fill="'+fill+'" stroke="rgba(0,0,0,0.4)" stroke-width="1.2" stroke-linejoin="round"/>' +
-        '</svg>';
+      var r, g, b2;
+      if (progreso < 0.33) { var t=progreso/0.33; r=Math.round(34+(255-34)*t); g=Math.round(197+(215-197)*t); b2=Math.round(94*(1-t)); }
+      else if (progreso < 0.66) { var t=(progreso-0.33)/0.33; r=255; g=Math.round(215-(215-140)*t); b2=0; }
+      else { var t=(progreso-0.66)/0.34; r=255; g=Math.round(140*(1-t)); b2=0; }
+      flechas.push({ mid:mid, bearing:bearing, color:'rgb('+r+','+g+','+b2+')' });
       flechaIdx++;
-      var arrow = L.marker(mid, {
-        icon: L.divIcon({
-          className: '',
-          html: '<div style="transform:rotate('+bearing+'deg);transform-origin:center;width:20px;height:20px;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.6))">'+svg+'</div>',
-          iconSize: [20, 20],
-          iconAnchor: [10, 10]
-        }),
-        interactive: false,
-        zIndexOffset: 100
-      }).addTo(mapa);
-      window._rutaFlechas.push(arrow);
     }
   }
+  if (flechas.length === 0) return;
+
+  // Un único SVG overlay — cero markers individuales
+  var svgLayer = L.svg({ padding:0.1 }).addTo(mapa);
+  window._rutaFlechaCanvas = svgLayer;
+  setTimeout(function() {
+    var svgEl = svgLayer._container;
+    if (!svgEl) return;
+    var g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('id','flechas-grupo');
+    flechas.forEach(function(f) {
+      var pt = mapa.latLngToLayerPoint(f.mid);
+      var poly = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+      poly.setAttribute('points','0,-8 6,6 0,2 -6,6');
+      poly.setAttribute('fill', f.color);
+      poly.setAttribute('stroke','rgba(0,0,0,0.35)');
+      poly.setAttribute('stroke-width','1');
+      poly.setAttribute('transform','translate('+pt.x+','+pt.y+') rotate('+f.bearing+')');
+      poly.setAttribute('style','pointer-events:none');
+      g.appendChild(poly);
+    });
+    svgEl.appendChild(g);
+  }, 50);
+  window._rutaFlechas = [];
 }
 
 function dibujarLineaEstática() {
   if (_navActiva) return; // nunca interferir durante navegación activa
   if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
-  if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); }); window._rutaFlechas = []; }
+  if (window._rutaFlechaCanvas) { mapa.removeLayer(window._rutaFlechaCanvas); window._rutaFlechaCanvas = null; } window._flechasData = null; window._rutaFlechas = [];
   if (rutaPuntos.length < 1) return;
   // Ordenar puntos por proximidad (vecino más cercano desde posición usuario)
   var origen = (userLat && userLng) ? {lat:userLat, lng:userLng} : {lat:rutaPuntos[0].lat, lng:rutaPuntos[0].lng};
@@ -3963,7 +3954,7 @@ function activarNavegacionVoz() {
         window._navGeomCache = route.geometry; // guardar geometría para reuso
         // Dibujar trazado amarillo con flechas directamente desde esta respuesta
         if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
-        if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); }); window._rutaFlechas = []; }
+        if (window._rutaFlechaCanvas) { mapa.removeLayer(window._rutaFlechaCanvas); window._rutaFlechaCanvas = null; } window._flechasData = null; window._rutaFlechas = [];
         var z = mapa.getZoom();
         var lw = z>=17?6:z>=15?5:z>=13?4:3;
         _rutaLinea = L.geoJSON(route.geometry, {
@@ -4022,7 +4013,7 @@ function _navRecalcular(lat, lng) {
       window._navGeomCache = route.geometry;
       // Redibujar trazado
       if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
-      if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); }); window._rutaFlechas = []; }
+      if (window._rutaFlechaCanvas) { mapa.removeLayer(window._rutaFlechaCanvas); window._rutaFlechaCanvas = null; } window._flechasData = null; window._rutaFlechas = [];
       var z = mapa.getZoom(); var lw = z>=17?6:z>=15?5:z>=13?4:3;
       _rutaLinea = L.geoJSON(route.geometry, { style:{color:'#FFD700',weight:lw,opacity:0.9,dashArray:'14 6',lineJoin:'round',lineCap:'round'} }).addTo(mapa);
       var ll = route.geometry.coordinates.map(function(c){return[c[1],c[0]];});
@@ -5355,6 +5346,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v327</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v328</div>
 </body>
 </html>
