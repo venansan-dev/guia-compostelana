@@ -3053,6 +3053,14 @@ function initMapa() {
   mapa.on('zoomend', function() {
     // Redibujar flechas con nuevo espaciado si hay ruta activa
     if (_rutaLinea && rutaPuntos.length >= 1) setTimeout(dibujarLineaEstática, 150);
+    // Resincronizar el botón de radio activo — el zoom puede desactivarlos visualmente
+    document.querySelectorAll('.map-radio-btn').forEach(function(b) {
+      var esActivo = parseInt(b.textContent) === radioKm;
+      b.classList.toggle('active', esActivo);
+      b.style.background = esActivo ? '#1D9E75' : '#fff';
+      b.style.color      = esActivo ? '#fff'    : '#333';
+      b.style.border     = esActivo ? '2px solid #1D9E75' : '2px solid rgba(0,0,0,0.2)';
+    });
   });
 
   // En scroll: ocultar botón si hay popup visible en el DOM
@@ -5765,6 +5773,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v396</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v397</div>
 </body>
 </html>
