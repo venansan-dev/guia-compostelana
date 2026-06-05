@@ -3050,18 +3050,29 @@ function initMapa() {
   // Cerrar popup al arrastrar o hacer scroll en el mapa
   mapa.on('dragstart', function() { mapa.closePopup(); });
   mapa.on('zoomstart', function() { mapa.closePopup(); });
-  mapa.on('zoomend', function() {
-    // Redibujar flechas con nuevo espaciado si hay ruta activa
-    if (_rutaLinea && rutaPuntos.length >= 1) setTimeout(dibujarLineaEstática, 150);
-    // Resincronizar el botón de radio activo — el zoom puede desactivarlos visualmente
+
+  function _sincRadioBtns() {
+    if (!circuloRadio || !userLat) return;
+    // Comprobar si el mapa aún muestra el círculo de radio completo
+    // Si el usuario hizo zoom manual alejándose, desactivar los botones
+    var mapBounds = mapa.getBounds();
+    var circleBounds = circuloRadio.getBounds();
+    var radioVisible = mapBounds.contains(circleBounds);
     document.querySelectorAll('.map-radio-btn').forEach(function(b) {
-      var esActivo = parseInt(b.textContent) === radioKm;
+      var esEsteRadio = parseInt(b.textContent) === radioKm;
+      var esActivo = esEsteRadio && radioVisible;
       b.classList.toggle('active', esActivo);
       b.style.background = esActivo ? '#1D9E75' : '#fff';
       b.style.color      = esActivo ? '#fff'    : '#333';
       b.style.border     = esActivo ? '2px solid #1D9E75' : '2px solid rgba(0,0,0,0.2)';
     });
+  }
+
+  mapa.on('zoomend', function() {
+    if (_rutaLinea && rutaPuntos.length >= 1) setTimeout(dibujarLineaEstática, 150);
+    _sincRadioBtns();
   });
+  mapa.on('moveend', _sincRadioBtns);
 
   // En scroll: ocultar botón si hay popup visible en el DOM
   window.addEventListener('scroll', function() {
@@ -5775,6 +5786,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v398</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v399</div>
 </body>
 </html>
