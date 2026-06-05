@@ -1761,7 +1761,7 @@ function refrescarUbicacion() {
     if (statusTxt) statusTxt.textContent = '⚠️ No se pudo obtener la ubicación';
     if (btn) { btn.style.opacity = '1'; btn.style.pointerEvents = ''; }
     setTimeout(function() { if (statusTxt) statusTxt.textContent = ''; }, 3000);
-  }, { enableHighAccuracy:true, timeout:8000 });
+  }, { enableHighAccuracy: false, timeout: 15000, maximumAge: 30000 });
 }
 
 function añadirMarcadorUsuario(p) {
@@ -1830,6 +1830,7 @@ function usarMiUbicacion() {
   var orig = txt.textContent;
   txt.textContent = 'Obteniendo...';
   btn.disabled = true;
+  // Fase 1: posición rápida (baja precisión, sin timeout agresivo)
   navigator.geolocation.getCurrentPosition(function(pos) {
     poiFormLat = pos.coords.latitude;
     poiFormLng = pos.coords.longitude;
@@ -1837,11 +1838,18 @@ function usarMiUbicacion() {
       '✅ ' + poiFormLat.toFixed(5) + ', ' + poiFormLng.toFixed(5);
     txt.textContent = '✅ Obtenido';
     btn.disabled = false;
+    // Fase 2: refinar con alta precisión en segundo plano
+    navigator.geolocation.getCurrentPosition(function(pos2) {
+      poiFormLat = pos2.coords.latitude;
+      poiFormLng = pos2.coords.longitude;
+      document.getElementById('poi-coords-display').innerHTML =
+        '✅ ' + poiFormLat.toFixed(5) + ', ' + poiFormLng.toFixed(5);
+    }, function(){}, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
   }, function() {
     document.getElementById('poi-coords-display').textContent = '❌ No se pudo obtener la ubicación';
     txt.textContent = orig;
     btn.disabled = false;
-  }, { enableHighAccuracy: true, timeout: 8000 });
+  }, { enableHighAccuracy: false, timeout: 15000, maximumAge: 30000 });
 }
 
 // Marcar punto en el mapa tocando/haciendo click
@@ -5091,6 +5099,120 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+// ═══════════════════════════════════════════════
+// VISTA AR — cámara + etiquetas de POIs cercanos
+// ═══════════════════════════════════════════════
+var _arActiva = false;
+var _arStream = null;
+var _arOrientHandler = null;
+var _arRafId = null;
+var _arHeading = 0;
+
+function activarModoAR() {
+  if (_arActiva) return;
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    mostrarToast('📷 Tu navegador no soporta acceso a la cámara'); return;
+  }
+  if (!userLat || !userLng) {
+    mostrarToast('📍 Activa primero tu ubicación en el mapa'); return;
+  }
+  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment', width:{ideal:1280}, height:{ideal:720} }, audio: false })
+    .then(function(stream) {
+      _arActiva = true;
+      _arStream = stream;
+      var overlay = document.getElementById('ar-overlay');
+      var video   = document.getElementById('ar-video');
+      overlay.style.display = 'flex';
+      video.srcObject = stream;
+      var status = document.getElementById('ar-status');
+      if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+        DeviceOrientationEvent.requestPermission().then(function(r) {
+          if (r === 'granted') _arIniciarOrientacion();
+          else if (status) status.textContent = 'Permiso de orientacion denegado';
+        });
+      } else {
+        _arIniciarOrientacion();
+      }
+      _arRenderLoop();
+    })
+    .catch(function(e) {
+      mostrarToast('No se pudo acceder a la camara: ' + (e.message || e.name));
+    });
+}
+
+function _arIniciarOrientacion() {
+  _arOrientHandler = function(e) {
+    if (e.webkitCompassHeading !== undefined) {
+      _arHeading = e.webkitCompassHeading;
+    } else if (e.alpha !== null) {
+      _arHeading = (360 - e.alpha) % 360;
+    }
+  };
+  window.addEventListener('deviceorientation', _arOrientHandler, true);
+}
+
+function _arRenderLoop() {
+  if (!_arActiva) return;
+  _arDibujarEtiquetas();
+  _arRafId = requestAnimationFrame(_arRenderLoop);
+}
+
+function _arDibujarEtiquetas() {
+  var container = document.getElementById('ar-labels');
+  if (!container || !userLat || !userLng) return;
+  var FOV = 60;
+  var W = window.innerWidth;
+  var H = window.innerHeight;
+  var cercanos = PUNTOS.filter(function(p) {
+    return !p.esUsuario && haversine(userLat, userLng, p.lat, p.lng) < 1.5;
+  }).slice(0, 12);
+  var etiquetas = cercanos.map(function(p) {
+    var dist = haversine(userLat, userLng, p.lat, p.lng);
+    var dLng = (p.lng - userLng) * Math.PI / 180;
+    var lat1 = userLat * Math.PI / 180;
+    var lat2 = p.lat  * Math.PI / 180;
+    var y = Math.sin(dLng) * Math.cos(lat2);
+    var x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLng);
+    var bearing = (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+    var rel = bearing - _arHeading;
+    if (rel > 180)  rel -= 360;
+    if (rel < -180) rel += 360;
+    var screenX = W / 2 + (rel / (FOV / 2)) * (W / 2);
+    return { p: p, dist: dist, screenX: screenX };
+  }).filter(function(e) {
+    return e.screenX > -80 && e.screenX < W + 80;
+  });
+  var ids = etiquetas.map(function(e){ return e.p.id; }).join(',');
+  if (container._lastIds === ids && Math.abs((container._lastHeading||0) - _arHeading) < 0.5) return;
+  container._lastIds = ids;
+  container._lastHeading = _arHeading;
+  container.innerHTML = etiquetas.map(function(e) {
+    var distTxt = e.dist < 1 ? Math.round(e.dist * 1000) + ' m' : e.dist.toFixed(1) + ' km';
+    var left = Math.round(e.screenX);
+    var top  = Math.round(H * 0.35 + (e.dist / 1.5) * H * 0.2);
+    return '<div style="position:absolute;left:' + left + 'px;top:' + top + 'px;transform:translateX(-50%);' +
+      'background:rgba(0,0,0,0.72);backdrop-filter:blur(6px);color:#fff;border-radius:12px;padding:6px 12px;' +
+      'font-family:DM Sans,sans-serif;font-size:13px;font-weight:600;white-space:nowrap;' +
+      'border:1px solid rgba(255,255,255,0.2);box-shadow:0 2px 12px rgba(0,0,0,0.4);text-align:center">' +
+      '<div style="font-size:18px;line-height:1.2">' + e.p.emoji + '</div>' +
+      '<div style="font-size:12px;font-weight:700;line-height:1.3;max-width:160px;white-space:normal">' + e.p.nombre + '</div>' +
+      '<div style="font-size:11px;color:#7EE8C0;font-weight:500">' + distTxt + '</div>' +
+      '</div>';
+  }).join('');
+}
+
+function cerrarModoAR() {
+  _arActiva = false;
+  if (_arRafId) { cancelAnimationFrame(_arRafId); _arRafId = null; }
+  if (_arOrientHandler) { window.removeEventListener('deviceorientation', _arOrientHandler, true); _arOrientHandler = null; }
+  if (_arStream) { _arStream.getTracks().forEach(function(t){ t.stop(); }); _arStream = null; }
+  var video = document.getElementById('ar-video');
+  if (video) video.srcObject = null;
+  var overlay = document.getElementById('ar-overlay');
+  if (overlay) overlay.style.display = 'none';
+  var labels = document.getElementById('ar-labels');
+  if (labels) labels.innerHTML = '';
+}
 
 </script>
 
@@ -5240,6 +5362,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v313</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v315</div>
 </body>
 </html>
