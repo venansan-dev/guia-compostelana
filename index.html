@@ -3072,9 +3072,6 @@ function renderCarrusel(categoria) {
       '<div class="poi-body">'+
         '<div class="poi-category">'+(function(c){var t2=T[idiomaActual]||T.es;var cm={'naturaleza':t2.chipNaturaleza,'monumento':t2.chipMonumento,'albergue':t2.chipAlbergue,'mirador':t2.chipMirador,'edificación religiosa':t2.chipEdif,'localización histórica':t2.chipHist,'vestigio arqueológico':t2.chipVest,'edificación histórica':t2.chipEdifH,'naturaleza':t2.chipNat};return cm[c]||c;})(p.categoria)+'</div>'+
         '<div class="poi-nombre-row"><span class="poi-emoji">'+p.emoji+'</span><span class="poi-nombre">'+pNombre+'</span></div>'+
-        (p.categoria==='etapa'&&p.km?'<div style="display:flex;gap:6px;flex-wrap:wrap;margin:5px 0 3px">'+'<span style="background:#E1F5EE;color:#0F6E56;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">📍 '+p.km+' km</span>'+(p.desnivel_pos?'<span style="background:#FEF3C7;color:#92400E;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">↑'+p.desnivel_pos+' m</span>':'')+(p.desnivel_neg?'<span style="background:#FEF3C7;color:#92400E;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">↓'+p.desnivel_neg+' m</span>':'')+(p.dificultad?'<span style="background:#F3E8FF;color:#6B21A8;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">'+p.dificultad+'</span>':'')+(p.variante?'<span style="background:'+(p.variante==="costa"?"#E0F2FE":"#FCE7F3")+';color:'+(p.variante==="costa"?"#0369A1":"#9D174D")+';border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">'+(p.variante==="costa"?"🌊 Costa":"🛤️ Interior")+' </span>':'')+
-        '</div>':'')+
-
         (p.categoria==='etapa' && p.km ? '<div style="display:flex;gap:6px;flex-wrap:wrap;margin:5px 0 3px">'+
           '<span style="background:#E1F5EE;color:#0F6E56;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">📍 '+p.km+' km</span>'+
           (p.desnivel_pos ? '<span style="background:#FEF3C7;color:#92400E;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">↑'+p.desnivel_pos+' m</span>' : '')+
@@ -5231,6 +5228,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v348</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v349</div>
 </body>
 </html>
