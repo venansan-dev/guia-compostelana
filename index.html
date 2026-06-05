@@ -2125,11 +2125,7 @@ function iniciarProximidad() {
     if (!notifActivadas) return;
     navigator.geolocation.getCurrentPosition(function(pos) {
       var lat = pos.coords.latitude, lng = pos.coords.longitude;
-      // Limpiar cluster previo si existe
-  if (window._clusterGroup) {
-    window._clusterGroup.clearLayers();
-  }
-  PUNTOS.forEach(function(p) {
+      PUNTOS.forEach(function(p) {
         if (notifEnviadas[p.id]) return;
         var d = calcDistancia(lat, lng, p.lat, p.lng);
         if (d < 0.15) { // 150 metros
@@ -2754,6 +2750,8 @@ function initMapa() {
     });
   });
 
+  // Limpiar cluster previo si existe
+  if (window._clusterGroup) { window._clusterGroup.clearLayers(); }
   PUNTOS.forEach(function(p) {
     var m = L.marker([p.lat,p.lng], { icon:crearIcono(p.emoji) }).addTo(window._clusterGroup || mapa);
     m.on('click', (function(punto) {
@@ -5462,6 +5460,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v338</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v339</div>
 </body>
 </html>
