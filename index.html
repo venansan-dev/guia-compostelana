@@ -3095,7 +3095,7 @@ function renderCarrusel(categoria) {
         (pSub ? '<div class="poi-subtitulo">'+pSub+'</div>' : '')+
         '<div style="display:flex;align-items:center;justify-content:space-between;margin:4px 0 8px">'+
           distHtml+
-          '<button class="poi-btn" data-lat="'+p.lat+'" data-lng="'+p.lng+'">'+(T[idiomaActual]||T.es).comoLlegar+'</button>'+
+          '<button class="poi-btn" data-id="'+p.id+'" data-lat="'+p.lat+'" data-lng="'+p.lng+'">'+(T[idiomaActual]||T.es).comoLlegar+'</button>'+
         '</div>'+
         '<p class="poi-desc" id="desc-'+p.id+'">'+pDesc+'</p>'+
         '<button class="poi-leer-mas" id="leer-mas-'+p.id+'">'+(T[idiomaActual]||T.es).leerMas+'</button>'+
@@ -3161,7 +3161,7 @@ function renderCarrusel(categoria) {
     var llegarBtn = card.querySelector('.poi-btn');
     if (llegarBtn) llegarBtn.addEventListener('click', function(e) {
       e.stopPropagation();
-      verEnMapa(parseFloat(llegarBtn.getAttribute('data-lat')), parseFloat(llegarBtn.getAttribute('data-lng')));
+      irDesdeCarrusel(llegarBtn.getAttribute('data-id') || ''); 
     });
 
   });
@@ -3204,6 +3204,24 @@ function enviarOpinion(btn) {
   input.value='';
   btn.textContent = '&#10003;';
   setTimeout(function(){ btn.textContent = 'Enviar'; }, 1500);
+}
+
+function irDesdeCarrusel(id) {
+  // Añadir a ruta si no está ya
+  var p = PUNTOS.find(function(x){ return x.id === id; });
+  if (!p) return;
+  if (!rutaPuntos.find(function(x){ return x.id === id; })) {
+    addToRoute(id);
+  }
+  // Ir al mapa
+  verEnMapa(p.lat, p.lng);
+  // Activar navegación tras un breve delay para que el mapa se centre
+  setTimeout(function() {
+    var btnNav = document.getElementById('ruta-nav-btn');
+    if (btnNav && btnNav.style.display !== 'none') {
+      activarNavegacionVoz();
+    }
+  }, 600);
 }
 function verEnMapa(lat,lng) {
   mapa.setView([lat,lng],16);
@@ -5027,7 +5045,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Botón cómo llegar
       if (tgt.classList.contains('poi-btn')) {
         e.stopPropagation();
-        verEnMapa(parseFloat(tgt.getAttribute('data-lat')), parseFloat(tgt.getAttribute('data-lng'))); return;
+        irDesdeCarrusel(tgt.getAttribute('data-id') || ''); return;
       }
       // Input opinión — no propagar al card
       if (tgt.classList.contains('opinion-input')) {
@@ -5079,7 +5097,7 @@ document.addEventListener('DOMContentLoaded', function() {
       addToRoute(t.getAttribute('data-poi')); return;
     }
     if (t.classList && t.classList.contains('poi-btn') && t.getAttribute('data-lat')) {
-      verEnMapa(parseFloat(t.getAttribute('data-lat')), parseFloat(t.getAttribute('data-lng'))); return;
+      irDesdeCarrusel(t.getAttribute('data-id') || ''); return;
     }
     // Click en tarjeta → ir al mapa (excepto zona de imagen)
     var card = t.closest ? t.closest('.poi-card') : null;
@@ -5241,6 +5259,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v357</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v358</div>
 </body>
 </html>
