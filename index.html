@@ -223,8 +223,7 @@
   <!-- Botón orientación (izquierda bajo refrescar) -->
   <button id='btn-orientacion-mapa' onclick='pedirOrientacion()' title='Activar flecha orientación'
     style='display:flex;position:absolute;top:54px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>🧭</button>
-  <button id='btn-ar-mode' onclick='activarModoAR()' title='Vista AR'
-    style='display:flex;position:absolute;top:98px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>📷</button>
+
   <div id='ar-overlay' style='display:none;position:fixed;inset:0;z-index:99000;background:#000;flex-direction:column'>
     <video id='ar-video' autoplay playsinline muted style='position:absolute;inset:0;width:100%;height:100%;object-fit:cover'></video>
     <div id='ar-labels' style='position:absolute;inset:0;pointer-events:none;overflow:hidden'></div>
@@ -2600,7 +2599,7 @@ function initMapa() {
   // Ocultar botón ➕ cuando se abre un popup, restaurar al cerrar
   var _popupAbierto = false;
 
-  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc','btn-orientacion-mapa','map-ruta-panel','map-radio-control','btn-ar-mode'];
+  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc','btn-orientacion-mapa','map-ruta-panel','map-radio-control'];
   mapa.on('popupopen', function() {
     _popupAbierto = true;
     _mapBtns.forEach(function(id){
@@ -3162,7 +3161,7 @@ function renderCarrusel(categoria) {
     var llegarBtn = card.querySelector('.poi-btn');
     if (llegarBtn) llegarBtn.addEventListener('click', function(e) {
       e.stopPropagation();
-      irIndicaciones(parseFloat(llegarBtn.getAttribute('data-lat')), parseFloat(llegarBtn.getAttribute('data-lng')));
+      verEnMapa(parseFloat(llegarBtn.getAttribute('data-lat')), parseFloat(llegarBtn.getAttribute('data-lng')));
     });
 
   });
@@ -5028,7 +5027,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Botón cómo llegar
       if (tgt.classList.contains('poi-btn')) {
         e.stopPropagation();
-        irIndicaciones(parseFloat(tgt.getAttribute('data-lat')), parseFloat(tgt.getAttribute('data-lng'))); return;
+        verEnMapa(parseFloat(tgt.getAttribute('data-lat')), parseFloat(tgt.getAttribute('data-lng'))); return;
       }
       // Input opinión — no propagar al card
       if (tgt.classList.contains('opinion-input')) {
@@ -5080,7 +5079,7 @@ document.addEventListener('DOMContentLoaded', function() {
       addToRoute(t.getAttribute('data-poi')); return;
     }
     if (t.classList && t.classList.contains('poi-btn') && t.getAttribute('data-lat')) {
-      irIndicaciones(parseFloat(t.getAttribute('data-lat')), parseFloat(t.getAttribute('data-lng'))); return;
+      verEnMapa(parseFloat(t.getAttribute('data-lat')), parseFloat(t.getAttribute('data-lng'))); return;
     }
     // Click en tarjeta → ir al mapa (excepto zona de imagen)
     var card = t.closest ? t.closest('.poi-card') : null;
@@ -5242,6 +5241,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v355</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v357</div>
 </body>
 </html>
