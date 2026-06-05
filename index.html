@@ -2256,21 +2256,43 @@ function guardarPOIUsuario() {
 
   // Firebase: alertas van a rama 'alertas' (pública, tiempo real); resto a poi_usuarios (moderación)
   try {
+    // Limpiar propiedades no serializables antes de enviar a Firebase
+    var poiFirebase = {
+      id: poi.id,
+      nombre: poi.nombre,
+      descripcion: poi.descripcion,
+      categoria: poi.categoria,
+      lat: poi.lat,
+      lng: poi.lng,
+      emoji: poi.emoji,
+      color: poi.color,
+      esUsuario: true,
+      esAlerta: poi.esAlerta || false,
+      estado: poi.estado,
+      ts: poi.ts,
+      expiraTs: poi.expiraTs || null,
+      reportes: poi.reportes || 0,
+      deviceId: poi.deviceId
+    };
     if (esAlerta) {
-      db.ref('alertas/' + id).set(poi).then(function() {
+      db.ref('alertas/' + id).set(poiFirebase).then(function() {
         console.log('Alerta publicada:', id);
+        mostrarToast('🚨 Alerta publicada para todos');
       }, function(err) {
         console.warn('Firebase alerta error:', err.message);
+        mostrarToast('⚠️ Error al publicar alerta: ' + err.message);
       });
     } else {
-      db.ref('poi_usuarios/' + id).set(poi).then(function() {
+      db.ref('poi_usuarios/' + id).set(poiFirebase).then(function() {
         console.log('POI enviado a revisión:', id);
       }, function(err) {
         console.warn('Firebase rechazó el POI:', err.message);
+        mostrarToast('⚠️ Error Firebase: ' + err.message);
       });
     }
   } catch(e) {
     console.warn('Error Firebase:', e);
+    mostrarToast('⚠️ Error Firebase: ' + e.message);
   }
 }
 
@@ -5644,6 +5666,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v376</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v377</div>
 </body>
 </html>
