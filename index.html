@@ -293,7 +293,7 @@
   <p class='section-subtitle' id='poi-sub1'>&#11088; Puntúa &#183; 💬 Comenta &#183; 📲 Comparte</p>
   <p class='section-subtitle2' id='poi-sub2'>Ayuda a otros peregrinos puntuando, comentando y compartiendo cada lugar</p>
   <div class='categories'>
-    <div class='cat-chip active' onclick='filtrarCategoria(this,&quot;todos&quot;)' id='chip-todos'>Todos</div>
+    <div class='cat-chip active' onclick='filtrarCategoria(this,&quot;todos&quot;)' id='chip-todos'>🗺️ <span id='chip-todos-txt'>Todos</span></div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;alerta&quot;)' id='chip-alertas'>🚨 Alertas</div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;naturaleza&quot;)' id='chip-naturaleza'>🌿 Naturaleza</div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;monumento&quot;)' id='chip-monumentos'>🏛️ Monumentos</div>
@@ -304,6 +304,7 @@
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;etapa&quot;)' id='chip-etapas'>🥾 <span id='chip-etapas-txt'>Etapas</span></div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;mirador&quot;)' id='chip-miradores'>🔭 Miradores</div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;fiesta&quot;)' id='chip-fiestas'>🎉 Fiestas</div>
+    <div class='cat-chip' onclick='filtrarCategoria(this,&quot;usuario&quot;)' id='chip-usuario' style='display:none'>👤 <span id='chip-usuario-txt'>Mis puntos</span></div>
   </div>
   <!-- GENERADOR DE RUTA encima del carrusel -->
   <div style='margin-bottom:1.25rem;background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);padding:1rem 1.25rem;box-shadow:0 2px 12px rgba(0,0,0,0.06)'>
@@ -1636,6 +1637,7 @@ function cargarPOIsUsuario() {
     var stored = localStorage.getItem('poi_usuario');
     if (!stored) return;
     PUNTOS_USUARIO = JSON.parse(stored);
+  if(PUNTOS_USUARIO.length>0){var cu=document.getElementById('chip-usuario');if(cu)cu.style.display='inline-flex';}
     PUNTOS_USUARIO.forEach(function(p) {
       p.esUsuario = true;
       if (!valoraciones[p.id]) valoraciones[p.id] = {total:0, votos:0, miVoto:0};
@@ -1996,6 +1998,7 @@ function guardarPOIUsuario() {
 
   // 1. Guardar en localStorage y mostrar INMEDIATAMENTE — no esperamos a Firebase
   PUNTOS_USUARIO.push(poi);
+  var chipU=document.getElementById('chip-usuario');if(chipU)chipU.style.display='inline-flex';
   try { localStorage.setItem('poi_usuario', JSON.stringify(PUNTOS_USUARIO)); } catch(e) {}
 
   if (!valoraciones[id]) valoraciones[id] = {total:0, votos:0, miVoto:0};
@@ -2980,10 +2983,15 @@ function renderCarrusel(categoria) {
         _activaHoy: activa
       });
     });
+  } else if (categoria === 'usuario') {
+    // POIs del usuario
+    filtrados = PUNTOS_USUARIO.map(function(p){
+      return Object.assign({}, p, { distancia: (userLat && userLng) ? haversine(userLat, userLng, p.lat, p.lng) : undefined });
+    });
   } else {
     filtrados = PUNTOS.filter(function(p){
       if (categoria === 'alerta') {
-        return p.categoria === 'alerta';
+        return p.categoria === 'alerta' || (p.esUsuario && p.categoria === 'alerta');
       }
       return !p.esUsuario && !(p.id && p.id.indexOf('u_')===0) && (categoria==='todos'||p.categoria===categoria);
     });
@@ -4247,6 +4255,7 @@ var T={
     chipAlbergue:'Albergues',
     chipMirador:'Miradores',
     chipEtapa:'Etapas',
+    chipUsuario:'Mis puntos',
     rutaLabel:'Generador de ruta',
     rutaVacio:'Añade puntos desde el mapa o las tarjetas',
     rutaBtnIr:'▶ Ir',
@@ -4397,6 +4406,8 @@ var T={
     chipAlbergue:'Albergues',
     chipMirador:'Miradoiros',
     chipEtapa:'Etapas',
+    chipUsuario:'Os meus puntos',
+    chipUsuario:'Mis puntos',
     rutaLabel:'Xerador de ruta',
     rutaVacio:'Engade puntos desde o mapa ou as tarxetas',
     rutaBtnIr:'▶ Ir',
@@ -4543,9 +4554,11 @@ var T={
     chipAlbergue:'Hostels',
     chipMirador:'Viewpoints',
     chipEtapa:'Stages',
+    chipUsuario:'My points',
     rutaLabel:'Route builder',
     rutaVacio:'Add points from the map or the cards',
     chipEtapa:'Stages',
+    chipUsuario:'My points',
     rutaBtnIr:'▶ Go',
     panelBtnIr:'▶ Go',
     panelBtnStop:'⏹ Stop',
@@ -4696,13 +4709,15 @@ function cambiarIdioma(lang){
   // POI section
   el=document.getElementById('poi-sub1');if(el)el.textContent=t.poiSub1;
   el=document.getElementById('poi-sub2');if(el)el.textContent=t.poiSub2;
-  el=document.getElementById('chip-todos');if(el)el.textContent=t.chipTodos;
+  el=document.getElementById('chip-todos-txt');if(el)el.textContent=t.chipTodos||'Todos';
   el=document.getElementById('chip-naturaleza');if(el)el.textContent=t.chipNaturaleza;
   el=document.getElementById('chip-monumentos');if(el)el.textContent=t.chipMonumento;
   el=document.getElementById('chip-albergues');if(el)el.textContent=t.chipAlbergue;
   el=document.getElementById('chip-miradores');if(el)el.textContent=t.chipMirador;
   el=document.getElementById('chip-etapas-txt');if(el)el.textContent=t.chipEtapa||'Etapas';
+  el=document.getElementById('chip-usuario-txt');if(el)el.textContent=t.chipUsuario||'Mis puntos';
   el=document.getElementById('chip-etapas-txt');if(el)el.textContent=t.chipEtapa||'Etapas';
+  el=document.getElementById('chip-usuario-txt');if(el)el.textContent=t.chipUsuario||'Mis puntos';
   // Ruta bar
   el=document.getElementById('ruta-label');if(el)el.textContent=t.rutaLabel;
   el=document.getElementById('ruta-bar-empty');if(el&&el.style.display!=='none')el.textContent=t.rutaVacio;
@@ -5123,6 +5138,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <select id='poi-input-cat' style='width:100%;border:1px solid #d1d5db;border-radius:8px;padding:10px 12px;font-size:14px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none;background:#fff'>
           <option value=''>— Selecciona —</option>
           <option value='alerta'>🚨 Alerta</option>
+          <option value='punto de control'>📌 Punto de control</option>
           <option value='naturaleza'>🌿 Naturaleza</option>
           <option value='monumento'>🏛️ Monumento</option>
           <option value='edificación religiosa'>⛪ Edificación religiosa</option>
@@ -5206,6 +5222,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v298</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v299</div>
 </body>
 </html>
