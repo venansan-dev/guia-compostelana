@@ -309,7 +309,7 @@
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;fiesta&quot;)' id='chip-fiestas'>🎉 Fiestas</div>
   </div>
   <!-- GENERADOR DE RUTA encima del carrusel -->
-  <div style='margin-bottom:1.25rem;background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);padding:1rem 1.25rem;box-shadow:0 2px 12px rgba(0,0,0,0.06)'>
+  <div style='margin-bottom:1.25rem;background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);padding:1rem 1.25rem;box-shadow:0 2px 12px rgba(0,0,0,0.06);height:130px;overflow:hidden;flex-shrink:0'>
     <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;gap:8px;flex-wrap:wrap'>
       <div style='display:flex;align-items:center;gap:8px'>
         <span style='font-size:18px'>🗺️</span>
@@ -322,7 +322,7 @@
       </div>
     </div>
     <div id='poi-ruta-vacia' style='font-size:13px;color:var(--texto-suave);font-style:italic;margin-bottom:0.75rem'>Añade puntos desde las tarjetas o el mapa 👆</div>
-    <div style='position:relative;margin-bottom:0.75rem'>
+    <div style='position:relative;margin-bottom:0.75rem;max-height:120px;overflow:hidden'>
       <div id='poi-ruta-lista2' style='display:none;flex-direction:column;gap:4px;max-height:120px;overflow-y:auto;padding-right:8px' onscroll='var el=this,bar=document.getElementById("ruta-scroll-bar");if(bar){var pct=el.scrollTop/(el.scrollHeight-el.clientHeight||1)*100;bar.style.top=pct*0.72+"%"}'></div>
       <div id='ruta-scroll-track' style='display:none;position:absolute;top:0;right:1px;width:3px;height:100%;background:rgba(0,0,0,0.07);border-radius:3px'><div id='ruta-scroll-bar' style='position:absolute;top:0;width:3px;height:28%;background:rgba(29,158,117,0.6);border-radius:3px;transition:top 0.1s'></div></div>
     </div>
@@ -1863,18 +1863,56 @@ function eliminarAlerta(id) {
   try { localStorage.setItem('poi_usuario', JSON.stringify(PUNTOS_USUARIO)); } catch(e) {}
   db.ref('alertas/' + id).remove();
   mapa.closePopup();
-  renderCarrusel(categoriaActiva);
+  var card = document.querySelector('[data-poi-id="'+id+'"]');
+  if (card) card.remove();
   mostrarToast('🗑️ Alerta eliminada para todos');
+  _irAlMapa();
 }
 
 function ocultarAlerta(id) {
   var alerta = PUNTOS.find(function(p){ return p.id === id; });
-  if (alerta && alerta._marker) mapa.removeLayer(alerta._marker);
+  if (alerta && alerta._marker) { mapa.removeLayer(alerta._marker); alerta._marker = null; }
   alertasOcultas[id] = true;
   try { localStorage.setItem('alertasOcultas', JSON.stringify(alertasOcultas)); } catch(e) {}
   mapa.closePopup();
-  // La tarjeta en el carrusel permanece — solo refrescamos el popup state
+  _actualizarBtnOcultarAlerta(id, true);
   mostrarToast('👁 Alerta ocultada del mapa');
+  _irAlMapa();
+}
+
+function mostrarAlerta(id) {
+  delete alertasOcultas[id];
+  try { localStorage.setItem('alertasOcultas', JSON.stringify(alertasOcultas)); } catch(e) {}
+  var alerta = PUNTOS.find(function(p){ return p.id === id; });
+  if (alerta && !alerta._marker) añadirMarcadorAlerta(alerta);
+  _actualizarBtnOcultarAlerta(id, false);
+  mostrarToast('👁 Alerta visible en el mapa');
+  _irAlMapa();
+}
+
+function _irAlMapa() {
+  var mb = document.getElementById('map-block') || document.getElementById('map');
+  if (mb) mb.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function _actualizarBtnOcultarAlerta(id, oculta) {
+  var card = document.querySelector('[data-poi-id="'+id+'"]');
+  if (!card) return;
+  var btn = card.querySelector('[data-alerta-toggle]');
+  if (!btn) return;
+  if (oculta) {
+    btn.textContent = '👁 Mostrar en el mapa';
+    btn.style.background = '#f0fdf4';
+    btn.style.color = '#15803d';
+    btn.style.border = '1px solid #86efac';
+    btn.setAttribute('onclick', "mostrarAlerta('"+id+"')");
+  } else {
+    btn.textContent = '👁 Ocultar del mapa';
+    btn.style.background = '#f3f4f6';
+    btn.style.color = '#6b7280';
+    btn.style.border = '1px solid #d1d5db';
+    btn.setAttribute('onclick', "ocultarAlerta('"+id+"')");
+  }
 }
 
 // Contador diario de reportes — se resetea al cambiar de día
@@ -3420,9 +3458,9 @@ function renderCarrusel(categoria) {
     card.innerHTML =
       '<div class="poi-img '+p.color+'" style="position:relative;overflow:hidden">' +
         '<img src="'+(p.imagen||'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png')+'" alt="'+p.nombre+'" class="poi-img-cover" decoding="async"/>' +
-        (mostrarBtnRuta ? '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'" style="position:absolute;top:8px;left:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);background:'+(enRuta?'#1D9E75':'rgba(255,255,255,0.92)')+';color:'+(enRuta?'#fff':'#0F6E56')+';border:1px solid '+(enRuta?'#1D9E75':'rgba(29,158,117,0.4)')+'">'+  (enRuta?'&#10003; '+(T[idiomaActual]||T.es).enRuta.replace('✓ ',''):(T[idiomaActual]||T.es).añadirRuta)+'</button>' : '') +
+        (mostrarBtnRuta ? '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'" style="position:absolute;top:8px;right:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);background:'+(enRuta?'#1D9E75':'rgba(255,255,255,0.92)')+';color:'+(enRuta?'#fff':'#0F6E56')+';border:1px solid '+(enRuta?'#1D9E75':'rgba(29,158,117,0.4)')+'">'+  (enRuta?'&#10003; '+(T[idiomaActual]||T.es).enRuta.replace('✓ ',''):(T[idiomaActual]||T.es).añadirRuta)+'</button>' : '') +
       '</div>'+
-      '<div class="poi-ranking" id="rank-'+p.id+'">&#9733; '+(val.votos>0?media:'-')+'</div>'+
+      '<div class="poi-ranking" id="rank-'+p.id+'" style="left:8px;right:auto">&#9733; '+(val.votos>0?media:'-')+'</div>'+
       '<div class="poi-body">'+
         '<div class="poi-category">'+(function(c){var t2=T[idiomaActual]||T.es;var cm={'naturaleza':t2.chipNaturaleza,'monumento':t2.chipMonumento,'albergue':t2.chipAlbergue,'mirador':t2.chipMirador,'edificación religiosa':t2.chipEdif,'localización histórica':t2.chipHist,'vestigio arqueológico':t2.chipVest,'edificación histórica':t2.chipEdifH,'naturaleza':t2.chipNat};return cm[c]||c;})(p.categoria)+'</div>'+
         '<div class="poi-nombre-row"><span class="poi-emoji">'+p.emoji+'</span><span class="poi-nombre">'+pNombre+'</span></div>'+
@@ -3434,10 +3472,13 @@ function renderCarrusel(categoria) {
           (p.variante ? '<span style="background:'+(p.variante==="costa"?"#E0F2FE":"#FCE7F3")+';color:'+(p.variante==="costa"?"#0369A1":"#9D174D")+';border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">'+(p.variante==="costa"?"🌊 Costa":"🛤️ Interior")+' </span>' : '')+
         '</div>' : '')+
         (pSub ? '<div class="poi-subtitulo">'+pSub+'</div>' : '')+
-        '<div style="display:flex;align-items:center;justify-content:space-between;margin:4px 0 8px">'+
-          distHtml+
-          '<button class="poi-btn" data-id="'+p.id+'" data-lat="'+p.lat+'" data-lng="'+p.lng+'">'+(T[idiomaActual]||T.es).comoLlegar+'</button>'+
-        '</div>'+
+        (p.esAlerta
+          ? '<div style="margin:4px 0 8px">'+distHtml+'</div>'
+          : '<div style="display:flex;align-items:center;justify-content:space-between;margin:4px 0 8px">'+
+              distHtml+
+              '<button class="poi-btn" data-id="'+p.id+'" data-lat="'+p.lat+'" data-lng="'+p.lng+'">'+(T[idiomaActual]||T.es).comoLlegar+'</button>'+
+            '</div>'
+        )+
         '<p class="poi-desc" id="desc-'+p.id+'">'+pDesc+'</p>'+
         '<button class="poi-leer-mas" id="leer-mas-'+p.id+'">'+(T[idiomaActual]||T.es).leerMas+'</button>'+
         '<div class="poi-stars"><div class="stars" id="stars-'+p.id+'"></div><span class="stars-count" id="scount-'+p.id+'">'+(val.votos>0?media+' &middot; '+val.votos+' votos':'')+'</span></div>'+
@@ -3459,8 +3500,8 @@ function renderCarrusel(categoria) {
               (p.deviceId === DEVICE_ID
                 ? '<button onclick="eliminarAlerta(\''+p.id+'\')" style="width:100%;background:#fff2f2;color:#ef4444;border:1.5px solid #ef4444;border-radius:8px;padding:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">🗑️ Eliminar para todos</button>'
                 : (alertasOcultas[p.id]
-                    ? '<div style="font-size:12px;color:#9ca3af;text-align:center">👁 Oculta en el mapa</div>'
-                    : '<button onclick="ocultarAlerta(\''+p.id+'\')" style="width:100%;background:#f3f4f6;color:#6b7280;border:1px solid #d1d5db;border-radius:8px;padding:7px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif">👁 Ocultar del mapa</button>'
+                    ? '<button data-alerta-toggle onclick="mostrarAlerta(\''+p.id+'\')" style="width:100%;background:#f0fdf4;color:#15803d;border:1px solid #86efac;border-radius:8px;padding:7px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif">👁 Mostrar en el mapa</button>'
+                    : '<button data-alerta-toggle onclick="ocultarAlerta(\''+p.id+'\')" style="width:100%;background:#f3f4f6;color:#6b7280;border:1px solid #d1d5db;border-radius:8px;padding:7px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif">👁 Ocultar del mapa</button>'
                   )
               ) +
             '</div>'
@@ -5666,6 +5707,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v377</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v382</div>
 </body>
 </html>
