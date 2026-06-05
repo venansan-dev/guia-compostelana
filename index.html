@@ -3053,11 +3053,17 @@ function initMapa() {
 
   function _sincRadioBtns() {
     if (!circuloRadio || !userLat) return;
-    // Comprobar si el mapa aún muestra el círculo de radio completo
-    // Si el usuario hizo zoom manual alejándose, desactivar los botones
+    // El radio está "activo" visualmente cuando el zoom del mapa
+    // es similar al que fitBounds establecería para ese círculo.
+    // Si el usuario ha hecho zoom in (más cerca) o zoom out (más lejos),
+    // el botón se desactiva.
     var mapBounds = mapa.getBounds();
     var circleBounds = circuloRadio.getBounds();
-    var radioVisible = mapBounds.contains(circleBounds);
+    // El círculo debe llenar entre el 30% y el 100% de la vista
+    var mapW = mapBounds.getEast() - mapBounds.getWest();
+    var circW = circleBounds.getEast() - circleBounds.getWest();
+    var ratio = circW / mapW;
+    var radioVisible = ratio > 0.3 && ratio <= 1.05;
     document.querySelectorAll('.map-radio-btn').forEach(function(b) {
       var esEsteRadio = parseInt(b.textContent) === radioKm;
       var esActivo = esEsteRadio && radioVisible;
@@ -5786,6 +5792,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v400</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v401</div>
 </body>
 </html>
