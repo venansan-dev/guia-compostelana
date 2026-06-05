@@ -1703,10 +1703,42 @@ function cargarPOIsFirebase() {
       var p = data[key];
       p.id = key;
       p.esUsuario = true;
-      // Solo añadir si no está ya (ni en PUNTOS ni en PUNTOS_USUARIO local)
       if (!PUNTOS.find(function(x){return x.id===p.id;})) {
         PUNTOS.push(p);
         if (typeof mapa !== 'undefined' && mapa) añadirMarcadorUsuario(p);
+      }
+    });
+    if (typeof userLat !== 'undefined' && userLat) {
+      PUNTOS.forEach(function(p){p.distancia=haversine(userLat,userLng,p.lat,p.lng);});
+      PUNTOS.sort(function(a,b){return a.distancia-b.distancia;});
+    }
+    renderCarrusel(categoriaActiva);
+  });
+
+  // Cargar alertas activas en tiempo real (sin moderación, caducan 24h)
+  db.ref('alertas').on('value', function(snap) {
+    var data = snap.val();
+    var ahora = Date.now();
+    // Eliminar alertas caducadas del mapa
+    PUNTOS.filter(function(p){ return p.esAlerta; }).forEach(function(p) {
+      if (p._marker) { mapa.removeLayer(p._marker); }
+    });
+    PUNTOS = PUNTOS.filter(function(p){ return !p.esAlerta; });
+
+    if (!data) { renderCarrusel(categoriaActiva); return; }
+    Object.keys(data).forEach(function(key) {
+      var a = data[key];
+      a.id = key;
+      a.esAlerta = true;
+      a.esUsuario = true;
+      // Verificar si ha caducado
+      if (a.expiraTs && ahora > a.expiraTs) {
+        db.ref('alertas/' + key).remove(); // limpiar Firebase
+        return;
+      }
+      if (!PUNTOS.find(function(x){return x.id===a.id;})) {
+        PUNTOS.push(a);
+        if (typeof mapa !== 'undefined' && mapa && !alertasOcultas[a.id]) añadirMarcadorAlerta(a);
       }
     });
     if (typeof userLat !== 'undefined' && userLat) {
@@ -1768,7 +1800,131 @@ function refrescarUbicacion() {
   }, { enableHighAccuracy:true, timeout:8000 });
 }
 
+// ── SISTEMA DE ALERTAS ──────────────────────────────────────────────────────
+
+function añadirMarcadorAlerta(a) {
+  var tiempoRestante = a.expiraTs ? Math.max(0, Math.round((a.expiraTs - Date.now()) / 3600000)) : 24;
+  var iconAlerta = L.divIcon({
+    className: '',
+    html: '<div style="background:#dc2626;color:#fff;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid #fff;box-shadow:0 2px 8px rgba(220,38,38,0.6);animation:pulseAlerta 1.5s infinite">' +
+          '<span style="font-size:18px">🚨</span></div>',
+    iconSize:[36,36], iconAnchor:[18,18], popupAnchor:[0,-20]
+  });
+  var m = L.marker([a.lat, a.lng], { icon: iconAlerta, zIndexOffset: 500 }).addTo(mapa);
+  a._marker = m;
+  m.on('click', (function(alerta) {
+    return function() {
+      if (window._navBloqPopups) return;
+      mapa.openPopup(L.popup({ className:'poi-popup', maxWidth:260 })
+        .setLatLng([alerta.lat, alerta.lng])
+        .setContent(buildAlertaPopup(alerta)));
+    };
+  })(a));
+}
+
+function buildAlertaPopup(a) {
+  var tiempoRestante = a.expiraTs ? Math.max(0, Math.round((a.expiraTs - Date.now()) / 3600000)) : 24;
+  var yaReporte = alertasReportadas[a.id];
+  var esMia = a.deviceId === DEVICE_ID;
+  var yaOculta = alertasOcultas[a.id];
+  return '<div style="font-family:DM Sans,sans-serif;min-width:210px">' +
+    '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">' +
+    '<span style="font-size:22px">🚨</span>' +
+    '<strong style="font-size:14px;color:#dc2626">' + a.nombre + '</strong></div>' +
+    (a.descripcion ? '<p style="font-size:13px;margin:0 0 6px;color:#374151">' + a.descripcion + '</p>' : '') +
+    '<div style="font-size:11px;color:#9ca3af;margin-bottom:8px">⏱ Caduca en ~' + tiempoRestante + 'h · ' + (a.reportes||1) + ' reporte(s)</div>' +
+    (yaReporte
+      ? '<div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;padding:7px;font-size:12px;color:#dc2626;text-align:center;margin-bottom:6px">✓ Ya has confirmado esta alerta</div>'
+      : '<button onclick="reportarAlerta('' + a.id + '')" style="width:100%;background:#dc2626;color:#fff;border:none;border-radius:8px;padding:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:6px">🚨 Confirmar alerta (+24h)</button>'
+    ) +
+    (esMia
+      ? '<button onclick="eliminarAlerta('' + a.id + '')" style="width:100%;background:#fff2f2;color:#ef4444;border:1.5px solid #ef4444;border-radius:8px;padding:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">🗑️ Eliminar para todos</button>'
+      : (yaOculta
+          ? '<div style="font-size:12px;color:#9ca3af;text-align:center;margin-top:2px">👁 Alerta oculta en el mapa</div>'
+          : '<button onclick="ocultarAlerta('' + a.id + '')" style="width:100%;background:#f3f4f6;color:#6b7280;border:1px solid #d1d5db;border-radius:8px;padding:7px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;margin-top:2px">👁 Ocultar del mapa</button>'
+        )
+    ) +
+    '</div>';
+}
+
+var alertasReportadas = {};
+try { alertasReportadas = JSON.parse(localStorage.getItem('alertasReportadas')||'{}'); } catch(e) {}
+
+// Alertas ocultas localmente (solo afectan al mapa, no a la tarjeta del carrusel)
+var alertasOcultas = {};
+try { alertasOcultas = JSON.parse(localStorage.getItem('alertasOcultas')||'{}'); } catch(e) {}
+
+function eliminarAlerta(id) {
+  if (!confirm('¿Eliminar esta alerta para todos los usuarios? Esta acción no se puede deshacer.')) return;
+  var alerta = PUNTOS.find(function(p){ return p.id === id; });
+  if (alerta && alerta._marker) mapa.removeLayer(alerta._marker);
+  PUNTOS = PUNTOS.filter(function(p){ return p.id !== id; });
+  PUNTOS_USUARIO = PUNTOS_USUARIO.filter(function(p){ return p.id !== id; });
+  try { localStorage.setItem('poi_usuario', JSON.stringify(PUNTOS_USUARIO)); } catch(e) {}
+  db.ref('alertas/' + id).remove();
+  mapa.closePopup();
+  renderCarrusel(categoriaActiva);
+  mostrarToast('🗑️ Alerta eliminada para todos');
+}
+
+function ocultarAlerta(id) {
+  var alerta = PUNTOS.find(function(p){ return p.id === id; });
+  if (alerta && alerta._marker) mapa.removeLayer(alerta._marker);
+  alertasOcultas[id] = true;
+  try { localStorage.setItem('alertasOcultas', JSON.stringify(alertasOcultas)); } catch(e) {}
+  mapa.closePopup();
+  // La tarjeta en el carrusel permanece — solo refrescamos el popup state
+  mostrarToast('👁 Alerta ocultada del mapa');
+}
+
+// Contador diario de reportes — se resetea al cambiar de día
+var _alertasHoy = {};
+try {
+  var _alertasHoyStored = JSON.parse(localStorage.getItem('alertasHoy')||'{}');
+  var _hoyKey = new Date().toISOString().slice(0,10); // 'YYYY-MM-DD'
+  _alertasHoy = (_alertasHoyStored.fecha === _hoyKey) ? _alertasHoyStored : { fecha: _hoyKey, count: 0 };
+} catch(e) { _alertasHoy = { fecha: new Date().toISOString().slice(0,10), count: 0 }; }
+
+var LIMITE_REPORTES_DIA = 30;
+
+function reportarAlerta(id) {
+  if (alertasReportadas[id]) return;
+  // Comprobar límite diario
+  var hoyKey = new Date().toISOString().slice(0,10);
+  if (_alertasHoy.fecha !== hoyKey) { _alertasHoy = { fecha: hoyKey, count: 0 }; } // nuevo día
+  if (_alertasHoy.count >= LIMITE_REPORTES_DIA) {
+    mostrarToast('⚠️ Límite diario de confirmaciones alcanzado (30/día)');
+    return;
+  }
+  var alerta = PUNTOS.find(function(p){ return p.id === id; });
+  if (!alerta) return;
+  var nuevaExpira = Date.now() + 24*60*60*1000;
+  var nuevosReportes = (alerta.reportes || 1) + 1;
+  db.ref('alertas/' + id).update({ expiraTs: nuevaExpira, reportes: nuevosReportes });
+  alerta.expiraTs = nuevaExpira;
+  alerta.reportes = nuevosReportes;
+  // Registrar reporte y actualizar contador diario
+  alertasReportadas[id] = true;
+  _alertasHoy.count++;
+  try {
+    localStorage.setItem('alertasReportadas', JSON.stringify(alertasReportadas));
+    localStorage.setItem('alertasHoy', JSON.stringify(_alertasHoy));
+  } catch(e) {}
+  mapa.closePopup();
+  mostrarToast('🚨 Alerta confirmada · se extiende 24h más');
+}
+
+// CSS animación pulso para alertas
+(function(){
+  var s = document.createElement('style');
+  s.textContent = '@keyframes pulseAlerta{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,0.5)}50%{box-shadow:0 0 0 8px rgba(220,38,38,0)}}';
+  document.head.appendChild(s);
+})();
+
+// ── FIN SISTEMA DE ALERTAS ───────────────────────────────────────────────────
+
 function añadirMarcadorUsuario(p) {
+  if (p.esAlerta) { añadirMarcadorAlerta(p); return; }
   var iconPersona = L.divIcon({
     className: '',
     html: '<div style="background:#f59e0b;color:#fff;width:34px;height:34px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3)"><span style="transform:rotate(45deg);font-size:15px">👤</span></div>',
@@ -1816,44 +1972,54 @@ function abrirFormPOI() {
   document.getElementById('poi-coords-display').textContent = '';
   document.getElementById('poi-form-msg').textContent = '';
   // Reset botones de categoría
-  document.querySelectorAll('#modal-add-poi [data-cat]').forEach(function(b){ resetPoiCatBtn(b); });
-  var sub = document.getElementById('poi-subcats');
-  if (sub) sub.style.display = 'none';
-  var chev = document.getElementById('subcats-chevron');
-  if (chev) { chev.style.transform = ''; }
+  document.querySelectorAll('#modal-add-poi [data-cat]').forEach(function(b){ b.style.outline=''; b.style.boxShadow=''; });
+  var lbl = document.getElementById('poi-cat-seleccionada');
+  if (lbl) lbl.style.display = 'none';
+  cerrarSubcatDrawer();
   var m = document.getElementById('modal-add-poi');
   m.style.display = 'flex';
 }
 
 function selPoiCat(btn, cat) {
-  // Reset todos
-  document.querySelectorAll('#modal-add-poi [data-cat]').forEach(function(b){ resetPoiCatBtn(b); });
-  // Marcar seleccionado
+  // Reset los tres chips principales
+  document.querySelectorAll('#modal-add-poi [data-cat]').forEach(function(b){
+    b.style.outline = ''; b.style.boxShadow = '';
+  });
   btn.style.outline = '3px solid #1D9E75';
   btn.style.boxShadow = '0 0 0 3px rgba(29,158,117,0.18)';
-  // Guardar valor
   document.getElementById('poi-input-cat').value = cat;
   document.getElementById('poi-form-msg').textContent = '';
-  // Si es subcat, mostrar confirmación en el botón padre
+  // Ocultar etiqueta subcat
+  var lbl = document.getElementById('poi-cat-seleccionada');
+  if (lbl) lbl.style.display = 'none';
+}
+
+function abrirSubcatDrawer() {
+  document.getElementById('subcats-drawer-bg').style.display = 'block';
+  document.getElementById('subcats-drawer').style.display = 'block';
+}
+
+function cerrarSubcatDrawer() {
+  document.getElementById('subcats-drawer-bg').style.display = 'none';
+  document.getElementById('subcats-drawer').style.display = 'none';
+}
+
+function selSubcat(cat, label) {
+  // Marcar chip "Recomendar" como seleccionado
+  document.querySelectorAll('#modal-add-poi [data-cat]').forEach(function(b){
+    b.style.outline = ''; b.style.boxShadow = '';
+  });
   var mainBtn = document.getElementById('btn-recomendar-poi');
-  var subCats = ['naturaleza','monumento','edificación religiosa','mirador','albergue','localización histórica','vestigio arqueológico'];
-  if (subCats.indexOf(cat) >= 0 && mainBtn) {
+  if (mainBtn) {
     mainBtn.style.outline = '3px solid #1D9E75';
     mainBtn.style.boxShadow = '0 0 0 3px rgba(29,158,117,0.18)';
   }
-}
-
-function resetPoiCatBtn(b) {
-  b.style.outline = '';
-  b.style.boxShadow = '';
-}
-
-function toggleSubcats() {
-  var sub = document.getElementById('poi-subcats');
-  var chev = document.getElementById('subcats-chevron');
-  var abierto = sub.style.display === 'flex';
-  sub.style.display = abierto ? 'none' : 'flex';
-  if (chev) chev.style.transform = abierto ? '' : 'rotate(180deg)';
+  document.getElementById('poi-input-cat').value = cat;
+  document.getElementById('poi-form-msg').textContent = '';
+  // Mostrar etiqueta de lo seleccionado
+  var lbl = document.getElementById('poi-cat-seleccionada');
+  if (lbl) { lbl.textContent = '✓ ' + label; lbl.style.display = 'block'; }
+  cerrarSubcatDrawer();
 }
 
 function cerrarFormPOI() {
@@ -2018,6 +2184,8 @@ function guardarPOIUsuario() {
   if (!poiFormLat || !poiFormLng) { msg.innerHTML = '<span style="color:#dc2626">⚠️ Indica la ubicación</span>'; return; }
 
   var id = USER_POI_PREFIX + Date.now();
+  var esAlerta = (cat === 'alerta');
+  var expiraTs = esAlerta ? (Date.now() + 24*60*60*1000) : null; // 24h en ms
   var poi = {
     id: id,
     nombre: nombre,
@@ -2025,18 +2193,22 @@ function guardarPOIUsuario() {
     categoria: cat,
     lat: poiFormLat,
     lng: poiFormLng,
-    emoji: '👤',
-    color: 'ambar',
+    emoji: esAlerta ? '🚨' : '👤',
+    color: esAlerta ? 'coral' : 'ambar',
     esUsuario: true,
-    estado: 'pendiente',
+    esAlerta: esAlerta,
+    estado: esAlerta ? 'activa' : 'pendiente',
     ts: Date.now(),
+    expiraTs: expiraTs,
+    reportes: esAlerta ? 1 : 0,
     deviceId: DEVICE_ID
   };
 
   var btn = document.getElementById('btn-poi-guardar');
   btn.disabled = true;
 
-  // 1. Guardar en localStorage y mostrar INMEDIATAMENTE — no esperamos a Firebase
+  // Alertas: visibles inmediatamente para todos via Firebase en tiempo real
+  // Otros: solo local hasta moderación
   PUNTOS_USUARIO.push(poi);
   var chipU=document.getElementById('chip-usuario');if(chipU)chipU.style.display='inline-flex';
   try { localStorage.setItem('poi_usuario', JSON.stringify(PUNTOS_USUARIO)); } catch(e) {}
@@ -2049,20 +2221,25 @@ function guardarPOIUsuario() {
     PUNTOS.forEach(function(p){p.distancia=haversine(userLat,userLng,p.lat,p.lng);});
     PUNTOS.sort(function(a,b){return a.distancia-b.distancia;});
   }
-  // Cerrar modal ANTES de renderizar para evitar conflictos de DOM
   cerrarFormPOI();
   btn.disabled = false;
-
-  // Actualizar carrusel y mapa después de cerrar
   renderCarrusel(categoriaActiva);
 
-  // 2. Intentar enviar a Firebase en segundo plano (para moderación)
+  // Firebase: alertas van a rama 'alertas' (pública, tiempo real); resto a poi_usuarios (moderación)
   try {
-    db.ref('poi_usuarios/' + id).set(poi).then(function() {
-      console.log('POI enviado a Firebase para revisión:', id);
-    }, function(err) {
-      console.warn('Firebase rechazó el POI (guardado solo local):', err.message);
-    });
+    if (esAlerta) {
+      db.ref('alertas/' + id).set(poi).then(function() {
+        console.log('Alerta publicada:', id);
+      }, function(err) {
+        console.warn('Firebase alerta error:', err.message);
+      });
+    } else {
+      db.ref('poi_usuarios/' + id).set(poi).then(function() {
+        console.log('POI enviado a revisión:', id);
+      }, function(err) {
+        console.warn('Firebase rechazó el POI:', err.message);
+      });
+    }
   } catch(e) {
     console.warn('Error Firebase:', e);
   }
@@ -2328,7 +2505,7 @@ document.addEventListener('click', function(e) {
 // ── MODERACIÓN DE POIs DE USUARIO ───────────────────────────────────────────
 
 function cambiarTabAdmin(tab) {
-  var tabs = ['opiniones','pois'];
+  var tabs = ['opiniones','pois','alertas'];
   tabs.forEach(function(t) {
     var btn = document.getElementById('tab-'+t);
     var panel = document.getElementById('panel-tab-'+t);
@@ -2345,6 +2522,75 @@ function cambiarTabAdmin(tab) {
     }
   });
   if (tab === 'pois') cargarPOIsPendientes();
+  if (tab === 'alertas') cargarAlertasAdmin();
+}
+
+function cargarAlertasAdmin() {
+  var lista = document.getElementById('admin-alertas-lista');
+  lista.innerHTML = '<p style="color:#6b7280;font-size:13px">Cargando...</p>';
+  db.ref('alertas').once('value', function(snap) {
+    var data = snap.val();
+    var badge = document.getElementById('badge-alertas');
+    if (!data || Object.keys(data).length === 0) {
+      lista.innerHTML = '<p style="color:#6b7280;font-size:13px;text-align:center">No hay alertas registradas ✓</p>';
+      if (badge) badge.style.display = 'none';
+      return;
+    }
+    var keys = Object.keys(data);
+    if (badge) { badge.textContent = keys.length; badge.style.display = 'inline'; }
+    lista.innerHTML = '';
+    var ahora = Date.now();
+    // Ordenar: activas primero, luego caducadas
+    keys.sort(function(a,b){
+      var ea = data[a].expiraTs || 0;
+      var eb = data[b].expiraTs || 0;
+      return eb - ea;
+    });
+    keys.forEach(function(key) {
+      var a = data[key];
+      var caducada = a.expiraTs && ahora > a.expiraTs;
+      var expiraStr = a.expiraTs
+        ? (caducada ? 'Caducada' : 'Caduca en ~' + Math.round((a.expiraTs - ahora)/3600000) + 'h')
+        : 'Sin caducidad';
+      var fechaStr = a.ts ? new Date(a.ts).toLocaleString('es-ES',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) : '';
+      var item = document.createElement('div');
+      item.style.cssText = 'background:' + (caducada ? '#f9fafb' : '#fff5f5') + ';border:1px solid ' + (caducada ? '#e5e7eb' : '#fca5a5') + ';border-radius:10px;padding:12px;margin-bottom:10px;opacity:' + (caducada ? '0.65' : '1');
+      item.innerHTML =
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px">' +
+          '<strong style="font-size:14px;color:#dc2626">🚨 ' + a.nombre + '</strong>' +
+          '<span style="font-size:11px;color:#9ca3af;flex-shrink:0">' + fechaStr + '</span>' +
+        '</div>' +
+        (a.descripcion ? '<div style="font-size:13px;color:#374151;margin-bottom:6px;line-height:1.4">' + a.descripcion + '</div>' : '') +
+        '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">' +
+          '<span style="font-size:11px;background:#fef2f2;color:#dc2626;border-radius:8px;padding:2px 8px">⏱ ' + expiraStr + '</span>' +
+          '<span style="font-size:11px;background:#f3f4f6;color:#374151;border-radius:8px;padding:2px 8px">👥 ' + (a.reportes||1) + ' reporte(s)</span>' +
+          '<span style="font-size:11px;background:#f3f4f6;color:#9ca3af;border-radius:8px;padding:2px 8px">📌 ' + (a.lat||0).toFixed(4) + ', ' + (a.lng||0).toFixed(4) + '</span>' +
+        '</div>' +
+        '<div style="display:flex;gap:8px">' +
+          '<button class="alerta-mod-extender" data-key="' + key + '" style="flex:1;background:#f59e0b;color:#fff;border:none;border-radius:8px;padding:8px;font-size:12px;font-weight:600;cursor:pointer' + (caducada?';opacity:0.4;pointer-events:none':'') + '">+24h</button>' +
+          '<button class="alerta-mod-eliminar" data-key="' + key + '" style="flex:1;background:#ef4444;color:#fff;border:none;border-radius:8px;padding:8px;font-size:12px;font-weight:600;cursor:pointer">🗑 Eliminar</button>' +
+        '</div>';
+      lista.appendChild(item);
+    });
+    lista.onclick = function(e) {
+      var btn = e.target.closest('.alerta-mod-extender,.alerta-mod-eliminar');
+      if (!btn) return;
+      var k = btn.getAttribute('data-key');
+      var row = btn.closest('div[style]');
+      if (btn.classList.contains('alerta-mod-extender')) {
+        db.ref('alertas/' + k).update({ expiraTs: Date.now() + 24*60*60*1000 }).then(function(){
+          cargarAlertasAdmin();
+        });
+      } else {
+        db.ref('alertas/' + k).remove().then(function(){
+          if (row && row.parentNode) row.parentNode.removeChild(row);
+          var n = lista.querySelectorAll('div[style]').length;
+          if (!n) lista.innerHTML = '<p style="color:#6b7280;font-size:13px;text-align:center">No hay alertas registradas ✓</p>';
+          if (badge) { badge.textContent = parseInt(badge.textContent||1)-1; if(parseInt(badge.textContent)<=0) badge.style.display='none'; }
+        });
+      }
+    };
+  });
 }
 
 function cargarPOIsPendientes() {
@@ -2450,6 +2696,13 @@ abrirAdmin = function() {
   if (typeof db !== 'undefined') {
     db.ref('poi_usuarios').orderByChild('estado').equalTo('pendiente').once('value', function(snap) {
       var badge = document.getElementById('badge-pois-pendientes');
+      if (!badge) return;
+      var n = snap.val() ? Object.keys(snap.val()).length : 0;
+      if (n > 0) { badge.textContent = n; badge.style.display = 'inline'; }
+      else { badge.style.display = 'none'; }
+    });
+    db.ref('alertas').once('value', function(snap) {
+      var badge = document.getElementById('badge-alertas');
       if (!badge) return;
       var n = snap.val() ? Object.keys(snap.val()).length : 0;
       if (n > 0) { badge.textContent = n; badge.style.display = 'inline'; }
@@ -3143,13 +3396,31 @@ function renderCarrusel(categoria) {
           '<a class="poi-share-btn" href="https://twitter.com/intent/tweet?text='+texto+'&url='+pageUrl+'" target="_blank">&#128038;</a>'+
           '<a class="poi-share-btn" href="https://t.me/share/url?url='+pageUrl+'&text='+texto+'" target="_blank">&#9992;</a>'+
         '</div>'+
-        '<div class="poi-opiniones">'+
-          '<div class="poi-opiniones-lista" id="ops-'+p.id+'">'+opsList+'</div>'+
-          '<div class="opinion-form">'+
-            '<input class="opinion-input" id="op-txt-'+p.id+'" type="text" placeholder="'+(T[idiomaActual]||T.es).opinionPlaceholder+'"/>'+
-            '<button class="opinion-send" data-pid="'+p.id+'">'+(T[idiomaActual]||T.es).enviar+'</button>'+
-          '</div>'+
-        '</div>'+
+        (p.esAlerta
+          ? '<div style="margin:8px 0 4px">' +
+              '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">' +
+                '<span style="font-size:11px;color:#9ca3af">⏱ Caduca en ~'+Math.max(0,Math.round(((p.expiraTs||Date.now())-Date.now())/3600000))+'h · '+(p.reportes||1)+' reporte(s)</span>' +
+              '</div>' +
+              (alertasReportadas[p.id]
+                ? '<div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;padding:7px;font-size:12px;color:#dc2626;text-align:center;margin-bottom:6px">✓ Ya confirmaste esta alerta</div>'
+                : '<button onclick="reportarAlerta(\''+p.id+'\')" style="width:100%;background:#dc2626;color:#fff;border:none;border-radius:8px;padding:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:6px">🚨 Confirmar alerta (+24h)</button>'
+              ) +
+              (p.deviceId === DEVICE_ID
+                ? '<button onclick="eliminarAlerta(\''+p.id+'\')" style="width:100%;background:#fff2f2;color:#ef4444;border:1.5px solid #ef4444;border-radius:8px;padding:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">🗑️ Eliminar para todos</button>'
+                : (alertasOcultas[p.id]
+                    ? '<div style="font-size:12px;color:#9ca3af;text-align:center">👁 Oculta en el mapa</div>'
+                    : '<button onclick="ocultarAlerta(\''+p.id+'\')" style="width:100%;background:#f3f4f6;color:#6b7280;border:1px solid #d1d5db;border-radius:8px;padding:7px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif">👁 Ocultar del mapa</button>'
+                  )
+              ) +
+            '</div>'
+          : '<div class="poi-opiniones">'+
+              '<div class="poi-opiniones-lista" id="ops-'+p.id+'">'+opsList+'</div>'+
+              '<div class="opinion-form">'+
+                '<input class="opinion-input" id="op-txt-'+p.id+'" type="text" placeholder="'+(T[idiomaActual]||T.es).opinionPlaceholder+'"/>'+
+                '<button class="opinion-send" data-pid="'+p.id+'">'+(T[idiomaActual]||T.es).enviar+'</button>'+
+              '</div>'+
+            '</div>'
+        )+
 
       '</div>';
     carousel.appendChild(card);
@@ -5160,6 +5431,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div style='display:flex;gap:6px;margin-bottom:1rem;border-bottom:2px solid #f0f0f0;padding-bottom:0'>
       <button id='tab-opiniones' onclick='cambiarTabAdmin("opiniones")' style='flex:1;background:none;border:none;border-bottom:2px solid #1D9E75;margin-bottom:-2px;padding:8px 4px;font-size:13px;font-weight:600;color:#1D9E75;cursor:pointer;font-family:DM Sans,sans-serif'>💬 Opiniones</button>
       <button id='tab-pois' onclick='cambiarTabAdmin("pois")' style='flex:1;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;padding:8px 4px;font-size:13px;font-weight:500;color:#6b7280;cursor:pointer;font-family:DM Sans,sans-serif'>📍 Puntos <span id='badge-pois-pendientes' style='background:#ef4444;color:#fff;border-radius:10px;padding:1px 6px;font-size:11px;margin-left:4px;display:none'>0</span></button>
+      <button id='tab-alertas' onclick='cambiarTabAdmin("alertas")' style='flex:1;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;padding:8px 4px;font-size:13px;font-weight:500;color:#6b7280;cursor:pointer;font-family:DM Sans,sans-serif'>🚨 Alertas <span id='badge-alertas' style='background:#dc2626;color:#fff;border-radius:10px;padding:1px 6px;font-size:11px;margin-left:4px;display:none'>0</span></button>
     </div>
     <!-- Panel opiniones -->
     <div id='panel-tab-opiniones'>
@@ -5170,6 +5442,11 @@ document.addEventListener('DOMContentLoaded', function() {
     <div id='panel-tab-pois' style='display:none'>
       <button onclick='cargarPOIsPendientes()' style='font-size:12px;color:#1D9E75;background:none;border:none;cursor:pointer;margin-bottom:1rem;padding:0'>↺ Actualizar</button>
       <div id='admin-pois-lista'></div>
+    </div>
+    <!-- Panel Alertas -->
+    <div id='panel-tab-alertas' style='display:none'>
+      <button onclick='cargarAlertasAdmin()' style='font-size:12px;color:#1D9E75;background:none;border:none;cursor:pointer;margin-bottom:1rem;padding:0'>↺ Actualizar</button>
+      <div id='admin-alertas-lista'></div>
     </div>
   </div>
 </div>
@@ -5195,88 +5472,89 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- MODAL AÑADIR POI DE USUARIO -->
 <div id='modal-add-poi' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;align-items:flex-end;justify-content:center;overflow-y:auto'>
-  <div id='modal-add-poi-panel' style='background:#fff;border-radius:20px 20px 0 0;padding:1.5rem 1.5rem 2.5rem;max-width:480px;width:100%;margin:0 auto;position:relative;box-sizing:border-box'>
-    <div style='width:40px;height:4px;background:#e5e7eb;border-radius:2px;margin:0 auto 1.2rem'></div>
-    <h3 id='modal-poi-title' style='font-family:Playfair Display,serif;font-size:19px;margin:0 0 4px'>📍 Añadir un punto</h3>
-    <p id='modal-poi-sub' style='font-size:12px;color:#6b7280;margin:0 0 1.2rem'>Tu punto aparecerá de inmediato en tu dispositivo y será revisado para mostrarse a todos</p>
+  <div id='modal-add-poi-panel' style='background:#fff;border-radius:20px 20px 0 0;padding:1.5rem 1.5rem 2rem;max-width:480px;width:100%;margin:0 auto;position:relative;box-sizing:border-box'>
+    <div style='width:40px;height:4px;background:#e5e7eb;border-radius:2px;margin:0 auto 1rem'></div>
+    <h3 id='modal-poi-title' style='font-family:Playfair Display,serif;font-size:19px;margin:0 0 3px'>📍 Añadir un punto</h3>
+    <p id='modal-poi-sub' style='font-size:12px;color:#6b7280;margin:0 0 1rem'>Tu punto aparecerá de inmediato y será revisado para mostrarse a todos</p>
     <div style='display:flex;flex-direction:column;gap:10px'>
       <div>
         <label style='font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:4px' id='lbl-poi-nombre'>Nombre del lugar *</label>
-        <input id='poi-input-nombre' type='text' maxlength='80' placeholder='Ej: Fuente del Peregrino' style='width:100%;border:1px solid #d1d5db;border-radius:8px;padding:10px 12px;font-size:14px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none'/>
+        <input id='poi-input-nombre' type='text' maxlength='80' placeholder='Ej: Fuente del Peregrino' style='width:100%;border:1px solid #d1d5db;border-radius:8px;padding:9px 12px;font-size:14px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none'/>
       </div>
       <div>
         <label style='font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:4px' id='lbl-poi-desc'>Descripción</label>
-        <textarea id='poi-input-desc' maxlength='300' rows='3' placeholder='Cuéntanos algo sobre este lugar...' style='width:100%;border:1px solid #d1d5db;border-radius:8px;padding:10px 12px;font-size:14px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none;resize:none'></textarea>
+        <textarea id='poi-input-desc' maxlength='300' rows='2' placeholder='Cuéntanos algo sobre este lugar...' style='width:100%;border:1px solid #d1d5db;border-radius:8px;padding:9px 12px;font-size:14px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none;resize:none'></textarea>
       </div>
       <div>
-        <label style='font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:8px' id='lbl-poi-cat'>Categoría *</label>
-        <!-- Campo oculto que guarda el valor final -->
+        <label style='font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:6px' id='lbl-poi-cat'>Categoría *</label>
         <input type='hidden' id='poi-input-cat' value=''/>
-        <!-- Tres botones principales -->
-        <div style='display:flex;flex-direction:column;gap:8px'>
+        <!-- Tres chips compactos en fila -->
+        <div style='display:flex;gap:6px'>
           <button type='button' onclick='selPoiCat(this,"alerta")' data-cat='alerta'
-            style='display:flex;align-items:center;gap:10px;width:100%;background:#fff3f3;border:2px solid #fca5a5;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:#dc2626;cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s;text-align:left'>
-            <span style='font-size:20px'>🚨</span>
-            <div><div>Alerta</div><div style='font-size:11px;font-weight:400;color:#9ca3af'>Peligro, corte, incidencia en el camino</div></div>
+            style='flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:#fff3f3;border:2px solid #fca5a5;border-radius:10px;padding:8px 4px;font-size:11px;font-weight:600;color:#dc2626;cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s;line-height:1.2'>
+            <span style='font-size:18px'>🚨</span>Alerta
           </button>
           <button type='button' onclick='selPoiCat(this,"punto de control")' data-cat='punto de control'
-            style='display:flex;align-items:center;gap:10px;width:100%;background:#eff6ff;border:2px solid #93c5fd;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:#1d4ed8;cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s;text-align:left'>
-            <span style='font-size:20px'>📌</span>
-            <div><div>Punto de control</div><div style='font-size:11px;font-weight:400;color:#9ca3af'>Sello, referencia, waypoint</div></div>
+            style='flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:#eff6ff;border:2px solid #93c5fd;border-radius:10px;padding:8px 4px;font-size:11px;font-weight:600;color:#1d4ed8;cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s;line-height:1.2'>
+            <span style='font-size:18px'>📌</span>Control
           </button>
-          <button type='button' onclick='toggleSubcats()' id='btn-recomendar-poi'
-            style='display:flex;align-items:center;gap:10px;width:100%;background:#f0fdf4;border:2px solid #86efac;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:#15803d;cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s;text-align:left'>
-            <span style='font-size:20px'>⭐</span>
-            <div style='flex:1'><div>Recomendar punto</div><div style='font-size:11px;font-weight:400;color:#9ca3af'>Lugar de interés, naturaleza, patrimonio…</div></div>
-            <span id='subcats-chevron' style='font-size:14px;transition:transform 0.2s'>▾</span>
+          <button type='button' onclick='abrirSubcatDrawer()' id='btn-recomendar-poi' data-cat=''
+            style='flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:#f0fdf4;border:2px solid #86efac;border-radius:10px;padding:8px 4px;font-size:11px;font-weight:600;color:#15803d;cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s;line-height:1.2'>
+            <span style='font-size:18px'>⭐</span><span id='btn-recomendar-label'>Recomendar</span>
           </button>
-          <!-- Submenú categorías -->
-          <div id='poi-subcats' style='display:none;flex-direction:column;gap:6px;padding:4px 0 0 12px'>
-            <button type='button' onclick='selPoiCat(this,"naturaleza")' data-cat='naturaleza'
-              style='display:flex;align-items:center;gap:8px;width:100%;background:#fff;border:1px solid #d1d5db;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s;text-align:left'>
-              <span>🌿</span> Naturaleza
-            </button>
-            <button type='button' onclick='selPoiCat(this,"monumento")' data-cat='monumento'
-              style='display:flex;align-items:center;gap:8px;width:100%;background:#fff;border:1px solid #d1d5db;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s;text-align:left'>
-              <span>🏛️</span> Monumento
-            </button>
-            <button type='button' onclick='selPoiCat(this,"edificación religiosa")' data-cat='edificación religiosa'
-              style='display:flex;align-items:center;gap:8px;width:100%;background:#fff;border:1px solid #d1d5db;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s;text-align:left'>
-              <span>⛪</span> Edificación religiosa
-            </button>
-            <button type='button' onclick='selPoiCat(this,"mirador")' data-cat='mirador'
-              style='display:flex;align-items:center;gap:8px;width:100%;background:#fff;border:1px solid #d1d5db;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s;text-align:left'>
-              <span>🔭</span> Mirador
-            </button>
-            <button type='button' onclick='selPoiCat(this,"albergue")' data-cat='albergue'
-              style='display:flex;align-items:center;gap:8px;width:100%;background:#fff;border:1px solid #d1d5db;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s;text-align:left'>
-              <span>🏠</span> Albergue
-            </button>
-            <button type='button' onclick='selPoiCat(this,"localización histórica")' data-cat='localización histórica'
-              style='display:flex;align-items:center;gap:8px;width:100%;background:#fff;border:1px solid #d1d5db;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s;text-align:left'>
-              <span>📜</span> Localización histórica
-            </button>
-            <button type='button' onclick='selPoiCat(this,"vestigio arqueológico")' data-cat='vestigio arqueológico'
-              style='display:flex;align-items:center;gap:8px;width:100%;background:#fff;border:1px solid #d1d5db;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s;text-align:left'>
-              <span>🔍</span> Vestigio arqueológico
-            </button>
-          </div>
         </div>
+        <!-- Etiqueta categoría seleccionada -->
+        <div id='poi-cat-seleccionada' style='display:none;margin-top:6px;font-size:12px;color:#15803d;font-weight:500'></div>
       </div>
       <div>
         <label style='font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:6px' id='lbl-poi-ubic'>Ubicación *</label>
-        <div style='display:flex;gap:8px;flex-wrap:wrap'>
-          <button onclick='usarMiUbicacion()' id='btn-mi-ubic' style='flex:1;min-width:140px;background:var(--verde-claro);color:var(--verde-oscuro);border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:9px 12px;font-size:13px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>📍 <span id='btn-mi-ubic-txt'>Usar mi ubicación</span></button>
-          <button onclick='activarMarcarEnMapa()' id='btn-marcar-mapa' style='flex:1;min-width:140px;background:#f3f4f6;color:#374151;border:1px solid #d1d5db;border-radius:8px;padding:9px 12px;font-size:13px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🗺️ <span id='btn-marcar-mapa-txt'>Marcar en el mapa</span></button>
+        <div style='display:flex;gap:8px'>
+          <button onclick='usarMiUbicacion()' id='btn-mi-ubic' style='flex:1;background:var(--verde-claro);color:var(--verde-oscuro);border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:8px 10px;font-size:13px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>📍 <span id='btn-mi-ubic-txt'>Mi ubicación</span></button>
+          <button onclick='activarMarcarEnMapa()' id='btn-marcar-mapa' style='flex:1;background:#f3f4f6;color:#374151;border:1px solid #d1d5db;border-radius:8px;padding:8px 10px;font-size:13px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🗺️ <span id='btn-marcar-mapa-txt'>En el mapa</span></button>
         </div>
-        <div id='poi-coords-display' style='margin-top:6px;font-size:12px;color:#6b7280;min-height:18px'></div>
+        <div id='poi-coords-display' style='margin-top:5px;font-size:12px;color:#6b7280;min-height:16px'></div>
       </div>
     </div>
-    <div style='display:flex;gap:8px;margin-top:1.2rem'>
-      <button onclick='cerrarFormPOI()' style='flex:1;background:#f3f4f6;color:#374151;border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif' id='btn-poi-cancelar'>Cancelar</button>
-      <button onclick='guardarPOIUsuario()' id='btn-poi-guardar' style='flex:2;background:var(--verde);color:#fff;border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>✅ <span id='btn-poi-guardar-txt'>Guardar punto</span></button>
+    <div style='display:flex;gap:8px;margin-top:1rem'>
+      <button onclick='cerrarFormPOI()' style='flex:1;background:#f3f4f6;color:#374151;border:none;border-radius:12px;padding:11px;font-size:14px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif' id='btn-poi-cancelar'>Cancelar</button>
+      <button onclick='guardarPOIUsuario()' id='btn-poi-guardar' style='flex:2;background:var(--verde);color:#fff;border:none;border-radius:12px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>✅ <span id='btn-poi-guardar-txt'>Guardar punto</span></button>
     </div>
-    <div id='poi-form-msg' style='margin-top:10px;font-size:13px;text-align:center;min-height:20px'></div>
+    <div id='poi-form-msg' style='margin-top:8px;font-size:13px;text-align:center;min-height:18px'></div>
+  </div>
+</div>
+
+<!-- DRAWER SUBCATEGORÍAS (desliza desde abajo sobre el modal) -->
+<div id='subcats-drawer-bg' onclick='cerrarSubcatDrawer()' style='display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.35)'></div>
+<div id='subcats-drawer' style='display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-radius:20px 20px 0 0;z-index:10001;padding:1.2rem 1.2rem 2rem;box-sizing:border-box;transition:transform 0.25s'>
+  <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem'>
+    <div>
+      <div style='font-size:14px;font-weight:700;color:#15803d'>⭐ Recomendar punto</div>
+      <div style='font-size:11px;color:#9ca3af;margin-top:1px'>Elige el tipo de lugar</div>
+    </div>
+    <button onclick='cerrarSubcatDrawer()' style='background:#f3f4f6;border:none;border-radius:50%;width:30px;height:30px;font-size:16px;cursor:pointer;color:#6b7280;display:flex;align-items:center;justify-content:center;flex-shrink:0'>✕</button>
+  </div>
+  <div style='display:grid;grid-template-columns:1fr 1fr;gap:8px'>
+    <button type='button' onclick='selSubcat("naturaleza","🌿 Naturaleza")' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
+      <span style='font-size:18px'>🌿</span> Naturaleza
+    </button>
+    <button type='button' onclick='selSubcat("monumento","🏛️ Monumento")' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
+      <span style='font-size:18px'>🏛️</span> Monumento
+    </button>
+    <button type='button' onclick='selSubcat("edificación religiosa","⛪ Religiosa")' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
+      <span style='font-size:18px'>⛪</span> Religiosa
+    </button>
+    <button type='button' onclick='selSubcat("mirador","🔭 Mirador")' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
+      <span style='font-size:18px'>🔭</span> Mirador
+    </button>
+    <button type='button' onclick='selSubcat("albergue","🏠 Albergue")' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
+      <span style='font-size:18px'>🏠</span> Albergue
+    </button>
+    <button type='button' onclick='selSubcat("localización histórica","📜 Histórica")' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
+      <span style='font-size:18px'>📜</span> Histórica
+    </button>
+    <button type='button' onclick='selSubcat("vestigio arqueológico","🔍 Arqueológico")' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
+      <span style='font-size:18px'>🔍</span> Arqueológico
+    </button>
   </div>
 </div>
 
@@ -5337,6 +5615,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v369</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v374</div>
 </body>
 </html>
