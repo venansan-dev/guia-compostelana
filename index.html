@@ -156,10 +156,7 @@
             <span class='donate-btn-icon'>📱</span>
             <span class='donate-btn-info'><span class='donate-btn-label'>Bizum</span><span class='donate-btn-detail' id='bizum-detail'>Pago instantáneo</span></span>
           </button>
-          <a class='donate-btn' href='https://paypal.me/12099Instr' target='_blank'>
-            <span class='donate-btn-icon'>💳</span>
-            <span class='donate-btn-info'><span class='donate-btn-label'>PayPal</span><span class='donate-btn-detail'>paypal.me/12099Instr</span></span>
-          </a>
+
           <button class='donate-btn' onclick='abrirCripto()'>
             <span class='donate-btn-icon'>&#8383;</span>
             <span class='donate-btn-info'><span class='donate-btn-label'>Criptomonedas</span><span class='donate-btn-detail'>BTC &#183; ETH &#183; USDT</span></span>
@@ -277,7 +274,7 @@
     <div style='width:80px;height:3px;background:rgba(255,220,100,0.8);border-radius:2px;margin:0 auto 12px;animation:donGlow 2s ease-in-out infinite'></div>
     <div style='display:flex;gap:8px;flex-wrap:wrap;justify-content:center'>
       <button onclick='abrirBizum()' style='display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.2);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:8px 16px;cursor:pointer;color:#fff;font-size:13px;font-weight:600;font-family:DM Sans,sans-serif;transition:background 0.2s'>📱 Bizum</button>
-      <a href='https://paypal.me/12099Instr' target='_blank' style='display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.2);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:8px 16px;color:#fff;font-size:13px;font-weight:600;font-family:DM Sans,sans-serif;text-decoration:none'>💳 PayPal</a>
+
       <button onclick='abrirCripto()' style='display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.2);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:8px 16px;cursor:pointer;color:#fff;font-size:13px;font-weight:600;font-family:DM Sans,sans-serif;transition:background 0.2s'>&#8383; Cripto</button>
       <a href='https://ko-fi.com/guiacompostelana' target='_blank' style='display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.2);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:8px 16px;color:#fff;font-size:13px;font-weight:600;font-family:DM Sans,sans-serif;text-decoration:none'>&#9749; Ko-fi</a>
     </div>
@@ -295,16 +292,16 @@
   <div class='categories'>
     <div class='cat-chip active' onclick='filtrarCategoria(this,&quot;todos&quot;)' id='chip-todos'><span class='chip-icon'>🗺️</span><span id='chip-todos-txt'>Todos</span></div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;alerta&quot;)' id='chip-alertas'><span class='chip-icon'>🚨</span>Alertas</div>
+    <div class='cat-chip cat-chip-hidden' onclick='filtrarCategoria(this,&quot;usuario&quot;)' id='chip-usuario'><span class='chip-icon'>👤</span><span id='chip-usuario-txt'>Mis puntos</span></div>
+    <div class='cat-chip' onclick='filtrarCategoria(this,&quot;etapa&quot;)' id='chip-etapas'><span class='chip-icon'>🥾</span><span id='chip-etapas-txt'>Etapas</span></div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;naturaleza&quot;)' id='chip-naturaleza'><span class='chip-icon'>🌿</span>Naturaleza</div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;monumento&quot;)' id='chip-monumentos'><span class='chip-icon'>🏛️</span>Monumentos</div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;edificación religiosa&quot;)' id='chip-religiosa'><span class='chip-icon'>⛪</span>Religiosa</div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;localización histórica&quot;)' id='chip-historica'><span class='chip-icon'>📜</span>Histórica</div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;vestigio arqueológico&quot;)' id='chip-arqueologico'><span class='chip-icon'>🔍</span>Arqueológico</div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;albergue&quot;)' id='chip-albergues'><span class='chip-icon'>🏠</span>Albergues</div>
-    <div class='cat-chip' onclick='filtrarCategoria(this,&quot;etapa&quot;)' id='chip-etapas'><span class='chip-icon'>🥾</span><span id='chip-etapas-txt'>Etapas</span></div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;mirador&quot;)' id='chip-miradores'><span class='chip-icon'>🔭</span>Miradores</div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;fiesta&quot;)' id='chip-fiestas'><span class='chip-icon'>🎉</span>Fiestas</div>
-    <div class='cat-chip cat-chip-hidden' onclick='filtrarCategoria(this,&quot;usuario&quot;)' id='chip-usuario'><span class='chip-icon'>👤</span><span id='chip-usuario-txt'>Mis puntos</span></div>
   </div>
   <!-- GENERADOR DE RUTA encima del carrusel -->
   <div style='margin-bottom:1.25rem;background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);padding:1rem 1.25rem;box-shadow:0 2px 12px rgba(0,0,0,0.06)'>
@@ -381,7 +378,7 @@
     <p id='don-sub' style='font-size:14px;color:rgba(255,255,255,0.85);margin-bottom:2rem;line-height:1.6;max-width:460px;margin-left:auto;margin-right:auto'>Esta guía es gratuita y sin publicidad. Con tu donación ayudas a mantenerla viva y a seguir descubriendo el patrimonio compostelano de Vigo.</p>
     <div style='display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left'>
       <button onclick='abrirBizum()' style='display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.18);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.35);border-radius:14px;padding:14px 16px;cursor:pointer;color:#fff;font-size:14px;font-family:DM Sans,sans-serif;font-weight:600;transition:background 0.2s;box-shadow:0 2px 12px rgba(0,0,0,0.15)'><span style='font-size:26px'>📱</span><span>Bizum</span></button>
-      <a href='https://paypal.me/12099Instr' style='display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.18);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.35);border-radius:14px;padding:14px 16px;color:#fff;font-size:14px;font-family:DM Sans,sans-serif;font-weight:600;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.15)' target='_blank'><span style='font-size:26px'>💳</span><span>PayPal</span></a>
+
       <button onclick='abrirCripto()' style='display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.18);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.35);border-radius:14px;padding:14px 16px;cursor:pointer;color:#fff;font-size:14px;font-family:DM Sans,sans-serif;font-weight:600;transition:background 0.2s;box-shadow:0 2px 12px rgba(0,0,0,0.15)'><span style='font-size:26px'>&#8383;</span><span>Criptomonedas</span></button>
       <a href='https://ko-fi.com/guiacompostelana' style='display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.18);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.35);border-radius:14px;padding:14px 16px;color:#fff;font-size:14px;font-family:DM Sans,sans-serif;font-weight:600;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.15)' target='_blank'><span style='font-size:26px'>&#9749;</span><span>Ko-fi</span></a>
     </div>
@@ -1007,7 +1004,7 @@
   </div>
   <div class='footer-donate-btns'>
     <button class='footer-donate-btn' onclick='abrirBizum()'>📱 Bizum</button>
-    <a class='footer-donate-btn' href='https://paypal.me/12099Instr' target='_blank'>💳 PayPal</a>
+
     <button class='footer-donate-btn' onclick='abrirCripto()'>&#8383; Cripto</button>
     <a class='footer-donate-btn' href='https://ko-fi.com/guiacompostelana' target='_blank'>&#9749; Ko-fi</a>
   </div>
@@ -1827,14 +1824,14 @@ function usarMiUbicacion() {
   var btn = document.getElementById('btn-mi-ubic');
   var txt = document.getElementById('btn-mi-ubic-txt');
   var orig = txt.textContent;
-  txt.textContent = '...';
+  txt.textContent = 'Obteniendo...';
   btn.disabled = true;
   navigator.geolocation.getCurrentPosition(function(pos) {
     poiFormLat = pos.coords.latitude;
     poiFormLng = pos.coords.longitude;
     document.getElementById('poi-coords-display').innerHTML =
       '✅ ' + poiFormLat.toFixed(5) + ', ' + poiFormLng.toFixed(5);
-    txt.textContent = orig;
+    txt.textContent = '✅ Obtenido';
     btn.disabled = false;
   }, function() {
     document.getElementById('poi-coords-display').textContent = '❌ No se pudo obtener la ubicación';
@@ -2014,16 +2011,21 @@ function guardarPOIUsuario() {
   cerrarFormPOI();
   btn.disabled = false;
 
-  // Mostrar chip "Mis puntos" y hacer scroll hasta él
+  // Mostrar chip "Mis puntos"
   var chipU = document.getElementById('chip-usuario');
-  if (chipU) {
-    chipU.classList.remove('cat-chip-hidden');
-    // Scroll suave hasta el chip para que sea visible
-    setTimeout(function() {
-      chipU.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    }, 100);
-  }
+  if (chipU) chipU.classList.remove('cat-chip-hidden');
+
   renderCarrusel(categoriaActiva);
+
+  // Scroll a la sección POI y luego desplazar la barra de chips hasta "Mis puntos"
+  setTimeout(function() {
+    var secPoi = document.getElementById('puntos');
+    if (secPoi) secPoi.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(function() {
+      var cu = document.getElementById('chip-usuario');
+      if (cu) cu.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }, 400);
+  }, 200);
 
   // 2. Intentar enviar a Firebase en segundo plano (para moderación)
   try {
@@ -5238,6 +5240,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v306</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v310</div>
 </body>
 </html>
