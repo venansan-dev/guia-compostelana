@@ -358,13 +358,13 @@
       <div id='poi-ruta-vacia' style='font-size:13px;color:var(--texto-suave);font-style:italic;margin-bottom:0.75rem'>Añade puntos desde las tarjetas o el mapa 👆</div>
       <div style='position:relative;margin-bottom:0.75rem'>
         <!-- max-height = 5 items × 30px + gaps; scroll interno a partir del 6º -->
-        <div id='poi-ruta-lista2' style='display:none;flex-direction:column;gap:4px;max-height:170px;overflow-y:auto;padding-right:8px' onscroll='if(!this._t){this._t=requestAnimationFrame(function(){var el=document.getElementById("poi-ruta-lista2"),bar=document.getElementById("ruta-scroll-bar");if(el&&bar){var pct=el.scrollTop/(el.scrollHeight-el.clientHeight||1)*100;bar.style.top=pct*0.72+"%"}this._t=null}.bind(this))}''></div>
+        <div id='poi-ruta-lista2' style='display:none;flex-direction:column;gap:4px;max-height:170px;overflow-y:auto;padding-right:8px'></div>
         <div id='ruta-scroll-track' style='display:none;position:absolute;top:0;right:1px;width:3px;height:100%;background:rgba(0,0,0,0.07);border-radius:3px'><div id='ruta-scroll-bar' style='position:absolute;top:0;width:3px;height:28%;background:rgba(29,158,117,0.6);border-radius:3px;transition:top 0.1s'></div></div>
       </div>
-      <div style='display:flex;gap:8px;flex-wrap:wrap'>
-        <button onclick='irAlMapaConRuta()' id='poi-ruta-btn-mapa' style='display:flex;align-items:center;gap:6px;background:var(--verde);color:#fff;border:none;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.2s;opacity:0.4'>🗺️ Ver en mapa</button>
-        <button onclick='iniciarRuta()' id='poi-ruta-btn-ir' style='display:flex;align-items:center;gap:6px;background:var(--verde);color:#fff;border:none;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.2s;opacity:0.4'>▶ Ir</button>
-        <button onclick='limpiarRuta()' id='poi-ruta-btn-clear' style='background:none;border:1px solid #fca5a5;color:#dc2626;padding:8px 14px;border-radius:20px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s;opacity:0.4'>🗑</button>
+      <div style='display:flex;gap:6px;flex-wrap:nowrap;align-items:center'>
+        <button onclick='irAlMapaConRuta()' id='poi-ruta-btn-mapa' style='flex:1;display:flex;align-items:center;justify-content:center;gap:4px;background:var(--verde);color:#fff;border:none;padding:7px 8px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.2s;opacity:0.4;white-space:nowrap;min-width:0'>🗺️ <span>Mapa</span></button>
+        <button onclick='iniciarRuta()' id='poi-ruta-btn-ir' style='flex:1;display:flex;align-items:center;justify-content:center;gap:4px;background:var(--verde);color:#fff;border:none;padding:7px 8px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.2s;opacity:0.4;white-space:nowrap;min-width:0'>▶ Ir</button>
+        <button onclick='limpiarRuta()' id='poi-ruta-btn-clear' style='flex-shrink:0;background:none;border:1px solid #fca5a5;color:#dc2626;padding:7px 12px;border-radius:20px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s;opacity:0.4'>🗑</button>
       </div>
     </div>
 
@@ -5769,6 +5769,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v390</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v391</div>
 </body>
 </html>
