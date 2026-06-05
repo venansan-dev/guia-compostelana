@@ -2014,12 +2014,16 @@ function guardarPOIUsuario() {
   cerrarFormPOI();
   btn.disabled = false;
 
-  // Actualizar carrusel y mostrar chip "Mis puntos" tras cerrar el modal
+  // Mostrar chip "Mis puntos" y hacer scroll hasta él
+  var chipU = document.getElementById('chip-usuario');
+  if (chipU) {
+    chipU.classList.remove('cat-chip-hidden');
+    // Scroll suave hasta el chip para que sea visible
+    setTimeout(function() {
+      chipU.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }, 100);
+  }
   renderCarrusel(categoriaActiva);
-  setTimeout(function() {
-    var chipU = document.getElementById('chip-usuario');
-    if (chipU) { chipU.classList.remove('cat-chip-hidden'); }
-  }, 80);
 
   // 2. Intentar enviar a Firebase en segundo plano (para moderación)
   try {
@@ -5234,6 +5238,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v305</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v306</div>
 </body>
 </html>
