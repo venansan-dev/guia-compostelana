@@ -308,34 +308,41 @@
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;mirador&quot;)' id='chip-miradores'>🔭 Miradores</div>
     <div class='cat-chip' onclick='filtrarCategoria(this,&quot;fiesta&quot;)' id='chip-fiestas'>🎉 Fiestas</div>
   </div>
-  <!-- GENERADOR DE RUTA encima del carrusel -->
-  <div style='margin-bottom:1.25rem;background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);padding:1rem 1.25rem;box-shadow:0 2px 12px rgba(0,0,0,0.06);height:130px;overflow:hidden;flex-shrink:0'>
-    <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;gap:8px;flex-wrap:wrap'>
-      <div style='display:flex;align-items:center;gap:8px'>
-        <span style='font-size:18px'>🗺️</span>
-        <span style='font-family:Playfair Display,serif;font-size:15px;font-weight:600;color:var(--texto)' id='poi-ruta-titulo'>Generador de ruta</span>
-      </div>
-      <div id='poi-ruta-stats' style='display:none;gap:6px;flex-wrap:wrap'>
-        <span id='poi-ruta-count' style='font-size:12px;font-weight:600;color:#fff;background:var(--verde);padding:2px 10px;border-radius:10px'>0 📍</span>
-        <span id='poi-ruta-dist2' style='font-size:12px;font-weight:600;color:var(--verde-oscuro);background:var(--verde-claro);padding:2px 10px;border-radius:10px;border:1px solid rgba(29,158,117,0.25)'>0 km</span>
-        <span id='poi-ruta-time2' style='font-size:12px;font-weight:600;color:var(--verde-oscuro);background:var(--verde-claro);padding:2px 10px;border-radius:10px;border:1px solid rgba(29,158,117,0.25)'>0 min</span>
-      </div>
-    </div>
-    <div id='poi-ruta-vacia' style='font-size:13px;color:var(--texto-suave);font-style:italic;margin-bottom:0.75rem'>Añade puntos desde las tarjetas o el mapa 👆</div>
-    <div style='position:relative;margin-bottom:0.75rem;max-height:120px;overflow:hidden'>
-      <div id='poi-ruta-lista2' style='display:none;flex-direction:column;gap:4px;max-height:120px;overflow-y:auto;padding-right:8px' onscroll='var el=this,bar=document.getElementById("ruta-scroll-bar");if(bar){var pct=el.scrollTop/(el.scrollHeight-el.clientHeight||1)*100;bar.style.top=pct*0.72+"%"}'></div>
-      <div id='ruta-scroll-track' style='display:none;position:absolute;top:0;right:1px;width:3px;height:100%;background:rgba(0,0,0,0.07);border-radius:3px'><div id='ruta-scroll-bar' style='position:absolute;top:0;width:3px;height:28%;background:rgba(29,158,117,0.6);border-radius:3px;transition:top 0.1s'></div></div>
-    </div>
-    <div style='display:flex;gap:8px;flex-wrap:wrap'>
-      <button onclick='irAlMapaConRuta()' id='poi-ruta-btn-mapa' style='display:flex;align-items:center;gap:6px;background:var(--verde);color:#fff;border:none;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.2s;opacity:0.4'>🗺️ Ver en mapa</button>
-      <button onclick='iniciarRuta()' id='poi-ruta-btn-ir' style='display:flex;align-items:center;gap:6px;background:var(--verde);color:#fff;border:none;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.2s;opacity:0.4'>▶ Ir</button>
-      <button onclick='limpiarRuta()' id='poi-ruta-btn-clear' style='background:none;border:1px solid #fca5a5;color:#dc2626;padding:8px 14px;border-radius:20px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s;opacity:0.4'>🗑</button>
-    </div>
-  </div>
+  <!-- CONTENEDOR INVERTIDO: carrusel arriba visualmente, generador crece hacia arriba -->
+  <div style='display:flex;flex-direction:column-reverse;gap:0'>
 
-  <div class='carousel-wrap'>
-    <div class='carousel' id='carousel'></div>
-  </div>
+    <!-- CARRUSEL — aparece abajo en el DOM pero arriba visualmente -->
+    <div class='carousel-wrap'>
+      <div class='carousel' id='carousel'></div>
+    </div>
+
+    <!-- GENERADOR DE RUTA — crece hacia arriba al añadir puntos -->
+    <div id='poi-ruta-box' style='margin-bottom:1.25rem;background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);padding:1rem 1.25rem;box-shadow:0 2px 12px rgba(0,0,0,0.06);transition:max-height 0.3s ease'>
+      <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;gap:8px;flex-wrap:wrap'>
+        <div style='display:flex;align-items:center;gap:8px'>
+          <span style='font-size:18px'>🗺️</span>
+          <span style='font-family:Playfair Display,serif;font-size:15px;font-weight:600;color:var(--texto)' id='poi-ruta-titulo'>Generador de ruta</span>
+        </div>
+        <div id='poi-ruta-stats' style='display:none;gap:6px;flex-wrap:wrap'>
+          <span id='poi-ruta-count' style='font-size:12px;font-weight:600;color:#fff;background:var(--verde);padding:2px 10px;border-radius:10px'>0 📍</span>
+          <span id='poi-ruta-dist2' style='font-size:12px;font-weight:600;color:var(--verde-oscuro);background:var(--verde-claro);padding:2px 10px;border-radius:10px;border:1px solid rgba(29,158,117,0.25)'>0 km</span>
+          <span id='poi-ruta-time2' style='font-size:12px;font-weight:600;color:var(--verde-oscuro);background:var(--verde-claro);padding:2px 10px;border-radius:10px;border:1px solid rgba(29,158,117,0.25)'>0 min</span>
+        </div>
+      </div>
+      <div id='poi-ruta-vacia' style='font-size:13px;color:var(--texto-suave);font-style:italic;margin-bottom:0.75rem'>Añade puntos desde las tarjetas o el mapa 👆</div>
+      <div style='position:relative;margin-bottom:0.75rem'>
+        <!-- max-height = 5 items × 30px + gaps; scroll interno a partir del 6º -->
+        <div id='poi-ruta-lista2' style='display:none;flex-direction:column;gap:4px;max-height:170px;overflow-y:auto;padding-right:8px' onscroll='var el=this,bar=document.getElementById("ruta-scroll-bar");if(bar){var pct=el.scrollTop/(el.scrollHeight-el.clientHeight||1)*100;bar.style.top=pct*0.72+"%"}'></div>
+        <div id='ruta-scroll-track' style='display:none;position:absolute;top:0;right:1px;width:3px;height:100%;background:rgba(0,0,0,0.07);border-radius:3px'><div id='ruta-scroll-bar' style='position:absolute;top:0;width:3px;height:28%;background:rgba(29,158,117,0.6);border-radius:3px;transition:top 0.1s'></div></div>
+      </div>
+      <div style='display:flex;gap:8px;flex-wrap:wrap'>
+        <button onclick='irAlMapaConRuta()' id='poi-ruta-btn-mapa' style='display:flex;align-items:center;gap:6px;background:var(--verde);color:#fff;border:none;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.2s;opacity:0.4'>🗺️ Ver en mapa</button>
+        <button onclick='iniciarRuta()' id='poi-ruta-btn-ir' style='display:flex;align-items:center;gap:6px;background:var(--verde);color:#fff;border:none;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.2s;opacity:0.4'>▶ Ir</button>
+        <button onclick='limpiarRuta()' id='poi-ruta-btn-clear' style='background:none;border:1px solid #fca5a5;color:#dc2626;padding:8px 14px;border-radius:20px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s;opacity:0.4'>🗑</button>
+      </div>
+    </div>
+
+  </div><!-- fin flex column-reverse -->
 </section>
 
 <!-- HISTORIA COMPOSTELANA -->
@@ -4057,7 +4064,7 @@ function actualizarRuta() {
           '</div>';
       }).join('');
       var track=document.getElementById('ruta-scroll-track');
-      if(track) track.style.display=rutaPuntos.length>=5?'block':'none';
+      if(track) track.style.display=rutaPuntos.length>5?'block':'none';
     }
     if (btnIr)    { btnIr.style.opacity  = '1'; btnIr.style.cursor  = 'pointer'; }
     var btnMapa=document.getElementById('poi-ruta-btn-mapa');if(btnMapa){btnMapa.style.opacity='1';btnMapa.style.cursor='pointer';}
@@ -5739,6 +5746,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v388</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v389</div>
 </body>
 </html>
