@@ -120,6 +120,22 @@
 <section class='hero' id='inicio'>
   <div class='hero-grid'></div>
   <!-- SELECTOR IDIOMA banderas SVG -->
+  <!-- Share + idiomas en barra superior del hero -->
+  <div style='position:absolute;top:0.9rem;left:1.2rem;display:flex;align-items:center;gap:6px;z-index:10'>
+    <span style='font-size:11px;color:rgba(255,255,255,0.7);font-weight:500;letter-spacing:0.3px' id='share-label-hero'>Compartir</span>
+    <a class='hero-share-btn' href='https://wa.me/?text=Gu%C3%ADa%20Compostelana%20de%20Vigo%20https%3A%2F%2Fstartling-platypus-2d5d50.netlify.app%2F' target='_blank' title='WhatsApp'>
+      <svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z'/><path d='M12 0C5.373 0 0 5.373 0 12c0 2.136.565 4.14 1.548 5.872L.057 23.893l6.186-1.458A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.798 9.798 0 01-5.002-1.369l-.36-.213-3.667.864.924-3.564-.234-.375A9.778 9.778 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182S21.818 6.58 21.818 12 17.42 21.818 12 21.818z'/></svg>
+    </a>
+    <a class='hero-share-btn' href='https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fstartling-platypus-2d5d50.netlify.app%2F' target='_blank' title='Facebook'>
+      <svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z'/></svg>
+    </a>
+    <a class='hero-share-btn' href='https://twitter.com/intent/tweet?text=Gu%C3%ADa%20Compostelana%20de%20Vigo&amp;url=https%3A%2F%2Fstartling-platypus-2d5d50.netlify.app%2F' target='_blank' title='X'>
+      <svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.259 5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z'/></svg>
+    </a>
+    <a class='hero-share-btn' href='https://t.me/share/url?url=https%3A%2F%2Fstartling-platypus-2d5d50.netlify.app%2F&amp;text=Gu%C3%ADa%20Compostelana%20de%20Vigo' target='_blank' title='Telegram'>
+      <svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z'/></svg>
+    </a>
+  </div>
   <div class='lang-switcher'>
     <button class='lang-btn activo' id='btn-gl' onclick='cambiarIdioma(&quot;gl&quot;)' title='Galego'><svg viewBox='0 0 36 36' xmlns='http://www.w3.org/2000/svg'><clipPath id='c-gl'><circle cx='18' cy='18' r='18'></circle></clipPath><g clip-path='url(#c-gl)'><rect fill='#ffffff' height='36' width='36'></rect><polygon fill='#003DA5' points='36,7 29,0 0,29 7,36'></polygon></g></svg></button>
     <button class='lang-btn' id='btn-en' onclick='cambiarIdioma(&quot;en&quot;)' title='English'><svg viewBox='0 0 36 36' xmlns='http://www.w3.org/2000/svg'><clipPath id='c-en'><circle cx='18' cy='18' r='18'></circle></clipPath><g clip-path='url(#c-en)'><rect fill='#012169' height='36' width='36'></rect><line stroke='#fff' stroke-width='7' x1='0' x2='36' y1='0' y2='36'></line><line stroke='#fff' stroke-width='7' x1='36' x2='0' y1='0' y2='36'></line><line stroke='#CF142B' stroke-width='4' x1='0' x2='36' y1='0' y2='36'></line><line stroke='#CF142B' stroke-width='4' x1='36' x2='0' y1='0' y2='36'></line><rect fill='#fff' height='36' width='8' x='14' y='0'></rect><rect fill='#fff' height='8' width='36' y='14'></rect><rect fill='#CF142B' height='36' width='5' x='15.5' y='0'></rect><rect fill='#CF142B' height='5' width='36' y='15.5'></rect></g></svg></button>
@@ -135,38 +151,9 @@
             <img alt='Vieira' src='https://i.postimg.cc/rm387xgK/IMG-0201.jpg' style='width:20px;height:20px;vertical-align:middle;margin-right:6px;border-radius:3px;display:inline-block'/>
             <span id='hero-tag-text'>Tu Guía del Camino Portugués</span>
           </span>
-          <div class='hero-share-inline'>
-            <a class='hero-share-btn' href='https://wa.me/?text=Gu%C3%ADa%20Compostelana%20de%20Vigo%20https%3A%2F%2Fstartling-platypus-2d5d50.netlify.app%2F' target='_blank' title='WhatsApp' id='share-wa-d'>
-              <svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z'></path><path d='M12 0C5.373 0 0 5.373 0 12c0 2.136.565 4.14 1.548 5.872L.057 23.893l6.186-1.458A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.798 9.798 0 01-5.002-1.369l-.36-.213-3.667.864.924-3.564-.234-.375A9.778 9.778 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182S21.818 6.58 21.818 12 17.42 21.818 12 21.818z'></path></svg>
-            </a>
-            <a class='hero-share-btn' href='https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fstartling-platypus-2d5d50.netlify.app%2F' target='_blank' title='Facebook' id='share-fb-d'>
-              <svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z'></path></svg>
-            </a>
-            <a class='hero-share-btn' href='https://twitter.com/intent/tweet?text=Gu%C3%ADa%20Compostelana%20de%20Vigo&amp;url=https%3A%2F%2Fstartling-platypus-2d5d50.netlify.app%2F' target='_blank' title='X'>
-              <svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.259 5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z'></path></svg>
-            </a>
-            <a class='hero-share-btn' href='https://t.me/share/url?url=https%3A%2F%2Fstartling-platypus-2d5d50.netlify.app%2F&amp;text=Gu%C3%ADa%20Compostelana%20de%20Vigo' target='_blank' title='Telegram' id='share-tg-d'>
-              <svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z'></path></svg>
-            </a>
-          </div>
         </div>
         <h1>Descubre los rincones más especiales</h1>
         <div class='hero-sub-wrap'><p class='hero-sub' id='hero-sub'>Puntos de interés, rutas y experiencias únicas cerca de ti</p></div>
-        <div class='hero-share-mobile'>
-          <span class='hero-share-mobile-label' id='share-label-m'>Compartir:</span>
-          <a class='hero-share-btn' href='https://wa.me/?text=Gu%C3%ADa%20Compostelana%20de%20Vigo%20https%3A%2F%2Fstartling-platypus-2d5d50.netlify.app%2F' target='_blank' title='WhatsApp' id='share-wa-m'>
-            <svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z'></path><path d='M12 0C5.373 0 0 5.373 0 12c0 2.136.565 4.14 1.548 5.872L.057 23.893l6.186-1.458A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.798 9.798 0 01-5.002-1.369l-.36-.213-3.667.864.924-3.564-.234-.375A9.778 9.778 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182S21.818 6.58 21.818 12 17.42 21.818 12 21.818z'></path></svg>
-          </a>
-          <a class='hero-share-btn' href='https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fstartling-platypus-2d5d50.netlify.app%2F' target='_blank' title='Facebook' id='share-fb-m'>
-            <svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z'></path></svg>
-          </a>
-          <a class='hero-share-btn' href='https://twitter.com/intent/tweet?text=Gu%C3%ADa%20Compostelana%20de%20Vigo&amp;url=https%3A%2F%2Fstartling-platypus-2d5d50.netlify.app%2F' target='_blank' title='X'>
-            <svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.259 5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z'></path></svg>
-          </a>
-          <a class='hero-share-btn' href='https://t.me/share/url?url=https%3A%2F%2Fstartling-platypus-2d5d50.netlify.app%2F&amp;text=Gu%C3%ADa%20Compostelana%20de%20Vigo' target='_blank' title='Telegram' id='share-tg-m'>
-            <svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z'></path></svg>
-          </a>
-        </div>
         <div class='hero-gallery' id='hero-gallery'>
           <div class='hero-gallery-slot' id='gallery-slot-0'></div>
           <div class='hero-gallery-slot' id='gallery-slot-1'></div>
@@ -5778,6 +5765,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v394</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v395</div>
 </body>
 </html>
