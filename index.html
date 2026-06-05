@@ -1815,8 +1815,45 @@ function abrirFormPOI() {
   document.getElementById('poi-input-cat').value = '';
   document.getElementById('poi-coords-display').textContent = '';
   document.getElementById('poi-form-msg').textContent = '';
+  // Reset botones de categoría
+  document.querySelectorAll('#modal-add-poi [data-cat]').forEach(function(b){ resetPoiCatBtn(b); });
+  var sub = document.getElementById('poi-subcats');
+  if (sub) sub.style.display = 'none';
+  var chev = document.getElementById('subcats-chevron');
+  if (chev) { chev.style.transform = ''; }
   var m = document.getElementById('modal-add-poi');
   m.style.display = 'flex';
+}
+
+function selPoiCat(btn, cat) {
+  // Reset todos
+  document.querySelectorAll('#modal-add-poi [data-cat]').forEach(function(b){ resetPoiCatBtn(b); });
+  // Marcar seleccionado
+  btn.style.outline = '3px solid #1D9E75';
+  btn.style.boxShadow = '0 0 0 3px rgba(29,158,117,0.18)';
+  // Guardar valor
+  document.getElementById('poi-input-cat').value = cat;
+  document.getElementById('poi-form-msg').textContent = '';
+  // Si es subcat, mostrar confirmación en el botón padre
+  var mainBtn = document.getElementById('btn-recomendar-poi');
+  var subCats = ['naturaleza','monumento','edificación religiosa','mirador','albergue','localización histórica','vestigio arqueológico'];
+  if (subCats.indexOf(cat) >= 0 && mainBtn) {
+    mainBtn.style.outline = '3px solid #1D9E75';
+    mainBtn.style.boxShadow = '0 0 0 3px rgba(29,158,117,0.18)';
+  }
+}
+
+function resetPoiCatBtn(b) {
+  b.style.outline = '';
+  b.style.boxShadow = '';
+}
+
+function toggleSubcats() {
+  var sub = document.getElementById('poi-subcats');
+  var chev = document.getElementById('subcats-chevron');
+  var abierto = sub.style.display === 'flex';
+  sub.style.display = abierto ? 'none' : 'flex';
+  if (chev) chev.style.transform = abierto ? '' : 'rotate(180deg)';
 }
 
 function cerrarFormPOI() {
@@ -5172,19 +5209,59 @@ document.addEventListener('DOMContentLoaded', function() {
         <textarea id='poi-input-desc' maxlength='300' rows='3' placeholder='Cuéntanos algo sobre este lugar...' style='width:100%;border:1px solid #d1d5db;border-radius:8px;padding:10px 12px;font-size:14px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none;resize:none'></textarea>
       </div>
       <div>
-        <label style='font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:4px' id='lbl-poi-cat'>Categoría *</label>
-        <select id='poi-input-cat' style='width:100%;border:1px solid #d1d5db;border-radius:8px;padding:10px 12px;font-size:14px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none;background:#fff'>
-          <option value=''>— Selecciona —</option>
-          <option value='alerta'>🚨 Alerta</option>
-          <option value='punto de control'>📌 Punto de control</option>
-          <option value='naturaleza'>🌿 Naturaleza</option>
-          <option value='monumento'>🏛️ Monumento</option>
-          <option value='edificación religiosa'>⛪ Edificación religiosa</option>
-          <option value='mirador'>🔭 Mirador</option>
-          <option value='albergue'>🏠 Albergue</option>
-          <option value='localización histórica'>📜 Localización histórica</option>
-          <option value='vestigio arqueológico'>🔍 Vestigio arqueológico</option>
-        </select>
+        <label style='font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:8px' id='lbl-poi-cat'>Categoría *</label>
+        <!-- Campo oculto que guarda el valor final -->
+        <input type='hidden' id='poi-input-cat' value=''/>
+        <!-- Tres botones principales -->
+        <div style='display:flex;flex-direction:column;gap:8px'>
+          <button type='button' onclick='selPoiCat(this,"alerta")' data-cat='alerta'
+            style='display:flex;align-items:center;gap:10px;width:100%;background:#fff3f3;border:2px solid #fca5a5;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:#dc2626;cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s;text-align:left'>
+            <span style='font-size:20px'>🚨</span>
+            <div><div>Alerta</div><div style='font-size:11px;font-weight:400;color:#9ca3af'>Peligro, corte, incidencia en el camino</div></div>
+          </button>
+          <button type='button' onclick='selPoiCat(this,"punto de control")' data-cat='punto de control'
+            style='display:flex;align-items:center;gap:10px;width:100%;background:#eff6ff;border:2px solid #93c5fd;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:#1d4ed8;cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s;text-align:left'>
+            <span style='font-size:20px'>📌</span>
+            <div><div>Punto de control</div><div style='font-size:11px;font-weight:400;color:#9ca3af'>Sello, referencia, waypoint</div></div>
+          </button>
+          <button type='button' onclick='toggleSubcats()' id='btn-recomendar-poi'
+            style='display:flex;align-items:center;gap:10px;width:100%;background:#f0fdf4;border:2px solid #86efac;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:#15803d;cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s;text-align:left'>
+            <span style='font-size:20px'>⭐</span>
+            <div style='flex:1'><div>Recomendar punto</div><div style='font-size:11px;font-weight:400;color:#9ca3af'>Lugar de interés, naturaleza, patrimonio…</div></div>
+            <span id='subcats-chevron' style='font-size:14px;transition:transform 0.2s'>▾</span>
+          </button>
+          <!-- Submenú categorías -->
+          <div id='poi-subcats' style='display:none;flex-direction:column;gap:6px;padding:4px 0 0 12px'>
+            <button type='button' onclick='selPoiCat(this,"naturaleza")' data-cat='naturaleza'
+              style='display:flex;align-items:center;gap:8px;width:100%;background:#fff;border:1px solid #d1d5db;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s;text-align:left'>
+              <span>🌿</span> Naturaleza
+            </button>
+            <button type='button' onclick='selPoiCat(this,"monumento")' data-cat='monumento'
+              style='display:flex;align-items:center;gap:8px;width:100%;background:#fff;border:1px solid #d1d5db;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s;text-align:left'>
+              <span>🏛️</span> Monumento
+            </button>
+            <button type='button' onclick='selPoiCat(this,"edificación religiosa")' data-cat='edificación religiosa'
+              style='display:flex;align-items:center;gap:8px;width:100%;background:#fff;border:1px solid #d1d5db;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s;text-align:left'>
+              <span>⛪</span> Edificación religiosa
+            </button>
+            <button type='button' onclick='selPoiCat(this,"mirador")' data-cat='mirador'
+              style='display:flex;align-items:center;gap:8px;width:100%;background:#fff;border:1px solid #d1d5db;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s;text-align:left'>
+              <span>🔭</span> Mirador
+            </button>
+            <button type='button' onclick='selPoiCat(this,"albergue")' data-cat='albergue'
+              style='display:flex;align-items:center;gap:8px;width:100%;background:#fff;border:1px solid #d1d5db;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s;text-align:left'>
+              <span>🏠</span> Albergue
+            </button>
+            <button type='button' onclick='selPoiCat(this,"localización histórica")' data-cat='localización histórica'
+              style='display:flex;align-items:center;gap:8px;width:100%;background:#fff;border:1px solid #d1d5db;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s;text-align:left'>
+              <span>📜</span> Localización histórica
+            </button>
+            <button type='button' onclick='selPoiCat(this,"vestigio arqueológico")' data-cat='vestigio arqueológico'
+              style='display:flex;align-items:center;gap:8px;width:100%;background:#fff;border:1px solid #d1d5db;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s;text-align:left'>
+              <span>🔍</span> Vestigio arqueológico
+            </button>
+          </div>
+        </div>
       </div>
       <div>
         <label style='font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:6px' id='lbl-poi-ubic'>Ubicación *</label>
@@ -5260,6 +5337,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v367</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v368</div>
 </body>
 </html>
