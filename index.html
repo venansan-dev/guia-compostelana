@@ -1186,7 +1186,7 @@ var PUNTOS = [
   // ═══════════════════════════════════════════
   //  ETAPAS — CAMINO PORTUGUÉS DE LA COSTA
   // ═══════════════════════════════════════════
-  { id:'etapa-costa-1', nombre:'Etapa 1 · A Guarda → Baiona', nombre_gl:'Etapa 1 · A Guarda → Baiona', nombre_en:'Stage 1 · A Guarda → Baiona',
+  { id:'etapa-costa-1', orden:1, nombre:'Etapa 1 · A Guarda → Baiona', nombre_gl:'Etapa 1 · A Guarda → Baiona', nombre_en:'Stage 1 · A Guarda → Baiona',
     categoria:'etapa', variante:'costa', km:28, desnivel_pos:420, desnivel_neg:390, dificultad:'Media',
     lat:42.1197, lng:-8.8508,
     descripcion:'La primera etapa del Camino Portugués de la Costa arranca desde el pie del Castro de Santa Trega, donde hace dos mil años los celtas miraban al Atlántico con los mismos ojos con que hoy el peregrino inicia su andadura hacia Compostela. El camino abraza el litoral, avanza por Oia —cuyo monasterio cisterciense del siglo XII domina la costa con nueve siglos de presencia— y corona en Baiona, donde en 1493 la carabela Pinta trajo la primera noticia del Nuevo Mundo. 📍 28 km · ↑420 m / ↓390 m · Dificultad: Media',
@@ -1194,7 +1194,7 @@ var PUNTOS = [
     descripcion_en:'The first stage begins at Castro de Santa Trega and passes through Oia — whose 12th-century Cistercian monastery has commanded the coast for nine centuries — ending at Baiona where in 1493 the Pinta brought the first news of the New World. 📍 28 km · ↑420 m / ↓390 m · Difficulty: Medium',
     emoji:'🥾', color:'verde' },
 
-  { id:'etapa-costa-2', nombre:'Etapa 2 · Baiona → Vigo', nombre_gl:'Etapa 2 · Baiona → Vigo', nombre_en:'Stage 2 · Baiona → Vigo',
+  { id:'etapa-costa-2', orden:2, nombre:'Etapa 2 · Baiona → Vigo', nombre_gl:'Etapa 2 · Baiona → Vigo', nombre_en:'Stage 2 · Baiona → Vigo',
     categoria:'etapa', variante:'costa', km:25, desnivel_pos:310, desnivel_neg:320, dificultad:'Media',
     lat:42.2406, lng:-8.7207,
     descripcion:'De Baiona a Vigo el Camino recorre uno de los tramos más bellos del litoral atlántico ibérico. Panxón y la Praia de América ofrecen vistas privilegiadas de las Rías Baixas antes de entrar en Nigrán, donde la iglesia de Santiago de Parada lleva sellando credenciales desde época medieval. La ruta desciende a Vigo por el barrio histórico de Bouzas, donde la leyenda cuenta que un caballero emergió del mar cubierto de vieiras al llegar los restos del Apóstol, dando origen al símbolo jacobeo por excelencia. 📍 25 km · ↑310 m / ↓320 m · Dificultad: Media',
@@ -1202,7 +1202,7 @@ var PUNTOS = [
     descripcion_en:'From Baiona to Vigo the Way follows a beautiful Atlantic coastal stretch past Panxón and América Beach before descending into Vigo through Bouzas, where legend tells of a knight who emerged from the sea covered in scallop shells. 📍 25 km · ↑310 m / ↓320 m · Difficulty: Medium',
     emoji:'🥾', color:'verde' },
 
-  { id:'etapa-costa-3', nombre:'Etapa 3 · Vigo → Redondela', nombre_gl:'Etapa 3 · Vigo → Redondela', nombre_en:'Stage 3 · Vigo → Redondela',
+  { id:'etapa-costa-3', orden:3, nombre:'Etapa 3 · Vigo → Redondela', nombre_gl:'Etapa 3 · Vigo → Redondela', nombre_en:'Stage 3 · Vigo → Redondela',
     categoria:'etapa', variante:'costa', km:18, desnivel_pos:240, desnivel_neg:210, dificultad:'Moderada',
     lat:42.2843, lng:-8.6097,
     descripcion:'Etapa breve pero cargada de historia. El camino asciende desde la ría de Vigo por el Casco Vello —donde la Concatedral de Santa María y el barrio templario de Coia custodian siglos de devoción jacobea— para descender después hacia Redondela. Esta villa, llamada "ciudad de los viaductos", fue en la Edad Media una de las principales encomiendas templarias de Galicia, con una bailía que controlaba el paso del camino hacia Pontevedra. 📍 18 km · ↑240 m / ↓210 m · Dificultad: Moderada',
@@ -1210,7 +1210,7 @@ var PUNTOS = [
     descripcion_en:'Short but historically rich stage through Vigo\'s Old Quarter and Templar Coia quarter, descending to Redondela, the "city of viaducts" and major medieval Templar commandery. 📍 18 km · ↑240 m / ↓210 m · Difficulty: Moderate',
     emoji:'🥾', color:'verde' },
 
-  { id:'etapa-costa-4', nombre:'Etapa 4 · Redondela → Pontevedra', nombre_gl:'Etapa 4 · Redondela → Pontevedra', nombre_en:'Stage 4 · Redondela → Pontevedra',
+  { id:'etapa-costa-4', orden:4, nombre:'Etapa 4 · Redondela → Pontevedra', nombre_gl:'Etapa 4 · Redondela → Pontevedra', nombre_en:'Stage 4 · Redondela → Pontevedra',
     categoria:'etapa', variante:'costa', km:20, desnivel_pos:180, desnivel_neg:200, dificultad:'Fácil',
     lat:42.4333, lng:-8.6483,
     descripcion:'La etapa más amable del tramo sur. Desde Redondela el camino bordea la ría hasta Arcade, pueblo famoso por sus ostras, donde el puente medieval de Ponte Sampaio fue escenario en 1809 de la victoria gallega frente a las tropas napoleónicas. La ruta entra en Pontevedra, cuya Basílica de Santa María la Mayor fue construida por el gremio de mareantes como ofrenda al Apóstol. 📍 20 km · ↑180 m / ↓200 m · Dificultad: Fácil',
@@ -1218,7 +1218,7 @@ var PUNTOS = [
     descripcion_en:'The gentlest stage. From Redondela past Arcade and the historic Ponte Sampaio bridge — scene of a famous 1809 Galician victory over Napoleon — into Pontevedra, whose Basilica of Santa María was built by the fishermen\'s guild. 📍 20 km · ↑180 m / ↓200 m · Difficulty: Easy',
     emoji:'🥾', color:'verde' },
 
-  { id:'etapa-costa-5', variante:'costa', nombre:'Etapa 5 · Pontevedra → Caldas de Reis', nombre_gl:'Etapa 5 · Pontevedra → Caldas de Reis', nombre_en:'Stage 5 · Pontevedra → Caldas de Reis',
+  { id:'etapa-costa-5', orden:5, variante:'costa', nombre:'Etapa 5 · Pontevedra → Caldas de Reis', nombre_gl:'Etapa 5 · Pontevedra → Caldas de Reis', nombre_en:'Stage 5 · Pontevedra → Caldas de Reis',
     categoria:'etapa', variante:'costa', km:22, desnivel_pos:260, desnivel_neg:240, dificultad:'Media',
     lat:42.6040, lng:-8.6440,
     descripcion:'El camino abandona Pontevedra siguiendo el río Lérez, por un paisaje que conserva varios tramos del antiguo enlosado medieval. La etapa concluye en Caldas de Reis, cuyas aguas termales ya conocían los romanos —la calzada XIX discurría por aquí— y que debe su nombre a los reyes de Galicia que en ella descansaban en su peregrinar. La iglesia de Santa María guarda una pila bautismal románica de singular belleza. 📍 22 km · ↑260 m / ↓240 m · Dificultad: Media',
@@ -1226,7 +1226,7 @@ var PUNTOS = [
     descripcion_en:'The Way follows the Lérez river through a landscape preserving medieval paved road sections to Caldas de Reis, whose Roman thermal springs and Romanesque church of Santa María await the pilgrim. 📍 22 km · ↑260 m / ↓240 m · Difficulty: Medium',
     emoji:'🥾', color:'verde' },
 
-  { id:'etapa-costa-6', nombre:'Etapa 6 · Caldas de Reis → Padrón', nombre_gl:'Etapa 6 · Caldas de Reis → Padrón', nombre_en:'Stage 6 · Caldas de Reis → Padrón',
+  { id:'etapa-costa-6', orden:6, nombre:'Etapa 6 · Caldas de Reis → Padrón', nombre_gl:'Etapa 6 · Caldas de Reis → Padrón', nombre_en:'Stage 6 · Caldas de Reis → Padrón',
     categoria:'etapa', variante:'costa', km:19, desnivel_pos:150, desnivel_neg:160, dificultad:'Fácil',
     lat:42.7456, lng:-8.6572,
     descripcion:'Una etapa suave por el Valle del Ulla. El camino pasa por Catoira, donde las Torres do Oeste —fortaleza del siglo X que defendía la ría de los ataques normandos— recuerdan que esta vía fluvial fue la original por la que el obispo Teodomiro transportó los restos del Apóstol hasta Compostela en el año 830. La etapa termina en Padrón, donde la barca con el cuerpo de Santiago amarró según la tradición y el Pedrón —la argolla de piedra— es el primer gran destino jacobeo. 📍 19 km · ↑150 m / ↓160 m · Dificultad: Fácil',
@@ -1234,7 +1234,7 @@ var PUNTOS = [
     descripcion_en:'A gentle stage through the Ulla Valley past Catoira\'s Torres do Oeste — defending the same river used in 830 AD to bring the Apostle\'s remains to Compostela — ending at Padrón, where Santiago\'s boat moored and the Pedrón stone ring marks the first great Jacobean destination. 📍 19 km · ↑150 m / ↓160 m · Difficulty: Easy',
     emoji:'🥾', color:'verde' },
 
-  { id:'etapa-costa-7', variante:'costa', nombre:'Etapa 7 · Padrón → Santiago de Compostela', nombre_gl:'Etapa 7 · Padrón → Santiago de Compostela', nombre_en:'Stage 7 · Padrón → Santiago de Compostela',
+  { id:'etapa-costa-7', orden:7, variante:'costa', nombre:'Etapa 7 · Padrón → Santiago de Compostela', nombre_gl:'Etapa 7 · Padrón → Santiago de Compostela', nombre_en:'Stage 7 · Padrón → Santiago de Compostela',
     categoria:'etapa', variante:'costa', km:25, desnivel_pos:380, desnivel_neg:210, dificultad:'Media',
     lat:42.8782, lng:-8.5448,
     descripcion:'La etapa final del Camino de la Costa. Desde Padrón el camino asciende por Iria Flavia —sede episcopal donde el obispo Teodomiro descubrió el sepulcro apostólico en el siglo IX— y el Santuario da Escravitude, cuya imagen de la Virgen fue hallada por un esclavo que aquí recobró milagrosamente la libertad. La subida final por Teo y A Concheira culmina en la Plaza del Obradoiro. Ultreia et Suseia. 📍 25 km · ↑380 m / ↓210 m · Dificultad: Media',
@@ -1245,7 +1245,7 @@ var PUNTOS = [
   // ═══════════════════════════════════════════
   //  ETAPAS — CAMINO PORTUGUÉS INTERIOR (TUI)
   // ═══════════════════════════════════════════
-  { id:'etapa-tui-1', nombre:'Etapa 1 · Tui → O Porriño', nombre_gl:'Etapa 1 · Tui → O Porriño', nombre_en:'Stage 1 · Tui → O Porriño',
+  { id:'etapa-tui-1', orden:1, nombre:'Etapa 1 · Tui → O Porriño', nombre_gl:'Etapa 1 · Tui → O Porriño', nombre_en:'Stage 1 · Tui → O Porriño',
     categoria:'etapa', variante:'interior', km:16, desnivel_pos:140, desnivel_neg:120, dificultad:'Fácil',
     lat:42.1681, lng:-8.6196,
     descripcion:'El Camino Portugués Interior comienza en Tui, ciudad episcopal cuya catedral-fortaleza del siglo XII es una de las joyas del románico gallego y fue parada obligada de reyes y peregrinos medievales. El cruce del Miño por el puente internacional marca simbólicamente el inicio del camino en tierra gallega, siguiendo la antigua calzada romana con varios miliarios conservados. Termina en O Porriño, donde la iglesia de Santiago de Sanguiñeda sella credenciales desde la Edad Media. 📍 16 km · ↑140 m / ↓120 m · Dificultad: Fácil',
@@ -1253,7 +1253,7 @@ var PUNTOS = [
     descripcion_en:'The Portuguese Interior Way begins in Tui, whose 12th-century cathedral-fortress is a Romanesque masterpiece. Crossing the Miño the route follows a Roman road with preserved milestones to O Porriño. 📍 16 km · ↑140 m / ↓120 m · Difficulty: Easy',
     emoji:'🥾', color:'azul' },
 
-  { id:'etapa-tui-2', nombre:'Etapa 2 · O Porriño → Redondela', nombre_gl:'Etapa 2 · O Porriño → Redondela', nombre_en:'Stage 2 · O Porriño → Redondela',
+  { id:'etapa-tui-2', orden:2, nombre:'Etapa 2 · O Porriño → Redondela', nombre_gl:'Etapa 2 · O Porriño → Redondela', nombre_en:'Stage 2 · O Porriño → Redondela',
     categoria:'etapa', variante:'interior', km:18, desnivel_pos:280, desnivel_neg:300, dificultad:'Media',
     lat:42.2843, lng:-8.6097,
     descripcion:'La etapa más exigente del tramo sur del camino interior. Desde O Porriño el camino asciende por Mos, donde la iglesia de Santa Eulalia conserva una pila bautismal románica y una cruz de término medieval que marcaba el límite de la encomienda templaria de la zona. La ruta atraviesa monte bajo antes de descender a Redondela, donde el Camino Interior converge con el Camino de la Costa. 📍 18 km · ↑280 m / ↓300 m · Dificultad: Media',
@@ -2991,8 +2991,10 @@ function renderCarrusel(categoria) {
     });
   } else if (categoria === 'etapa-costa') {
     filtrados = PUNTOS.filter(function(p){ return p.categoria==='etapa' && p.variante==='costa'; });
+    filtrados.sort(function(a,b){ return (a.orden||0)-(b.orden||0); });
   } else if (categoria === 'etapa-interior') {
     filtrados = PUNTOS.filter(function(p){ return p.categoria==='etapa' && p.variante==='interior'; });
+    filtrados.sort(function(a,b){ return (a.orden||0)-(b.orden||0); });
   } else {
     filtrados = PUNTOS.filter(function(p){
       if (categoria === 'alerta') {
@@ -3001,12 +3003,14 @@ function renderCarrusel(categoria) {
       return !p.esUsuario && !(p.id && p.id.indexOf('u_')===0) && p.categoria!=='etapa' && (categoria==='todos'||p.categoria===categoria);
     });
   }
-  // Ordenar por distancia si está disponible
-  filtrados = filtrados.slice().sort(function(a, b) {
-    var da = a.distancia !== undefined ? a.distancia : 999999;
-    var db = b.distancia !== undefined ? b.distancia : 999999;
-    return da - db;
-  });
+  // Ordenar: etapas por orden progresivo, resto por distancia
+  if (categoria !== 'etapa-costa' && categoria !== 'etapa-interior') {
+    filtrados = filtrados.slice().sort(function(a, b) {
+      var da = a.distancia !== undefined ? a.distancia : 999999;
+      var db = b.distancia !== undefined ? b.distancia : 999999;
+      return da - db;
+    });
+  }
   // Ordenar por distancia si está disponible
   filtrados = filtrados.slice().sort(function(a, b) {
     var da = a.distancia !== undefined ? a.distancia : 999999;
@@ -5227,6 +5231,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v346</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v347</div>
 </body>
 </html>
