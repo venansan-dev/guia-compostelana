@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
   <title>Guía Compostelana Local</title>
   <meta name="description" content="Guía interactiva del Camino de Santiago compostelano en Vigo y alrededores"/>
   <meta name="theme-color" content="#1D9E75"/>
@@ -1972,7 +1972,7 @@ function abrirFormPOI() {
   document.getElementById('poi-coords-display').textContent = '';
   document.getElementById('poi-form-msg').textContent = '';
   // Reset botones de categoría
-  document.querySelectorAll('#modal-add-poi [data-cat]').forEach(function(b){ b.style.outline=''; b.style.boxShadow=''; });
+  resetAllPoiCatBtns();
   var lbl = document.getElementById('poi-cat-seleccionada');
   if (lbl) lbl.style.display = 'none';
   cerrarSubcatDrawer();
@@ -1981,17 +1981,43 @@ function abrirFormPOI() {
 }
 
 function selPoiCat(btn, cat) {
-  // Reset los tres chips principales
-  document.querySelectorAll('#modal-add-poi [data-cat]').forEach(function(b){
-    b.style.outline = ''; b.style.boxShadow = '';
-  });
-  btn.style.outline = '3px solid #1D9E75';
-  btn.style.boxShadow = '0 0 0 3px rgba(29,158,117,0.18)';
+  // Reset todos los chips al estado original
+  resetAllPoiCatBtns();
+  // Marcar el seleccionado con fondo sólido
+  btn.setAttribute('data-selected','1');
+  aplicarEstiloSeleccionado(btn);
   document.getElementById('poi-input-cat').value = cat;
   document.getElementById('poi-form-msg').textContent = '';
-  // Ocultar etiqueta subcat
   var lbl = document.getElementById('poi-cat-seleccionada');
   if (lbl) lbl.style.display = 'none';
+}
+
+function resetAllPoiCatBtns() {
+  var btns = document.querySelectorAll('#modal-add-poi [data-cat]');
+  btns.forEach(function(b){
+    b.removeAttribute('data-selected');
+    var cat = b.getAttribute('data-cat');
+    // Restaurar estilos originales según categoría
+    if (cat === 'alerta') {
+      b.style.background = '#fff3f3'; b.style.border = '2px solid #fca5a5'; b.style.color = '#dc2626';
+    } else if (cat === 'punto de control') {
+      b.style.background = '#eff6ff'; b.style.border = '2px solid #93c5fd'; b.style.color = '#1d4ed8';
+    } else {
+      b.style.background = '#f0fdf4'; b.style.border = '2px solid #86efac'; b.style.color = '#15803d';
+    }
+    b.style.opacity = '1';
+  });
+}
+
+function aplicarEstiloSeleccionado(btn) {
+  var cat = btn.getAttribute('data-cat');
+  if (cat === 'alerta') {
+    btn.style.background = '#dc2626'; btn.style.border = '2px solid #dc2626'; btn.style.color = '#fff';
+  } else if (cat === 'punto de control') {
+    btn.style.background = '#1d4ed8'; btn.style.border = '2px solid #1d4ed8'; btn.style.color = '#fff';
+  } else {
+    btn.style.background = '#15803d'; btn.style.border = '2px solid #15803d'; btn.style.color = '#fff';
+  }
 }
 
 function abrirSubcatDrawer() {
@@ -2011,8 +2037,11 @@ function selSubcat(cat, label) {
   });
   var mainBtn = document.getElementById('btn-recomendar-poi');
   if (mainBtn) {
-    mainBtn.style.outline = '3px solid #1D9E75';
-    mainBtn.style.boxShadow = '0 0 0 3px rgba(29,158,117,0.18)';
+    resetAllPoiCatBtns();
+    mainBtn.setAttribute('data-selected','1');
+    mainBtn.style.background = '#15803d';
+    mainBtn.style.border = '2px solid #15803d';
+    mainBtn.style.color = '#fff';
   }
   document.getElementById('poi-input-cat').value = cat;
   document.getElementById('poi-form-msg').textContent = '';
@@ -5615,6 +5644,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v375</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v376</div>
 </body>
 </html>
