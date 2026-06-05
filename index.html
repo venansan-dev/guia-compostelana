@@ -1725,7 +1725,15 @@ function cargarPOIsFirebase() {
     });
     PUNTOS = PUNTOS.filter(function(p){ return !p.esAlerta; });
 
-    if (!data) { renderCarrusel(categoriaActiva); return; }
+    // Activar/desactivar parpadeo en chip de alertas
+    var chipAlerta = document.getElementById('chip-alertas');
+    if (!data || Object.keys(data).length === 0) {
+      if (chipAlerta) chipAlerta.style.animation = '';
+      renderCarrusel(categoriaActiva); return;
+    }
+    if (chipAlerta && !chipAlerta.classList.contains('active')) {
+      chipAlerta.style.animation = 'chipAlertaPulse 1.2s ease-in-out infinite';
+    }
     Object.keys(data).forEach(function(key) {
       var a = data[key];
       a.id = key;
@@ -1891,8 +1899,18 @@ function mostrarAlerta(id) {
 }
 
 function _irAlMapa() {
-  var mb = document.getElementById('map-block') || document.getElementById('map');
-  if (mb) mb.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setTimeout(function() {
+    var mb = document.getElementById('map-block') || document.getElementById('map');
+    if (!mb) return;
+    var rect = mb.getBoundingClientRect();
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    var target = scrollTop + rect.top - 70; // 70px = altura navbar sticky
+    window.scrollTo({ top: target, behavior: 'smooth' });
+    // Invalidar tamaño del mapa para que Leaflet lo recentre
+    setTimeout(function() {
+      if (typeof mapa !== 'undefined' && mapa) mapa.invalidateSize();
+    }, 500);
+  }, 150);
 }
 
 function _actualizarBtnOcultarAlerta(id, oculta) {
@@ -1955,7 +1973,7 @@ function reportarAlerta(id) {
 // CSS animación pulso para alertas
 (function(){
   var s = document.createElement('style');
-  s.textContent = '@keyframes pulseAlerta{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,0.5)}50%{box-shadow:0 0 0 8px rgba(220,38,38,0)}}';
+  s.textContent = '@keyframes pulseAlerta{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,0.5)}50%{box-shadow:0 0 0 8px rgba(220,38,38,0)}}@keyframes chipAlertaPulse{0%,100%{background:#dc2626;color:#fff;border-color:#dc2626}50%{background:#fff;color:#dc2626;border-color:#dc2626}}';
   document.head.appendChild(s);
 })();
 
@@ -3636,6 +3654,11 @@ function irIndicaciones(lat,lng) {
 function filtrarCategoria(chip,categoria) {
   document.querySelectorAll('.cat-chip').forEach(function(c){c.classList.remove('active');});
   chip.classList.add('active');
+  // Parar parpadeo al seleccionar alertas
+  if (categoria === 'alerta') {
+    var chipAlerta = document.getElementById('chip-alertas');
+    if (chipAlerta) chipAlerta.style.animation = '';
+  }
   renderCarrusel(categoria);
 }
 
@@ -5707,6 +5730,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v382</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v383</div>
 </body>
 </html>
