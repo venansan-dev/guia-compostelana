@@ -3095,7 +3095,7 @@ function renderCarrusel(categoria) {
         (pSub ? '<div class="poi-subtitulo">'+pSub+'</div>' : '')+
         '<div style="display:flex;align-items:center;justify-content:space-between;margin:4px 0 8px">'+
           distHtml+
-          (enR ? '<button class="poi-btn" data-id="'+p.id+'" data-lat="'+p.lat+'" data-lng="'+p.lng+'" onclick="activarNavegacionVoz();return false;">'+(T[idiomaActual]||T.es).comoLlegar+'</button>' : '')+
+          '<button class="poi-btn" data-id="'+p.id+'" data-lat="'+p.lat+'" data-lng="'+p.lng+'">'+(T[idiomaActual]||T.es).comoLlegar+'</button>'+
         '</div>'+
         '<p class="poi-desc" id="desc-'+p.id+'">'+pDesc+'</p>'+
         '<button class="poi-leer-mas" id="leer-mas-'+p.id+'">'+(T[idiomaActual]||T.es).leerMas+'</button>'+
@@ -3166,7 +3166,6 @@ function renderCarrusel(categoria) {
 
   });
 }
-
 
 function moverCarrusel(dir) {
   var c=document.getElementById('carousel');
@@ -5260,6 +5259,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v361</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v362</div>
 </body>
 </html>
