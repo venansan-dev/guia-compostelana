@@ -219,34 +219,11 @@
   <button id='btn-orientacion-mapa' onclick='pedirOrientacion()' title='Activar flecha orientación'
     style='display:flex;position:absolute;top:54px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>🧭</button>
 
-  <!-- Overlay traductor (pantalla completa, cámara) -->
+  <!-- Overlay cámara (reservado para futura funcionalidad) -->
   <div id='ar-overlay' style='display:none;position:fixed;inset:0;z-index:99000;background:#000;flex-direction:column'>
     <video id='ar-video' autoplay playsinline muted style='position:absolute;inset:0;width:100%;height:100%;object-fit:cover'></video>
-    <canvas id='ar-canvas' style='display:none'></canvas>
-    <!-- Botón salir esquina superior derecha -->
     <button onclick='cerrarModoAR()' style='position:absolute;top:20px;right:20px;z-index:100;background:rgba(220,38,38,0.85);color:#fff;border:none;border-radius:50%;width:48px;height:48px;font-size:22px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;font-weight:700'>✕</button>
-    <!-- Indicación superior -->
-    <div style='position:absolute;top:24px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.85);font-size:13px;font-family:DM Sans,sans-serif;background:rgba(0,0,0,0.5);padding:5px 14px;border-radius:20px;white-space:nowrap;backdrop-filter:blur(4px)'>📷 Apunta al texto que quieres traducir</div>
-    <!-- Botones inferiores -->
-    <div style='position:absolute;bottom:40px;left:0;right:0;z-index:100;display:flex;flex-direction:column;align-items:center;gap:12px'>
-      <button id='ar-btn-traducir' onclick='arTraducir()' style='background:rgba(29,158,117,0.92);color:#fff;border:none;border-radius:28px;padding:16px 36px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;box-shadow:0 4px 20px rgba(0,0,0,0.5);backdrop-filter:blur(4px);display:flex;align-items:center;gap:10px'>🔍 Traducir lo que veo</button>
-      <button onclick='cerrarModoAR()' style='background:rgba(220,38,38,0.85);color:#fff;border:none;border-radius:28px;padding:12px 28px;font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;box-shadow:0 4px 20px rgba(0,0,0,0.4);backdrop-filter:blur(4px);display:flex;align-items:center;gap:8px'>✕ Cerrar cámara</button>
-    </div>
-    <!-- Panel resultado -->
-    <div id='ar-result-panel' style='display:none;position:absolute;top:0;left:0;right:0;bottom:0;z-index:200;background:rgba(0,0,0,0.88);backdrop-filter:blur(10px);flex-direction:column;padding:24px 20px 20px;overflow-y:auto'>
-      <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:16px'>
-        <span style='color:#7EE8C0;font-size:13px;font-weight:700;font-family:DM Sans,sans-serif;text-transform:uppercase;letter-spacing:1px'>🔍 Traducción</span>
-        <button onclick='cerrarResultadoAR()' style='background:rgba(255,255,255,0.15);color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:18px;cursor:pointer'>✕</button>
-      </div>
-      <div style='margin-bottom:14px'>
-        <div style='color:rgba(255,255,255,0.6);font-size:11px;font-family:DM Sans,sans-serif;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.8px'>Traducir a:</div>
-        <input id='ar-lang-search' oninput='arFiltrarIdiomas()' placeholder='Buscar idioma...' style='width:100%;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:9px 14px;color:#fff;font-size:14px;font-family:DM Sans,sans-serif;outline:none;box-sizing:border-box'/>
-        <div id='ar-lang-list' style='max-height:150px;overflow-y:auto;margin-top:4px;background:rgba(30,30,30,0.95);border-radius:10px;border:1px solid rgba(255,255,255,0.15)'></div>
-        <div id='ar-lang-selected' style='margin-top:8px;color:#7EE8C0;font-size:13px;font-family:DM Sans,sans-serif;font-weight:600'></div>
-      </div>
-      <div id='ar-result-text' style='color:#fff;font-size:15px;font-family:DM Sans,sans-serif;line-height:1.7;white-space:pre-wrap'></div>
-      <button id='ar-btn-retraducir' onclick='arRetraducir()' style='display:none;margin-top:16px;background:var(--verde);color:#fff;border:none;border-radius:20px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>🔄 Traducir a este idioma</button>
-    </div>
+    <button onclick='cerrarModoAR()' style='position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:100;background:rgba(220,38,38,0.85);color:#fff;border:none;border-radius:28px;padding:14px 32px;font-size:15px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;box-shadow:0 4px 20px rgba(0,0,0,0.5)'>✕ Cerrar cámara</button>
   </div>
   <!-- Botón añadir punto (derecha) -->
   <button id='btn-add-poi-map' onclick='abrirFormPOI()' title='Añadir un punto' style='position:absolute;top:10px;right:10px;z-index:400;height:36px;background:#1D9E75;color:#fff;border:none;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;font-size:13px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,0.2);padding:0 12px;font-family:DM Sans,sans-serif;white-space:nowrap'>➕ <span id='btn-add-poi-map-txt'>Punto</span></button>
@@ -5226,5 +5203,158 @@ function cerrarModoAR() {
   if (overlay) overlay.style.display = 'none';
   var labels = document.getElementById('ar-labels');
   if (labels) labels.innerHTML = '';
-  cerrarResultadoAR();
 }
+
+
+
+</script>
+
+<!-- PANEL MODERACIÓN (oculto) -->
+<div id='panel-admin' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;overflow-y:auto' onclick='if(event.target===this)cerrarAdmin()'>
+  <div style='max-width:480px;margin:2rem auto;background:#fff;border-radius:16px;padding:1.5rem;position:relative'>
+    <button onclick='cerrarAdmin()' style='position:absolute;top:12px;right:14px;background:none;border:none;font-size:20px;cursor:pointer;color:#6b7280'>&#10005;</button>
+    <h3 style='font-family:Playfair Display,serif;font-size:20px;margin:0 0 12px'>🛡️ Moderación</h3>
+    <!-- Pestañas -->
+    <div style='display:flex;gap:6px;margin-bottom:1rem;border-bottom:2px solid #f0f0f0;padding-bottom:0'>
+      <button id='tab-opiniones' onclick='cambiarTabAdmin("opiniones")' style='flex:1;background:none;border:none;border-bottom:2px solid #1D9E75;margin-bottom:-2px;padding:8px 4px;font-size:13px;font-weight:600;color:#1D9E75;cursor:pointer;font-family:DM Sans,sans-serif'>💬 Opiniones</button>
+      <button id='tab-pois' onclick='cambiarTabAdmin("pois")' style='flex:1;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;padding:8px 4px;font-size:13px;font-weight:500;color:#6b7280;cursor:pointer;font-family:DM Sans,sans-serif'>📍 Puntos <span id='badge-pois-pendientes' style='background:#ef4444;color:#fff;border-radius:10px;padding:1px 6px;font-size:11px;margin-left:4px;display:none'>0</span></button>
+    </div>
+    <!-- Panel opiniones -->
+    <div id='panel-tab-opiniones'>
+      <button onclick='cargarPendientes()' style='font-size:12px;color:#1D9E75;background:none;border:none;cursor:pointer;margin-bottom:1rem;padding:0'>↺ Actualizar</button>
+      <div id='admin-lista'></div>
+    </div>
+    <!-- Panel POIs usuario -->
+    <div id='panel-tab-pois' style='display:none'>
+      <button onclick='cargarPOIsPendientes()' style='font-size:12px;color:#1D9E75;background:none;border:none;cursor:pointer;margin-bottom:1rem;padding:0'>↺ Actualizar</button>
+      <div id='admin-pois-lista'></div>
+    </div>
+  </div>
+</div>
+
+<!-- CSS panel admin -->
+<style>
+#panel-admin.visible{display:block!important}
+</style>
+
+
+
+<!-- MODAL BIZUM -->
+<div id='modal-bizum' class='modal-bg' onclick='cerrarModal("modal-bizum",event)'>
+  <div class='modal-box'>
+    <button class='modal-close' onclick='document.getElementById("modal-bizum").classList.remove("visible")'>×</button>
+    <h3>📱 Bizum</h3>
+    <p id='bizum-modal-txt'>Envía tu donación por Bizum al número:</p>
+    <div class='bizum-number' id='bizum-num'>657 281 137</div>
+    <button class='bizum-copy-btn' onclick='copiarBizum()' id='bizum-copy-btn-txt'>Copiar número</button>
+    <div class='bizum-copied' id='bizum-copied'></div>
+  </div>
+</div>
+
+<!-- MODAL AÑADIR POI DE USUARIO -->
+<div id='modal-add-poi' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;align-items:flex-end;justify-content:center;overflow-y:auto'>
+  <div id='modal-add-poi-panel' style='background:#fff;border-radius:20px 20px 0 0;padding:1.5rem 1.5rem 2.5rem;max-width:480px;width:100%;margin:0 auto;position:relative;box-sizing:border-box'>
+    <div style='width:40px;height:4px;background:#e5e7eb;border-radius:2px;margin:0 auto 1.2rem'></div>
+    <h3 id='modal-poi-title' style='font-family:Playfair Display,serif;font-size:19px;margin:0 0 4px'>📍 Añadir un punto</h3>
+    <p id='modal-poi-sub' style='font-size:12px;color:#6b7280;margin:0 0 1.2rem'>Tu punto aparecerá de inmediato en tu dispositivo y será revisado para mostrarse a todos</p>
+    <div style='display:flex;flex-direction:column;gap:10px'>
+      <div>
+        <label style='font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:4px' id='lbl-poi-nombre'>Nombre del lugar *</label>
+        <input id='poi-input-nombre' type='text' maxlength='80' placeholder='Ej: Fuente del Peregrino' style='width:100%;border:1px solid #d1d5db;border-radius:8px;padding:10px 12px;font-size:14px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none'/>
+      </div>
+      <div>
+        <label style='font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:4px' id='lbl-poi-desc'>Descripción</label>
+        <textarea id='poi-input-desc' maxlength='300' rows='3' placeholder='Cuéntanos algo sobre este lugar...' style='width:100%;border:1px solid #d1d5db;border-radius:8px;padding:10px 12px;font-size:14px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none;resize:none'></textarea>
+      </div>
+      <div>
+        <label style='font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:4px' id='lbl-poi-cat'>Categoría *</label>
+        <select id='poi-input-cat' style='width:100%;border:1px solid #d1d5db;border-radius:8px;padding:10px 12px;font-size:14px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none;background:#fff'>
+          <option value=''>— Selecciona —</option>
+          <option value='alerta'>🚨 Alerta</option>
+          <option value='punto de control'>📌 Punto de control</option>
+          <option value='naturaleza'>🌿 Naturaleza</option>
+          <option value='monumento'>🏛️ Monumento</option>
+          <option value='edificación religiosa'>⛪ Edificación religiosa</option>
+          <option value='mirador'>🔭 Mirador</option>
+          <option value='albergue'>🏠 Albergue</option>
+          <option value='localización histórica'>📜 Localización histórica</option>
+          <option value='vestigio arqueológico'>🔍 Vestigio arqueológico</option>
+        </select>
+      </div>
+      <div>
+        <label style='font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:6px' id='lbl-poi-ubic'>Ubicación *</label>
+        <div style='display:flex;gap:8px;flex-wrap:wrap'>
+          <button onclick='usarMiUbicacion()' id='btn-mi-ubic' style='flex:1;min-width:140px;background:var(--verde-claro);color:var(--verde-oscuro);border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:9px 12px;font-size:13px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>📍 <span id='btn-mi-ubic-txt'>Usar mi ubicación</span></button>
+          <button onclick='activarMarcarEnMapa()' id='btn-marcar-mapa' style='flex:1;min-width:140px;background:#f3f4f6;color:#374151;border:1px solid #d1d5db;border-radius:8px;padding:9px 12px;font-size:13px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🗺️ <span id='btn-marcar-mapa-txt'>Marcar en el mapa</span></button>
+        </div>
+        <div id='poi-coords-display' style='margin-top:6px;font-size:12px;color:#6b7280;min-height:18px'></div>
+      </div>
+    </div>
+    <div style='display:flex;gap:8px;margin-top:1.2rem'>
+      <button onclick='cerrarFormPOI()' style='flex:1;background:#f3f4f6;color:#374151;border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif' id='btn-poi-cancelar'>Cancelar</button>
+      <button onclick='guardarPOIUsuario()' id='btn-poi-guardar' style='flex:2;background:var(--verde);color:#fff;border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>✅ <span id='btn-poi-guardar-txt'>Guardar punto</span></button>
+    </div>
+    <div id='poi-form-msg' style='margin-top:10px;font-size:13px;text-align:center;min-height:20px'></div>
+  </div>
+</div>
+
+<script>
+if ('serviceWorker' in navigator) {
+  // Forzar actualización del SW si la versión no coincide
+  navigator.serviceWorker.getRegistrations().then(function(regs) {
+    regs.forEach(function(reg) {
+      reg.update();
+    });
+  });
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/guia-compostelana/sw.js').then(function(reg) {
+
+
+
+    }).catch(function(err) {
+      console.warn('SW error:', err);
+    });
+  });
+}
+
+// Detectar si estamos offline y avisar
+window.addEventListener('online',  function() { ocultarBannerRed(); });
+window.addEventListener('offline', function() { mostrarBannerRed(); });
+
+function mostrarBannerRed() {
+  var b = document.getElementById('offline-red-banner');
+  if (!b) {
+    b = document.createElement('div');
+    b.id = 'offline-red-banner';
+    b.style.cssText = 'position:fixed;top:70px;left:50%;transform:translateX(-50%);background:#dc2626;color:#fff;border-radius:20px;padding:8px 16px;font-size:12px;font-family:DM Sans,sans-serif;font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,0.2);z-index:9999;display:flex;align-items:center;gap:6px;white-space:nowrap';
+    b.innerHTML = '📡 Sin conexión · mostrando datos en caché';
+    document.body.appendChild(b);
+  }
+  b.style.display = 'flex';
+}
+
+function ocultarBannerRed() {
+  var b = document.getElementById('offline-red-banner');
+  if (b) b.style.display = 'none';
+}
+</script>
+
+<!-- MODAL SOBRE NOSOTROS -->
+<div id='modal-sobre-nosotros' class='modal-bg' onclick='cerrarModal("modal-sobre-nosotros",event)'>
+  <div class='modal-box' style='text-align:center'>
+    <button class='modal-close' onclick='document.getElementById("modal-sobre-nosotros").classList.remove("visible")'>×</button>
+    <div style='font-size:36px;margin-bottom:12px'>🐚</div>
+    <h3 style='margin-bottom:12px'>Guía Compostelana</h3>
+    <p style='font-size:14px;color:var(--texto-suave);line-height:1.7;margin-bottom:16px'>Simplemente esperamos que la guía os sea útil y disfrutéis de las experiencias del Camino. Si podéis, no olvidéis aportar para apoyar nuestro trabajo. Gracias. 🙏</p>
+    <button onclick='document.getElementById("modal-sobre-nosotros").classList.remove("visible")' style='background:var(--verde);color:#fff;border:none;border-radius:20px;padding:10px 28px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>¡Buen Camino!</button>
+  </div>
+</div>
+
+<script>
+function abrirSobreNosotros() {
+  document.getElementById('modal-sobre-nosotros').classList.add('visible');
+}
+</script>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v327</div>
+</body>
+</html>
