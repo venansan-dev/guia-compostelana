@@ -3651,8 +3651,6 @@ function actualizarRuta() {
   var btnNavEl=document.getElementById('ruta-nav-btn');if(btnNavEl&&!_navActiva){btnNavEl.style.display='block';}
   var btnSaveEl=document.getElementById('ruta-bar-btn-save');if(btnSaveEl)btnSaveEl.style.display='block';
   actualizarBotonesRuta();
-  // Auto-guardar ruta en localStorage
-  try { if(rutaPuntos.length>0) localStorage.setItem('rutaGuardada', JSON.stringify(rutaPuntos)); } catch(e) {}
   // Auto-dibujar siempre que hay puntos
   if (rutaPuntos.length >= 1) { setTimeout(dibujarLineaEstática, 150); }
   else if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
@@ -5262,6 +5260,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v366</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v367</div>
 </body>
 </html>
