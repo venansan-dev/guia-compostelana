@@ -196,7 +196,17 @@
   </div>
 </section>
 
+<div class='map-title-block' style='padding:1.5rem 2rem 0.6rem;background:var(--fondo);position:relative;z-index:0'>
+  <div style='display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px'>
+  <h2 id='map-title' style='font-family:Playfair Display,serif;font-size:26px;font-weight:600;color:var(--texto);margin:0;display:flex;align-items:center;gap:10px;transition:opacity 0.4s ease;opacity:0;'>Esto está cerca de ti <svg width='22' height='30' viewBox='0 0 22 30' fill='none' xmlns='http://www.w3.org/2000/svg' style='animation:bounceDownArrow 1.4s ease-in-out infinite;flex-shrink:0;'><path d='M11 2 L11 22 M3 15 L11 24 L19 15' stroke='#dc2626' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/></svg></h2>
+<style>@keyframes bounceDownArrow{0%,100%{transform:translateY(0);}45%{transform:translateY(8px);}65%{transform:translateY(3px);}}</style>
 
+</div>
+
+  <p id='map-subtitle' style='font-size:13px;color:var(--texto-suave);margin:0 0 0'>Puntos de interés en tu entorno · selecciona el radio · toca un marcador para ver la ficha o añadirlo a tu ruta</p>
+
+
+</div>
 <div class='map-block' id='map-block'>
 <!-- MAPA INTERACTIVO -->
 <div class='map-section' style='position:relative'>
@@ -214,8 +224,8 @@
     <span id='ruta-bar-dist' style='color:#7EE8C0;font-weight:600;font-size:10px'>0 km</span>
     <span id='ruta-bar-time' style='color:#7EE8C0;font-weight:600;font-size:10px'>0 min</span>
 
-    <button onclick='activarNavegacionVoz()' id='ruta-nav-btn' style='display:none;width:36px;height:36px;background:#1D9E75;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title=''>▶</button>
-    <button onclick='detenerNavegacionVoz()' id='ruta-nav-stop' style='display:none;width:36px;height:36px;background:#f59e0b;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title=''>⏹</button>
+    <button onclick='activarNavegacionVoz()' id='ruta-nav-btn' style='display:none;width:36px;height:36px;background:#1D9E75;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title='Ir'>▶</button>
+    <button onclick='detenerNavegacionVoz()' id='ruta-nav-stop' style='display:none;width:36px;height:36px;background:#f59e0b;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title='Stop'>⏹</button>
     <button onclick='pedirOrientacion()' id='ruta-nav-orientacion' style='display:none;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);color:#333;padding:0;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center;align-items:center;justify-content:center' title='Orientación'>
       <svg id='nav-ori-svg' width='16' height='16' viewBox='0 0 18 18' style='flex-shrink:0;vertical-align:middle'>
         <polygon points='9,1 17,17 9,13 1,17' fill='#185FA5'/>
@@ -223,9 +233,9 @@
       </svg>
       <span id='nav-ori-label' style='display:none'></span>
     </button>
-    <button onclick='toggleVozNav()' id='ruta-nav-voz' style='display:none;width:36px;height:36px;background:#444;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title=''>🔇</button>
-    <button onclick='guardarRuta()' id='ruta-bar-btn-save' style='display:none;width:36px;height:36px;background:#6366f1;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title=''>💾<span id='ruta-save-txt' style='display:none'></span></button>
-    <button onclick='limpiarRuta()' id='ruta-bar-btn-clear' style='display:none;width:36px;height:36px;background:#dc2626;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title=''>🗑</button>
+    <button onclick='toggleVozNav()' id='ruta-nav-voz' style='display:none;width:36px;height:36px;background:#444;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title='Voz'>🔇</button>
+    <button onclick='guardarRuta()' id='ruta-bar-btn-save' style='display:none;width:36px;height:36px;background:#6366f1;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title='Guardar'>💾<span id='ruta-save-txt' style='display:none'></span></button>
+    <button onclick='limpiarRuta()' id='ruta-bar-btn-clear' style='display:none;width:36px;height:36px;background:#dc2626;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title='Limpiar'>🗑</button>
   </div>
   <!-- btn-go oculto para compatibilidad con JS existente -->
   <span id='ruta-bar-btn-go' style='display:none'></span>
@@ -282,6 +292,23 @@
   </div>
 </div>
 
+<!-- BARRA RADIO + BUSCADOR -->
+<div class='search-under-map'>
+  <div class='search-radio-bar'>
+    <div class='search-radio-bottom' style='display:flex;align-items:center;padding:0.7rem 1rem;background:var(--fondo);border-bottom:1px solid var(--borde)'>
+      <div class='weather-widget' id='weather-widget'><span class='weather-loading'>&#9729;&#65039;</span></div>
+    </div>
+
+    <div class='search-radio-top'>
+      <input autocomplete='off' id='buscar-input' placeholder='Cafetería, calle, monumento, playa...' type='text'/>
+      <button id='buscar-clear' onclick='limpiarBusqueda()' title='Limpiar búsqueda' style='display:none;background:none;border:1px solid var(--borde);border-radius:var(--radio-sm);padding:9px 11px;cursor:pointer;font-size:14px;color:var(--texto-suave);transition:all 0.15s;flex-shrink:0' onmouseover="this.style.background='#fee2e2';this.style.color='#dc2626'" onmouseout="this.style.background='none';this.style.color='var(--texto-suave)'">✕</button>
+      <button id='buscar-btn' onclick='ejecutarBusqueda()'>🔍 Buscar</button>
+    </div>
+  </div>
+  <div class='weather-row-mobile' id='weather-row-mobile'></div>
+</div>
+</div>
+
 <!-- DONACIONES BAJO EL MAPA -->
 <div style='background:linear-gradient(135deg,#0F6E56 0%,#1D9E75 60%,#22c55e 100%);padding:1.6rem 1.5rem;position:relative;overflow:hidden;animation:donGlow 2.5s ease-in-out infinite;border-top:3px solid rgba(255,220,100,0.5);border-bottom:3px solid rgba(255,220,100,0.5)'>
   <!-- fondo animado -->
@@ -295,7 +322,7 @@
           <span style='position:absolute;top:-10px;right:-20px;font-size:18px;display:inline-block;transform-origin:bottom center;animation:donCoin 0.7s ease-in-out infinite;transform:scaleX(-1)'>🤚</span>
         </span>
       </span>
-      <h4 id='footer-don-title' style='font-family:Playfair Display,serif;font-size:19px;font-weight:700;color:#FFE066;margin:0;text-shadow:0 2px 6px rgba(0,0,0,0.35);letter-spacing:0.3px;word-break:keep-all;overflow-wrap:normal;hyphens:none'>Apoya esta guía</h4>
+      <h4 id='footer-don-title' style='font-family:Playfair Display,serif;font-size:19px;font-weight:700;color:#FFE066;margin:0;text-shadow:0 2px 6px rgba(0,0,0,0.35);letter-spacing:0.3px;word-break:keep-all;overflow-wrap:normal;hyphens:none'>Apoya esta guía compostelana</h4>
     </div>
     <p id='footer-don-sub' style='font-size:13px;color:rgba(255,255,255,0.92);margin:0 0 10px;line-height:1.5'>Proyecto gratuito y sin publicidad. Tu apoyo nos permite seguir creciendo.</p>
     <div style='width:80px;height:3px;background:rgba(255,220,100,0.8);border-radius:2px;margin:0 auto 12px;animation:donGlow 2s ease-in-out infinite'></div>
@@ -553,6 +580,8 @@
       </a>
     </div>
   </div>
+
+  <button onclick='cerrarSOSDrawer()' style='width:100%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:11px;color:rgba(255,255,255,0.8);font-size:14px;font-weight:500;font-family:DM Sans,sans-serif;cursor:pointer'>🧭 Volver a la brújula</button>
 </div>
 
 <!-- DRAWER METEOROLOGIA -->
@@ -1098,7 +1127,7 @@
 <footer class='footer' id='contacto'>
   <div class='footer-brand'>
     <div class='logo'><img alt='Guía Compostelana de Vigo' src='https://i.postimg.cc/C1gNNsDK/IMG-0213.jpg' style='width:180px;height:48px;border-radius:4px'/></div>
-    <p id='footer-desc'>Tu guía personal de puntos de interés. Descubre lo mejor del camino a tu alrededor.</p>
+    <p id='footer-desc'>Tu guía local de puntos de interés en Vigo. Descubre lo mejor de la ciudad a tu alrededor.</p>
 
   </div>
   <div class='footer-col'>
@@ -1134,7 +1163,7 @@
   </div>
 </div>
 <div class='footer-bottom'>
-  <p>&#169; 2025 Guía Compostelana Ultreia &#8212; Todos los derechos reservados</p>
+  <p>&#169; 2025 Guía Compostelana de Vigo &#8212; Todos los derechos reservados</p>
   <p>Hecho con &#10084;&#65039; en Vigo</p>
 </div>
 <script src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'></script>
@@ -3777,7 +3806,7 @@ function renderCarrusel(categoria) {
     var val = valoraciones[p.id];
     var media = val.votos>0 ? (val.total/val.votos).toFixed(1) : '-';
     var pageUrl = encodeURIComponent(window.location.href);
-    var texto = encodeURIComponent(p.nombre+' - Guia Compostelana Ultreia');
+    var texto = encodeURIComponent(p.nombre+' - Guia Compostelana de Vigo');
     var ops = opiniones[p.id];
     var opsList = ops.length
       ? ops.map(function(o){return '<div class="opinion-item"><strong>'+o.autor+':</strong> '+o.texto+'</div>';}).join('')
@@ -4450,8 +4479,8 @@ function guardarRuta() {
   try {
     localStorage.setItem('rutaGuardadaV2', JSON.stringify(rutaPuntos));
     var btn = document.getElementById('ruta-bar-btn-save');
-    if (btn) { btn.style.background='#4f46e5'; btn.textContent='✅'; }
-    setTimeout(function() { if (btn) { btn.style.background='#6366f1'; btn.textContent='💾'; } }, 2500);
+    if (btn) { btn.style.background='#4f46e5'; btn.textContent='✅ Guardada'; }
+    setTimeout(function() { if (btn) { btn.style.background='#6366f1'; btn.textContent='💾 Guardar'; } }, 2500);
     // Globo emergente
     var cartel = document.getElementById('guardar-ruta-cartel');
     if (!cartel) {
@@ -4577,12 +4606,14 @@ function activarNavegacionVoz() {
     if (btnIr)   btnIr.style.display   = 'none';
     if (btnStop) btnStop.style.display = 'block';
     var btnVoz = document.getElementById('ruta-nav-voz');
-    if (btnVoz) { _navVozActiva = false; btnVoz.style.display = 'block'; btnVoz.style.background = '#444'; btnVoz.innerHTML = '🔇'; }
+    if (btnVoz) { _navVozActiva = false; btnVoz.style.display = 'block'; btnVoz.style.background = '#444'; btnVoz.innerHTML = '🔇 Voz'; }
     if (btnClr)  btnClr.style.display  = 'none';
 
     // Agrandar mapa sin cambiar position (no destruye Leaflet)
     var mapEl = document.getElementById('map');
     if (mapEl) { mapEl._origHeight = mapEl.style.height; mapEl.style.height = '100dvh'; }
+    var mapTitleBlock = document.querySelector('.map-title-block');
+    if (mapTitleBlock) { mapTitleBlock._origDisplay = mapTitleBlock.style.display; mapTitleBlock.style.display = 'none'; }
     var searchUnder = document.querySelector('.search-under-map');
     if (searchUnder) { searchUnder._origDisplay = searchUnder.style.display; searchUnder.style.display = 'none'; }
 
@@ -4848,6 +4879,8 @@ function detenerNavegacionVoz() {
   // Restaurar tamaño del mapa
   var mapEl = document.getElementById('map');
   if (mapEl && mapEl._origHeight !== undefined) mapEl.style.height = mapEl._origHeight || '';
+  var mapTitleBlock = document.querySelector('.map-title-block');
+  if (mapTitleBlock && mapTitleBlock._origDisplay !== undefined) mapTitleBlock.style.display = mapTitleBlock._origDisplay;
   var searchUnder = document.querySelector('.search-under-map');
   if (searchUnder && searchUnder._origDisplay !== undefined) searchUnder.style.display = searchUnder._origDisplay;
 
@@ -5053,8 +5086,8 @@ var T={
     rutaVacio:'Añade puntos desde el mapa o las tarjetas',
     rutaBtnIr:'▶ Ir',
     panelBtnIr:'▶ Ir',
-    panelBtnStop:'⏹',
-    panelBtnLimpiar:'🗑',
+    panelBtnStop:'⏹ Stop',
+    panelBtnLimpiar:'🗑 Limpiar',
     poiVerMapa:'🗺️ Ver en mapa',
     confirmLimpiar:'¿Eliminar la ruta? Este cambio no puede deshacerse.',
     poiRutaTitulo:'Generador de ruta',
@@ -5093,8 +5126,8 @@ var T={
     historiaSub:'Dos historias extraordinarias que nacieron en estas mismas orillas',
     historiaH3a:'🐚 El Cabaleiro das Cunchas — La leyenda que nació en Bouzas',
     historiaH3b:'⚔️ Vigo, tierra de templarios',
-    donSub:'Esta guía es gratuita y sin publicidad. Con tu donación ayudas a mantenerla viva y continuar creciendo.',
-    footerDonTitle:'Apoya este proyecto',
+    donSub:'Esta guía es gratuita y sin publicidad. Con tu donación ayudas a mantenerla viva y a seguir descubriendo el patrimonio compostelano de Vigo.',
+    footerDonTitle:'Apoya esta guía compostelana',
     footerDonSub:'Proyecto gratuito y sin publicidad. Tu apoyo nos permite seguir creciendo.',
     heroDonateTitle:'🙏 Apoya este proyecto',
     instrT1:'Activa tu ubicación',
@@ -5244,7 +5277,7 @@ var T={
     historiaH3a:'🐚 O Cabaleiro das Cunchas — A lenda que naceu en Bouzas',
     historiaH3b:'⚔️ Vigo, terra de templarios',
     donSub:'Esta guía é gratuíta e sen publicidade. Coa túa doazón axúdanos a mantela viva e a seguir descubrindo o patrimonio compostelán de Vigo.',
-    footerDonTitle:'Apoia esta guía',
+    footerDonTitle:'Apoia esta guía compostelana',
     footerDonSub:'Proxecto gratuíto e sen publicidade. O teu apoio permítenos seguir medrando.',
     heroDonateTitle:'🙏 Apoia este proxecto',
     instrT1:'Activa a túa localización',
@@ -5358,10 +5391,10 @@ var T={
     rutaVacio:'Add points from the map or the cards',
     chipEtapa:'Stages',
     chipUsuario:'My points',
-    rutaBtnIr:'▶',
-    panelBtnIr:'▶',
-    panelBtnStop:'⏹',
-    panelBtnLimpiar:'🗑',
+    rutaBtnIr:'▶ Go',
+    panelBtnIr:'▶ Go',
+    panelBtnStop:'⏹ Stop',
+    panelBtnLimpiar:'🗑 Clear',
     poiVerMapa:'🗺️ View on map',
     confirmLimpiar:'Delete route? This cannot be undone.',
     poiRutaTitulo:'Route builder',
@@ -5523,11 +5556,11 @@ function cambiarIdioma(lang){
   // Ruta bar
   el=document.getElementById('ruta-label');if(el)el.textContent=t.rutaLabel;
   el=document.getElementById('ruta-bar-empty');if(el&&el.style.display!=='none')el.textContent=t.rutaVacio;
-  el=document.getElementById('ruta-bar-btn-go');if(el)el.innerHTML=t.rutaBtnIr||'▶';
-  el=document.getElementById('poi-ruta-btn-ir');if(el)el.innerHTML=t.poiRutaBtnIr||'▶';
-  el=document.getElementById('ruta-nav-btn');if(el&&!el.style.display.includes('none'))el.innerHTML=t.panelBtnIr||'▶';
-  el=document.getElementById('ruta-nav-stop');if(el)el.innerHTML=t.panelBtnStop||'⏹';
-  el=document.getElementById('ruta-bar-btn-clear');if(el)el.innerHTML=t.panelBtnLimpiar||'🗑';
+  el=document.getElementById('ruta-bar-btn-go');if(el)el.innerHTML=t.rutaBtnIr||'▶ Ir';
+  el=document.getElementById('poi-ruta-btn-ir');if(el)el.innerHTML=t.poiRutaBtnIr||'▶ Ir';
+  el=document.getElementById('ruta-nav-btn');if(el&&!el.style.display.includes('none'))el.innerHTML=t.panelBtnIr||'▶ Ir';
+  el=document.getElementById('ruta-nav-stop');if(el)el.innerHTML=t.panelBtnStop||'⏹ Stop';
+  el=document.getElementById('ruta-bar-btn-clear');if(el)el.innerHTML=t.panelBtnLimpiar||'🗑 Limpiar';
   el=document.getElementById('poi-ruta-btn-mapa');if(el)el.innerHTML=t.poiVerMapa||'🗺️ Ver en mapa';
   el=document.getElementById('poi-ruta-titulo');if(el)el.textContent=t.poiRutaTitulo||t.rutaLabel;
   el=document.getElementById('poi-ruta-vacia');if(el)el.textContent=t.poiRutaVacia||t.rutaVacio;
@@ -6072,6 +6105,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v448</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v438</div>
 </body>
 </html>
