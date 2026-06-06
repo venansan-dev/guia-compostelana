@@ -113,10 +113,10 @@
 <!-- MENU MOVIL -->
 <nav class='nav-mobile' id='nav-mobile'>
   <a href='#' id='nav-m-inicio' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("inicio");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>🏠</span>Inicio</a>
-  <a href='#' id='nav-m-emergencias' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("emergencias");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>🆘</span>Emergencias</a>
+  <a href='#' id='nav-m-emergencias' onclick='cerrarMenu();setTimeout(abrirSOSDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>🆘</span>Emergencias</a>
   <a href='#' id='nav-m-historia' onclick='cerrarMenu();setTimeout(abrirHistoriaDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>🐚</span>Historia Compostelana</a>
   <a href='#' id='nav-m-mapa' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("map-block");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>🗺️</span>Mapa</a>
-  <a href='#' id='nav-m-puntos' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("puntos");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>📍</span>Puntos de interés</a>
+  <a href='#' id='nav-m-puntos' onclick='cerrarMenu();setTimeout(abrirPoiDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>📍</span>Puntos de interés</a>
   <a href='#' id='nav-m-brujula' onclick='cerrarMenu();setTimeout(abrirBrujulaDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>🧭</span>Brújula</a>
   <a href='#' id='nav-m-comousar' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("instrucciones");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>📖</span>Cómo usar</a>
   <a href='#' id='nav-m-contacto' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("contacto");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>✉️</span>Contacto</a>
@@ -5686,7 +5686,7 @@ function cambiarIdioma(lang){
   el=document.getElementById('nav-m-inicio');if(el)el.innerHTML='<span style="font-size:18px;margin-right:8px">🏠</span>'+t.navInicio;
   el=document.getElementById('nav-m-historia');if(el)el.innerHTML='<span style="font-size:18px;margin-right:8px">🐚</span>'+t.navHistoria;
   el=document.getElementById('nav-m-puntos');if(el)el.innerHTML='<span style="font-size:18px;margin-right:8px">📍</span>'+t.navPuntos;
-  el=document.getElementById('nav-m-emergencias');if(el)el.textContent='🆘 '+t.navEmergencias.replace(/^🆘\s*/,'');
+  el=document.getElementById('nav-m-emergencias');if(el)el.innerHTML='<span style="font-size:18px;margin-right:8px">🆘</span>'+(t.navEmergencias||'Emergencias').replace(/^🆘\s*/,'');
   el=document.getElementById('nav-m-comousar');if(el)el.innerHTML='<span style="font-size:18px;margin-right:8px">📖</span>'+t.navComoUsar;
   el=document.getElementById('nav-m-contacto');if(el)el.innerHTML='<span style="font-size:18px;margin-right:8px">✉️</span>'+t.navContacto;
   // Secciones
@@ -6263,6 +6263,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v448</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v449</div>
 </body>
 </html>
