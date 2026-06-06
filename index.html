@@ -279,7 +279,7 @@
     </div>
 
     <!-- Marco de enfoque -->
-    <div style='position:absolute;top:50%;left:50%;transform:translate(-50%,-58%);width:80%;max-width:340px;pointer-events:none;z-index:2'>
+    <div style='position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80%;max-width:340px;pointer-events:none;z-index:2'>
       <svg width='100%' viewBox='0 0 340 200' style='overflow:visible'>
         <rect x='2' y='2' width='336' height='196' rx='12' fill='none' stroke='rgba(255,255,255,0.5)' stroke-width='1.5' stroke-dasharray='8 4'/>
         <!-- Esquinas -->
@@ -570,12 +570,7 @@
   </div>
   <p id='msg-brujula' style='font-size:12px;color:rgba(255,255,255,0.6);margin:6px 0 0;text-align:center;min-height:18px'></p>
 
-  <!-- Botón SOS -->
-  <div style='margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid rgba(255,255,255,0.12)'>
-    <button onclick='abrirSOSDrawer()' style='width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:rgba(220,38,38,0.25);border:1.5px solid rgba(220,38,38,0.6);border-radius:16px;padding:12px 20px;color:#fca5a5;font-size:15px;font-weight:700;font-family:DM Sans,sans-serif;cursor:pointer;transition:background 0.2s;letter-spacing:0.5px'>
-      <span style='font-size:22px'>🆘</span> SOS · Emergencias
-    </button>
-  </div>
+
 </div>
 
 <!-- DRAWER SOS -->
@@ -1814,6 +1809,8 @@ function abrirModoAR() {
 
   overlay.style.display = 'flex';
   _arActivo = true;
+  document.body.style.overflow = 'hidden';
+  document.documentElement.style.overflow = 'hidden';
 
   navigator.mediaDevices.getUserMedia({
     video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } },
@@ -1839,6 +1836,8 @@ function cerrarModoAR() {
   if (panel)   panel.style.transform = 'translateY(100%)';
   if (loading) loading.style.display = 'none';
   if (_arStream) { _arStream.getTracks().forEach(function(t){ t.stop(); }); _arStream = null; }
+  document.body.style.overflow = '';
+  document.documentElement.style.overflow = '';
 }
 
 function arCapturarYTraducir() {
@@ -1871,7 +1870,10 @@ function arCapturarYTraducir() {
   // Llamar a Claude Vision
   fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 1000,
@@ -6137,6 +6139,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v416</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v417</div>
 </body>
 </html>
