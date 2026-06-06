@@ -591,21 +591,48 @@
 
 <!-- DRAWER POI -->
 <div id='poi-drawer-bg' onclick='cerrarPoiDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:8300'></div>
-<div id='poi-drawer' style='display:none;position:fixed;bottom:0;left:0;right:0;z-index:8301;background:var(--fondo);border-radius:20px 20px 0 0;padding:1.25rem 1rem 2rem;max-height:90vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
-  <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding:0 0.5rem'>
+<div id='poi-drawer' style='display:none;position:fixed;bottom:0;left:0;right:0;z-index:8301;background:var(--fondo);border-radius:20px 20px 0 0;max-height:92vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
+
+  <!-- Cabecera -->
+  <div style='padding:1.25rem 1.25rem 0;display:flex;align-items:center;justify-content:space-between'>
     <div style='display:flex;align-items:center;gap:10px'>
-      <span style='font-size:22px'>📍</span>
-      <div style='font-size:15px;font-weight:700;color:var(--texto)' id='poi-drawer-title'>Puntos de interés</div>
+      <h2 style='font-family:Playfair Display,serif;font-size:20px;font-weight:600;color:var(--texto);margin:0'>Puntos de interés cercanos</h2>
+      <button onclick='abrirFormPOI();cerrarPoiDrawer()' style='display:flex;align-items:center;gap:5px;background:var(--verde);color:#fff;border:none;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap'>➕ <span>Punto</span></button>
     </div>
-    <button onclick='cerrarPoiDrawer()' style='background:var(--verde-claro);border:none;border-radius:50%;width:34px;height:34px;color:var(--verde-oscuro);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0'>✕</button>
+    <button onclick='cerrarPoiDrawer()' style='background:var(--verde-claro);border:none;border-radius:50%;width:32px;height:32px;color:var(--verde-oscuro);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0'>✕</button>
   </div>
-  <!-- Chips de categoría -->
-  <div style='overflow-x:auto;white-space:nowrap;padding:0 0 10px;margin-bottom:8px'>
-    <button onclick='filtrarCategoria(document.querySelector(".cat-chip.active"),null);cerrarPoiDrawer()' style='display:inline-block;background:var(--verde);color:#fff;border:none;border-radius:20px;padding:7px 16px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;margin-right:6px'>Ver todos los puntos</button>
+  <p style='padding:4px 1.25rem 0;font-size:12px;color:var(--texto-suave);margin:0'>⭐ Puntúa · 💬 Comenta · 📲 Comparte</p>
+
+  <!-- Chips categoría -->
+  <div style='display:flex;gap:6px;overflow-x:auto;padding:10px 1.25rem;scrollbar-width:none;white-space:nowrap' id='poi-drawer-chips'>
+    <div class='cat-chip active' onclick='_poiDrawerFiltrar(this,"todos")'>🗺️ Todos</div>
+    <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"alerta")'>🚨 Alertas</div>
+    <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-costa")'>🌊 Etapas Costa</div>
+    <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-interior")'>🥾 Etapas Interior</div>
+    <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"naturaleza")'>🌿 Naturaleza</div>
+    <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"monumento")'>🏛️ Monumentos</div>
+    <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"edificación religiosa")'>⛪ Religiosa</div>
+    <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"localización histórica")'>📜 Histórica</div>
+    <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"vestigio arqueológico")'>🔍 Arqueológico</div>
+    <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"albergue")'>🏠 Albergues</div>
+    <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"mirador")'>🔭 Miradores</div>
   </div>
-  <!-- Carrusel mini -->
-  <div id='poi-drawer-carousel' style='display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;-webkit-overflow-scrolling:touch'>
-    <div style='color:var(--texto-suave);font-size:13px;font-style:italic;padding:8px'>Cargando puntos...</div>
+
+  <!-- Carrusel tarjetas POI -->
+  <div id='poi-drawer-carousel' style='display:flex;gap:1.1rem;overflow-x:auto;padding:0 1.25rem 1rem;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory'>
+  </div>
+
+  <!-- Generador de ruta mini -->
+  <div style='margin:0 1.25rem 1.5rem;background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);padding:0.9rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,0.06)'>
+    <div style='display:flex;align-items:center;gap:8px;margin-bottom:6px'>
+      <span style='font-size:16px'>🗺️</span>
+      <span style='font-family:Playfair Display,serif;font-size:14px;font-weight:600;color:var(--texto)'>Generador de ruta</span>
+    </div>
+    <div style='font-size:12px;color:var(--texto-suave);font-style:italic'>Añade puntos desde las tarjetas o el mapa</div>
+    <div style='display:flex;gap:6px;margin-top:8px'>
+      <button onclick='cerrarPoiDrawer();irAlMapaConRuta()' style='flex:1;background:var(--verde);color:#fff;border:none;padding:7px 8px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>🗺️ Mapa</button>
+      <button onclick='cerrarPoiDrawer();iniciarRuta()' style='flex:1;background:var(--verde);color:#fff;border:none;padding:7px 8px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>▶ Ir</button>
+    </div>
   </div>
 </div>
 
@@ -1808,27 +1835,90 @@ function cerrarHistoriaDrawer() {
   setTimeout(function(){if(bg)bg.style.display='none';drawer.style.display='none';},350);
 }
 
+var _poiDrawerCatActual = 'todos';
+
+function _poiDrawerFiltrar(chip, cat) {
+  _poiDrawerCatActual = cat;
+  document.querySelectorAll('#poi-drawer-chips .cat-chip').forEach(function(c){ c.classList.remove('active'); });
+  if (chip) chip.classList.add('active');
+  _renderPoiDrawerCarrusel();
+}
+
+function _renderPoiDrawerCarrusel() {
+  var car = document.getElementById('poi-drawer-carousel');
+  if (!car) return;
+  var t = T[idiomaActual] || T.es;
+  var todos = (typeof PUNTOS !== 'undefined' ? PUNTOS : []).concat(typeof PUNTOS_USUARIO !== 'undefined' ? PUNTOS_USUARIO : []);
+  var filtrados = todos.filter(function(p) {
+    if (_poiDrawerCatActual === 'todos') return true;
+    if (_poiDrawerCatActual === 'alerta') return p.esAlerta;
+    return (p.categoria || '') === _poiDrawerCatActual;
+  });
+  if (!filtrados.length) {
+    car.innerHTML = '<div style="color:var(--texto-suave);font-size:13px;padding:16px;font-style:italic">No hay puntos en esta categoría</div>';
+    return;
+  }
+  // Ordenar por distancia si disponible
+  filtrados.sort(function(a, b) { return (a.distancia || 999) - (b.distancia || 999); });
+  var frag = document.createDocumentFragment();
+  filtrados.slice(0, 20).forEach(function(p) {
+    var lang = idiomaActual || 'es';
+    var nombre = (lang !== 'es' && p['nombre_' + lang]) ? p['nombre_' + lang] : p.nombre;
+    var desc = (lang !== 'es' && p['descripcion_' + lang]) ? p['descripcion_' + lang] : (p.descripcion || '');
+    var sub = (lang !== 'es' && p['subtitulo_' + lang]) ? p['subtitulo_' + lang] : (p.subtitulo || '');
+    var enRuta = typeof rutaPuntos !== 'undefined' && rutaPuntos.find(function(x){ return x.id === p.id; });
+    var dist = p.distancia ? (p.distancia < 1 ? Math.round(p.distancia * 1000) + ' m' : p.distancia.toFixed(1) + ' km') : '';
+    var colorClass = p.color || 'verde';
+    var card = document.createElement('div');
+    card.className = 'poi-card';
+    card.style.cssText = 'flex:0 0 260px;scroll-snap-align:start;';
+    card.innerHTML =
+      '<div class="poi-img ' + colorClass + '" style="height:130px;position:relative">' +
+        (p.imagen ? '<img src="' + p.imagen + '" alt="' + nombre + '" class="poi-img-cover" decoding="async" fetchpriority="low"/>' :
+          '<span style="font-size:36px">' + (p.emoji || '📍') + '</span>') +
+        (!p.esAlerta ? '<button class="poi-ruta-btn" data-poi="' + p.id + '" style="position:absolute;top:8px;right:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);background:' + (enRuta ? '#1D9E75' : 'rgba(255,255,255,0.92)') + ';color:' + (enRuta ? '#fff' : '#0F6E56') + ';border:1px solid ' + (enRuta ? '#1D9E75' : 'rgba(29,158,117,0.4)') + '">' + (enRuta ? '✓ ' + t.enRuta : t.añadirRuta) + '</button>' : '') +
+      '</div>' +
+      '<div class="poi-body">' +
+        '<div class="poi-category">' + (p.categoria || '') + '</div>' +
+        '<div class="poi-nombre-row"><span class="poi-emoji">' + (p.emoji || '📍') + '</span><span class="poi-nombre">' + nombre + '</span></div>' +
+        (sub ? '<p style="font-size:12px;color:var(--verde);font-style:italic;margin-bottom:6px">' + sub + '</p>' : '') +
+        '<p>' + (desc.length > 100 ? desc.substring(0, 98) + '…' : desc) + '</p>' +
+        '<div class="poi-footer">' +
+          (dist ? '<span class="poi-dist">' + (p.emoji ? '' : '📍 ') + dist + '</span>' : '<span class="poi-dist calculando">...</span>') +
+          '<button class="poi-btn" data-id="' + p.id + '" data-lat="' + p.lat + '" data-lng="' + p.lng + '" onclick="cerrarPoiDrawer()">' + t.comoLlegar + '</button>' +
+        '</div>' +
+      '</div>';
+    frag.appendChild(card);
+  });
+  car.innerHTML = '';
+  car.appendChild(frag);
+  // Listeners botones ruta
+  car.querySelectorAll('.poi-ruta-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var id = btn.getAttribute('data-poi');
+      var poi = (PUNTOS.concat(PUNTOS_USUARIO || [])).find(function(p){ return p.id === id; });
+      if (poi) { añadirARuta(poi); _renderPoiDrawerCarrusel(); }
+    });
+  });
+  // Listener botón llegar
+  car.querySelectorAll('.poi-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      irDesdeCarrusel(btn.getAttribute('data-id') || '');
+    });
+  });
+}
+
 function abrirPoiDrawer() {
   var bg=document.getElementById('poi-drawer-bg');
   var drawer=document.getElementById('poi-drawer');
   if(!bg||!drawer) return;
   bg.style.display='block'; drawer.style.display='block';
   drawer.getBoundingClientRect(); drawer.style.transform='translateY(0)';
-  // Renderizar mini carrusel con los POIs actuales
-  var car=document.getElementById('poi-drawer-carousel');
-  if(!car) return;
-  var t=T[idiomaActual]||T.es;
-  var filtrados=PUNTOS.filter(function(p){return !p.esAlerta;}).slice(0,12);
-  if(!filtrados.length){car.innerHTML='<div style="color:var(--texto-suave);font-size:13px;padding:8px">No hay puntos cercanos</div>';return;}
-  car.innerHTML=filtrados.map(function(p){
-    var dist=p.distancia?('<span style="font-size:11px;color:var(--verde)">'+(p.distancia<1?Math.round(p.distancia*1000)+' m':p.distancia.toFixed(1)+' km')+'</span>'):'';
-    return '<div onclick=\'cerrarPoiDrawer();setTimeout(function(){filtrarCategoria(null,null);},100)\' style="flex-shrink:0;width:140px;background:#fff;border-radius:10px;border:1px solid var(--borde);overflow:hidden;cursor:pointer">'
-      +'<div style="height:70px;background:var(--verde-claro);display:flex;align-items:center;justify-content:center;font-size:28px">'+(p.emoji||'📍')+'</div>'
-      +'<div style="padding:8px">'
-      +'<div style="font-size:11px;color:var(--verde);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px">'+(p.categoria||'')+'</div>'
-      +'<div style="font-size:12px;font-weight:600;color:var(--texto);line-height:1.3;margin-bottom:4px">'+(p.nombre.length>30?p.nombre.substring(0,28)+'…':p.nombre)+'</div>'
-      +dist+'</div></div>';
-  }).join('');
+  _poiDrawerCatActual = 'todos';
+  document.querySelectorAll('#poi-drawer-chips .cat-chip').forEach(function(c,i){ c.classList.toggle('active', i===0); });
+  _renderPoiDrawerCarrusel();
 }
 function cerrarPoiDrawer() {
   var bg=document.getElementById('poi-drawer-bg');
@@ -6158,6 +6248,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v442</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v443</div>
 </body>
 </html>
