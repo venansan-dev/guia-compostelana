@@ -5525,11 +5525,11 @@ function cambiarIdioma(lang){
   // Ruta bar
   el=document.getElementById('ruta-label');if(el)el.textContent=t.rutaLabel;
   el=document.getElementById('ruta-bar-empty');if(el&&el.style.display!=='none')el.textContent=t.rutaVacio;
-  el=document.getElementById('ruta-bar-btn-go');if(el)el.innerHTML=t.rutaBtnIr||'▶ Ir';
-  el=document.getElementById('poi-ruta-btn-ir');if(el)el.innerHTML=t.poiRutaBtnIr||'▶ Ir';
-  el=document.getElementById('ruta-nav-btn');if(el&&!el.style.display.includes('none'))el.innerHTML=t.panelBtnIr||'▶ Ir';
-  el=document.getElementById('ruta-nav-stop');if(el)el.innerHTML=t.panelBtnStop||'⏹ Stop';
-  el=document.getElementById('ruta-bar-btn-clear');if(el)el.innerHTML=t.panelBtnLimpiar||'🗑 Limpiar';
+  el=document.getElementById('ruta-bar-btn-go');if(el)el.innerHTML=t.rutaBtnIr||'▶';
+  el=document.getElementById('poi-ruta-btn-ir');if(el)el.innerHTML=t.poiRutaBtnIr||'▶';
+  el=document.getElementById('ruta-nav-btn');if(el&&!el.style.display.includes('none'))el.innerHTML=t.panelBtnIr||'▶';
+  el=document.getElementById('ruta-nav-stop');if(el)el.innerHTML=t.panelBtnStop||'⏹';
+  el=document.getElementById('ruta-bar-btn-clear');if(el)el.innerHTML=t.panelBtnLimpiar||'🗑';
   el=document.getElementById('poi-ruta-btn-mapa');if(el)el.innerHTML=t.poiVerMapa||'🗺️ Ver en mapa';
   el=document.getElementById('poi-ruta-titulo');if(el)el.textContent=t.poiRutaTitulo||t.rutaLabel;
   el=document.getElementById('poi-ruta-vacia');if(el)el.textContent=t.poiRutaVacia||t.rutaVacio;
