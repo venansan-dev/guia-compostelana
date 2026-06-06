@@ -214,8 +214,8 @@
     <span id='ruta-bar-dist' style='color:#7EE8C0;font-weight:600;font-size:10px'>0 km</span>
     <span id='ruta-bar-time' style='color:#7EE8C0;font-weight:600;font-size:10px'>0 min</span>
 
-    <button onclick='activarNavegacionVoz()' id='ruta-nav-btn' style='display:none;width:36px;height:36px;background:#1D9E75;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title='Ir'>▶</button>
-    <button onclick='detenerNavegacionVoz()' id='ruta-nav-stop' style='display:none;width:36px;height:36px;background:#f59e0b;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title='Stop'>⏹</button>
+    <button onclick='activarNavegacionVoz()' id='ruta-nav-btn' style='display:none;width:36px;height:36px;background:#1D9E75;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title=''>▶</button>
+    <button onclick='detenerNavegacionVoz()' id='ruta-nav-stop' style='display:none;width:36px;height:36px;background:#f59e0b;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title=''>⏹</button>
     <button onclick='pedirOrientacion()' id='ruta-nav-orientacion' style='display:none;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);color:#333;padding:0;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center;align-items:center;justify-content:center' title='Orientación'>
       <svg id='nav-ori-svg' width='16' height='16' viewBox='0 0 18 18' style='flex-shrink:0;vertical-align:middle'>
         <polygon points='9,1 17,17 9,13 1,17' fill='#185FA5'/>
@@ -223,9 +223,9 @@
       </svg>
       <span id='nav-ori-label' style='display:none'></span>
     </button>
-    <button onclick='toggleVozNav()' id='ruta-nav-voz' style='display:none;width:36px;height:36px;background:#444;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title='Voz'>🔇</button>
-    <button onclick='guardarRuta()' id='ruta-bar-btn-save' style='display:none;width:36px;height:36px;background:#6366f1;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title='Guardar'>💾<span id='ruta-save-txt' style='display:none'></span></button>
-    <button onclick='limpiarRuta()' id='ruta-bar-btn-clear' style='display:none;width:36px;height:36px;background:#dc2626;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title='Limpiar'>🗑</button>
+    <button onclick='toggleVozNav()' id='ruta-nav-voz' style='display:none;width:36px;height:36px;background:#444;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title=''>🔇</button>
+    <button onclick='guardarRuta()' id='ruta-bar-btn-save' style='display:none;width:36px;height:36px;background:#6366f1;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title=''>💾<span id='ruta-save-txt' style='display:none'></span></button>
+    <button onclick='limpiarRuta()' id='ruta-bar-btn-clear' style='display:none;width:36px;height:36px;background:#dc2626;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title=''>🗑</button>
   </div>
   <!-- btn-go oculto para compatibilidad con JS existente -->
   <span id='ruta-bar-btn-go' style='display:none'></span>
