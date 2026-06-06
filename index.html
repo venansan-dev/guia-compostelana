@@ -135,7 +135,7 @@
   <a href='#' id='nav-m-brujula' onclick='cerrarMenu();setTimeout(abrirBrujulaDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>🧭</span>Brújula</a>
   <a href='#' id='nav-m-comousar' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("instrucciones");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>📖</span>Cómo usar</a>
   <a href='#' id='nav-m-contacto' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("contacto");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>✉️</span>Contacto</a>
-  <a class='dona-link' href='#' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("donaciones");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false' style='grid-column:1/-1;border-right:none'><span style='font-size:18px;margin-right:8px'>🙏</span>Donaciones / Ayuda al soporte</a>
+  <a class='dona-link' href='#' onclick='cerrarMenu();setTimeout(abrirDonacionesDrawer,350);return false' style='grid-column:1/-1;border-right:none'><span style='font-size:18px;margin-right:8px'>🙏</span>Donaciones / Ayuda al soporte</a>
 </nav>
 
 <!-- HERO -->
@@ -290,14 +290,24 @@
   </div>
 </div>
 
+<!-- BANNER DONACIONES BAJO EL MAPA -->
+<div style='background:linear-gradient(135deg,#0F6E56 0%,#1D9E75 60%,#22c55e 100%);padding:1rem 1.5rem;border-top:3px solid rgba(255,220,100,0.5);border-bottom:3px solid rgba(255,220,100,0.5)'>
+  <div style='display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:640px;margin:0 auto;flex-wrap:wrap'>
+    <div style='display:flex;align-items:center;gap:10px'>
+      <span style='font-size:28px'>🐱</span>
+      <div>
+        <div id='footer-don-title' style='font-family:Playfair Display,serif;font-size:15px;font-weight:700;color:#FFE066;text-shadow:0 1px 4px rgba(0,0,0,0.3)'>Apoya esta guía compostelana</div>
+        <div id='footer-don-sub' style='font-size:12px;color:rgba(255,255,255,0.85)'>Proyecto gratuito y sin publicidad</div>
+      </div>
+    </div>
+    <button onclick='abrirDonacionesDrawer()' style='display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.2);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:8px 18px;cursor:pointer;color:#fff;font-size:13px;font-weight:600;font-family:DM Sans,sans-serif;white-space:nowrap'>🙏 Apoyar</button>
+  </div>
+</div>
+
 <!-- BARRA RADIO + BUSCADOR -->
 <input type='hidden' id='buscar-input' value=''/>
 </div>
 
-<!-- DONACIONES BAJO EL MAPA -->
-<div style='background:linear-gradient(135deg,#0F6E56 0%,#1D9E75 60%,#22c55e 100%);padding:1.6rem 1.5rem;position:relative;overflow:hidden;animation:donGlow 2.5s ease-in-out infinite;border-top:3px solid rgba(255,220,100,0.5);border-bottom:3px solid rgba(255,220,100,0.5)'>
-  <!-- fondo animado -->
-  <div style='position:absolute;top:-30px;right:-30px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.07);animation:donFloat 4s ease-in-out infinite;pointer-events:none'></div>
   <div style='position:absolute;bottom:-20px;left:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.05);animation:donFloat 5s ease-in-out infinite reverse;pointer-events:none'></div>
   <div style='position:relative;z-index:2;max-width:640px;margin:0 auto;text-align:center'>
     <div style='display:flex;align-items:center;gap:12px;margin-bottom:8px'>
@@ -365,34 +375,7 @@
 
 
 <!-- SECCION DONACIONES -->
-<section id='donaciones' style='scroll-margin-top:70px;background:linear-gradient(145deg,#0a5240 0%,#0F6E56 40%,#1D9E75 100%);padding:3rem 2rem;position:relative;overflow:hidden;animation:donGlow 2.5s ease-in-out infinite;border-top:4px solid rgba(255,220,100,0.6);border-bottom:4px solid rgba(255,220,100,0.6)'>
-  <!-- Formas decorativas de fondo -->
-  <div style='position:absolute;top:-60px;right:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,0.05);animation:donFloat 5s ease-in-out infinite'></div>
-  <div style='position:absolute;bottom:-50px;left:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.04);animation:donFloat 6s ease-in-out infinite reverse'></div>
-  <div style='position:absolute;top:50%;right:10%;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.06);animation:donFloat 4s ease-in-out infinite 1s'></div>
-  <div style='position:relative;z-index:2;max-width:640px;margin:0 auto;text-align:center'>
-    <!-- Emoji animado -->
-    <div style='display:inline-flex;flex-direction:column;align-items:center;margin-bottom:12px;animation:donCatBody 1.2s ease-in-out infinite;filter:drop-shadow(0 4px 10px rgba(0,0,0,0.35))'>
-      <span style='font-size:60px;position:relative;display:inline-block'>
-        🐱
-        <span style='position:absolute;top:4px;right:-32px;font-size:28px;display:inline-block;transform-origin:bottom center;animation:donCoin 0.7s ease-in-out infinite'>🤚</span>
-      </span>
-    </div>
-    <div id='donaciones-h2' style='margin-bottom:10px'>
-      <div style='font-family:Playfair Display,serif;font-size:32px;font-weight:700;color:#FFE066;text-shadow:0 2px 12px rgba(0,0,0,0.4);letter-spacing:0.3px;line-height:1.1'>Donaciones</div>
-      <div style='font-family:Playfair Display,serif;font-size:16px;font-weight:400;color:rgba(255,220,100,0.8);text-shadow:0 1px 6px rgba(0,0,0,0.3);letter-spacing:0.5px;margin-top:4px'>Ayuda al soporte</div>
-    </div>
-    <!-- Línea decorativa -->
-    <div style='width:80px;height:3px;background:rgba(255,220,100,0.8);border-radius:2px;margin:0 auto 14px;animation:donGlow 2s ease-in-out infinite'></div>
-    <p id='don-sub' style='font-size:14px;color:rgba(255,255,255,0.85);margin-bottom:2rem;line-height:1.6;max-width:460px;margin-left:auto;margin-right:auto'>Esta guía es gratuita y sin publicidad. Con tu donación ayudas a mantenerla viva y a seguir descubriendo el patrimonio compostelano de Vigo.</p>
-    <div style='display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left'>
-      <button onclick='abrirBizum()' style='display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.18);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.35);border-radius:14px;padding:14px 16px;cursor:pointer;color:#fff;font-size:14px;font-family:DM Sans,sans-serif;font-weight:600;transition:background 0.2s;box-shadow:0 2px 12px rgba(0,0,0,0.15)'><span style='font-size:26px'>📱</span><span>Bizum</span></button>
-      <a href='https://paypal.me/GuiaCompostelana' style='display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.18);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.35);border-radius:14px;padding:14px 16px;color:#fff;font-size:14px;font-family:DM Sans,sans-serif;font-weight:600;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.15)' target='_blank'><span style='font-size:26px'>💳</span><span>PayPal</span></a>
-      <button onclick='abrirCripto()' style='display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.18);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.35);border-radius:14px;padding:14px 16px;cursor:pointer;color:#fff;font-size:14px;font-family:DM Sans,sans-serif;font-weight:600;transition:background 0.2s;box-shadow:0 2px 12px rgba(0,0,0,0.15)'><span style='font-size:26px'>&#8383;</span><span>Criptomonedas</span></button>
-      <a href='https://ko-fi.com/guiacompostelana' style='display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.18);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.35);border-radius:14px;padding:14px 16px;color:#fff;font-size:14px;font-family:DM Sans,sans-serif;font-weight:600;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.15)' target='_blank'><span style='font-size:26px'>&#9749;</span><span>Ko-fi</span></a>
-    </div>
-  </div>
-</section>
+
 
 <!-- FOOTER -->
 
@@ -628,6 +611,45 @@
 </div>
 
 
+<!-- DRAWER DONACIONES -->
+<div id='donaciones-drawer-bg' onclick='cerrarDonacionesDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:8400'></div>
+<div id='donaciones-drawer' style='display:none;position:fixed;bottom:0;left:0;right:0;z-index:8401;background:linear-gradient(145deg,#0a5240 0%,#0F6E56 40%,#1D9E75 100%);border-radius:20px 20px 0 0;padding:1.25rem 1.5rem 2.5rem;max-height:88vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
+  <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem'>
+    <div style='display:flex;align-items:center;gap:8px'>
+      <span style='font-size:22px'>🙏</span>
+      <div style='font-size:16px;font-weight:700;color:#FFE066;font-family:Playfair Display,serif'>Donaciones</div>
+    </div>
+    <button onclick='cerrarDonacionesDrawer()' style='background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:34px;height:34px;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0'>✕</button>
+  </div>
+  <!-- Formas decorativas de fondo -->
+  <div style='position:absolute;top:-60px;right:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,0.05);animation:donFloat 5s ease-in-out infinite'></div>
+  <div style='position:absolute;bottom:-50px;left:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.04);animation:donFloat 6s ease-in-out infinite reverse'></div>
+  <div style='position:absolute;top:50%;right:10%;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.06);animation:donFloat 4s ease-in-out infinite 1s'></div>
+  <div style='position:relative;z-index:2;max-width:640px;margin:0 auto;text-align:center'>
+    <!-- Emoji animado -->
+    <div style='display:inline-flex;flex-direction:column;align-items:center;margin-bottom:12px;animation:donCatBody 1.2s ease-in-out infinite;filter:drop-shadow(0 4px 10px rgba(0,0,0,0.35))'>
+      <span style='font-size:60px;position:relative;display:inline-block'>
+        🐱
+        <span style='position:absolute;top:4px;right:-32px;font-size:28px;display:inline-block;transform-origin:bottom center;animation:donCoin 0.7s ease-in-out infinite'>🤚</span>
+      </span>
+    </div>
+    <div id='donaciones-h2' style='margin-bottom:10px'>
+      <div style='font-family:Playfair Display,serif;font-size:32px;font-weight:700;color:#FFE066;text-shadow:0 2px 12px rgba(0,0,0,0.4);letter-spacing:0.3px;line-height:1.1'>Donaciones</div>
+      <div style='font-family:Playfair Display,serif;font-size:16px;font-weight:400;color:rgba(255,220,100,0.8);text-shadow:0 1px 6px rgba(0,0,0,0.3);letter-spacing:0.5px;margin-top:4px'>Ayuda al soporte</div>
+    </div>
+    <!-- Línea decorativa -->
+    <div style='width:80px;height:3px;background:rgba(255,220,100,0.8);border-radius:2px;margin:0 auto 14px;animation:donGlow 2s ease-in-out infinite'></div>
+    <p id='don-sub' style='font-size:14px;color:rgba(255,255,255,0.85);margin-bottom:2rem;line-height:1.6;max-width:460px;margin-left:auto;margin-right:auto'>Esta guía es gratuita y sin publicidad. Con tu donación ayudas a mantenerla viva y a seguir descubriendo el patrimonio compostelano de Vigo.</p>
+    <div style='display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left'>
+      <button onclick='abrirBizum()' style='display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.18);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.35);border-radius:14px;padding:14px 16px;cursor:pointer;color:#fff;font-size:14px;font-family:DM Sans,sans-serif;font-weight:600;transition:background 0.2s;box-shadow:0 2px 12px rgba(0,0,0,0.15)'><span style='font-size:26px'>📱</span><span>Bizum</span></button>
+      <a href='https://paypal.me/GuiaCompostelana' style='display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.18);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.35);border-radius:14px;padding:14px 16px;color:#fff;font-size:14px;font-family:DM Sans,sans-serif;font-weight:600;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.15)' target='_blank'><span style='font-size:26px'>💳</span><span>PayPal</span></a>
+      <button onclick='abrirCripto()' style='display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.18);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.35);border-radius:14px;padding:14px 16px;cursor:pointer;color:#fff;font-size:14px;font-family:DM Sans,sans-serif;font-weight:600;transition:background 0.2s;box-shadow:0 2px 12px rgba(0,0,0,0.15)'><span style='font-size:26px'>&#8383;</span><span>Criptomonedas</span></button>
+      <a href='https://ko-fi.com/guiacompostelana' style='display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.18);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.35);border-radius:14px;padding:14px 16px;color:#fff;font-size:14px;font-family:DM Sans,sans-serif;font-weight:600;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.15)' target='_blank'><span style='font-size:26px'>&#9749;</span><span>Ko-fi</span></a>
+    </div>
+  </div>
+</div>
+
+
 <script>
 (function() {
   var STGO_LAT = 42.8805, STGO_LNG = -8.5446;
@@ -837,163 +859,7 @@
 </script>
 
 
-<section id='emergencias' style='scroll-margin-top:70px;background:#fff;padding:3rem 2rem;border-top:1px solid rgba(0,0,0,0.08)'>
-<div style='max-width:680px;margin:0 auto'>
 
-  <!-- Cabecera -->
-  <div style='display:flex;align-items:center;gap:12px;margin-bottom:6px'>
-    <div style='width:40px;height:40px;background:#FEE2E2;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0'>🆘</div>
-    <div>
-      <h2 id='emergencias-h2' style='font-family:Playfair Display,serif;font-size:22px;color:#1a1a1a;margin:0;line-height:1.2'>Emergencias en el Camino</h2>
-      <p id='emergencias-sub' style='font-size:13px;color:#6b7280;margin:0'>Números de llamada directa · Camino Portugués de la Costa</p>
-    </div>
-  </div>
-  <p style='font-size:13px;color:#6b7280;margin:0 0 1.5rem;padding-left:52px' id='emg-tip'>Guarda estos números antes de salir. En caso de duda, llama siempre al <strong style='color:#1a1a1a'>112</strong>.</p>
-
-  <!-- Números universales -->
-  <div style='margin-bottom:1.25rem'>
-    <p style='font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#6b7280;margin:0 0 .5rem' id='emg-univ-label'>Números universales — funcionan en toda la ruta</p>
-    <div style='display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px'>
-
-      <a href='tel:112' style='text-decoration:none;background:#FEF2F2;border:1px solid #FECACA;border-radius:12px;padding:1rem;display:flex;flex-direction:column;align-items:center;gap:4px'>
-        <span style='font-size:28px;font-weight:600;color:#DC2626;font-variant-numeric:tabular-nums;line-height:1'>112</span>
-        <span style='font-size:11px;font-weight:500;color:#991B1B;text-align:center' id='emg-112-label'>Emergencias<br/>todo en uno</span>
-      </a>
-
-      <a href='tel:061' style='text-decoration:none;background:#FFF7ED;border:1px solid #FED7AA;border-radius:12px;padding:1rem;display:flex;flex-direction:column;align-items:center;gap:4px'>
-        <span style='font-size:28px;font-weight:600;color:#EA580C;font-variant-numeric:tabular-nums;line-height:1'>061</span>
-        <span style='font-size:11px;font-weight:500;color:#9A3412;text-align:center' id='emg-061-label'>Ambulancia<br/>Urgencias médicas</span>
-      </a>
-
-      <a href='tel:062' style='text-decoration:none;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:12px;padding:1rem;display:flex;flex-direction:column;align-items:center;gap:4px'>
-        <span style='font-size:28px;font-weight:600;color:#1D4ED8;font-variant-numeric:tabular-nums;line-height:1'>062</span>
-        <span style='font-size:11px;font-weight:500;color:#1E3A8A;text-align:center' id='emg-062-label'>Guardia Civil<br/>Seguridad</span>
-      </a>
-
-      <a href='tel:016' style='text-decoration:none;background:#F5F3FF;border:1px solid #DDD6FE;border-radius:12px;padding:1rem;display:flex;flex-direction:column;align-items:center;gap:4px'>
-        <span style='font-size:28px;font-weight:600;color:#7C3AED;font-variant-numeric:tabular-nums;line-height:1'>016</span>
-        <span style='font-size:11px;font-weight:500;color:#4C1D95;text-align:center' id='emg-016-label'>Atención mujer<br/>24 h · Gratuito</span>
-      </a>
-
-    </div>
-  </div>
-
-  <!-- PACs por tramo -->
-  <div style='margin-bottom:1.25rem'>
-    <p style='font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#6b7280;margin:0 0 .5rem' id='emg-pac-label'>Urgencias sanitarias por tramo</p>
-    <div style='background:#F9FAFB;border:0.5px solid rgba(0,0,0,0.08);border-radius:12px;overflow:hidden'>
-
-      <div style='padding:.7rem 1rem;display:flex;justify-content:space-between;align-items:center;border-bottom:0.5px solid rgba(0,0,0,0.06)'>
-        <div>
-          <span style='font-size:13px;font-weight:500;color:#1a1a1a'>PAC A Guarda</span>
-          <span style='font-size:11px;color:#6b7280;margin-left:6px'>A Guarda · O Rosal · Sta. Mª de Oia</span>
-        </div>
-        <a href='tel:986614450' style='font-size:15px;font-weight:500;color:#1D9E75;text-decoration:none;white-space:nowrap'>986 614 450</a>
-      </div>
-
-      <div style='padding:.7rem 1rem;display:flex;justify-content:space-between;align-items:center;border-bottom:0.5px solid rgba(0,0,0,0.06)'>
-        <div>
-          <span style='font-size:13px;font-weight:500;color:#1a1a1a'>PAC Tui</span>
-          <span style='font-size:11px;color:#6b7280;margin-left:6px'>Tui · Tomiño · 8–22 h</span>
-        </div>
-        <a href='tel:986601936' style='font-size:15px;font-weight:500;color:#1D9E75;text-decoration:none;white-space:nowrap'>986 601 936</a>
-      </div>
-
-      <div style='padding:.7rem 1rem;display:flex;justify-content:space-between;align-items:center;border-bottom:0.5px solid rgba(0,0,0,0.06)'>
-        <div>
-          <span style='font-size:13px;font-weight:500;color:#1a1a1a'>PAC O Porriño</span>
-          <span style='font-size:11px;color:#6b7280;margin-left:6px'>Porriño · Mos · Salceda</span>
-        </div>
-        <a href='tel:986337320' style='font-size:15px;font-weight:500;color:#1D9E75;text-decoration:none;white-space:nowrap'>986 337 320</a>
-      </div>
-
-      <div style='padding:.7rem 1rem;display:flex;justify-content:space-between;align-items:center;border-bottom:0.5px solid rgba(0,0,0,0.06)'>
-        <div>
-          <span style='font-size:13px;font-weight:500;color:#1a1a1a'>PAC Redondela</span>
-          <span style='font-size:11px;color:#6b7280;margin-left:6px'>Redondela · Soutomaior</span>
-        </div>
-        <a href='tel:986400700' style='font-size:15px;font-weight:500;color:#1D9E75;text-decoration:none;white-space:nowrap'>986 400 700</a>
-      </div>
-
-      <div style='padding:.7rem 1rem;display:flex;justify-content:space-between;align-items:center;border-bottom:0.5px solid rgba(0,0,0,0.06)'>
-        <div>
-          <span style='font-size:13px;font-weight:500;color:#1a1a1a'>Hospital Montecelo</span>
-          <span style='font-size:11px;color:#6b7280;margin-left:6px'>Pontevedra · Urgencias 24 h</span>
-        </div>
-        <a href='tel:986800000' style='font-size:15px;font-weight:500;color:#1D9E75;text-decoration:none;white-space:nowrap'>986 800 000</a>
-      </div>
-
-      <div style='padding:.7rem 1rem;display:flex;justify-content:space-between;align-items:center;border-bottom:0.5px solid rgba(0,0,0,0.06)'>
-        <div>
-          <span style='font-size:13px;font-weight:500;color:#1a1a1a'>Hospital Álvaro Cunqueiro</span>
-          <span style='font-size:11px;color:#6b7280;margin-left:6px'>Vigo · Referencia tramo sur</span>
-        </div>
-        <a href='tel:986217000' style='font-size:15px;font-weight:500;color:#1D9E75;text-decoration:none;white-space:nowrap'>986 217 000</a>
-      </div>
-
-      <div style='padding:.7rem 1rem;display:flex;justify-content:space-between;align-items:center'>
-        <div>
-          <span style='font-size:13px;font-weight:500;color:#1a1a1a'>Hospital Clínico Santiago</span>
-          <span style='font-size:11px;color:#6b7280;margin-left:6px'>Padrón · Caldas · Santiago</span>
-        </div>
-        <a href='tel:981950000' style='font-size:15px;font-weight:500;color:#1D9E75;text-decoration:none;white-space:nowrap'>981 950 000</a>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Guardia Civil local + Oficina Peregrino -->
-  <div style='margin-bottom:1.25rem'>
-    <p style='font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#6b7280;margin:0 0 .5rem'>Otros contactos útiles</p>
-    <div style='background:#F9FAFB;border:0.5px solid rgba(0,0,0,0.08);border-radius:12px;overflow:hidden'>
-
-      <div style='padding:.7rem 1rem;display:flex;justify-content:space-between;align-items:center;border-bottom:0.5px solid rgba(0,0,0,0.06)'>
-        <div>
-          <span style='font-size:13px;font-weight:500;color:#1a1a1a'>Guardia Civil Tui</span>
-          <span style='font-size:11px;color:#6b7280;margin-left:6px'>Seguridad en el tramo frontera</span>
-        </div>
-        <a href='tel:986600221' style='font-size:15px;font-weight:500;color:#1D4ED8;text-decoration:none;white-space:nowrap'>986 600 221</a>
-      </div>
-
-      <div style='padding:.7rem 1rem;display:flex;justify-content:space-between;align-items:center;border-bottom:0.5px solid rgba(0,0,0,0.06)'>
-        <div>
-          <span style='font-size:13px;font-weight:500;color:#1a1a1a'>Policía Local Tui</span>
-          <span style='font-size:11px;color:#6b7280;margin-left:6px'></span>
-        </div>
-        <a href='tel:696482244' style='font-size:15px;font-weight:500;color:#1D4ED8;text-decoration:none;white-space:nowrap'>696 482 244</a>
-      </div>
-
-      <div style='padding:.7rem 1rem;display:flex;justify-content:space-between;align-items:center;border-bottom:0.5px solid rgba(0,0,0,0.06)'>
-        <div>
-          <span style='font-size:13px;font-weight:500;color:#1a1a1a'>Oficina del Peregrino</span>
-          <span style='font-size:11px;color:#6b7280;margin-left:6px'>Santiago de Compostela</span>
-        </div>
-        <a href='tel:981568846' style='font-size:15px;font-weight:500;color:#1D9E75;text-decoration:none;white-space:nowrap'>981 568 846</a>
-      </div>
-
-      <div style='padding:.7rem 1rem;display:flex;justify-content:space-between;align-items:center'>
-        <div>
-          <span style='font-size:13px;font-weight:500;color:#1a1a1a'>Policía Local Santiago</span>
-          <span style='font-size:11px;color:#6b7280;margin-left:6px'></span>
-        </div>
-        <a href='tel:981542323' style='font-size:15px;font-weight:500;color:#1D4ED8;text-decoration:none;white-space:nowrap'>981 542 323</a>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Links de recursos -->
-  <div>
-    <p style='font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#6b7280;margin:0 0 .5rem'>Recursos online</p>
-    <div style='display:flex;flex-wrap:wrap;gap:8px'>
-      <a href='https://www.caminodesantiago.gal/es/durante-el-camino/informacion-practica/ante-cualquier-problema' target='_blank' style='font-size:12px;padding:6px 12px;background:#E1F5EE;border:0.5px solid #9FE1CB;border-radius:20px;color:#0F6E56;text-decoration:none;font-weight:500'>🗺 Camino de Santiago Galicia</a>
-      <a href='https://www.sergas.es' target='_blank' style='font-size:12px;padding:6px 12px;background:#EFF6FF;border:0.5px solid #BFDBFE;border-radius:20px;color:#1D4ED8;text-decoration:none;font-weight:500'>🏥 SERGAS — Centro de salud más cercano</a>
-      <a href='https://www.proteccioncivil.es' target='_blank' style='font-size:12px;padding:6px 12px;background:#FFF7ED;border:0.5px solid #FED7AA;border-radius:20px;color:#EA580C;text-decoration:none;font-weight:500'>⚠️ Protección Civil</a>
-    </div>
-  </div>
-
-</div>
-</section>
 <section id='instrucciones' style='scroll-margin-top:70px;background:#F5F5F0;padding:3rem 2rem;border-top:1px solid rgba(0,0,0,0.08)'>
 <div style='max-width:680px;margin:0 auto'>
 
@@ -1811,6 +1677,22 @@ function actualizarBtnPrincipal() {
   });
 }
 
+
+function abrirDonacionesDrawer() {
+  var bg=document.getElementById('donaciones-drawer-bg');
+  var drawer=document.getElementById('donaciones-drawer');
+  if(!bg||!drawer) return;
+  bg.style.display='block'; drawer.style.display='block';
+  drawer.getBoundingClientRect(); drawer.style.transform='translateY(0)';
+}
+function cerrarDonacionesDrawer() {
+  var bg=document.getElementById('donaciones-drawer-bg');
+  var drawer=document.getElementById('donaciones-drawer');
+  if(!drawer) return;
+  drawer.style.transform='translateY(100%)';
+  setTimeout(function(){if(bg)bg.style.display='none';drawer.style.display='none';},350);
+}
+
 function abrirHistoriaDrawer() {
   var bg=document.getElementById('historia-drawer-bg');
   var drawer=document.getElementById('historia-drawer');
@@ -1830,7 +1712,7 @@ function _poiDrawerToggleRuta(id, btn) {
   addToRoute(id);
   var enRuta = !!rutaPuntos.find(function(x){ return x.id === id; });
   var t = T[idiomaActual] || T.es;
-  btn.textContent = enRuta ? '✓ ' + (t.enRuta||'En ruta') : (t.añadirRuta||'+ Añadir a ruta');
+  btn.textContent = enRuta ? (t.enRuta||'✓ En ruta') : (t.añadirRuta||'+ Añadir a ruta');
   btn.style.background = enRuta ? '#1D9E75' : 'rgba(255,255,255,0.92)';
   btn.style.color = enRuta ? '#fff' : '#0F6E56';
   btn.style.borderColor = enRuta ? '#1D9E75' : 'rgba(29,158,117,0.4)';
@@ -1934,7 +1816,7 @@ function _renderPoiDrawerCarrusel() {
       var enRuta = !!rutaPuntos.find(function(x){ return x.id === id; });
       var t = T[idiomaActual] || T.es;
       btn.classList.toggle('en-ruta', enRuta);
-      btn.textContent = enRuta ? '\u2713 ' + (t.enRuta||'En ruta') : (t.añadirRuta||'+ Añadir a ruta');
+      btn.textContent = enRuta ? (t.enRuta||'✓ En ruta') : (t.añadirRuta||'+ Añadir a ruta');
       btn.style.background = enRuta ? '#1D9E75' : 'rgba(255,255,255,0.92)';
       btn.style.color = enRuta ? '#fff' : '#0F6E56';
       btn.style.borderColor = enRuta ? '#1D9E75' : 'rgba(29,158,117,0.4)';
@@ -6305,6 +6187,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v452</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v454</div>
 </body>
 </html>
