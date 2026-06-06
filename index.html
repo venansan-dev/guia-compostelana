@@ -249,7 +249,7 @@
   <button id='btn-brujula-mapa' onclick='abrirBrujulaDrawer()' title='Brújula'
     style='display:flex;position:absolute;top:54px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>🧭</button>
   <!-- Botón SOS en el mapa -->
-  <button onclick='abrirSOSDrawer()' title='Emergencias SOS'
+  <button id='btn-sos-mapa' onclick='abrirSOSDrawer()' title='Emergencias SOS'
     style='display:flex;position:absolute;top:98px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(220,38,38,0.4);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(220,38,38,0.25);padding:0'>
     <svg width='22' height='22' viewBox='0 0 22 22' xmlns='http://www.w3.org/2000/svg'>
       <circle cx='11' cy='11' r='10' fill='#dc2626'/>
@@ -510,13 +510,6 @@
     <button onclick='cerrarBrujulaDrawer()' style='background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.25);border-radius:24px;padding:10px 22px;color:rgba(255,255,255,0.8);font-size:14px;font-weight:500;font-family:DM Sans,sans-serif;cursor:pointer;transition:background 0.2s'>🗺️ Volver al mapa</button>
   </div>
   <p id='msg-brujula' style='font-size:12px;color:rgba(255,255,255,0.6);margin:6px 0 0;text-align:center;min-height:18px'></p>
-
-  <!-- Botón SOS -->
-  <div style='margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid rgba(255,255,255,0.12)'>
-    <button onclick='abrirSOSDrawer()' style='width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:rgba(220,38,38,0.25);border:1.5px solid rgba(220,38,38,0.6);border-radius:16px;padding:12px 20px;color:#fca5a5;font-size:15px;font-weight:700;font-family:DM Sans,sans-serif;cursor:pointer;transition:background 0.2s;letter-spacing:0.5px'>
-      <span style='font-size:22px'>🆘</span> SOS · Emergencias
-    </button>
-  </div>
 </div>
 
 <!-- DRAWER SOS -->
@@ -3119,7 +3112,7 @@ function initMapa() {
   // Ocultar botón ➕ cuando se abre un popup, restaurar al cerrar
   var _popupAbierto = false;
 
-  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc','btn-brujula-mapa','map-ruta-panel','map-radio-control'];
+  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc','btn-brujula-mapa','btn-sos-mapa','map-ruta-panel','map-radio-control'];
   mapa.on('popupopen', function() {
     _popupAbierto = true;
     _mapBtns.forEach(function(id){
@@ -4334,7 +4327,8 @@ function guardarRuta() {
       cartel.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:99999;background:rgba(0,0,0,0.82);color:#fff;padding:16px 22px;border-radius:16px;font-family:DM Sans,sans-serif;font-size:13px;font-weight:500;text-align:center;max-width:280px;line-height:1.5;box-shadow:0 4px 20px rgba(0,0,0,0.3);backdrop-filter:blur(8px);transition:opacity 0.5s;';
       document.body.appendChild(cartel);
     }
-    cartel.innerHTML = '💾 <strong>Guardando ruta...</strong><br><span style="font-size:12px;color:rgba(255,255,255,0.85)">Recuerda que este es un proyecto gratuito y necesitamos tu apoyo para el soporte. ¡Gracias! 🙏</span>';
+    var tC = T[idiomaActual] || T.es;
+    cartel.innerHTML = '💾 <strong>' + (tC.guardandoRuta||'Ruta guardada ✓') + '</strong><br><span style="font-size:12px;color:rgba(255,255,255,0.85)">' + (tC.guardandoRutaSub||'') + '</span>';
     cartel.style.opacity = '1';
     clearTimeout(cartel._t);
     cartel._t = setTimeout(function(){ cartel.style.opacity = '0'; }, 3500);
@@ -4958,6 +4952,8 @@ var T={
     btnCancelar:'Cancelar',
     btnGuardar:'Guardar punto',
     btnGuardarRuta:'Guardar',
+    guardandoRuta:'Ruta guardada ✓',
+    guardandoRutaSub:'Recuerda que este es un proyecto gratuito y necesitamos tu apoyo. ¡Gracias! 🙏',
     confirmarEliminar:'¿Eliminar este punto? Esta acción no se puede deshacer.',
     btnNotifOff:'Activa avisos de puntos de interés cercanos',
     btnNotifOn:'✅ Avisos de POIs activados',
@@ -5106,6 +5102,8 @@ var T={
     btnCancelar:'Cancelar',
     btnGuardar:'Gardar punto',
     btnGuardarRuta:'Gardar',
+    guardandoRuta:'Ruta gardada ✓',
+    guardandoRutaSub:'Lembra que este é un proxecto gratuíto e necesitamos o teu apoio. Grazas! 🙏',
     confirmarEliminar:'¿Eliminar este punto? Esta acción non se pode desfacer.',
     btnNotifOff:'Activa avisos de puntos de interese cercanos',
     btnNotifOn:'✅ Avisos de POIs activados',
@@ -5249,7 +5247,7 @@ var T={
     autorOpinion:'Someone says',
     opinionPendiente:'Your comment is pending review',
     btnInstalarApp:'Install the app and get alerts for nearby points of interest',
-    addPoi:'+ Point',
+    addPoi:'Point',
     modalPoiTitle:'📍 Add a point',
     modalPoiSub:'Your point will appear immediately and will be reviewed before being shown to everyone',
     lblNombre:'Place name *',
@@ -5261,6 +5259,8 @@ var T={
     btnCancelar:'Cancel',
     btnGuardar:'Save point',
     btnGuardarRuta:'Save',
+    guardandoRuta:'Route saved ✓',
+    guardandoRutaSub:'Remember this is a free project and we need your support. Thank you! 🙏',
     confirmarEliminar:'Delete this point? This action cannot be undone.',
     btnNotifOff:'Activate nearby points of interest alerts',
     btnNotifOn:'✅ POI alerts activated',
@@ -5943,6 +5943,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v413</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v428</div>
 </body>
 </html>
