@@ -258,13 +258,69 @@
     </svg>
   </button>
 
+  <!-- TRADUCTOR POR CÁMARA -->
   <div id='ar-overlay' style='display:none;position:fixed;inset:0;z-index:99000;background:#000;flex-direction:column'>
     <video id='ar-video' autoplay playsinline muted style='position:absolute;inset:0;width:100%;height:100%;object-fit:cover'></video>
-    <div id='ar-labels' style='position:absolute;inset:0;pointer-events:none;overflow:hidden'></div>
-    <button onclick='cerrarModoAR()' style='position:absolute;top:20px;right:20px;z-index:10;background:rgba(0,0,0,0.6);color:#fff;border:none;border-radius:50%;width:44px;height:44px;font-size:22px;cursor:pointer'>✕</button>
-    <div style='position:absolute;bottom:30px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.7);font-size:12px;font-family:DM Sans,sans-serif;text-align:center'>Apunta hacia los puntos de interés del Camino</div>
-    <div id='ar-status' style='position:absolute;top:20px;left:20px;color:#fff;font-size:12px;font-family:DM Sans,sans-serif;background:rgba(0,0,0,0.5);padding:4px 10px;border-radius:8px'></div>
+    <canvas id='ar-canvas' style='display:none'></canvas>
+
+    <!-- Cabecera -->
+    <div style='position:absolute;top:0;left:0;right:0;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(0,0,0,0.7),transparent);z-index:2'>
+      <div style='display:flex;align-items:center;gap:8px'>
+        <span style='font-size:18px'>🔤</span>
+        <div>
+          <div style='color:#fff;font-size:14px;font-weight:600;font-family:DM Sans,sans-serif'>Traductor</div>
+          <div style='color:rgba(255,255,255,0.6);font-size:11px;font-family:DM Sans,sans-serif'>Apunta a cualquier texto</div>
+        </div>
+      </div>
+      <button onclick='cerrarModoAR()' style='background:rgba(0,0,0,0.5);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:50%;width:38px;height:38px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0'>✕</button>
+    </div>
+
+    <!-- Marco de enfoque -->
+    <div style='position:absolute;top:50%;left:50%;transform:translate(-50%,-58%);width:80%;max-width:340px;pointer-events:none;z-index:2'>
+      <svg width='100%' viewBox='0 0 340 200' style='overflow:visible'>
+        <rect x='2' y='2' width='336' height='196' rx='12' fill='none' stroke='rgba(255,255,255,0.5)' stroke-width='1.5' stroke-dasharray='8 4'/>
+        <!-- Esquinas -->
+        <path d='M2,32 L2,12 Q2,2 12,2 L32,2' fill='none' stroke='#1D9E75' stroke-width='3' stroke-linecap='round'/>
+        <path d='M308,2 L328,2 Q338,2 338,12 L338,32' fill='none' stroke='#1D9E75' stroke-width='3' stroke-linecap='round'/>
+        <path d='M338,168 L338,188 Q338,198 328,198 L308,198' fill='none' stroke='#1D9E75' stroke-width='3' stroke-linecap='round'/>
+        <path d='M32,198 L12,198 Q2,198 2,188 L2,168' fill='none' stroke='#1D9E75' stroke-width='3' stroke-linecap='round'/>
+      </svg>
+      <div style='text-align:center;margin-top:6px;color:rgba(255,255,255,0.5);font-size:11px;font-family:DM Sans,sans-serif'>Encuadra el texto aquí</div>
+    </div>
+
+    <!-- Panel resultado deslizable desde abajo -->
+    <div id='ar-result-panel' style='position:absolute;bottom:0;left:0;right:0;background:rgba(15,15,15,0.95);backdrop-filter:blur(12px);border-radius:20px 20px 0 0;padding:16px 20px 32px;z-index:3;transform:translateY(100%);transition:transform 0.3s ease;max-height:55vh;overflow-y:auto'>
+      <div style='width:36px;height:3px;background:rgba(255,255,255,0.3);border-radius:2px;margin:0 auto 14px'></div>
+      <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:10px'>
+        <span style='color:rgba(255,255,255,0.5);font-size:11px;font-family:DM Sans,sans-serif;text-transform:uppercase;letter-spacing:1px' id='ar-result-lang'>Traducción</span>
+        <button onclick='document.getElementById("ar-result-panel").style.transform="translateY(100%)"' style='background:none;border:none;color:rgba(255,255,255,0.4);font-size:18px;cursor:pointer;padding:0;line-height:1'>✕</button>
+      </div>
+      <div id='ar-result-text' style='color:#fff;font-size:16px;font-family:DM Sans,sans-serif;line-height:1.6'></div>
+      <div id='ar-original-text' style='color:rgba(255,255,255,0.4);font-size:12px;font-family:DM Sans,sans-serif;margin-top:10px;font-style:italic;border-top:1px solid rgba(255,255,255,0.1);padding-top:10px'></div>
+    </div>
+
+    <!-- Botón capturar -->
+    <div style='position:absolute;bottom:40px;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:16px;z-index:4'>
+      <!-- Selector idioma destino -->
+      <select id='ar-lang-select' style='background:rgba(0,0,0,0.6);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:8px 14px;font-size:13px;font-family:DM Sans,sans-serif;cursor:pointer;outline:none'>
+        <option value='es'>→ Español</option>
+        <option value='gl'>→ Galego</option>
+        <option value='en'>→ English</option>
+      </select>
+      <!-- Botón disparador -->
+      <button id='ar-capture-btn' onclick='arCapturarYTraducir()' style='width:66px;height:66px;border-radius:50%;background:#fff;border:4px solid rgba(255,255,255,0.4);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,0.4);transition:transform 0.1s;flex-shrink:0'>
+        <svg width='28' height='28' viewBox='0 0 24 24' fill='none'><circle cx='12' cy='12' r='8' fill='#1D9E75'/><path d='M8 12h8M12 8v8' stroke='#fff' stroke-width='2' stroke-linecap='round'/></svg>
+      </button>
+      <div style='width:90px'></div>
+    </div>
+
+    <!-- Spinner cargando -->
+    <div id='ar-loading' style='display:none;position:absolute;inset:0;background:rgba(0,0,0,0.5);z-index:5;align-items:center;justify-content:center;flex-direction:column;gap:12px'>
+      <div style='width:44px;height:44px;border:3px solid rgba(255,255,255,0.2);border-top-color:#1D9E75;border-radius:50%;animation:arSpin 0.8s linear infinite'></div>
+      <div style='color:#fff;font-size:13px;font-family:DM Sans,sans-serif'>Traduciendo...</div>
+    </div>
   </div>
+  <style>@keyframes arSpin{to{transform:rotate(360deg)}}</style>
   <!-- Botón añadir punto (derecha) -->
   <button id='btn-add-poi-map' onclick='abrirFormPOI()' title='Añadir un punto' style='position:absolute;top:10px;right:10px;z-index:400;height:36px;background:#1D9E75;color:#fff;border:none;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;font-size:13px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,0.2);padding:0 12px;font-family:DM Sans,sans-serif;white-space:nowrap'>➕ <span id='btn-add-poi-map-txt'>Punto</span></button>
   <!-- Panel radio en mapa (columna derecha bajo +punto) -->
@@ -1737,7 +1793,142 @@ function actualizarBtnPrincipal() {
   });
 }
 
-// ── POIs DE USUARIO ─────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// TRADUCTOR POR CÁMARA — Claude Vision
+// ═══════════════════════════════════════════════════════════════
+var _arStream = null;
+var _arActivo = false;
+
+function abrirModoAR() {
+  var overlay = document.getElementById('ar-overlay');
+  var video   = document.getElementById('ar-video');
+  if (!overlay || !video) return;
+
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    mostrarToast('⚠️ Tu navegador no soporta acceso a la cámara');
+    return;
+  }
+
+  overlay.style.display = 'flex';
+  _arActivo = true;
+
+  navigator.mediaDevices.getUserMedia({
+    video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } },
+    audio: false
+  }).then(function(stream) {
+    _arStream = stream;
+    video.srcObject = stream;
+    video.play();
+  }).catch(function() {
+    mostrarToast('⚠️ Permiso de cámara denegado');
+    cerrarModoAR();
+  });
+}
+
+function cerrarModoAR() {
+  _arActivo = false;
+  var overlay  = document.getElementById('ar-overlay');
+  var video    = document.getElementById('ar-video');
+  var panel    = document.getElementById('ar-result-panel');
+  var loading  = document.getElementById('ar-loading');
+  if (overlay) overlay.style.display = 'none';
+  if (video)   { video.srcObject = null; }
+  if (panel)   panel.style.transform = 'translateY(100%)';
+  if (loading) loading.style.display = 'none';
+  if (_arStream) { _arStream.getTracks().forEach(function(t){ t.stop(); }); _arStream = null; }
+}
+
+function arCapturarYTraducir() {
+  var video   = document.getElementById('ar-video');
+  var canvas  = document.getElementById('ar-canvas');
+  var loading = document.getElementById('ar-loading');
+  var btn     = document.getElementById('ar-capture-btn');
+  if (!video || !canvas) return;
+
+  // Feedback visual en el botón
+  if (btn) { btn.style.transform = 'scale(0.92)'; setTimeout(function(){ btn.style.transform = ''; }, 150); }
+
+  // Capturar fotograma
+  canvas.width  = video.videoWidth  || 1280;
+  canvas.height = video.videoHeight || 720;
+  var ctx = canvas.getContext('2d');
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  // Convertir a base64 JPEG (comprimido para no saturar la API)
+  var base64 = canvas.toDataURL('image/jpeg', 0.75).split(',')[1];
+
+  // Idioma destino
+  var langSel = document.getElementById('ar-lang-select');
+  var langTarget = langSel ? langSel.value : 'es';
+  var langName = langTarget === 'gl' ? 'gallego' : langTarget === 'en' ? 'inglés' : 'español';
+
+  // Mostrar spinner
+  if (loading) loading.style.display = 'flex';
+
+  // Llamar a Claude Vision
+  fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      messages: [{
+        role: 'user',
+        content: [
+          {
+            type: 'image',
+            source: { type: 'base64', media_type: 'image/jpeg', data: base64 }
+          },
+          {
+            type: 'text',
+            text: 'Esta foto ha sido tomada por un peregrino del Camino de Santiago en Galicia. Si hay texto visible en la imagen (menú, cartel, señal, etiqueta, etc.), tradúcelo al ' + langName + '. Responde en este formato exacto:\nTEXTO ORIGINAL: [el texto original tal como aparece]\nTRADUCCIÓN: [la traducción al ' + langName + ']\nNOTA: [si necesitas aclarar algo breve, opcional]\nSi no hay texto legible en la imagen, responde solo: SIN_TEXTO'
+          }
+        ]
+      }]
+    })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data) {
+    if (loading) loading.style.display = 'none';
+    var respuesta = data.content && data.content[0] ? data.content[0].text : '';
+
+    if (!respuesta || respuesta.trim() === 'SIN_TEXTO') {
+      mostrarToast('No se detectó texto en la imagen');
+      return;
+    }
+
+    // Parsear respuesta
+    var original = '', traduccion = '', nota = '';
+    var lineas = respuesta.split('\n');
+    lineas.forEach(function(l) {
+      if (l.startsWith('TEXTO ORIGINAL:')) original = l.replace('TEXTO ORIGINAL:', '').trim();
+      else if (l.startsWith('TRADUCCIÓN:')) traduccion = l.replace('TRADUCCIÓN:', '').trim();
+      else if (l.startsWith('NOTA:')) nota = l.replace('NOTA:', '').trim();
+    });
+
+    // Si no parseó bien, mostrar toda la respuesta
+    if (!traduccion) traduccion = respuesta;
+
+    // Mostrar panel
+    var panel  = document.getElementById('ar-result-panel');
+    var txtEl  = document.getElementById('ar-result-text');
+    var origEl = document.getElementById('ar-original-text');
+    var langEl = document.getElementById('ar-result-lang');
+
+    if (txtEl)  txtEl.textContent  = traduccion;
+    if (origEl) origEl.textContent = original ? '📝 Original: ' + original + (nota ? '\n💡 ' + nota : '') : '';
+    if (langEl) langEl.textContent = 'Traducido al ' + langName;
+    if (panel)  panel.style.transform = 'translateY(0)';
+  })
+  .catch(function(err) {
+    if (loading) loading.style.display = 'none';
+    mostrarToast('⚠️ Error al traducir. Comprueba la conexión.');
+  });
+}
+// ═══════════════════════════════════════════════════════════════
+// FIN TRADUCTOR POR CÁMARA
+// ═══════════════════════════════════════════════════════════════
+
 var PUNTOS_USUARIO = []; // POIs locales del usuario (localStorage)
 var poiFormLat = null, poiFormLng = null;
 var USER_POI_PREFIX = 'u_'; // prefijo para distinguir POIs de usuario
@@ -5943,6 +6134,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v413</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v415</div>
 </body>
 </html>
