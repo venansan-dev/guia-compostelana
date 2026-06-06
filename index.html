@@ -282,23 +282,6 @@
   </div>
 </div>
 
-<!-- BARRA RADIO + BUSCADOR -->
-<div class='search-under-map'>
-  <div class='search-radio-bar'>
-    <div class='search-radio-bottom' style='display:flex;align-items:center;padding:0.7rem 1rem;background:var(--fondo);border-bottom:1px solid var(--borde)'>
-      <div class='weather-widget' id='weather-widget'><span class='weather-loading'>&#9729;&#65039;</span></div>
-    </div>
-
-    <div class='search-radio-top'>
-      <input autocomplete='off' id='buscar-input' placeholder='Cafetería, calle, monumento, playa...' type='text'/>
-      <button id='buscar-clear' onclick='limpiarBusqueda()' title='Limpiar búsqueda' style='display:none;background:none;border:1px solid var(--borde);border-radius:var(--radio-sm);padding:9px 11px;cursor:pointer;font-size:14px;color:var(--texto-suave);transition:all 0.15s;flex-shrink:0' onmouseover="this.style.background='#fee2e2';this.style.color='#dc2626'" onmouseout="this.style.background='none';this.style.color='var(--texto-suave)'">✕</button>
-      <button id='buscar-btn' onclick='ejecutarBusqueda()'>🔍 Buscar</button>
-    </div>
-  </div>
-  <div class='weather-row-mobile' id='weather-row-mobile'></div>
-</div>
-</div>
-
 <!-- DONACIONES BAJO EL MAPA -->
 <div style='background:linear-gradient(135deg,#0F6E56 0%,#1D9E75 60%,#22c55e 100%);padding:1.6rem 1.5rem;position:relative;overflow:hidden;animation:donGlow 2.5s ease-in-out infinite;border-top:3px solid rgba(255,220,100,0.5);border-bottom:3px solid rgba(255,220,100,0.5)'>
   <!-- fondo animado -->
@@ -6091,6 +6074,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v439</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v440</div>
 </body>
 </html>
