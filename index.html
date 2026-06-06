@@ -193,7 +193,7 @@
 
 
   <!-- Panel ruta flotante esquina inferior izquierda del mapa -->
-  <div id='map-ruta-panel' style='display:flex;position:absolute;bottom:10px;left:10px;z-index:400;background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);border-radius:12px;padding:6px;box-shadow:0 2px 16px rgba(0,0,0,0.35);flex-direction:column;align-items:center;gap:4px;font-family:DM Sans,sans-serif'>
+  <div id='map-ruta-panel' style='display:flex;position:absolute;bottom:52px;left:10px;z-index:400;background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);border-radius:12px;padding:6px;box-shadow:0 2px 16px rgba(0,0,0,0.35);flex-direction:column;align-items:center;gap:4px;font-family:DM Sans,sans-serif'>
     <span style='font-weight:700;color:rgba(255,255,255,0.85);font-size:10px;letter-spacing:0.5px;padding:0 2px'>RUTA</span>
     <span id='ruta-bar-count' style='background:#1D9E75;color:#fff;padding:2px 6px;border-radius:8px;font-weight:700;font-size:10px'>0 📍</span>
     <span id='ruta-bar-dist' style='color:#7EE8C0;font-weight:600;font-size:10px'>0 km</span>
@@ -211,11 +211,12 @@
     <button onclick='toggleVozNav()' id='ruta-nav-voz' style='display:none;width:36px;height:36px;background:#444;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title='Voz'>🔇</button>
     <button onclick='guardarRuta()' id='ruta-bar-btn-save' style='display:none;width:36px;height:36px;background:#6366f1;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title='Guardar'>💾<span id='ruta-save-txt' style='display:none'></span></button>
     <button onclick='limpiarRuta()' id='ruta-bar-btn-clear' style='display:none;width:36px;height:36px;background:#dc2626;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title='Limpiar'>🗑</button>
-    <!-- Separador -->
-    <div style='width:100%;height:1px;background:rgba(255,255,255,0.15);margin:2px 0'></div>
-    <!-- Refrescar siempre visible al pie del panel -->
-    <button id='btn-refresh-loc' onclick='refrescarUbicacion()' title='Actualizar mi ubicación' style='width:36px;height:36px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;line-height:1;flex-shrink:0'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='#fff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='23 4 23 10 17 10'/><polyline points='1 20 1 14 7 14'/><path d='M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15'/></svg></button>
   </div>
+  <!-- Botón refresh alineado bajo el panel, en el mismo nivel que el buscador -->
+  <button id='btn-refresh-loc' onclick='refrescarUbicacion()' title='Actualizar mi ubicación'
+    style='display:flex;position:absolute;bottom:10px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>
+    <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='#333' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='23 4 23 10 17 10'/><polyline points='1 20 1 14 7 14'/><path d='M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15'/></svg>
+  </button>
   <!-- btn-go oculto para compatibilidad con JS existente -->
   <span id='ruta-bar-btn-go' style='display:none'></span>
   <!-- IDs ocultos para compatibilidad con JS existente -->
@@ -268,6 +269,7 @@
       <input id='buscar-mapa-strip-input' type='text' placeholder='Cafetería, calle, monumento, playa...' autocomplete='off'
         style='flex:1;border:none;background:none;font-size:13px;color:#1a1a1a;font-family:DM Sans,sans-serif;outline:none;padding:9px 12px;min-width:0'
         onkeydown='if(event.key==="Enter")ejecutarBusquedaMapa()'/>
+      <button onclick='ejecutarBusquedaMapa()' style='background:#1D9E75;color:#fff;border:none;padding:9px 13px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600;white-space:nowrap;flex-shrink:0'>🔍</button>
       <button onclick='cerrarBuscadorMapa()' style='background:none;color:#9ca3af;border:none;border-left:1px solid #e5e7eb;padding:9px 10px;font-size:16px;cursor:pointer;line-height:1;flex-shrink:0'>✕</button>
     </div>
   </div>
@@ -558,7 +560,7 @@
 
 <!-- DRAWER HISTORIA -->
 <div id='historia-drawer-bg' onclick='cerrarHistoriaDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:8200'></div>
-<div id='historia-drawer' style='display:none;position:fixed;bottom:0;left:0;right:0;z-index:8201;background:linear-gradient(160deg,#1a4a3a 0%,#1e3d5f 100%);border-radius:20px 20px 0 0;padding:1.25rem 1.5rem 2.5rem;max-height:88vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
+<div id='historia-drawer' class='historia-section' style='display:none;position:fixed;bottom:0;left:0;right:0;z-index:8201;border-radius:20px 20px 0 0;padding:1.25rem 1.5rem 2.5rem;max-height:88vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
   <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem'>
     <div style='display:flex;align-items:center;gap:10px'>
       <span style='font-size:22px'>🐚</span>
@@ -569,7 +571,7 @@
     </div>
     <button onclick='cerrarHistoriaDrawer()' style='background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:34px;height:34px;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0'>✕</button>
   </div>
-  <div class='historia-inner'>
+  <div class='historia-inner' style='max-width:100%;margin:0'>
     <span class='historia-tag' id='historia-tag'>&#9884;&#65039; Historia Compostelana</span>
     <h2 id='historia-h2'>El origen de la vieira y la huella templaria</h2>
     <div class='historia-divider'></div>
@@ -6248,6 +6250,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v443</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v444</div>
 </body>
 </html>
