@@ -257,8 +257,23 @@
       <rect x='4' y='8' width='14' height='6' rx='1.5' fill='#fff'/>
     </svg>
   </button>
+  <!-- Botón SOS en el mapa -->
+  <button onclick='abrirSOSDrawer()' title='Emergencias SOS'
+    style='display:flex;position:absolute;top:98px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(220,38,38,0.4);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(220,38,38,0.25);padding:0'>
+    <svg width='22' height='22' viewBox='0 0 22 22' xmlns='http://www.w3.org/2000/svg'>
+      <circle cx='11' cy='11' r='10' fill='#dc2626'/>
+      <rect x='8' y='4' width='6' height='14' rx='1.5' fill='#fff'/>
+      <rect x='4' y='8' width='14' height='6' rx='1.5' fill='#fff'/>
+    </svg>
+  </button>
 
-
+  <div id='ar-overlay' style='display:none;position:fixed;inset:0;z-index:99000;background:#000;flex-direction:column'>
+    <video id='ar-video' autoplay playsinline muted style='position:absolute;inset:0;width:100%;height:100%;object-fit:cover'></video>
+    <div id='ar-labels' style='position:absolute;inset:0;pointer-events:none;overflow:hidden'></div>
+    <button onclick='cerrarModoAR()' style='position:absolute;top:20px;right:20px;z-index:10;background:rgba(0,0,0,0.6);color:#fff;border:none;border-radius:50%;width:44px;height:44px;font-size:22px;cursor:pointer'>✕</button>
+    <div style='position:absolute;bottom:30px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.7);font-size:12px;font-family:DM Sans,sans-serif;text-align:center'>Apunta hacia los puntos de interés del Camino</div>
+    <div id='ar-status' style='position:absolute;top:20px;left:20px;color:#fff;font-size:12px;font-family:DM Sans,sans-serif;background:rgba(0,0,0,0.5);padding:4px 10px;border-radius:8px'></div>
+  </div>
   <!-- Botón añadir punto (derecha) -->
   <button id='btn-add-poi-map' onclick='abrirFormPOI()' title='Añadir un punto' style='position:absolute;top:10px;right:10px;z-index:400;height:36px;background:#1D9E75;color:#fff;border:none;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;font-size:13px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,0.2);padding:0 12px;font-family:DM Sans,sans-serif;white-space:nowrap'>➕ <span id='btn-add-poi-map-txt'>Punto</span></button>
   <!-- Panel radio en mapa (columna derecha bajo +punto) -->
@@ -505,7 +520,12 @@
   </div>
   <p id='msg-brujula' style='font-size:12px;color:rgba(255,255,255,0.6);margin:6px 0 0;text-align:center;min-height:18px'></p>
 
-
+  <!-- Botón SOS -->
+  <div style='margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid rgba(255,255,255,0.12)'>
+    <button onclick='abrirSOSDrawer()' style='width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:rgba(220,38,38,0.25);border:1.5px solid rgba(220,38,38,0.6);border-radius:16px;padding:12px 20px;color:#fca5a5;font-size:15px;font-weight:700;font-family:DM Sans,sans-serif;cursor:pointer;transition:background 0.2s;letter-spacing:0.5px'>
+      <span style='font-size:22px'>🆘</span> SOS · Emergencias
+    </button>
+  </div>
 </div>
 
 <!-- DRAWER SOS -->
@@ -563,61 +583,6 @@
 
   <button onclick='cerrarSOSDrawer()' style='width:100%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:11px;color:rgba(255,255,255,0.8);font-size:14px;font-weight:500;font-family:DM Sans,sans-serif;cursor:pointer'>🧭 Volver a la brújula</button>
 </div>
-
-
-<!-- TRADUCTOR POR CÁMARA (fuera del map-section para z-index correcto) -->
-<div id='ar-overlay' style='display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:999999;background:#000'>
-  <video id='ar-video' autoplay playsinline muted style='position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover'></video>
-  <canvas id='ar-canvas' style='display:none'></canvas>
-  <!-- Cabecera -->
-  <div style='position:absolute;top:0;left:0;right:0;padding:50px 16px 20px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(0,0,0,0.8),transparent);z-index:2'>
-    <div style='display:flex;align-items:center;gap:8px'>
-      <span style='font-size:22px'>🔤</span>
-      <div><div style='color:#fff;font-size:15px;font-weight:600;font-family:DM Sans,sans-serif'>Traductor</div>
-      <div style='color:rgba(255,255,255,0.6);font-size:12px;font-family:DM Sans,sans-serif'>Apunta a cualquier texto</div></div>
-    </div>
-    <button onclick='cerrarModoAR()' style='background:rgba(0,0,0,0.6);color:#fff;border:2px solid rgba(255,255,255,0.5);border-radius:50%;width:44px;height:44px;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:300'>✕</button>
-  </div>
-  <!-- Marco centrado -->
-  <div style='position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:85%;max-width:360px;pointer-events:none;z-index:2'>
-    <svg width='100%' viewBox='0 0 340 200'>
-      <rect x='2' y='2' width='336' height='196' rx='12' fill='none' stroke='rgba(255,255,255,0.35)' stroke-width='1.5' stroke-dasharray='8 4'/>
-      <path d='M2,32 L2,12 Q2,2 12,2 L32,2' fill='none' stroke='#1D9E75' stroke-width='3' stroke-linecap='round'/>
-      <path d='M308,2 L328,2 Q338,2 338,12 L338,32' fill='none' stroke='#1D9E75' stroke-width='3' stroke-linecap='round'/>
-      <path d='M338,168 L338,188 Q338,198 328,198 L308,198' fill='none' stroke='#1D9E75' stroke-width='3' stroke-linecap='round'/>
-      <path d='M32,198 L12,198 Q2,198 2,188 L2,168' fill='none' stroke='#1D9E75' stroke-width='3' stroke-linecap='round'/>
-    </svg>
-    <div style='text-align:center;margin-top:8px;color:rgba(255,255,255,0.5);font-size:12px;font-family:DM Sans,sans-serif'>Encuadra el texto aquí</div>
-  </div>
-  <!-- Panel resultado -->
-  <div id='ar-result-panel' style='position:absolute;bottom:0;left:0;right:0;background:rgba(10,10,10,0.96);backdrop-filter:blur(16px);border-radius:20px 20px 0 0;padding:16px 20px 40px;z-index:3;transform:translateY(100%);transition:transform 0.3s ease;max-height:50vh;overflow-y:auto'>
-    <div style='width:40px;height:4px;background:rgba(255,255,255,0.3);border-radius:2px;margin:0 auto 14px'></div>
-    <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:10px'>
-      <span style='color:rgba(255,255,255,0.5);font-size:11px;font-family:DM Sans,sans-serif;text-transform:uppercase;letter-spacing:1px' id='ar-result-lang'>Traducción</span>
-      <button onclick='document.getElementById("ar-result-panel").style.transform="translateY(100%)"' style='background:none;border:none;color:rgba(255,255,255,0.4);font-size:20px;cursor:pointer;padding:0;line-height:1'>✕</button>
-    </div>
-    <div id='ar-result-text' style='color:#fff;font-size:16px;font-family:DM Sans,sans-serif;line-height:1.65'></div>
-    <div id='ar-original-text' style='color:rgba(255,255,255,0.4);font-size:12px;font-family:DM Sans,sans-serif;margin-top:10px;font-style:italic;border-top:1px solid rgba(255,255,255,0.1);padding-top:10px'></div>
-  </div>
-  <!-- Controles inferiores -->
-  <div style='position:absolute;bottom:50px;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:20px;z-index:4'>
-    <select id='ar-lang-select' style='background:rgba(0,0,0,0.7);color:#fff;border:1.5px solid rgba(255,255,255,0.4);border-radius:24px;padding:10px 16px;font-size:13px;font-family:DM Sans,sans-serif;cursor:pointer;outline:none'>
-      <option value='es'>→ Español</option>
-      <option value='gl'>→ Galego</option>
-      <option value='en'>→ English</option>
-    </select>
-    <button id='ar-capture-btn' onclick='arCapturarYTraducir()' style='width:70px;height:70px;border-radius:50%;background:#fff;border:5px solid rgba(255,255,255,0.35);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(0,0,0,0.5);flex-shrink:0'>
-      <svg width='30' height='30' viewBox='0 0 24 24' fill='none'><circle cx='12' cy='12' r='8' fill='#1D9E75'/><path d='M8 12h8M12 8v8' stroke='#fff' stroke-width='2.5' stroke-linecap='round'/></svg>
-    </button>
-    <div style='width:100px'></div>
-  </div>
-  <!-- Spinner -->
-  <div id='ar-loading' style='display:none;position:absolute;inset:0;background:rgba(0,0,0,0.6);z-index:5;align-items:center;justify-content:center;flex-direction:column;gap:14px'>
-    <div style='width:48px;height:48px;border:3px solid rgba(255,255,255,0.2);border-top-color:#1D9E75;border-radius:50%;animation:arSpin 0.8s linear infinite'></div>
-    <div style='color:#fff;font-size:14px;font-family:DM Sans,sans-serif'>Procesando...</div>
-  </div>
-</div>
-<style>@keyframes arSpin{to{transform:rotate(360deg)}}</style>
 
 <script>
 (function() {
@@ -1248,9 +1213,15 @@ var PUNTOS = [
 
   // NUEVOS PUNTOS — Nigran, Mos y albergues del Camino
   { id:'castro-santa-trega', nombre:'Castro de Santa Trega — A Guarda', nombre_gl:'Castro de Santa Trega - A Guarda', nombre_en:'Santa Trega Hillfort - A Guarda', categoria:'vestigio arqueológico',
-    descripcion:'Puerta de entrada a Galicia del Camino Portugués de la Costa. En la cima del monte Santa Trega, a 341 metros sobre la desembocadura del Miño, se extiende uno de los castros más importantes del noroeste peninsular, con más de 5.000 años de historia. La panorámica sobre el Miño y la costa atlántica es uno de los momentos más memorables de la ruta.', subtitulo:'Cinco mil años de historia sobre el Miño', subtitulo_gl:'Cinco mil anos de historia sobre o Miño', subtitulo_en:'Five thousand years of history above the Miño', descripcion_gl:'Porta de entrada a Galicia do Camiño Portugués da Costa. Na cima do monte Santa Trega, a 341 metros sobre a desembocadura do Miño, esténdese un dos castros máis importantes do noroeste peninsular, con máis de 5.000 anos de historia. A panorámica sobre o Miño e a costa atlántica é un dos momentos máis memorables da ruta.', descripcion_en:'Gateway to Galicia on the Portuguese Coastal Way. At the summit of Monte Santa Trega, 341 metres above the mouth of the Miño, spreads one of the most important hillforts in the northwest of the Iberian Peninsula, with over 5,000 years of history. The panorama over the Miño and the Atlantic coast is one of the most memorable moments of the route.',
+    descripcion:'Puerta de entrada a Galicia del Camino Portugués de la Costa. En la cima del monte Santa Trega, a 341 metros sobre la desembocadura del Miño, se extiende uno de los castros más importantes del noroeste peninsular, con más de 5.000 años de historia. La panorámica sobre el Miño y la costa atlántica es uno de los momentos más memorables de la ruta. Este promontorio atlántico fue el corazón del Comitatus Turonii, el condado galaico-romano cuya memoria perduró en el topónimo «Toroño» durante toda la Edad Media. Los señores de Turonium ejercieron desde estas tierras jurisdicción sobre La Guarda y mediaron en los conflictos entre el Concejo y el Monasterio de Oia hasta que el linaje se extinguió con los Sotomayor.', subtitulo:'Cinco mil años de historia sobre el Miño', subtitulo_gl:'Cinco mil anos de historia sobre o Miño', subtitulo_en:'Five thousand years of history above the Miño', descripcion_gl:'Porta de entrada a Galicia do Camiño Portugués da Costa. Na cima do monte Santa Trega, a 341 metros sobre a desembocadura do Miño, esténdese un dos castros máis importantes do noroeste peninsular, con máis de 5.000 anos de historia. A panorámica sobre o Miño e a costa atlántica é un dos momentos máis memorables da ruta. Este promontorio atlántico foi o corazón do Comitatus Turonii, o condado galaico-romano cuxa memoria perdurou no topónimo «Toroño» durante toda a Idade Media.', descripcion_en:'Gateway to Galicia on the Portuguese Coastal Way. At the summit of Monte Santa Trega, 341 metres above the mouth of the Miño, spreads one of the most important hillforts in the northwest of the Iberian Peninsula, with over 5,000 years of history. The panorama over the Miño and the Atlantic coast is one of the most memorable moments of the route. This Atlantic headland was the heart of the Comitatus Turonii, the Galician-Roman county whose memory endured in the toponym Toroño throughout the Middle Ages.',
     lat:41.905, lng:-8.873, emoji:'🗺️', color:'ambar' },
 
+  { id:'castillo-entenca-torono', nombre:'Castillo de Entença — Tierra de Toroño', nombre_gl:'Castelo de Entença — Terra de Toroño', nombre_en:'Castle of Entença — Land of Toroño',
+    categoria:'edificación histórica', subtitulo:'Donado por Enrique II al obispado de Tui en 1369', subtitulo_gl:'Doado por Enrique II ao bispado de Tui en 1369', subtitulo_en:'Granted by Enrique II to the bishopric of Tui in 1369',
+    descripcion:'En tierra de Toroño, el Castillo de Entença fue propiedad de la Corona de Castilla hasta que el 4 de septiembre de 1369, en las Cortes de Toro, Enrique II lo donó junto con La Guarda, el Coto de Coya con su Bailía —antiguo dominio templario— y la Villa Vieja de Redondela al obispo de Tui. El documento real especifica que el castillo era de la Corona, no de Suero Yáñez de Parada, que solo tenía La Guarda. La donación impuso una condición litúrgica de peso: un aniversario solemne en Santa María de Septiembre a perpetuidad, vinculando para siempre este territorio fronterizo a la memoria del nuevo rey Trastámara. Hoy solo la memoria del topónimo y la configuración del territorio conservan la huella de este enclave que dominó el paso del Camino Portugués por las tierras del antiguo Comitatus Turonii.',
+    descripcion_gl:'En terra de Toroño, o Castelo de Entença foi propiedade da Coroa de Castela ata que o 4 de setembro de 1369, nas Cortes de Toro, Enrique II o doou xunto con A Guarda, o Couto de Coya coa súa Bailía —antigo dominio templario— e a Vila Vella de Redondela ao bispo de Tui. O documento real especifica que o castelo era da Coroa, non de Suero Yáñez de Parada, que só tiña A Guarda. A doazón impuxo unha condición litúrxica de peso: un aniversario solemne en Santa María de Setembro a perpetuidade, vinculando para sempre este territorio fronteirizo á memoria do novo rei Trastámara.',
+    descripcion_en:'In the land of Toroño, the Castle of Entença was Crown property until 4 September 1369, when at the Courts of Toro, Enrique II donated it together with A Guarda, the Coto de Coya with its Bailiwick — a former Templar domain — and the Old Town of Redondela to the bishop of Tui. The royal document specifies that the castle belonged to the Crown, not to Suero Yáñez de Parada, who only held A Guarda. The donation imposed a solemn liturgical condition: a perpetual anniversary on Santa María de Septiembre each year, binding this frontier territory forever to the memory of the new Trastámara king.',
+    lat:42.008, lng:-8.853, emoji:'🏰', color:'coral' },
   { id:'castello-torono-oia', nombre:'Castillo de Torroño — Ruinas de Lousado · Oia', nombre_gl:'Castelo de Torroño — Ruínas de Lousado · Oia', nombre_en:'Torroño Castle — Lousado Ruins · Oia',
     categoria:'edificación histórica',
     lat:41.9720, lng:-8.8750,
@@ -1263,7 +1234,7 @@ var PUNTOS = [
     emoji:'🏰', color:'morado' },
 
   { id:'monasterio-oia', nombre:'Monasterio de Santa María de Oia', nombre_gl:'Mosteiro de Santa María de Oia', nombre_en:'Santa María de Oia Monastery', categoria:'edificación religiosa',
-    descripcion:'Monasterio cisterciense fundado en 1137, Bien de Interés Cultural y uno de los principales enclaves del Camino Portugués de la Costa. Sus torres y murallas de granito dominan la costa con la misma presencia con que lo han hecho durante nueve siglos. El claustro y la iglesia románica merecen la parada.', subtitulo:'Nueve siglos mirando al Atlántico', subtitulo_gl:'Nove séculos mirando ao Atlántico', subtitulo_en:'Nine centuries facing the Atlantic', descripcion_gl:'Mosteiro cisterciense fundado en 1137, Ben de Interese Cultural e un dos principais enclaves do Camiño Portugués da Costa. As súas torres e murallas de granito dominan a costa coa mesma presenza con que o fixeron durante nove séculos. O claustro e a igrexa románica merecen a parada.', descripcion_en:'Cistercian monastery founded in 1137, listed as a Cultural Heritage Site and one of the main landmarks on the Portuguese Coastal Way. Its granite towers and walls command the coast with the same presence they have for nine centuries. The cloister and Romanesque church are worth a stop.',
+    descripcion:'Monasterio cisterciense fundado en 1137, Bien de Interés Cultural y uno de los principales enclaves del Camino Portugués de la Costa. Sus torres y murallas de granito dominan la costa con la misma presencia con que lo han hecho durante nueve siglos. El claustro y la iglesia románica merecen la parada. Cuando en 1369 Enrique II donó al obispo de Tui el castillo de Entença y los bienes de Suero Yáñez, impuso un aniversario solemne en Santa María de Septiembre a perpetuidad, vinculando para siempre la donación a la liturgia de este litoral.', subtitulo:'Nueve siglos mirando al Atlántico', subtitulo_gl:'Nove séculos mirando ao Atlántico', subtitulo_en:'Nine centuries facing the Atlantic', descripcion_gl:'Mosteiro cisterciense fundado en 1137, Ben de Interese Cultural e un dos principais enclaves do Camiño Portugués da Costa. As súas torres e murallas de granito dominan a costa coa mesma presenza con que o fixeron durante nove séculos. O claustro e a igrexa románica merecen a parada.', descripcion_en:'Cistercian monastery founded in 1137, listed as a Cultural Heritage Site and one of the main landmarks on the Portuguese Coastal Way. Its granite towers and walls command the coast with the same presence they have for nine centuries. The cloister and Romanesque church are worth a stop.',
     lat:42.003, lng:-8.876, emoji:'⛪', color:'verde' },
   { id:'monterreal-baiona', nombre:'Fortaleza de Monterreal — Baiona', nombre_gl:'Fortaleza de Monterreal - Baiona', nombre_en:'Monterreal Fortress - Baiona', categoria:'edificación histórica',
     descripcion:'Fortaleza erigida entre los siglos XI y XVII sobre el promontorio de Monte Boi, donde la historia entró en la Edad Moderna: aquí atracó en 1493 La Pinta, la primera nave en regresar del Nuevo Mundo. Sus 3 km de murallas y el parador que alberga en su interior hacen de Monterreal uno de los lugares más singulares del camino costero.', subtitulo:'Donde La Pinta anunció el Nuevo Mundo', subtitulo_gl:'Onde A Pinta anunciou o Novo Mundo', subtitulo_en:'Where La Pinta announced the New World', descripcion_gl:'Fortaleza erguida entre os séculos XI e XVII sobre o promontorio de Monte Boi, onde a historia entrou na Idade Moderna: aquí atracou en 1493 A Pinta, a primeira nave en regresar do Novo Mundo. Os seus 3 km de murallas e o parador que alberga no seu interior fan de Monterreal un dos lugares máis singulares do camiño costeiro.', descripcion_en:'Fortress built between the 11th and 17th centuries on the Monte Boi promontory, where history entered the Modern Age: here in 1493 La Pinta docked, the first ship to return from the New World. Its 3 km of walls and the parador housed within make Monterreal one of the most singular places on the coastal way.',
@@ -1781,148 +1752,7 @@ function actualizarBtnPrincipal() {
   });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// TRADUCTOR POR CÁMARA — Claude Vision
-// ═══════════════════════════════════════════════════════════════
-var _arStream = null;
-var _arActivo = false;
-
-function abrirModoAR() {
-  var overlay = document.getElementById('ar-overlay');
-  var video   = document.getElementById('ar-video');
-  if (!overlay || !video) return;
-
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    mostrarToast('⚠️ Tu navegador no soporta acceso a la cámara');
-    return;
-  }
-
-  overlay.style.display = 'block';
-  _arActivo = true;
-  document.body.style.overflow = 'hidden';
-  document.documentElement.style.overflow = 'hidden';
-  // Ocultar loading si quedó visible
-  var loading = document.getElementById('ar-loading');
-  if (loading) loading.style.display = 'none';
-  var panel = document.getElementById('ar-result-panel');
-  if (panel) panel.style.transform = 'translateY(100%)';
-
-  navigator.mediaDevices.getUserMedia({
-    video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } },
-    audio: false
-  }).then(function(stream) {
-    _arStream = stream;
-    video.srcObject = stream;
-    video.play();
-  }).catch(function() {
-    mostrarToast('⚠️ Permiso de cámara denegado');
-    cerrarModoAR();
-  });
-}
-
-function cerrarModoAR() {
-  _arActivo = false;
-  var overlay  = document.getElementById('ar-overlay');
-  var video    = document.getElementById('ar-video');
-  var panel    = document.getElementById('ar-result-panel');
-  var loading  = document.getElementById('ar-loading');
-  if (overlay) overlay.style.display = 'none';
-  if (video)   { video.srcObject = null; }
-  if (panel)   panel.style.transform = 'translateY(100%)';
-  if (loading) loading.style.display = 'none';
-  if (_arStream) { _arStream.getTracks().forEach(function(t){ t.stop(); }); _arStream = null; }
-  document.body.style.overflow = '';
-  document.documentElement.style.overflow = '';
-}
-
-function arCapturarYTraducir() {
-  var video   = document.getElementById('ar-video');
-  var canvas  = document.getElementById('ar-canvas');
-  var loading = document.getElementById('ar-loading');
-  var btn     = document.getElementById('ar-capture-btn');
-  if (!video || !canvas) return;
-
-  // Feedback visual en el botón
-  if (btn) { btn.style.transform = 'scale(0.92)'; setTimeout(function(){ btn.style.transform = ''; }, 150); }
-
-  // Capturar fotograma
-  canvas.width  = video.videoWidth  || 1280;
-  canvas.height = video.videoHeight || 720;
-  var ctx = canvas.getContext('2d');
-  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-  // Convertir a base64 JPEG (comprimido para no saturar la API)
-  var base64 = canvas.toDataURL('image/jpeg', 0.75).split(',')[1];
-
-  // Obtener idioma destino
-  var langSel = document.getElementById('ar-lang-select');
-  var langTarget = langSel ? langSel.value : 'es';
-  var langName = langTarget === 'gl' ? 'Galego' : langTarget === 'en' ? 'English' : 'Español';
-
-  // Feedback visual
-  var btn = document.getElementById('ar-capture-btn');
-  if (btn) { btn.style.transform = 'scale(0.9)'; setTimeout(function(){ btn.style.transform=''; }, 150); }
-
-  // Mostrar spinner
-  if (loading) loading.style.display = 'flex';
-
-  // Comprimir imagen para enviar al worker (máx 800px ancho)
-  var maxW = 800;
-  var scale = canvas.width > maxW ? maxW / canvas.width : 1;
-  var tmpCanvas = document.createElement('canvas');
-  tmpCanvas.width  = Math.round(canvas.width  * scale);
-  tmpCanvas.height = Math.round(canvas.height * scale);
-  tmpCanvas.getContext('2d').drawImage(canvas, 0, 0, tmpCanvas.width, tmpCanvas.height);
-  var base64 = tmpCanvas.toDataURL('image/jpeg', 0.75).split(',')[1];
-
-  // URL del Worker — se actualizará tras el despliegue
-  var WORKER_URL = 'https://ultreia-translate.TU_SUBDOMINIO.workers.dev';
-
-  fetch(WORKER_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ image: base64, lang: langTarget })
-  })
-  .then(function(r) { return r.json(); })
-  .then(function(data) {
-    if (loading) loading.style.display = 'none';
-
-    var panel  = document.getElementById('ar-result-panel');
-    var txtEl  = document.getElementById('ar-result-text');
-    var origEl = document.getElementById('ar-original-text');
-    var langEl = document.getElementById('ar-result-lang');
-
-    if (data.sin_texto) {
-      if (txtEl)  txtEl.innerHTML = '<span style="color:rgba(255,255,255,0.5);font-style:italic">No se detectó texto legible en la imagen.<br>Acerca más la cámara al texto.</span>';
-      if (langEl) langEl.textContent = 'Sin texto detectado';
-    } else if (data.traduccion) {
-      if (txtEl)  txtEl.textContent = data.traduccion;
-      var orig = data.original || '';
-      var nota = data.nota || '';
-      var idiomaOr = data.idioma_origen ? ' (' + data.idioma_origen + ')' : '';
-      if (origEl) origEl.innerHTML =
-        (orig ? '<div style="margin-bottom:4px">📝 ' + orig + '</div>' : '') +
-        (nota ? '<div style="margin-top:4px;color:rgba(255,255,255,0.35)">💡 ' + nota + '</div>' : '');
-      if (langEl) langEl.textContent = '→ ' + langName + idiomaOr;
-    } else {
-      if (txtEl) txtEl.innerHTML = '<span style="color:#fca5a5">⚠️ Error: ' + (data.error || 'Respuesta inesperada') + '</span>';
-    }
-    if (panel) panel.style.transform = 'translateY(0)';
-  })
-  .catch(function(err) {
-    if (loading) loading.style.display = 'none';
-    var panel  = document.getElementById('ar-result-panel');
-    var txtEl  = document.getElementById('ar-result-text');
-    var langEl = document.getElementById('ar-result-lang');
-    if (txtEl)  txtEl.innerHTML = '<span style="color:#fca5a5">⚠️ Error de conexión.<br><span style="font-size:13px;opacity:0.7">Comprueba que tienes internet.</span></span>';
-    if (langEl) langEl.textContent = 'Error';
-    if (panel)  panel.style.transform = 'translateY(0)';
-  });
-}
-// ═══════════════════════════════════════════════════════════════
-// FIN TRADUCTOR POR CÁMARA
-// ═══════════════════════════════════════════════════════════════
-
+// ── POIs DE USUARIO ─────────────────────────────────────────────────────────
 var PUNTOS_USUARIO = []; // POIs locales del usuario (localStorage)
 var poiFormLat = null, poiFormLng = null;
 var USER_POI_PREFIX = 'u_'; // prefijo para distinguir POIs de usuario
@@ -2337,23 +2167,11 @@ function abrirFormPOI() {
   document.getElementById('poi-input-cat').value = '';
   document.getElementById('poi-coords-display').textContent = '';
   document.getElementById('poi-form-msg').textContent = '';
+  // Reset botones de categoría
   resetAllPoiCatBtns();
   var lbl = document.getElementById('poi-cat-seleccionada');
   if (lbl) lbl.style.display = 'none';
   cerrarSubcatDrawer();
-  // Aplicar idioma actual al modal
-  var t = T[idiomaActual] || T.es;
-  var el;
-  el=document.getElementById('modal-poi-title');if(el)el.textContent=t.modalPoiTitle||'📍 Añadir un punto';
-  el=document.getElementById('modal-poi-sub');if(el)el.textContent=t.modalPoiSub||'';
-  el=document.getElementById('lbl-poi-nombre');if(el)el.textContent=t.lblNombre||'Nombre del lugar *';
-  el=document.getElementById('lbl-poi-desc');if(el)el.textContent=t.lblDesc||'Descripción';
-  el=document.getElementById('lbl-poi-cat');if(el)el.textContent=t.lblCat||'Categoría *';
-  el=document.getElementById('lbl-poi-ubic');if(el)el.textContent=t.lblUbic||'Ubicación *';
-  el=document.getElementById('btn-mi-ubic-txt');if(el)el.textContent=t.btnMiUbic||'Mi ubicación';
-  el=document.getElementById('btn-marcar-mapa-txt');if(el)el.textContent=t.btnMarcarMapa||'En el mapa';
-  el=document.getElementById('btn-poi-cancelar');if(el)el.textContent=t.btnCancelar||'Cancelar';
-  el=document.getElementById('btn-poi-guardar-txt');if(el)el.textContent=t.btnGuardar||'Guardar punto';
   var m = document.getElementById('modal-add-poi');
   m.style.display = 'flex';
 }
@@ -3316,7 +3134,7 @@ function initMapa() {
   // Ocultar botón ➕ cuando se abre un popup, restaurar al cerrar
   var _popupAbierto = false;
 
-  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc','btn-brujula-mapa','btn-sos-mapa','btn-ar-mapa','map-ruta-panel','map-radio-control'];
+  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc','btn-brujula-mapa','btn-sos-mapa','map-ruta-panel','map-radio-control'];
   mapa.on('popupopen', function() {
     _popupAbierto = true;
     _mapBtns.forEach(function(id){
@@ -3640,7 +3458,7 @@ function pedirOrientacion() {
     window.removeEventListener('deviceorientation', actualizarFlecha, true);
     if (btn) { btn.style.background='#fff'; btn.style.border='2px solid rgba(0,0,0,0.2)'; btn.style.color=''; }
     if (window._userMarker) window._userMarker.setIcon(crearIconoUsuario(null));
-    mostrarToast('🧭 Brújula desactivada');
+    mostrarToast('🧭 ' + ((T[idiomaActual]||T.es).brujulaDesactivar||'Desactivar'));
     var nb = document.getElementById('ruta-nav-orientacion');
     if(nb){ nb.style.background='#fff'; nb.style.border='2px solid rgba(0,0,0,0.15)'; nb.style.color='#333';
       var ol = nb.querySelector('#nav-ori-offline'); if(ol) ol.style.display='inline';
@@ -3657,7 +3475,7 @@ function pedirOrientacion() {
     window.removeEventListener('deviceorientation', actualizarFlecha, true);
     window.addEventListener('deviceorientation', actualizarFlecha, true);
     if (btn) { btn.style.background='#1D9E75'; btn.style.border='2px solid #1D9E75'; btn.style.color='#fff'; }
-    mostrarToast('🧭 Brújula activada');
+    mostrarToast((T[idiomaActual]||T.es).brujulaMsgActiva||'✅ Brújula activa');
     var nb = document.getElementById('ruta-nav-orientacion');
     if(nb){ nb.style.background='#EFF6FF'; nb.style.border='2px solid #185FA5'; nb.style.color='#185FA5';
       var ol = nb.querySelector('#nav-ori-offline'); if(ol) ol.style.display='none';
@@ -4532,7 +4350,7 @@ function guardarRuta() {
       document.body.appendChild(cartel);
     }
     var tCartel = T[idiomaActual] || T.es;
-    cartel.innerHTML = '💾 <strong>' + (tCartel.guardandoRuta||'Guardando ruta...') + '</strong><br><span style="font-size:12px;color:rgba(255,255,255,0.85)">' + (tCartel.guardandoRutaSub||'Recuerda que este es un proyecto gratuito y necesitamos tu apoyo para el soporte. ¡Gracias! 🙏') + '</span>';
+    cartel.innerHTML = '💾 <strong>' + (tCartel.guardandoRuta||'Ruta guardada ✓') + '</strong><br><span style="font-size:12px;color:rgba(255,255,255,0.85)">' + (tCartel.guardandoRutaSub||'') + '</span>';
     cartel.style.opacity = '1';
     clearTimeout(cartel._t);
     cartel._t = setTimeout(function(){ cartel.style.opacity = '0'; }, 3500);
@@ -5157,21 +4975,8 @@ var T={
     btnGuardar:'Guardar punto',
     btnGuardarRuta:'Guardar',
     guardandoRuta:'Ruta guardada ✓',
-    guardandoRutaSub:'Recuerda que este es un proyecto gratuito y necesitamos tu apoyo para el soporte. ¡Gracias! 🙏',
-    catAlerta:'Alerta',
-    catControl:'Control',
-    catRecomendar:'Recomendar',
-    catNaturaleza:'Naturaleza',
-    catMonumento:'Monumento',
-    catReligiosa:'Religiosa',
-    catMirador:'Mirador',
-    catAlbergue:'Albergue',
-    catHistorica:'Histórica',
-    catArqueologico:'Arqueológico',
-    subcatTitulo:'Recomendar punto',
-    subcatSub:'Elige el tipo de lugar',
-    poiPlaceholder:'Ej: Fuente del Peregrino',
-    poiDescPlaceholder:'Cuéntanos algo sobre este lugar...',
+    guardandoRutaSub:'Recuerda que este es un proyecto gratuito y necesitamos tu apoyo. ¡Gracias! 🙏',
+    brujulaNorte:'Norte',brujulaSantiago:'Santiago',brujulaActivar:'Activar',brujulaDesactivar:'Desactivar',brujulaRecalibrar:'↺ Recalibrar',brujulaVolverMapa:'🗺️ Volver al mapa',brujulaMsgActiva:'✅ Brújula activa',brujulaMsgRecalibrar:'↺ Recalibrando...',brujulaMsgActualizada:'✅ Posición actualizada',subcatTitulo:'Recomendar punto',subcatSub:'Elige el tipo de lugar',
     confirmarEliminar:'¿Eliminar este punto? Esta acción no se puede deshacer.',
     btnNotifOff:'Activa avisos de puntos de interés cercanos',
     btnNotifOn:'✅ Avisos de POIs activados',
@@ -5321,21 +5126,8 @@ var T={
     btnGuardar:'Gardar punto',
     btnGuardarRuta:'Gardar',
     guardandoRuta:'Ruta gardada ✓',
-    guardandoRutaSub:'Lembra que este é un proxecto gratuíto e necesitamos o teu apoio para o soporte. Grazas! 🙏',
-    catAlerta:'Alerta',
-    catControl:'Control',
-    catRecomendar:'Recomendar',
-    catNaturaleza:'Natureza',
-    catMonumento:'Monumento',
-    catReligiosa:'Relixiosa',
-    catMirador:'Miradoiro',
-    catAlbergue:'Albergue',
-    catHistorica:'Histórica',
-    catArqueologico:'Arqueolóxico',
-    subcatTitulo:'Recomendar punto',
-    subcatSub:'Escolle o tipo de lugar',
-    poiPlaceholder:'Ex: Fonte do Peregrino',
-    poiDescPlaceholder:'Cóntanos algo sobre este lugar...',
+    guardandoRutaSub:'Lembra que este é un proxecto gratuíto. Grazas! 🙏',
+    brujulaNorte:'Norte',brujulaSantiago:'Santiago',brujulaActivar:'Activar',brujulaDesactivar:'Desactivar',brujulaRecalibrar:'↺ Recalibrar',brujulaVolverMapa:'🗺️ Volver ao mapa',brujulaMsgActiva:'✅ Brúxula activa',brujulaMsgRecalibrar:'↺ Recalibrando...',brujulaMsgActualizada:'✅ Posición actualizada',subcatTitulo:'Recomendar punto',subcatSub:'Escolle o tipo de lugar',
     confirmarEliminar:'¿Eliminar este punto? Esta acción non se pode desfacer.',
     btnNotifOff:'Activa avisos de puntos de interese cercanos',
     btnNotifOn:'✅ Avisos de POIs activados',
@@ -5492,21 +5284,8 @@ var T={
     btnGuardar:'Save point',
     btnGuardarRuta:'Save',
     guardandoRuta:'Route saved ✓',
-    guardandoRutaSub:'Remember this is a free project and we need your support to keep it running. Thank you! 🙏',
-    catAlerta:'Alert',
-    catControl:'Checkpoint',
-    catRecomendar:'Recommend',
-    catNaturaleza:'Nature',
-    catMonumento:'Monument',
-    catReligiosa:'Religious',
-    catMirador:'Viewpoint',
-    catAlbergue:'Hostel',
-    catHistorica:'Historical',
-    catArqueologico:'Archaeological',
-    subcatTitulo:'Recommend a point',
-    subcatSub:'Choose the type of place',
-    poiPlaceholder:'E.g: Pilgrim2019s Fountain',
-    poiDescPlaceholder:'Tell us something about this place...',
+    guardandoRutaSub:'Remember this is a free project. Thank you! 🙏',
+    brujulaNorte:'North',brujulaSantiago:'Santiago',brujulaActivar:'Activate',brujulaDesactivar:'Deactivate',brujulaRecalibrar:'↺ Recalibrate',brujulaVolverMapa:'🗺️ Back to map',brujulaMsgActiva:'✅ Compass active',brujulaMsgRecalibrar:'↺ Recalibrating...',brujulaMsgActualizada:'✅ Position updated',subcatTitulo:'Recommend a point',subcatSub:'Choose the type of place',
     confirmarEliminar:'Delete this point? This action cannot be undone.',
     btnNotifOff:'Activate nearby points of interest alerts',
     btnNotifOn:'✅ POI alerts activated',
@@ -5645,6 +5424,15 @@ function cambiarIdioma(lang){
   el=document.getElementById('ruta-nav-btn');if(el&&!el.style.display.includes('none'))el.innerHTML=t.panelBtnIr||'▶ Ir';
   el=document.getElementById('ruta-nav-stop');if(el)el.innerHTML=t.panelBtnStop||'⏹ Stop';
   el=document.getElementById('ruta-bar-btn-clear');if(el)el.innerHTML=t.panelBtnLimpiar||'🗑 Limpiar';
+  // Brújula drawer
+  el=document.getElementById('brujula-norte-label');if(el)el.textContent=t.brujulaNorte||'Norte';
+  el=document.getElementById('brujula-stgo-label');if(el)el.textContent=t.brujulaSantiago||'Santiago';
+  el=document.getElementById('btn-refrescar-brujula');if(el)el.textContent=t.brujulaRecalibrar||'↺ Recalibrar';
+  var bCerrarBruj=document.querySelector('#brujula-drawer button[onclick*="cerrarBrujulaDrawer"]');
+  if(bCerrarBruj)bCerrarBruj.textContent=t.brujulaVolverMapa||'🗺️ Volver al mapa';
+  // Subcats drawer
+  el=document.getElementById('subcats-drawer-title');if(el)el.textContent='⭐ '+(t.subcatTitulo||'Recomendar punto');
+  el=document.getElementById('subcats-drawer-sub');if(el)el.textContent=t.subcatSub||'Elige el tipo de lugar';
   el=document.getElementById('poi-ruta-btn-mapa');if(el)el.innerHTML=t.poiVerMapa||'🗺️ Ver en mapa';
   el=document.getElementById('poi-ruta-titulo');if(el)el.textContent=t.poiRutaTitulo||t.rutaLabel;
   el=document.getElementById('poi-ruta-vacia');if(el)el.textContent=t.poiRutaVacia||t.rutaVacio;
@@ -5714,18 +5502,6 @@ function cambiarIdioma(lang){
   el=document.getElementById('share-label-hero');if(el)el.textContent=t.shareLabel;
   el=document.getElementById('share-label-footer');if(el)el.textContent=t.shareLabel;
   el=document.getElementById('ruta-save-txt');if(el)el.textContent=t.btnGuardarRuta||'Guardar';
-  // Placeholders del formulario POI
-  el=document.getElementById('poi-input-nombre');if(el)el.placeholder=t.poiPlaceholder||'';
-  el=document.getElementById('poi-input-desc');if(el)el.placeholder=t.poiDescPlaceholder||'';
-  // Subcategory drawer título
-  el=document.getElementById('subcats-drawer-title');if(el)el.textContent=t.subcatTitulo||'Recomendar punto';
-  el=document.getElementById('subcats-drawer-sub');if(el)el.textContent=t.subcatSub||'';
-  // Botones subcategorías
-  var subKeys=[['subcat-btn-catNaturaleza','🌿','catNaturaleza'],['subcat-btn-catMonumento','🏛️','catMonumento'],
-    ['subcat-btn-catReligiosa','⛪','catReligiosa'],['subcat-btn-catMirador','🔭','catMirador'],
-    ['subcat-btn-catAlbergue','🏠','catAlbergue'],['subcat-btn-catHistorica','📜','catHistorica'],
-    ['subcat-btn-catArqueologico','🔍','catArqueologico']];
-  subKeys.forEach(function(s){el=document.getElementById(s[0]);if(el&&t[s[2]])el.childNodes[1].textContent=' '+t[s[2]];});
   ['share-wa-d','share-wa-m'].forEach(function(id){var e=document.getElementById(id);if(e)e.title=t.shareWa;});
   ['share-fb-d','share-fb-m'].forEach(function(id){var e=document.getElementById(id);if(e)e.title=t.shareFb;});
   ['share-x-d','share-x-m'].forEach(function(id){var e=document.getElementById(id);if(e)e.title=t.shareX;});
@@ -6120,25 +5896,25 @@ document.addEventListener('DOMContentLoaded', function() {
     <button onclick='cerrarSubcatDrawer()' style='background:#f3f4f6;border:none;border-radius:50%;width:30px;height:30px;font-size:16px;cursor:pointer;color:#6b7280;display:flex;align-items:center;justify-content:center;flex-shrink:0'>✕</button>
   </div>
   <div style='display:grid;grid-template-columns:1fr 1fr;gap:8px'>
-    <button type='button' onclick='selSubcat("naturaleza","🌿 Naturaleza")' id='subcat-btn-catNaturaleza' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
+    <button type='button' onclick='selSubcat("naturaleza","🌿 Naturaleza")' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
       <span style='font-size:18px'>🌿</span> Naturaleza
     </button>
-    <button type='button' onclick='selSubcat("monumento","🏛️ Monumento")' id='subcat-btn-catMonumento' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
+    <button type='button' onclick='selSubcat("monumento","🏛️ Monumento")' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
       <span style='font-size:18px'>🏛️</span> Monumento
     </button>
-    <button type='button' onclick='selSubcat("edificación religiosa","⛪ Religiosa")' id='subcat-btn-catReligiosa' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
+    <button type='button' onclick='selSubcat("edificación religiosa","⛪ Religiosa")' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
       <span style='font-size:18px'>⛪</span> Religiosa
     </button>
-    <button type='button' onclick='selSubcat("mirador","🔭 Mirador")' id='subcat-btn-catMirador' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
+    <button type='button' onclick='selSubcat("mirador","🔭 Mirador")' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
       <span style='font-size:18px'>🔭</span> Mirador
     </button>
-    <button type='button' onclick='selSubcat("albergue","🏠 Albergue")' id='subcat-btn-catAlbergue' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
+    <button type='button' onclick='selSubcat("albergue","🏠 Albergue")' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
       <span style='font-size:18px'>🏠</span> Albergue
     </button>
-    <button type='button' onclick='selSubcat("localización histórica","📜 Histórica")' id='subcat-btn-catHistorica' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
+    <button type='button' onclick='selSubcat("localización histórica","📜 Histórica")' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
       <span style='font-size:18px'>📜</span> Histórica
     </button>
-    <button type='button' onclick='selSubcat("vestigio arqueológico","🔍 Arqueológico")' id='subcat-btn-catArqueologico' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
+    <button type='button' onclick='selSubcat("vestigio arqueológico","🔍 Arqueológico")' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
       <span style='font-size:18px'>🔍</span> Arqueológico
     </button>
   </div>
@@ -6201,6 +5977,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v424</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v427</div>
 </body>
 </html>
