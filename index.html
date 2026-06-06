@@ -1134,7 +1134,7 @@
   </div>
 </div>
 <div class='footer-bottom'>
-  <p>&#169; 2025 Guía Compostelana de Vigo &#8212; Todos los derechos reservados</p>
+  <p>&#169; 2025 Guía Compostelana Ultreia &#8212; Todos los derechos reservados</p>
   <p>Hecho con &#10084;&#65039; en Vigo</p>
 </div>
 <script src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'></script>
@@ -3777,7 +3777,7 @@ function renderCarrusel(categoria) {
     var val = valoraciones[p.id];
     var media = val.votos>0 ? (val.total/val.votos).toFixed(1) : '-';
     var pageUrl = encodeURIComponent(window.location.href);
-    var texto = encodeURIComponent(p.nombre+' - Guia Compostelana de Vigo');
+    var texto = encodeURIComponent(p.nombre+' - Guia Compostelana Ultreia');
     var ops = opiniones[p.id];
     var opsList = ops.length
       ? ops.map(function(o){return '<div class="opinion-item"><strong>'+o.autor+':</strong> '+o.texto+'</div>';}).join('')
@@ -5093,8 +5093,8 @@ var T={
     historiaSub:'Dos historias extraordinarias que nacieron en estas mismas orillas',
     historiaH3a:'🐚 El Cabaleiro das Cunchas — La leyenda que nació en Bouzas',
     historiaH3b:'⚔️ Vigo, tierra de templarios',
-    donSub:'Esta guía es gratuita y sin publicidad. Con tu donación ayudas a mantenerla viva y a seguir descubriendo el patrimonio compostelano de Vigo.',
-    footerDonTitle:'Apoya esta guía compostelana',
+    donSub:'Esta guía es gratuita y sin publicidad. Con tu donación ayudas a mantenerla viva y continuar creciendo.',
+    footerDonTitle:'Apoya este proyecto',
     footerDonSub:'Proyecto gratuito y sin publicidad. Tu apoyo nos permite seguir creciendo.',
     heroDonateTitle:'🙏 Apoya este proyecto',
     instrT1:'Activa tu ubicación',
@@ -5244,7 +5244,7 @@ var T={
     historiaH3a:'🐚 O Cabaleiro das Cunchas — A lenda que naceu en Bouzas',
     historiaH3b:'⚔️ Vigo, terra de templarios',
     donSub:'Esta guía é gratuíta e sen publicidade. Coa túa doazón axúdanos a mantela viva e a seguir descubrindo o patrimonio compostelán de Vigo.',
-    footerDonTitle:'Apoia esta guía compostelana',
+    footerDonTitle:'Apoia esta guía',
     footerDonSub:'Proxecto gratuíto e sen publicidade. O teu apoio permítenos seguir medrando.',
     heroDonateTitle:'🙏 Apoia este proxecto',
     instrT1:'Activa a túa localización',
@@ -6072,6 +6072,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v447</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v448</div>
 </body>
 </html>
