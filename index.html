@@ -218,7 +218,7 @@
 
 
   <!-- Panel ruta flotante esquina inferior derecha del mapa -->
-  <div id='map-ruta-panel' style='display:flex;position:absolute;bottom:10px;left:10px;z-index:400;background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);border-radius:12px;padding:8px 10px;box-shadow:0 2px 16px rgba(0,0,0,0.35);flex-direction:column;align-items:flex-start;gap:5px;font-family:DM Sans,sans-serif;font-size:12px'>
+  <div id='map-ruta-panel' style='display:flex;position:absolute;bottom:10px;left:10px;z-index:400;background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);border-radius:12px;padding:8px 10px;box-shadow:0 2px 16px rgba(0,0,0,0.35);flex-direction:column;align-items:stretch;gap:5px;font-family:DM Sans,sans-serif;font-size:12px;width:52px;box-sizing:border-box'>
     <span style='font-weight:700;color:rgba(255,255,255,0.85);font-size:11px;letter-spacing:0.5px'>RUTA</span>
     <span id='ruta-bar-count' style='background:#1D9E75;color:#fff;padding:2px 8px;border-radius:10px;font-weight:700;font-size:11px'>0 📍</span>
     <span id='ruta-bar-dist' style='color:#7EE8C0;font-weight:600;font-size:11px'>0 km</span>
@@ -276,7 +276,10 @@
   </div>
   <!-- Botón buscador esquina inferior derecha (sobre el logo Leaflet) -->
   <button id='btn-buscar-mapa' onclick='toggleBuscadorMapa()' title='Buscar'
-    style='display:flex;position:absolute;bottom:30px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:17px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>🔍</button>
+    style='display:flex;position:absolute;bottom:30px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:17px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>&#128269;</button>
+  <!-- Botón meteorología -->
+  <button id='btn-meteo-mapa' onclick='abrirMeteoDrawer()' title='Previsión meteorológica'
+    style='display:flex;position:absolute;bottom:72px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>&#9925;</button>
   <!-- Tira de búsqueda flotante sobre el mapa -->
   <div id='mapa-search-strip' style='display:none;position:absolute;bottom:30px;left:10px;right:54px;z-index:401;background:rgba(255,255,255,0.97);border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.18);border:1.5px solid rgba(29,158,117,0.3);overflow:hidden;backdrop-filter:blur(4px)'>
     <div style='display:flex;align-items:center;gap:0'>
@@ -579,6 +582,29 @@
   </div>
 
   <button onclick='cerrarSOSDrawer()' style='width:100%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:11px;color:rgba(255,255,255,0.8);font-size:14px;font-weight:500;font-family:DM Sans,sans-serif;cursor:pointer'>🧭 Volver a la brújula</button>
+</div>
+
+<!-- DRAWER METEOROLOGIA -->
+<div id='meteo-drawer-bg' onclick='cerrarMeteoDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:8050'></div>
+<div id='meteo-drawer' style='display:none;position:fixed;bottom:0;left:0;right:0;z-index:8051;background:linear-gradient(160deg,#0f2744 0%,#1a3a5c 100%);border-radius:20px 20px 0 0;padding:1.25rem 1.5rem 2.5rem;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
+  <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem'>
+    <div style='display:flex;align-items:center;gap:10px'>
+      <span style='font-size:24px'>&#127780;&#65039;</span>
+      <div>
+        <div style='font-size:16px;font-weight:700;color:#fff'>Previsi&#243;n meteorol&#243;gica</div>
+        <div id='meteo-drawer-lugar' style='font-size:12px;color:rgba(255,255,255,0.5)'>Cargando...</div>
+      </div>
+    </div>
+    <button onclick='cerrarMeteoDrawer()' style='background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:34px;height:34px;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center'>&#10005;</button>
+  </div>
+  <div id='meteo-drawer-horas' style='display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;margin-bottom:1rem'>
+    <div style='color:rgba(255,255,255,0.4);font-size:13px;font-style:italic'>Obteniendo datos...</div>
+  </div>
+  <div id='meteo-drawer-resumen' style='background:rgba(255,255,255,0.08);border-radius:12px;padding:0.9rem 1rem;margin-bottom:0.75rem;display:none'>
+    <div style='font-size:11px;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px'>Resumen del d&#237;a</div>
+    <div id='meteo-drawer-resumen-content' style='display:flex;gap:16px;flex-wrap:wrap'></div>
+  </div>
+  <button onclick='cerrarMeteoDrawer()' style='width:100%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:14px;padding:10px;color:rgba(255,255,255,0.8);font-size:14px;cursor:pointer;font-family:DM Sans,sans-serif'>&#128506;&#65039; Volver al mapa</button>
 </div>
 
 <script>
@@ -1747,6 +1773,82 @@ function actualizarBtnPrincipal() {
     btn.style.background = bg;
     btn.style.boxShadow = shadow;
   });
+}
+
+function abrirMeteoDrawer() {
+  var bg=document.getElementById('meteo-drawer-bg');
+  var drawer=document.getElementById('meteo-drawer');
+  if(!bg||!drawer) return;
+  bg.style.display='block'; drawer.style.display='block';
+  drawer.getBoundingClientRect(); drawer.style.transform='translateY(0)';
+  var lat=(typeof userLat!=='undefined'&&userLat)?userLat:42.2328;
+  var lng=(typeof userLng!=='undefined'&&userLng)?userLng:-8.7226;
+  var lugar=document.getElementById('meteo-drawer-lugar');
+  if(lugar) lugar.textContent=(typeof userLat!=='undefined'&&userLat)?'Tu ubicaci\u00f3n':'Vigo';
+  _cargarMeteoDrawer(lat,lng);
+}
+function cerrarMeteoDrawer() {
+  var bg=document.getElementById('meteo-drawer-bg');
+  var drawer=document.getElementById('meteo-drawer');
+  if(!drawer) return;
+  drawer.style.transform='translateY(100%)';
+  setTimeout(function(){if(bg)bg.style.display='none';if(drawer)drawer.style.display='none';},350);
+}
+function _cargarMeteoDrawer(lat,lng) {
+  var url='https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lng+
+    '&hourly=temperature_2m,weathercode,precipitation_probability,windspeed_10m'+
+    '&daily=temperature_2m_max,temperature_2m_min,weathercode,precipitation_sum,windspeed_10m_max'+
+    '&timezone=Europe/Madrid&forecast_days=1';
+  var xhr=new XMLHttpRequest(); xhr.open('GET',url,true);
+  xhr.onreadystatechange=function(){
+    if(xhr.readyState!==4||xhr.status!==200) return;
+    try {
+      var data=JSON.parse(xhr.responseText);
+      var now=new Date(); var ha=now.getHours();
+      var times=data.hourly.time; var ci=0;
+      for(var i=0;i<times.length;i++){if(parseInt(times[i].split('T')[1])===ha){ci=i;break;}}
+      var horasEl=document.getElementById('meteo-drawer-horas');
+      if(horasEl){
+        var html='';
+        for(var j=0;j<8;j++){
+          var idx=ci+j; if(idx>=times.length) break;
+          var hora=times[idx].split('T')[1].substring(0,5);
+          var temp=Math.round(data.hourly.temperature_2m[idx]);
+          var code=data.hourly.weathercode[idx];
+          var prob=data.hourly.precipitation_probability[idx];
+          var wind=Math.round(data.hourly.windspeed_10m[idx]);
+          var icon=(typeof WMO_ICONS!=='undefined'&&WMO_ICONS[code])?WMO_ICONS[code]:'&#127777;';
+          var lbl=j===0?'Ahora':hora;
+          var al=j===0?'0.15':'0.08'; var alb=j===0?'0.25':'0.1';
+          html+='<div style="flex-shrink:0;background:rgba(255,255,255,'+al+');border-radius:12px;padding:10px 12px;text-align:center;min-width:62px;border:1px solid rgba(255,255,255,'+alb+')">'
+            +'<div style="font-size:10px;font-weight:600;color:rgba(255,255,255,0.5);margin-bottom:4px">'+lbl+'</div>'
+            +'<div style="font-size:22px;margin-bottom:4px">'+icon+'</div>'
+            +'<div style="font-size:14px;font-weight:700;color:#fff">'+temp+'&#176;</div>'
+            +(prob>15?'<div style="font-size:10px;color:#60a5fa;margin-top:2px">&#128167;'+prob+'%</div>':'')
+            +'<div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:2px">&#128168;'+wind+'</div>'
+            +'</div>';
+        }
+        horasEl.innerHTML=html;
+      }
+      var resEl=document.getElementById('meteo-drawer-resumen');
+      var resC=document.getElementById('meteo-drawer-resumen-content');
+      if(resEl&&resC&&data.daily){
+        var maxT=Math.round(data.daily.temperature_2m_max[0]);
+        var minT=Math.round(data.daily.temperature_2m_min[0]);
+        var prec=data.daily.precipitation_sum[0];
+        var wMax=Math.round(data.daily.windspeed_10m_max[0]);
+        var dIcon=(typeof WMO_ICONS!=='undefined'&&WMO_ICONS[data.daily.weathercode[0]])?WMO_ICONS[data.daily.weathercode[0]]:'';
+        resC.innerHTML='<div style="color:rgba(255,255,255,0.85);font-size:13px">'+dIcon+' '+maxT+'&#176; / '+minT+'&#176;</div>'
+          +'<div style="color:#60a5fa;font-size:13px">&#128167; '+(prec>0?prec.toFixed(1)+' mm':'Sin lluvia')+'</div>'
+          +'<div style="color:rgba(255,255,255,0.6);font-size:13px">&#128168; '+wMax+' km/h m&#225;x</div>';
+        resEl.style.display='block';
+      }
+    } catch(e){
+      var h2=document.getElementById('meteo-drawer-horas');
+      if(h2) h2.innerHTML='<div style="color:rgba(255,255,255,0.4);font-size:13px">No se pudieron cargar los datos</div>';
+    }
+  };
+  xhr.send();
 }
 
 function toggleBuscadorMapa() {
@@ -3173,6 +3275,8 @@ function initMapa() {
     _mapBtns.forEach(function(id){
       var b=document.getElementById(id); if(b) b.style.display='none';
     });
+    var bb=document.getElementById('btn-buscar-mapa'); if(bb) bb.style.display='none';
+    var bm=document.getElementById('btn-meteo-mapa'); if(bm) bm.style.display='none';
   });
   mapa.on('popupclose', function() {
     _popupAbierto = false;
@@ -3181,6 +3285,8 @@ function initMapa() {
     b=document.getElementById('btn-refresh-loc'); if(b) b.style.display='flex';
     b=document.getElementById('btn-brujula-mapa'); if(b&&!_navActiva) b.style.display='flex';
     b=document.getElementById('btn-sos-mapa'); if(b) b.style.display='flex';
+    b=document.getElementById('btn-buscar-mapa'); if(b) b.style.display='flex';
+    b=document.getElementById('btn-meteo-mapa'); if(b) b.style.display='flex';
     // Restaurar panel ruta siempre visible
     b=document.getElementById('map-ruta-panel'); if(b){b.style.display='flex';b.style.flexDirection='column';}
     b=document.getElementById('map-radio-control'); if(b){b.style.display='flex';}
@@ -5999,6 +6105,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v435</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v437</div>
 </body>
 </html>
