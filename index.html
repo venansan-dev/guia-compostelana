@@ -188,7 +188,7 @@
   <div class='map-status' id='map-status'><span id='map-status-text'>📍 Obteniendo tu ubicación...</span></div>
   <div id='map'></div>
   <!-- Botón refrescar ubicación (izquierda) -->
-  <button id='btn-refresh-loc' onclick='refrescarUbicacion()' title='Actualizar mi ubicación' style='position:absolute;bottom:10px;left:58px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0;line-height:1'><svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='#333' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='23 4 23 10 17 10'/><polyline points='1 20 1 14 7 14'/><path d='M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15'/></svg></button>
+
 
 
 
@@ -211,6 +211,10 @@
     <button onclick='toggleVozNav()' id='ruta-nav-voz' style='display:none;width:36px;height:36px;background:#444;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title='Voz'>🔇</button>
     <button onclick='guardarRuta()' id='ruta-bar-btn-save' style='display:none;width:36px;height:36px;background:#6366f1;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title='Guardar'>💾<span id='ruta-save-txt' style='display:none'></span></button>
     <button onclick='limpiarRuta()' id='ruta-bar-btn-clear' style='display:none;width:36px;height:36px;background:#dc2626;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title='Limpiar'>🗑</button>
+    <!-- Separador -->
+    <div style='width:100%;height:1px;background:rgba(255,255,255,0.15);margin:2px 0'></div>
+    <!-- Refrescar siempre visible al pie del panel -->
+    <button id='btn-refresh-loc' onclick='refrescarUbicacion()' title='Actualizar mi ubicación' style='width:36px;height:36px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;line-height:1;flex-shrink:0'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='#fff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='23 4 23 10 17 10'/><polyline points='1 20 1 14 7 14'/><path d='M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15'/></svg></button>
   </div>
   <!-- btn-go oculto para compatibilidad con JS existente -->
   <span id='ruta-bar-btn-go' style='display:none'></span>
@@ -222,10 +226,10 @@
   <span id='ruta-bar-puntos' style='display:none'></span>
   <!-- Botón orientación (izquierda bajo refrescar) -->
   <button id='btn-brujula-mapa' onclick='abrirBrujulaDrawer()' title='Brújula'
-    style='display:flex;position:absolute;top:54px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>🧭</button>
+    style='display:flex;position:absolute;top:10px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>🧭</button>
   <!-- Botón SOS en el mapa -->
   <button id='btn-sos-mapa' onclick='abrirSOSDrawer()' title='Emergencias SOS'
-    style='display:flex;position:absolute;top:98px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(220,38,38,0.4);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(220,38,38,0.25);padding:0'>
+    style='display:flex;position:absolute;top:54px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(220,38,38,0.4);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(220,38,38,0.25);padding:0'>
     <svg width='22' height='22' viewBox='0 0 22 22' xmlns='http://www.w3.org/2000/svg'>
       <circle cx='11' cy='11' r='10' fill='#dc2626'/>
       <rect x='8' y='4' width='6' height='14' rx='1.5' fill='#fff'/>
@@ -554,7 +558,7 @@
 
 <!-- DRAWER HISTORIA -->
 <div id='historia-drawer-bg' onclick='cerrarHistoriaDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:8200'></div>
-<div id='historia-drawer' style='display:none;position:fixed;bottom:0;left:0;right:0;z-index:8201;background:linear-gradient(160deg,#0F6E56 0%,#1a3a5c 100%);border-radius:20px 20px 0 0;padding:1.25rem 1.5rem 2.5rem;max-height:88vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
+<div id='historia-drawer' style='display:none;position:fixed;bottom:0;left:0;right:0;z-index:8201;background:linear-gradient(160deg,#1a4a3a 0%,#1e3d5f 100%);border-radius:20px 20px 0 0;padding:1.25rem 1.5rem 2.5rem;max-height:88vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
   <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem'>
     <div style='display:flex;align-items:center;gap:10px'>
       <span style='font-size:22px'>🐚</span>
@@ -6154,6 +6158,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v441</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v442</div>
 </body>
 </html>
