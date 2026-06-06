@@ -218,8 +218,8 @@
   <span id='ruta-bar-info' style='display:none'></span>
   <span id='ruta-bar-puntos' style='display:none'></span>
   <!-- Botón orientación (izquierda bajo refrescar) -->
-  <button id='btn-orientacion-mapa' onclick='abrirBrujulaDrawer()' title='Brújula'
-    style='display:flex;position:absolute;top:54px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0' id='btn-brujula-mapa'>🧭</button>
+  <button id='btn-brujula-mapa' onclick='abrirBrujulaDrawer()' title='Brújula'
+    style='display:flex;position:absolute;top:54px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>🧭</button>
 
   <div id='ar-overlay' style='display:none;position:fixed;inset:0;z-index:99000;background:#000;flex-direction:column'>
     <video id='ar-video' autoplay playsinline muted style='position:absolute;inset:0;width:100%;height:100%;object-fit:cover'></video>
@@ -462,11 +462,80 @@
 
   <!-- Botones -->
   <div style='display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:8px'>
-    <button id='btn-brujula' onclick='activarBrujula()' style='background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:10px 22px;color:#fff;font-size:14px;font-weight:600;font-family:DM Sans,sans-serif;cursor:pointer;transition:background 0.2s'>🧭 Activar</button>
+    <button id='btn-brujula' onclick='activarBrujula()' style='display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:10px 22px;color:#fff;font-size:14px;font-weight:600;font-family:DM Sans,sans-serif;cursor:pointer;transition:all 0.2s'>
+      <svg id='brujula-drawer-tri' width='16' height='16' viewBox='0 0 18 18' style='flex-shrink:0'>
+        <polygon points='9,1 17,17 9,13 1,17' fill='#60a5fa'/>
+        <line id='brujula-drawer-offline' x1='15' y1='2' x2='2' y2='16' stroke='#ef4444' stroke-width='2.5' stroke-linecap='round'/>
+      </svg>
+      <span id='brujula-drawer-label'>Activar</span>
+    </button>
     <button id='btn-refrescar-brujula' onclick='refrescarBrujula()' style='display:none;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:10px 22px;color:#fff;font-size:14px;font-weight:600;font-family:DM Sans,sans-serif;cursor:pointer;transition:background 0.2s'>↺ Recalibrar</button>
     <button onclick='cerrarBrujulaDrawer()' style='background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.25);border-radius:24px;padding:10px 22px;color:rgba(255,255,255,0.8);font-size:14px;font-weight:500;font-family:DM Sans,sans-serif;cursor:pointer;transition:background 0.2s'>🗺️ Volver al mapa</button>
   </div>
   <p id='msg-brujula' style='font-size:12px;color:rgba(255,255,255,0.6);margin:6px 0 0;text-align:center;min-height:18px'></p>
+
+  <!-- Botón SOS -->
+  <div style='margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid rgba(255,255,255,0.12)'>
+    <button onclick='abrirSOSDrawer()' style='width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:rgba(220,38,38,0.25);border:1.5px solid rgba(220,38,38,0.6);border-radius:16px;padding:12px 20px;color:#fca5a5;font-size:15px;font-weight:700;font-family:DM Sans,sans-serif;cursor:pointer;transition:background 0.2s;letter-spacing:0.5px'>
+      <span style='font-size:22px'>🆘</span> SOS · Emergencias
+    </button>
+  </div>
+</div>
+
+<!-- DRAWER SOS -->
+<div id='sos-drawer-bg' onclick='cerrarSOSDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:8100'></div>
+<div id='sos-drawer' style='display:none;position:fixed;bottom:0;left:0;right:0;z-index:8101;background:linear-gradient(160deg,#1a0a0a 0%,#3b0f0f 100%);border-radius:20px 20px 0 0;padding:1.25rem 1.5rem 2.5rem;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1)'>
+  <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem'>
+    <div style='display:flex;align-items:center;gap:10px'>
+      <div style='width:38px;height:38px;background:rgba(220,38,38,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0'>🆘</div>
+      <div>
+        <h2 style='font-family:Playfair Display,serif;font-size:20px;color:#fff;margin:0;line-height:1.2'>Emergencias</h2>
+        <p style='font-size:12px;color:rgba(255,255,255,0.6);margin:0'>Llamada directa · Camino Portugués</p>
+      </div>
+    </div>
+    <button onclick='cerrarSOSDrawer()' style='background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:34px;height:34px;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0'>✕</button>
+  </div>
+  <div style='width:50px;height:2px;background:#ef4444;border-radius:2px;margin-bottom:1.25rem'></div>
+
+  <!-- Números principales -->
+  <div style='display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1rem'>
+    <a href='tel:112' style='text-decoration:none;background:rgba(220,38,38,0.25);border:1.5px solid rgba(220,38,38,0.5);border-radius:14px;padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:5px'>
+      <span style='font-size:24px'>🚨</span>
+      <span style='font-size:22px;font-weight:700;color:#fff;font-family:monospace;line-height:1'>112</span>
+      <span style='font-size:10px;font-weight:600;color:#fca5a5;text-align:center;line-height:1.3'>Emergencias<br/>todo en uno</span>
+    </a>
+    <a href='tel:061' style='text-decoration:none;background:rgba(234,88,12,0.2);border:1.5px solid rgba(234,88,12,0.4);border-radius:14px;padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:5px'>
+      <span style='font-size:24px'>🚑</span>
+      <span style='font-size:22px;font-weight:700;color:#fff;font-family:monospace;line-height:1'>061</span>
+      <span style='font-size:10px;font-weight:600;color:#fed7aa;text-align:center;line-height:1.3'>Ambulancia<br/>Urgencias</span>
+    </a>
+    <a href='tel:062' style='text-decoration:none;background:rgba(29,78,216,0.2);border:1.5px solid rgba(29,78,216,0.4);border-radius:14px;padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:5px'>
+      <span style='font-size:24px'>👮</span>
+      <span style='font-size:22px;font-weight:700;color:#fff;font-family:monospace;line-height:1'>062</span>
+      <span style='font-size:10px;font-weight:600;color:#bfdbfe;text-align:center;line-height:1.3'>Guardia Civil<br/>Seguridad</span>
+    </a>
+  </div>
+
+  <!-- Teléfonos locales Camino -->
+  <div style='background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:1rem;margin-bottom:1rem'>
+    <div style='font-size:11px;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px'>Cruz Roja · Camino Portugués</div>
+    <div style='display:flex;flex-direction:column;gap:8px'>
+      <a href='tel:986614450' style='display:flex;align-items:center;justify-content:space-between;text-decoration:none'>
+        <span style='font-size:13px;color:rgba(255,255,255,0.8)'>Cruz Roja Vigo</span>
+        <span style='font-size:14px;font-weight:600;color:#34d399;font-family:monospace'>986 614 450</span>
+      </a>
+      <a href='tel:986601936' style='display:flex;align-items:center;justify-content:space-between;text-decoration:none'>
+        <span style='font-size:13px;color:rgba(255,255,255,0.8)'>Cruz Roja Pontevedra</span>
+        <span style='font-size:14px;font-weight:600;color:#34d399;font-family:monospace'>986 601 936</span>
+      </a>
+      <a href='tel:981950000' style='display:flex;align-items:center;justify-content:space-between;text-decoration:none'>
+        <span style='font-size:13px;color:rgba(255,255,255,0.8)'>Cruz Roja Santiago</span>
+        <span style='font-size:14px;font-weight:600;color:#34d399;font-family:monospace'>981 950 000</span>
+      </a>
+    </div>
+  </div>
+
+  <button onclick='cerrarSOSDrawer()' style='width:100%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:11px;color:rgba(255,255,255,0.8);font-size:14px;font-weight:500;font-family:DM Sans,sans-serif;cursor:pointer'>🧭 Volver a la brújula</button>
 </div>
 
 <script>
@@ -603,7 +672,8 @@
       detenerSensores();
       activa = false;
       resetUI();
-      btn.textContent = '🧭 Activar';
+      btn.querySelector('#brujula-drawer-label').textContent = 'Activar';
+      var ol3 = btn.querySelector('#brujula-drawer-offline'); if(ol3) ol3.style.display='inline';
       if (btnRef) btnRef.style.display = 'none';
       msg.textContent = '';
       return;
@@ -623,7 +693,8 @@
             }, function(){}, { enableHighAccuracy: true });
           }
           activa = true;
-          btn.textContent = '⏹ Desactivar';
+          btn.querySelector('#brujula-drawer-label').textContent = 'Desactivar';
+          var ol = btn.querySelector('#brujula-drawer-offline'); if(ol) ol.style.display='none';
           if (btnRef) btnRef.style.display = 'inline-block';
           msg.textContent = '✅ Brújula activa';
         } else {
@@ -642,7 +713,8 @@
         }, function(){}, { enableHighAccuracy: true });
       }
       activa = true;
-      btn.textContent = '⏹ Desactivar';
+      btn.querySelector('#brujula-drawer-label').textContent = 'Desactivar';
+      var ol2 = btn.querySelector('#brujula-drawer-offline'); if(ol2) ol2.style.display='none';
       if (btnRef) btnRef.style.display = 'inline-block';
       msg.textContent = '✅ Brújula activa';
     } else {
@@ -3024,7 +3096,7 @@ function initMapa() {
   // Ocultar botón ➕ cuando se abre un popup, restaurar al cerrar
   var _popupAbierto = false;
 
-  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc','btn-orientacion-mapa','map-ruta-panel','map-radio-control'];
+  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc','btn-brujula-mapa','map-ruta-panel','map-radio-control'];
   mapa.on('popupopen', function() {
     _popupAbierto = true;
     _mapBtns.forEach(function(id){
@@ -3036,7 +3108,7 @@ function initMapa() {
     var b;
     b=document.getElementById('btn-add-poi-map'); if(b&&!_navActiva) b.style.display='flex';
     b=document.getElementById('btn-refresh-loc'); if(b) b.style.display='flex';
-    b=document.getElementById('btn-orientacion-mapa'); if(b&&!_navActiva) b.style.display='flex';
+    b=document.getElementById('btn-brujula-mapa'); if(b&&!_navActiva) b.style.display='flex';
     // Restaurar panel ruta siempre visible
     b=document.getElementById('map-ruta-panel'); if(b){b.style.display='flex';b.style.flexDirection='column';}
     b=document.getElementById('map-radio-control'); if(b){b.style.display='flex';}
@@ -3204,7 +3276,7 @@ function actualizarFlecha(e) {
 function toggleSeguimiento() {
   _modoSeguimiento = !_modoSeguimiento;
   var btn = document.getElementById('btn-seguimiento');
-  var btnO = document.getElementById('btn-orientacion-mapa');
+  var btnO = document.getElementById('btn-brujula-mapa');
   if (_modoSeguimiento) {
     // Poner ambos botones en verde
     btn.style.background = '#1D9E75';
@@ -3218,7 +3290,6 @@ function toggleSeguimiento() {
     // Zoom máximo y centrar en posición del usuario
     if (userLat) mapa.setView([userLat, userLng], 19, {animate:true});
     mostrarToast('📡 Seguimiento activado');
-  var bm = document.getElementById('btn-brujula-mapa'); if(bm) bm.textContent = '📡';
     actualizarLineaRuta();
     // watchPosition seguimiento
     if (!window._seguimientoId && navigator.geolocation) {
@@ -3260,7 +3331,6 @@ function toggleSeguimiento() {
     var r1 = document.querySelector('.map-radio-btn');
     if (r1) r1.classList.add('active');
     mostrarToast('📡 Seguimiento desactivado');
-  var bm = document.getElementById('btn-brujula-mapa'); if(bm) bm.textContent = '🧭';
   }
 }
 
@@ -3289,7 +3359,7 @@ function desactivarSeguimientoYBrujula() {
   if (window._orientacionActiva) {
     window._orientacionActiva = false;
     window.removeEventListener('deviceorientation', actualizarFlecha, true);
-    var btnO = document.getElementById('btn-orientacion-mapa');
+    var btnO = document.getElementById('btn-brujula-mapa');
     if (btnO) { btnO.style.background='#fff'; btnO.style.border='2px solid rgba(0,0,0,0.2)'; btnO.style.color=''; }
   }
 }
@@ -3318,8 +3388,29 @@ function cerrarBrujulaDrawer() {
   }, 350);
 }
 
+function abrirSOSDrawer() {
+  var bg = document.getElementById('sos-drawer-bg');
+  var drawer = document.getElementById('sos-drawer');
+  if (!bg || !drawer) return;
+  bg.style.display = 'block';
+  drawer.style.display = 'block';
+  drawer.getBoundingClientRect();
+  drawer.style.transform = 'translateY(0)';
+}
+
+function cerrarSOSDrawer() {
+  var bg = document.getElementById('sos-drawer-bg');
+  var drawer = document.getElementById('sos-drawer');
+  if (!drawer) return;
+  drawer.style.transform = 'translateY(100%)';
+  setTimeout(function() {
+    if (bg) bg.style.display = 'none';
+    drawer.style.display = 'none';
+  }, 350);
+}
+
 function pedirOrientacion() {
-  var btn = document.getElementById('btn-orientacion-mapa');
+  var btn = document.getElementById('btn-brujula-mapa');
 
   // Si ya está activa y seguimiento NO está activo → desactivar
   if (window._orientacionActiva && !_modoSeguimiento) {
@@ -4237,7 +4328,6 @@ function cargarRutaGuardada() {
 //  NAVEGACIÓN POR VOZ CON OSRM
 // ═══════════════════════════════════════════════
 var _navActiva = false;
-  var _bm2 = document.getElementById('btn-brujula-mapa'); if(_bm2) _bm2.textContent = '🧭';
 var _navVozActiva = false; // voz apagada por defecto
 var _navPasos = [];
 var _navPasosCache = []; // pasos guardados por dibujarLineaEstática
@@ -4308,8 +4398,7 @@ function activarNavegacionVoz() {
   ordenados.forEach(function(p){ coords.push(p.lng + ',' + p.lat); });
   mostrarToast('🎙️ Iniciando navegación...');
   if (window._navRestoreTimeout) { clearTimeout(window._navRestoreTimeout); window._navRestoreTimeout = null; }
-  _navActiva = true;
-  var _bm = document.getElementById('btn-brujula-mapa'); if(_bm) _bm.textContent = '📡'; // bloquear dibujarLineaEstática desde ya
+  _navActiva = true; // bloquear dibujarLineaEstática desde ya
 
   // Anuncio inmediato (desbloquea speechSynthesis en iOS)
   hablar('Navegación por voz activada.');
@@ -4348,7 +4437,7 @@ function activarNavegacionVoz() {
     // Ocultar botones del mapa salvo brújula
     var btnSaveNav=document.getElementById('ruta-bar-btn-save');if(btnSaveNav)btnSaveNav.style.display='none';
     // Mover brújula al panel de ruta
-    var btnOrMap = document.getElementById('btn-orientacion-mapa');
+    var btnOrMap = document.getElementById('btn-brujula-mapa');
     if (btnOrMap) btnOrMap.style.display = 'none';
     var btnOrPanel = document.getElementById('ruta-nav-orientacion');
     if (btnOrPanel) btnOrPanel.style.display = 'block';
@@ -4621,7 +4710,7 @@ function detenerNavegacionVoz() {
   if (btnIr   && rutaPuntos.length >= 1) btnIr.style.display = 'block';
   var btnSaveRst=document.getElementById('ruta-bar-btn-save');if(btnSaveRst&&rutaPuntos.length>0)btnSaveRst.style.display='block';
   // Restaurar brújula en mapa
-  var btnOrMapRst = document.getElementById('btn-orientacion-mapa');
+  var btnOrMapRst = document.getElementById('btn-brujula-mapa');
   if (btnOrMapRst) btnOrMapRst.style.display = 'flex';
   var btnOrPanelRst = document.getElementById('ruta-nav-orientacion');
   if (btnOrPanelRst) btnOrPanelRst.style.display = 'none';
@@ -5814,6 +5903,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v403</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v407</div>
 </body>
 </html>
