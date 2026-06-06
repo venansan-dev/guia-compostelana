@@ -249,15 +249,6 @@
   <button id='btn-brujula-mapa' onclick='abrirBrujulaDrawer()' title='Brújula'
     style='display:flex;position:absolute;top:54px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>🧭</button>
   <!-- Botón SOS en el mapa -->
-  <button id='btn-sos-mapa' onclick='abrirSOSDrawer()' title='Emergencias SOS'
-    style='display:flex;position:absolute;top:98px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(220,38,38,0.4);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(220,38,38,0.25);padding:0'>
-    <svg width='22' height='22' viewBox='0 0 22 22' xmlns='http://www.w3.org/2000/svg'>
-      <circle cx='11' cy='11' r='10' fill='#dc2626'/>
-      <rect x='8' y='4' width='6' height='14' rx='1.5' fill='#fff'/>
-      <rect x='4' y='8' width='14' height='6' rx='1.5' fill='#fff'/>
-    </svg>
-  </button>
-  <!-- Botón SOS en el mapa -->
   <button onclick='abrirSOSDrawer()' title='Emergencias SOS'
     style='display:flex;position:absolute;top:98px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(220,38,38,0.4);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(220,38,38,0.25);padding:0'>
     <svg width='22' height='22' viewBox='0 0 22 22' xmlns='http://www.w3.org/2000/svg'>
@@ -1213,15 +1204,9 @@ var PUNTOS = [
 
   // NUEVOS PUNTOS — Nigran, Mos y albergues del Camino
   { id:'castro-santa-trega', nombre:'Castro de Santa Trega — A Guarda', nombre_gl:'Castro de Santa Trega - A Guarda', nombre_en:'Santa Trega Hillfort - A Guarda', categoria:'vestigio arqueológico',
-    descripcion:'Puerta de entrada a Galicia del Camino Portugués de la Costa. En la cima del monte Santa Trega, a 341 metros sobre la desembocadura del Miño, se extiende uno de los castros más importantes del noroeste peninsular, con más de 5.000 años de historia. La panorámica sobre el Miño y la costa atlántica es uno de los momentos más memorables de la ruta. Este promontorio atlántico fue el corazón del Comitatus Turonii, el condado galaico-romano cuya memoria perduró en el topónimo «Toroño» durante toda la Edad Media. Los señores de Turonium ejercieron desde estas tierras jurisdicción sobre La Guarda y mediaron en los conflictos entre el Concejo y el Monasterio de Oia hasta que el linaje se extinguió con los Sotomayor.', subtitulo:'Cinco mil años de historia sobre el Miño', subtitulo_gl:'Cinco mil anos de historia sobre o Miño', subtitulo_en:'Five thousand years of history above the Miño', descripcion_gl:'Porta de entrada a Galicia do Camiño Portugués da Costa. Na cima do monte Santa Trega, a 341 metros sobre a desembocadura do Miño, esténdese un dos castros máis importantes do noroeste peninsular, con máis de 5.000 anos de historia. A panorámica sobre o Miño e a costa atlántica é un dos momentos máis memorables da ruta. Este promontorio atlántico foi o corazón do Comitatus Turonii, o condado galaico-romano cuxa memoria perdurou no topónimo «Toroño» durante toda a Idade Media.', descripcion_en:'Gateway to Galicia on the Portuguese Coastal Way. At the summit of Monte Santa Trega, 341 metres above the mouth of the Miño, spreads one of the most important hillforts in the northwest of the Iberian Peninsula, with over 5,000 years of history. The panorama over the Miño and the Atlantic coast is one of the most memorable moments of the route. This Atlantic headland was the heart of the Comitatus Turonii, the Galician-Roman county whose memory endured in the toponym Toroño throughout the Middle Ages.',
+    descripcion:'Puerta de entrada a Galicia del Camino Portugués de la Costa. En la cima del monte Santa Trega, a 341 metros sobre la desembocadura del Miño, se extiende uno de los castros más importantes del noroeste peninsular, con más de 5.000 años de historia. La panorámica sobre el Miño y la costa atlántica es uno de los momentos más memorables de la ruta.', subtitulo:'Cinco mil años de historia sobre el Miño', subtitulo_gl:'Cinco mil anos de historia sobre o Miño', subtitulo_en:'Five thousand years of history above the Miño', descripcion_gl:'Porta de entrada a Galicia do Camiño Portugués da Costa. Na cima do monte Santa Trega, a 341 metros sobre a desembocadura do Miño, esténdese un dos castros máis importantes do noroeste peninsular, con máis de 5.000 anos de historia. A panorámica sobre o Miño e a costa atlántica é un dos momentos máis memorables da ruta.', descripcion_en:'Gateway to Galicia on the Portuguese Coastal Way. At the summit of Monte Santa Trega, 341 metres above the mouth of the Miño, spreads one of the most important hillforts in the northwest of the Iberian Peninsula, with over 5,000 years of history. The panorama over the Miño and the Atlantic coast is one of the most memorable moments of the route.',
     lat:41.905, lng:-8.873, emoji:'🗺️', color:'ambar' },
 
-  { id:'castillo-entenca-torono', nombre:'Castillo de Entença — Tierra de Toroño', nombre_gl:'Castelo de Entença — Terra de Toroño', nombre_en:'Castle of Entença — Land of Toroño',
-    categoria:'edificación histórica', subtitulo:'Donado por Enrique II al obispado de Tui en 1369', subtitulo_gl:'Doado por Enrique II ao bispado de Tui en 1369', subtitulo_en:'Granted by Enrique II to the bishopric of Tui in 1369',
-    descripcion:'En tierra de Toroño, el Castillo de Entença fue propiedad de la Corona de Castilla hasta que el 4 de septiembre de 1369, en las Cortes de Toro, Enrique II lo donó junto con La Guarda, el Coto de Coya con su Bailía —antiguo dominio templario— y la Villa Vieja de Redondela al obispo de Tui. El documento real especifica que el castillo era de la Corona, no de Suero Yáñez de Parada, que solo tenía La Guarda. La donación impuso una condición litúrgica de peso: un aniversario solemne en Santa María de Septiembre a perpetuidad, vinculando para siempre este territorio fronterizo a la memoria del nuevo rey Trastámara. Hoy solo la memoria del topónimo y la configuración del territorio conservan la huella de este enclave que dominó el paso del Camino Portugués por las tierras del antiguo Comitatus Turonii.',
-    descripcion_gl:'En terra de Toroño, o Castelo de Entença foi propiedade da Coroa de Castela ata que o 4 de setembro de 1369, nas Cortes de Toro, Enrique II o doou xunto con A Guarda, o Couto de Coya coa súa Bailía —antigo dominio templario— e a Vila Vella de Redondela ao bispo de Tui. O documento real especifica que o castelo era da Coroa, non de Suero Yáñez de Parada, que só tiña A Guarda. A doazón impuxo unha condición litúrxica de peso: un aniversario solemne en Santa María de Setembro a perpetuidade, vinculando para sempre este territorio fronteirizo á memoria do novo rei Trastámara.',
-    descripcion_en:'In the land of Toroño, the Castle of Entença was Crown property until 4 September 1369, when at the Courts of Toro, Enrique II donated it together with A Guarda, the Coto de Coya with its Bailiwick — a former Templar domain — and the Old Town of Redondela to the bishop of Tui. The royal document specifies that the castle belonged to the Crown, not to Suero Yáñez de Parada, who only held A Guarda. The donation imposed a solemn liturgical condition: a perpetual anniversary on Santa María de Septiembre each year, binding this frontier territory forever to the memory of the new Trastámara king.',
-    lat:42.008, lng:-8.853, emoji:'🏰', color:'coral' },
   { id:'castello-torono-oia', nombre:'Castillo de Torroño — Ruinas de Lousado · Oia', nombre_gl:'Castelo de Torroño — Ruínas de Lousado · Oia', nombre_en:'Torroño Castle — Lousado Ruins · Oia',
     categoria:'edificación histórica',
     lat:41.9720, lng:-8.8750,
@@ -1234,7 +1219,7 @@ var PUNTOS = [
     emoji:'🏰', color:'morado' },
 
   { id:'monasterio-oia', nombre:'Monasterio de Santa María de Oia', nombre_gl:'Mosteiro de Santa María de Oia', nombre_en:'Santa María de Oia Monastery', categoria:'edificación religiosa',
-    descripcion:'Monasterio cisterciense fundado en 1137, Bien de Interés Cultural y uno de los principales enclaves del Camino Portugués de la Costa. Sus torres y murallas de granito dominan la costa con la misma presencia con que lo han hecho durante nueve siglos. El claustro y la iglesia románica merecen la parada. Cuando en 1369 Enrique II donó al obispo de Tui el castillo de Entença y los bienes de Suero Yáñez, impuso un aniversario solemne en Santa María de Septiembre a perpetuidad, vinculando para siempre la donación a la liturgia de este litoral.', subtitulo:'Nueve siglos mirando al Atlántico', subtitulo_gl:'Nove séculos mirando ao Atlántico', subtitulo_en:'Nine centuries facing the Atlantic', descripcion_gl:'Mosteiro cisterciense fundado en 1137, Ben de Interese Cultural e un dos principais enclaves do Camiño Portugués da Costa. As súas torres e murallas de granito dominan a costa coa mesma presenza con que o fixeron durante nove séculos. O claustro e a igrexa románica merecen a parada.', descripcion_en:'Cistercian monastery founded in 1137, listed as a Cultural Heritage Site and one of the main landmarks on the Portuguese Coastal Way. Its granite towers and walls command the coast with the same presence they have for nine centuries. The cloister and Romanesque church are worth a stop.',
+    descripcion:'Monasterio cisterciense fundado en 1137, Bien de Interés Cultural y uno de los principales enclaves del Camino Portugués de la Costa. Sus torres y murallas de granito dominan la costa con la misma presencia con que lo han hecho durante nueve siglos. El claustro y la iglesia románica merecen la parada.', subtitulo:'Nueve siglos mirando al Atlántico', subtitulo_gl:'Nove séculos mirando ao Atlántico', subtitulo_en:'Nine centuries facing the Atlantic', descripcion_gl:'Mosteiro cisterciense fundado en 1137, Ben de Interese Cultural e un dos principais enclaves do Camiño Portugués da Costa. As súas torres e murallas de granito dominan a costa coa mesma presenza con que o fixeron durante nove séculos. O claustro e a igrexa románica merecen a parada.', descripcion_en:'Cistercian monastery founded in 1137, listed as a Cultural Heritage Site and one of the main landmarks on the Portuguese Coastal Way. Its granite towers and walls command the coast with the same presence they have for nine centuries. The cloister and Romanesque church are worth a stop.',
     lat:42.003, lng:-8.876, emoji:'⛪', color:'verde' },
   { id:'monterreal-baiona', nombre:'Fortaleza de Monterreal — Baiona', nombre_gl:'Fortaleza de Monterreal - Baiona', nombre_en:'Monterreal Fortress - Baiona', categoria:'edificación histórica',
     descripcion:'Fortaleza erigida entre los siglos XI y XVII sobre el promontorio de Monte Boi, donde la historia entró en la Edad Moderna: aquí atracó en 1493 La Pinta, la primera nave en regresar del Nuevo Mundo. Sus 3 km de murallas y el parador que alberga en su interior hacen de Monterreal uno de los lugares más singulares del camino costero.', subtitulo:'Donde La Pinta anunció el Nuevo Mundo', subtitulo_gl:'Onde A Pinta anunciou o Novo Mundo', subtitulo_en:'Where La Pinta announced the New World', descripcion_gl:'Fortaleza erguida entre os séculos XI e XVII sobre o promontorio de Monte Boi, onde a historia entrou na Idade Moderna: aquí atracou en 1493 A Pinta, a primeira nave en regresar do Novo Mundo. Os seus 3 km de murallas e o parador que alberga no seu interior fan de Monterreal un dos lugares máis singulares do camiño costeiro.', descripcion_en:'Fortress built between the 11th and 17th centuries on the Monte Boi promontory, where history entered the Modern Age: here in 1493 La Pinta docked, the first ship to return from the New World. Its 3 km of walls and the parador housed within make Monterreal one of the most singular places on the coastal way.',
@@ -3134,7 +3119,7 @@ function initMapa() {
   // Ocultar botón ➕ cuando se abre un popup, restaurar al cerrar
   var _popupAbierto = false;
 
-  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc','btn-brujula-mapa','btn-sos-mapa','map-ruta-panel','map-radio-control'];
+  var _mapBtns = ['btn-add-poi-map','btn-refresh-loc','btn-brujula-mapa','map-ruta-panel','map-radio-control'];
   mapa.on('popupopen', function() {
     _popupAbierto = true;
     _mapBtns.forEach(function(id){
@@ -3458,7 +3443,7 @@ function pedirOrientacion() {
     window.removeEventListener('deviceorientation', actualizarFlecha, true);
     if (btn) { btn.style.background='#fff'; btn.style.border='2px solid rgba(0,0,0,0.2)'; btn.style.color=''; }
     if (window._userMarker) window._userMarker.setIcon(crearIconoUsuario(null));
-    mostrarToast('🧭 ' + ((T[idiomaActual]||T.es).brujulaDesactivar||'Desactivar'));
+    mostrarToast('🧭 Brújula desactivada');
     var nb = document.getElementById('ruta-nav-orientacion');
     if(nb){ nb.style.background='#fff'; nb.style.border='2px solid rgba(0,0,0,0.15)'; nb.style.color='#333';
       var ol = nb.querySelector('#nav-ori-offline'); if(ol) ol.style.display='inline';
@@ -3475,7 +3460,7 @@ function pedirOrientacion() {
     window.removeEventListener('deviceorientation', actualizarFlecha, true);
     window.addEventListener('deviceorientation', actualizarFlecha, true);
     if (btn) { btn.style.background='#1D9E75'; btn.style.border='2px solid #1D9E75'; btn.style.color='#fff'; }
-    mostrarToast((T[idiomaActual]||T.es).brujulaMsgActiva||'✅ Brújula activa');
+    mostrarToast('🧭 Brújula activada');
     var nb = document.getElementById('ruta-nav-orientacion');
     if(nb){ nb.style.background='#EFF6FF'; nb.style.border='2px solid #185FA5'; nb.style.color='#185FA5';
       var ol = nb.querySelector('#nav-ori-offline'); if(ol) ol.style.display='none';
@@ -4349,8 +4334,7 @@ function guardarRuta() {
       cartel.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:99999;background:rgba(0,0,0,0.82);color:#fff;padding:16px 22px;border-radius:16px;font-family:DM Sans,sans-serif;font-size:13px;font-weight:500;text-align:center;max-width:280px;line-height:1.5;box-shadow:0 4px 20px rgba(0,0,0,0.3);backdrop-filter:blur(8px);transition:opacity 0.5s;';
       document.body.appendChild(cartel);
     }
-    var tCartel = T[idiomaActual] || T.es;
-    cartel.innerHTML = '💾 <strong>' + (tCartel.guardandoRuta||'Ruta guardada ✓') + '</strong><br><span style="font-size:12px;color:rgba(255,255,255,0.85)">' + (tCartel.guardandoRutaSub||'') + '</span>';
+    cartel.innerHTML = '💾 <strong>Guardando ruta...</strong><br><span style="font-size:12px;color:rgba(255,255,255,0.85)">Recuerda que este es un proyecto gratuito y necesitamos tu apoyo para el soporte. ¡Gracias! 🙏</span>';
     cartel.style.opacity = '1';
     clearTimeout(cartel._t);
     cartel._t = setTimeout(function(){ cartel.style.opacity = '0'; }, 3500);
@@ -4974,9 +4958,6 @@ var T={
     btnCancelar:'Cancelar',
     btnGuardar:'Guardar punto',
     btnGuardarRuta:'Guardar',
-    guardandoRuta:'Ruta guardada ✓',
-    guardandoRutaSub:'Recuerda que este es un proyecto gratuito y necesitamos tu apoyo. ¡Gracias! 🙏',
-    brujulaNorte:'Norte',brujulaSantiago:'Santiago',brujulaActivar:'Activar',brujulaDesactivar:'Desactivar',brujulaRecalibrar:'↺ Recalibrar',brujulaVolverMapa:'🗺️ Volver al mapa',brujulaMsgActiva:'✅ Brújula activa',brujulaMsgRecalibrar:'↺ Recalibrando...',brujulaMsgActualizada:'✅ Posición actualizada',subcatTitulo:'Recomendar punto',subcatSub:'Elige el tipo de lugar',
     confirmarEliminar:'¿Eliminar este punto? Esta acción no se puede deshacer.',
     btnNotifOff:'Activa avisos de puntos de interés cercanos',
     btnNotifOn:'✅ Avisos de POIs activados',
@@ -5125,9 +5106,6 @@ var T={
     btnCancelar:'Cancelar',
     btnGuardar:'Gardar punto',
     btnGuardarRuta:'Gardar',
-    guardandoRuta:'Ruta gardada ✓',
-    guardandoRutaSub:'Lembra que este é un proxecto gratuíto. Grazas! 🙏',
-    brujulaNorte:'Norte',brujulaSantiago:'Santiago',brujulaActivar:'Activar',brujulaDesactivar:'Desactivar',brujulaRecalibrar:'↺ Recalibrar',brujulaVolverMapa:'🗺️ Volver ao mapa',brujulaMsgActiva:'✅ Brúxula activa',brujulaMsgRecalibrar:'↺ Recalibrando...',brujulaMsgActualizada:'✅ Posición actualizada',subcatTitulo:'Recomendar punto',subcatSub:'Escolle o tipo de lugar',
     confirmarEliminar:'¿Eliminar este punto? Esta acción non se pode desfacer.',
     btnNotifOff:'Activa avisos de puntos de interese cercanos',
     btnNotifOn:'✅ Avisos de POIs activados',
@@ -5283,9 +5261,6 @@ var T={
     btnCancelar:'Cancel',
     btnGuardar:'Save point',
     btnGuardarRuta:'Save',
-    guardandoRuta:'Route saved ✓',
-    guardandoRutaSub:'Remember this is a free project. Thank you! 🙏',
-    brujulaNorte:'North',brujulaSantiago:'Santiago',brujulaActivar:'Activate',brujulaDesactivar:'Deactivate',brujulaRecalibrar:'↺ Recalibrate',brujulaVolverMapa:'🗺️ Back to map',brujulaMsgActiva:'✅ Compass active',brujulaMsgRecalibrar:'↺ Recalibrating...',brujulaMsgActualizada:'✅ Position updated',subcatTitulo:'Recommend a point',subcatSub:'Choose the type of place',
     confirmarEliminar:'Delete this point? This action cannot be undone.',
     btnNotifOff:'Activate nearby points of interest alerts',
     btnNotifOn:'✅ POI alerts activated',
@@ -5424,15 +5399,6 @@ function cambiarIdioma(lang){
   el=document.getElementById('ruta-nav-btn');if(el&&!el.style.display.includes('none'))el.innerHTML=t.panelBtnIr||'▶ Ir';
   el=document.getElementById('ruta-nav-stop');if(el)el.innerHTML=t.panelBtnStop||'⏹ Stop';
   el=document.getElementById('ruta-bar-btn-clear');if(el)el.innerHTML=t.panelBtnLimpiar||'🗑 Limpiar';
-  // Brújula drawer
-  el=document.getElementById('brujula-norte-label');if(el)el.textContent=t.brujulaNorte||'Norte';
-  el=document.getElementById('brujula-stgo-label');if(el)el.textContent=t.brujulaSantiago||'Santiago';
-  el=document.getElementById('btn-refrescar-brujula');if(el)el.textContent=t.brujulaRecalibrar||'↺ Recalibrar';
-  var bCerrarBruj=document.querySelector('#brujula-drawer button[onclick*="cerrarBrujulaDrawer"]');
-  if(bCerrarBruj)bCerrarBruj.textContent=t.brujulaVolverMapa||'🗺️ Volver al mapa';
-  // Subcats drawer
-  el=document.getElementById('subcats-drawer-title');if(el)el.textContent='⭐ '+(t.subcatTitulo||'Recomendar punto');
-  el=document.getElementById('subcats-drawer-sub');if(el)el.textContent=t.subcatSub||'Elige el tipo de lugar';
   el=document.getElementById('poi-ruta-btn-mapa');if(el)el.innerHTML=t.poiVerMapa||'🗺️ Ver en mapa';
   el=document.getElementById('poi-ruta-titulo');if(el)el.textContent=t.poiRutaTitulo||t.rutaLabel;
   el=document.getElementById('poi-ruta-vacia');if(el)el.textContent=t.poiRutaVacia||t.rutaVacio;
@@ -5890,8 +5856,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <div id='subcats-drawer' style='display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-radius:20px 20px 0 0;z-index:10001;padding:1.2rem 1.2rem 2rem;box-sizing:border-box;transition:transform 0.25s'>
   <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem'>
     <div>
-      <div id='subcats-drawer-title' style='font-size:14px;font-weight:700;color:#15803d'>⭐ Recomendar punto</div>
-      <div id='subcats-drawer-sub' style='font-size:11px;color:#9ca3af;margin-top:1px'>Elige el tipo de lugar</div>
+      <div style='font-size:14px;font-weight:700;color:#15803d'>⭐ Recomendar punto</div>
+      <div style='font-size:11px;color:#9ca3af;margin-top:1px'>Elige el tipo de lugar</div>
     </div>
     <button onclick='cerrarSubcatDrawer()' style='background:#f3f4f6;border:none;border-radius:50%;width:30px;height:30px;font-size:16px;cursor:pointer;color:#6b7280;display:flex;align-items:center;justify-content:center;flex-shrink:0'>✕</button>
   </div>
@@ -5977,6 +5943,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v427</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v413</div>
 </body>
 </html>
