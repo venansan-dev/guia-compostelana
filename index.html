@@ -277,6 +277,16 @@
   <!-- Botón buscador esquina inferior derecha (sobre el logo Leaflet) -->
   <button id='btn-buscar-mapa' onclick='toggleBuscadorMapa()' title='Buscar'
     style='display:flex;position:absolute;bottom:30px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:17px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>🔍</button>
+  <!-- Tira de búsqueda flotante sobre el mapa -->
+  <div id='mapa-search-strip' style='display:none;position:absolute;bottom:30px;left:10px;right:54px;z-index:401;background:rgba(255,255,255,0.97);border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.18);border:1.5px solid rgba(29,158,117,0.3);overflow:hidden;backdrop-filter:blur(4px)'>
+    <div style='display:flex;align-items:center;gap:0'>
+      <input id='buscar-mapa-strip-input' type='text' placeholder='Buscar lugar...' autocomplete='off'
+        style='flex:1;border:none;background:none;font-size:13px;color:#1a1a1a;font-family:DM Sans,sans-serif;outline:none;padding:9px 12px;min-width:0'
+        onkeydown='if(event.key==="Enter")ejecutarBusquedaMapa()'/>
+      <button onclick='ejecutarBusquedaMapa()' style='background:#1D9E75;color:#fff;border:none;padding:9px 13px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600;white-space:nowrap;flex-shrink:0'>🔍</button>
+      <button onclick='cerrarBuscadorMapa()' style='background:none;color:#9ca3af;border:none;border-left:1px solid #e5e7eb;padding:9px 10px;font-size:16px;cursor:pointer;line-height:1;flex-shrink:0'>✕</button>
+    </div>
+  </div>
 </div>
 
 <!-- BARRA RADIO + BUSCADOR -->
@@ -1740,23 +1750,35 @@ function actualizarBtnPrincipal() {
 }
 
 function toggleBuscadorMapa() {
-  var searchBar = document.querySelector('.search-under-map');
-  if (!searchBar) return;
-  var input = document.getElementById('buscar-input');
-  var btn = document.getElementById('btn-buscar-mapa');
-  var visible = searchBar.style.display !== 'none' && searchBar.offsetHeight > 0;
+  var strip = document.getElementById('mapa-search-strip');
+  var btn   = document.getElementById('btn-buscar-mapa');
+  var input = document.getElementById('buscar-mapa-strip-input');
+  if (!strip) return;
+  var visible = strip.style.display !== 'none';
   if (visible) {
-    searchBar.style.transition = 'opacity 0.2s';
-    searchBar.style.opacity = '0';
-    setTimeout(function(){ searchBar.style.display = 'none'; searchBar.style.opacity = '1'; }, 200);
-    if (btn) { btn.style.background = '#fff'; btn.style.borderColor = 'rgba(0,0,0,0.2)'; }
+    cerrarBuscadorMapa();
   } else {
-    searchBar.style.display = 'block';
-    if (input) { input.focus(); }
-    if (btn) { btn.style.background = '#1D9E75'; btn.style.borderColor = '#1D9E75'; }
-    // Scroll suave al buscador
-    searchBar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    strip.style.display = 'block';
+    if (btn) { btn.style.background='#1D9E75'; btn.style.borderColor='#1D9E75'; btn.style.color='#fff'; }
+    if (input) { setTimeout(function(){ input.focus(); }, 100); }
   }
+}
+
+function cerrarBuscadorMapa() {
+  var strip = document.getElementById('mapa-search-strip');
+  var btn   = document.getElementById('btn-buscar-mapa');
+  if (strip) strip.style.display = 'none';
+  if (btn) { btn.style.background='#fff'; btn.style.borderColor='rgba(0,0,0,0.2)'; btn.style.color=''; }
+}
+
+function ejecutarBusquedaMapa() {
+  var input = document.getElementById('buscar-mapa-strip-input');
+  if (!input || !input.value.trim()) return;
+  // Copiar el valor al buscador principal y ejecutar
+  var mainInput = document.getElementById('buscar-input');
+  if (mainInput) mainInput.value = input.value;
+  cerrarBuscadorMapa();
+  ejecutarBusqueda();
 }
 
 
@@ -5973,6 +5995,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v432</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v433</div>
 </body>
 </html>
