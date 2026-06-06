@@ -93,7 +93,7 @@
     <a href='#historia' id='nav-historia'>🐚 Historia Compostelana</a>
     <a href='#puntos' id='nav-mapa' onclick='setTimeout(function(){var m=document.getElementById("map-block");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300)'>🗺️ Mapa</a>
     <a href='#puntos' id='nav-puntos'>📍 Puntos de interés</a>
-    <a href='#brujula' id='nav-brujula'>🧭 Brújula</a>
+    <a href='#' id='nav-brujula' onclick='abrirBrujulaDrawer();return false'>🧭 Brújula</a>
     <a href='#instrucciones' id='nav-comousar'>📖 Cómo usar</a>
     <a href='#contacto' id='nav-contacto'>✉️ Contacto</a>
   </nav>
@@ -110,7 +110,7 @@
   <a href='#' id='nav-m-historia' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("historia");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>🐚</span>Historia Compostelana</a>
   <a href='#' id='nav-m-mapa' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("map-block");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>🗺️</span>Mapa</a>
   <a href='#' id='nav-m-puntos' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("puntos");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>📍</span>Puntos de interés</a>
-  <a href='#' id='nav-m-brujula' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("brujula");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>🧭</span>Brújula</a>
+  <a href='#' id='nav-m-brujula' onclick='cerrarMenu();setTimeout(abrirBrujulaDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>🧭</span>Brújula</a>
   <a href='#' id='nav-m-comousar' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("instrucciones");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>📖</span>Cómo usar</a>
   <a href='#' id='nav-m-contacto' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("contacto");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>✉️</span>Contacto</a>
   <a class='dona-link' href='#' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("donaciones");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false' style='grid-column:1/-1;border-right:none'><span style='font-size:18px;margin-right:8px'>🙏</span>Donaciones / Ayuda al soporte</a>
@@ -120,22 +120,6 @@
 <section class='hero' id='inicio'>
   <div class='hero-grid'></div>
   <!-- SELECTOR IDIOMA banderas SVG -->
-  <!-- Share + idiomas en barra superior del hero -->
-  <div style='position:absolute;top:0.9rem;left:1.2rem;display:flex;align-items:center;gap:6px;z-index:10'>
-    <span style='font-size:11px;color:rgba(255,255,255,0.7);font-weight:500;letter-spacing:0.3px' id='share-label-hero'>Compartir</span>
-    <a class='hero-share-btn' href='https://wa.me/?text=Gu%C3%ADa%20Compostelana%20de%20Vigo%20https%3A%2F%2Fstartling-platypus-2d5d50.netlify.app%2F' target='_blank' title='WhatsApp'>
-      <svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z'/><path d='M12 0C5.373 0 0 5.373 0 12c0 2.136.565 4.14 1.548 5.872L.057 23.893l6.186-1.458A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.798 9.798 0 01-5.002-1.369l-.36-.213-3.667.864.924-3.564-.234-.375A9.778 9.778 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182S21.818 6.58 21.818 12 17.42 21.818 12 21.818z'/></svg>
-    </a>
-    <a class='hero-share-btn' href='https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fstartling-platypus-2d5d50.netlify.app%2F' target='_blank' title='Facebook'>
-      <svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z'/></svg>
-    </a>
-    <a class='hero-share-btn' href='https://twitter.com/intent/tweet?text=Gu%C3%ADa%20Compostelana%20de%20Vigo&amp;url=https%3A%2F%2Fstartling-platypus-2d5d50.netlify.app%2F' target='_blank' title='X'>
-      <svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.259 5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z'/></svg>
-    </a>
-    <a class='hero-share-btn' href='https://t.me/share/url?url=https%3A%2F%2Fstartling-platypus-2d5d50.netlify.app%2F&amp;text=Gu%C3%ADa%20Compostelana%20de%20Vigo' target='_blank' title='Telegram'>
-      <svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z'/></svg>
-    </a>
-  </div>
   <div class='lang-switcher' style='top:auto;bottom:0.9rem;right:1.2rem'>
     <button class='lang-btn activo' id='btn-gl' onclick='cambiarIdioma(&quot;gl&quot;)' title='Galego'><svg viewBox='0 0 36 36' xmlns='http://www.w3.org/2000/svg'><clipPath id='c-gl'><circle cx='18' cy='18' r='18'></circle></clipPath><g clip-path='url(#c-gl)'><rect fill='#ffffff' height='36' width='36'></rect><polygon fill='#003DA5' points='36,7 29,0 0,29 7,36'></polygon></g></svg></button>
     <button class='lang-btn' id='btn-en' onclick='cambiarIdioma(&quot;en&quot;)' title='English'><svg viewBox='0 0 36 36' xmlns='http://www.w3.org/2000/svg'><clipPath id='c-en'><circle cx='18' cy='18' r='18'></circle></clipPath><g clip-path='url(#c-en)'><rect fill='#012169' height='36' width='36'></rect><line stroke='#fff' stroke-width='7' x1='0' x2='36' y1='0' y2='36'></line><line stroke='#fff' stroke-width='7' x1='36' x2='0' y1='0' y2='36'></line><line stroke='#CF142B' stroke-width='4' x1='0' x2='36' y1='0' y2='36'></line><line stroke='#CF142B' stroke-width='4' x1='36' x2='0' y1='0' y2='36'></line><rect fill='#fff' height='36' width='8' x='14' y='0'></rect><rect fill='#fff' height='8' width='36' y='14'></rect><rect fill='#CF142B' height='36' width='5' x='15.5' y='0'></rect><rect fill='#CF142B' height='5' width='36' y='15.5'></rect></g></svg></button>
@@ -234,8 +218,8 @@
   <span id='ruta-bar-info' style='display:none'></span>
   <span id='ruta-bar-puntos' style='display:none'></span>
   <!-- Botón orientación (izquierda bajo refrescar) -->
-  <button id='btn-orientacion-mapa' onclick='pedirOrientacion()' title='Activar flecha orientación'
-    style='display:flex;position:absolute;top:54px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>🧭</button>
+  <button id='btn-orientacion-mapa' onclick='abrirBrujulaDrawer()' title='Brújula'
+    style='display:flex;position:absolute;top:54px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0' id='btn-brujula-mapa'>🧭</button>
 
   <div id='ar-overlay' style='display:none;position:fixed;inset:0;z-index:99000;background:#000;flex-direction:column'>
     <video id='ar-video' autoplay playsinline muted style='position:absolute;inset:0;width:100%;height:100%;object-fit:cover'></video>
@@ -421,74 +405,69 @@
 <!-- FOOTER -->
 
 <!-- SECCIÓN BRÚJULA -->
-<section id='brujula' style='scroll-margin-top:70px;background:linear-gradient(160deg,#1a2a4a 0%,#1e3a5f 50%,#243b55 100%);padding:3rem 2rem;position:relative;overflow:hidden'>
-  <div style='position:absolute;top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;background:rgba(255,220,100,0.04);pointer-events:none'></div>
-  <div style='position:absolute;bottom:-60px;left:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,220,100,0.04);pointer-events:none'></div>
-  <div style='max-width:680px;margin:0 auto;position:relative;z-index:2'>
+<!-- ANCLA para el menú de navegación desktop -->
+<div id='brujula' style='height:0;overflow:hidden'></div>
 
-    <!-- Cabecera -->
-    <div style='display:flex;align-items:center;gap:12px;margin-bottom:6px'>
-      <div style='width:44px;height:44px;background:rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0'>🧭</div>
+<!-- DRAWER BRÚJULA — desliza desde abajo -->
+<div id='brujula-drawer-bg' onclick='cerrarBrujulaDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:8000'></div>
+<div id='brujula-drawer' style='display:none;position:fixed;bottom:0;left:0;right:0;z-index:8001;background:linear-gradient(160deg,#1a2a4a 0%,#1e3a5f 50%,#243b55 100%);border-radius:20px 20px 0 0;padding:1.25rem 1.5rem 2.5rem;max-height:90vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1)'>
+  <!-- Handle + cabecera -->
+  <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem'>
+    <div style='display:flex;align-items:center;gap:10px'>
+      <div style='width:38px;height:38px;background:rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0' id='brujula-drawer-icon'>🧭</div>
       <div>
-        <h2 id='brujula-h2' style='font-family:Playfair Display,serif;font-size:26px;color:#fff;margin:0;line-height:1.2'>Brújula</h2>
-        <p id='brujula-sub' style='font-size:13px;color:rgba(255,255,255,0.7);margin:0'>Norte magnético y rumbo a Santiago de Compostela</p>
+        <h2 id='brujula-h2' style='font-family:Playfair Display,serif;font-size:22px;color:#fff;margin:0;line-height:1.2'>Brújula</h2>
+        <p id='brujula-sub' style='font-size:12px;color:rgba(255,255,255,0.7);margin:0'>Norte magnético y rumbo a Santiago</p>
       </div>
     </div>
-    <div style='width:60px;height:3px;background:#FFE066;border-radius:2px;margin:1rem 0 2rem'></div>
-
-    <!-- Dos brújulas lado a lado -->
-    <div style='display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:2rem'>
-
-      <!-- Norte magnético -->
-      <div style='background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:1rem 0.75rem;display:flex;flex-direction:column;align-items:center;gap:0.75rem'>
-        <div id='brujula-norte-label' style='font-size:11px;font-weight:600;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1.5px'>Norte</div>
-        <div style='position:relative;width:110px;height:110px'>
-          <!-- Rosa de los vientos -->
-          <canvas id='canvas-norte' width='110' height='110' style='position:absolute;top:0;left:0'></canvas>
-          <!-- Aguja SVG centrada -->
-          <svg id='aguja-norte' style='position:absolute;top:0;left:0;width:110px;height:110px;transition:transform 0.3s ease;transform-origin:55px 55px' viewBox='0 0 110 110'>
-            <polygon points='55,12 51,55 59,55' fill='#E74C3C'/>
-            <polygon points='55,98 51,55 59,55' fill='rgba(255,255,255,0.45)'/>
-          </svg>
-          <!-- Centro -->
-          <div style='position:absolute;top:50%;left:50%;width:10px;height:10px;background:#FFE066;border-radius:50%;margin:-5px 0 0 -5px;z-index:10'></div>
-        </div>
-        <div style='text-align:center'>
-          <div id='grados-norte' style='font-size:22px;font-weight:700;color:#FFE066;font-family:monospace'>---°</div>
-          <div id='rumbo-texto' style='font-size:13px;color:rgba(255,255,255,0.8);margin-top:2px'>--</div>
-        </div>
-      </div>
-
-      <!-- Rumbo a Santiago -->
-      <div style='background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:1rem 0.75rem;display:flex;flex-direction:column;align-items:center;gap:0.75rem'>
-        <div id='brujula-stgo-label' style='font-size:11px;font-weight:600;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1.5px'>Santiago</div>
-        <div style='position:relative;width:110px;height:110px'>
-          <canvas id='canvas-stgo' width='110' height='110' style='position:absolute;top:0;left:0'></canvas>
-          <!-- Aguja SVG centrada -->
-          <svg id='aguja-stgo' style='position:absolute;top:0;left:0;width:110px;height:110px;transition:transform 0.3s ease;transform-origin:55px 55px' viewBox='0 0 110 110'>
-            <polygon points='55,12 51,55 59,55' fill='#FFE066'/>
-            <polygon points='55,98 51,55 59,55' fill='rgba(255,255,255,0.45)'/>
-          </svg>
-          <div style='position:absolute;top:50%;left:50%;width:10px;height:10px;background:#fff;border-radius:50%;margin:-5px 0 0 -5px;z-index:10'></div>
-        </div>
-        <div style='text-align:center'>
-          <div id='grados-stgo' style='font-size:22px;font-weight:700;color:#FFE066;font-family:monospace'>---°</div>
-          <div id='dist-stgo' style='font-size:13px;color:rgba(255,255,255,0.8);margin-top:2px'>-- km</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Botón activar + mensaje estado -->
-    <div style='text-align:center;width:100%'>
-      <div style='display:flex;gap:10px;justify-content:center;flex-wrap:wrap;width:100%'>
-        <button id='btn-brujula' onclick='activarBrujula()' style='background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:10px 22px;color:#fff;font-size:14px;font-weight:600;font-family:DM Sans,sans-serif;cursor:pointer;transition:background 0.2s'>🧭 Activar</button>
-        <button id='btn-refrescar-brujula' onclick='refrescarBrujula()' style='display:none;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:10px 22px;color:#fff;font-size:14px;font-weight:600;font-family:DM Sans,sans-serif;cursor:pointer;transition:background 0.2s'>↺ Recalibrar</button>
-      </div>
-      <p id='msg-brujula' style='font-size:12px;color:rgba(255,255,255,0.6);margin:10px 0 0;min-height:18px'></p>
-    </div>
-
+    <button onclick='cerrarBrujulaDrawer()' style='background:rgba(255,255,255,0.15);border:none;border-radius:50%;width:34px;height:34px;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0'>✕</button>
   </div>
-</section>
+  <div style='width:50px;height:2px;background:#FFE066;border-radius:2px;margin-bottom:1.5rem'></div>
+
+  <!-- Dos brújulas lado a lado -->
+  <div style='display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.5rem'>
+    <!-- Norte magnético -->
+    <div style='background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:1rem 0.75rem;display:flex;flex-direction:column;align-items:center;gap:0.75rem'>
+      <div id='brujula-norte-label' style='font-size:11px;font-weight:600;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1.5px'>Norte</div>
+      <div style='position:relative;width:110px;height:110px'>
+        <canvas id='canvas-norte' width='110' height='110' style='position:absolute;top:0;left:0'></canvas>
+        <svg id='aguja-norte' style='position:absolute;top:0;left:0;width:110px;height:110px;transition:transform 0.3s ease;transform-origin:55px 55px' viewBox='0 0 110 110'>
+          <polygon points='55,12 51,55 59,55' fill='#E74C3C'/>
+          <polygon points='55,98 51,55 59,55' fill='rgba(255,255,255,0.45)'/>
+        </svg>
+        <div style='position:absolute;top:50%;left:50%;width:10px;height:10px;background:#FFE066;border-radius:50%;margin:-5px 0 0 -5px;z-index:10'></div>
+      </div>
+      <div style='text-align:center'>
+        <div id='grados-norte' style='font-size:22px;font-weight:700;color:#FFE066;font-family:monospace'>---°</div>
+        <div id='rumbo-texto' style='font-size:13px;color:rgba(255,255,255,0.8);margin-top:2px'>--</div>
+      </div>
+    </div>
+    <!-- Rumbo a Santiago -->
+    <div style='background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:1rem 0.75rem;display:flex;flex-direction:column;align-items:center;gap:0.75rem'>
+      <div id='brujula-stgo-label' style='font-size:11px;font-weight:600;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1.5px'>Santiago</div>
+      <div style='position:relative;width:110px;height:110px'>
+        <canvas id='canvas-stgo' width='110' height='110' style='position:absolute;top:0;left:0'></canvas>
+        <svg id='aguja-stgo' style='position:absolute;top:0;left:0;width:110px;height:110px;transition:transform 0.3s ease;transform-origin:55px 55px' viewBox='0 0 110 110'>
+          <polygon points='55,12 51,55 59,55' fill='#FFE066'/>
+          <polygon points='55,98 51,55 59,55' fill='rgba(255,255,255,0.45)'/>
+        </svg>
+        <div style='position:absolute;top:50%;left:50%;width:10px;height:10px;background:#fff;border-radius:50%;margin:-5px 0 0 -5px;z-index:10'></div>
+      </div>
+      <div style='text-align:center'>
+        <div id='grados-stgo' style='font-size:22px;font-weight:700;color:#FFE066;font-family:monospace'>---°</div>
+        <div id='dist-stgo' style='font-size:13px;color:rgba(255,255,255,0.8);margin-top:2px'>-- km</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botones -->
+  <div style='display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:8px'>
+    <button id='btn-brujula' onclick='activarBrujula()' style='background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:10px 22px;color:#fff;font-size:14px;font-weight:600;font-family:DM Sans,sans-serif;cursor:pointer;transition:background 0.2s'>🧭 Activar</button>
+    <button id='btn-refrescar-brujula' onclick='refrescarBrujula()' style='display:none;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:10px 22px;color:#fff;font-size:14px;font-weight:600;font-family:DM Sans,sans-serif;cursor:pointer;transition:background 0.2s'>↺ Recalibrar</button>
+    <button onclick='cerrarBrujulaDrawer()' style='background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.25);border-radius:24px;padding:10px 22px;color:rgba(255,255,255,0.8);font-size:14px;font-weight:500;font-family:DM Sans,sans-serif;cursor:pointer;transition:background 0.2s'>🗺️ Volver al mapa</button>
+  </div>
+  <p id='msg-brujula' style='font-size:12px;color:rgba(255,255,255,0.6);margin:6px 0 0;text-align:center;min-height:18px'></p>
+</div>
 
 <script>
 (function() {
@@ -1008,6 +987,21 @@
   <div class='footer-brand'>
     <div class='logo'><img alt='Guía Compostelana de Vigo' src='https://i.postimg.cc/C1gNNsDK/IMG-0213.jpg' style='width:180px;height:48px;border-radius:4px'/></div>
     <p id='footer-desc'>Tu guía local de puntos de interés en Vigo. Descubre lo mejor de la ciudad a tu alrededor.</p>
+    <div style='display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap'>
+      <span style='font-size:12px;color:var(--texto-suave);font-weight:500' id='share-label-footer'>Compartir:</span>
+      <a href='https://wa.me/?text=Gu%C3%ADa%20Compostelana%20de%20Vigo%20https%3A%2F%2Fstartling-platypus-2d5d50.netlify.app%2F' target='_blank' title='WhatsApp' style='width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--borde);background:var(--fondo);transition:background 0.15s;color:var(--texto)'>
+        <svg width='15' height='15' viewBox='0 0 24 24' fill='currentColor'><path d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z'/><path d='M12 0C5.373 0 0 5.373 0 12c0 2.136.565 4.14 1.548 5.872L.057 23.893l6.186-1.458A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.798 9.798 0 01-5.002-1.369l-.36-.213-3.667.864.924-3.564-.234-.375A9.778 9.778 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182S21.818 6.58 21.818 12 17.42 21.818 12 21.818z'/></svg>
+      </a>
+      <a href='https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fstartling-platypus-2d5d50.netlify.app%2F' target='_blank' title='Facebook' style='width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--borde);background:var(--fondo);transition:background 0.15s;color:var(--texto)'>
+        <svg width='15' height='15' viewBox='0 0 24 24' fill='currentColor'><path d='M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z'/></svg>
+      </a>
+      <a href='https://twitter.com/intent/tweet?text=Gu%C3%ADa%20Compostelana%20de%20Vigo&amp;url=https%3A%2F%2Fstartling-platypus-2d5d50.netlify.app%2F' target='_blank' title='X' style='width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--borde);background:var(--fondo);transition:background 0.15s;color:var(--texto)'>
+        <svg width='15' height='15' viewBox='0 0 24 24' fill='currentColor'><path d='M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.259 5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z'/></svg>
+      </a>
+      <a href='https://t.me/share/url?url=https%3A%2F%2Fstartling-platypus-2d5d50.netlify.app%2F&amp;text=Gu%C3%ADa%20Compostelana%20de%20Vigo' target='_blank' title='Telegram' style='width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--borde);background:var(--fondo);transition:background 0.15s;color:var(--texto)'>
+        <svg width='15' height='15' viewBox='0 0 24 24' fill='currentColor'><path d='M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z'/></svg>
+      </a>
+    </div>
   </div>
   <div class='footer-col'>
     <h4 id='footer-explora'>Explora</h4>
@@ -3224,6 +3218,7 @@ function toggleSeguimiento() {
     // Zoom máximo y centrar en posición del usuario
     if (userLat) mapa.setView([userLat, userLng], 19, {animate:true});
     mostrarToast('📡 Seguimiento activado');
+  var bm = document.getElementById('btn-brujula-mapa'); if(bm) bm.textContent = '📡';
     actualizarLineaRuta();
     // watchPosition seguimiento
     if (!window._seguimientoId && navigator.geolocation) {
@@ -3265,6 +3260,7 @@ function toggleSeguimiento() {
     var r1 = document.querySelector('.map-radio-btn');
     if (r1) r1.classList.add('active');
     mostrarToast('📡 Seguimiento desactivado');
+  var bm = document.getElementById('btn-brujula-mapa'); if(bm) bm.textContent = '🧭';
   }
 }
 
@@ -3296,6 +3292,30 @@ function desactivarSeguimientoYBrujula() {
     var btnO = document.getElementById('btn-orientacion-mapa');
     if (btnO) { btnO.style.background='#fff'; btnO.style.border='2px solid rgba(0,0,0,0.2)'; btnO.style.color=''; }
   }
+}
+
+function abrirBrujulaDrawer() {
+  var bg = document.getElementById('brujula-drawer-bg');
+  var drawer = document.getElementById('brujula-drawer');
+  if (!bg || !drawer) return;
+  bg.style.display = 'block';
+  drawer.style.display = 'block';
+  // Forzar reflow antes de animar
+  drawer.getBoundingClientRect();
+  drawer.style.transform = 'translateY(0)';
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarBrujulaDrawer() {
+  var bg = document.getElementById('brujula-drawer-bg');
+  var drawer = document.getElementById('brujula-drawer');
+  if (!drawer) return;
+  drawer.style.transform = 'translateY(100%)';
+  setTimeout(function() {
+    if (bg) bg.style.display = 'none';
+    drawer.style.display = 'none';
+    document.body.style.overflow = '';
+  }, 350);
 }
 
 function pedirOrientacion() {
@@ -4217,6 +4237,7 @@ function cargarRutaGuardada() {
 //  NAVEGACIÓN POR VOZ CON OSRM
 // ═══════════════════════════════════════════════
 var _navActiva = false;
+  var _bm2 = document.getElementById('btn-brujula-mapa'); if(_bm2) _bm2.textContent = '🧭';
 var _navVozActiva = false; // voz apagada por defecto
 var _navPasos = [];
 var _navPasosCache = []; // pasos guardados por dibujarLineaEstática
@@ -4287,7 +4308,8 @@ function activarNavegacionVoz() {
   ordenados.forEach(function(p){ coords.push(p.lng + ',' + p.lat); });
   mostrarToast('🎙️ Iniciando navegación...');
   if (window._navRestoreTimeout) { clearTimeout(window._navRestoreTimeout); window._navRestoreTimeout = null; }
-  _navActiva = true; // bloquear dibujarLineaEstática desde ya
+  _navActiva = true;
+  var _bm = document.getElementById('btn-brujula-mapa'); if(_bm) _bm.textContent = '📡'; // bloquear dibujarLineaEstática desde ya
 
   // Anuncio inmediato (desbloquea speechSynthesis en iOS)
   hablar('Navegación por voz activada.');
@@ -5792,6 +5814,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v401</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v403</div>
 </body>
 </html>
