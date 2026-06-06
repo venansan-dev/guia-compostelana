@@ -4452,8 +4452,8 @@ function guardarRuta() {
   try {
     localStorage.setItem('rutaGuardadaV2', JSON.stringify(rutaPuntos));
     var btn = document.getElementById('ruta-bar-btn-save');
-    if (btn) { btn.style.background='#4f46e5'; btn.textContent='✅ Guardada'; }
-    setTimeout(function() { if (btn) { btn.style.background='#6366f1'; btn.textContent='💾 Guardar'; } }, 2500);
+    if (btn) { btn.style.background='#4f46e5'; btn.textContent='✅'; }
+    setTimeout(function() { if (btn) { btn.style.background='#6366f1'; btn.textContent='💾'; } }, 2500);
     // Globo emergente
     var cartel = document.getElementById('guardar-ruta-cartel');
     if (!cartel) {
@@ -4579,7 +4579,7 @@ function activarNavegacionVoz() {
     if (btnIr)   btnIr.style.display   = 'none';
     if (btnStop) btnStop.style.display = 'block';
     var btnVoz = document.getElementById('ruta-nav-voz');
-    if (btnVoz) { _navVozActiva = false; btnVoz.style.display = 'block'; btnVoz.style.background = '#444'; btnVoz.innerHTML = '🔇 Voz'; }
+    if (btnVoz) { _navVozActiva = false; btnVoz.style.display = 'block'; btnVoz.style.background = '#444'; btnVoz.innerHTML = '🔇'; }
     if (btnClr)  btnClr.style.display  = 'none';
 
     // Agrandar mapa sin cambiar position (no destruye Leaflet)
@@ -6074,6 +6074,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v441</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v442</div>
 </body>
 </html>
