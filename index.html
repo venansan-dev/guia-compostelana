@@ -306,6 +306,46 @@
 </div>
 
 
+<!-- IDs fantasma necesarios para el JS — sección POI eliminada del DOM visible -->
+<div style='display:none' aria-hidden='true'>
+  <div class='carousel-wrap'><div class='carousel' id='carousel'></div></div>
+  <div class='categories'>
+    <div class='cat-chip active' id='chip-todos'><span id='chip-todos-txt'></span></div>
+    <div class='cat-chip' id='chip-alertas'></div>
+    <div class='cat-chip' id='chip-usuario'><span id='chip-usuario-txt'></span></div>
+    <div class='cat-chip' id='chip-etapas-costa'><span id='chip-etapas-costa-txt'></span></div>
+    <div class='cat-chip' id='chip-etapas-interior'><span id='chip-etapas-interior-txt'></span></div>
+    <div class='cat-chip' id='chip-naturaleza'></div>
+    <div class='cat-chip' id='chip-monumentos'></div>
+    <div class='cat-chip' id='chip-religiosa'></div>
+    <div class='cat-chip' id='chip-historica'></div>
+    <div class='cat-chip' id='chip-arqueologico'></div>
+    <div class='cat-chip' id='chip-albergues'></div>
+    <div class='cat-chip' id='chip-miradores'></div>
+    <div class='cat-chip' id='chip-fiestas'></div>
+  </div>
+  <button id='btn-add-poi'><span id='btn-add-poi-txt'></span></button>
+  <button id='btn-notif'><span id='btn-notif-txt'></span></button>
+  <div id='btn-notif-m'></div>
+  <span id='puntos-h2'></span>
+  <span id='poi-sub1'></span>
+  <span id='poi-sub2'></span>
+  <div id='poi-ruta-box'>
+    <span id='poi-ruta-titulo'></span>
+    <div id='poi-ruta-stats'>
+      <span id='poi-ruta-count'></span>
+      <span id='poi-ruta-dist2'></span>
+      <span id='poi-ruta-time2'></span>
+    </div>
+    <div id='poi-ruta-vacia'></div>
+    <div id='poi-ruta-lista2'></div>
+    <div id='ruta-scroll-track'><div id='ruta-scroll-bar'></div></div>
+    <button id='poi-ruta-btn-mapa'></button>
+    <button id='poi-ruta-btn-ir'></button>
+    <button id='poi-ruta-btn-clear'></button>
+  </div>
+</div>
+
 <!-- HISTORIA COMPOSTELANA -->
 
 
@@ -1832,15 +1872,31 @@ function _renderPoiDrawerCarrusel() {
     btn.addEventListener('click', function(e) {
       e.stopPropagation();
       var id = btn.getAttribute('data-poi');
-      var poi = (PUNTOS.concat(PUNTOS_USUARIO || [])).find(function(p){ return p.id === id; });
-      if (poi) { añadirARuta(poi); _renderPoiDrawerCarrusel(); }
+      addToRoute(id);
+      _renderPoiDrawerCarrusel();
     });
   });
-  // Listener botón llegar
+  // Listener botón llegar — cerrar drawer y centrar en mapa
   car.querySelectorAll('.poi-btn').forEach(function(btn) {
     btn.addEventListener('click', function(e) {
       e.stopPropagation();
-      irDesdeCarrusel(btn.getAttribute('data-id') || '');
+      cerrarPoiDrawer();
+      var lat = parseFloat(btn.getAttribute('data-lat'));
+      var lng = parseFloat(btn.getAttribute('data-lng'));
+      if (mapa && lat && lng) {
+        mapa.setView([lat, lng], 16);
+        setTimeout(function() {
+          // Abrir popup del marcador si existe
+          mapa.eachLayer(function(layer) {
+            if (layer.getLatLng && layer._popup) {
+              var ll = layer.getLatLng();
+              if (Math.abs(ll.lat - lat) < 0.0002 && Math.abs(ll.lng - lng) < 0.0002) {
+                layer.openPopup();
+              }
+            }
+          });
+        }, 400);
+      }
     });
   });
 }
@@ -6183,6 +6239,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v445</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v447</div>
 </body>
 </html>
