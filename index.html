@@ -637,19 +637,10 @@
       </div>
     </div>
 
-    <!-- Columnas Explora + Info -->
+    <!-- Info + Banner donaciones -->
     <div style='display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.75rem'>
-      <div style='background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);padding:0.9rem'>
-        <div style='font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--texto-suave);margin-bottom:10px;font-weight:500' id='contacto-explora'>Explora</div>
-        <div style='display:flex;flex-direction:column;gap:6px'>
-          <a href='#' onclick='cerrarContactoDrawer();setTimeout(function(){abrirPoiDrawer();_poiDrawerFiltrar(null,"naturaleza")},400);return false' style='font-size:12px;color:var(--texto-suave);text-decoration:none'>🌿 Naturaleza</a>
-          <a href='#' onclick='cerrarContactoDrawer();setTimeout(function(){abrirPoiDrawer();_poiDrawerFiltrar(null,"monumento")},400);return false' style='font-size:12px;color:var(--texto-suave);text-decoration:none'>🏛️ Monumentos</a>
-          <a href='#' onclick='cerrarContactoDrawer();setTimeout(function(){abrirPoiDrawer();_poiDrawerFiltrar(null,"edificación religiosa")},400);return false' style='font-size:12px;color:var(--texto-suave);text-decoration:none'>⛪ Religiosa</a>
-          <a href='#' onclick='cerrarContactoDrawer();setTimeout(function(){abrirPoiDrawer();_poiDrawerFiltrar(null,"localización histórica")},400);return false' style='font-size:12px;color:var(--texto-suave);text-decoration:none'>📜 Histórica</a>
-          <a href='#' onclick='cerrarContactoDrawer();setTimeout(function(){abrirPoiDrawer();_poiDrawerFiltrar(null,"albergue")},400);return false' style='font-size:12px;color:var(--texto-suave);text-decoration:none'>🏠 Albergues</a>
-          <a href='#' onclick='cerrarContactoDrawer();setTimeout(function(){abrirPoiDrawer();_poiDrawerFiltrar(null,"mirador")},400);return false' style='font-size:12px;color:var(--texto-suave);text-decoration:none'>🔭 Miradores</a>
-        </div>
-      </div>
+
+      <!-- Columna izquierda: Información -->
       <div style='background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);padding:0.9rem'>
         <div style='font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--texto-suave);margin-bottom:10px;font-weight:500' id='contacto-info'>Información</div>
         <div style='display:flex;flex-direction:column;gap:6px'>
@@ -659,20 +650,24 @@
           <a href='#' style='font-size:12px;color:var(--texto-suave);text-decoration:none'>Privacidad</a>
         </div>
       </div>
-    </div>
 
-    <!-- Mini banner donaciones -->
-    <div style='background:linear-gradient(135deg,#0F6E56 0%,#1D9E75 100%);border-radius:var(--radio);padding:1rem 1.25rem;display:flex;align-items:center;gap:12px;position:relative;overflow:hidden'>
-      <div style='position:absolute;top:-20px;right:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.07);pointer-events:none'></div>
-      <span style='font-size:32px;flex-shrink:0;animation:donCatBody 1.2s ease-in-out infinite;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.3));position:relative'>🐱<span style='position:absolute;top:-6px;right:-16px;font-size:16px;animation:donCoin 0.7s ease-in-out infinite;transform-origin:bottom center'>🤚</span></span>
-      <div style='flex:1'>
-        <div style='font-family:Playfair Display,serif;font-size:14px;font-weight:700;color:#FFE066;margin-bottom:6px'>Apoya esta guía</div>
-        <div style='display:flex;gap:6px;flex-wrap:wrap'>
-          <button onclick='cerrarContactoDrawer();setTimeout(abrirBizum,400)' style='background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:20px;padding:5px 12px;color:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>📱 Bizum</button>
-          <a href='https://paypal.me/GuiaCompostelana' target='_blank' style='background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:20px;padding:5px 12px;color:#fff;font-size:12px;font-weight:600;text-decoration:none;font-family:DM Sans,sans-serif'>💳 PayPal</a>
-          <button onclick='cerrarContactoDrawer();setTimeout(abrirDonacionesDrawer,400)' style='background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:20px;padding:5px 12px;color:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>🙏 Más opciones</button>
+      <!-- Columna derecha: Banner donaciones -->
+      <div style='background:linear-gradient(160deg,#0a5240 0%,#0F6E56 40%,#1D9E75 100%);border-radius:var(--radio);padding:0.9rem;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden'>
+        <div style='position:absolute;top:-30px;right:-30px;width:110px;height:110px;border-radius:50%;background:rgba(255,255,255,0.07);pointer-events:none'></div>
+        <div style='position:relative;z-index:1'>
+          <div style='display:flex;align-items:center;gap:8px;margin-bottom:6px'>
+            <span style='font-size:26px;position:relative;display:inline-block;animation:donCatBody 1.2s ease-in-out infinite;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))'>🐱<span style='position:absolute;top:-4px;right:-12px;font-size:13px;animation:donCoin 0.7s ease-in-out infinite;transform-origin:bottom center'>🤚</span></span>
+            <div style='font-family:Playfair Display,serif;font-size:13px;font-weight:700;color:#FFE066;line-height:1.2'>Apoya esta guía</div>
+          </div>
+          <p style='font-size:11px;color:rgba(255,255,255,0.82);margin:0 0 8px;line-height:1.5'>Gratuita y sin publicidad. Tu apoyo nos ayuda a seguir.</p>
+          <div style='display:flex;flex-direction:column;gap:5px'>
+            <button onclick='cerrarContactoDrawer();setTimeout(abrirBizum,400)' style='background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:16px;padding:5px 10px;color:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;text-align:left'>📱 Bizum</button>
+            <a href='https://paypal.me/GuiaCompostelana' target='_blank' style='background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:16px;padding:5px 10px;color:#fff;font-size:11px;font-weight:600;text-decoration:none;font-family:DM Sans,sans-serif;display:block'>💳 PayPal</a>
+            <button onclick='cerrarContactoDrawer();setTimeout(abrirDonacionesDrawer,400)' style='background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:16px;padding:5px 10px;color:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;text-align:left'>🙏 Más opciones</button>
+          </div>
         </div>
       </div>
+
     </div>
 
     <button onclick='cerrarContactoDrawer()' id='contacto-panel-volver-bot' style='margin-top:1rem;width:100%;background:var(--verde-claro);border:1px solid rgba(29,158,117,0.3);border-radius:14px;padding:10px;color:var(--verde-oscuro);font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>← Volver</button>
@@ -6483,6 +6478,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v795</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v796</div>
 </body>
 </html>
