@@ -18,12 +18,12 @@
     e.preventDefault();
   }, { passive: false });
   </script>
-  <title>Guía Compostelana Local</title>
-  <meta name="description" content="Guía interactiva del Camino de Santiago compostelano en Vigo y alrededores"/>
+  <title>Guía Compostelana Ultreia</title>
+  <meta name="description" content="Guía interactiva del Camino Portugués a Santiago"/>
   <meta name="theme-color" content="#1D9E75"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-  <meta name="apple-mobile-web-app-title" content="Guía Compostelana"/>
+  <meta name="apple-mobile-web-app-title" content="Guía Compostelana Ultreia"/>
   <link rel="manifest" href="/guia-compostelana/manifest.json"/>
   <link rel="apple-touch-icon" sizes="180x180" href="/guia-compostelana/apple-touch-icon.png?v=4"/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
@@ -1002,8 +1002,8 @@
 
 <footer class='footer' id='contacto'>
   <div class='footer-brand'>
-    <div class='logo'><img alt='Guía Compostelana de Vigo' src='https://i.postimg.cc/C1gNNsDK/IMG-0213.jpg' style='width:180px;height:48px;border-radius:4px'/></div>
-    <p id='footer-desc'>Tu guía local de puntos de interés en Vigo. Descubre lo mejor de la ciudad a tu alrededor.</p>
+    <div class='logo'><img alt='Guía Compostelana Ultreia' src='https://i.postimg.cc/C1gNNsDK/IMG-0213.jpg' style='width:180px;height:48px;border-radius:4px'/></div>
+    <p id='footer-desc'>Tu guía local de puntos de interés. Descubre el camino a tu alrededor.</p>
     <div style='display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap'>
       <span style='font-size:12px;color:var(--texto-suave);font-weight:500' id='share-label-footer'>Compartir:</span>
       <a href='https://wa.me/?text=Gu%C3%ADa%20Compostelana%20Ultreia%20https%3A%2F%2Fguia-compostelana-ultreia.com%2F' target='_blank' title='WhatsApp' style='width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--borde);background:var(--fondo);color:var(--texto)'>
@@ -1043,8 +1043,8 @@
 <div id='admin-tap' style='position:fixed;bottom:0;right:0;width:44px;height:44px;z-index:100;opacity:0;cursor:default' onclick='(function(){var n=(window._adminTaps=(window._adminTaps||0)+1);if(n>=5){window._adminTaps=0;abrirAdmin();}})()' title=''></div>
 
 <div class='footer-bottom'>
-  <p>&#169; 2025 Guía Compostelana de Vigo &#8212; Todos los derechos reservados</p>
-  <p>Hecho con &#10084;&#65039; en Vigo</p>
+  <p>&#169; 2025 Guía Compostelana Ultreia &#8212; Todos los derechos reservados</p>
+  <p>Hecho con &#10084;&#65039; en Galicia</p>
 </div>
 <script src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'></script>
 <script src='https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js'></script>
@@ -3876,7 +3876,7 @@ function renderCarrusel(categoria) {
     var val = valoraciones[p.id];
     var media = val.votos>0 ? (val.total/val.votos).toFixed(1) : '-';
     var pageUrl = encodeURIComponent(window.location.href);
-    var texto = encodeURIComponent(p.nombre+' - Guia Compostelana de Vigo');
+    var texto = encodeURIComponent(p.nombre+' - Guia Compostelana Ultreia');
     var ops = opiniones[p.id];
     var opsList = ops.length
       ? ops.map(function(o){return '<div class="opinion-item"><strong>'+o.autor+':</strong> '+o.texto+'</div>';}).join('')
@@ -5196,7 +5196,7 @@ var T={
     historiaH3a:'🐚 El Cabaleiro das Cunchas — La leyenda que nació en Bouzas',
     historiaH3b:'⚔️ Vigo, tierra de templarios',
     donSub:'Esta guía es gratuita y sin publicidad. Con tu donación ayudas a mantenerla viva y a seguir descubriendo el patrimonio compostelano de Vigo.',
-    footerDonTitle:'Apoya esta guía compostelana',
+    footerDonTitle:'Apoya esta guía',
     footerDonSub:'Proyecto gratuito y sin publicidad. Tu apoyo nos permite seguir creciendo.',
     heroDonateTitle:'🙏 Apoya este proyecto',
     instrT1:'Activa tu ubicación',
@@ -5345,7 +5345,7 @@ var T={
     historiaH3a:'🐚 O Cabaleiro das Cunchas — A lenda que naceu en Bouzas',
     historiaH3b:'⚔️ Vigo, terra de templarios',
     donSub:'Esta guía é gratuíta e sen publicidade. Coa túa doazón axúdanos a mantela viva e a seguir descubrindo o patrimonio compostelán de Vigo.',
-    footerDonTitle:'Apoia esta guía compostelana',
+    footerDonTitle:'Apoia esta guía',
     footerDonSub:'Proxecto gratuíto e sen publicidade. O teu apoio permítenos seguir medrando.',
     heroDonateTitle:'🙏 Apoia este proxecto',
     instrT1:'Activa a túa localización',
@@ -6154,7 +6154,7 @@ function ocultarBannerRed() {
   <div class='modal-box' style='text-align:center'>
     <button class='modal-close' onclick='document.getElementById("modal-sobre-nosotros").classList.remove("visible")'>×</button>
     <div style='font-size:36px;margin-bottom:12px'>🐚</div>
-    <h3 style='margin-bottom:12px'>Guía Compostelana</h3>
+    <h3 style='margin-bottom:12px'>Guía Compostelana Ultreia</h3>
     <p style='font-size:14px;color:var(--texto-suave);line-height:1.7;margin-bottom:16px'>Simplemente esperamos que la guía os sea útil y disfrutéis de las experiencias del Camino. Si podéis, no olvidéis aportar para apoyar nuestro trabajo. Gracias. 🙏</p>
     <button onclick='document.getElementById("modal-sobre-nosotros").classList.remove("visible")' style='background:var(--verde);color:#fff;border:none;border-radius:20px;padding:10px 28px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>¡Buen Camino!</button>
   </div>
@@ -6165,6 +6165,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v464</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v465</div>
 </body>
 </html>
