@@ -135,7 +135,7 @@
   <a href='#' id='nav-m-brujula' onclick='cerrarMenu();setTimeout(abrirBrujulaDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>🧭</span>Brújula</a>
   <a href='#' id='nav-m-comousar' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("instrucciones");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>📖</span>Cómo usar</a>
   <a href='#' id='nav-m-contacto' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("contacto");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>✉️</span>Contacto</a>
-  <a href='#' id='dona-link' onclick='cerrarMenu();setTimeout(abrirDonacionesDrawer,350);return false' style='grid-column:1/-1;border-right:none'><span style='font-size:18px;margin-right:8px'>🙏</span>Donaciones / Ayuda al soporte</a>
+  <a class='dona-link' href='#' onclick='cerrarMenu();setTimeout(abrirDonacionesDrawer,350);return false' style='grid-column:1/-1;border-right:none'><span style='font-size:18px;margin-right:8px'>🙏</span>Donaciones / Ayuda al soporte</a>
 </nav>
 
 <!-- HERO -->
@@ -304,14 +304,10 @@
       </span>
       <h4 id='footer-don-title' style='font-family:Playfair Display,serif;font-size:18px;font-weight:700;color:#FFE066;margin:0;text-shadow:0 2px 6px rgba(0,0,0,0.35);letter-spacing:0.3px'>Apoya esta guía compostelana</h4>
     </div>
-    <p id='footer-don-sub' style='font-size:13px;color:rgba(255,255,255,0.92);margin:0 0 10px;line-height:1.5'>Proyecto gratuito y sin publicidad. Tu apoyo nos permite seguir creciendo.</p>
-    <div style='width:80px;height:3px;background:rgba(255,220,100,0.8);border-radius:2px;margin:0 auto 12px;animation:donGlow 2s ease-in-out infinite'></div>
-    <div style='display:flex;gap:8px;flex-wrap:wrap;justify-content:center'>
-      <button onclick='abrirBizum()' style='display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.2);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:8px 16px;cursor:pointer;color:#fff;font-size:13px;font-weight:600;font-family:DM Sans,sans-serif;transition:background 0.2s'>📱 Bizum</button>
-      <a href='https://paypal.me/GuiaCompostelana' target='_blank' style='display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.2);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:8px 16px;color:#fff;font-size:13px;font-weight:600;font-family:DM Sans,sans-serif;text-decoration:none'>💳 PayPal</a>
-      <button onclick='abrirCripto()' style='display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.2);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:8px 16px;cursor:pointer;color:#fff;font-size:13px;font-weight:600;font-family:DM Sans,sans-serif;transition:background 0.2s'>&#8383; Cripto</button>
-      <a href='https://ko-fi.com/guiacompostelana' target='_blank' style='display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.2);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:8px 16px;color:#fff;font-size:13px;font-weight:600;font-family:DM Sans,sans-serif;text-decoration:none'>&#9749; Ko-fi</a>
-    </div>
+    <p id='footer-don-sub' style='font-size:13px;color:rgba(255,255,255,0.92);margin:0 0 12px;line-height:1.5'>Proyecto gratuito y sin publicidad. Tu apoyo nos permite seguir creciendo.</p>
+    <div style='width:80px;height:3px;background:rgba(255,220,100,0.8);border-radius:2px;margin:0 0 12px;animation:donGlow 2s ease-in-out infinite'></div>
+    <button onclick='abrirDonacionesDrawer()' style='display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.2);backdrop-filter:blur(4px);border:1.5px solid rgba(255,255,255,0.45);border-radius:24px;padding:10px 22px;cursor:pointer;color:#fff;font-size:14px;font-weight:600;font-family:DM Sans,sans-serif;transition:background 0.2s'>🙏 Apoyar al proyecto</button>
+  </div>
 </div>
 
 
@@ -600,9 +596,13 @@
 
 
 <!-- DRAWER DONACIONES -->
-<div id='donaciones-drawer-bg' onclick='cerrarDonacionesDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:8000'></div>
-<div id='donaciones-drawer' style='display:none;position:fixed;bottom:0;left:0;right:0;z-index:8001;background:linear-gradient(145deg,#0a5240 0%,#0F6E56 40%,#1D9E75 100%);border-radius:20px 20px 0 0;padding:1.25rem 1.5rem 2.5rem;max-height:88vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
+<div id='donaciones-drawer-bg' onclick='cerrarDonacionesDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:8400'></div>
+<div id='donaciones-drawer' style='display:none;position:fixed;bottom:0;left:0;right:0;z-index:8401;background:linear-gradient(145deg,#0a5240 0%,#0F6E56 40%,#1D9E75 100%);border-radius:20px 20px 0 0;padding:1.25rem 1.5rem 2.5rem;max-height:88vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
   <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem'>
+    <div style='display:flex;align-items:center;gap:8px'>
+      <span style='font-size:22px'>🙏</span>
+      <div style='font-size:16px;font-weight:700;color:#FFE066;font-family:Playfair Display,serif'>Donaciones</div>
+    </div>
     <button onclick='cerrarDonacionesDrawer()' style='background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:34px;height:34px;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:10'>✕</button>
   </div>
   <!-- Formas decorativas de fondo -->
@@ -6160,6 +6160,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v464</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v456</div>
 </body>
 </html>
