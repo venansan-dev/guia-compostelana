@@ -553,7 +553,7 @@
 
 <!-- DRAWER POI -->
 <div id='poi-drawer-bg' onclick='cerrarPoiDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:8300'></div>
-<div id='poi-drawer' style='display:none;position:fixed;bottom:0;left:0;right:0;z-index:8301;background:var(--fondo);border-radius:20px 20px 0 0;max-height:92vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
+<div id='poi-drawer' style='display:none;position:fixed;bottom:0;left:0;right:0;z-index:8301;background:var(--fondo);border-radius:20px 20px 0 0;max-height:85vh;overflow-y:auto;overflow-x:hidden;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
 
   <!-- Cabecera -->
   <div style='padding:1.25rem 1.25rem 0;display:flex;align-items:center;justify-content:space-between'>
@@ -602,7 +602,7 @@
 
 <!-- DRAWER DONACIONES -->
 <div id='donaciones-drawer-bg' onclick='cerrarDonacionesDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:8400'></div>
-<div id='donaciones-drawer' style='display:none;position:fixed;bottom:0;left:0;right:0;z-index:8401;background:linear-gradient(145deg,#0a5240 0%,#0F6E56 40%,#1D9E75 100%);border-radius:20px 20px 0 0;padding:1.25rem 1.5rem 2.5rem;max-height:88vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
+<div id='donaciones-drawer' style='display:none;position:fixed;bottom:0;left:0;right:0;z-index:8401;background:linear-gradient(145deg,#0a5240 0%,#0F6E56 40%,#1D9E75 100%);border-radius:20px 20px 0 0;padding:1.25rem 1.5rem 1.5rem;max-height:80vh;overflow-y:auto;overflow-x:hidden;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
   <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem'>
     <div style='display:flex;align-items:center;gap:8px'>
       <span style='font-size:22px'>🙏</span>
@@ -1700,6 +1700,8 @@ function _poiDrawerLlegar(lat, lng) {
   cerrarPoiDrawer();
   if (mapa && lat && lng) {
     mapa.setView([lat, lng], 16);
+    var mapEl = document.getElementById('map');
+    if (mapEl) window.scrollTo({top: mapEl.offsetTop - 70, behavior: 'smooth'});
     setTimeout(function() {
       mapa.eachLayer(function(layer) {
         if (layer.getLatLng && layer._popup) {
@@ -1790,7 +1792,7 @@ function _renderPoiDrawerCarrusel() {
           ? '<div style="margin:4px 0 8px">' + distHtml + '</div>'
           : '<div style="display:flex;align-items:center;justify-content:space-between;margin:4px 0 8px">' +
               distHtml +
-              '<button class="poi-btn" data-lat="' + p.lat + '" data-lng="' + p.lng + '">' + (t.comoLlegar || 'Cómo llegar') + '</button>' +
+              '<button class="poi-btn" data-id="' + p.id + '" data-lat="' + p.lat + '" data-lng="' + p.lng + '">' + (t.comoLlegar || 'Cómo llegar') + '</button>' +
             '</div>'
         ) +
         '<p class="poi-desc" id="desc-' + p.id + '">' + desc + '</p>' +
@@ -1871,22 +1873,21 @@ function _renderPoiDrawerCarrusel() {
       _poiDrawerToggleRuta(pid, tgt);
       return;
     }
-    // Botón cómo llegar
+    // Botón cómo llegar — igual que carrusel principal: añade a ruta y activa navegación
     if (tgt.classList.contains('poi-btn')) {
       e.stopPropagation();
       cerrarPoiDrawer();
-      var lat = parseFloat(tgt.getAttribute('data-lat'));
-      var lng = parseFloat(tgt.getAttribute('data-lng'));
-      if (mapa && lat && lng) {
-        mapa.setView([lat, lng], 16);
-        setTimeout(function() {
-          mapa.eachLayer(function(layer) {
-            if (layer.getLatLng && layer._popup) {
-              var ll = layer.getLatLng();
-              if (Math.abs(ll.lat - lat) < 0.0002 && Math.abs(ll.lng - lng) < 0.0002) layer.openPopup();
-            }
-          });
-        }, 400);
+      var pid = tgt.getAttribute('data-id');
+      if (pid && typeof irDesdeCarrusel === 'function') {
+        irDesdeCarrusel(pid);
+      } else {
+        var lat = parseFloat(tgt.getAttribute('data-lat'));
+        var lng = parseFloat(tgt.getAttribute('data-lng'));
+        if (mapa && lat && lng) {
+          mapa.setView([lat, lng], 16);
+          var mapEl = document.getElementById('map');
+          if (mapEl) window.scrollTo({top: mapEl.offsetTop - 70, behavior: 'smooth'});
+        }
       }
       return;
     }
@@ -1906,6 +1907,7 @@ function abrirPoiDrawer() {
   var bg=document.getElementById('poi-drawer-bg');
   var drawer=document.getElementById('poi-drawer');
   if(!bg||!drawer) return;
+  drawer.scrollTop = 0;
   bg.style.display='block'; drawer.style.display='block';
   drawer.getBoundingClientRect(); drawer.style.transform='translateY(0)';
   _poiDrawerCatActual = 'todos';
@@ -6251,6 +6253,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v701</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v703</div>
 </body>
 </html>
