@@ -134,7 +134,7 @@
   <a href='#' id='nav-m-puntos' onclick='cerrarMenu();setTimeout(abrirPoiDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>📍</span>Puntos de interés</a>
   <a href='#' id='nav-m-brujula' onclick='cerrarMenu();setTimeout(abrirBrujulaDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>🧭</span>Brújula</a>
   <a href='#' id='nav-m-comousar' onclick='cerrarMenu();setTimeout(abrirComoUsarDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>📖</span>Cómo usar</a>
-  <a href='#' id='nav-m-contacto' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("contacto");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>✉️</span>Contacto</a>
+  <a href='#' id='nav-m-contacto' onclick='cerrarMenu();setTimeout(abrirContactoDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>✉️</span>Contacto</a>
   <a class='dona-link' href='#' onclick='cerrarMenu();setTimeout(abrirDonacionesDrawer,350);return false' style='grid-column:1/-1;border-right:none'><span style='font-size:18px;margin-right:8px'>🙏</span>Donaciones / Ayuda al soporte</a>
 </nav>
 
@@ -602,6 +602,66 @@
       </div>
     </div>
     <button onclick='cerrarComoUsarDrawer()' id='comousar-panel-volver-bot' style='margin-top:1.25rem;width:100%;background:var(--verde-claro);border:1px solid rgba(29,158,117,0.3);border-radius:14px;padding:10px;color:var(--verde-oscuro);font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>← Volver al mapa</button>
+  </div>
+</div>
+
+<!-- PANEL CONTACTO / FOOTER -->
+<div id='contacto-drawer' class='map-slide-panel' style='background:var(--fondo);font-family:DM Sans,sans-serif;overflow-y:auto'>
+  <div style='padding:0.75rem 1rem 1.5rem'>
+    <button onclick='cerrarContactoDrawer()' id='contacto-panel-volver' style='display:flex;align-items:center;gap:6px;background:var(--verde-claro);border:1px solid rgba(29,158,117,0.3);border-radius:10px;padding:7px 14px;color:var(--verde-oscuro);font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;width:fit-content;margin-bottom:1rem;font-weight:600'>← Volver al mapa</button>
+
+    <!-- Logo + descripción + compartir -->
+    <div style='background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);padding:1rem;margin-bottom:0.75rem'>
+      <img alt='Guía Compostelana Ultreia' src='https://i.postimg.cc/C1gNNsDK/IMG-0213.jpg' style='width:160px;height:42px;border-radius:4px;display:block;margin-bottom:8px'/>
+      <p id='contacto-panel-desc' style='font-size:12px;color:var(--texto-suave);margin:0 0 10px;line-height:1.6'>Tu guía local de puntos de interés. Descubre el camino a tu alrededor.</p>
+      <div style='display:flex;align-items:center;gap:8px;flex-wrap:wrap'>
+        <span style='font-size:11px;color:var(--texto-suave);font-weight:500'>Compartir:</span>
+        <a href='https://wa.me/?text=Gu%C3%ADa%20Compostelana%20Ultreia%20https%3A%2F%2Fguia-compostelana-ultreia.com%2F' target='_blank' id='share-wa-m' title='WhatsApp' style='width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--borde);background:var(--fondo);color:var(--texto)'><svg width='14' height='14' viewBox='0 0 24 24' fill='currentColor'><path d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z'/><path d='M12 0C5.373 0 0 5.373 0 12c0 2.136.565 4.14 1.548 5.872L.057 23.893l6.186-1.458A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.798 9.798 0 01-5.002-1.369l-.36-.213-3.667.864.924-3.564-.234-.375A9.778 9.778 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182S21.818 6.58 21.818 12 17.42 21.818 12 21.818z'/></svg></a>
+        <a href='https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fguia-compostelana-ultreia.com%2F' target='_blank' id='share-fb-m' title='Facebook' style='width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--borde);background:var(--fondo);color:var(--texto)'><svg width='14' height='14' viewBox='0 0 24 24' fill='currentColor'><path d='M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z'/></svg></a>
+        <a href='https://twitter.com/intent/tweet?text=Gu%C3%ADa%20Compostelana%20Ultreia&url=https%3A%2F%2Fguia-compostelana-ultreia.com%2F' target='_blank' id='share-x-m' title='X' style='width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--borde);background:var(--fondo);color:var(--texto)'><svg width='14' height='14' viewBox='0 0 24 24' fill='currentColor'><path d='M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.259 5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z'/></svg></a>
+        <a href='https://t.me/share/url?url=https%3A%2F%2Fguia-compostelana-ultreia.com%2F&text=Gu%C3%ADa%20Compostelana%20Ultreia' target='_blank' id='share-tg-m' title='Telegram' style='width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--borde);background:var(--fondo);color:var(--texto)'><svg width='14' height='14' viewBox='0 0 24 24' fill='currentColor'><path d='M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z'/></svg></a>
+      </div>
+    </div>
+
+    <!-- Columnas Explora + Info -->
+    <div style='display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.75rem'>
+      <div style='background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);padding:0.9rem'>
+        <div style='font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--texto-suave);margin-bottom:10px;font-weight:500' id='contacto-explora'>Explora</div>
+        <div style='display:flex;flex-direction:column;gap:6px'>
+          <a href='#' onclick='cerrarContactoDrawer();setTimeout(function(){abrirPoiDrawer();_poiDrawerFiltrar(null,"naturaleza")},400);return false' style='font-size:12px;color:var(--texto-suave);text-decoration:none'>🌿 Naturaleza</a>
+          <a href='#' onclick='cerrarContactoDrawer();setTimeout(function(){abrirPoiDrawer();_poiDrawerFiltrar(null,"monumento")},400);return false' style='font-size:12px;color:var(--texto-suave);text-decoration:none'>🏛️ Monumentos</a>
+          <a href='#' onclick='cerrarContactoDrawer();setTimeout(function(){abrirPoiDrawer();_poiDrawerFiltrar(null,"edificación religiosa")},400);return false' style='font-size:12px;color:var(--texto-suave);text-decoration:none'>⛪ Religiosa</a>
+          <a href='#' onclick='cerrarContactoDrawer();setTimeout(function(){abrirPoiDrawer();_poiDrawerFiltrar(null,"localización histórica")},400);return false' style='font-size:12px;color:var(--texto-suave);text-decoration:none'>📜 Histórica</a>
+          <a href='#' onclick='cerrarContactoDrawer();setTimeout(function(){abrirPoiDrawer();_poiDrawerFiltrar(null,"albergue")},400);return false' style='font-size:12px;color:var(--texto-suave);text-decoration:none'>🏠 Albergues</a>
+          <a href='#' onclick='cerrarContactoDrawer();setTimeout(function(){abrirPoiDrawer();_poiDrawerFiltrar(null,"mirador")},400);return false' style='font-size:12px;color:var(--texto-suave);text-decoration:none'>🔭 Miradores</a>
+        </div>
+      </div>
+      <div style='background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);padding:0.9rem'>
+        <div style='font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--texto-suave);margin-bottom:10px;font-weight:500' id='contacto-info'>Información</div>
+        <div style='display:flex;flex-direction:column;gap:6px'>
+          <a href='#' onclick='cerrarContactoDrawer();setTimeout(abrirSobreNosotros,400);return false' style='font-size:12px;color:var(--texto-suave);text-decoration:none'>Sobre nosotros</a>
+          <a href='#' onclick='cerrarContactoDrawer();setTimeout(abrirFormPOI,400);return false' style='font-size:12px;color:var(--texto-suave);text-decoration:none'>Sugiere un punto</a>
+          <a href='mailto:guiacompostelana@gmail.com' style='font-size:12px;color:var(--texto-suave);text-decoration:none'>✉️ Contacto</a>
+          <a href='#' style='font-size:12px;color:var(--texto-suave);text-decoration:none'>Privacidad</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mini banner donaciones -->
+    <div style='background:linear-gradient(135deg,#0F6E56 0%,#1D9E75 100%);border-radius:var(--radio);padding:1rem 1.25rem;display:flex;align-items:center;gap:12px;position:relative;overflow:hidden'>
+      <div style='position:absolute;top:-20px;right:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.07);pointer-events:none'></div>
+      <span style='font-size:32px;flex-shrink:0;animation:donCatBody 1.2s ease-in-out infinite;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.3));position:relative'>🐱<span style='position:absolute;top:-6px;right:-16px;font-size:16px;animation:donCoin 0.7s ease-in-out infinite;transform-origin:bottom center'>🤚</span></span>
+      <div style='flex:1'>
+        <div style='font-family:Playfair Display,serif;font-size:14px;font-weight:700;color:#FFE066;margin-bottom:6px'>Apoya esta guía</div>
+        <div style='display:flex;gap:6px;flex-wrap:wrap'>
+          <button onclick='cerrarContactoDrawer();setTimeout(abrirBizum,400)' style='background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:20px;padding:5px 12px;color:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>📱 Bizum</button>
+          <a href='https://paypal.me/GuiaCompostelana' target='_blank' style='background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:20px;padding:5px 12px;color:#fff;font-size:12px;font-weight:600;text-decoration:none;font-family:DM Sans,sans-serif'>💳 PayPal</a>
+          <button onclick='cerrarContactoDrawer();setTimeout(abrirDonacionesDrawer,400)' style='background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:20px;padding:5px 12px;color:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>🙏 Más opciones</button>
+        </div>
+      </div>
+    </div>
+
+    <button onclick='cerrarContactoDrawer()' id='contacto-panel-volver-bot' style='margin-top:1rem;width:100%;background:var(--verde-claro);border:1px solid rgba(29,158,117,0.3);border-radius:14px;padding:10px;color:var(--verde-oscuro);font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>← Volver al mapa</button>
   </div>
 </div>
 
@@ -1605,6 +1665,8 @@ function _sincronizarChipAlertasPOI() {
 
 function abrirComoUsarDrawer() { _abrirSlide('comousar-drawer'); }
 function cerrarComoUsarDrawer() { _cerrarSlide('comousar-drawer'); }
+function abrirContactoDrawer() { _abrirSlide('contacto-drawer'); }
+function cerrarContactoDrawer() { _cerrarSlide('contacto-drawer'); }
 
 function abrirBrujulaDrawer() { _abrirSlide('brujula-drawer'); }
 function cerrarBrujulaDrawer() { _cerrarSlide('brujula-drawer'); }
@@ -5847,7 +5909,7 @@ function cambiarIdioma(lang){
   el=document.getElementById('btn-poi-cancelar');if(el)el.textContent=t.btnCancelar||'Cancelar';
   el=document.getElementById('btn-poi-guardar-txt');if(el)el.textContent=t.btnGuardar||'Guardar punto';
   // Paneles — botones Volver al mapa
-  ['brujula-panel-volver','sos-panel-volver','meteo-panel-volver','historia-panel-volver-top','historia-panel-volver-bot','don-panel-volver','addpoi-panel-volver','comousar-panel-volver-top','comousar-panel-volver-bot'].forEach(function(id){
+  ['brujula-panel-volver','sos-panel-volver','meteo-panel-volver','historia-panel-volver-top','historia-panel-volver-bot','don-panel-volver','addpoi-panel-volver','comousar-panel-volver-top','comousar-panel-volver-bot','contacto-panel-volver','contacto-panel-volver-bot'].forEach(function(id){
     var e=document.getElementById(id);if(e)e.textContent=t.volverMapa||'← Volver al mapa';
   });
   // Panel POI — botón ← Mapa y botón Ruta
@@ -6254,6 +6316,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v748</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v749</div>
 </body>
 </html>
