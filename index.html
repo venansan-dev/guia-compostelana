@@ -1887,8 +1887,20 @@ function _renderPoiDrawerCarrusel() {
 function _abrirRutaModal() {
   var existing = document.getElementById('poi-ruta-modal');
   if (existing) existing.remove();
-  var info = document.getElementById('poi-drawer-ruta-info');
-  var infoTxt = info ? info.textContent : 'Añade puntos desde las tarjetas o el mapa';
+
+  function _rutaInfoHtml() {
+    if (rutaPuntos.length === 0) {
+      return '<div style="font-size:12px;color:var(--texto-suave);font-style:italic">Añade puntos desde las tarjetas o el mapa</div>';
+    }
+    return rutaPuntos.map(function(p, i) {
+      return '<div style="display:flex;align-items:center;gap:6px;font-size:12px;padding:3px 0">'
+        + '<span style="width:16px;height:16px;border-radius:50%;background:var(--verde);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">' + (i+1) + '</span>'
+        + '<span style="flex:1;color:var(--texto)">' + p.nombre + '</span>'
+        + '<button data-rid="' + p.id + '" style="background:none;border:none;color:#dc2626;font-size:14px;cursor:pointer;padding:0 2px;flex-shrink:0" title="Quitar">✕</button>'
+        + '</div>';
+    }).join('');
+  }
+
   var modal = document.createElement('div');
   modal.id = 'poi-ruta-modal';
   modal.style.cssText = 'position:fixed;inset:0;z-index:9800;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;padding:1rem;box-sizing:border-box';
@@ -1902,7 +1914,7 @@ function _abrirRutaModal() {
         '<button id="ruta-modal-close" style="background:var(--verde-claro);border:none;border-radius:50%;width:28px;height:28px;font-size:15px;cursor:pointer;color:var(--verde-oscuro);display:flex;align-items:center;justify-content:center">✕</button>'+
       '</div>'+
       '<div style="padding:0.9rem 1rem 1rem">'+
-        '<div style="font-size:12px;color:var(--texto-suave);font-style:italic;margin-bottom:0.75rem" id="ruta-modal-info">'+infoTxt+'</div>'+
+        '<div id="ruta-modal-info" style="margin-bottom:0.75rem;max-height:140px;overflow-y:auto">'+_rutaInfoHtml()+'</div>'+
         '<div style="display:flex;gap:8px">'+
           '<button id="ruta-modal-mapa" style="flex:1;background:var(--verde);color:#fff;border:none;padding:9px 8px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">🗺️ Mapa</button>'+
           '<button id="ruta-modal-ir" style="flex:1;background:var(--verde);color:#fff;border:none;padding:9px 8px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">▶ Ir</button>'+
@@ -1911,6 +1923,17 @@ function _abrirRutaModal() {
       '</div>'+
     '</div>';
   document.body.appendChild(modal);
+
+  // Quitar punto individual
+  modal.querySelector('#ruta-modal-info').addEventListener('click', function(e) {
+    var rid = e.target.getAttribute('data-rid');
+    if (rid) {
+      quitarDeRuta(rid);
+      _actualizarMiniGeneradorDrawer();
+      var inf = modal.querySelector('#ruta-modal-info');
+      if (inf) inf.innerHTML = _rutaInfoHtml();
+    }
+  });
   modal.querySelector('#ruta-modal-close').addEventListener('click', function() { modal.remove(); });
   modal.addEventListener('click', function(e) { if (e.target === modal) modal.remove(); });
   modal.querySelector('#ruta-modal-mapa').addEventListener('click', function() { modal.remove(); cerrarPoiDrawer(); irAlMapaConRuta(); });
@@ -1922,7 +1945,7 @@ function _abrirRutaModal() {
       b.textContent='+ Añadir';b.style.background='rgba(255,255,255,0.92)';b.style.color='#0F6E56';b.style.borderColor='rgba(29,158,117,0.4)';
     });
     var inf = modal.querySelector('#ruta-modal-info');
-    if (inf) inf.textContent = 'Añade puntos desde las tarjetas o el mapa';
+    if (inf) inf.innerHTML = _rutaInfoHtml();
   });
 }
 
@@ -6196,6 +6219,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v737</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v738</div>
 </body>
 </html>
