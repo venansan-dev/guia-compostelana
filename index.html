@@ -518,52 +518,54 @@
 
 <!-- PANEL AÑADIR POI DE USUARIO -->
 <div id='modal-add-poi' class='map-slide-panel' style='background:#fff;font-family:DM Sans,sans-serif'>
-  <div style='position:absolute;inset:0;overflow-y:auto;box-sizing:border-box;padding:0.75rem 1rem 1rem'>
-    <button onclick='cerrarFormPOI()' style='display:flex;align-items:center;gap:6px;background:var(--verde-claro);border:1px solid rgba(29,158,117,0.3);border-radius:10px;padding:7px 14px;color:var(--verde-oscuro);font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;width:fit-content;margin-bottom:0.75rem;font-weight:600'>← Volver al mapa</button>
-    <h3 id='modal-poi-title' style='font-family:Playfair Display,serif;font-size:17px;margin:0 0 3px'>📍 Añadir un punto</h3>
-    <p id='modal-poi-sub' style='font-size:12px;color:#6b7280;margin:0 0 0.75rem'>Tu punto aparecerá de inmediato y será revisado para mostrarse a todos</p>
-    <div style='display:flex;flex-direction:column;gap:8px'>
-      <div>
-        <label style='font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:3px' id='lbl-poi-nombre'>Nombre del lugar *</label>
-        <input id='poi-input-nombre' type='text' maxlength='80' placeholder='Ej: Fuente del Peregrino' style='width:100%;border:1px solid #d1d5db;border-radius:8px;padding:8px 10px;font-size:13px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none'/>
-      </div>
-      <div>
-        <label style='font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:3px' id='lbl-poi-desc'>Descripción</label>
-        <textarea id='poi-input-desc' maxlength='300' rows='2' placeholder='Cuéntanos algo sobre este lugar...' style='width:100%;border:1px solid #d1d5db;border-radius:8px;padding:8px 10px;font-size:13px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none;resize:none'></textarea>
-      </div>
-      <div>
-        <label style='font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:5px' id='lbl-poi-cat'>Categoría *</label>
-        <input type='hidden' id='poi-input-cat' value=''/>
-        <div style='display:flex;gap:6px'>
-          <button type='button' onclick='selPoiCat(this,"alerta")' data-cat='alerta'
-            style='flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:#fff3f3;border:2px solid #fca5a5;border-radius:10px;padding:7px 4px;font-size:11px;font-weight:600;color:#dc2626;cursor:pointer;font-family:DM Sans,sans-serif;line-height:1.2'>
-            <span style='font-size:18px'>🚨</span>Alerta
-          </button>
-          <button type='button' onclick='selPoiCat(this,"punto de control")' data-cat='punto de control'
-            style='flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:#eff6ff;border:2px solid #93c5fd;border-radius:10px;padding:7px 4px;font-size:11px;font-weight:600;color:#1d4ed8;cursor:pointer;font-family:DM Sans,sans-serif;line-height:1.2'>
-            <span style='font-size:18px'>📌</span>Control
-          </button>
-          <button type='button' onclick='abrirSubcatDrawer()' id='btn-recomendar-poi' data-cat=''
-            style='flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:#f0fdf4;border:2px solid #86efac;border-radius:10px;padding:7px 4px;font-size:11px;font-weight:600;color:#15803d;cursor:pointer;font-family:DM Sans,sans-serif;line-height:1.2'>
-            <span style='font-size:18px'>⭐</span><span id='btn-recomendar-label'>Recomendar</span>
-          </button>
-        </div>
-        <div id='poi-cat-seleccionada' style='display:none;margin-top:5px;font-size:12px;color:#15803d;font-weight:500'></div>
-      </div>
-      <div>
-        <label style='font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:5px' id='lbl-poi-ubic'>Ubicación *</label>
-        <div style='display:flex;gap:8px'>
-          <button onclick='usarMiUbicacion()' id='btn-mi-ubic' style='flex:1;background:var(--verde-claro);color:var(--verde-oscuro);border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:7px 10px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>📍 <span id='btn-mi-ubic-txt'>Mi ubicación</span></button>
-          <button onclick='activarMarcarEnMapa()' id='btn-marcar-mapa' style='flex:1;background:#f3f4f6;color:#374151;border:1px solid #d1d5db;border-radius:8px;padding:7px 10px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🗺️ <span id='btn-marcar-mapa-txt'>En el mapa</span></button>
-        </div>
-        <div id='poi-coords-display' style='margin-top:4px;font-size:11px;color:#6b7280;min-height:14px'></div>
-      </div>
+  <div style='position:absolute;inset:0;display:flex;flex-direction:column;gap:0.5rem;box-sizing:border-box;padding:0.75rem 1rem;overflow:hidden'>
+    <!-- Volver -->
+    <button onclick='cerrarFormPOI()' style='display:flex;align-items:center;gap:6px;background:var(--verde-claro);border:1px solid rgba(29,158,117,0.3);border-radius:10px;padding:6px 12px;color:var(--verde-oscuro);font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;width:fit-content;font-weight:600;flex-shrink:0'>← Volver al mapa</button>
+    <!-- Nombre -->
+    <div style='flex-shrink:0'>
+      <label style='font-size:11px;font-weight:600;color:#374151;display:block;margin-bottom:3px' id='lbl-poi-nombre'>📍 Nombre del lugar *</label>
+      <input id='poi-input-nombre' type='text' maxlength='80' placeholder='Ej: Fuente del Peregrino' style='width:100%;border:1px solid #d1d5db;border-radius:8px;padding:7px 10px;font-size:13px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none'/>
     </div>
-    <div style='display:flex;gap:8px;margin-top:0.75rem'>
-      <button onclick='cerrarFormPOI()' style='flex:1;background:#f3f4f6;color:#374151;border:none;border-radius:12px;padding:10px;font-size:13px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif' id='btn-poi-cancelar'>Cancelar</button>
-      <button onclick='guardarPOIUsuario()' id='btn-poi-guardar' style='flex:2;background:var(--verde);color:#fff;border:none;border-radius:12px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>✅ <span id='btn-poi-guardar-txt'>Guardar punto</span></button>
+    <!-- Descripción -->
+    <div style='flex-shrink:0'>
+      <label style='font-size:11px;font-weight:600;color:#374151;display:block;margin-bottom:3px' id='lbl-poi-desc'>Descripción</label>
+      <textarea id='poi-input-desc' maxlength='300' rows='2' placeholder='Cuéntanos algo sobre este lugar...' style='width:100%;border:1px solid #d1d5db;border-radius:8px;padding:7px 10px;font-size:12px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none;resize:none'></textarea>
     </div>
-    <div id='poi-form-msg' style='margin-top:6px;font-size:12px;text-align:center;min-height:16px'></div>
+    <!-- Categoría -->
+    <div style='flex-shrink:0'>
+      <label style='font-size:11px;font-weight:600;color:#374151;display:block;margin-bottom:4px' id='lbl-poi-cat'>Categoría *</label>
+      <input type='hidden' id='poi-input-cat' value=''/>
+      <div style='display:flex;gap:6px'>
+        <button type='button' onclick='selPoiCat(this,"alerta")' data-cat='alerta'
+          style='flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:#fff3f3;border:2px solid #fca5a5;border-radius:10px;padding:6px 4px;font-size:11px;font-weight:600;color:#dc2626;cursor:pointer;font-family:DM Sans,sans-serif;line-height:1.2'>
+          <span style='font-size:16px'>🚨</span>Alerta
+        </button>
+        <button type='button' onclick='selPoiCat(this,"punto de control")' data-cat='punto de control'
+          style='flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:#eff6ff;border:2px solid #93c5fd;border-radius:10px;padding:6px 4px;font-size:11px;font-weight:600;color:#1d4ed8;cursor:pointer;font-family:DM Sans,sans-serif;line-height:1.2'>
+          <span style='font-size:16px'>📌</span>Control
+        </button>
+        <button type='button' onclick='abrirSubcatDrawer()' id='btn-recomendar-poi' data-cat=''
+          style='flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:#f0fdf4;border:2px solid #86efac;border-radius:10px;padding:6px 4px;font-size:11px;font-weight:600;color:#15803d;cursor:pointer;font-family:DM Sans,sans-serif;line-height:1.2'>
+          <span style='font-size:16px'>⭐</span><span id='btn-recomendar-label'>Recomendar</span>
+        </button>
+      </div>
+      <div id='poi-cat-seleccionada' style='display:none;margin-top:4px;font-size:11px;color:#15803d;font-weight:500'></div>
+    </div>
+    <!-- Ubicación -->
+    <div style='flex:1;display:flex;flex-direction:column;justify-content:center'>
+      <label style='font-size:11px;font-weight:600;color:#374151;display:block;margin-bottom:4px' id='lbl-poi-ubic'>Ubicación *</label>
+      <div style='display:flex;gap:8px'>
+        <button onclick='usarMiUbicacion()' id='btn-mi-ubic' style='flex:1;background:var(--verde-claro);color:var(--verde-oscuro);border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:7px 10px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>📍 <span id='btn-mi-ubic-txt'>Mi ubicación</span></button>
+        <button onclick='activarMarcarEnMapa()' id='btn-marcar-mapa' style='flex:1;background:#f3f4f6;color:#374151;border:1px solid #d1d5db;border-radius:8px;padding:7px 10px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🗺️ <span id='btn-marcar-mapa-txt'>En el mapa</span></button>
+      </div>
+      <div id='poi-coords-display' style='margin-top:4px;font-size:11px;color:#6b7280;min-height:14px'></div>
+    </div>
+    <!-- Botones acción -->
+    <div style='display:flex;gap:8px;flex-shrink:0'>
+      <button onclick='cerrarFormPOI()' style='flex:1;background:#f3f4f6;color:#374151;border:none;border-radius:12px;padding:9px;font-size:13px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif' id='btn-poi-cancelar'>Cancelar</button>
+      <button onclick='guardarPOIUsuario()' id='btn-poi-guardar' style='flex:2;background:var(--verde);color:#fff;border:none;border-radius:12px;padding:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>✅ <span id='btn-poi-guardar-txt'>Guardar punto</span></button>
+    </div>
+    <div id='poi-form-msg' style='font-size:11px;text-align:center;min-height:14px;flex-shrink:0'></div>
   </div>
 </div>
 
@@ -6199,6 +6201,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v731</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v732</div>
 </body>
 </html>
