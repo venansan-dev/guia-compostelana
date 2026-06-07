@@ -222,7 +222,7 @@
 
   <!-- Panel ruta flotante esquina inferior izquierda del mapa -->
   <div id='map-ruta-panel' style='display:flex;position:absolute;bottom:52px;left:10px;z-index:400;background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);border-radius:12px;padding:6px;box-shadow:0 2px 16px rgba(0,0,0,0.35);flex-direction:column;align-items:center;gap:4px;font-family:DM Sans,sans-serif'>
-    <span style='font-weight:700;color:rgba(255,255,255,0.85);font-size:10px;letter-spacing:0.5px;padding:0 2px'>RUTA</span>
+    <span id='map-ruta-titulo' style='font-weight:700;color:rgba(255,255,255,0.85);font-size:10px;letter-spacing:0.5px;padding:0 2px'>RUTA</span>
     <span id='ruta-bar-count' style='background:#1D9E75;color:#fff;padding:2px 6px;border-radius:8px;font-weight:700;font-size:10px'>0 📍</span>
     <span id='ruta-bar-dist' style='color:#7EE8C0;font-weight:600;font-size:10px'>0 km</span>
     <span id='ruta-bar-time' style='color:#7EE8C0;font-weight:600;font-size:10px'>0 min</span>
@@ -459,7 +459,7 @@
   <div style='padding:0.6rem 1rem 0;position:sticky;top:0;background:var(--fondo);z-index:10;border-bottom:1px solid var(--borde)'>
     <div style='display:flex;align-items:center;gap:5px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;white-space:nowrap' id='poi-drawer-chips'>
       <button onclick='cerrarPoiDrawer()' id='poi-panel-volver' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:var(--verde-claro);border:1px solid rgba(29,158,117,0.3);border-radius:20px;padding:6px 12px;color:var(--verde-oscuro);font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600;white-space:nowrap'>← Mapa</button>
-      <button onclick='_abrirRutaModal()' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:var(--verde);border:none;border-radius:20px;padding:6px 12px;color:#fff;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600;white-space:nowrap'>🛤️ Ruta</button>
+      <button onclick='_abrirRutaModal()' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:var(--verde);border:none;border-radius:20px;padding:6px 12px;color:#fff;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600;white-space:nowrap' id='poi-ruta-drawer-btn'>🛤️ <span id='poi-ruta-drawer-label'>Ruta</span></button>
       <div class='cat-chip active' onclick='_poiDrawerFiltrar(this,"todos")'>🗺️ Todos</div>
       <div class='cat-chip' id='chip-alerta-drawer' onclick='_poiDrawerFiltrar(this,"alerta")'>🚨 Alertas</div>
       <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-costa")'>🌊 Costa</div>
@@ -5270,6 +5270,8 @@ var T={
     chipEtapa:'Etapas',
     chipUsuario:'Mis puntos',
     rutaLabel:'Generador de ruta',
+    mapRutaTitulo:'RUTA',
+    poiRutaDrawerLabel:'Ruta',
     rutaVacio:'Añade puntos desde el mapa o las tarjetas',
     poiVerMapa:'🗺️ Ver en mapa',
     confirmLimpiar:'¿Eliminar la ruta? Este cambio no puede deshacerse.',
@@ -5473,6 +5475,8 @@ var T={
     chipUsuario:'Os meus puntos',
     chipUsuario:'Mis puntos',
     rutaLabel:'Xerador de ruta',
+    mapRutaTitulo:'RUTA',
+    poiRutaDrawerLabel:'Ruta',
     rutaVacio:'Engade puntos desde o mapa ou as tarxetas',
     poiRutaTitulo:'Xerador de ruta',
     poiRutaVacia:'Engade puntos desde as tarxetas ou o mapa 👆',
@@ -5674,6 +5678,8 @@ var T={
     chipEtapa:'Stages',
     chipUsuario:'My points',
     rutaLabel:'Route builder',
+    mapRutaTitulo:'ROUTE',
+    poiRutaDrawerLabel:'Route',
     rutaVacio:'Add points from the map or the cards',
     chipEtapa:'Stages',
     chipUsuario:'My points',
@@ -5889,6 +5895,8 @@ function cambiarIdioma(lang){
   el=document.getElementById('chip-usuario-txt');if(el)el.textContent=t.chipUsuario||'Mis puntos';
   // Ruta bar
   el=document.getElementById('ruta-label');if(el)el.textContent=t.rutaLabel;
+  el=document.getElementById('map-ruta-titulo');if(el)el.textContent=t.mapRutaTitulo||'RUTA';
+  el=document.getElementById('poi-ruta-drawer-label');if(el)el.textContent=t.poiRutaDrawerLabel||'Ruta';
   el=document.getElementById('ruta-bar-empty');if(el&&el.style.display!=='none')el.textContent=t.rutaVacio;
   el=document.getElementById('poi-ruta-btn-ir');if(el)el.innerHTML=t.poiRutaBtnIr||'▶ Ir';
   el=document.getElementById('poi-ruta-btn-mapa');if(el)el.innerHTML=t.poiVerMapa||'🗺️ Ver en mapa';
@@ -6401,6 +6409,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v771</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v772</div>
 </body>
 </html>
