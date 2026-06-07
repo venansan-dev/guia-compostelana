@@ -1641,7 +1641,6 @@ function _abrirSlide(panelId) {
   panel.scrollTop = 0;
   mapSection.classList.add('slide-out');
   panel.classList.add('slide-in');
-  _bloquearScroll();
 }
 function _cerrarSlide(panelId) {
   var mapSection = document.querySelector('#map-block .map-section');
@@ -1649,7 +1648,6 @@ function _cerrarSlide(panelId) {
   if (!panel) return;
   panel.classList.remove('slide-in');
   if (mapSection) mapSection.classList.remove('slide-out');
-  _desbloquearScroll();
 }
 
 function abrirBrujulaDrawer() { _abrirSlide('brujula-drawer'); }
@@ -6124,6 +6122,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v718</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v719</div>
 </body>
 </html>
