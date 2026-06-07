@@ -110,14 +110,15 @@
 <header class='header'>
   <div class='logo'><img alt='Guía Compostelana de Vigo' src='https://i.postimg.cc/C1gNNsDK/IMG-0213.jpg' style='width:222px;height:60px;vertical-align:middle;border-radius:4px'/></div>
   <nav id='nav-desktop'>
-    <a href='#inicio' id='nav-inicio'>🏠 Inicio</a>
-    <a href='#emergencias' id='nav-emergencias'>🆘 Emergencias</a>
-    <a href='#historia' id='nav-historia'>🐚 Historia Compostelana</a>
-    <a href='#puntos' id='nav-mapa' onclick='setTimeout(function(){var m=document.getElementById("map-block");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300)'>🗺️ Mapa</a>
+    <a href='#' id='nav-inicio' onclick='cerrarTodosLosPaneles();setTimeout(function(){var m=document.getElementById("inicio");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'>🏠 Inicio</a>
+    <a href='#' id='nav-emergencias' onclick='abrirSOSDrawer();return false'>🆘 Emergencias</a>
+    <a href='#' id='nav-historia' onclick='abrirHistoriaDrawer();return false'>🐚 Historia Compostelana</a>
+    <a href='#' id='nav-mapa' onclick='cerrarTodosLosPaneles();setTimeout(function(){var m=document.getElementById("map-block");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'>🗺️ Mapa</a>
     <a href='#' id='nav-puntos' onclick='abrirPoiDrawer();return false'>📍 Puntos de interés</a>
     <a href='#' id='nav-brujula' onclick='abrirBrujulaDrawer();return false'>🧭 Brújula</a>
-    <a href='#instrucciones' id='nav-comousar'>📖 Cómo usar</a>
-    <a href='#contacto' id='nav-contacto'>✉️ Contacto</a>
+    <a href='#' id='nav-comousar' onclick='abrirComoUsarDrawer();return false'>📖 Cómo usar</a>
+    <a href='#' id='nav-contacto' onclick='abrirContactoDrawer();return false'>✉️ Contacto</a>
+    <a href='#' id='nav-donaciones' onclick='abrirDonacionesDrawer();return false'>🙏 Donaciones</a>
   </nav>
   <!-- HAMBURGUESA solo visible en móvil -->
   <button aria-label='Menú' class='hamburger' id='hamburger' onclick='toggleMenu()'>
@@ -6290,6 +6291,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v755</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v756</div>
 </body>
 </html>
