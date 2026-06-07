@@ -1758,7 +1758,9 @@ function _renderPoiDrawerCarrusel() {
     var desc = (lang !== 'es' && p['descripcion_' + lang]) ? p['descripcion_' + lang] : (p.descripcion || '');
     var sub = (lang !== 'es' && p['subtitulo_' + lang]) ? p['subtitulo_' + lang] : (p.subtitulo || '');
     var enRuta = typeof rutaPuntos !== 'undefined' && rutaPuntos.find(function(x){ return x.id === p.id; });
-    var dist = p.distancia ? (p.distancia < 1 ? Math.round(p.distancia * 1000) + ' m' : p.distancia.toFixed(1) + ' km') : '';
+    var distHtml = p.distancia !== undefined
+      ? '<span class="poi-dist">&#128205; ' + (p.distancia < 1 ? Math.round(p.distancia * 1000) + ' m' : p.distancia.toFixed(1) + ' km') + '</span>'
+      : '<span class="poi-dist calculando">&#128205; ...</span>';
     var colorClass = p.color || 'verde';
     // Garantizar valoraciones y opiniones
     if (!valoraciones[p.id]) valoraciones[p.id] = {total:0, votos:0, miVoto:0};
@@ -1773,29 +1775,27 @@ function _renderPoiDrawerCarrusel() {
       : '<div class="opinion-item" style="color:#bbb">' + (t.seElPrimero || 'Sé el primero en comentar') + '</div>';
     var card = document.createElement('div');
     card.className = 'poi-card';
-    card.style.cssText = 'flex:0 0 260px;scroll-snap-align:start;';
+    card.style.cssText = 'flex:0 0 260px;scroll-snap-align:start;position:relative;';
     card.innerHTML =
-      '<div class="poi-img ' + colorClass + '" style="height:130px;position:relative;overflow:hidden">' +
-        (p.imagen
-          ? '<img src="' + p.imagen + '" alt="' + nombre + '" class="poi-img-cover" decoding="async" fetchpriority="low"/>'
-          : '<span style="font-size:36px">' + (p.emoji || '📍') + '</span>') +
-        (!p.esAlerta ? '<button id="pd-rbtn-' + p.id + '" style="position:absolute;top:8px;right:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);background:' + (enRuta ? '#1D9E75' : 'rgba(255,255,255,0.92)') + ';color:' + (enRuta ? '#fff' : '#0F6E56') + ';border:1px solid ' + (enRuta ? '#1D9E75' : 'rgba(29,158,117,0.4)') + '" onclick="_poiDrawerToggleRuta(\'' + p.id + '\',this);event.stopPropagation()">' + (enRuta ? '&#10003; ' + (t.enRuta || 'En ruta') : (t.añadirRuta || '+ Añadir a ruta')) + '</button>' : '') +
+      '<div class="poi-img ' + colorClass + '" style="position:relative;overflow:hidden">' +
+        '<img src="' + (p.imagen || 'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png') + '" alt="' + nombre + '" class="poi-img-cover" decoding="async" fetchpriority="low"/>' +
+        (!p.esAlerta ? '<button id="pd-rbtn-' + p.id + '" style="position:absolute;top:8px;right:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);background:' + (enRuta ? '#1D9E75' : 'rgba(255,255,255,0.92)') + ';color:' + (enRuta ? '#fff' : '#0F6E56') + ';border:1px solid ' + (enRuta ? '#1D9E75' : 'rgba(29,158,117,0.4)') + '">' + (enRuta ? '&#10003; ' + (t.enRuta || 'En ruta') : (t.añadirRuta || '+ Añadir a ruta')) + '</button>' : '') +
       '</div>' +
-      '<div class="poi-ranking" id="pd-rank-' + p.id + '" style="position:absolute;top:8px;left:8px;background:rgba(0,0,0,0.55);color:#F5C800;border-radius:20px;padding:3px 8px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:3px;backdrop-filter:blur(2px);z-index:10">&#9733; ' + (val.votos > 0 ? media : '-') + '</div>' +
+      '<div class="poi-ranking" id="rank-' + p.id + '" style="left:8px;right:auto">&#9733; ' + (val.votos > 0 ? media : '-') + '</div>' +
       '<div class="poi-body">' +
         '<div class="poi-category">' + (p.categoria || '') + '</div>' +
         '<div class="poi-nombre-row"><span class="poi-emoji">' + (p.emoji || '📍') + '</span><span class="poi-nombre">' + nombre + '</span></div>' +
         (sub ? '<div class="poi-subtitulo">' + sub + '</div>' : '') +
         (p.esAlerta
-          ? '<div style="margin:4px 0 8px">' + (dist ? '<span class="poi-dist">📍 ' + dist + '</span>' : '<span class="poi-dist calculando">...</span>') + '</div>'
+          ? '<div style="margin:4px 0 8px">' + distHtml + '</div>'
           : '<div style="display:flex;align-items:center;justify-content:space-between;margin:4px 0 8px">' +
-              (dist ? '<span class="poi-dist">📍 ' + dist + '</span>' : '<span class="poi-dist calculando">...</span>') +
+              distHtml +
               '<button class="poi-btn" data-lat="' + p.lat + '" data-lng="' + p.lng + '">' + (t.comoLlegar || 'Cómo llegar') + '</button>' +
             '</div>'
         ) +
-        '<p class="poi-desc" id="pd-desc-' + p.id + '">' + desc + '</p>' +
-        '<button class="poi-leer-mas" id="pd-leer-' + p.id + '">' + (t.leerMas || 'Leer +') + '</button>' +
-        '<div class="poi-stars"><div class="stars" id="pd-stars-' + p.id + '"></div><span class="stars-count" id="pd-scount-' + p.id + '">' + (val.votos > 0 ? media + ' &middot; ' + val.votos + ' votos' : '') + '</span></div>' +
+        '<p class="poi-desc" id="desc-' + p.id + '">' + desc + '</p>' +
+        '<button class="poi-leer-mas" id="leer-mas-' + p.id + '">' + (t.leerMas || 'Leer +') + '</button>' +
+        '<div class="poi-stars"><div class="stars" id="stars-' + p.id + '"></div><span class="stars-count" id="scount-' + p.id + '">' + (val.votos > 0 ? media + ' &middot; ' + val.votos + ' votos' : '') + '</span></div>' +
         '<div class="poi-share">' +
           '<a class="poi-share-btn" href="https://wa.me/?text=' + textoShare + '%20' + pageUrl + '" target="_blank">&#128172;</a>' +
           '<a class="poi-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=' + pageUrl + '" target="_blank">&#128248;</a>' +
@@ -1805,16 +1805,16 @@ function _renderPoiDrawerCarrusel() {
         (p.esAlerta
           ? ''
           : '<div class="poi-opiniones">' +
-              '<div class="poi-opiniones-lista" id="pd-ops-' + p.id + '">' + opsList + '</div>' +
+              '<div class="poi-opiniones-lista" id="ops-' + p.id + '">' + opsList + '</div>' +
               '<div class="opinion-form">' +
-                '<input class="opinion-input" id="pd-op-txt-' + p.id + '" type="text" placeholder="' + (t.opinionPlaceholder || 'Tu comentario...') + '"/>' +
+                '<input class="opinion-input" id="op-txt-' + p.id + '" type="text" placeholder="' + (t.opinionPlaceholder || 'Tu comentario...') + '"/>' +
                 '<button class="opinion-send" data-pid="' + p.id + '">' + (t.enviar || 'Enviar') + '</button>' +
               '</div>' +
             '</div>'
         ) +
       '</div>';
     frag.appendChild(card);
-    // Estrellas
+    // Estrellas — igual que renderCarrusel de index1
     var starsContainer = card.querySelector('.stars');
     if (starsContainer) {
       starsContainer.innerHTML = '';
@@ -1828,16 +1828,13 @@ function _renderPoiDrawerCarrusel() {
         starsContainer.appendChild(star);
       }
     }
-    // Listener botón enviar opinión
+    // Listener botón enviar opinión (directo, stopPropagation)
     var sendBtn = card.querySelector('.opinion-send');
-    if (sendBtn) sendBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      enviarOpinion(sendBtn);
-    });
-    // Listener input opinión — detener propagación (evita arrastre del carrusel)
+    if (sendBtn) sendBtn.addEventListener('click', function(e) { e.stopPropagation(); enviarOpinion(sendBtn); });
+    // Listener input — evitar arrastre del carrusel al escribir
     var opInput = card.querySelector('.opinion-input');
     if (opInput) opInput.addEventListener('click', function(e) { e.stopPropagation(); });
-    // Listener "Leer más / Leer menos"
+    // Listener "Leer +" / "Leer menos"
     var leerMasBtn = card.querySelector('.poi-leer-mas');
     if (leerMasBtn) {
       leerMasBtn.addEventListener('click', function(e) {
@@ -1846,68 +1843,61 @@ function _renderPoiDrawerCarrusel() {
         if (!descEl) return;
         var open = descEl.classList.contains('expanded');
         descEl.classList.toggle('expanded', !open);
-        leerMasBtn.textContent = open ? (t.leerMas || 'Leer +') : (t.leerMenos || 'Leer menos');
+        leerMasBtn.textContent = open ? (T[idiomaActual]||T.es).leerMas || 'Leer +' : (T[idiomaActual]||T.es).leerMenos || 'Leer menos';
       });
     }
   });
   car.innerHTML = '';
   car.appendChild(frag);
-  // Listener estrellas (delegado en el carrusel)
+  // Delegación de eventos en el carrusel del drawer — igual que carousel principal
   car.addEventListener('click', function(e) {
-    var star = e.target.closest('[data-star]');
-    if (!star) return;
-    e.stopPropagation();
-    var id = star.getAttribute('data-id');
-    var n = parseInt(star.getAttribute('data-n'));
-    if (!valoraciones[id]) valoraciones[id] = {total:0, votos:0, miVoto:0};
-    var v = valoraciones[id];
-    if (v.miVoto) { v.total -= v.miVoto; v.votos--; }
-    v.miVoto = n; v.total += n; v.votos++;
-    var media2 = (v.total / v.votos).toFixed(1);
-    // Actualizar estrellas visuales en este drawer
-    var cont = car.querySelector('#pd-stars-' + id);
-    if (cont) cont.querySelectorAll('.star').forEach(function(s, i) {
-      s.innerHTML = (i + 1) <= n ? '&#9733;' : '&#9734;';
-      s.className = (i + 1) <= n ? 'star activa' : 'star';
-    });
-    var sc = car.querySelector('#pd-scount-' + id);
-    if (sc) sc.innerHTML = media2 + ' &middot; ' + v.votos + ' voto' + (v.votos !== 1 ? 's' : '');
-    var rk = car.querySelector('#pd-rank-' + id);
-    if (rk) rk.innerHTML = '&#9733; ' + media2;
-    // Guardar en localStorage y Firebase si disponible
-    if (typeof votarPOI === 'function') votarPOI(id, n);
-    else {
-      try { var ls = JSON.parse(localStorage.getItem('valoraciones') || '{}'); ls[id] = v; localStorage.setItem('valoraciones', JSON.stringify(ls)); } catch(e2){}
-    }
-  });
-  // Listener botón ruta (delegado)
-  car.querySelectorAll('[id^="pd-rbtn-"]').forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
+    var tgt = e.target;
+    // Estrella — usa votar() igual que el carrusel principal
+    if (tgt.getAttribute('data-star')) {
       e.stopPropagation();
-      var id = btn.id.replace('pd-rbtn-', '');
-      _poiDrawerToggleRuta(id, btn);
-    });
-  });
-  // Listener botón llegar — cerrar drawer y centrar en mapa
-  car.querySelectorAll('.poi-btn').forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
+      votar(tgt);
+      return;
+    }
+    // Botón enviar opinión (delegado por si acaso)
+    if (tgt.classList.contains('opinion-send')) {
+      e.stopPropagation();
+      enviarOpinion(tgt);
+      return;
+    }
+    // Botón añadir a ruta
+    if (tgt.id && tgt.id.indexOf('pd-rbtn-') === 0) {
+      e.stopPropagation();
+      var pid = tgt.id.replace('pd-rbtn-', '');
+      _poiDrawerToggleRuta(pid, tgt);
+      return;
+    }
+    // Botón cómo llegar
+    if (tgt.classList.contains('poi-btn')) {
       e.stopPropagation();
       cerrarPoiDrawer();
-      var lat = parseFloat(btn.getAttribute('data-lat'));
-      var lng = parseFloat(btn.getAttribute('data-lng'));
+      var lat = parseFloat(tgt.getAttribute('data-lat'));
+      var lng = parseFloat(tgt.getAttribute('data-lng'));
       if (mapa && lat && lng) {
         mapa.setView([lat, lng], 16);
         setTimeout(function() {
           mapa.eachLayer(function(layer) {
             if (layer.getLatLng && layer._popup) {
               var ll = layer.getLatLng();
-              if (Math.abs(ll.lat - lat) < 0.0002 && Math.abs(ll.lng - lng) < 0.0002) {
-                layer.openPopup();
-              }
+              if (Math.abs(ll.lat - lat) < 0.0002 && Math.abs(ll.lng - lng) < 0.0002) layer.openPopup();
             }
           });
         }, 400);
       }
+      return;
+    }
+  });
+  // Cerrar leer+ al hacer scroll/swipe en el carrusel del drawer
+  car.addEventListener('scroll', function() {
+    car.querySelectorAll('.poi-desc.expanded').forEach(function(d) {
+      d.classList.remove('expanded');
+      var btn = d.nextElementSibling;
+      if (btn && btn.classList.contains('poi-leer-mas'))
+        btn.textContent = (T[idiomaActual]||T.es).leerMas || 'Leer +';
     });
   });
 }
@@ -2840,25 +2830,36 @@ function cargarDatosFirebase() {
 function actualizarEstrellasPunto(id) {
   var val = valoraciones[id];
   var media = val.votos > 0 ? (val.total/val.votos).toFixed(1) : '-';
+  // Actualizar en carrusel principal (data-poi-id) y en drawer (id directo)
+  var cards = [];
   var card = document.querySelector('[data-poi-id="'+id+'"]');
-  if (!card) return;
-  var starsC = card.querySelector('.stars');
-  if (starsC) {
-    starsC.innerHTML = '';
-    for (var sn=1; sn<=5; sn++) {
-      var star = document.createElement('span');
-      star.innerHTML = sn<=val.miVoto ? '&#9733;' : '&#9734;';
-      star.className = sn<=val.miVoto ? 'star activa' : 'star';
-      star.setAttribute('data-id', id);
-      star.setAttribute('data-n', sn);
-      starsC.appendChild(star);
-    }
+  if (card) cards.push(card);
+  var starsById = document.getElementById('stars-'+id);
+  if (starsById) {
+    var drawerCard = starsById.closest('.poi-card');
+    if (drawerCard && drawerCard !== card) cards.push(drawerCard);
   }
-  var countEl = card.querySelector('.stars-count');
-  if (countEl) countEl.innerHTML = '('+media+(val.votos>0?' &middot; '+val.votos+' votos':'')+')';
-  // Actualizar badge ranking en imagen
-  var rankEl = document.getElementById('rank-'+id);
-  if (rankEl) rankEl.innerHTML = '&#9733; ' + (val.votos>0 ? media : '-');
+  cards.forEach(function(ctx) {
+    var starsC = ctx.querySelector('.stars');
+    if (starsC) {
+      starsC.innerHTML = '';
+      for (var sn=1; sn<=5; sn++) {
+        var star = document.createElement('span');
+        star.innerHTML = sn<=val.miVoto ? '&#9733;' : '&#9734;';
+        star.className = sn<=val.miVoto ? 'star activa' : 'star';
+        star.setAttribute('data-id', id);
+        star.setAttribute('data-n', sn);
+        star.setAttribute('data-star', '1');
+        starsC.appendChild(star);
+      }
+    }
+    var countEl = ctx.querySelector('.stars-count');
+    if (countEl) countEl.innerHTML = '('+media+(val.votos>0?' &middot; '+val.votos+' votos':'')+')';
+  });
+  // Badge ranking (compartido por ID — actualiza ambos contextos)
+  document.querySelectorAll('#rank-'+id).forEach(function(rankEl) {
+    rankEl.innerHTML = '&#9733; ' + (val.votos>0 ? media : '-');
+  });
 }
 
 function actualizarListaOpiniones(id) {
@@ -6250,6 +6251,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v468</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v701</div>
 </body>
 </html>
