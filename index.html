@@ -689,8 +689,8 @@
       </span>
       <h4 id='footer-don-title' style='font-family:Playfair Display,serif;font-size:18px;font-weight:700;color:#FFE066;margin:0;text-shadow:0 2px 6px rgba(0,0,0,0.35);letter-spacing:0.3px'>Apoya esta guía</h4>
     </div>
-    <p id='footer-don-sub' style='font-size:13px;color:rgba(255,255,255,0.92);margin:0 0 12px;line-height:1.5'>Proyecto gratuito y sin publicidad. Tu apoyo nos permite seguir creciendo.</p>
-    <div style='width:80px;height:3px;background:rgba(255,220,100,0.8);border-radius:2px;margin:0 0 12px;animation:donGlow 2s ease-in-out infinite'></div>
+    <p id='footer-don-sub' style='font-size:13px;color:rgba(255,255,255,0.92);margin:0 0 12px;line-height:1.5;text-align:center'>Proyecto gratuito y sin publicidad. Tu apoyo nos permite seguir creciendo.</p>
+    <div style='width:80px;height:3px;background:rgba(255,220,100,0.8);border-radius:2px;margin:0 auto 12px;animation:donGlow 2s ease-in-out infinite'></div>
     <div style='display:flex;gap:8px;flex-wrap:wrap;justify-content:center'>
       <button onclick='abrirBizum()' style='display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.2);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:8px 16px;cursor:pointer;color:#fff;font-size:13px;font-weight:600;font-family:DM Sans,sans-serif;transition:background 0.2s'>📱 Bizum</button>
       <a href='https://paypal.me/GuiaCompostelana' target='_blank' style='display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.2);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:8px 16px;color:#fff;font-size:13px;font-weight:600;font-family:DM Sans,sans-serif;text-decoration:none'>💳 PayPal</a>
@@ -4742,17 +4742,18 @@ function traducirManiobra(tipo, nombre) {
 }
 
 function distanciaTexto(m) {
-  if (m < 50)  return null; // demasiado cerca, no anunciar
-  if (m < 100) return '50 metros';
-  if (m < 200) return '100 metros';
-  if (m < 400) return '200 metros';
-  if (m < 800) return '400 metros';
-  if (m < 1500) return '1 kilómetro';
-  return Math.round(m/1000) + ' kilómetros';
+  var tn = T[idiomaActual]||T.es;
+  if (m < 50)   return null; // demasiado cerca, no anunciar
+  if (m < 100)  return tn.nav50m  ||'50 metros';
+  if (m < 200)  return tn.nav100m ||'100 metros';
+  if (m < 400)  return tn.nav200m ||'200 metros';
+  if (m < 800)  return tn.nav400m ||'400 metros';
+  if (m < 1500) return tn.nav1km  ||'1 kilómetro';
+  return Math.round(m/1000) + (tn.navKms||' kilómetros');
 }
 
 function activarNavegacionVoz() {
-  if (rutaPuntos.length < 1) { mostrarToast('Añade al menos 1 punto a la ruta'); return; }
+  if (rutaPuntos.length < 1) { mostrarToast((T[idiomaActual]||T.es).navAnnadePunto||'Añade al menos 1 punto a la ruta'); return; }
 
   // Ordenar puntos por cercanía al usuario
   var origen = (userLat && userLng) ? {lat:userLat, lng:userLng} : {lat:rutaPuntos[0].lat, lng:rutaPuntos[0].lng};
@@ -4762,12 +4763,12 @@ function activarNavegacionVoz() {
   var coords = [];
   if (userLat && userLng) coords.push(userLng + ',' + userLat);
   ordenados.forEach(function(p){ coords.push(p.lng + ',' + p.lat); });
-  mostrarToast('🎙️ Iniciando navegación...');
+  mostrarToast((T[idiomaActual]||T.es).navIniciando||'🎙️ Iniciando navegación...');
   if (window._navRestoreTimeout) { clearTimeout(window._navRestoreTimeout); window._navRestoreTimeout = null; }
   _navActiva = true; // bloquear dibujarLineaEstática desde ya
 
   // Anuncio inmediato (desbloquea speechSynthesis en iOS)
-  hablar('Navegación por voz activada.');
+  hablar((T[idiomaActual]||T.es).navVozIniciada||'Navegación por voz activada.');
 
   // Función interna que activa la navegación con los pasos dados
   function _iniciarConPasos(pasos) {
@@ -4782,7 +4783,7 @@ function activarNavegacionVoz() {
     if (btnIr)   btnIr.style.display   = 'none';
     if (btnStop) btnStop.style.display = 'block';
     var btnVoz = document.getElementById('ruta-nav-voz');
-    if (btnVoz) { _navVozActiva = false; btnVoz.style.display = 'block'; btnVoz.style.background = '#444'; btnVoz.innerHTML = '🔇 Voz'; }
+    if (btnVoz) { _navVozActiva = false; btnVoz.style.display = 'block'; btnVoz.style.background = '#444'; btnVoz.innerHTML = (T[idiomaActual]||T.es).navVozOff||'🔇 Voz'; }
     if (btnClr)  btnClr.style.display  = 'none';
 
     // Agrandar mapa sin cambiar position (no destruye Leaflet)
@@ -4830,7 +4831,7 @@ function activarNavegacionVoz() {
 
     // Anuncio primer punto
     var primerPunto = ordenados[0];
-    hablar('Navegación iniciada. Dirígete hacia ' + primerPunto.nombre);
+    hablar(((T[idiomaActual]||T.es).navIniciadaMsg||'Navegación iniciada. Dirígete hacia ') + primerPunto.nombre);
 
     // Iniciar GPS
     if (window._navWatchId) navigator.geolocation.clearWatch(window._navWatchId);
@@ -4840,7 +4841,7 @@ function activarNavegacionVoz() {
       {enableHighAccuracy:true, maximumAge:1500, timeout:10000}
     );
 
-    mostrarToast('🎙️ Navegación por voz activa');
+    mostrarToast((T[idiomaActual]||T.es).navActiva||'🎙️ Navegación por voz activa');
   }  // fin _iniciarConPasos
 
   // Usar cache si disponible, si no hacer fetch
@@ -4855,7 +4856,7 @@ function activarNavegacionVoz() {
     _iniciarConPasos(_navPasosCache.slice());
   } else {
     // Cache vacío: calcular ruta ahora
-    mostrarToast('🔄 Calculando ruta...');
+    mostrarToast((T[idiomaActual]||T.es).navCalcRuta||'🔄 Calculando ruta...');
     var navEps = [
       'https://routing.openstreetmap.de/routed-foot/route/v1/foot/' + coords.join(';') + '?overview=full&geometries=geojson&steps=true',
       'https://router.project-osrm.org/route/v1/foot/' + coords.join(';') + '?overview=full&geometries=geojson&steps=true'
@@ -4908,7 +4909,7 @@ function _distPuntoSegmento(plat, plng, alat, alng, blat, blng) {
 function _navRecalcular(lat, lng) {
   if (!_navActiva || window._navRecalculando) return;
   window._navRecalculando = true;
-  mostrarCartelVoz('🔄 Recalculando ruta...');
+  mostrarCartelVoz((T[idiomaActual]||T.es).navRecalcRuta||'🔄 Recalculando ruta...');
   var coords = [lng + ',' + lat];
   // Añadir puntos de ruta restantes desde el paso actual en adelante
   var puntosRestantes = (_navOrdenadosCache.length > 0 ? _navOrdenadosCache : rutaPuntos);
@@ -4942,7 +4943,7 @@ function _navRecalcular(lat, lng) {
       var ll = route.geometry.coordinates.map(function(c){return[c[1],c[0]];});
       dibujarFlechas(ll);
       window._navRecalculando = false;
-      if (_navVozActiva) hablar('Ruta recalculada.');
+      if (_navVozActiva) hablar((T[idiomaActual]||T.es).navRecalculada||'Ruta recalculada.');
     }).catch(function(){ tryEp(i+1); });
   }
   tryEp(0);
@@ -4992,7 +4993,7 @@ function _navTick(pos) {
   if (distTexto && !_navAnunciado[distTexto]) {
     _navAnunciado[distTexto] = true;
     var instruccion = traducirManiobra(paso.tipo, paso.calle);
-    hablar('En ' + distTexto + ', ' + instruccion);
+    hablar(((T[idiomaActual]||T.es).navEn||'En ') + distTexto + ', ' + instruccion);
   }
 }
 
@@ -5015,10 +5016,10 @@ function toggleVozNav() {
   var btn = document.getElementById('ruta-nav-voz');
   if (btn) {
     btn.style.background = _navVozActiva ? '#1D9E75' : '#444';
-    btn.innerHTML = _navVozActiva ? '🔊 Voz' : '🔇 Voz';
+    var _tn=T[idiomaActual]||T.es; btn.innerHTML = _navVozActiva ? (_tn.navVozOn||'🔊 Voz') : (_tn.navVozOff||'🔇 Voz');
   }
   if (_navVozActiva) {
-    hablar('Guía por voz activada.');
+    hablar((T[idiomaActual]||T.es).navVozActivada||'Guía por voz activada.');
   } else {
     if (window.speechSynthesis) window.speechSynthesis.cancel();
   }
@@ -5363,6 +5364,37 @@ var T={
     chipMon:'Monumento',
     volverMapa:'← Volver',
     volverMapaCorto:'← Mapa',
+    navVozOn:'🔊 Voz',
+    navVozOff:'🔇 Voz',
+    navVozActivada:'Guía por voz activada.',
+    navVozIniciada:'Navegación por voz activada.',
+    navAnnadePunto:'Añade al menos 1 punto a la ruta',
+    navCalcRuta:'🔄 Calculando ruta...',
+    navRecalcRuta:'🔄 Recalculando ruta...',
+    navRecalculada:'Ruta recalculada.',
+    navActiva:'🎙️ Navegación por voz activa',
+    navIniciando:'🎙️ Iniciando navegación...',
+    navIniciadaMsg:'Navegación iniciada. Dirígete hacia ',
+    navEn:'En ',
+    nav50m:'50 metros',
+    nav100m:'100 metros',
+    nav200m:'200 metros',
+    nav400m:'400 metros',
+    nav1km:'1 kilómetro',
+    navKms:' kilómetros',
+    navGiraIzq:'Gira a la izquierda',
+    navGiraDer:'Gira a la derecha',
+    navLigIzq:'Gira ligeramente a la izquierda',
+    navLigDer:'Gira ligeramente a la derecha',
+    navFuerteIzq:'Gira fuerte a la izquierda',
+    navFuerteDer:'Gira fuerte a la derecha',
+    navMedia:'Da media vuelta',
+    navRota:'Toma la rotonda',
+    navRecto:'Continúa recto',
+    navSalida:'Inicia la ruta',
+    navLlegada:'Has llegado a tu destino',
+    navDirigete:'Dirígete hacia',
+    navFin:'¡Has llegado a tu destino! Buen Camino.',
     brujulaTitulo:'Brújula',
     brujulaSub:'Norte magnético y rumbo a Santiago',
     brujulaNorte:'Norte',
@@ -5534,6 +5566,37 @@ var T={
     chipMon:'Monumento',
     volverMapa:'← Volver',
     volverMapaCorto:'← Mapa',
+    navVozOn:'🔊 Voz',
+    navVozOff:'🔇 Voz',
+    navVozActivada:'Guía por voz activada.',
+    navVozIniciada:'Navegación por voz activada.',
+    navAnnadePunto:'Engade polo menos 1 punto á ruta',
+    navCalcRuta:'🔄 Calculando ruta...',
+    navRecalcRuta:'🔄 Recalculando ruta...',
+    navRecalculada:'Ruta recalculada.',
+    navActiva:'🎙️ Navegación por voz activa',
+    navIniciando:'🎙️ Iniciando navegación...',
+    navIniciadaMsg:'Navegación iniciada. Diríxete cara a ',
+    navEn:'En ',
+    nav50m:'50 metros',
+    nav100m:'100 metros',
+    nav200m:'200 metros',
+    nav400m:'400 metros',
+    nav1km:'1 quilómetro',
+    navKms:' quilómetros',
+    navGiraIzq:'Xira á esquerda',
+    navGiraDer:'Xira á dereita',
+    navLigIzq:'Xira lixeiramente á esquerda',
+    navLigDer:'Xira lixeiramente á dereita',
+    navFuerteIzq:'Xira forte á esquerda',
+    navFuerteDer:'Xira forte á dereita',
+    navMedia:'Dá media volta',
+    navRota:'Toma a rotonda',
+    navRecto:'Continúa recto',
+    navSalida:'Inicia a ruta',
+    navLlegada:'Chegaches ao teu destino',
+    navDirigete:'Diríxete cara a',
+    navFin:'¡Chegaches ao teu destino! Bo Camiño.',
     brujulaTitulo:'Compás',
     brujulaSub:'Norte magnético e rumbo a Santiago',
     brujulaNorte:'Norte',
@@ -5708,6 +5771,37 @@ var T={
     chipMon:'Monument',
     volverMapa:'← Volver',
     volverMapaCorto:'← Map',
+    navVozOn:'🔊 Voice',
+    navVozOff:'🔇 Voice',
+    navVozActivada:'Voice guide activated.',
+    navVozIniciada:'Voice navigation activated.',
+    navAnnadePunto:'Add at least 1 point to the route',
+    navCalcRuta:'🔄 Calculating route...',
+    navRecalcRuta:'🔄 Recalculating route...',
+    navRecalculada:'Route recalculated.',
+    navActiva:'🎙️ Voice navigation active',
+    navIniciando:'🎙️ Starting navigation...',
+    navIniciadaMsg:'Navigation started. Head towards ',
+    navEn:'In ',
+    nav50m:'50 metres',
+    nav100m:'100 metres',
+    nav200m:'200 metres',
+    nav400m:'400 metres',
+    nav1km:'1 kilometre',
+    navKms:' kilometres',
+    navGiraIzq:'Turn left',
+    navGiraDer:'Turn right',
+    navLigIzq:'Turn slightly left',
+    navLigDer:'Turn slightly right',
+    navFuerteIzq:'Turn sharp left',
+    navFuerteDer:'Turn sharp right',
+    navMedia:'Make a U-turn',
+    navRota:'Take the roundabout',
+    navRecto:'Continue straight',
+    navSalida:'Start the route',
+    navLlegada:'You have arrived at your destination',
+    navDirigete:'Head towards',
+    navFin:'You have arrived at your destination! Buen Camino.',
     brujulaTitulo:'Compass',
     brujulaSub:'Magnetic north and bearing to Santiago',
     brujulaNorte:'North',
@@ -6295,6 +6389,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v761</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v763</div>
 </body>
 </html>
