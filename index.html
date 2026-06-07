@@ -1671,19 +1671,30 @@ function cerrarDonacionesDrawer() {
   setTimeout(function(){if(bg)bg.style.display='none';drawer.style.display='none';},350);
 }
 
+var _drawersAbiertos = 0;
+function _bloquearScroll() {
+  _drawersAbiertos++;
+  document.body.style.overflow = 'hidden';
+}
+function _desbloquearScroll() {
+  _drawersAbiertos = Math.max(0, _drawersAbiertos - 1);
+  if (_drawersAbiertos === 0) document.body.style.overflow = '';
+}
+
 function abrirHistoriaDrawer() {
   var bg=document.getElementById('historia-drawer-bg');
   var drawer=document.getElementById('historia-drawer');
   if(!bg||!drawer) return;
   bg.style.display='block'; drawer.style.display='block';
   drawer.getBoundingClientRect(); drawer.style.transform='translateY(0)';
+  _bloquearScroll();
 }
 function cerrarHistoriaDrawer() {
   var bg=document.getElementById('historia-drawer-bg');
   var drawer=document.getElementById('historia-drawer');
   if(!drawer) return;
   drawer.style.transform='translateY(100%)';
-  setTimeout(function(){if(bg)bg.style.display='none';drawer.style.display='none';},350);
+  setTimeout(function(){if(bg)bg.style.display='none';drawer.style.display='none';_desbloquearScroll();},350);
 }
 
 function _poiDrawerToggleRuta(id, btn) {
@@ -1879,13 +1890,14 @@ function abrirPoiDrawer() {
   _poiDrawerCatActual = 'todos';
   document.querySelectorAll('#poi-drawer-chips .cat-chip').forEach(function(c,i){ c.classList.toggle('active', i===0); });
   _renderPoiDrawerCarrusel();
+  _bloquearScroll();
 }
 function cerrarPoiDrawer() {
   var bg=document.getElementById('poi-drawer-bg');
   var drawer=document.getElementById('poi-drawer');
   if(!drawer) return;
   drawer.style.transform='translateY(120%)';
-  setTimeout(function(){if(bg)bg.style.display='none';drawer.style.display='none';},350);
+  setTimeout(function(){if(bg)bg.style.display='none';drawer.style.display='none';_desbloquearScroll();},350);
 }
 
 function abrirMeteoDrawer() {
@@ -1899,13 +1911,14 @@ function abrirMeteoDrawer() {
   var lugar=document.getElementById('meteo-drawer-lugar');
   if(lugar) lugar.textContent=(typeof userLat!=='undefined'&&userLat)?'Tu ubicaci\u00f3n':'Vigo';
   _cargarMeteoDrawer(lat,lng);
+  _bloquearScroll();
 }
 function cerrarMeteoDrawer() {
   var bg=document.getElementById('meteo-drawer-bg');
   var drawer=document.getElementById('meteo-drawer');
   if(!drawer) return;
   drawer.style.transform='translateY(100%)';
-  setTimeout(function(){if(bg)bg.style.display='none';if(drawer)drawer.style.display='none';},350);
+  setTimeout(function(){if(bg)bg.style.display='none';if(drawer)drawer.style.display='none';_desbloquearScroll();},350);
 }
 function _cargarMeteoDrawer(lat,lng) {
   var url='https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lng+
@@ -3666,7 +3679,7 @@ function abrirBrujulaDrawer() {
   // Forzar reflow antes de animar
   drawer.getBoundingClientRect();
   drawer.style.transform = 'translateY(0)';
-  document.body.style.overflow = 'hidden';
+  _bloquearScroll();
 }
 
 function cerrarBrujulaDrawer() {
@@ -3677,7 +3690,7 @@ function cerrarBrujulaDrawer() {
   setTimeout(function() {
     if (bg) bg.style.display = 'none';
     drawer.style.display = 'none';
-    document.body.style.overflow = '';
+    _desbloquearScroll();
   }, 350);
 }
 
@@ -3689,6 +3702,7 @@ function abrirSOSDrawer() {
   drawer.style.display = 'block';
   drawer.getBoundingClientRect();
   drawer.style.transform = 'translateY(0)';
+  _bloquearScroll();
 }
 
 function cerrarSOSDrawer() {
@@ -3699,6 +3713,7 @@ function cerrarSOSDrawer() {
   setTimeout(function() {
     if (bg) bg.style.display = 'none';
     drawer.style.display = 'none';
+    _desbloquearScroll();
   }, 350);
 }
 
@@ -6208,6 +6223,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v714</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v715</div>
 </body>
 </html>
