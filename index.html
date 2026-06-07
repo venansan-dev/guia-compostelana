@@ -374,7 +374,7 @@
 
 <!-- DRAWER BRÚJULA — desliza desde abajo -->
 <div id='brujula-drawer-bg' onclick='cerrarBrujulaDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:8000'></div>
-<div id='brujula-drawer' style='display:none;position:fixed;bottom:calc(env(safe-area-inset-bottom) + 10px);left:8px;right:8px;z-index:8001;background:linear-gradient(160deg,#1a2a4a 0%,#1e3a5f 50%,#243b55 100%);border-radius:20px;padding:1.25rem 1.5rem 1.5rem;max-height:78vh;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1)'>
+<div id='brujula-drawer' style='display:none;position:fixed;bottom:calc(env(safe-area-inset-bottom) + 10px);left:8px;right:8px;z-index:8001;background:linear-gradient(160deg,#1a2a4a 0%,#1e3a5f 50%,#243b55 100%);border-radius:20px;padding:1.25rem 1.5rem 1.5rem;max-height:78vh;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;transform:translateY(150%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1)'>
   <!-- Handle + cabecera -->
   <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem'>
     <div style='display:flex;align-items:center;gap:10px'>
@@ -441,7 +441,7 @@
 
 <!-- DRAWER SOS -->
 <div id='sos-drawer-bg' onclick='cerrarSOSDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:8100'></div>
-<div id='sos-drawer' style='display:none;position:fixed;bottom:calc(env(safe-area-inset-bottom) + 10px);left:8px;right:8px;z-index:8101;background:linear-gradient(160deg,#1a0a0a 0%,#3b0f0f 100%);border-radius:20px;padding:1.25rem 1.5rem 1.5rem;max-height:78vh;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1)'>
+<div id='sos-drawer' style='display:none;position:fixed;bottom:calc(env(safe-area-inset-bottom) + 10px);left:8px;right:8px;z-index:8101;background:linear-gradient(160deg,#1a0a0a 0%,#3b0f0f 100%);border-radius:20px;padding:1.25rem 1.5rem 1.5rem;max-height:78vh;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;transform:translateY(150%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1)'>
   <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem'>
     <div style='display:flex;align-items:center;gap:10px'>
       <div style='width:38px;height:38px;background:rgba(220,38,38,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0'>🆘</div>
@@ -497,7 +497,7 @@
 
 <!-- DRAWER METEOROLOGIA -->
 <div id='meteo-drawer-bg' onclick='cerrarMeteoDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:8050'></div>
-<div id='meteo-drawer' style='display:none;position:fixed;bottom:calc(env(safe-area-inset-bottom) + 10px);left:8px;right:8px;z-index:8051;background:linear-gradient(160deg,#0f2744 0%,#1a3a5c 100%);border-radius:20px;padding:1.25rem 1.5rem 1.5rem;max-height:78vh;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
+<div id='meteo-drawer' style='display:none;position:fixed;bottom:calc(env(safe-area-inset-bottom) + 10px);left:8px;right:8px;z-index:8051;background:linear-gradient(160deg,#0f2744 0%,#1a3a5c 100%);border-radius:20px;padding:1.25rem 1.5rem 1.5rem;max-height:78vh;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;transform:translateY(150%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
   <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem'>
     <div style='display:flex;align-items:center;gap:10px'>
       <span style='font-size:24px'>&#127780;&#65039;</span>
@@ -520,7 +520,7 @@
 
 <!-- DRAWER HISTORIA -->
 <div id='historia-drawer-bg' onclick='cerrarHistoriaDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:8200'></div>
-<div id='historia-drawer' class='historia-section' style='display:none;position:fixed;bottom:calc(env(safe-area-inset-bottom) + 10px);left:8px;right:8px;z-index:8201;border-radius:20px;padding:1.25rem 1.5rem 1.5rem;max-height:78vh;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
+<div id='historia-drawer' class='historia-section' style='display:none;position:fixed;bottom:calc(env(safe-area-inset-bottom) + 10px);left:8px;right:8px;z-index:8201;border-radius:20px;padding:1.25rem 1.5rem 1.5rem;max-height:78vh;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;transform:translateY(150%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
   <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem'>
     <div style='display:flex;align-items:center;gap:10px'>
       <span style='font-size:22px'>🐚</span>
@@ -602,7 +602,7 @@
 
 <!-- DRAWER DONACIONES -->
 <div id='donaciones-drawer-bg' onclick='cerrarDonacionesDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:8400'></div>
-<div id='donaciones-drawer' style='display:none;position:fixed;bottom:calc(env(safe-area-inset-bottom) + 10px);left:8px;right:8px;z-index:8401;background:linear-gradient(145deg,#0a5240 0%,#0F6E56 40%,#1D9E75 100%);border-radius:20px;padding:1.25rem 1.5rem 1.5rem;max-height:78vh;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
+<div id='donaciones-drawer' style='display:none;position:fixed;bottom:calc(env(safe-area-inset-bottom) + 10px);left:8px;right:8px;z-index:8401;background:linear-gradient(145deg,#0a5240 0%,#0F6E56 40%,#1D9E75 100%);border-radius:20px;padding:1.25rem 1.5rem 1.5rem;max-height:78vh;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;transform:translateY(150%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
   <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem'>
     <div style='display:flex;align-items:center;gap:8px'>
       <span style='font-size:22px'>🙏</span>
@@ -1660,14 +1660,19 @@ function abrirDonacionesDrawer() {
   var bg=document.getElementById('donaciones-drawer-bg');
   var drawer=document.getElementById('donaciones-drawer');
   if(!bg||!drawer) return;
+  drawer.style.transition='none';
+  drawer.style.transform='translateY(150%)';
+  drawer.scrollTop=0;
   bg.style.display='block'; drawer.style.display='block';
-  drawer.getBoundingClientRect(); drawer.style.transform='translateY(0)';
+  drawer.getBoundingClientRect();
+  drawer.style.transition='transform 0.35s cubic-bezier(0.32,0.72,0,1)';
+  drawer.style.transform='translateY(0)';
 }
 function cerrarDonacionesDrawer() {
   var bg=document.getElementById('donaciones-drawer-bg');
   var drawer=document.getElementById('donaciones-drawer');
   if(!drawer) return;
-  drawer.style.transform='translateY(100%)';
+  drawer.style.transform='translateY(150%)';
   setTimeout(function(){if(bg)bg.style.display='none';drawer.style.display='none';},350);
 }
 
@@ -1675,14 +1680,19 @@ function abrirHistoriaDrawer() {
   var bg=document.getElementById('historia-drawer-bg');
   var drawer=document.getElementById('historia-drawer');
   if(!bg||!drawer) return;
+  drawer.style.transition='none';
+  drawer.style.transform='translateY(150%)';
+  drawer.scrollTop=0;
   bg.style.display='block'; drawer.style.display='block';
-  drawer.getBoundingClientRect(); drawer.style.transform='translateY(0)';
+  drawer.getBoundingClientRect();
+  drawer.style.transition='transform 0.35s cubic-bezier(0.32,0.72,0,1)';
+  drawer.style.transform='translateY(0)';
 }
 function cerrarHistoriaDrawer() {
   var bg=document.getElementById('historia-drawer-bg');
   var drawer=document.getElementById('historia-drawer');
   if(!drawer) return;
-  drawer.style.transform='translateY(100%)';
+  drawer.style.transform='translateY(150%)';
   setTimeout(function(){if(bg)bg.style.display='none';drawer.style.display='none';},350);
 }
 
@@ -1892,8 +1902,13 @@ function abrirMeteoDrawer() {
   var bg=document.getElementById('meteo-drawer-bg');
   var drawer=document.getElementById('meteo-drawer');
   if(!bg||!drawer) return;
+  drawer.style.transition='none';
+  drawer.style.transform='translateY(150%)';
+  drawer.scrollTop=0;
   bg.style.display='block'; drawer.style.display='block';
-  drawer.getBoundingClientRect(); drawer.style.transform='translateY(0)';
+  drawer.getBoundingClientRect();
+  drawer.style.transition='transform 0.35s cubic-bezier(0.32,0.72,0,1)';
+  drawer.style.transform='translateY(0)';
   var lat=(typeof userLat!=='undefined'&&userLat)?userLat:42.2328;
   var lng=(typeof userLng!=='undefined'&&userLng)?userLng:-8.7226;
   var lugar=document.getElementById('meteo-drawer-lugar');
@@ -1904,7 +1919,7 @@ function cerrarMeteoDrawer() {
   var bg=document.getElementById('meteo-drawer-bg');
   var drawer=document.getElementById('meteo-drawer');
   if(!drawer) return;
-  drawer.style.transform='translateY(100%)';
+  drawer.style.transform='translateY(150%)';
   setTimeout(function(){if(bg)bg.style.display='none';if(drawer)drawer.style.display='none';},350);
 }
 function _cargarMeteoDrawer(lat,lng) {
@@ -3661,23 +3676,24 @@ function abrirBrujulaDrawer() {
   var bg = document.getElementById('brujula-drawer-bg');
   var drawer = document.getElementById('brujula-drawer');
   if (!bg || !drawer) return;
+  drawer.style.transition = 'none';
+  drawer.style.transform = 'translateY(150%)';
+  drawer.scrollTop = 0;
   bg.style.display = 'block';
   drawer.style.display = 'block';
-  // Forzar reflow antes de animar
   drawer.getBoundingClientRect();
+  drawer.style.transition = 'transform 0.35s cubic-bezier(0.32,0.72,0,1)';
   drawer.style.transform = 'translateY(0)';
-  document.body.style.overflow = 'hidden';
 }
 
 function cerrarBrujulaDrawer() {
   var bg = document.getElementById('brujula-drawer-bg');
   var drawer = document.getElementById('brujula-drawer');
   if (!drawer) return;
-  drawer.style.transform = 'translateY(100%)';
+  drawer.style.transform = 'translateY(150%)';
   setTimeout(function() {
     if (bg) bg.style.display = 'none';
     drawer.style.display = 'none';
-    document.body.style.overflow = '';
   }, 350);
 }
 
@@ -3685,9 +3701,13 @@ function abrirSOSDrawer() {
   var bg = document.getElementById('sos-drawer-bg');
   var drawer = document.getElementById('sos-drawer');
   if (!bg || !drawer) return;
+  drawer.style.transition = 'none';
+  drawer.style.transform = 'translateY(150%)';
+  drawer.scrollTop = 0;
   bg.style.display = 'block';
   drawer.style.display = 'block';
   drawer.getBoundingClientRect();
+  drawer.style.transition = 'transform 0.35s cubic-bezier(0.32,0.72,0,1)';
   drawer.style.transform = 'translateY(0)';
 }
 
@@ -3695,7 +3715,7 @@ function cerrarSOSDrawer() {
   var bg = document.getElementById('sos-drawer-bg');
   var drawer = document.getElementById('sos-drawer');
   if (!drawer) return;
-  drawer.style.transform = 'translateY(100%)';
+  drawer.style.transform = 'translateY(150%)';
   setTimeout(function() {
     if (bg) bg.style.display = 'none';
     drawer.style.display = 'none';
@@ -6208,6 +6228,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v714</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v715</div>
 </body>
 </html>
