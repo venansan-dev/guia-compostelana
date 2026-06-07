@@ -1625,7 +1625,7 @@ function _abrirSlide(panelId) {
   var header = document.querySelector('.header');
   if (mapBlock) {
     var headerH = header ? header.getBoundingClientRect().height : 64;
-    var targetY = mapBlock.getBoundingClientRect().top + window.pageYOffset - headerH - 70;
+    var targetY = mapBlock.getBoundingClientRect().top + window.pageYOffset - headerH - 46;
     window.scrollTo({ top: targetY, behavior: 'smooth' });
   }
 }
@@ -4845,12 +4845,10 @@ function activarNavegacionVoz() {
   var coords = [];
   if (userLat && userLng) coords.push(userLng + ',' + userLat);
   ordenados.forEach(function(p){ coords.push(p.lng + ',' + p.lat); });
-  mostrarToast((T[idiomaActual]||T.es).navIniciando||'🎙️ Iniciando navegación...');
+  mostrarToast('🗺️ Iniciando navegación...');
   if (window._navRestoreTimeout) { clearTimeout(window._navRestoreTimeout); window._navRestoreTimeout = null; }
   _navActiva = true; // bloquear dibujarLineaEstática desde ya
 
-  // Anuncio inmediato (desbloquea speechSynthesis en iOS)
-  hablar((T[idiomaActual]||T.es).navVozIniciada||'Navegación por voz activada.');
 
   // Función interna que activa la navegación con los pasos dados
   function _iniciarConPasos(pasos) {
@@ -4923,7 +4921,7 @@ function activarNavegacionVoz() {
       {enableHighAccuracy:true, maximumAge:1500, timeout:10000}
     );
 
-    mostrarToast((T[idiomaActual]||T.es).navActiva||'🎙️ Navegación por voz activa');
+    mostrarToast('🔇 Navegación activa · voz desactivada');
   }  // fin _iniciarConPasos
 
   // Usar cache si disponible, si no hacer fetch
@@ -6480,6 +6478,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v782</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v784</div>
 </body>
 </html>
