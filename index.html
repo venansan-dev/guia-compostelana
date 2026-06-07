@@ -3675,6 +3675,7 @@ function initMapa() {
       } else {
         // Ya tenemos posición, actualizar marcador y círculo SIN cambiar vista
         userLat = pos.coords.latitude; userLng = pos.coords.longitude;
+        _lastKnownLat = userLat; _lastKnownLng = userLng;
         if (window._userMarker) {
           window._userMarker.setLatLng([userLat, userLng]);
           // Mantener icono correcto según estado
@@ -3688,7 +3689,7 @@ function initMapa() {
         }).addTo(mapa);
         calcularDistancias();
       }
-    }, function(){}, { enableHighAccuracy:true });
+    }, _gpsErrorHandler, { enableHighAccuracy:true });
 
     // Escuchar orientación para rotar la flecha
     // Android — activar orientación directamente
@@ -3699,6 +3700,19 @@ function initMapa() {
   } else {
     statusEl.innerHTML = (T[idiomaActual]||T.es).noGeolocal;
     setTimeout(function(){statusEl.classList.remove('visible');},3000);
+  }
+}
+
+
+// Última posición GPS conocida
+var _lastKnownLat = null, _lastKnownLng = null;
+
+function _gpsErrorHandler() {
+  if (typeof mapa === 'undefined' || !mapa) return;
+  var lat = _lastKnownLat || (typeof userLat !== 'undefined' && userLat ? userLat : null);
+  var lng = _lastKnownLng || (typeof userLng !== 'undefined' && userLng ? userLng : null);
+  if (lat && lng) {
+    mapa.setView([lat, lng], 15, {animate: true});
   }
 }
 
@@ -3740,6 +3754,7 @@ function toggleSeguimiento() {
         if (!_modoSeguimiento) return;
         userLat = pos.coords.latitude;
         userLng = pos.coords.longitude;
+        _lastKnownLat = userLat; _lastKnownLng = userLng;
         if (window._userMarker) window._userMarker.setLatLng([userLat, userLng]);
         if (circuloRadio) { mapa.removeLayer(circuloRadio); circuloRadio = L.circle([userLat,userLng],{radius:radioKm*1000,color:'#1D9E75',fillColor:'#1D9E75',fillOpacity:0.07,weight:2,dashArray:'6 4'}).addTo(mapa); }
         mapa.panTo([userLat, userLng], {animate:true, duration:0.5});
@@ -3749,7 +3764,7 @@ function toggleSeguimiento() {
           window._ultimaActLinea = ahora;
           actualizarLineaRuta();
         }
-      }, function(){}, {enableHighAccuracy:true, maximumAge:2000});
+      }, _gpsErrorHandler, {enableHighAccuracy:true, maximumAge:2000});
     }
   } else {
     // Desactivar — restaurar todo
@@ -4343,6 +4358,12 @@ function limpiarRuta() {
   if (btnClr2) { btnClr2.style.opacity = '0.4'; btnClr2.style.cursor = 'default'; }
   actualizarRuta();
   actualizarBotonesRuta();
+  // Retomar vista 1 km centrada en la posición del usuario (o centro por defecto)
+  if (typeof mapa !== 'undefined' && mapa) {
+    var lat = (typeof userLat !== 'undefined' && userLat) ? userLat : 42.2328;
+    var lng = (typeof userLng !== 'undefined' && userLng) ? userLng : -8.7226;
+    mapa.setView([lat, lng], 15, {animate: true});
+  }
 }
 
 var _rutaLinea = null;
@@ -6459,6 +6480,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v777</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v779</div>
 </body>
 </html>
