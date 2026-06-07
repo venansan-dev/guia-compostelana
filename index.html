@@ -131,7 +131,7 @@
   <a href='#' id='nav-m-emergencias' onclick='cerrarMenu();setTimeout(abrirSOSDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>🆘</span>Emergencias</a>
   <a href='#' id='nav-m-historia' onclick='cerrarMenu();setTimeout(abrirHistoriaDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>🐚</span>Historia Compostelana</a>
   <a href='#' id='nav-m-mapa' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("map-block");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>🗺️</span>Mapa</a>
-  <a href='#' id='nav-m-puntos' onclick='cerrarMenu();setTimeout(function(){document.getElementById("puntos").scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>📍</span>Puntos de interés</a>
+  <a href='#' id='nav-m-puntos' onclick='cerrarMenu();setTimeout(abrirPoiDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>📍</span>Puntos de interés</a>
   <a href='#' id='nav-m-brujula' onclick='cerrarMenu();setTimeout(abrirBrujulaDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>🧭</span>Brújula</a>
   <a href='#' id='nav-m-comousar' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("instrucciones");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>📖</span>Cómo usar</a>
   <a href='#' id='nav-m-contacto' onclick='cerrarMenu();setTimeout(function(){var m=document.getElementById("contacto");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>✉️</span>Contacto</a>
@@ -276,7 +276,7 @@
   <button id='btn-meteo-mapa' onclick='abrirMeteoDrawer()' title='Previsión meteorológica'
     style='display:flex;position:absolute;bottom:72px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>&#9925;</button>
   <!-- Botón POI drawer -->
-  <button id='btn-poi-drawer-mapa' onclick="document.getElementById('puntos').scrollIntoView({behavior:'smooth',block:'start'})" title='Puntos de interés'
+  <button id='btn-poi-drawer-mapa' onclick='abrirPoiDrawer()' title='Puntos de interés'
     style='display:flex;position:absolute;bottom:114px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>📍</button>
   <!-- Tira de búsqueda flotante sobre el mapa -->
   <div id='mapa-search-strip' style='display:none;position:absolute;bottom:30px;right:56px;z-index:401;background:rgba(255,255,255,0.97);border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.18);border:1.5px solid rgba(29,158,117,0.3);overflow:hidden;backdrop-filter:blur(4px);min-width:180px;max-width:calc(100% - 110px)'>
@@ -319,58 +319,45 @@
 <input type='hidden' id='buscar-input' value=''/>
 </div><!-- fin map-block -->
 
-<section class='section' id='puntos' style='scroll-margin-top:70px'>
-  <div class='section-header'>
-    <div>
-      <h2><span id='puntos-h2'></span></h2>
-      <p class='section-subtitle' id='poi-sub1'></p>
-      <p class='section-subtitle2' id='poi-sub2'></p>
-    </div>
-    <button id='btn-add-poi' onclick='abrirFormPOI()' style='display:flex;align-items:center;gap:5px;background:var(--verde);color:#fff;border:none;border-radius:20px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>
-      <span id='btn-add-poi-txt'></span>
-    </button>
-  </div>
+<!-- IDs fantasma necesarios para el JS — sección POI eliminada del DOM visible -->
+<div style='display:none' aria-hidden='true'>
+  <div class='carousel-wrap'><div class='carousel' id='carousel'></div></div>
   <div class='categories'>
-    <div class='cat-chip active' id='chip-todos' onclick='filtrarCategoria(this,&quot;todos&quot;)'><span id='chip-todos-txt'></span></div>
-    <div class='cat-chip' id='chip-alertas' onclick='filtrarCategoria(this,&quot;alerta&quot;)'></div>
-    <div class='cat-chip' id='chip-usuario' onclick='filtrarCategoria(this,&quot;usuario&quot;)'><span id='chip-usuario-txt'></span></div>
-    <div class='cat-chip' id='chip-etapas-costa' onclick='filtrarCategoria(this,&quot;etapa-costa&quot;)'><span id='chip-etapas-costa-txt'></span></div>
-    <div class='cat-chip' id='chip-etapas-interior' onclick='filtrarCategoria(this,&quot;etapa-interior&quot;)'><span id='chip-etapas-interior-txt'></span></div>
-    <div class='cat-chip' id='chip-naturaleza' onclick='filtrarCategoria(this,&quot;naturaleza&quot;)'></div>
-    <div class='cat-chip' id='chip-monumentos' onclick='filtrarCategoria(this,&quot;monumento&quot;)'></div>
-    <div class='cat-chip' id='chip-religiosa' onclick='filtrarCategoria(this,&quot;edificación religiosa&quot;)'></div>
-    <div class='cat-chip' id='chip-historica' onclick='filtrarCategoria(this,&quot;localización histórica&quot;)'></div>
-    <div class='cat-chip' id='chip-arqueologico' onclick='filtrarCategoria(this,&quot;vestigio arqueológico&quot;)'></div>
-    <div class='cat-chip' id='chip-albergues' onclick='filtrarCategoria(this,&quot;albergue&quot;)'></div>
-    <div class='cat-chip' id='chip-miradores' onclick='filtrarCategoria(this,&quot;mirador&quot;)'></div>
-    <div class='cat-chip' id='chip-fiestas' onclick='filtrarCategoria(this,&quot;fiesta&quot;)'></div>
+    <div class='cat-chip active' id='chip-todos'><span id='chip-todos-txt'></span></div>
+    <div class='cat-chip' id='chip-alertas'></div>
+    <div class='cat-chip' id='chip-usuario'><span id='chip-usuario-txt'></span></div>
+    <div class='cat-chip' id='chip-etapas-costa'><span id='chip-etapas-costa-txt'></span></div>
+    <div class='cat-chip' id='chip-etapas-interior'><span id='chip-etapas-interior-txt'></span></div>
+    <div class='cat-chip' id='chip-naturaleza'></div>
+    <div class='cat-chip' id='chip-monumentos'></div>
+    <div class='cat-chip' id='chip-religiosa'></div>
+    <div class='cat-chip' id='chip-historica'></div>
+    <div class='cat-chip' id='chip-arqueologico'></div>
+    <div class='cat-chip' id='chip-albergues'></div>
+    <div class='cat-chip' id='chip-miradores'></div>
+    <div class='cat-chip' id='chip-fiestas'></div>
   </div>
-  <div class='carousel-wrap'>
-    <div class='carousel' id='carousel'></div>
-  </div>
-  <div class='carousel-nav'>
-    <button class='carousel-arrow' onclick='moverCarrusel(-1)'>&#8592;</button>
-    <button class='carousel-arrow' onclick='moverCarrusel(1)'>&#8594;</button>
-  </div>
-  <div style='display:none'>
-    <button id='btn-notif'><span id='btn-notif-txt'></span></button>
-    <div id='btn-notif-m'></div>
-    <div id='poi-ruta-box'>
-      <span id='poi-ruta-titulo'></span>
-      <div id='poi-ruta-stats'>
-        <span id='poi-ruta-count'></span>
-        <span id='poi-ruta-dist2'></span>
-        <span id='poi-ruta-time2'></span>
-      </div>
-      <div id='poi-ruta-vacia'></div>
-      <div id='poi-ruta-lista2'></div>
-      <div id='ruta-scroll-track'><div id='ruta-scroll-bar'></div></div>
-      <button id='poi-ruta-btn-mapa'></button>
-      <button id='poi-ruta-btn-ir'></button>
-      <button id='poi-ruta-btn-clear'></button>
+  <button id='btn-add-poi'><span id='btn-add-poi-txt'></span></button>
+  <button id='btn-notif'><span id='btn-notif-txt'></span></button>
+  <div id='btn-notif-m'></div>
+  <span id='puntos-h2'></span>
+  <span id='poi-sub1'></span>
+  <span id='poi-sub2'></span>
+  <div id='poi-ruta-box'>
+    <span id='poi-ruta-titulo'></span>
+    <div id='poi-ruta-stats'>
+      <span id='poi-ruta-count'></span>
+      <span id='poi-ruta-dist2'></span>
+      <span id='poi-ruta-time2'></span>
     </div>
+    <div id='poi-ruta-vacia'></div>
+    <div id='poi-ruta-lista2'></div>
+    <div id='ruta-scroll-track'><div id='ruta-scroll-bar'></div></div>
+    <button id='poi-ruta-btn-mapa'></button>
+    <button id='poi-ruta-btn-ir'></button>
+    <button id='poi-ruta-btn-clear'></button>
   </div>
-</section>
+</div>
 
 <!-- HISTORIA COMPOSTELANA -->
 
@@ -386,7 +373,7 @@
 
 <!-- DRAWER BRÚJULA — desliza desde abajo -->
 <div id='brujula-drawer-bg' onclick='cerrarBrujulaDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:8000'></div>
-<div id='brujula-drawer' style='display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:8001;background:linear-gradient(160deg,#1a2a4a 0%,#1e3a5f 50%,#243b55 100%);border-radius:16px;padding:1.25rem 1.5rem 1.5rem;width:calc(100% - 32px);max-width:480px;max-height:85vh;overflow-y:auto;overflow-x:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5)'>
+<div id='brujula-drawer' style='display:none;position:fixed;bottom:0;left:0;right:0;z-index:8001;background:linear-gradient(160deg,#1a2a4a 0%,#1e3a5f 50%,#243b55 100%);border-radius:20px 20px 0 0;padding:1.25rem 1.5rem 2.5rem;max-height:90vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1)'>
   <!-- Handle + cabecera -->
   <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem'>
     <div style='display:flex;align-items:center;gap:10px'>
@@ -453,7 +440,7 @@
 
 <!-- DRAWER SOS -->
 <div id='sos-drawer-bg' onclick='cerrarSOSDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:8100'></div>
-<div id='sos-drawer' style='display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:8101;background:linear-gradient(160deg,#1a0a0a 0%,#3b0f0f 100%);border-radius:16px;padding:1.25rem 1.5rem 1.5rem;width:calc(100% - 32px);max-width:480px;max-height:85vh;overflow-y:auto;overflow-x:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5)'>
+<div id='sos-drawer' style='display:none;position:fixed;bottom:0;left:0;right:0;z-index:8101;background:linear-gradient(160deg,#1a0a0a 0%,#3b0f0f 100%);border-radius:20px 20px 0 0;padding:1.25rem 1.5rem 2.5rem;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1)'>
   <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem'>
     <div style='display:flex;align-items:center;gap:10px'>
       <div style='width:38px;height:38px;background:rgba(220,38,38,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0'>🆘</div>
@@ -509,7 +496,7 @@
 
 <!-- DRAWER METEOROLOGIA -->
 <div id='meteo-drawer-bg' onclick='cerrarMeteoDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:8050'></div>
-<div id='meteo-drawer' style='display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:8051;background:linear-gradient(160deg,#0f2744 0%,#1a3a5c 100%);border-radius:16px;padding:1.25rem 1.5rem 1.5rem;width:calc(100% - 32px);max-width:480px;max-height:85vh;overflow-y:auto;overflow-x:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5);font-family:DM Sans,sans-serif'>
+<div id='meteo-drawer' style='display:none;position:fixed;bottom:0;left:0;right:0;z-index:8051;background:linear-gradient(160deg,#0f2744 0%,#1a3a5c 100%);border-radius:20px 20px 0 0;padding:1.25rem 1.5rem 2.5rem;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
   <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem'>
     <div style='display:flex;align-items:center;gap:10px'>
       <span style='font-size:24px'>&#127780;&#65039;</span>
@@ -532,7 +519,7 @@
 
 <!-- DRAWER HISTORIA -->
 <div id='historia-drawer-bg' onclick='cerrarHistoriaDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:8200'></div>
-<div id='historia-drawer' class='historia-section' style='display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:8201;border-radius:16px;padding:1.25rem 1.5rem 1.5rem;width:calc(100% - 32px);max-width:560px;max-height:85vh;overflow-y:auto;overflow-x:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5);font-family:DM Sans,sans-serif'>
+<div id='historia-drawer' class='historia-section' style='display:none;position:fixed;bottom:0;left:0;right:0;z-index:8201;border-radius:20px 20px 0 0;padding:1.25rem 1.5rem 2.5rem;max-height:88vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
   <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem'>
     <div style='display:flex;align-items:center;gap:10px'>
       <span style='font-size:22px'>🐚</span>
@@ -564,12 +551,57 @@
 </div>
 
 <!-- DRAWER POI -->
+<div id='poi-drawer-bg' onclick='cerrarPoiDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:8300'></div>
+<div id='poi-drawer' style='display:none;position:fixed;bottom:0;left:0;right:0;z-index:8301;background:var(--fondo);border-radius:20px 20px 0 0;max-height:92vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
 
+  <!-- Cabecera -->
+  <div style='padding:1.25rem 1.25rem 0;display:flex;align-items:center;justify-content:space-between'>
+    <div style='display:flex;align-items:center;gap:10px'>
+      <h2 style='font-family:Playfair Display,serif;font-size:20px;font-weight:600;color:var(--texto);margin:0'>Puntos de interés cercanos</h2>
+
+    </div>
+    <button onclick='cerrarPoiDrawer()' style='background:var(--verde-claro);border:none;border-radius:50%;width:32px;height:32px;color:var(--verde-oscuro);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0'>✕</button>
+  </div>
+  <p style='padding:4px 1.25rem 0;font-size:12px;color:var(--texto-suave);margin:0'>⭐ Puntúa · 💬 Comenta · 📲 Comparte</p>
+
+  <!-- Chips categoría -->
+  <div style='display:flex;gap:6px;overflow-x:auto;padding:10px 1.25rem;scrollbar-width:none;white-space:nowrap' id='poi-drawer-chips'>
+    <div class='cat-chip active' onclick='_poiDrawerFiltrar(this,"todos")'>🗺️ Todos</div>
+    <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"alerta")'>🚨 Alertas</div>
+    <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-costa")'>🌊 Etapas Costa</div>
+    <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-interior")'>🥾 Etapas Interior</div>
+    <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"naturaleza")'>🌿 Naturaleza</div>
+    <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"monumento")'>🏛️ Monumentos</div>
+    <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"edificación religiosa")'>⛪ Religiosa</div>
+    <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"localización histórica")'>📜 Histórica</div>
+    <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"vestigio arqueológico")'>🔍 Arqueológico</div>
+    <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"albergue")'>🏠 Albergues</div>
+    <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"mirador")'>🔭 Miradores</div>
+  </div>
+
+  <!-- Carrusel tarjetas POI -->
+  <div id='poi-drawer-carousel' style='display:flex;gap:1.1rem;overflow-x:auto;padding:0 1.25rem 1rem;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory'>
+  </div>
+
+  <!-- Generador de ruta mini -->
+  <div style='margin:0 1.25rem 1.5rem;background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);padding:0.9rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,0.06)'>
+    <div style='display:flex;align-items:center;gap:8px;margin-bottom:6px'>
+      <span style='font-size:16px'>🗺️</span>
+      <span style='font-family:Playfair Display,serif;font-size:14px;font-weight:600;color:var(--texto)'>Generador de ruta</span>
+    </div>
+    <div style='font-size:12px;color:var(--texto-suave);font-style:italic' id='poi-drawer-ruta-info'>Añade puntos desde las tarjetas o el mapa</div>
+    <div style='display:flex;gap:6px;margin-top:8px'>
+      <button onclick='cerrarPoiDrawer();irAlMapaConRuta()' style='flex:1;background:var(--verde);color:#fff;border:none;padding:7px 8px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>🗺️ Mapa</button>
+      <button onclick='cerrarPoiDrawer();iniciarRuta()' style='flex:1;background:var(--verde);color:#fff;border:none;padding:7px 8px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>▶ Ir</button>
+      <button onclick='limpiarRuta();_actualizarMiniGeneradorDrawer();document.querySelectorAll("#poi-drawer-carousel .poi-ruta-btn").forEach(function(b){b.textContent="+ Añadir";b.style.background="rgba(255,255,255,0.92)";b.style.color="#0F6E56";b.style.borderColor="rgba(29,158,117,0.4)"})' style='background:none;border:1px solid #fca5a5;color:#dc2626;padding:7px 10px;border-radius:20px;font-size:14px;cursor:pointer'>🗑</button>
+    </div>
+  </div>
+</div>
 
 
 <!-- DRAWER DONACIONES -->
 <div id='donaciones-drawer-bg' onclick='cerrarDonacionesDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:8000'></div>
-<div id='donaciones-drawer' style='display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:8401;background:linear-gradient(145deg,#0a5240 0%,#0F6E56 40%,#1D9E75 100%);border-radius:16px;padding:1.25rem 1.5rem 1.5rem;width:calc(100% - 32px);max-width:480px;max-height:85vh;overflow-y:auto;overflow-x:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5);font-family:DM Sans,sans-serif'
+<div id='donaciones-drawer' style='display:none;position:fixed;bottom:0;left:0;right:0;z-index:8001;background:linear-gradient(145deg,#0a5240 0%,#0F6E56 40%,#1D9E75 100%);border-radius:20px 20px 0 0;padding:1.25rem 1.5rem 2.5rem;max-height:88vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);font-family:DM Sans,sans-serif'>
   <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem'>
     <button onclick='cerrarDonacionesDrawer()' style='background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:34px;height:34px;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:10'>✕</button>
   </div>
@@ -1623,24 +1655,23 @@ function abrirDonacionesDrawer() {
   var bg=document.getElementById('donaciones-drawer-bg');
   var drawer=document.getElementById('donaciones-drawer');
   if(!bg||!drawer) return;
-  drawer.scrollTop=0;
-  bg.style.display='block';
-  drawer.style.display='block';
+  bg.style.display='block'; drawer.style.display='block';
+  drawer.getBoundingClientRect(); drawer.style.transform='translateY(0)';
 }
 function cerrarDonacionesDrawer() {
   var bg=document.getElementById('donaciones-drawer-bg');
   var drawer=document.getElementById('donaciones-drawer');
-  if(bg) bg.style.display='none';
-  if(drawer) drawer.style.display='none';
+  if(!drawer) return;
+  drawer.style.transform='translateY(100%)';
+  setTimeout(function(){if(bg)bg.style.display='none';drawer.style.display='none';},350);
 }
 
 function abrirHistoriaDrawer() {
   var bg=document.getElementById('historia-drawer-bg');
   var drawer=document.getElementById('historia-drawer');
   if(!bg||!drawer) return;
-  drawer.scrollTop=0;
-  bg.style.display='block';
-  drawer.style.display='block';
+  bg.style.display='block'; drawer.style.display='block';
+  drawer.getBoundingClientRect(); drawer.style.transform='translateY(0)';
 }
 function cerrarHistoriaDrawer() {
   var bg=document.getElementById('historia-drawer-bg');
@@ -1650,14 +1681,171 @@ function cerrarHistoriaDrawer() {
   setTimeout(function(){if(bg)bg.style.display='none';drawer.style.display='none';},350);
 }
 
+function _poiDrawerToggleRuta(id, btn) {
+  addToRoute(id);
+  var enRuta = !!rutaPuntos.find(function(x){ return x.id === id; });
+  var t = T[idiomaActual] || T.es;
+  btn.textContent = enRuta ? (t.enRuta||'✓ En ruta') : (t.añadirRuta||'+ Añadir a ruta');
+  btn.style.background = enRuta ? '#1D9E75' : 'rgba(255,255,255,0.92)';
+  btn.style.color = enRuta ? '#fff' : '#0F6E56';
+  btn.style.borderColor = enRuta ? '#1D9E75' : 'rgba(29,158,117,0.4)';
+  _actualizarMiniGeneradorDrawer();
+}
+function _poiDrawerLlegar(lat, lng) {
+  cerrarPoiDrawer();
+  if (mapa && lat && lng) {
+    mapa.setView([lat, lng], 16);
+    setTimeout(function() {
+      mapa.eachLayer(function(layer) {
+        if (layer.getLatLng && layer._popup) {
+          var ll = layer.getLatLng();
+          if (Math.abs(ll.lat - lat) < 0.0002 && Math.abs(ll.lng - lng) < 0.0002) {
+            layer.openPopup();
+          }
+        }
+      });
+    }, 400);
+  }
+}
+function _actualizarMiniGeneradorDrawer() {
+  var el = document.getElementById('poi-drawer-ruta-info');
+  if (!el) return;
+  if (rutaPuntos.length === 0) {
+    el.innerHTML = '<div style="font-size:12px;color:var(--texto-suave);font-style:italic">Añade puntos desde las tarjetas</div>';
+  } else {
+    el.innerHTML = rutaPuntos.map(function(p, i) {
+      return '<div style="display:flex;align-items:center;gap:6px;font-size:12px;padding:3px 0">'
+        + '<span style="width:16px;height:16px;border-radius:50%;background:var(--verde);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">' + (i+1) + '</span>'
+        + '<span style="flex:1;color:var(--texto)">' + p.nombre + '</span></div>';
+    }).join('');
+  }
+}
+
+var _poiDrawerCatActual = 'todos';
+
+function _poiDrawerFiltrar(chip, cat) {
+  _poiDrawerCatActual = cat;
+  document.querySelectorAll('#poi-drawer-chips .cat-chip').forEach(function(c){ c.classList.remove('active'); });
+  if (chip) chip.classList.add('active');
+  _renderPoiDrawerCarrusel();
+}
+
+function _renderPoiDrawerCarrusel() {
+  var car = document.getElementById('poi-drawer-carousel');
+  if (!car) return;
+  var t = T[idiomaActual] || T.es;
+  var todos = (typeof PUNTOS !== 'undefined' ? PUNTOS : []).concat(typeof PUNTOS_USUARIO !== 'undefined' ? PUNTOS_USUARIO : []);
+  var filtrados = todos.filter(function(p) {
+    if (_poiDrawerCatActual === 'todos') return true;
+    if (_poiDrawerCatActual === 'alerta') return p.esAlerta;
+    return (p.categoria || '') === _poiDrawerCatActual;
+  });
+  if (!filtrados.length) {
+    car.innerHTML = '<div style="color:var(--texto-suave);font-size:13px;padding:16px;font-style:italic">No hay puntos en esta categoría</div>';
+    return;
+  }
+  // Ordenar por distancia si disponible
+  filtrados.sort(function(a, b) { return (a.distancia || 999) - (b.distancia || 999); });
+  var frag = document.createDocumentFragment();
+  filtrados.slice(0, 20).forEach(function(p) {
+    var lang = idiomaActual || 'es';
+    var nombre = (lang !== 'es' && p['nombre_' + lang]) ? p['nombre_' + lang] : p.nombre;
+    var desc = (lang !== 'es' && p['descripcion_' + lang]) ? p['descripcion_' + lang] : (p.descripcion || '');
+    var sub = (lang !== 'es' && p['subtitulo_' + lang]) ? p['subtitulo_' + lang] : (p.subtitulo || '');
+    var enRuta = typeof rutaPuntos !== 'undefined' && rutaPuntos.find(function(x){ return x.id === p.id; });
+    var dist = p.distancia ? (p.distancia < 1 ? Math.round(p.distancia * 1000) + ' m' : p.distancia.toFixed(1) + ' km') : '';
+    var colorClass = p.color || 'verde';
+    var card = document.createElement('div');
+    card.className = 'poi-card';
+    card.style.cssText = 'flex:0 0 260px;scroll-snap-align:start;';
+    card.innerHTML =
+      '<div class="poi-img ' + colorClass + '" style="height:130px;position:relative">' +
+        (p.imagen ? '<img src="' + p.imagen + '" alt="' + nombre + '" class="poi-img-cover" decoding="async" fetchpriority="low"/>' :
+          '<span style="font-size:36px">' + (p.emoji || '📍') + '</span>') +
+        (!p.esAlerta ? '<button id="pd-rbtn-' + p.id + '" style="position:absolute;top:8px;right:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);background:' + (enRuta ? '#1D9E75' : 'rgba(255,255,255,0.92)') + ';color:' + (enRuta ? '#fff' : '#0F6E56') + ';border:1px solid ' + (enRuta ? '#1D9E75' : 'rgba(29,158,117,0.4)') + '" onclick="_poiDrawerToggleRuta(\'' + p.id + '\',this);event.stopPropagation()">' + (enRuta ? '&#10003; ' + (t.enRuta||'En ruta') : (t.añadirRuta||'+ Añadir a ruta')) + '</button>' : '') +
+      '</div>' +
+      '<div class="poi-body">' +
+        '<div class="poi-category">' + (p.categoria || '') + '</div>' +
+        '<div class="poi-nombre-row"><span class="poi-emoji">' + (p.emoji || '📍') + '</span><span class="poi-nombre">' + nombre + '</span></div>' +
+        (sub ? '<p style="font-size:12px;color:var(--verde);font-style:italic;margin-bottom:6px">' + sub + '</p>' : '') +
+        '<p>' + (desc.length > 100 ? desc.substring(0, 98) + '…' : desc) + '</p>' +
+        '<div class="poi-footer">' +
+          (dist ? '<span class="poi-dist">' + (p.emoji ? '' : '📍 ') + dist + '</span>' : '<span class="poi-dist calculando">...</span>') +
+          '<button onclick="_poiDrawerLlegar(' + p.lat + ',' + p.lng + ');event.stopPropagation()" style="font-size:12px;color:var(--verde);font-weight:500;cursor:pointer;background:none;border:none;font-family:DM Sans,sans-serif">' + (t.comoLlegar||'Cómo llegar') + '</button>' +
+        '</div>' +
+      '</div>';
+    frag.appendChild(card);
+  });
+  car.innerHTML = '';
+  car.appendChild(frag);
+  // Listeners botones ruta
+  car.querySelectorAll('.poi-ruta-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      var id = btn.getAttribute('data-poi');
+      addToRoute(id);
+      // Actualizar solo este botón sin re-renderizar el carrusel
+      var enRuta = !!rutaPuntos.find(function(x){ return x.id === id; });
+      var t = T[idiomaActual] || T.es;
+      btn.classList.toggle('en-ruta', enRuta);
+      btn.textContent = enRuta ? (t.enRuta||'✓ En ruta') : (t.añadirRuta||'+ Añadir a ruta');
+      btn.style.background = enRuta ? '#1D9E75' : 'rgba(255,255,255,0.92)';
+      btn.style.color = enRuta ? '#fff' : '#0F6E56';
+      btn.style.borderColor = enRuta ? '#1D9E75' : 'rgba(29,158,117,0.4)';
+      // Actualizar mini generador del drawer
+      _actualizarMiniGeneradorDrawer();
+    });
+  });
+  // Listener botón llegar — cerrar drawer y centrar en mapa
+  car.querySelectorAll('.poi-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      cerrarPoiDrawer();
+      var lat = parseFloat(btn.getAttribute('data-lat'));
+      var lng = parseFloat(btn.getAttribute('data-lng'));
+      if (mapa && lat && lng) {
+        mapa.setView([lat, lng], 16);
+        setTimeout(function() {
+          // Abrir popup del marcador si existe
+          mapa.eachLayer(function(layer) {
+            if (layer.getLatLng && layer._popup) {
+              var ll = layer.getLatLng();
+              if (Math.abs(ll.lat - lat) < 0.0002 && Math.abs(ll.lng - lng) < 0.0002) {
+                layer.openPopup();
+              }
+            }
+          });
+        }, 400);
+      }
+    });
+  });
+}
+
+function abrirPoiDrawer() {
+  var bg=document.getElementById('poi-drawer-bg');
+  var drawer=document.getElementById('poi-drawer');
+  if(!bg||!drawer) return;
+  bg.style.display='block'; drawer.style.display='block';
+  drawer.getBoundingClientRect(); drawer.style.transform='translateY(0)';
+  _poiDrawerCatActual = 'todos';
+  document.querySelectorAll('#poi-drawer-chips .cat-chip').forEach(function(c,i){ c.classList.toggle('active', i===0); });
+  _renderPoiDrawerCarrusel();
+}
+function cerrarPoiDrawer() {
+  var bg=document.getElementById('poi-drawer-bg');
+  var drawer=document.getElementById('poi-drawer');
+  if(!drawer) return;
+  drawer.style.transform='translateY(100%)';
+  setTimeout(function(){if(bg)bg.style.display='none';drawer.style.display='none';},350);
+}
 
 function abrirMeteoDrawer() {
   var bg=document.getElementById('meteo-drawer-bg');
   var drawer=document.getElementById('meteo-drawer');
   if(!bg||!drawer) return;
-  drawer.scrollTop=0;
-  bg.style.display='block';
-  drawer.style.display='block';
+  bg.style.display='block'; drawer.style.display='block';
+  drawer.getBoundingClientRect(); drawer.style.transform='translateY(0)';
   var lat=(typeof userLat!=='undefined'&&userLat)?userLat:42.2328;
   var lng=(typeof userLng!=='undefined'&&userLng)?userLng:-8.7226;
   var lugar=document.getElementById('meteo-drawer-lugar');
@@ -1667,8 +1855,9 @@ function abrirMeteoDrawer() {
 function cerrarMeteoDrawer() {
   var bg=document.getElementById('meteo-drawer-bg');
   var drawer=document.getElementById('meteo-drawer');
-  if(bg) bg.style.display='none';
-  if(drawer) drawer.style.display='none';
+  if(!drawer) return;
+  drawer.style.transform='translateY(100%)';
+  setTimeout(function(){if(bg)bg.style.display='none';if(drawer)drawer.style.display='none';},350);
 }
 function _cargarMeteoDrawer(lat,lng) {
   var url='https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lng+
@@ -3427,17 +3616,21 @@ function abrirBrujulaDrawer() {
   bg.style.display = 'block';
   drawer.style.display = 'block';
   // Forzar reflow antes de animar
-  drawer.scrollTop = 0;
-  bg.style.display = 'block';
-  drawer.style.display = 'block';
+  drawer.getBoundingClientRect();
+  drawer.style.transform = 'translateY(0)';
+  document.body.style.overflow = 'hidden';
 }
 
 function cerrarBrujulaDrawer() {
   var bg = document.getElementById('brujula-drawer-bg');
   var drawer = document.getElementById('brujula-drawer');
   if (!drawer) return;
-  if (bg) bg.style.display = 'none';
-  if (drawer) drawer.style.display = 'none';
+  drawer.style.transform = 'translateY(100%)';
+  setTimeout(function() {
+    if (bg) bg.style.display = 'none';
+    drawer.style.display = 'none';
+    document.body.style.overflow = '';
+  }, 350);
 }
 
 function abrirSOSDrawer() {
@@ -3446,16 +3639,19 @@ function abrirSOSDrawer() {
   if (!bg || !drawer) return;
   bg.style.display = 'block';
   drawer.style.display = 'block';
-  drawer.scrollTop = 0;
-  bg.style.display = 'block';
-  drawer.style.display = 'block';
+  drawer.getBoundingClientRect();
+  drawer.style.transform = 'translateY(0)';
 }
 
 function cerrarSOSDrawer() {
   var bg = document.getElementById('sos-drawer-bg');
   var drawer = document.getElementById('sos-drawer');
-  if (bg) bg.style.display = 'none';
-  if (drawer) drawer.style.display = 'none';
+  if (!drawer) return;
+  drawer.style.transform = 'translateY(100%)';
+  setTimeout(function() {
+    if (bg) bg.style.display = 'none';
+    drawer.style.display = 'none';
+  }, 350);
 }
 
 function pedirOrientacion() {
@@ -5965,6 +6161,5 @@ function abrirSobreNosotros() {
 }
 </script>
 <div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v464</div>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v722</div>
 </body>
 </html>
