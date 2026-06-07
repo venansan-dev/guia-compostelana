@@ -322,63 +322,55 @@
 <!-- ═══ PANELES SLIDE (dentro del map-block, se deslizan sobre el mapa) ═══ -->
 
 <!-- PANEL BRÚJULA -->
-<div id='brujula-drawer' class='map-slide-panel' style='background:linear-gradient(160deg,#1a2a4a 0%,#1e3a5f 50%,#243b55 100%)'>
-  <div style='padding:1.25rem 1.5rem 1.5rem'>
-    <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem'>
-      <div style='display:flex;align-items:center;gap:10px'>
-        <div style='width:38px;height:38px;background:rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0' id='brujula-drawer-icon'>🧭</div>
-        <div>
-          <h2 id='brujula-h2' style='font-family:Playfair Display,serif;font-size:22px;color:#fff;margin:0;line-height:1.2'>Brújula</h2>
-          <p id='brujula-sub' style='font-size:12px;color:rgba(255,255,255,0.7);margin:0'>Norte magnético y rumbo a Santiago</p>
-        </div>
-      </div>
-      <button onclick='cerrarBrujulaDrawer()' style='background:rgba(255,255,255,0.15);border:none;border-radius:50%;width:34px;height:34px;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0'>✕</button>
-    </div>
-    <div style='width:50px;height:2px;background:#FFE066;border-radius:2px;margin-bottom:1.5rem'></div>
-    <div style='display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.5rem'>
-      <div style='background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:1rem 0.75rem;display:flex;flex-direction:column;align-items:center;gap:0.75rem'>
-        <div id='brujula-norte-label' style='font-size:11px;font-weight:600;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1.5px'>Norte</div>
-        <div style='position:relative;width:110px;height:110px'>
-          <canvas id='canvas-norte' width='110' height='110' style='position:absolute;top:0;left:0'></canvas>
-          <svg id='aguja-norte' style='position:absolute;top:0;left:0;width:110px;height:110px;transition:transform 0.3s ease;transform-origin:55px 55px' viewBox='0 0 110 110'>
+<div id='brujula-drawer' class='map-slide-panel' style='background:linear-gradient(160deg,#1a2a4a 0%,#1e3a5f 50%,#243b55 100%);display:flex;flex-direction:column'>
+  <div style='padding:0.75rem 1rem;display:flex;flex-direction:column;gap:0.6rem;height:100%;box-sizing:border-box'>
+    <!-- Botón volver arriba -->
+    <button onclick='cerrarBrujulaDrawer()' style='display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:7px 14px;color:rgba(255,255,255,0.85);font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;width:fit-content;flex-shrink:0'>← Volver al mapa</button>
+    <!-- Dos brújulas -->
+    <div style='display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;flex:1'>
+      <div style='background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:0.75rem 0.5rem;display:flex;flex-direction:column;align-items:center;justify-content:space-between'>
+        <div id='brujula-norte-label' style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1.5px'>Norte</div>
+        <div style='position:relative;width:100px;height:100px'>
+          <canvas id='canvas-norte' width='100' height='100' style='position:absolute;top:0;left:0'></canvas>
+          <svg id='aguja-norte' style='position:absolute;top:0;left:0;width:100px;height:100px;transition:transform 0.3s ease;transform-origin:50px 50px' viewBox='0 0 110 110'>
             <polygon points='55,12 51,55 59,55' fill='#E74C3C'/>
             <polygon points='55,98 51,55 59,55' fill='rgba(255,255,255,0.45)'/>
           </svg>
           <div style='position:absolute;top:50%;left:50%;width:10px;height:10px;background:#FFE066;border-radius:50%;margin:-5px 0 0 -5px;z-index:10'></div>
         </div>
         <div style='text-align:center'>
-          <div id='grados-norte' style='font-size:22px;font-weight:700;color:#FFE066;font-family:monospace'>---°</div>
-          <div id='rumbo-texto' style='font-size:13px;color:rgba(255,255,255,0.8);margin-top:2px'>--</div>
+          <div id='grados-norte' style='font-size:20px;font-weight:700;color:#FFE066;font-family:monospace'>---°</div>
+          <div id='rumbo-texto' style='font-size:12px;color:rgba(255,255,255,0.8)'>--</div>
         </div>
       </div>
-      <div style='background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:1rem 0.75rem;display:flex;flex-direction:column;align-items:center;gap:0.75rem'>
-        <div id='brujula-stgo-label' style='font-size:11px;font-weight:600;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1.5px'>Santiago</div>
-        <div style='position:relative;width:110px;height:110px'>
-          <canvas id='canvas-stgo' width='110' height='110' style='position:absolute;top:0;left:0'></canvas>
-          <svg id='aguja-stgo' style='position:absolute;top:0;left:0;width:110px;height:110px;transition:transform 0.3s ease;transform-origin:55px 55px' viewBox='0 0 110 110'>
+      <div style='background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:0.75rem 0.5rem;display:flex;flex-direction:column;align-items:center;justify-content:space-between'>
+        <div id='brujula-stgo-label' style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1.5px'>Santiago</div>
+        <div style='position:relative;width:100px;height:100px'>
+          <canvas id='canvas-stgo' width='100' height='100' style='position:absolute;top:0;left:0'></canvas>
+          <svg id='aguja-stgo' style='position:absolute;top:0;left:0;width:100px;height:100px;transition:transform 0.3s ease;transform-origin:50px 50px' viewBox='0 0 110 110'>
             <polygon points='55,12 51,55 59,55' fill='#FFE066'/>
             <polygon points='55,98 51,55 59,55' fill='rgba(255,255,255,0.45)'/>
           </svg>
           <div style='position:absolute;top:50%;left:50%;width:10px;height:10px;background:#fff;border-radius:50%;margin:-5px 0 0 -5px;z-index:10'></div>
         </div>
         <div style='text-align:center'>
-          <div id='grados-stgo' style='font-size:22px;font-weight:700;color:#FFE066;font-family:monospace'>---°</div>
-          <div id='dist-stgo' style='font-size:13px;color:rgba(255,255,255,0.8);margin-top:2px'>-- km</div>
+          <div id='grados-stgo' style='font-size:20px;font-weight:700;color:#FFE066;font-family:monospace'>---°</div>
+          <div id='dist-stgo' style='font-size:12px;color:rgba(255,255,255,0.8)'>-- km</div>
         </div>
       </div>
     </div>
-    <div style='display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:8px'>
-      <button id='btn-brujula' onclick='activarBrujula()' style='display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:10px 22px;color:#fff;font-size:14px;font-weight:600;font-family:DM Sans,sans-serif;cursor:pointer;transition:all 0.2s'>
-        <svg id='brujula-drawer-tri' width='16' height='16' viewBox='0 0 18 18' style='flex-shrink:0'>
+    <!-- Botones activar + mensaje -->
+    <div style='display:flex;gap:8px;justify-content:center;flex-wrap:wrap;flex-shrink:0'>
+      <button id='btn-brujula' onclick='activarBrujula()' style='display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:9px 20px;color:#fff;font-size:13px;font-weight:600;font-family:DM Sans,sans-serif;cursor:pointer;transition:all 0.2s'>
+        <svg id='brujula-drawer-tri' width='15' height='15' viewBox='0 0 18 18' style='flex-shrink:0'>
           <polygon points='9,1 17,17 9,13 1,17' fill='#60a5fa'/>
           <line id='brujula-drawer-offline' x1='15' y1='2' x2='2' y2='16' stroke='#ef4444' stroke-width='2.5' stroke-linecap='round'/>
         </svg>
         <span id='brujula-drawer-label'>Activar</span>
       </button>
-      <button id='btn-refrescar-brujula' onclick='refrescarBrujula()' style='display:none;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:10px 22px;color:#fff;font-size:14px;font-weight:600;font-family:DM Sans,sans-serif;cursor:pointer;transition:background 0.2s'>↺ Recalibrar</button>
+      <button id='btn-refrescar-brujula' onclick='refrescarBrujula()' style='display:none;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:9px 20px;color:#fff;font-size:13px;font-weight:600;font-family:DM Sans,sans-serif;cursor:pointer'>↺ Recalibrar</button>
     </div>
-    <p id='msg-brujula' style='font-size:12px;color:rgba(255,255,255,0.6);margin:6px 0 0;text-align:center;min-height:18px'></p>
-    <button onclick='cerrarBrujulaDrawer()' style='margin-top:1.25rem;width:100%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:14px;padding:10px;color:rgba(255,255,255,0.8);font-size:14px;cursor:pointer;font-family:DM Sans,sans-serif'>← Volver al mapa</button>
+    <p id='msg-brujula' style='font-size:11px;color:rgba(255,255,255,0.6);margin:0;text-align:center;min-height:16px;flex-shrink:0'></p>
   </div>
 </div>
 
@@ -6114,6 +6106,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v720</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v721</div>
 </body>
 </html>
