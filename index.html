@@ -563,7 +563,7 @@
     <!-- Botones acción -->
     <div style='display:flex;gap:8px;flex-shrink:0'>
       <button onclick='cerrarFormPOI()' style='flex:1;background:#f3f4f6;color:#374151;border:none;border-radius:12px;padding:9px;font-size:13px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif' id='btn-poi-cancelar'>Cancelar</button>
-      <button onclick='guardarPOIUsuario()' id='btn-poi-guardar' style='flex:2;background:var(--verde);color:#fff;border:none;border-radius:12px;padding:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>✅ <span id='btn-poi-guardar-txt'>Guardar punto</span></button>
+      <button onclick='guardarPOIUsuario()' id='btn-poi-guardar' style='flex:2;background:var(--verde);color:#fff;border:none;border-radius:12px;padding:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'><span id='btn-poi-guardar-txt'>Guardar punto</span></button>
     </div>
     <div id='poi-form-msg' style='font-size:11px;text-align:center;min-height:14px;flex-shrink:0'></div>
   </div>
@@ -2588,7 +2588,7 @@ function usarMiUbicacion() {
   var btn = document.getElementById('btn-mi-ubic');
   var txt = document.getElementById('btn-mi-ubic-txt');
   var orig = txt.textContent;
-  txt.textContent = '...';
+  txt.textContent = 'Obteniendo...';
   btn.disabled = true;
   navigator.geolocation.getCurrentPosition(function(pos) {
     poiFormLat = pos.coords.latitude;
@@ -2611,9 +2611,8 @@ function activarMarcarEnMapa() {
     return;
   }
 
-  // Ocultar completamente el modal
-  var modal = document.getElementById('modal-add-poi');
-  modal.style.display = 'none';
+  // Cerrar el panel slide para mostrar el mapa
+  _cerrarSlide('modal-add-poi');
 
   // Ocultar botones de añadir punto
   var btnMap = document.getElementById('btn-add-poi-map');
@@ -2706,8 +2705,7 @@ function cancelarMarcarMapa() {
   mapa.getContainer().style.cursor = '';
   var overlay = document.getElementById('overlay-marcar-mapa');
   if (overlay) overlay.style.display = 'none';
-  var modal = document.getElementById('modal-add-poi');
-  modal.style.display = 'flex';
+  _abrirSlide('modal-add-poi');
   // Restaurar botones de añadir punto
   var btnMap = document.getElementById('btn-add-poi-map');
   var btnSec = document.getElementById('btn-add-poi');
@@ -6100,15 +6098,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </div>
 
-    </div>
-    <div style='display:flex;gap:8px;margin-top:0.75rem'>
-      <button onclick='cerrarFormPOI()' style='flex:1;background:#f3f4f6;color:#374151;border:none;border-radius:12px;padding:10px;font-size:13px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif' id='btn-poi-cancelar'>Cancelar</button>
-      <button onclick='guardarPOIUsuario()' id='btn-poi-guardar' style='flex:2;background:var(--verde);color:#fff;border:none;border-radius:12px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>✅ <span id='btn-poi-guardar-txt'>Guardar punto</span></button>
-    </div>
-    <div id='poi-form-msg' style='margin-top:6px;font-size:12px;text-align:center;min-height:16px'></div>
-  </div>
-</div>
-
 <!-- DRAWER SUBCATEGORÍAS (desliza desde abajo sobre el modal) -->
 <div id='subcats-drawer-bg' onclick='cerrarSubcatDrawer()' style='display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.35)'></div>
 <div id='subcats-drawer' style='display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-radius:20px 20px 0 0;z-index:10001;padding:1.2rem 1.2rem 2rem;box-sizing:border-box;transition:transform 0.25s'>
@@ -6201,6 +6190,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v733</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v734</div>
 </body>
 </html>
