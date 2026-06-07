@@ -120,7 +120,7 @@
     <a href='#' id='nav-inicio' onclick='cerrarTodosLosPaneles();setTimeout(function(){var m=document.getElementById("inicio");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'>🏠 Inicio</a>
     <a href='#' id='nav-emergencias' onclick='abrirSOSDrawer();return false'>🆘 Emergencias</a>
     <a href='#' id='nav-historia' onclick='abrirHistoriaDrawer();return false'>🐚 Historia Compostelana</a>
-    <a href='#' id='nav-mapa' onclick='cerrarTodosLosPaneles();setTimeout(function(){var m=document.getElementById("map-block");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'>🗺️ Mapa</a>
+    <a href='#' id='nav-mapa' onclick='cerrarTodosLosPaneles();setTimeout(function(){var m=document.getElementById("map-block");if(m){var r=m.getBoundingClientRect();window.scrollTo({top:r.top+window.pageYOffset-52,behavior:"smooth"})}},300);return false'>🗺️ Mapa</a>
     <a href='#' id='nav-puntos' onclick='abrirPoiDrawer();return false'>📍 Puntos de interés</a>
     <a href='#' id='nav-brujula' onclick='abrirBrujulaDrawer();return false'>🧭 Brújula</a>
     <a href='#' id='nav-comousar' onclick='abrirComoUsarDrawer();return false'>📖 Cómo usar</a>
@@ -138,7 +138,7 @@
   <a href='#' id='nav-m-inicio' onclick='cerrarMenu();cerrarTodosLosPaneles();setTimeout(function(){var m=document.getElementById("inicio");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>🏠</span>Inicio</a>
   <a href='#' id='nav-m-emergencias' onclick='cerrarMenu();setTimeout(abrirSOSDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>🆘</span>Emergencias</a>
   <a href='#' id='nav-m-historia' onclick='cerrarMenu();setTimeout(abrirHistoriaDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>🐚</span>Historia Compostelana</a>
-  <a href='#' id='nav-m-mapa' onclick='cerrarMenu();cerrarTodosLosPaneles();setTimeout(function(){var m=document.getElementById("map-block");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>🗺️</span>Mapa</a>
+  <a href='#' id='nav-m-mapa' onclick='cerrarMenu();cerrarTodosLosPaneles();setTimeout(function(){var m=document.getElementById("map-block");if(m){var r=m.getBoundingClientRect();window.scrollTo({top:r.top+window.pageYOffset-52,behavior:"smooth"})}},300);return false'><span style='font-size:18px;margin-right:8px'>🗺️</span>Mapa</a>
   <a href='#' id='nav-m-puntos' onclick='cerrarMenu();setTimeout(abrirPoiDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>📍</span>Puntos de interés</a>
   <a href='#' id='nav-m-brujula' onclick='cerrarMenu();setTimeout(abrirBrujulaDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>🧭</span>Brújula</a>
   <a href='#' id='nav-m-comousar' onclick='cerrarMenu();setTimeout(abrirComoUsarDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>📖</span>Cómo usar</a>
@@ -6481,6 +6481,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v792</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v793</div>
 </body>
 </html>
