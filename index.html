@@ -229,7 +229,7 @@
   </div>
   <!-- Botón refresh alineado bajo el panel, en el mismo nivel que el buscador -->
   <button id='btn-refresh-loc' onclick='refrescarUbicacion()' title='Actualizar mi ubicación'
-    style='display:flex;position:absolute;bottom:10px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>
+    style='display:flex;position:absolute;bottom:36px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>
     <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='#333' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='23 4 23 10 17 10'/><polyline points='1 20 1 14 7 14'/><path d='M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15'/></svg>
   </button>
   <!-- btn-go oculto para compatibilidad con JS existente -->
@@ -269,17 +269,17 @@
     <div class='map-radio-btn' onclick='cambiarRadio(2,this)' style='background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.15);min-width:52px;transition:all 0.15s'>2 km</div>
     <div class='map-radio-btn' onclick='cambiarRadio(3,this)' style='background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.15);min-width:52px;transition:all 0.15s'>3 km</div>
   </div>
-  <!-- Botón buscador derecha bottom:30px -->
+  <!-- Botón buscador derecha bottom:70px -->
   <button id='btn-buscar-mapa' onclick='toggleBuscadorMapa()' title='Buscar'
-    style='display:flex;position:absolute;bottom:30px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:17px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>&#128269;</button>
+    style='display:flex;position:absolute;bottom:80px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:17px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>&#128269;</button>
   <!-- Botón meteorología (izquierda, segundo) -->
   <button id='btn-meteo-mapa' onclick='abrirMeteoDrawer()' title='Previsión meteorológica'
     style='display:flex;position:absolute;top:54px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>&#9925;</button>
-  <!-- Botón POI derecha bottom:72px -->
+  <!-- Botón POI derecha bottom:114px -->
   <button id='btn-poi-drawer-mapa' onclick='abrirPoiDrawer()' title='Puntos de interés'
-    style='display:flex;position:absolute;bottom:72px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>📍</button>
-  <!-- Tira de búsqueda flotante sobre el mapa -->
-  <div id='mapa-search-strip' style='display:none;position:absolute;bottom:30px;right:56px;z-index:401;background:rgba(255,255,255,0.97);border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.18);border:1.5px solid rgba(29,158,117,0.3);overflow:hidden;backdrop-filter:blur(4px);min-width:180px;max-width:calc(100% - 110px)'>
+    style='display:flex;position:absolute;bottom:124px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>📍</button>
+  <!-- Tira de búsqueda flotante alineada con buscar -->
+  <div id='mapa-search-strip' style='display:none;position:absolute;bottom:80px;right:56px;z-index:401;background:rgba(255,255,255,0.97);border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.18);border:1.5px solid rgba(29,158,117,0.3);overflow:hidden;backdrop-filter:blur(4px);min-width:180px;max-width:calc(100% - 110px)'>
     <div style='display:flex;align-items:center;gap:0'>
       <input id='buscar-mapa-strip-input' type='text' placeholder='Cafetería, calle, monumento, playa...' autocomplete='off'
         style='flex:1;border:none;background:none;font-size:13px;color:#1a1a1a;font-family:DM Sans,sans-serif;outline:none;padding:9px 12px;min-width:0'
@@ -1862,6 +1862,11 @@ function _renderPoiDrawerCarrusel() {
     if (detailBtn) detailBtn.addEventListener('click', function(e) {
       e.stopPropagation();
       _abrirPoiDetalle(p);
+    });
+    var rutaBtn = card.querySelector('.poi-ruta-btn');
+    if (rutaBtn) rutaBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      _poiDrawerToggleRuta(p.id, rutaBtn);
     });
   });
   car.innerHTML = '';
@@ -4190,7 +4195,8 @@ function copiarCripto(el){
 
 // GENERADOR DE RUTA
 function addToRoute(id) {
-  var p=PUNTOS.find(function(x){return x.id===id;});
+  var todos = PUNTOS.concat(typeof PUNTOS_USUARIO !== 'undefined' ? PUNTOS_USUARIO : []);
+  var p = todos.find(function(x){return x.id===id;});
   if(!p) return;
   var yaEsta=rutaPuntos.find(function(x){return x.id===id;});
   if(yaEsta){quitarDeRuta(id);return;}
@@ -6190,6 +6196,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v734</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v737</div>
 </body>
 </html>
