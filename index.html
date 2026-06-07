@@ -1933,7 +1933,7 @@ function _abrirRutaModal() {
     limpiarRuta();
     _actualizarMiniGeneradorDrawer();
     document.querySelectorAll('#poi-drawer-carousel .poi-ruta-btn').forEach(function(b){
-      b.textContent='+ Añadir';b.style.background='rgba(255,255,255,0.92)';b.style.color='#0F6E56';b.style.borderColor='rgba(29,158,117,0.4)';
+      var _t=T[idiomaActual]||T.es;b.textContent=_t.añadirRuta||'+ Añadir a ruta';b.style.background='rgba(255,255,255,0.92)';b.style.color='#0F6E56';b.style.borderColor='rgba(29,158,117,0.4)';
     });
     var inf = modal.querySelector('#ruta-modal-info');
     if (inf) inf.innerHTML = _rutaInfoHtml();
@@ -3589,7 +3589,7 @@ function initMapa() {
           (window.innerWidth<768 ? '<div style="position:absolute;top:0;right:2px;width:3px;height:100%;background:rgba(0,0,0,0.08);border-radius:3px;margin-top:6px"><div id="pp-bar-' + punto.id + '" style="position:absolute;top:0;right:0;width:3px;height:20%;background:rgba(0,0,0,0.25);border-radius:3px;transition:top 0.1s"></div></div>' : '') +
           '</div>' +
           '<div style="position:relative;margin-top:8px;border-top:1px solid #f0f0f0;padding-top:8px;min-height:28px">' +
-          '<span id="mpbtn-' + punto.id + '" data-poi="' + punto.id + '" onclick="addToRoute(this.getAttribute(\'data-poi\')); mapa.closePopup();" style="position:absolute;bottom:0;right:0;display:inline-block;background:' + (enR?'#1D9E75':'#E1F5EE') + ';color:' + (enR?'#fff':'#0F6E56') + ';border:1px solid rgba(29,158,117,0.3);border-radius:12px;padding:5px 12px;font-size:12px;cursor:pointer;font-weight:600;">' + (enR ? '&#10003; '+(T[idiomaActual]||T.es).enRuta.replace('✓ ','') : '+ ruta') + '</span>' +
+          '<span id="mpbtn-' + punto.id + '" data-poi="' + punto.id + '" onclick="addToRoute(this.getAttribute(\'data-poi\')); mapa.closePopup();" style="position:absolute;bottom:0;right:0;display:inline-block;background:' + (enR?'#1D9E75':'#E1F5EE') + ';color:' + (enR?'#fff':'#0F6E56') + ';border:1px solid rgba(29,158,117,0.3);border-radius:12px;padding:5px 12px;font-size:12px;cursor:pointer;font-weight:600;">' + (enR ? '&#10003; '+(T[idiomaActual]||T.es).enRuta.replace('✓ ','') : (T[idiomaActual]||T.es).añadirRutaCorto||'+ ruta') + '</span>' +
           '</div></div>';
         L.popup({maxWidth:240, className:"poi-popup"}).setLatLng(m.getLatLng()).setContent(content).openOn(mapa);
       };
@@ -4231,7 +4231,7 @@ function actualizarBtnMapa(id, enRuta) {
   if (mpbtn) {
     mpbtn.style.background = enRuta ? '#1D9E75' : '#E1F5EE';
     mpbtn.style.color      = enRuta ? '#fff'    : '#0F6E56';
-    mpbtn.innerHTML        = enRuta ? '&#10003; ' + t.enRuta.replace('✓ ','') : '+ ruta';
+    mpbtn.innerHTML        = enRuta ? '&#10003; ' + t.enRuta.replace('✓ ','') : (t.añadirRutaCorto||'+ ruta');
   }
   // Tarjeta POI sección
   var rbtn = document.getElementById('rbtn-' + id);
@@ -4622,7 +4622,7 @@ function actualizarBotonesRuta() {
     var yaActivo = btn.classList.contains('en-ruta');
     if (enRuta === yaActivo) return; // sin cambio — no tocar el DOM
     btn.classList.toggle('en-ruta', enRuta);
-    btn.textContent = enRuta ? '✓ En ruta' : '+ Añadir a ruta';
+    var _tl=T[idiomaActual]||T.es; btn.textContent = enRuta ? _tl.enRuta||'✓ En ruta' : _tl.añadirRuta||'+ Añadir a ruta';
     btn.style.background = enRuta ? '#1D9E75' : 'rgba(255,255,255,0.92)';
     btn.style.color      = enRuta ? '#fff'    : '#0F6E56';
     btn.style.border     = enRuta ? '1px solid #1D9E75' : '1px solid rgba(29,158,117,0.4)';
@@ -4634,7 +4634,7 @@ function actualizarBotonesRuta() {
     var tl=T[idiomaActual]||T.es;
     btn.style.background = enRuta ? '#1D9E75' : '#E1F5EE';
     btn.style.color      = enRuta ? '#fff'    : '#0F6E56';
-    btn.innerHTML        = enRuta ? '&#10003; '+tl.enRuta.replace('✓ ','') : '+ ruta';
+    btn.innerHTML        = enRuta ? '&#10003; '+tl.enRuta.replace('✓ ','') : (tl.añadirRutaCorto||'+ ruta');
   });
 }
 function irAlMapaConRuta() {
@@ -5226,6 +5226,7 @@ var T={
     buscando:'Buscando...',
     comoLlegar:'Cómo llegar →',
     añadirRuta:'+ Añadir a ruta',
+    añadirRutaCorto:'+ ruta',
     enRuta:'✓ En ruta',
     leerMas:'Leer más ▾',
     leerMenos:'Leer menos ▴',
@@ -5396,6 +5397,7 @@ var T={
     buscando:'Buscando...',
     comoLlegar:'Como chegar →',
     añadirRuta:'+ Engadir á ruta',
+    añadirRutaCorto:'+ ruta',
     enRuta:'✓ Na ruta',
     leerMas:'Ler máis ▾',
     leerMenos:'Ler menos ▴',
@@ -5566,6 +5568,7 @@ var T={
     buscando:'Searching...',
     comoLlegar:'How to get there →',
     añadirRuta:'+ Add to route',
+    añadirRutaCorto:'+ route',
     enRuta:'✓ In route',
     leerMas:'Read more ▾',
     leerMenos:'Read less ▴',
@@ -6291,6 +6294,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v757</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v758</div>
 </body>
 </html>
