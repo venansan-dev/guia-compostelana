@@ -4791,12 +4791,9 @@ function activarNavegacionVoz() {
     var searchUnder = document.querySelector('.search-under-map');
     if (searchUnder) { searchUnder._origDisplay = searchUnder.style.display; searchUnder.style.display = 'none'; }
 
-    // Scroll al mapa y bloquear scroll vertical
+    // Scroll al mapa
     var mapBlock = document.getElementById('map-block');
     if (mapBlock) mapBlock.scrollIntoView({behavior:'smooth', block:'start'});
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.touchAction = 'none';
 
     // Ocultar botones del mapa salvo brújula
     var btnSaveNav=document.getElementById('ruta-bar-btn-save');if(btnSaveNav)btnSaveNav.style.display='none';
@@ -5089,9 +5086,7 @@ function detenerNavegacionVoz() {
   // Restaurar trazado estático con flechas
   if (window._navRestoreTimeout) clearTimeout(window._navRestoreTimeout);
   if (rutaPuntos.length >= 1) window._navRestoreTimeout = setTimeout(dibujarLineaEstática, 300);
-  document.body.style.overflow = '';
-  document.documentElement.style.overflow = '';
-  document.body.style.touchAction = '';
+  // scroll desbloqueado (no se bloqueó al entrar en modo navegación)
   // Restaurar brújula si estaba encendida
   if (brujulaEstaba) setTimeout(pedirOrientacion, 300);
   // Restaurar radio 1km
@@ -6295,6 +6290,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v754</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v755</div>
 </body>
 </html>
