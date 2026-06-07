@@ -1760,46 +1760,132 @@ function _renderPoiDrawerCarrusel() {
     var enRuta = typeof rutaPuntos !== 'undefined' && rutaPuntos.find(function(x){ return x.id === p.id; });
     var dist = p.distancia ? (p.distancia < 1 ? Math.round(p.distancia * 1000) + ' m' : p.distancia.toFixed(1) + ' km') : '';
     var colorClass = p.color || 'verde';
+    // Garantizar valoraciones y opiniones
+    if (!valoraciones[p.id]) valoraciones[p.id] = {total:0, votos:0, miVoto:0};
+    if (!opiniones[p.id]) opiniones[p.id] = [];
+    var val = valoraciones[p.id];
+    var media = val.votos > 0 ? (val.total / val.votos).toFixed(1) : '-';
+    var pageUrl = encodeURIComponent(window.location.href);
+    var textoShare = encodeURIComponent(nombre + ' - Guía Compostelana Ultreia');
+    var ops = opiniones[p.id];
+    var opsList = ops.length
+      ? ops.map(function(o){ return '<div class="opinion-item"><strong>' + o.autor + ':</strong> ' + o.texto + '</div>'; }).join('')
+      : '<div class="opinion-item" style="color:#bbb">' + (t.seElPrimero || 'Sé el primero en comentar') + '</div>';
     var card = document.createElement('div');
     card.className = 'poi-card';
     card.style.cssText = 'flex:0 0 260px;scroll-snap-align:start;';
     card.innerHTML =
-      '<div class="poi-img ' + colorClass + '" style="height:130px;position:relative">' +
-        (p.imagen ? '<img src="' + p.imagen + '" alt="' + nombre + '" class="poi-img-cover" decoding="async" fetchpriority="low"/>' :
-          '<span style="font-size:36px">' + (p.emoji || '📍') + '</span>') +
-        (!p.esAlerta ? '<button id="pd-rbtn-' + p.id + '" style="position:absolute;top:8px;right:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);background:' + (enRuta ? '#1D9E75' : 'rgba(255,255,255,0.92)') + ';color:' + (enRuta ? '#fff' : '#0F6E56') + ';border:1px solid ' + (enRuta ? '#1D9E75' : 'rgba(29,158,117,0.4)') + '" onclick="_poiDrawerToggleRuta(\'' + p.id + '\',this);event.stopPropagation()">' + (enRuta ? '&#10003; ' + (t.enRuta||'En ruta') : (t.añadirRuta||'+ Añadir a ruta')) + '</button>' : '') +
+      '<div class="poi-img ' + colorClass + '" style="height:130px;position:relative;overflow:hidden">' +
+        (p.imagen
+          ? '<img src="' + p.imagen + '" alt="' + nombre + '" class="poi-img-cover" decoding="async" fetchpriority="low"/>'
+          : '<span style="font-size:36px">' + (p.emoji || '📍') + '</span>') +
+        (!p.esAlerta ? '<button id="pd-rbtn-' + p.id + '" style="position:absolute;top:8px;right:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);background:' + (enRuta ? '#1D9E75' : 'rgba(255,255,255,0.92)') + ';color:' + (enRuta ? '#fff' : '#0F6E56') + ';border:1px solid ' + (enRuta ? '#1D9E75' : 'rgba(29,158,117,0.4)') + '" onclick="_poiDrawerToggleRuta(\'' + p.id + '\',this);event.stopPropagation()">' + (enRuta ? '&#10003; ' + (t.enRuta || 'En ruta') : (t.añadirRuta || '+ Añadir a ruta')) + '</button>' : '') +
       '</div>' +
+      '<div class="poi-ranking" id="pd-rank-' + p.id + '" style="position:absolute;top:8px;left:8px;background:rgba(0,0,0,0.55);color:#F5C800;border-radius:20px;padding:3px 8px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:3px;backdrop-filter:blur(2px);z-index:10">&#9733; ' + (val.votos > 0 ? media : '-') + '</div>' +
       '<div class="poi-body">' +
         '<div class="poi-category">' + (p.categoria || '') + '</div>' +
         '<div class="poi-nombre-row"><span class="poi-emoji">' + (p.emoji || '📍') + '</span><span class="poi-nombre">' + nombre + '</span></div>' +
-        (sub ? '<p style="font-size:12px;color:var(--verde);font-style:italic;margin-bottom:6px">' + sub + '</p>' : '') +
-        '<p>' + (desc.length > 100 ? desc.substring(0, 98) + '…' : desc) + '</p>' +
-        '<div class="poi-footer">' +
-          (dist ? '<span class="poi-dist">' + (p.emoji ? '' : '📍 ') + dist + '</span>' : '<span class="poi-dist calculando">...</span>') +
-          '<button onclick="_poiDrawerLlegar(' + p.lat + ',' + p.lng + ');event.stopPropagation()" style="font-size:12px;color:var(--verde);font-weight:500;cursor:pointer;background:none;border:none;font-family:DM Sans,sans-serif">' + (t.comoLlegar||'Cómo llegar') + '</button>' +
+        (sub ? '<div class="poi-subtitulo">' + sub + '</div>' : '') +
+        (p.esAlerta
+          ? '<div style="margin:4px 0 8px">' + (dist ? '<span class="poi-dist">📍 ' + dist + '</span>' : '<span class="poi-dist calculando">...</span>') + '</div>'
+          : '<div style="display:flex;align-items:center;justify-content:space-between;margin:4px 0 8px">' +
+              (dist ? '<span class="poi-dist">📍 ' + dist + '</span>' : '<span class="poi-dist calculando">...</span>') +
+              '<button class="poi-btn" data-lat="' + p.lat + '" data-lng="' + p.lng + '">' + (t.comoLlegar || 'Cómo llegar') + '</button>' +
+            '</div>'
+        ) +
+        '<p class="poi-desc" id="pd-desc-' + p.id + '">' + desc + '</p>' +
+        '<button class="poi-leer-mas" id="pd-leer-' + p.id + '">' + (t.leerMas || 'Leer +') + '</button>' +
+        '<div class="poi-stars"><div class="stars" id="pd-stars-' + p.id + '"></div><span class="stars-count" id="pd-scount-' + p.id + '">' + (val.votos > 0 ? media + ' &middot; ' + val.votos + ' votos' : '') + '</span></div>' +
+        '<div class="poi-share">' +
+          '<a class="poi-share-btn" href="https://wa.me/?text=' + textoShare + '%20' + pageUrl + '" target="_blank">&#128172;</a>' +
+          '<a class="poi-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=' + pageUrl + '" target="_blank">&#128248;</a>' +
+          '<a class="poi-share-btn" href="https://twitter.com/intent/tweet?text=' + textoShare + '&url=' + pageUrl + '" target="_blank">&#128038;</a>' +
+          '<a class="poi-share-btn" href="https://t.me/share/url?url=' + pageUrl + '&text=' + textoShare + '" target="_blank">&#9992;</a>' +
         '</div>' +
+        (p.esAlerta
+          ? ''
+          : '<div class="poi-opiniones">' +
+              '<div class="poi-opiniones-lista" id="pd-ops-' + p.id + '">' + opsList + '</div>' +
+              '<div class="opinion-form">' +
+                '<input class="opinion-input" id="pd-op-txt-' + p.id + '" type="text" placeholder="' + (t.opinionPlaceholder || 'Tu comentario...') + '"/>' +
+                '<button class="opinion-send" data-pid="' + p.id + '">' + (t.enviar || 'Enviar') + '</button>' +
+              '</div>' +
+            '</div>'
+        ) +
       '</div>';
     frag.appendChild(card);
+    // Estrellas
+    var starsContainer = card.querySelector('.stars');
+    if (starsContainer) {
+      starsContainer.innerHTML = '';
+      for (var sn = 1; sn <= 5; sn++) {
+        var star = document.createElement('span');
+        star.innerHTML = sn <= val.miVoto ? '&#9733;' : '&#9734;';
+        star.className = sn <= val.miVoto ? 'star activa' : 'star';
+        star.setAttribute('data-id', p.id);
+        star.setAttribute('data-n', sn);
+        star.setAttribute('data-star', '1');
+        starsContainer.appendChild(star);
+      }
+    }
+    // Listener botón enviar opinión
+    var sendBtn = card.querySelector('.opinion-send');
+    if (sendBtn) sendBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      enviarOpinion(sendBtn);
+    });
+    // Listener input opinión — detener propagación (evita arrastre del carrusel)
+    var opInput = card.querySelector('.opinion-input');
+    if (opInput) opInput.addEventListener('click', function(e) { e.stopPropagation(); });
+    // Listener "Leer más / Leer menos"
+    var leerMasBtn = card.querySelector('.poi-leer-mas');
+    if (leerMasBtn) {
+      leerMasBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var descEl = card.querySelector('.poi-desc');
+        if (!descEl) return;
+        var open = descEl.classList.contains('expanded');
+        descEl.classList.toggle('expanded', !open);
+        leerMasBtn.textContent = open ? (t.leerMas || 'Leer +') : (t.leerMenos || 'Leer menos');
+      });
+    }
   });
   car.innerHTML = '';
   car.appendChild(frag);
-  // Listeners botones ruta
-  car.querySelectorAll('.poi-ruta-btn').forEach(function(btn) {
+  // Listener estrellas (delegado en el carrusel)
+  car.addEventListener('click', function(e) {
+    var star = e.target.closest('[data-star]');
+    if (!star) return;
+    e.stopPropagation();
+    var id = star.getAttribute('data-id');
+    var n = parseInt(star.getAttribute('data-n'));
+    if (!valoraciones[id]) valoraciones[id] = {total:0, votos:0, miVoto:0};
+    var v = valoraciones[id];
+    if (v.miVoto) { v.total -= v.miVoto; v.votos--; }
+    v.miVoto = n; v.total += n; v.votos++;
+    var media2 = (v.total / v.votos).toFixed(1);
+    // Actualizar estrellas visuales en este drawer
+    var cont = car.querySelector('#pd-stars-' + id);
+    if (cont) cont.querySelectorAll('.star').forEach(function(s, i) {
+      s.innerHTML = (i + 1) <= n ? '&#9733;' : '&#9734;';
+      s.className = (i + 1) <= n ? 'star activa' : 'star';
+    });
+    var sc = car.querySelector('#pd-scount-' + id);
+    if (sc) sc.innerHTML = media2 + ' &middot; ' + v.votos + ' voto' + (v.votos !== 1 ? 's' : '');
+    var rk = car.querySelector('#pd-rank-' + id);
+    if (rk) rk.innerHTML = '&#9733; ' + media2;
+    // Guardar en localStorage y Firebase si disponible
+    if (typeof votarPOI === 'function') votarPOI(id, n);
+    else {
+      try { var ls = JSON.parse(localStorage.getItem('valoraciones') || '{}'); ls[id] = v; localStorage.setItem('valoraciones', JSON.stringify(ls)); } catch(e2){}
+    }
+  });
+  // Listener botón ruta (delegado)
+  car.querySelectorAll('[id^="pd-rbtn-"]').forEach(function(btn) {
     btn.addEventListener('click', function(e) {
       e.stopPropagation();
-      e.preventDefault();
-      var id = btn.getAttribute('data-poi');
-      addToRoute(id);
-      // Actualizar solo este botón sin re-renderizar el carrusel
-      var enRuta = !!rutaPuntos.find(function(x){ return x.id === id; });
-      var t = T[idiomaActual] || T.es;
-      btn.classList.toggle('en-ruta', enRuta);
-      btn.textContent = enRuta ? (t.enRuta||'✓ En ruta') : (t.añadirRuta||'+ Añadir a ruta');
-      btn.style.background = enRuta ? '#1D9E75' : 'rgba(255,255,255,0.92)';
-      btn.style.color = enRuta ? '#fff' : '#0F6E56';
-      btn.style.borderColor = enRuta ? '#1D9E75' : 'rgba(29,158,117,0.4)';
-      // Actualizar mini generador del drawer
-      _actualizarMiniGeneradorDrawer();
+      var id = btn.id.replace('pd-rbtn-', '');
+      _poiDrawerToggleRuta(id, btn);
     });
   });
   // Listener botón llegar — cerrar drawer y centrar en mapa
@@ -1812,7 +1898,6 @@ function _renderPoiDrawerCarrusel() {
       if (mapa && lat && lng) {
         mapa.setView([lat, lng], 16);
         setTimeout(function() {
-          // Abrir popup del marcador si existe
           mapa.eachLayer(function(layer) {
             if (layer.getLatLng && layer._popup) {
               var ll = layer.getLatLng();
