@@ -553,7 +553,7 @@
 
 <!-- DRAWER POI -->
 <div id='poi-drawer-bg' onclick='cerrarPoiDrawer()' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:9499'></div>
-<div id='poi-drawer' style='display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9500;background:var(--fondo);border-radius:16px;width:calc(100% - 32px);max-width:560px;max-height:85vh;overflow-y:auto;overflow-x:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.4);font-family:DM Sans,sans-serif'>
+<div id='poi-drawer' style='display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9500;background:var(--fondo);border-radius:16px;width:calc(100% - 32px);max-width:560px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.4);font-family:DM Sans,sans-serif'>
 
   <!-- Cabecera -->
   <div style='padding:1.25rem 1.25rem 0;display:flex;align-items:center;justify-content:space-between'>
@@ -581,7 +581,7 @@
   </div>
 
   <!-- Carrusel tarjetas POI -->
-  <div id='poi-drawer-carousel' style='display:flex;gap:1.1rem;overflow-x:auto;overflow-y:visible;padding:0 1.25rem 1rem;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;width:100%;box-sizing:border-box;touch-action:pan-x;overscroll-behavior-x:contain'>
+  <div id='poi-drawer-carousel' style='display:flex;gap:1.1rem;overflow-x:auto;overflow-y:hidden;padding:0 1.25rem 1rem;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;width:100%;box-sizing:border-box;touch-action:pan-x;max-height:65vh'>
   </div>
 
   <!-- Generador de ruta mini -->
@@ -1775,6 +1775,9 @@ function _renderPoiDrawerCarrusel() {
     var card = document.createElement('div');
     card.className = 'poi-card';
     card.setAttribute('data-poi-id', p.id);
+    card.style.overflowY = 'auto';
+    card.style.maxHeight = '62vh';
+    card.style.flexShrink = '0';
     var pNombre = idiomaActual==='gl'&&p.nombre_gl ? p.nombre_gl : idiomaActual==='en'&&p.nombre_en ? p.nombre_en : p.nombre;
     var pDesc   = idiomaActual==='gl'&&p.descripcion_gl ? p.descripcion_gl : idiomaActual==='en'&&p.descripcion_en ? p.descripcion_en : p.descripcion;
     var pSub    = idiomaActual==='gl'&&p.subtitulo_gl ? p.subtitulo_gl : idiomaActual==='en'&&p.subtitulo_en ? p.subtitulo_en : (p.subtitulo||'');
@@ -6201,6 +6204,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v718</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v719</div>
 </body>
 </html>
