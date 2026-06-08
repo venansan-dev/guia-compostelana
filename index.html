@@ -1949,13 +1949,12 @@ function cerrarComoUsarDrawer() { _cerrarSlide('comousar-drawer'); }
 function abrirContactoDrawer() { _abrirSlide('contacto-drawer'); }
 function cerrarContactoDrawer() { _cerrarSlide('contacto-drawer'); }
 function abrirAlbumDrawer() {
-  // Activa el filtro "Mi Álbum" en el poi-drawer (ya abierto)
+  // Abrir el poi-drawer si no está abierto, luego filtrar por álbum
+  _abrirSlide('poi-drawer');
   var chip = document.getElementById('chip-album-drawer');
   _poiDrawerFiltrar(chip, 'album');
-  // Actualizar tarjeta de ranking
-  if (window._renderAlbum) window._renderAlbum();
 }
-function cerrarAlbumDrawer() { _cerrarSlide('album-drawer'); }
+function cerrarAlbumDrawer() { _cerrarSlide('poi-drawer'); }
 
 function abrirBrujulaDrawer() { _abrirSlide('brujula-drawer'); }
 function cerrarBrujulaDrawer() { _cerrarSlide('brujula-drawer'); }
@@ -7435,6 +7434,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v486</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v487</div>
 </body>
 </html>
