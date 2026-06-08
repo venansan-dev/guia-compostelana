@@ -372,9 +372,9 @@
   <!-- Panel radio en mapa (columna derecha bajo +punto) -->
   <div id='map-radio-control' style='display:flex;position:absolute;top:54px;right:10px;z-index:400;flex-direction:column;align-items:stretch;gap:4px;font-family:DM Sans,sans-serif'>
     <div style='height:22px'></div>
-    <div class='map-radio-btn active' data-km='1' onclick='cambiarRadio(1,this)' style='background:#1D9E75;color:#fff;border:1.5px solid #1D9E75;border-radius:8px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);min-width:52px;transition:all 0.15s'>1 km</div>
-    <div class='map-radio-btn' data-km='2' onclick='cambiarRadio(2,this)' style='background:#fff;color:#555;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);min-width:52px;transition:all 0.15s'>2 km</div>
-    <div class='map-radio-btn' data-km='3' onclick='cambiarRadio(3,this)' style='background:#fff;color:#555;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);min-width:52px;transition:all 0.15s'>3 km</div>
+    <div class='map-radio-btn active' data-km='1' onclick='cambiarRadio(1,this)' style='background:#1D9E75;color:#fff;border:1.5px solid #1D9E75;border-radius:8px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);min-width:52px'>1 km</div>
+    <div class='map-radio-btn' data-km='2' onclick='cambiarRadio(2,this)' style='background:#fff;color:#555;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);min-width:52px'>2 km</div>
+    <div class='map-radio-btn' data-km='3' onclick='cambiarRadio(3,this)' style='background:#fff;color:#555;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);min-width:52px'>3 km</div>
   </div>
   <!-- Botón buscador derecha bottom:70px -->
   <button id='btn-buscar-mapa' onclick='toggleBuscadorMapa()' title='Buscar'
@@ -4119,14 +4119,18 @@ function aplicarRadio(km) {
 }
 
 function _aplicarEstadoRadioBtns(km) {
-  var btns = document.getElementById('map-radio-control');
-  if (!btns) return;
-  btns.querySelectorAll('.map-radio-btn').forEach(function(b) {
+  var cont = document.getElementById('map-radio-control');
+  if (!cont) return;
+  cont.querySelectorAll('.map-radio-btn').forEach(function(b) {
     var activo = parseInt(b.getAttribute('data-km')) === km;
+    b.style.transition  = 'none';
     b.classList.toggle('active', activo);
     b.style.background  = activo ? '#1D9E75' : '#fff';
     b.style.color       = activo ? '#fff'    : '#555';
     b.style.borderColor = activo ? '#1D9E75' : 'rgba(0,0,0,0.15)';
+    // Forzar repaint antes de restaurar transition
+    b.offsetHeight;
+    b.style.transition  = '';
   });
 }
 function cambiarRadio(km, btn) {
@@ -6788,6 +6792,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v817</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v818</div>
 </body>
 </html>
