@@ -3488,7 +3488,16 @@ function eliminarPOIUsuario(poiId) {
   // 5. Eliminar de Firebase
   db.ref('poi_usuarios/' + poiId).remove().catch(function(e){ console.warn('No se pudo eliminar de Firebase:', e); });
 
-  // 6. Actualizar carrusel
+  // 6. Limpiar del álbum (IndexedDB + caché)
+  delete window._albumVisitasSet[poiId];
+  if (window._abrirDB) {
+    window._abrirDB(function(db) {
+      db.transaction('visitas','readwrite').objectStore('visitas').delete(poiId);
+      db.transaction('fotos','readwrite').objectStore('fotos').delete(poiId);
+    });
+  }
+
+  // 7. Actualizar carrusel
   renderCarrusel(categoriaActiva);
 }
 
@@ -4467,7 +4476,7 @@ function renderCarrusel(categoria) {
               '</div>'+
             '</div>'
         )+
-
+        (p.esUsuario ? '<button data-poi-del="'+p.id+'" style="margin-top:6px;width:100%;background:rgba(239,68,68,0.12);color:#ef4444;border:1px solid rgba(239,68,68,0.35);border-radius:8px;padding:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">🗑️ Eliminar este punto</button>' : '')+
       '</div>';
     _frag.appendChild(card);
 
@@ -7159,6 +7168,7 @@ if ('serviceWorker' in navigator) {
 
   // Caché síncrono de visitas para uso en render de tarjetas
   window._albumVisitasSet = {};
+  window._abrirDB = _abrirDB;
 
   function _refrescarCacheVisitas(cb) {
     _albumGetVisitas(function(v) {
@@ -7317,6 +7327,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v467</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v468</div>
 </body>
 </html>
