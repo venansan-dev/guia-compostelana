@@ -2043,7 +2043,7 @@ function _renderPoiDrawerCarrusel() {
     if (_poiDrawerCatActual === 'album') {
       car.innerHTML = '<div style="width:100%;padding:2rem 1.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center"><div style="font-size:36px;margin-bottom:10px">🐚</div><div style="color:rgba(255,255,255,0.75);font-size:13px;font-weight:600;margin-bottom:6px">Tu álbum está vacío</div><div style="color:rgba(255,255,255,0.4);font-size:12px;line-height:1.6;max-width:240px">Activa el seguimiento GPS y acércate a los puntos del Camino. Cada visita desbloquea el cromo.</div></div>';
     } else {
-      car.innerHTML = '<div style="color:var(--texto-suave);font-size:13px;padding:16px;font-style:italic">No hay puntos en esta categoría</div>';
+      car.innerHTML = '<div style="width:100%;padding:2rem 1.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center"><div style="font-size:36px;margin-bottom:10px">🐚</div><div style="color:rgba(255,255,255,0.75);font-size:13px;font-weight:600;margin-bottom:6px">Ningún punto cerca</div><div style="color:rgba(255,255,255,0.4);font-size:12px;line-height:1.6;max-width:240px">No hay lugares de esta categoría en el radio actual. Amplía el radio o explora otra categoría del Camino.</div></div>';
     }
     return;
   }
@@ -3132,7 +3132,7 @@ function guardarPOIUsuario() {
   try { localStorage.setItem('poi_usuario', JSON.stringify(PUNTOS_USUARIO)); } catch(e) {}
 
   // Registrar en álbum automáticamente (el usuario creó este punto, ya lo "visitó")
-  if (window._albumRegistrarVisita) window._albumRegistrarVisita(poi);
+  if (window._albumRegistrarVisita) window._albumRegistrarVisita(poi, true);
 
   if (!valoraciones[id]) valoraciones[id] = {total:0, votos:0, miVoto:0};
   if (!opiniones[id]) opiniones[id] = [];
@@ -4308,11 +4308,28 @@ function renderCarrusel(categoria) {
   }
   if (!filtrados.length) {
     var msgs = {
-      'alerta': { es:'🚨 Sin alertas activas en este momento', gl:'🚨 Sen alertas activas neste momento', en:'🚨 No active alerts at this time' },
-      'fiesta': { es:'🎉 Sin fiestas activas hoy · consulta el calendario', gl:'🎉 Sen festas activas hoxe · consulta o calendario', en:'🎉 No active festivals today · check the calendar' }
+      'alerta':   { es:'🚨 Sin alertas activas en este momento', gl:'🚨 Sen alertas activas neste momento', en:'🚨 No active alerts at this time' },
+      'fiesta':   { es:'🎉 Sin fiestas activas hoy · consulta el calendario', gl:'🎉 Sen festas activas hoxe · consulta o calendario', en:'🎉 No active festivals today · check the calendar' }
     };
-    var msg = (msgs[categoria] && msgs[categoria][idiomaActual]) || (msgs[categoria] && msgs[categoria].es) || 'No hay puntos en esta categoría.';
-    carousel.innerHTML = '<p style="color:#6b7280;padding:1rem;font-style:italic">' + msg + '</p>';
+    var iconos = {
+      'naturaleza':'🌿','monumento':'🏛️','edificación religiosa':'⛪','localización histórica':'📜',
+      'vestigio arqueológico':'🔍','albergue':'🏠','mirador':'🔭','etapa-costa':'🌊','etapa-interior':'🥾'
+    };
+    var icono = iconos[categoria] || '🐚';
+    var textoEs = (msgs[categoria] && msgs[categoria].es) || 'No hay puntos en esta categoría';
+    var textoGl = (msgs[categoria] && msgs[categoria].gl) || textoEs;
+    var textoEn = (msgs[categoria] && msgs[categoria].en) || textoEs;
+    var texto = idiomaActual==='gl' ? textoGl : idiomaActual==='en' ? textoEn : textoEs;
+    var subEs = 'Prueba con otra categoría o amplía el radio de búsqueda en el mapa.';
+    var subGl = 'Proba con outra categoría ou amplía o radio de busca no mapa.';
+    var subEn = 'Try another category or widen the search radius on the map.';
+    if (msgs[categoria]) { subEs = ''; subGl = ''; subEn = ''; }
+    var sub = idiomaActual==='gl' ? subGl : idiomaActual==='en' ? subEn : subEs;
+    carousel.innerHTML = '<div style="width:100%;padding:2rem 1.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center">'
+      + '<div style="font-size:36px;margin-bottom:10px">'+icono+'</div>'
+      + '<div style="color:#6b7280;font-size:13px;font-weight:600;margin-bottom:6px">'+texto+'</div>'
+      + (sub ? '<div style="color:#9ca3af;font-size:12px;line-height:1.6;max-width:240px">'+sub+'</div>' : '')
+      + '</div>';
     return;
   }
   var _frag = document.createDocumentFragment();
@@ -6866,7 +6883,7 @@ if ('serviceWorker' in navigator) {
   }
 
   // Guardar visita
-  window._albumRegistrarVisita = function(poi) {
+  window._albumRegistrarVisita = function(poi, esCreado) {
     // Actualizar caché síncrono inmediatamente para que el render lo vea al instante
     window._albumVisitasSet[poi.id] = true;
     _abrirDB(function(db) {
@@ -6880,10 +6897,14 @@ if ('serviceWorker' in navigator) {
                     lat: poi.lat, lng: poi.lng, fecha: Date.now() });
         // Actualizar imagen en las tarjetas ya renderizadas
         if (window._albumRefrescarImgCard) window._albumRefrescarImgCard(poi.id);
-        // Toast de cromo desbloqueado
-        mostrarToast('🏅 ¡Cromo desbloqueado! ' + (poi.emoji||'📍') + ' ' + poi.nombre);
-        // Comprobar logros
-        _albumComprobarLogros();
+        if (esCreado) {
+          // Punto creado por el usuario — toast neutro, sin logros
+          mostrarToast('📌 Punto añadido a tu álbum');
+        } else {
+          // Visita GPS — toast de cromo y comprobar logros
+          mostrarToast('🏅 ¡Cromo desbloqueado! ' + (poi.emoji||'📍') + ' ' + poi.nombre);
+          _albumComprobarLogros();
+        }
       };
     });
   };
@@ -7260,6 +7281,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v471</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v473</div>
 </body>
 </html>
