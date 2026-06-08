@@ -3795,24 +3795,7 @@ function initMapa() {
 
   var _radioFitBoundsTs = 0;
   function _sincRadioBtns() {
-    if (!circuloRadio || !userLat) return;
-    if (Date.now() - _radioFitBoundsTs < 1200) return;
-    var mapBounds = mapa.getBounds();
-    var circleBounds = circuloRadio.getBounds();
-    var mapW = mapBounds.getEast() - mapBounds.getWest();
-    var circW = circleBounds.getEast() - circleBounds.getWest();
-    var ratio = circW / mapW;
-    var radioVisible = ratio > 0.3 && ratio <= 1.05;
-    // Solo desactivar si el círculo es del radio actual y ya no es visible
-    var circleKm = Math.round(circuloRadio.getRadius() / 1000);
-    if (!radioVisible && circleKm === radioKm) {
-      document.querySelectorAll('#map-radio-control .map-radio-btn').forEach(function(b) {
-        b.classList.remove('active');
-        b.style.background  = '#fff';
-        b.style.color       = '#555';
-        b.style.borderColor = 'rgba(0,0,0,0.15)';
-      });
-    }
+    // Desactivado — estado gestionado exclusivamente por _aplicarEstadoRadioBtns
   }
 
   mapa.on('zoomend', function() {
@@ -4139,6 +4122,8 @@ function cambiarRadio(km, btn) {
   radioKm = km;
   _aplicarEstadoRadioBtns(km);
   if (userLat) aplicarRadio(km);
+  // Re-aplicar tras el fitBounds por si algo lo sobreescribió
+  setTimeout(function() { _aplicarEstadoRadioBtns(km); }, 600);
 }
 
 // BUSCADOR NOMINATIM
@@ -6793,6 +6778,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v822</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v823</div>
 </body>
 </html>
