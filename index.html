@@ -2142,14 +2142,22 @@ function _renderPoiDrawerCarrusel() {
         (p.esUsuario ? '<button data-poi-del="'+p.id+'" style="margin-top:5px;width:100%;background:rgba(239,68,68,0.08);color:#ef4444;border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:5px 8px;font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">🗑️ Eliminar este punto</button>' : '')+
       '</div>';
     frag.appendChild(card);
-    // Si ya tiene foto propia guardada, aplicarla
-    if (window._albumGetFoto && window._albumVisitasSet && window._albumVisitasSet[p.id]) {
-      (function(pid){ window._albumGetFoto(pid, function(blob) {
-        if (!blob) return;
-        var url = URL.createObjectURL(blob);
-        var el = document.getElementById('cromo-img-'+pid); if (el) el.src = url;
-        var btn = document.getElementById('foto-btn-'+pid); if (btn) btn.innerHTML = '✏️ cambiar';
-      }); })(p.id);
+    // Si ya tiene foto propia guardada, aplicarla (caché memoria primero, luego IDB)
+    if (window._albumVisitasSet && window._albumVisitasSet[p.id]) {
+      (function(pid){
+        var cached = window._albumBlobCache && window._albumBlobCache[pid];
+        if (cached) {
+          var el = document.getElementById('cromo-img-'+pid); if (el) el.src = cached;
+          var btn = document.getElementById('foto-btn-'+pid); if (btn) btn.innerHTML = '✏️ cambiar';
+        } else if (window._albumGetFoto) {
+          window._albumGetFoto(pid, function(blob) {
+            if (!blob) return;
+            var url = URL.createObjectURL(blob);
+            var el = document.getElementById('cromo-img-'+pid); if (el) el.src = url;
+            var btn = document.getElementById('foto-btn-'+pid); if (btn) btn.innerHTML = '✏️ cambiar';
+          });
+        }
+      })(p.id);
     }
     var starsContainer = card.querySelector('.stars');
     if (starsContainer) {
@@ -3212,20 +3220,19 @@ function guardarPOIUsuario() {
   }
 
   if (_blobParaGuardar && window._albumGuardarFoto) {
+    // Guardar en IDB y en caché de memoria para uso inmediato en el render
     window._albumGuardarFoto(poi.id, _blobParaGuardar);
+    if (!window._albumBlobCache) window._albumBlobCache = {};
+    window._albumBlobCache[poi.id] = URL.createObjectURL(_blobParaGuardar);
     _finalizarGuardado();
-    // Re-renderizar el poi-drawer para que la tarjeta nueva aparezca con imagen
     if (typeof _renderPoiDrawerCarrusel === 'function') _renderPoiDrawerCarrusel();
-    // Aplicar foto a todas las tarjetas recién renderizadas
-    var _fotoUrl = URL.createObjectURL(_blobParaGuardar);
+    // Aplicar foto tras render — el render habrá creado los elementos
     setTimeout(function() {
-      document.querySelectorAll('[id^="cromo-img-"]').forEach(function(el){
-        if (el.id === 'cromo-img-'+poi.id) el.src = _fotoUrl;
-      });
-      document.querySelectorAll('[id^="foto-btn-"]').forEach(function(el){
-        if (el.id === 'foto-btn-'+poi.id) el.innerHTML = '✏️ cambiar';
-      });
-    }, 120);
+      var url = window._albumBlobCache[poi.id];
+      if (!url) return;
+      document.querySelectorAll('#cromo-img-'+poi.id).forEach(function(el){ el.src = url; });
+      document.querySelectorAll('#foto-btn-'+poi.id).forEach(function(el){ el.innerHTML = '✏️ cambiar'; });
+    }, 150);
   } else {
     _finalizarGuardado();
     if (typeof _renderPoiDrawerCarrusel === 'function') _renderPoiDrawerCarrusel();
@@ -4509,14 +4516,22 @@ function renderCarrusel(categoria) {
     _frag.appendChild(card);
 
     // Añadir estrellas con createElement — igual que el test que funciona
-    // Si ya tiene foto propia guardada, aplicarla
-    if (window._albumGetFoto && window._albumVisitasSet && window._albumVisitasSet[p.id]) {
-      (function(pid){ window._albumGetFoto(pid, function(blob) {
-        if (!blob) return;
-        var url = URL.createObjectURL(blob);
-        var el = document.getElementById('cromo-img-'+pid); if (el) el.src = url;
-        var btn = document.getElementById('foto-btn-'+pid); if (btn) btn.innerHTML = '✏️ cambiar';
-      }); })(p.id);
+    // Si ya tiene foto propia guardada, aplicarla (caché memoria primero, luego IDB)
+    if (window._albumVisitasSet && window._albumVisitasSet[p.id]) {
+      (function(pid){
+        var cached = window._albumBlobCache && window._albumBlobCache[pid];
+        if (cached) {
+          var el = document.getElementById('cromo-img-'+pid); if (el) el.src = cached;
+          var btn = document.getElementById('foto-btn-'+pid); if (btn) btn.innerHTML = '✏️ cambiar';
+        } else if (window._albumGetFoto) {
+          window._albumGetFoto(pid, function(blob) {
+            if (!blob) return;
+            var url = URL.createObjectURL(blob);
+            var el = document.getElementById('cromo-img-'+pid); if (el) el.src = url;
+            var btn = document.getElementById('foto-btn-'+pid); if (btn) btn.innerHTML = '✏️ cambiar';
+          });
+        }
+      })(p.id);
     }
     var starsContainer = card.querySelector('.stars');
     if (starsContainer) {
@@ -7253,6 +7268,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v476</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v477</div>
 </body>
 </html>
