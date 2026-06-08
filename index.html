@@ -2959,9 +2959,13 @@ function cerrarFormPOI() {
 window._poiFormFotoBlob = null;
 function _poiFormPedirFoto() {
   var inp = document.createElement('input');
-  inp.type = 'file'; inp.accept = 'image/*'; inp.capture = 'environment';
+  inp.type = 'file'; inp.accept = 'image/*';
+  inp.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+  document.body.appendChild(inp); // iOS requiere que esté en el DOM
   inp.onchange = function() {
-    var file = inp.files[0]; if (!file) return;
+    var file = inp.files[0];
+    document.body.removeChild(inp);
+    if (!file) return;
     var reader = new FileReader();
     reader.onload = function(e) {
       var img = new Image();
@@ -3503,8 +3507,10 @@ function eliminarPOIUsuario(poiId) {
     });
   }
 
-  // 7. Actualizar carrusel
+  // 7. Actualizar carrusel y poi-drawer
   renderCarrusel(categoriaActiva);
+  if (typeof _renderPoiDrawerCarrusel === 'function') _renderPoiDrawerCarrusel();
+  mostrarToast('🗑️ Punto eliminado');
 }
 
 // Delegación de eventos para el botón eliminar
@@ -7109,134 +7115,16 @@ if ('serviceWorker' in navigator) {
     });
   }
 
-  // Input file oculto para seleccionar foto
-  var _inputFoto = null;
-  var _inputFotoCallback = null;
-  function _albumPedirFoto(poiId, card) {
-    if (!_inputFoto) {
-      _inputFoto = document.createElement('input');
-      _inputFoto.type = 'file';
-      _inputFoto.accept = 'image/*';
-      _inputFoto.capture = 'environment';
-      _inputFoto.style.display = 'none';
-      document.body.appendChild(_inputFoto);
-    }
-    _inputFoto.onchange = function() {
-      var file = _inputFoto.files[0];
+  // Input foto — función auxiliar compartida
+  function _crearInputFoto(onBlob) {
+    var inp = document.createElement('input');
+    inp.type = 'file'; inp.accept = 'image/*';
+    inp.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+    document.body.appendChild(inp);
+    inp.onchange = function() {
+      var file = inp.files[0];
+      document.body.removeChild(inp);
       if (!file) return;
-      _inputFoto.value = '';
-      // Comprimir a max 800px antes de guardar
-      var reader = new FileReader();
-      reader.onload = function(e) {
-        var img = new Image();
-        img.onload = function() {
-          var canvas = document.createElement('canvas');
-          var MAX = 800;
-          var ratio = Math.min(MAX/img.width, MAX/img.height, 1);
-          canvas.width = Math.round(img.width * ratio);
-          canvas.height = Math.round(img.height * ratio);
-          canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-          canvas.toBlob(function(blob) {
-            _albumGuardarFoto(poiId, blob, function() {
-              mostrarToast('📷 Foto guardada en tu álbum');
-              // Actualizar la card directamente
-              var url = URL.createObjectURL(blob);
-              var imgWrap = card.querySelector('div');
-              if (imgWrap) imgWrap.innerHTML = '<img src="'+url+'" style="width:100%;height:100%;object-fit:cover;opacity:0.85"/>';
-              var btnFoto = card.querySelector('button');
-              if (btnFoto) btnFoto.innerHTML = '✏️';
-            });
-          }, 'image/jpeg', 0.82);
-        };
-        img.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    };
-    _inputFoto.click();
-  }
-
-  // ---- Detección de proximidad durante el seguimiento GPS ----
-  // Se engancha al watchPosition existente comprobando cada posición
-  var _albumYaNotificado = {};
-  var RADIO_VISITA_M = 60; // metros para registrar visita
-
-  window._albumCheckProximidad = function(lat, lng) {
-    if (typeof PUNTOS === 'undefined') return;
-    PUNTOS.forEach(function(poi) {
-      if (_albumYaNotificado[poi.id]) return;
-      var distM = haversine(lat, lng, poi.lat, poi.lng) * 1000;
-      if (distM <= RADIO_VISITA_M) {
-        _albumYaNotificado[poi.id] = true;
-        window._albumRegistrarVisita(poi);
-      }
-    });
-  };
-
-  // Caché síncrono de visitas para uso en render de tarjetas
-  window._albumVisitasSet = {};
-  window._abrirDB = _abrirDB;
-
-  function _refrescarCacheVisitas(cb) {
-    _albumGetVisitas(function(v) {
-      window._albumVisitasSet = {};
-      v.forEach(function(x){ window._albumVisitasSet[x.poiId] = true; });
-      if (cb) cb();
-    });
-  }
-
-  // Helper síncrono: devuelve el HTML del bloque imagen de una tarjeta POI
-  // Si visitado → imagen real + badge foto. Si no → cromo bloqueado.
-  window._imgCromo = function(p, enRuta, T, idiomaActual) {
-    var visitado = !!window._albumVisitasSet[p.id] || !!p.esUsuario;
-    if (visitado) {
-      // Imagen desbloqueada — igual que antes + badge álbum + botón foto
-      var enRutaStyle = enRuta
-        ? 'background:#1D9E75;color:#fff;border:1px solid #1D9E75'
-        : 'background:rgba(255,255,255,0.92);color:#0F6E56;border:1px solid rgba(29,158,117,0.4)';
-      var enRutaLabel = enRuta
-        ? '&#10003; '+((T[idiomaActual]||T.es).enRuta||'En ruta').replace('✓ ','')
-        : ((T[idiomaActual]||T.es).añadirRuta||'+ Ruta');
-      return '<div class="poi-img '+p.color+'" style="position:relative;overflow:hidden" data-cromo-id="'+p.id+'">' +
-        '<img id="cromo-img-'+p.id+'" src="'+( p.imagen||'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png')+'" alt="'+p.nombre+'" class="poi-img-cover" decoding="async" fetchpriority="low"/>' +
-        (!p.esAlerta && !p.esUsuario ? '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'" style="position:absolute;top:8px;right:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);'+enRutaStyle+'">'+enRutaLabel+'</button>' : '') +
-        '<button onclick="event.stopPropagation();_albumPedirFotoCard(\''+p.id+'\')" style="position:absolute;bottom:7px;right:7px;z-index:10;background:rgba(0,0,0,0.52);border:1px solid rgba(255,255,255,0.35);border-radius:20px;padding:3px 9px;color:#fff;font-size:10px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;backdrop-filter:blur(4px)" id="foto-btn-'+p.id+'">📷 mi foto</button>' +
-      '</div>';
-    } else {
-      // Cromo bloqueado — misma altura, todo el cuerpo de la tarjeta sigue visible
-      return '<div class="poi-img '+p.color+'" style="position:relative;overflow:hidden;background:linear-gradient(135deg,#12082a 0%,#1a0e35 50%,#0e0620 100%)" data-cromo-id="'+p.id+'">' +
-        '<div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,0.02) 0px,rgba(255,255,255,0.02) 10px,transparent 10px,transparent 20px)"></div>' +
-        '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px">' +
-          '<div style="width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.06);font-size:16px">🔒</div>' +
-          '<div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.25);letter-spacing:1.5px;text-transform:uppercase;font-family:DM Sans,sans-serif;text-align:center;padding:0 6px;line-height:1.4">Visita el lugar para desbloquear y añadir tu imagen</div>' +
-        '</div>' +
-      '</div>';
-    }
-  };
-
-  // Refresca la imagen de una tarjeta ya renderizada tras desbloqueo
-  window._albumRefrescarImgCard = function(poiId) {
-    var p = (typeof PUNTOS !== 'undefined') ? PUNTOS.find(function(x){ return x.id===poiId; }) : null;
-    if (!p) return;
-    // Buscar todos los div[data-cromo-id] con ese id en el DOM
-    var divs = document.querySelectorAll('[data-cromo-id="'+poiId+'"]');
-    divs.forEach(function(div) {
-      div.style.background = '';
-      div.innerHTML =
-        '<img id="cromo-img-'+p.id+'" src="'+(p.imagen||'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png')+'" alt="'+p.nombre+'" class="poi-img-cover" decoding="async"/>' +
-        '<button onclick="event.stopPropagation();_albumPedirFotoCard(\''+p.id+'\')" style="position:absolute;bottom:7px;right:7px;z-index:10;background:rgba(0,0,0,0.52);border:1px solid rgba(255,255,255,0.35);border-radius:20px;padding:3px 9px;color:#fff;font-size:10px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;backdrop-filter:blur(4px)" id="foto-btn-'+p.id+'">📷 mi foto</button>';
-    });
-  };
-
-  // Pedir foto desde la tarjeta POI (no desde el álbum drawer)
-  window._albumPedirFotoCard = function(poiId) {
-    if (!_inputFoto) {
-      _inputFoto = document.createElement('input');
-      _inputFoto.type = 'file'; _inputFoto.accept = 'image/*';
-      _inputFoto.capture = 'environment'; _inputFoto.style.display = 'none';
-      document.body.appendChild(_inputFoto);
-    }
-    _inputFoto.onchange = function() {
-      var file = _inputFoto.files[0]; if (!file) return; _inputFoto.value = '';
       var reader = new FileReader();
       reader.onload = function(e) {
         var img = new Image();
@@ -7245,21 +7133,37 @@ if ('serviceWorker' in navigator) {
           var MAX = 800; var ratio = Math.min(MAX/img.width, MAX/img.height, 1);
           canvas.width = Math.round(img.width*ratio); canvas.height = Math.round(img.height*ratio);
           canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-          canvas.toBlob(function(blob) {
-            _albumGuardarFoto(poiId, blob, function() {
-              mostrarToast('📷 Foto guardada');
-              // Sustituir imagen en todas las tarjetas de este POI
-              var url = URL.createObjectURL(blob);
-              document.querySelectorAll('#cromo-img-'+poiId).forEach(function(el){ el.src = url; });
-              document.querySelectorAll('#foto-btn-'+poiId).forEach(function(el){ el.innerHTML = '✏️ cambiar'; });
-            });
-          }, 'image/jpeg', 0.82);
+          canvas.toBlob(function(blob) { onBlob(blob, file); }, 'image/jpeg', 0.82);
         };
         img.src = e.target.result;
       };
       reader.readAsDataURL(file);
     };
-    _inputFoto.click();
+    inp.click();
+  }
+
+  function _albumPedirFoto(poiId, card) {
+    _crearInputFoto(function(blob) {
+      _albumGuardarFoto(poiId, blob, function() {
+        mostrarToast('\u{1F4F7} Foto guardada en tu \u00e1lbum');
+        var url = URL.createObjectURL(blob);
+        var imgWrap = card.querySelector('div');
+        if (imgWrap) imgWrap.innerHTML = '<img src="'+url+'" style="width:100%;height:100%;object-fit:cover;opacity:0.85"/>';
+        var btnFoto = card.querySelector('button');
+        if (btnFoto) btnFoto.innerHTML = '\u270f\ufe0f';
+      });
+    });
+  }
+
+  window._albumPedirFotoCard = function(poiId) {
+    _crearInputFoto(function(blob) {
+      _albumGuardarFoto(poiId, blob, function() {
+        mostrarToast('\u{1F4F7} Foto guardada');
+        var url = URL.createObjectURL(blob);
+        document.querySelectorAll('#cromo-img-'+poiId).forEach(function(el){ el.src = url; });
+        document.querySelectorAll('#foto-btn-'+poiId).forEach(function(el){ el.innerHTML = '\u270f\ufe0f cambiar'; });
+      });
+    });
   };
 
   // Al cargar, mostrar chip si ya hay visitas guardadas
@@ -7333,6 +7237,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v472</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v473</div>
 </body>
 </html>
