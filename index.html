@@ -725,8 +725,8 @@
 
     <!-- Logo + descripción + compartir -->
     <div style='background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);padding:1rem;margin-bottom:0.75rem'>
-      <img alt='Guía Compostelana Ultreia' src='https://i.postimg.cc/C1gNNsDK/IMG-0213.jpg' style='width:160px;height:42px;border-radius:4px;display:block;margin-bottom:8px'/>
-      <p id='contacto-panel-desc' style='font-size:12px;color:var(--texto-suave);margin:0 0 10px;line-height:1.6'>Tu guía local de puntos de interés. Descubre el camino a tu alrededor.</p>
+      <img alt='Guía Compostelana Ultreia' src='https://i.postimg.cc/C1gNNsDK/IMG-0213.jpg' style='width:160px;height:42px;border-radius:4px;display:block;margin-bottom:10px'/>
+      <p id='contacto-panel-desc' style='font-size:12px;color:var(--texto-suave);margin:0 0 10px;line-height:1.7'>Proyecto independiente y gratuito creado por un investigador templario y peregrino del Camino Portugués de la Costa. Más de 60 puntos de interés documentados con rigor histórico, sin publicidad y sin ánimo de lucro. Hecho con amor al Camino.</p>
       <div style='display:flex;align-items:center;gap:8px;flex-wrap:wrap'>
         <span style='font-size:11px;color:var(--texto-suave);font-weight:500'>Compartir:</span>
         <a href='https://wa.me/?text=Gu%C3%ADa%20Compostelana%20Ultreia%20https%3A%2F%2Fguia-compostelana-ultreia.com%2F' target='_blank' id='share-wa-m' title='WhatsApp' style='width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--borde);background:var(--fondo);color:var(--texto)'><svg width='14' height='14' viewBox='0 0 24 24' fill='currentColor'><path d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z'/><path d='M12 0C5.373 0 0 5.373 0 12c0 2.136.565 4.14 1.548 5.872L.057 23.893l6.186-1.458A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.798 9.798 0 01-5.002-1.369l-.36-.213-3.667.864.924-3.564-.234-.375A9.778 9.778 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182S21.818 6.58 21.818 12 17.42 21.818 12 21.818z'/></svg></a>
@@ -746,7 +746,7 @@
           <a href='#' onclick='cerrarContactoDrawer();setTimeout(abrirSobreNosotros,400);return false' style='font-size:12px;color:var(--texto-suave);text-decoration:none'>Sobre nosotros</a>
           <a href='#' onclick='cerrarContactoDrawer();setTimeout(abrirFormPOI,400);return false' style='font-size:12px;color:var(--texto-suave);text-decoration:none'>Sugiere un punto</a>
           <a href='mailto:guiacompostelana@gmail.com' style='font-size:12px;color:var(--texto-suave);text-decoration:none'>✉️ Contacto</a>
-          <a href='#' style='font-size:12px;color:var(--texto-suave);text-decoration:none'>Privacidad</a>
+          <a href='#' onclick='abrirPrivacidad();return false' style='font-size:12px;color:var(--texto-suave);text-decoration:none'>🔒 Privacidad</a>
         </div>
       </div>
 
@@ -6762,7 +6762,31 @@ function ocultarBannerRed() {
 }
 </script>
 
-<!-- MODAL SOBRE NOSOTROS -->
+<!-- MODAL PRIVACIDAD -->
+<div id='modal-privacidad' class='modal-bg' onclick='cerrarModal("modal-privacidad",event)'>
+  <div class='modal-box' style='max-width:400px;max-height:80vh;overflow-y:auto'>
+    <button class='modal-close' onclick='document.getElementById("modal-privacidad").classList.remove("visible")'>×</button>
+    <h3 style='margin-bottom:4px'>🔒 Privacidad</h3>
+    <p style='font-size:11px;color:var(--texto-suave);margin-bottom:16px'>Guía Compostelana Ultreia</p>
+
+    <p style='font-size:13px;font-weight:600;color:var(--texto);margin-bottom:4px'>Datos que recogemos</p>
+    <p style='font-size:12px;color:var(--texto-suave);margin-bottom:12px;line-height:1.6'>Esta aplicación <strong>no recoge ni almacena datos personales</strong>. No hay registro de usuarios, no hay cookies de seguimiento y no hay publicidad. La geolocalización se usa exclusivamente en tu dispositivo para mostrar tu posición en el mapa y calcular distancias — nunca se envía a ningún servidor.</p>
+
+    <p style='font-size:13px;font-weight:600;color:var(--texto);margin-bottom:4px'>Datos opcionales</p>
+    <p style='font-size:12px;color:var(--texto-suave);margin-bottom:12px;line-height:1.6'>Si añades un punto de interés, un comentario o una valoración, estos datos se almacenan en Firebase (Google) únicamente para mostrarse en la guía. No se asocian a ningún perfil personal.</p>
+
+    <p style='font-size:13px;font-weight:600;color:var(--texto);margin-bottom:4px'>Almacenamiento local</p>
+    <p style='font-size:12px;color:var(--texto-suave);margin-bottom:12px;line-height:1.6'>La app guarda tu ruta y preferencias en el almacenamiento local de tu dispositivo (localStorage) para que persistan entre sesiones. Estos datos no salen de tu dispositivo.</p>
+
+    <p style='font-size:13px;font-weight:600;color:var(--texto);margin-bottom:4px'>Servicios de terceros</p>
+    <p style='font-size:12px;color:var(--texto-suave);margin-bottom:16px;line-height:1.6'>Las teselas del mapa provienen de OpenStreetMap. El cálculo de rutas usa OSRM. La meteorología usa Open-Meteo. Ninguno de estos servicios recibe datos personales tuyos.</p>
+
+    <p style='font-size:11px;color:var(--texto-suave);line-height:1.6'>Para cualquier consulta: <a href='mailto:guiacompostelana@gmail.com' style='color:var(--verde)'>guiacompostelana@gmail.com</a></p>
+  </div>
+</div>
+<script>
+function abrirPrivacidad() { document.getElementById('modal-privacidad').classList.add('visible'); }
+</script>
 <div id='modal-sobre-nosotros' class='modal-bg' onclick='cerrarModal("modal-sobre-nosotros",event)'>
   <div class='modal-box' style='text-align:center'>
     <button class='modal-close' onclick='document.getElementById("modal-sobre-nosotros").classList.remove("visible")'>×</button>
