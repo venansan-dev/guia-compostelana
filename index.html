@@ -1949,10 +1949,12 @@ function cerrarComoUsarDrawer() { _cerrarSlide('comousar-drawer'); }
 function abrirContactoDrawer() { _abrirSlide('contacto-drawer'); }
 function cerrarContactoDrawer() { _cerrarSlide('contacto-drawer'); }
 function abrirAlbumDrawer() {
-  // Abrir el poi-drawer si no está abierto, luego filtrar por álbum
   _abrirSlide('poi-drawer');
-  var chip = document.getElementById('chip-album-drawer');
-  _poiDrawerFiltrar(chip, 'album');
+  // Pequeño delay para que el drawer esté visible antes de filtrar
+  setTimeout(function() {
+    var chip = document.getElementById('chip-album-drawer');
+    _poiDrawerFiltrar(chip, 'album');
+  }, 50);
 }
 function cerrarAlbumDrawer() { _cerrarSlide('poi-drawer'); }
 
@@ -7434,6 +7436,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v487</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v488</div>
 </body>
 </html>
