@@ -2053,7 +2053,7 @@ function _renderPoiDrawerCarrusel() {
             distHtml+
             '<button class="poi-btn" data-id="'+p.id+'" data-lat="'+p.lat+'" data-lng="'+p.lng+'">'+(T[idiomaActual]||T.es).comoLlegar+'</button>'+
           '</div>'+
-          '<button class="poi-detail-btn" data-poi-id="'+p.id+'" style="margin-top:2px;width:100%;background:rgba(29,158,117,0.12);border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:5px 8px;font-size:11px;font-weight:600;color:var(--verde-oscuro);cursor:pointer;font-family:DM Sans,sans-serif">📖 Ver detalle</button>'+
+          '<button class="poi-detail-btn" data-poi-id="'+p.id+'" style="margin-top:2px;width:100%;background:rgba(29,158,117,0.12);border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:5px 8px;font-size:11px;font-weight:600;color:var(--verde-oscuro);cursor:pointer;font-family:DM Sans,sans-serif">📖 '+(T[idiomaActual]||T.es).verDetalle+'</button>'+
         '</div>';
       frag.appendChild(card);
       return;
@@ -2094,7 +2094,7 @@ function _renderPoiDrawerCarrusel() {
             '</div>'+
           '</div>'
         )+
-        '<button class="poi-detail-btn" data-poi-id="'+p.id+'" style="margin-top:6px;width:100%;background:var(--verde-claro);border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:5px 8px;font-size:11px;font-weight:600;color:var(--verde-oscuro);cursor:pointer;font-family:DM Sans,sans-serif">💬 Ver detalle</button>'+
+        '<button class="poi-detail-btn" data-poi-id="'+p.id+'" style="margin-top:6px;width:100%;background:var(--verde-claro);border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:5px 8px;font-size:11px;font-weight:600;color:var(--verde-oscuro);cursor:pointer;font-family:DM Sans,sans-serif">💬 '+(T[idiomaActual]||T.es).verDetalle+'</button>'+
       '</div>';
     frag.appendChild(card);
     var starsContainer = card.querySelector('.stars');
@@ -5613,6 +5613,7 @@ var T={
     poiSub1:'⭐ Puntúa · 💬 Comenta · 📲 Comparte',
     poiSub2:'Ayuda a otros peregrinos puntuando, comentando y compartiendo cada lugar',
     chipTodos:'Todos',
+    verDetalle:'Ver detalle',
     chipNaturaleza:'Naturaleza',
     chipMonumento:'Monumentos',
     chipAlbergue:'Albergues',
@@ -5817,6 +5818,7 @@ var T={
     poiSub1:'⭐ Puntúa · 💬 Comenta · 📲 Comparte',
     poiSub2:'Axuda a outros peregrinos puntuando, comentando e compartindo cada lugar',
     chipTodos:'Todos',
+    verDetalle:'Ver detalle',
     chipNaturaleza:'Natureza',
     chipMonumento:'Monumentos',
     chipAlbergue:'Albergues',
@@ -6021,6 +6023,7 @@ var T={
     poiSub1:'⭐ Rate · 💬 Comment · 📲 Share',
     poiSub2:'Help other pilgrims by rating, commenting and sharing each place',
     chipTodos:'All',
+    verDetalle:'View detail',
     chipNaturaleza:'Nature',
     chipMonumento:'Monuments',
     chipAlbergue:'Hostels',
