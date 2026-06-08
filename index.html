@@ -3191,10 +3191,15 @@ function guardarPOIUsuario() {
   }
 
   if (_blobParaGuardar && window._albumGuardarFoto) {
-    // Guardar foto primero, luego renderizar — así el render encuentra la foto en IDB
-    window._albumGuardarFoto(poi.id, _blobParaGuardar, function() {
-      _finalizarGuardado();
-    });
+    // Guardar foto en IDB (sin esperar) y renderizar inmediatamente
+    window._albumGuardarFoto(poi.id, _blobParaGuardar);
+    _finalizarGuardado();
+    // Aplicar la foto a la tarjeta recién renderizada con objectURL directo
+    var _fotoUrl = URL.createObjectURL(_blobParaGuardar);
+    setTimeout(function() {
+      document.querySelectorAll('#cromo-img-'+poi.id).forEach(function(el){ el.src = _fotoUrl; });
+      document.querySelectorAll('#foto-btn-'+poi.id).forEach(function(el){ el.innerHTML = '✏️ cambiar'; });
+    }, 80);
   } else {
     _finalizarGuardado();
   }
@@ -7321,6 +7326,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v469</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v470</div>
 </body>
 </html>
