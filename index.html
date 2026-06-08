@@ -2031,7 +2031,6 @@ function _renderPoiDrawerCarrusel() {
   var _todosRaw = (typeof PUNTOS !== 'undefined' ? PUNTOS : []).concat(typeof PUNTOS_USUARIO !== 'undefined' ? PUNTOS_USUARIO : []);
   var _vistos = {};
   var todos = _todosRaw.filter(function(p){ if(_vistos[p.id]) return false; _vistos[p.id]=true; return true; });
-  console.log('DRAWER cat='+_poiDrawerCatActual+' todos='+todos.length+' visitasSet='+JSON.stringify(window._albumVisitasSet)+' blobCache='+JSON.stringify(Object.keys(window._albumBlobCache||{})));
   var filtrados = todos.filter(function(p) {
     if (_poiDrawerCatActual === 'todos') return !p.esUsuario && !(p.id && p.id.indexOf('u_')===0) && p.categoria !== 'etapa';
     if (_poiDrawerCatActual === 'alerta') return p.esAlerta;
@@ -2143,22 +2142,24 @@ function _renderPoiDrawerCarrusel() {
         (p.esUsuario ? '<button data-poi-del="'+p.id+'" style="margin-top:5px;width:100%;background:rgba(239,68,68,0.08);color:#ef4444;border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:5px 8px;font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">🗑️ Eliminar este punto</button>' : '')+
       '</div>';
     frag.appendChild(card);
-    // Si ya tiene foto propia guardada, aplicarla (caché memoria primero, luego IDB)
+    // Si ya tiene foto propia guardada, aplicarla directamente en la card (aún en fragment)
     if (window._albumVisitasSet && window._albumVisitasSet[p.id]) {
-      (function(pid){
+      (function(pid, _card){
         var cached = window._albumBlobCache && window._albumBlobCache[pid];
         if (cached) {
-          var el = document.getElementById('cromo-img-'+pid); if (el) el.src = cached;
-          var btn = document.getElementById('foto-btn-'+pid); if (btn) btn.innerHTML = '✏️ cambiar';
+          var el = _card.querySelector('[id="cromo-img-'+pid+'"]'); if (el) el.src = cached;
+          var btn = _card.querySelector('[id="foto-btn-'+pid+'"]'); if (btn) btn.innerHTML = '✏️ cambiar';
         } else if (window._albumGetFoto) {
           window._albumGetFoto(pid, function(blob) {
             if (!blob) return;
             var url = URL.createObjectURL(blob);
-            var el = document.getElementById('cromo-img-'+pid); if (el) el.src = url;
-            var btn = document.getElementById('foto-btn-'+pid); if (btn) btn.innerHTML = '✏️ cambiar';
+            var el = document.getElementById('cromo-img-'+pid) || _card.querySelector('[id="cromo-img-'+pid+'"]');
+            if (el) el.src = url;
+            var btn = document.getElementById('foto-btn-'+pid) || _card.querySelector('[id="foto-btn-'+pid+'"]');
+            if (btn) btn.innerHTML = '✏️ cambiar';
           });
         }
-      })(p.id);
+      })(p.id, card);
     }
     var starsContainer = card.querySelector('.stars');
     if (starsContainer) {
@@ -4516,23 +4517,25 @@ function renderCarrusel(categoria) {
       '</div>';
     _frag.appendChild(card);
 
-    // Si ya tiene foto propia guardada, aplicarla (caché memoria primero, luego IDB)
+    // Si ya tiene foto propia guardada, aplicarla directamente en la card (aún en fragment)
     if (window._albumVisitasSet && window._albumVisitasSet[p.id]) {
-      (function(pid){
+      (function(pid, _card){
         var cached = window._albumBlobCache && window._albumBlobCache[pid];
-        console.log('FOTO preload pid='+pid+' cached='+!!cached+' blobCache='+JSON.stringify(Object.keys(window._albumBlobCache||{})));
         if (cached) {
-          var el = document.getElementById('cromo-img-'+pid); if (el) el.src = cached;
-          var btn = document.getElementById('foto-btn-'+pid); if (btn) btn.innerHTML = '✏️ cambiar';
+          var el = _card.querySelector('#cromo-img-'+pid); if (el) el.src = cached;
+          var btn = _card.querySelector('#foto-btn-'+pid); if (btn) btn.innerHTML = '✏️ cambiar';
         } else if (window._albumGetFoto) {
           window._albumGetFoto(pid, function(blob) {
             if (!blob) return;
             var url = URL.createObjectURL(blob);
-            var el = document.getElementById('cromo-img-'+pid); if (el) el.src = url;
-            var btn = document.getElementById('foto-btn-'+pid); if (btn) btn.innerHTML = '✏️ cambiar';
+            // Para IDB intentar en DOM (ya estará añadido cuando llegue el callback)
+            var el = document.getElementById('cromo-img-'+pid) || _card.querySelector('[id="cromo-img-'+pid+'"]');
+            if (el) el.src = url;
+            var btn = document.getElementById('foto-btn-'+pid) || _card.querySelector('[id="foto-btn-'+pid+'"]');
+            if (btn) btn.innerHTML = '✏️ cambiar';
           });
         }
-      })(p.id);
+      })(p.id, card);
     }
     var starsContainer = card.querySelector('.stars');
     if (starsContainer) {
@@ -7269,6 +7272,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v477e</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v478</div>
 </body>
 </html>
