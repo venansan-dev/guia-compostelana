@@ -3793,11 +3793,10 @@ function initMapa() {
   mapa.on('dragstart', function() { mapa.closePopup(); });
   mapa.on('zoomstart', function() { mapa.closePopup(); });
 
-  var _radioFitBoundsActivo = 0;
+  var _radioFitBoundsTs = 0;
   function _sincRadioBtns() {
     if (!circuloRadio || !userLat) return;
-    if (_radioFitBoundsActivo > 0) { _radioFitBoundsActivo--; return; }
-    // Solo desactivar si el usuario ha hecho zoom manualmente y el círculo ya no es visible
+    if (Date.now() - _radioFitBoundsTs < 1200) return;
     var mapBounds = mapa.getBounds();
     var circleBounds = circuloRadio.getBounds();
     var mapW = mapBounds.getEast() - mapBounds.getWest();
@@ -3805,7 +3804,6 @@ function initMapa() {
     var ratio = circW / mapW;
     var radioVisible = ratio > 0.3 && ratio <= 1.05;
     if (!radioVisible) {
-      // El usuario hizo zoom manual — desactivar todos
       document.querySelectorAll('#map-radio-control .map-radio-btn').forEach(function(b) {
         b.classList.remove('active');
         b.style.background  = '#fff';
@@ -3813,7 +3811,6 @@ function initMapa() {
         b.style.borderColor = 'rgba(0,0,0,0.15)';
       });
     }
-    // Si radioVisible, no tocar nada — _aplicarEstadoRadioBtns ya lo hizo
   }
 
   mapa.on('zoomend', function() {
@@ -4112,7 +4109,7 @@ function aplicarRadio(km) {
     radius:km*1000, color:'#1D9E75', fillColor:'#1D9E75',
     fillOpacity:0.07, weight:2, dashArray:'6 4'
   }).addTo(mapa);
-  _radioFitBoundsActivo = 2;
+  _radioFitBoundsTs = Date.now();
   mapa.fitBounds(circuloRadio.getBounds(), {padding:[20,20]});
 }
 
@@ -6790,6 +6787,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v819</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v820</div>
 </body>
 </html>
