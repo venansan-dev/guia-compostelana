@@ -2031,6 +2031,7 @@ function _renderPoiDrawerCarrusel() {
   var _todosRaw = (typeof PUNTOS !== 'undefined' ? PUNTOS : []).concat(typeof PUNTOS_USUARIO !== 'undefined' ? PUNTOS_USUARIO : []);
   var _vistos = {};
   var todos = _todosRaw.filter(function(p){ if(_vistos[p.id]) return false; _vistos[p.id]=true; return true; });
+  console.log('DRAWER cat='+_poiDrawerCatActual+' todos='+todos.length+' visitasSet='+JSON.stringify(window._albumVisitasSet)+' blobCache='+JSON.stringify(Object.keys(window._albumBlobCache||{})));
   var filtrados = todos.filter(function(p) {
     if (_poiDrawerCatActual === 'todos') return !p.esUsuario && !(p.id && p.id.indexOf('u_')===0) && p.categoria !== 'etapa';
     if (_poiDrawerCatActual === 'alerta') return p.esAlerta;
@@ -7268,6 +7269,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v477d</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v477e</div>
 </body>
 </html>
