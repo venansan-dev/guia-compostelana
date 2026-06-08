@@ -462,7 +462,7 @@
 </div>
 
 <!-- PANEL POI -->
-<div id='poi-drawer' class='map-slide-panel' style='background:linear-gradient(150deg,#0e2038 0%,#1a3a5c 40%,#1e4570 70%,#142f4a 100%);font-family:DM Sans,sans-serif;touch-action:pan-y'>
+<div id='poi-drawer' class='map-slide-panel' style='background:linear-gradient(150deg,#0e2038 0%,#1a3a5c 40%,#1e4570 70%,#142f4a 100%);font-family:DM Sans,sans-serif'>
   <div style='padding:0.6rem 1rem 0;position:sticky;top:0;background:linear-gradient(150deg,#0e2038 0%,#1a3a5c 60%,#1e4570 100%);z-index:10;border-bottom:1px solid rgba(255,255,255,0.12)'>
     <div style='display:flex;align-items:center;gap:5px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;white-space:nowrap' id='poi-drawer-chips'>
       <button onclick='cerrarPoiDrawer()' id='poi-panel-volver' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:#722F37;border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:6px 12px;color:rgba(255,255,255,0.92);font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600;white-space:nowrap;box-shadow:inset 0 1px 0 rgba(255,255,255,0.15)'>← Volver</button>
@@ -1695,6 +1695,29 @@ function abrirPoiDrawer() {
 function cerrarPoiDrawer() { _cerrarSlide('poi-drawer'); }
 
 
+
+// Scroll vertical de página desde panel POI cuando está en el tope
+(function() {
+  var _startY = 0;
+  var drawer = null;
+  function _getDrawer() { return drawer || (drawer = document.getElementById('poi-drawer')); }
+  document.addEventListener('touchstart', function(e) {
+    var d = _getDrawer();
+    if (!d || !d.classList.contains('slide-in')) return;
+    if (!d.contains(e.target)) return;
+    _startY = e.touches[0].clientY;
+  }, { passive: true });
+  document.addEventListener('touchmove', function(e) {
+    var d = _getDrawer();
+    if (!d || !d.classList.contains('slide-in')) return;
+    if (!d.contains(e.target)) return;
+    // Solo propagar si el panel está en scrollTop=0 y el gesto es hacia abajo
+    var dy = e.touches[0].clientY - _startY;
+    if (d.scrollTop === 0 && dy > 0) {
+      window.scrollBy(0, -dy * 0.4);
+    }
+  }, { passive: true });
+})();
 
 function abrirDonacionesDrawer() { _abrirSlide('donaciones-drawer'); }
 function cerrarDonacionesDrawer() { _cerrarSlide('donaciones-drawer'); }
@@ -6511,6 +6534,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v804</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v805</div>
 </body>
 </html>
