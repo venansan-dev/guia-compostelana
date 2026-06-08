@@ -1852,7 +1852,7 @@ function _renderPoiDrawerCarrusel() {
             '<button class="poi-btn" data-id="'+p.id+'" data-lat="'+p.lat+'" data-lng="'+p.lng+'">'+(T[idiomaActual]||T.es).comoLlegar+'</button>'+
           '</div>'+
           '<div id="etapa-desc-'+p.id+'" style="display:none;font-size:11px;color:var(--texto-suave);line-height:1.6;margin-bottom:6px;max-height:100px;overflow-y:auto">'+pDesc+'</div>'+
-          '<button onclick="(function(el,btn){el.style.display=el.style.display==='none'?'block':'none';btn.textContent=el.style.display==='none'?'📖 Ver etapa':'✕ Cerrar';})(document.getElementById('etapa-desc-'+p.id+''),this)" style="width:100%;background:rgba(29,158,117,0.08);border:1px solid rgba(29,158,117,0.25);border-radius:8px;padding:5px 8px;font-size:11px;font-weight:600;color:var(--verde-oscuro);cursor:pointer;font-family:DM Sans,sans-serif">📖 Ver etapa</button>'+
+          '<button onclick="var el=document.getElementById(&quot;etapa-desc-'+p.id+'&quot;);var vis=el.style.display===&quot;none&quot;;el.style.display=vis?&quot;block&quot;:&quot;none&quot;;this.textContent=vis?&quot;✕ Cerrar&quot;:&quot;📖 Ver etapa&quot;" style="width:100%;background:rgba(29,158,117,0.08);border:1px solid rgba(29,158,117,0.25);border-radius:8px;padding:5px 8px;font-size:11px;font-weight:600;color:var(--verde-oscuro);cursor:pointer;font-family:DM Sans,sans-serif">📖 Ver etapa</button>'+
         '</div>';
       frag.appendChild(card);
       return;
@@ -6531,6 +6531,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v801</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v802</div>
 </body>
 </html>
