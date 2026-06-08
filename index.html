@@ -465,8 +465,8 @@
 <div id='poi-drawer' class='map-slide-panel' style='background:linear-gradient(150deg,#0e2038 0%,#1a3a5c 40%,#1e4570 70%,#142f4a 100%);font-family:DM Sans,sans-serif'>
   <div style='padding:0.6rem 1rem 0;position:sticky;top:0;background:linear-gradient(150deg,#0e2038 0%,#1a3a5c 60%,#1e4570 100%);z-index:10;border-bottom:1px solid rgba(255,255,255,0.12)'>
     <div style='display:flex;align-items:center;gap:5px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;white-space:nowrap' id='poi-drawer-chips'>
-      <button onclick='cerrarPoiDrawer()' id='poi-panel-volver' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:#722F37;border:1px solid rgba(114,47,55,0.5);border-radius:20px;padding:6px 12px;color:#fff;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600;white-space:nowrap'>← Volver</button>
-      <button onclick='_abrirRutaModal()' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:var(--verde);border:none;border-radius:20px;padding:6px 12px;color:#fff;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600;white-space:nowrap' id='poi-ruta-drawer-btn'>🛤️ <span id='poi-ruta-drawer-label'>Ruta</span></button>
+      <button onclick='cerrarPoiDrawer()' id='poi-panel-volver' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:#722F37;border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:6px 12px;color:rgba(255,255,255,0.92);font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600;white-space:nowrap;box-shadow:inset 0 1px 0 rgba(255,255,255,0.15)'>← Volver</button>
+      <button onclick='_abrirRutaModal()' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:#1D9E75;border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:6px 12px;color:rgba(255,255,255,0.92);font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600;white-space:nowrap;box-shadow:inset 0 1px 0 rgba(255,255,255,0.15)' id='poi-ruta-drawer-btn'>🛤️ <span id='poi-ruta-drawer-label'>Ruta</span></button>
       <div class='cat-chip active' onclick='_poiDrawerFiltrar(this,"todos")'>🗺️ Todos</div>
       <div class='cat-chip' id='chip-alerta-drawer' onclick='_poiDrawerFiltrar(this,"alerta")'>🚨 Alertas</div>
       <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-costa")'>🌊 Costa</div>
@@ -1851,8 +1851,7 @@ function _renderPoiDrawerCarrusel() {
             distHtml+
             '<button class="poi-btn" data-id="'+p.id+'" data-lat="'+p.lat+'" data-lng="'+p.lng+'">'+(T[idiomaActual]||T.es).comoLlegar+'</button>'+
           '</div>'+
-          '<div id="etapa-desc-'+p.id+'" style="display:none;font-size:11px;color:var(--texto-suave);line-height:1.6;margin-bottom:6px;max-height:100px;overflow-y:auto">'+pDesc+'</div>'+
-          '<button onclick="var el=document.getElementById(&quot;etapa-desc-'+p.id+'&quot;);var vis=el.style.display===&quot;none&quot;;el.style.display=vis?&quot;block&quot;:&quot;none&quot;;this.textContent=vis?&quot;✕ Cerrar&quot;:&quot;📖 Ver etapa&quot;" style="width:100%;background:rgba(29,158,117,0.08);border:1px solid rgba(29,158,117,0.25);border-radius:8px;padding:5px 8px;font-size:11px;font-weight:600;color:var(--verde-oscuro);cursor:pointer;font-family:DM Sans,sans-serif">📖 Ver etapa</button>'+
+          '<button class="poi-detail-btn" data-poi-id="'+p.id+'" style="margin-top:2px;width:100%;background:rgba(29,158,117,0.12);border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:5px 8px;font-size:11px;font-weight:600;color:var(--verde-oscuro);cursor:pointer;font-family:DM Sans,sans-serif">📖 Ver detalle</button>'+
         '</div>';
       frag.appendChild(card);
       return;
@@ -2048,6 +2047,12 @@ function _abrirPoiDetalle(p) {
         '</div>'+
         '<button id="poi-detalle-close" style="background:var(--verde-claro);border:none;border-radius:50%;width:30px;height:30px;font-size:16px;cursor:pointer;color:var(--verde-oscuro);flex-shrink:0;display:flex;align-items:center;justify-content:center">✕</button>'+
       '</div>'+
+      (p.categoria==='etapa' ?
+        '<div style="display:flex;gap:6px;flex-wrap:wrap;padding:0.5rem 1rem 0">'+
+          '<span style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:3px 8px;font-size:11px;font-weight:600;color:#0369a1">⬆ '+p.desnivel_pos+' m</span>'+
+          '<span style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:3px 8px;font-size:11px;font-weight:600;color:#15803d">'+p.km+' km</span>'+
+          '<span style="background:#fefce8;border:1px solid #fde68a;border-radius:8px;padding:3px 8px;font-size:11px;font-weight:600;color:#a16207">'+(p.dificultad||'')+'</span>'+
+        '</div>' : '')+
       '<div style="padding:0.75rem 1rem;font-size:13px;color:#444;line-height:1.7">'+pDesc+'</div>'+
       '<div style="padding:0 1rem 0.5rem;display:flex;align-items:center;gap:8px">'+
         '<div class="stars" id="detalle-stars-'+p.id+'"></div>'+
@@ -6531,6 +6536,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v802</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v803</div>
 </body>
 </html>
