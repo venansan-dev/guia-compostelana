@@ -3137,9 +3137,26 @@ function guardarPOIUsuario() {
   var cat    = document.getElementById('poi-input-cat').value;
   var msg    = document.getElementById('poi-form-msg');
 
-  if (!nombre) { msg.innerHTML = '<span style="color:#dc2626">⚠️ El nombre es obligatorio</span>'; return; }
-  if (!cat)    { msg.innerHTML = '<span style="color:#dc2626">⚠️ Selecciona una categoría</span>'; return; }
-  if (!poiFormLat || !poiFormLng) { msg.innerHTML = '<span style="color:#dc2626">⚠️ Indica la ubicación</span>'; return; }
+  if (!nombre) { msg.innerHTML = '<span style="color:#fca5a5;font-weight:600">⚠️ El nombre es obligatorio</span>'; return; }
+  if (!cat)    { msg.innerHTML = '<span style="color:#fca5a5;font-weight:600">⚠️ Selecciona una categoría</span>'; return; }
+  if (!poiFormLat || !poiFormLng) {
+    // Intentar obtener ubicación automáticamente antes de bloquearse
+    if (navigator.geolocation) {
+      msg.innerHTML = '<span style="color:#93c5fd;font-weight:600">📍 Obteniendo ubicación...</span>';
+      navigator.geolocation.getCurrentPosition(function(pos) {
+        poiFormLat = pos.coords.latitude;
+        poiFormLng = pos.coords.longitude;
+        document.getElementById('poi-coords-display').textContent = '✅ ' + poiFormLat.toFixed(5) + ', ' + poiFormLng.toFixed(5);
+        msg.textContent = '';
+        guardarPOIUsuario(); // reintentar
+      }, function() {
+        msg.innerHTML = '<span style="color:#fca5a5;font-weight:600">⚠️ Indica la ubicación</span>';
+      }, {enableHighAccuracy:true, timeout:8000});
+    } else {
+      msg.innerHTML = '<span style="color:#fca5a5;font-weight:600">⚠️ Indica la ubicación</span>';
+    }
+    return;
+  }
 
   var id = USER_POI_PREFIX + Date.now();
   var esAlerta = (cat === 'alerta');
@@ -7235,6 +7252,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v474</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v475</div>
 </body>
 </html>
