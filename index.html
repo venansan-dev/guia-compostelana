@@ -2122,7 +2122,7 @@ function _renderPoiDrawerCarrusel() {
         )+
         '<p class="poi-desc" id="desc-'+p.id+'">'+pDesc+'</p>'+
         '<button class="poi-leer-mas" id="leer-mas-'+p.id+'">'+(T[idiomaActual]||T.es).leerMas+'</button>'+
-        '<div class="poi-stars"><div class="stars" id="stars-'+p.id+'"></div><span class="stars-count" id="scount-'+p.id+'">'+(val.votos>0?media+' &middot; '+val.votos+' votos':'')+'</span></div>'+
+        (!p.esUsuario ? '<div class="poi-stars"><div class="stars" id="stars-'+p.id+'"></div><span class="stars-count" id="scount-'+p.id+'">'+(val.votos>0?media+' &middot; '+val.votos+' votos':'')+'</span></div>' : '')+
         '<div class="poi-share">'+
           '<a class="poi-share-btn" href="https://wa.me/?text='+texto+'%20'+pageUrl+'" target="_blank">&#128172;</a>'+
           '<a class="poi-share-btn" href="https://www.facebook.com/sharer/sharer.php?u='+pageUrl+'" target="_blank">&#128248;</a>'+
@@ -2151,7 +2151,7 @@ function _renderPoiDrawerCarrusel() {
         var btn = document.getElementById('foto-btn-'+pid); if (btn) btn.innerHTML = '✏️ cambiar';
       }); })(p.id);
     }
-    var starsContainer = card.querySelector('.stars');
+    if (!p.esUsuario) { var starsContainer = card.querySelector('.stars');
     if (starsContainer) {
       starsContainer.innerHTML = '';
       for (var sn = 1; sn <= 5; sn++) {
@@ -2163,7 +2163,7 @@ function _renderPoiDrawerCarrusel() {
         star.setAttribute('data-star', '1');
         starsContainer.appendChild(star);
       }
-    }
+    } }
     var sendBtn = card.querySelector('.opinion-send');
     if (sendBtn) sendBtn.addEventListener('click', function(e) { e.stopPropagation(); enviarOpinion(sendBtn); });
     var opInput = card.querySelector('.opinion-input');
@@ -2946,39 +2946,8 @@ function selSubcat(cat, label) {
 
 function cerrarFormPOI() {
   _cerrarSlide('modal-add-poi');
-  window._poiFormFotoBlob = null;
-  var st = document.getElementById('poi-foto-status'); if (st) st.textContent = '';
-  var btn = document.getElementById('btn-poi-foto'); if (btn) btn.innerHTML = '📷 Añadir foto';
 }
 
-// Foto para el formulario de nuevo POI
-window._poiFormFotoBlob = null;
-function _poiFormPedirFoto() {
-  var inp = document.createElement('input');
-  inp.type = 'file'; inp.accept = 'image/*'; inp.capture = 'environment';
-  inp.onchange = function() {
-    var file = inp.files[0]; if (!file) return;
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      var img = new Image();
-      img.onload = function() {
-        var canvas = document.getElementById('poi-foto-canvas');
-        var MAX = 800; var ratio = Math.min(MAX/img.width, MAX/img.height, 1);
-        canvas.width = Math.round(img.width*ratio); canvas.height = Math.round(img.height*ratio);
-        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-        canvas.toBlob(function(blob) {
-          window._poiFormFotoBlob = blob;
-          var st = document.getElementById('poi-foto-status');
-          if (st) st.textContent = '✅ ' + file.name.substring(0,28);
-          var btn = document.getElementById('btn-poi-foto');
-          if (btn) btn.innerHTML = '✏️ Cambiar foto';
-        }, 'image/jpeg', 0.82);
-      };
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  };
-  inp.click();
 }
 
 // Usar GPS actual
@@ -3164,19 +3133,6 @@ function guardarPOIUsuario() {
 
   // Registrar en álbum automáticamente (el usuario creó este punto, ya lo "visitó")
   if (window._albumRegistrarVisita) window._albumRegistrarVisita(poi);
-  // Si tiene foto, guardarla en IndexedDB y refrescar la tarjeta cuando esté lista
-  if (window._poiFormFotoBlob) {
-    var _blobParaGuardar = window._poiFormFotoBlob;
-    window._poiFormFotoBlob = null;
-    if (window._albumGuardarFoto) {
-      window._albumGuardarFoto(poi.id, _blobParaGuardar, function() {
-        // Actualizar imagen en tarjetas ya renderizadas con la foto propia
-        var url = URL.createObjectURL(_blobParaGuardar);
-        document.querySelectorAll('#cromo-img-'+poi.id).forEach(function(el){ el.src = url; });
-        document.querySelectorAll('#foto-btn-'+poi.id).forEach(function(el){ el.innerHTML = '✏️ cambiar'; });
-      });
-    }
-  }
 
   if (!valoraciones[id]) valoraciones[id] = {total:0, votos:0, miVoto:0};
   if (!opiniones[id]) opiniones[id] = [];
@@ -4422,7 +4378,7 @@ function renderCarrusel(categoria) {
         )+
         '<p class="poi-desc" id="desc-'+p.id+'">'+pDesc+'</p>'+
         '<button class="poi-leer-mas" id="leer-mas-'+p.id+'">'+(T[idiomaActual]||T.es).leerMas+'</button>'+
-        '<div class="poi-stars"><div class="stars" id="stars-'+p.id+'"></div><span class="stars-count" id="scount-'+p.id+'">'+(val.votos>0?media+' &middot; '+val.votos+' votos':'')+'</span></div>'+
+        (!p.esUsuario ? '<div class="poi-stars"><div class="stars" id="stars-'+p.id+'"></div><span class="stars-count" id="scount-'+p.id+'">'+(val.votos>0?media+' &middot; '+val.votos+' votos':'')+'</span></div>' : '')+
         '<div class="poi-share">'+
           '<a class="poi-share-btn" href="https://wa.me/?text='+texto+'%20'+pageUrl+'" target="_blank">&#128172;</a>'+
           '<a class="poi-share-btn" href="https://www.facebook.com/sharer/sharer.php?u='+pageUrl+'" target="_blank">&#128248;</a>'+
@@ -4468,7 +4424,7 @@ function renderCarrusel(categoria) {
         var btn = document.getElementById('foto-btn-'+pid); if (btn) btn.innerHTML = '✏️ cambiar';
       }); })(p.id);
     }
-    var starsContainer = card.querySelector('.stars');
+    if (!p.esUsuario) { var starsContainer = card.querySelector('.stars');
     if (starsContainer) {
       starsContainer.innerHTML = '';
       for (var sn = 1; sn <= 5; sn++) {
@@ -4481,7 +4437,7 @@ function renderCarrusel(categoria) {
         star.setAttribute('data-star', '1');
         starsContainer.appendChild(star);
       }
-    }
+    } }
     // Listener directo en botón enviar
     var sendBtn = card.querySelector('.opinion-send');
     if (sendBtn) sendBtn.addEventListener('click', function(e) {
@@ -7304,6 +7260,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v469</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v471</div>
 </body>
 </html>
