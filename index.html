@@ -4515,11 +4515,11 @@ function renderCarrusel(categoria) {
       '</div>';
     _frag.appendChild(card);
 
-    // Añadir estrellas con createElement — igual que el test que funciona
     // Si ya tiene foto propia guardada, aplicarla (caché memoria primero, luego IDB)
     if (window._albumVisitasSet && window._albumVisitasSet[p.id]) {
       (function(pid){
         var cached = window._albumBlobCache && window._albumBlobCache[pid];
+        console.log('FOTO preload pid='+pid+' cached='+!!cached+' blobCache='+JSON.stringify(Object.keys(window._albumBlobCache||{})));
         if (cached) {
           var el = document.getElementById('cromo-img-'+pid); if (el) el.src = cached;
           var btn = document.getElementById('foto-btn-'+pid); if (btn) btn.innerHTML = '✏️ cambiar';
@@ -7268,6 +7268,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v477</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v477d</div>
 </body>
 </html>
