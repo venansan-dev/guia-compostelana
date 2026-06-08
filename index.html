@@ -792,12 +792,39 @@
     </div>
   </div>
   <div style='padding:0.75rem 1rem 1.5rem'>
+    <!-- Tarjeta fija de ranking — siempre visible -->
+    <div id='album-ranking-card' style='border-radius:14px;overflow:hidden;margin-bottom:10px;background:linear-gradient(160deg,#0e2038 0%,#1a3a5c 50%,#1e4570 100%);border:1px solid rgba(255,255,255,0.12)'>
+      <!-- Cabecera rango -->
+      <div style='padding:0.9rem 1rem 0.7rem;border-bottom:1px solid rgba(255,255,255,0.08)'>
+        <div style='display:flex;align-items:center;gap:12px;margin-bottom:10px'>
+          <div id='rank-emoji' style='font-size:36px;line-height:1'>🌱</div>
+          <div style='flex:1'>
+            <div style='display:flex;align-items:baseline;gap:8px'>
+              <span id='rank-label' style='font-size:16px;font-weight:700;color:#fff'>Aspirante</span>
+              <span id='rank-count' style='font-size:11px;color:rgba(255,255,255,0.4)'>0 cromos</span>
+            </div>
+            <div id='rank-siguiente' style='font-size:10px;color:rgba(255,255,255,0.38);margin-top:2px'>Visita tu primer lugar para comenzar</div>
+          </div>
+        </div>
+        <!-- Barra progreso -->
+        <div style='background:rgba(255,255,255,0.08);border-radius:20px;height:5px;overflow:hidden;margin-bottom:10px'>
+          <div id='rank-barra' style='height:100%;width:0%;background:linear-gradient(90deg,#1D9E75,#6ee7b7);border-radius:20px;transition:width 0.6s ease'></div>
+        </div>
+        <!-- Escalera de rangos -->
+        <div id='rank-escalera' style='display:flex;justify-content:space-between;align-items:flex-end;padding:0 2px'></div>
+      </div>
+      <!-- Logros especiales -->
+      <div style='padding:0.65rem 1rem'>
+        <div style='font-size:9px;font-weight:700;color:rgba(255,255,255,0.3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px'>Logros</div>
+        <div id='rank-logros' style='display:flex;flex-wrap:wrap;gap:5px'></div>
+      </div>
+    </div>
     <!-- Mosaico de cromos -->
     <div id='album-grid' style='display:grid;grid-template-columns:repeat(3,1fr);gap:8px'></div>
-    <div id='album-vacio' style='display:none;text-align:center;padding:2.5rem 1rem'>
-      <div style='font-size:40px;margin-bottom:12px'>🐚</div>
-      <div style='font-size:14px;color:rgba(255,255,255,0.7);font-weight:600;margin-bottom:6px'>Tu álbum está vacío</div>
-      <div style='font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6'>Activa el seguimiento GPS y acércate a los puntos del Camino. Cada visita desbloquea un cromo.</div>
+    <div id='album-vacio' style='display:none;text-align:center;padding:2rem 1rem'>
+      <div style='font-size:36px;margin-bottom:10px'>🐚</div>
+      <div style='font-size:13px;color:rgba(255,255,255,0.7);font-weight:600;margin-bottom:6px'>Tu álbum está vacío</div>
+      <div style='font-size:11px;color:rgba(255,255,255,0.4);line-height:1.6'>Activa el seguimiento GPS y acércate a los puntos del Camino. Cada visita desbloquea un cromo.</div>
     </div>
   </div>
 </div>
@@ -7063,98 +7090,103 @@ if ('serviceWorker' in navigator) {
 
   window._renderAlbum = function() {
     _albumGetVisitas(function(visitas) {
-      var grid = document.getElementById('album-grid');
-      var vacio = document.getElementById('album-vacio');
+      var grid    = document.getElementById('album-grid');
+      var vacio   = document.getElementById('album-vacio');
       var contador = document.getElementById('album-contador');
       if (!grid) return;
       grid.innerHTML = '';
 
-      // --- Panel de rango ---
+      // Cromos oficiales (sin los u_ de usuario)
       var n = visitas.filter(function(v){ return !(v.poiId||'').startsWith('u_'); }).length;
       var rango = _getRango(n);
-      var elEmoji  = document.getElementById('album-rango-emoji');
-      var elLabel  = document.getElementById('album-rango-label');
-      var elCount  = document.getElementById('album-rango-count');
-      var elSig    = document.getElementById('album-rango-siguiente');
-      var elBarra  = document.getElementById('album-rango-barra');
-      if (elEmoji) elEmoji.textContent = rango.emoji;
-      if (elLabel) elLabel.textContent = rango.label;
-      if (elCount) elCount.textContent = n + ' cromo' + (n!==1?'s':'');
-      // Progreso hacia el siguiente rango
       var nextRango = null;
       for (var ri = 0; ri < RANGOS.length; ri++) {
         if (RANGOS[ri].min > n) { nextRango = RANGOS[ri]; break; }
       }
-      if (nextRango) {
-        var pct = Math.round((n - rango.min) / (nextRango.min - rango.min) * 100);
-        if (elBarra) elBarra.style.width = Math.min(pct, 99) + '%';
-        if (elSig) elSig.textContent = (nextRango.min - n) + ' más para ' + nextRango.emoji + ' ' + nextRango.label;
-      } else {
-        if (elBarra) elBarra.style.width = '100%';
-        if (elSig) elSig.textContent = '🌟 ¡Rango máximo alcanzado!';
-      }
-      // Logros especiales
-      _albumGetLogros(function(logros) {
-        var el = document.getElementById('album-logros-especiales');
-        if (!el) return;
-        el.innerHTML = '';
-        var desbloqueados = logros.map(function(l){ return l.badgeId; });
-        BADGES.forEach(function(b) {
-          var ok = desbloqueados.indexOf(b.id) !== -1;
-          var pill = document.createElement('div');
-          pill.title = b.desc;
-          pill.style.cssText = 'display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:600;white-space:nowrap;border:1px solid '+(ok?'rgba(255,215,0,0.5)':'rgba(255,255,255,0.12)')+';background:'+(ok?'rgba(255,215,0,0.12)':'rgba(255,255,255,0.05)')+';color:'+(ok?'#FFD700':'rgba(255,255,255,0.28)');
-          pill.textContent = b.emoji + ' ' + b.label;
-          el.appendChild(pill);
-        });
-      });
+      var pct = nextRango ? Math.min(Math.round((n - rango.min) / (nextRango.min - rango.min) * 100), 99) : 100;
 
+      // Actualizar tarjeta fija de ranking
+      var elEmoji    = document.getElementById('rank-emoji');
+      var elLabel    = document.getElementById('rank-label');
+      var elCount    = document.getElementById('rank-count');
+      var elSig      = document.getElementById('rank-siguiente');
+      var elBarra    = document.getElementById('rank-barra');
+      var elEscalera = document.getElementById('rank-escalera');
+      var elLogros   = document.getElementById('rank-logros');
+
+      if (elEmoji) elEmoji.textContent = rango.emoji;
+      if (elLabel) elLabel.textContent = rango.label;
+      if (elCount) elCount.textContent = n + ' cromo' + (n!==1?'s':'');
+      if (elSig)   elSig.textContent   = nextRango ? (nextRango.min-n)+' cromo'+(nextRango.min-n!==1?'s':'')+' para '+nextRango.emoji+' '+nextRango.label : '🌟 ¡Rango máximo alcanzado!';
+      if (elBarra) elBarra.style.width = pct + '%';
+
+      // Escalera
+      if (elEscalera) {
+        elEscalera.innerHTML = RANGOS.map(function(r) {
+          var activo  = r.label === rango.label;
+          var superado = n >= r.min && !activo;
+          return '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;opacity:'+(superado||activo?'1':'0.3')+'">'
+            + '<div style="font-size:'+(activo?'22':'14')+'px;line-height:1">'+r.emoji+'</div>'
+            + (activo ? '<div style="font-size:8px;color:#6ee7b7;font-weight:700;white-space:nowrap">'+r.label+'</div>' : '')
+            + '</div>';
+        }).join('');
+      }
+
+      // Logros
+      if (elLogros) {
+        elLogros.innerHTML = BADGES.map(function(b) {
+          return '<div id="rank-badge-'+b.id+'" title="'+b.desc+'" style="display:flex;align-items:center;gap:4px;padding:4px 9px;border-radius:20px;font-size:10px;font-weight:600;white-space:nowrap;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.28)">'+b.emoji+' '+b.label+'</div>';
+        }).join('');
+        _albumGetLogros(function(logros) {
+          var desbloqueados = logros.map(function(l){ return l.badgeId; });
+          BADGES.forEach(function(b) {
+            var pill = document.getElementById('rank-badge-'+b.id);
+            if (pill && desbloqueados.indexOf(b.id) !== -1) {
+              pill.style.background = 'rgba(255,215,0,0.12)';
+              pill.style.border     = '1px solid rgba(255,215,0,0.45)';
+              pill.style.color      = '#FFD700';
+            }
+          });
+        });
+      }
+
+      // Mosaico
       if (visitas.length === 0) {
         vacio.style.display = 'block';
-        contador.textContent = 'Visita lugares para desbloquear cromos';
-        // Tarjeta ranking incluso sin cromos
-        _renderRankingCard(grid, n, rango, nextRango);
+        if (contador) contador.textContent = 'Visita lugares para desbloquear cromos';
       } else {
         vacio.style.display = 'none';
-        contador.textContent = visitas.length + ' cromo' + (visitas.length!==1?'s':'') + ' desbloqueado' + (visitas.length!==1?'s':'');
-        // Tarjeta ranking siempre primera
-        _renderRankingCard(grid, n, rango, nextRango);
-        // Ordenar por fecha
+        if (contador) contador.textContent = visitas.length + ' cromo'+(visitas.length!==1?'s':'')+' desbloqueado'+(visitas.length!==1?'s':'');
         visitas.sort(function(a,b){ return a.fecha - b.fecha; });
         visitas.forEach(function(v) {
           var card = document.createElement('div');
           card.style.cssText = 'position:relative;border-radius:10px;overflow:hidden;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);aspect-ratio:3/4;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:flex-end';
           card.dataset.poiId = v.poiId;
-          // Imagen de fondo (foto usuario o imagen del POI)
           var imgWrap = document.createElement('div');
           imgWrap.style.cssText = 'position:absolute;inset:0;z-index:0';
           if (v.imagen) {
             imgWrap.innerHTML = '<img src="'+v.imagen+'" style="width:100%;height:100%;object-fit:cover;opacity:0.7" loading="lazy"/>';
           } else {
             imgWrap.style.background = 'linear-gradient(135deg,#2d1854,#1D9E75)';
-            imgWrap.innerHTML = '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:28px">'+v.emoji+'</div>';
+            imgWrap.innerHTML = '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:28px">'+(v.emoji||'📍')+'</div>';
           }
           card.appendChild(imgWrap);
-          // Overlay degradado
           var overlay = document.createElement('div');
           overlay.style.cssText = 'position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(transparent,rgba(0,0,0,0.8));z-index:1';
           card.appendChild(overlay);
-          // Nombre y fecha
           var info = document.createElement('div');
           info.style.cssText = 'position:relative;z-index:2;padding:6px;width:100%;box-sizing:border-box';
           var d = new Date(v.fecha);
           var fechaStr = d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
-          info.innerHTML = '<div style="font-size:10px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:2px;text-shadow:0 1px 3px rgba(0,0,0,0.8)">'+v.emoji+' '+v.nombre+'</div>'
+          info.innerHTML = '<div style="font-size:10px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:2px;text-shadow:0 1px 3px rgba(0,0,0,0.8)">'+(v.emoji||'📍')+' '+v.nombre+'</div>'
             +'<div style="font-size:9px;color:rgba(255,255,255,0.6)">'+fechaStr+'</div>';
           card.appendChild(info);
-          // Botón foto (esquina superior derecha)
           var btnFoto = document.createElement('button');
           btnFoto.style.cssText = 'position:absolute;top:6px;right:6px;z-index:3;background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.3);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;backdrop-filter:blur(4px)';
           btnFoto.innerHTML = '📷';
           btnFoto.title = 'Añadir foto';
           btnFoto.onclick = function(e) { e.stopPropagation(); _albumPedirFoto(v.poiId, card); };
           card.appendChild(btnFoto);
-          // Si ya tiene foto usuario, mostrarlo
           _albumGetFoto(v.poiId, function(blob) {
             if (blob) {
               var url = URL.createObjectURL(blob);
@@ -7165,8 +7197,6 @@ if ('serviceWorker' in navigator) {
           grid.appendChild(card);
         });
       }
-      // Renderizar badges
-      _renderBadges();
     });
   };
 
@@ -7410,6 +7440,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v480</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v481</div>
 </body>
 </html>
