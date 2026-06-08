@@ -561,6 +561,7 @@
       <button onclick='cerrarPoiDrawer()' id='poi-panel-volver' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:#722F37;border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:6px 12px;color:rgba(255,255,255,0.92);font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600;white-space:nowrap;box-shadow:inset 0 1px 0 rgba(255,255,255,0.15)'>← Volver</button>
       <button onclick='_abrirRutaModal()' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:#1D9E75;border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:6px 12px;color:rgba(255,255,255,0.92);font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600;white-space:nowrap;box-shadow:inset 0 1px 0 rgba(255,255,255,0.15)' id='poi-ruta-drawer-btn'>🛤️ <span id='poi-ruta-drawer-label'>Ruta</span></button>
       <div class='cat-chip active' onclick='_poiDrawerFiltrar(this,"todos")'>🗺️ Todos</div>
+      <div class='cat-chip' id='chip-album-drawer' onclick='abrirAlbumDrawer()'>📷 Mi Álbum</div>
       <div class='cat-chip' id='chip-alerta-drawer' onclick='_poiDrawerFiltrar(this,"alerta")'>🚨 Alertas</div>
       <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-costa")'>🌊 Costa</div>
       <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-interior")'>🥾 Interior</div>
@@ -606,55 +607,67 @@
 </div>
 
 <!-- PANEL AÑADIR POI DE USUARIO -->
-<div id='modal-add-poi' class='map-slide-panel' style='background:#fff;font-family:DM Sans,sans-serif'>
-  <div style='position:absolute;inset:0;display:flex;flex-direction:column;gap:0.5rem;box-sizing:border-box;padding:0.75rem 1rem;overflow:hidden'>
+<div id='modal-add-poi' class='map-slide-panel' style='background:linear-gradient(160deg,#0e2038 0%,#1a3a5c 40%,#1e4570 70%,#142f4a 100%);font-family:DM Sans,sans-serif;color:#fff'>
+  <div style='position:absolute;inset:0;display:flex;flex-direction:column;gap:0.35rem;box-sizing:border-box;padding:0.6rem 0.85rem;overflow:hidden'>
     <!-- Volver -->
-    <button onclick='cerrarFormPOI()' id='addpoi-panel-volver' style='display:flex;align-items:center;gap:6px;background:var(--verde-claro);border:1px solid rgba(29,158,117,0.3);border-radius:10px;padding:6px 12px;color:var(--verde-oscuro);font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;width:fit-content;font-weight:600;flex-shrink:0'>← Volver</button>
+    <button onclick='cerrarFormPOI()' id='addpoi-panel-volver' style='display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:4px 10px;color:rgba(255,255,255,0.9);font-size:11px;cursor:pointer;font-family:DM Sans,sans-serif;width:fit-content;font-weight:600;flex-shrink:0'>← Volver</button>
     <!-- Nombre -->
     <div style='flex-shrink:0'>
-      <label style='font-size:11px;font-weight:600;color:#374151;display:block;margin-bottom:3px' id='lbl-poi-nombre'>📍 Nombre del lugar *</label>
-      <input id='poi-input-nombre' type='text' maxlength='80' placeholder='Ej: Fuente del Peregrino' style='width:100%;border:1px solid #d1d5db;border-radius:8px;padding:7px 10px;font-size:13px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none'/>
+      <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:2px' id='lbl-poi-nombre'>📍 Nombre *</label>
+      <input id='poi-input-nombre' type='text' maxlength='80' placeholder='Ej: Fuente del Peregrino' style='width:100%;border:1px solid rgba(255,255,255,0.2);border-radius:7px;padding:5px 9px;font-size:13px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none;background:rgba(255,255,255,0.1);color:#fff'/>
     </div>
     <!-- Descripción -->
     <div style='flex-shrink:0'>
-      <label style='font-size:11px;font-weight:600;color:#374151;display:block;margin-bottom:3px' id='lbl-poi-desc'>Descripción</label>
-      <textarea id='poi-input-desc' maxlength='300' rows='2' placeholder='Cuéntanos algo sobre este lugar...' style='width:100%;border:1px solid #d1d5db;border-radius:8px;padding:7px 10px;font-size:12px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none;resize:none'></textarea>
+      <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:2px' id='lbl-poi-desc'>Descripción</label>
+      <textarea id='poi-input-desc' maxlength='300' rows='1' placeholder='Cuéntanos algo sobre este lugar...' style='width:100%;border:1px solid rgba(255,255,255,0.2);border-radius:7px;padding:5px 9px;font-size:12px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none;resize:none;background:rgba(255,255,255,0.1);color:#fff'></textarea>
     </div>
     <!-- Categoría -->
     <div style='flex-shrink:0'>
-      <label style='font-size:11px;font-weight:600;color:#374151;display:block;margin-bottom:4px' id='lbl-poi-cat'>Categoría *</label>
+      <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:3px' id='lbl-poi-cat'>Categoría *</label>
       <input type='hidden' id='poi-input-cat' value=''/>
-      <div style='display:flex;gap:6px'>
+      <div style='display:flex;gap:5px'>
         <button type='button' onclick='selPoiCat(this,"alerta")' data-cat='alerta'
-          style='flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:#fff3f3;border:2px solid #fca5a5;border-radius:10px;padding:6px 4px;font-size:11px;font-weight:600;color:#dc2626;cursor:pointer;font-family:DM Sans,sans-serif;line-height:1.2'>
-          <span style='font-size:16px'>🚨</span><span id='btn-alerta-label'>Alerta</span>
+          style='flex:1;display:flex;align-items:center;justify-content:center;gap:4px;background:rgba(220,38,38,0.2);border:1.5px solid rgba(252,165,165,0.5);border-radius:8px;padding:5px 4px;font-size:11px;font-weight:600;color:#fca5a5;cursor:pointer;font-family:DM Sans,sans-serif'>
+          🚨 <span id='btn-alerta-label'>Alerta</span>
         </button>
         <button type='button' onclick='selPoiCat(this,"punto de control")' data-cat='punto de control'
-          style='flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:#eff6ff;border:2px solid #93c5fd;border-radius:10px;padding:6px 4px;font-size:11px;font-weight:600;color:#1d4ed8;cursor:pointer;font-family:DM Sans,sans-serif;line-height:1.2'>
-          <span style='font-size:16px'>📌</span><span id='btn-control-label'>Control</span>
+          style='flex:1;display:flex;align-items:center;justify-content:center;gap:4px;background:rgba(59,130,246,0.2);border:1.5px solid rgba(147,197,253,0.5);border-radius:8px;padding:5px 4px;font-size:11px;font-weight:600;color:#93c5fd;cursor:pointer;font-family:DM Sans,sans-serif'>
+          📌 <span id='btn-control-label'>Mis puntos</span>
         </button>
         <button type='button' onclick='abrirSubcatDrawer()' id='btn-recomendar-poi' data-cat=''
-          style='flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:#f0fdf4;border:2px solid #86efac;border-radius:10px;padding:6px 4px;font-size:11px;font-weight:600;color:#15803d;cursor:pointer;font-family:DM Sans,sans-serif;line-height:1.2'>
-          <span style='font-size:16px'>⭐</span><span id='btn-recomendar-label'>Recomendar</span>
+          style='flex:1;display:flex;align-items:center;justify-content:center;gap:4px;background:rgba(29,158,117,0.2);border:1.5px solid rgba(134,239,172,0.5);border-radius:8px;padding:5px 4px;font-size:11px;font-weight:600;color:#6ee7b7;cursor:pointer;font-family:DM Sans,sans-serif'>
+          ⭐ <span id='btn-recomendar-label'>Recomendar</span>
         </button>
       </div>
-      <div id='poi-cat-seleccionada' style='display:none;margin-top:4px;font-size:11px;color:#15803d;font-weight:500'></div>
+      <div id='poi-cat-seleccionada' style='display:none;margin-top:3px;font-size:11px;color:#6ee7b7;font-weight:500'></div>
     </div>
-    <!-- Ubicación -->
-    <div style='flex:1;display:flex;flex-direction:column;justify-content:center'>
-      <label style='font-size:11px;font-weight:600;color:#374151;display:block;margin-bottom:4px' id='lbl-poi-ubic'>Ubicación *</label>
-      <div style='display:flex;gap:8px'>
-        <button onclick='usarMiUbicacion()' id='btn-mi-ubic' style='flex:1;background:var(--verde-claro);color:var(--verde-oscuro);border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:7px 10px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>📍 <span id='btn-mi-ubic-txt'>Mi ubicación</span></button>
-        <button onclick='activarMarcarEnMapa()' id='btn-marcar-mapa' style='flex:1;background:#f3f4f6;color:#374151;border:1px solid #d1d5db;border-radius:8px;padding:7px 10px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🗺️ <span id='btn-marcar-mapa-txt'>En el mapa</span></button>
+    <!-- Ubicación + Foto en la misma fila -->
+    <div style='flex-shrink:0'>
+      <div style='display:flex;gap:6px;margin-bottom:2px'>
+        <div style='flex:1'>
+          <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:2px' id='lbl-poi-ubic'>Ubicación *</label>
+          <div style='display:flex;gap:5px'>
+            <button onclick='usarMiUbicacion()' id='btn-mi-ubic' style='flex:1;background:rgba(29,158,117,0.3);color:#6ee7b7;border:1px solid rgba(29,158,117,0.5);border-radius:7px;padding:5px 6px;font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap'>📍 <span id='btn-mi-ubic-txt'>Mi GPS</span></button>
+            <button onclick='activarMarcarEnMapa()' id='btn-marcar-mapa' style='flex:1;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);border:1px solid rgba(255,255,255,0.2);border-radius:7px;padding:5px 6px;font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap'>🗺️ <span id='btn-marcar-mapa-txt'>Mapa</span></button>
+          </div>
+        </div>
+        <div style='flex:1' id='poi-foto-campo' style='display:none'>
+          <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:2px' id='lbl-poi-foto'>Foto <span style='font-weight:400;color:rgba(255,255,255,0.35)'>(opcional)</span></label>
+          <button type='button' onclick='_poiFormPedirFoto()' id='btn-poi-foto' style='width:100%;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);border:1px solid rgba(255,255,255,0.2);border-radius:7px;padding:5px 6px;font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>📷 Añadir foto</button>
+        </div>
       </div>
-      <div id='poi-coords-display' style='margin-top:4px;font-size:11px;color:#6b7280;min-height:14px'></div>
+      <div style='display:flex;gap:6px'>
+        <div id='poi-coords-display' style='flex:1;font-size:10px;color:rgba(255,255,255,0.4);min-height:13px'></div>
+        <div id='poi-foto-status' style='flex:1;font-size:10px;color:rgba(255,255,255,0.4);text-align:right'></div>
+      </div>
+      <canvas id='poi-foto-canvas' style='display:none'></canvas>
     </div>
     <!-- Botones acción -->
-    <div style='display:flex;gap:8px;flex-shrink:0'>
-      <button onclick='cerrarFormPOI()' style='flex:1;background:#f3f4f6;color:#374151;border:none;border-radius:12px;padding:9px;font-size:13px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif' id='btn-poi-cancelar'>Cancelar</button>
-      <button onclick='guardarPOIUsuario()' id='btn-poi-guardar' style='flex:2;background:var(--verde);color:#fff;border:none;border-radius:12px;padding:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'><span id='btn-poi-guardar-txt'>Guardar punto</span></button>
+    <div style='display:flex;gap:8px;flex-shrink:0;margin-top:auto;padding-top:4px'>
+      <button onclick='cerrarFormPOI()' style='flex:1;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif' id='btn-poi-cancelar'>Cancelar</button>
+      <button onclick='guardarPOIUsuario()' id='btn-poi-guardar' style='flex:2;background:var(--verde);color:#fff;border:none;border-radius:10px;padding:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'><span id='btn-poi-guardar-txt'>Guardar punto</span></button>
     </div>
-    <div id='poi-form-msg' style='font-size:11px;text-align:center;min-height:14px;flex-shrink:0'></div>
+    <div id='poi-form-msg' style='font-size:11px;text-align:center;min-height:12px;flex-shrink:0;color:rgba(255,255,255,0.7)'></div>
   </div>
 </div>
 
@@ -773,6 +786,30 @@
   </div>
 </div>
 
+<!-- PANEL ÁLBUM DEL PEREGRINO -->
+<div id='album-drawer' class='map-slide-panel' style='background:linear-gradient(160deg,#1a0e2e 0%,#2d1854 40%,#3b1f6a 70%,#1e1040 100%);font-family:DM Sans,sans-serif;overflow-y:auto;touch-action:pan-y'>
+  <div style='padding:0.6rem 1rem 0;position:sticky;top:0;background:linear-gradient(160deg,#1a0e2e 0%,#2d1854 60%,#3b1f6a 100%);z-index:10;border-bottom:1px solid rgba(255,255,255,0.12)'>
+    <div style='display:flex;align-items:center;gap:8px;padding-bottom:0.6rem'>
+      <button onclick='cerrarAlbumDrawer()' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:#722F37;border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:6px 12px;color:rgba(255,255,255,0.92);font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600'>← Volver</button>
+      <div style='flex:1'>
+        <div style='font-size:14px;font-weight:700;color:#fff'>📷 Mi Álbum del Camino</div>
+        <div id='album-contador' style='font-size:11px;color:rgba(255,255,255,0.55)'>Visita lugares para desbloquear cromos</div>
+      </div>
+    </div>
+  </div>
+  <div style='padding:0.75rem 1rem 1.5rem'>
+    <!-- Logros / badges -->
+    <div id='album-badges' style='display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:1rem;scrollbar-width:none'></div>
+    <!-- Mosaico de cromos -->
+    <div id='album-grid' style='display:grid;grid-template-columns:repeat(3,1fr);gap:8px'></div>
+    <div id='album-vacio' style='display:none;text-align:center;padding:2.5rem 1rem'>
+      <div style='font-size:40px;margin-bottom:12px'>🐚</div>
+      <div style='font-size:14px;color:rgba(255,255,255,0.7);font-weight:600;margin-bottom:6px'>Tu álbum está vacío</div>
+      <div style='font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6'>Activa el seguimiento GPS y acércate a los puntos del Camino. Cada visita desbloquea un cromo.</div>
+    </div>
+  </div>
+</div>
+
 </div><!-- fin map-block -->
 
 <!-- BANNER INSTALAR / NOTIFICACIONES -->
@@ -812,7 +849,7 @@
   <div class='categories'>
     <div class='cat-chip active' id='chip-todos'><span id='chip-todos-txt'></span></div>
     <div class='cat-chip' id='chip-alertas'></div>
-    <div class='cat-chip' id='chip-usuario'><span id='chip-usuario-txt'></span></div>
+    <div class='cat-chip' id='chip-usuario' style='display:none'><span id='chip-usuario-txt'></span></div>
     <div class='cat-chip' id='chip-etapas-costa'><span id='chip-etapas-costa-txt'></span></div>
     <div class='cat-chip' id='chip-etapas-interior'><span id='chip-etapas-interior-txt'></span></div>
     <div class='cat-chip' id='chip-naturaleza'></div>
@@ -1826,7 +1863,7 @@ function actualizarBtnPrincipal() {
 
 var _TODOS_PANELES = [
   'brujula-drawer','sos-drawer','meteo-drawer','historia-drawer',
-  'poi-drawer','donaciones-drawer','comousar-drawer','contacto-drawer','modal-add-poi'
+  'poi-drawer','donaciones-drawer','comousar-drawer','contacto-drawer','album-drawer','modal-add-poi'
 ];
 function cerrarTodosLosPaneles() {
   var mapSection = document.querySelector('#map-block .map-section');
@@ -1896,6 +1933,12 @@ function abrirComoUsarDrawer() { _abrirSlide('comousar-drawer'); }
 function cerrarComoUsarDrawer() { _cerrarSlide('comousar-drawer'); }
 function abrirContactoDrawer() { _abrirSlide('contacto-drawer'); }
 function cerrarContactoDrawer() { _cerrarSlide('contacto-drawer'); }
+function abrirAlbumDrawer() {
+  // Activa el filtro "Mi Álbum" en el poi-drawer (ya abierto)
+  var chip = document.getElementById('chip-album-drawer');
+  _poiDrawerFiltrar(chip, 'album');
+}
+function cerrarAlbumDrawer() { _cerrarSlide('album-drawer'); }
 
 function abrirBrujulaDrawer() { _abrirSlide('brujula-drawer'); }
 function cerrarBrujulaDrawer() { _cerrarSlide('brujula-drawer'); }
@@ -1991,16 +2034,23 @@ function _renderPoiDrawerCarrusel() {
   var car = document.getElementById('poi-drawer-carousel');
   if (!car) return;
   var t = T[idiomaActual] || T.es;
-  var todos = (typeof PUNTOS !== 'undefined' ? PUNTOS : []).concat(typeof PUNTOS_USUARIO !== 'undefined' ? PUNTOS_USUARIO : []);
+  var _todosRaw = (typeof PUNTOS !== 'undefined' ? PUNTOS : []).concat(typeof PUNTOS_USUARIO !== 'undefined' ? PUNTOS_USUARIO : []);
+  var _vistos = {};
+  var todos = _todosRaw.filter(function(p){ if(_vistos[p.id]) return false; _vistos[p.id]=true; return true; });
   var filtrados = todos.filter(function(p) {
     if (_poiDrawerCatActual === 'todos') return !p.esUsuario && !(p.id && p.id.indexOf('u_')===0) && p.categoria !== 'etapa';
     if (_poiDrawerCatActual === 'alerta') return p.esAlerta;
     if (_poiDrawerCatActual === 'etapa-costa') return p.categoria === 'etapa' && p.variante === 'costa';
     if (_poiDrawerCatActual === 'etapa-interior') return p.categoria === 'etapa' && p.variante === 'interior';
+    if (_poiDrawerCatActual === 'album') return !!(window._albumVisitasSet && window._albumVisitasSet[p.id]);
     return (p.categoria || '') === _poiDrawerCatActual;
   });
   if (!filtrados.length) {
-    car.innerHTML = '<div style="color:var(--texto-suave);font-size:13px;padding:16px;font-style:italic">No hay puntos en esta categoría</div>';
+    if (_poiDrawerCatActual === 'album') {
+      car.innerHTML = '<div style="width:100%;padding:2rem 1.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center"><div style="font-size:36px;margin-bottom:10px">🐚</div><div style="color:rgba(255,255,255,0.75);font-size:13px;font-weight:600;margin-bottom:6px">Tu álbum está vacío</div><div style="color:rgba(255,255,255,0.4);font-size:12px;line-height:1.6;max-width:240px">Activa el seguimiento GPS y acércate a los puntos del Camino. Cada visita desbloquea el cromo.</div></div>';
+    } else {
+      car.innerHTML = '<div style="color:var(--texto-suave);font-size:13px;padding:16px;font-style:italic">No hay puntos en esta categoría</div>';
+    }
     return;
   }
   filtrados = filtrados.slice().sort(function(a, b) {
@@ -2059,11 +2109,11 @@ function _renderPoiDrawerCarrusel() {
       return;
     }
     card.innerHTML =
-      '<div class="poi-img '+p.color+'" style="position:relative;overflow:hidden">'+
+      (window._imgCromo ? window._imgCromo(p, enRuta, T, idiomaActual) : '<div class="poi-img '+p.color+'" style="position:relative;overflow:hidden">'+
         '<img src="'+(p.imagen||'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png')+'" alt="'+p.nombre+'" class="poi-img-cover" decoding="async" fetchpriority="low"/>'+
         (!p.esAlerta ? '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'" style="position:absolute;top:8px;right:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);background:'+(enRuta?'#1D9E75':'rgba(255,255,255,0.92)')+';color:'+(enRuta?'#fff':'#0F6E56')+';border:1px solid '+(enRuta?'#1D9E75':'rgba(29,158,117,0.4)')+'">'+
           (enRuta?'&#10003; '+(T[idiomaActual]||T.es).enRuta.replace('✓ ',''):(T[idiomaActual]||T.es).añadirRuta)+'</button>' : '')+
-      '</div>'+
+      '</div>')+
       '<div class="poi-ranking" id="rank-'+p.id+'" style="left:8px;right:auto">&#9733; '+(val.votos>0?media:'-')+'</div>'+
       '<div class="poi-body">'+
         '<div class="poi-category">'+( p.categoria||'')+'</div>'+
@@ -2097,6 +2147,15 @@ function _renderPoiDrawerCarrusel() {
         '<button class="poi-detail-btn" data-poi-id="'+p.id+'" style="margin-top:6px;width:100%;background:var(--verde-claro);border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:5px 8px;font-size:11px;font-weight:600;color:var(--verde-oscuro);cursor:pointer;font-family:DM Sans,sans-serif">💬 '+(T[idiomaActual]||T.es).verDetalle+'</button>'+
       '</div>';
     frag.appendChild(card);
+    // Si ya tiene foto propia guardada, aplicarla
+    if (window._albumGetFoto && window._albumVisitasSet && window._albumVisitasSet[p.id]) {
+      (function(pid){ window._albumGetFoto(pid, function(blob) {
+        if (!blob) return;
+        var url = URL.createObjectURL(blob);
+        var el = document.getElementById('cromo-img-'+pid); if (el) el.src = url;
+        var btn = document.getElementById('foto-btn-'+pid); if (btn) btn.innerHTML = '✏️ cambiar';
+      }); })(p.id);
+    }
     var starsContainer = card.querySelector('.stars');
     if (starsContainer) {
       starsContainer.innerHTML = '';
@@ -2413,7 +2472,7 @@ function cargarPOIsUsuario() {
     var stored = localStorage.getItem('poi_usuario');
     if (!stored) return;
     PUNTOS_USUARIO = JSON.parse(stored);
-  if(PUNTOS_USUARIO.length>0){var cu=document.getElementById('chip-usuario');if(cu)cu.style.display='inline-flex';}
+  if(PUNTOS_USUARIO.length>0){ /* chip-usuario reemplazado por Mi Álbum */ }
     PUNTOS_USUARIO.forEach(function(p) {
       p.esUsuario = true;
       if (!valoraciones[p.id]) valoraciones[p.id] = {total:0, votos:0, miVoto:0};
@@ -2829,6 +2888,9 @@ function selPoiCat(btn, cat) {
   document.getElementById('poi-form-msg').textContent = '';
   var lbl = document.getElementById('poi-cat-seleccionada');
   if (lbl) lbl.style.display = 'none';
+  // Mostrar campo foto solo para "mis puntos"
+  var fotoCampo = document.getElementById('poi-foto-campo');
+  if (fotoCampo) fotoCampo.style.display = (cat === 'punto de control') ? 'block' : 'none';
 }
 
 function resetAllPoiCatBtns() {
@@ -2892,6 +2954,40 @@ function selSubcat(cat, label) {
 
 function cerrarFormPOI() {
   _cerrarSlide('modal-add-poi');
+  window._poiFormFotoBlob = null;
+  var st = document.getElementById('poi-foto-status'); if (st) st.textContent = '';
+  var btn = document.getElementById('btn-poi-foto'); if (btn) btn.innerHTML = '📷 Añadir foto';
+  var fotoCampo = document.getElementById('poi-foto-campo'); if (fotoCampo) fotoCampo.style.display = 'none';
+}
+
+// Foto para el formulario de nuevo POI
+window._poiFormFotoBlob = null;
+function _poiFormPedirFoto() {
+  var inp = document.createElement('input');
+  inp.type = 'file'; inp.accept = 'image/*'; inp.capture = 'environment';
+  inp.onchange = function() {
+    var file = inp.files[0]; if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var img = new Image();
+      img.onload = function() {
+        var canvas = document.getElementById('poi-foto-canvas');
+        var MAX = 800; var ratio = Math.min(MAX/img.width, MAX/img.height, 1);
+        canvas.width = Math.round(img.width*ratio); canvas.height = Math.round(img.height*ratio);
+        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+        canvas.toBlob(function(blob) {
+          window._poiFormFotoBlob = blob;
+          var st = document.getElementById('poi-foto-status');
+          if (st) st.textContent = '✅ ' + file.name.substring(0,28);
+          var btn = document.getElementById('btn-poi-foto');
+          if (btn) btn.innerHTML = '✏️ Cambiar foto';
+        }, 'image/jpeg', 0.82);
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+  inp.click();
 }
 
 // Usar GPS actual
@@ -3073,20 +3169,41 @@ function guardarPOIUsuario() {
   // Alertas: visibles inmediatamente para todos via Firebase en tiempo real
   // Otros: solo local hasta moderación
   PUNTOS_USUARIO.push(poi);
-  var chipU=document.getElementById('chip-usuario');if(chipU)chipU.style.display='inline-flex';
   try { localStorage.setItem('poi_usuario', JSON.stringify(PUNTOS_USUARIO)); } catch(e) {}
 
-  if (!valoraciones[id]) valoraciones[id] = {total:0, votos:0, miVoto:0};
-  if (!opiniones[id]) opiniones[id] = [];
-  PUNTOS.push(poi);
-  if (typeof mapa !== 'undefined' && mapa) añadirMarcadorUsuario(poi);
-  if (typeof userLat !== 'undefined' && userLat) {
-    PUNTOS.forEach(function(p){p.distancia=haversine(userLat,userLng,p.lat,p.lng);});
-    PUNTOS.sort(function(a,b){return a.distancia-b.distancia;});
+  // Registrar en álbum automáticamente (el usuario creó este punto, ya lo "visitó")
+  // Marcamos como visitado síncronamente para que el render lo vea de inmediato
+  window._albumVisitasSet[poi.id] = true;
+
+  // Si tiene foto, guardarla ANTES de renderizar — así la precarga del render la encuentra
+  var _blobParaGuardar = window._poiFormFotoBlob || null;
+  window._poiFormFotoBlob = null;
+
+  function _finalizarGuardado() {
+    if (!valoraciones[id]) valoraciones[id] = {total:0, votos:0, miVoto:0};
+    if (!opiniones[id]) opiniones[id] = [];
+    PUNTOS.push(poi);
+    if (typeof mapa !== 'undefined' && mapa) añadirMarcadorUsuario(poi);
+    if (typeof userLat !== 'undefined' && userLat) {
+      PUNTOS.forEach(function(p){p.distancia=haversine(userLat,userLng,p.lat,p.lng);});
+      PUNTOS.sort(function(a,b){return a.distancia-b.distancia;});
+    }
+    cerrarFormPOI();
+    btn.disabled = false;
+    renderCarrusel(categoriaActiva);
+    // Persistir en IndexedDB y disparar logros tras render
+    if (window._albumRegistrarVisita) window._albumRegistrarVisita(poi, true);
+    mostrarToast('📌 Punto añadido a tu álbum');
   }
-  cerrarFormPOI();
-  btn.disabled = false;
-  renderCarrusel(categoriaActiva);
+
+  if (_blobParaGuardar && window._albumGuardarFoto) {
+    // Guardar foto primero, luego renderizar — así el render encuentra la foto en IDB
+    window._albumGuardarFoto(poi.id, _blobParaGuardar, function() {
+      _finalizarGuardado();
+    });
+  } else {
+    _finalizarGuardado();
+  }
 
   // Firebase: alertas van a rama 'alertas' (pública, tiempo real); resto a poi_usuarios (moderación)
   try {
@@ -3973,6 +4090,8 @@ function toggleSeguimiento() {
         if (window._userMarker) window._userMarker.setLatLng([userLat, userLng]);
         if (circuloRadio) { mapa.removeLayer(circuloRadio); circuloRadio = L.circle([userLat,userLng],{radius:radioKm*1000,color:'#1D9E75',fillColor:'#1D9E75',fillOpacity:0.07,weight:2,dashArray:'6 4'}).addTo(mapa); }
         mapa.panTo([userLat, userLng], {animate:true, duration:0.5});
+        // Comprobar proximidad a POIs para álbum
+        if (window._albumCheckProximidad) window._albumCheckProximidad(userLat, userLng);
         // Actualizar línea máx cada 10s para no saturar OSRM
         var ahora = Date.now();
         if (!window._ultimaActLinea || ahora - window._ultimaActLinea > 10000) {
@@ -4291,10 +4410,10 @@ function renderCarrusel(categoria) {
       mostrarBtnRuta = (hoy >= fIniExt && hoy <= fFinExt);
     }
     card.innerHTML =
-      '<div class="poi-img '+p.color+'" style="position:relative;overflow:hidden">' +
+      (window._imgCromo ? window._imgCromo(p, enRuta, T, idiomaActual) : '<div class="poi-img '+p.color+'" style="position:relative;overflow:hidden">' +
         '<img src="'+(p.imagen||'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png')+'" alt="'+p.nombre+'" class="poi-img-cover" decoding="async" fetchpriority="low"/>' +
         (mostrarBtnRuta && !p.esAlerta ? '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'" style="position:absolute;top:8px;right:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);background:'+(enRuta?'#1D9E75':'rgba(255,255,255,0.92)')+';color:'+(enRuta?'#fff':'#0F6E56')+';border:1px solid '+(enRuta?'#1D9E75':'rgba(29,158,117,0.4)')+'">'+  (enRuta?'&#10003; '+(T[idiomaActual]||T.es).enRuta.replace('✓ ',''):(T[idiomaActual]||T.es).añadirRuta)+'</button>' : '') +
-      '</div>'+
+      '</div>')+
       '<div class="poi-ranking" id="rank-'+p.id+'" style="left:8px;right:auto">&#9733; '+(val.votos>0?media:'-')+'</div>'+
       '<div class="poi-body">'+
         '<div class="poi-category">'+(function(c){var t2=T[idiomaActual]||T.es;var cm={'naturaleza':t2.chipNaturaleza,'monumento':t2.chipMonumento,'albergue':t2.chipAlbergue,'mirador':t2.chipMirador,'edificación religiosa':t2.chipEdif,'localización histórica':t2.chipHist,'vestigio arqueológico':t2.chipVest,'edificación histórica':t2.chipEdifH,'naturaleza':t2.chipNat};return cm[c]||c;})(p.categoria)+'</div>'+
@@ -4353,6 +4472,15 @@ function renderCarrusel(categoria) {
     _frag.appendChild(card);
 
     // Añadir estrellas con createElement — igual que el test que funciona
+    // Si ya tiene foto propia guardada, aplicarla
+    if (window._albumGetFoto && window._albumVisitasSet && window._albumVisitasSet[p.id]) {
+      (function(pid){ window._albumGetFoto(pid, function(blob) {
+        if (!blob) return;
+        var url = URL.createObjectURL(blob);
+        var el = document.getElementById('cromo-img-'+pid); if (el) el.src = url;
+        var btn = document.getElementById('foto-btn-'+pid); if (btn) btn.innerHTML = '✏️ cambiar';
+      }); })(p.id);
+    }
     var starsContainer = card.querySelector('.stars');
     if (starsContainer) {
       starsContainer.innerHTML = '';
@@ -5648,7 +5776,7 @@ var T={
     lblDesc:'Descripción',
     lblCat:'Categoría *',
     btnAlerta:'Alerta',
-    btnControl:'Control',
+    btnControl:'Mis puntos',
     btnRecomendar:'Recomendar',
     lblUbic:'Ubicación *',
     btnMiUbic:'Usar mi ubicación',
@@ -5858,7 +5986,7 @@ var T={
     lblDesc:'Descrición',
     lblCat:'Categoría *',
     btnAlerta:'Alerta',
-    btnControl:'Control',
+    btnControl:'Mis puntos',
     btnRecomendar:'Recomendar',
     lblUbic:'Localización *',
     btnMiUbic:'Usar a miña localización',
@@ -6072,7 +6200,7 @@ var T={
     lblDesc:'Description',
     lblCat:'Category *',
     btnAlerta:'Alert',
-    btnControl:'Checkpoint',
+    btnControl:'My points',
     btnRecomendar:'Recommend',
     lblUbic:'Location *',
     btnMiUbic:'Use my location',
@@ -6767,6 +6895,366 @@ if ('serviceWorker' in navigator) {
   });
 }
 
+// ============================================================
+// ÁLBUM DEL PEREGRINO — IndexedDB + detección de visitas
+// ============================================================
+(function() {
+  var DB_NAME = 'album-peregrino';
+  var DB_VER  = 1;
+  var _db = null;
+
+  function _abrirDB(cb) {
+    if (_db) { cb(_db); return; }
+    var req = indexedDB.open(DB_NAME, DB_VER);
+    req.onupgradeneeded = function(e) {
+      var db = e.target.result;
+      if (!db.objectStoreNames.contains('visitas')) {
+        db.createObjectStore('visitas', { keyPath: 'poiId' });
+      }
+      if (!db.objectStoreNames.contains('fotos')) {
+        db.createObjectStore('fotos', { keyPath: 'poiId' });
+      }
+      if (!db.objectStoreNames.contains('logros')) {
+        db.createObjectStore('logros', { keyPath: 'badgeId' });
+      }
+    };
+    req.onsuccess = function(e) { _db = e.target.result; cb(_db); };
+    req.onerror   = function()  { console.warn('AlbumDB: error al abrir'); };
+  }
+
+  // Guardar visita
+  window._albumRegistrarVisita = function(poi, silencioso) {
+    // Actualizar caché síncrono inmediatamente para que el render lo vea al instante
+    window._albumVisitasSet[poi.id] = true;
+    _abrirDB(function(db) {
+      var tx = db.transaction('visitas', 'readwrite');
+      var store = tx.objectStore('visitas');
+      var getReq = store.get(poi.id);
+      getReq.onsuccess = function() {
+        if (getReq.result) return; // ya registrada
+        store.put({ poiId: poi.id, nombre: poi.nombre, emoji: poi.emoji || '📍',
+                    imagen: poi.imagen || null, categoria: poi.categoria,
+                    lat: poi.lat, lng: poi.lng, fecha: Date.now() });
+        // Actualizar imagen en las tarjetas ya renderizadas
+        if (window._albumRefrescarImgCard) window._albumRefrescarImgCard(poi.id);
+        // Toast solo si no es silencioso (POIs de usuario gestionan su propio toast)
+        if (!silencioso) mostrarToast('🏅 ¡Cromo desbloqueado! ' + (poi.emoji||'📍') + ' ' + poi.nombre);
+        // Comprobar logros siempre
+        _albumComprobarLogros();
+      };
+    });
+  };
+
+  // Guardar foto (blob) asociada a un POI
+  window._albumGuardarFoto = function(poiId, blob, cb) {
+    _abrirDB(function(db) {
+      var tx = db.transaction('fotos', 'readwrite');
+      tx.objectStore('fotos').put({ poiId: poiId, blob: blob, fecha: Date.now() });
+      tx.oncomplete = function() { if (cb) cb(); };
+    });
+  };
+
+  // Leer todas las visitas
+  window._albumGetVisitas = function(cb) {
+    _abrirDB(function(db) {
+      var tx = db.transaction('visitas', 'readonly');
+      var req = tx.objectStore('visitas').getAll();
+      req.onsuccess = function() { cb(req.result || []); };
+    });
+  };
+
+  // Leer foto de un POI
+  window._albumGetFoto = function(poiId, cb) {
+    _abrirDB(function(db) {
+      var tx = db.transaction('fotos', 'readonly');
+      var req = tx.objectStore('fotos').get(poiId);
+      req.onsuccess = function() { cb(req.result ? req.result.blob : null); };
+    });
+  };
+
+  // Leer todos los logros
+  window._albumGetLogros = function(cb) {
+    _abrirDB(function(db) {
+      var tx = db.transaction('logros', 'readonly');
+      var req = tx.objectStore('logros').getAll();
+      req.onsuccess = function() { cb(req.result || []); };
+    });
+  };
+
+  // Definición de badges
+  var BADGES = [
+    { id:'primer-cromo',  emoji:'🌱', label:'Primer paso',    desc:'Primera visita registrada',            test: function(v){ return v.length >= 1; } },
+    { id:'5-cromos',      emoji:'⭐', label:'Cinco estrellas', desc:'5 visitas registradas',                test: function(v){ return v.length >= 5; } },
+    { id:'10-cromos',     emoji:'🏆', label:'Peregrino',       desc:'10 visitas registradas',               test: function(v){ return v.length >= 10; } },
+    { id:'templario',     emoji:'✝️', label:'Templario',       desc:'Visitaste 3 lugares templarios',
+      test: function(v){ return v.filter(function(x){ return x.categoria==='localización histórica'||x.categoria==='vestigio arqueológico'; }).length >= 3; } },
+    { id:'costero',       emoji:'🌊', label:'Marinero',        desc:'Visitaste 3 puntos de la costa',
+      test: function(v){ return v.filter(function(x){ return x.categoria==='mirador'||x.categoria==='naturaleza'; }).length >= 3; } }
+  ];
+
+  window._albumComprobarLogros = function() {
+    _albumGetVisitas(function(visitas) {
+      _abrirDB(function(db) {
+        var txR = db.transaction('logros', 'readonly');
+        var reqAll = txR.objectStore('logros').getAll();
+        reqAll.onsuccess = function() {
+          var yaDesbloqueados = (reqAll.result||[]).map(function(l){ return l.badgeId; });
+          BADGES.forEach(function(b) {
+            if (yaDesbloqueados.indexOf(b.id) !== -1) return;
+            if (b.test(visitas)) {
+              var txW = db.transaction('logros', 'readwrite');
+              txW.objectStore('logros').put({ badgeId: b.id, fecha: Date.now() });
+              mostrarToast('🎖️ Logro desbloqueado: ' + b.emoji + ' ' + b.label);
+            }
+          });
+        };
+      });
+    });
+  };
+
+  // ---- Render del álbum ----
+  window._renderAlbum = function() {
+    _albumGetVisitas(function(visitas) {
+      var grid = document.getElementById('album-grid');
+      var vacio = document.getElementById('album-vacio');
+      var contador = document.getElementById('album-contador');
+      if (!grid) return;
+      grid.innerHTML = '';
+      if (visitas.length === 0) {
+        vacio.style.display = 'block';
+        contador.textContent = 'Visita lugares para desbloquear cromos';
+      } else {
+        vacio.style.display = 'none';
+        contador.textContent = visitas.length + ' cromo' + (visitas.length!==1?'s':'') + ' desbloqueado' + (visitas.length!==1?'s':'');
+        // Ordenar por fecha
+        visitas.sort(function(a,b){ return a.fecha - b.fecha; });
+        visitas.forEach(function(v) {
+          var card = document.createElement('div');
+          card.style.cssText = 'position:relative;border-radius:10px;overflow:hidden;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);aspect-ratio:3/4;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:flex-end';
+          card.dataset.poiId = v.poiId;
+          // Imagen de fondo (foto usuario o imagen del POI)
+          var imgWrap = document.createElement('div');
+          imgWrap.style.cssText = 'position:absolute;inset:0;z-index:0';
+          if (v.imagen) {
+            imgWrap.innerHTML = '<img src="'+v.imagen+'" style="width:100%;height:100%;object-fit:cover;opacity:0.7" loading="lazy"/>';
+          } else {
+            imgWrap.style.background = 'linear-gradient(135deg,#2d1854,#1D9E75)';
+            imgWrap.innerHTML = '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:28px">'+v.emoji+'</div>';
+          }
+          card.appendChild(imgWrap);
+          // Overlay degradado
+          var overlay = document.createElement('div');
+          overlay.style.cssText = 'position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(transparent,rgba(0,0,0,0.8));z-index:1';
+          card.appendChild(overlay);
+          // Nombre y fecha
+          var info = document.createElement('div');
+          info.style.cssText = 'position:relative;z-index:2;padding:6px;width:100%;box-sizing:border-box';
+          var d = new Date(v.fecha);
+          var fechaStr = d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
+          info.innerHTML = '<div style="font-size:10px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:2px;text-shadow:0 1px 3px rgba(0,0,0,0.8)">'+v.emoji+' '+v.nombre+'</div>'
+            +'<div style="font-size:9px;color:rgba(255,255,255,0.6)">'+fechaStr+'</div>';
+          card.appendChild(info);
+          // Botón foto (esquina superior derecha)
+          var btnFoto = document.createElement('button');
+          btnFoto.style.cssText = 'position:absolute;top:6px;right:6px;z-index:3;background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.3);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;backdrop-filter:blur(4px)';
+          btnFoto.innerHTML = '📷';
+          btnFoto.title = 'Añadir foto';
+          btnFoto.onclick = function(e) { e.stopPropagation(); _albumPedirFoto(v.poiId, card); };
+          card.appendChild(btnFoto);
+          // Si ya tiene foto usuario, mostrarlo
+          _albumGetFoto(v.poiId, function(blob) {
+            if (blob) {
+              var url = URL.createObjectURL(blob);
+              imgWrap.innerHTML = '<img src="'+url+'" style="width:100%;height:100%;object-fit:cover;opacity:0.85"/>';
+              btnFoto.innerHTML = '✏️';
+            }
+          });
+          grid.appendChild(card);
+        });
+      }
+      // Renderizar badges
+      _renderBadges();
+    });
+  };
+
+  function _renderBadges() {
+    _albumGetLogros(function(logros) {
+      var cont = document.getElementById('album-badges');
+      if (!cont) return;
+      cont.innerHTML = '';
+      var desbloqueados = logros.map(function(l){ return l.badgeId; });
+      BADGES.forEach(function(b) {
+        var desbloqueado = desbloqueados.indexOf(b.id) !== -1;
+        var pill = document.createElement('div');
+        pill.style.cssText = 'flex-shrink:0;display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap;border:1px solid '+(desbloqueado?'rgba(255,215,0,0.6)':'rgba(255,255,255,0.15)')+';background:'+(desbloqueado?'rgba(255,215,0,0.15)':'rgba(255,255,255,0.05)')+';color:'+(desbloqueado?'#FFD700':'rgba(255,255,255,0.35)');
+        pill.title = b.desc;
+        pill.innerHTML = b.emoji+' '+b.label;
+        cont.appendChild(pill);
+      });
+    });
+  }
+
+  // Input file oculto para seleccionar foto
+  var _inputFoto = null;
+  var _inputFotoCallback = null;
+  function _albumPedirFoto(poiId, card) {
+    if (!_inputFoto) {
+      _inputFoto = document.createElement('input');
+      _inputFoto.type = 'file';
+      _inputFoto.accept = 'image/*';
+      _inputFoto.capture = 'environment';
+      _inputFoto.style.display = 'none';
+      document.body.appendChild(_inputFoto);
+    }
+    _inputFoto.onchange = function() {
+      var file = _inputFoto.files[0];
+      if (!file) return;
+      _inputFoto.value = '';
+      // Comprimir a max 800px antes de guardar
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var img = new Image();
+        img.onload = function() {
+          var canvas = document.createElement('canvas');
+          var MAX = 800;
+          var ratio = Math.min(MAX/img.width, MAX/img.height, 1);
+          canvas.width = Math.round(img.width * ratio);
+          canvas.height = Math.round(img.height * ratio);
+          canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+          canvas.toBlob(function(blob) {
+            _albumGuardarFoto(poiId, blob, function() {
+              mostrarToast('📷 Foto guardada en tu álbum');
+              // Actualizar la card directamente
+              var url = URL.createObjectURL(blob);
+              var imgWrap = card.querySelector('div');
+              if (imgWrap) imgWrap.innerHTML = '<img src="'+url+'" style="width:100%;height:100%;object-fit:cover;opacity:0.85"/>';
+              var btnFoto = card.querySelector('button');
+              if (btnFoto) btnFoto.innerHTML = '✏️';
+            });
+          }, 'image/jpeg', 0.82);
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    };
+    _inputFoto.click();
+  }
+
+  // ---- Detección de proximidad durante el seguimiento GPS ----
+  // Se engancha al watchPosition existente comprobando cada posición
+  var _albumYaNotificado = {};
+  var RADIO_VISITA_M = 60; // metros para registrar visita
+
+  window._albumCheckProximidad = function(lat, lng) {
+    if (typeof PUNTOS === 'undefined') return;
+    PUNTOS.forEach(function(poi) {
+      if (_albumYaNotificado[poi.id]) return;
+      var distM = haversine(lat, lng, poi.lat, poi.lng) * 1000;
+      if (distM <= RADIO_VISITA_M) {
+        _albumYaNotificado[poi.id] = true;
+        window._albumRegistrarVisita(poi);
+      }
+    });
+  };
+
+  // Caché síncrono de visitas para uso en render de tarjetas
+  window._albumVisitasSet = {};
+
+  function _refrescarCacheVisitas(cb) {
+    _albumGetVisitas(function(v) {
+      window._albumVisitasSet = {};
+      v.forEach(function(x){ window._albumVisitasSet[x.poiId] = true; });
+      if (cb) cb();
+    });
+  }
+
+  // Helper síncrono: devuelve el HTML del bloque imagen de una tarjeta POI
+  // Si visitado → imagen real + badge foto. Si no → cromo bloqueado.
+  window._imgCromo = function(p, enRuta, T, idiomaActual) {
+    var visitado = !!window._albumVisitasSet[p.id] || !!p.esUsuario;
+    if (visitado) {
+      // Imagen desbloqueada — igual que antes + badge álbum + botón foto
+      var enRutaStyle = enRuta
+        ? 'background:#1D9E75;color:#fff;border:1px solid #1D9E75'
+        : 'background:rgba(255,255,255,0.92);color:#0F6E56;border:1px solid rgba(29,158,117,0.4)';
+      var enRutaLabel = enRuta
+        ? '&#10003; '+((T[idiomaActual]||T.es).enRuta||'En ruta').replace('✓ ','')
+        : ((T[idiomaActual]||T.es).añadirRuta||'+ Ruta');
+      return '<div class="poi-img '+p.color+'" style="position:relative;overflow:hidden" data-cromo-id="'+p.id+'">' +
+        '<img id="cromo-img-'+p.id+'" src="'+( p.imagen||'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png')+'" alt="'+p.nombre+'" class="poi-img-cover" decoding="async" fetchpriority="low"/>' +
+        (!p.esAlerta ? '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'" style="position:absolute;top:8px;right:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);'+enRutaStyle+'">'+enRutaLabel+'</button>' : '') +
+        '<button onclick="event.stopPropagation();_albumPedirFotoCard(\''+p.id+'\')" style="position:absolute;bottom:7px;right:7px;z-index:10;background:rgba(0,0,0,0.52);border:1px solid rgba(255,255,255,0.35);border-radius:20px;padding:3px 9px;color:#fff;font-size:10px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;backdrop-filter:blur(4px)" id="foto-btn-'+p.id+'">📷 mi foto</button>' +
+      '</div>';
+    } else {
+      // Cromo bloqueado — misma altura, todo el cuerpo de la tarjeta sigue visible
+      return '<div class="poi-img '+p.color+'" style="position:relative;overflow:hidden;background:linear-gradient(135deg,#12082a 0%,#1a0e35 50%,#0e0620 100%)" data-cromo-id="'+p.id+'">' +
+        '<div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,0.02) 0px,rgba(255,255,255,0.02) 10px,transparent 10px,transparent 20px)"></div>' +
+        '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px">' +
+          '<div style="width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.06);font-size:16px">🔒</div>' +
+          '<div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.25);letter-spacing:1.5px;text-transform:uppercase;font-family:DM Sans,sans-serif;text-align:center;padding:0 6px;line-height:1.4">Visita el lugar para desbloquear y añadir tu imagen</div>' +
+        '</div>' +
+      '</div>';
+    }
+  };
+
+  // Refresca la imagen de una tarjeta ya renderizada tras desbloqueo
+  window._albumRefrescarImgCard = function(poiId) {
+    var p = (typeof PUNTOS !== 'undefined') ? PUNTOS.find(function(x){ return x.id===poiId; }) : null;
+    if (!p) return;
+    // Buscar todos los div[data-cromo-id] con ese id en el DOM
+    var divs = document.querySelectorAll('[data-cromo-id="'+poiId+'"]');
+    divs.forEach(function(div) {
+      div.style.background = '';
+      div.innerHTML =
+        '<img id="cromo-img-'+p.id+'" src="'+(p.imagen||'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png')+'" alt="'+p.nombre+'" class="poi-img-cover" decoding="async"/>' +
+        '<button onclick="event.stopPropagation();_albumPedirFotoCard(\''+p.id+'\')" style="position:absolute;bottom:7px;right:7px;z-index:10;background:rgba(0,0,0,0.52);border:1px solid rgba(255,255,255,0.35);border-radius:20px;padding:3px 9px;color:#fff;font-size:10px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;backdrop-filter:blur(4px)" id="foto-btn-'+p.id+'">📷 mi foto</button>';
+    });
+  };
+
+  // Pedir foto desde la tarjeta POI (no desde el álbum drawer)
+  window._albumPedirFotoCard = function(poiId) {
+    if (!_inputFoto) {
+      _inputFoto = document.createElement('input');
+      _inputFoto.type = 'file'; _inputFoto.accept = 'image/*';
+      _inputFoto.capture = 'environment'; _inputFoto.style.display = 'none';
+      document.body.appendChild(_inputFoto);
+    }
+    _inputFoto.onchange = function() {
+      var file = _inputFoto.files[0]; if (!file) return; _inputFoto.value = '';
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var img = new Image();
+        img.onload = function() {
+          var canvas = document.createElement('canvas');
+          var MAX = 800; var ratio = Math.min(MAX/img.width, MAX/img.height, 1);
+          canvas.width = Math.round(img.width*ratio); canvas.height = Math.round(img.height*ratio);
+          canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+          canvas.toBlob(function(blob) {
+            _albumGuardarFoto(poiId, blob, function() {
+              mostrarToast('📷 Foto guardada');
+              // Sustituir imagen en todas las tarjetas de este POI
+              var url = URL.createObjectURL(blob);
+              document.querySelectorAll('#cromo-img-'+poiId).forEach(function(el){ el.src = url; });
+              document.querySelectorAll('#foto-btn-'+poiId).forEach(function(el){ el.innerHTML = '✏️ cambiar'; });
+            });
+          }, 'image/jpeg', 0.82);
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    };
+    _inputFoto.click();
+  };
+
+  // Al cargar, mostrar chip si ya hay visitas guardadas
+  window.addEventListener('load', function() {
+    _refrescarCacheVisitas(function() {
+      var v = Object.keys(window._albumVisitasSet);
+    });
+  });
+
+})();
+
 // Detectar si estamos offline y avisar
 window.addEventListener('online',  function() { ocultarBannerRed(); });
 window.addEventListener('offline', function() { mostrarBannerRed(); });
@@ -6829,6 +7317,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='display:none'></div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v467</div>
 </body>
 </html>
