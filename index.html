@@ -574,7 +574,28 @@
       <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"mirador")'>🔭 Miradores</div>
     </div>
   </div>
-  <div id='poi-drawer-carousel' style='display:flex;gap:0.75rem;overflow-x:auto;overflow-y:visible;padding:0.75rem 1rem 0.75rem 1.25rem;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;scroll-padding-left:1.25rem;width:100%;box-sizing:border-box;touch-action:pan-x;overscroll-behavior-x:contain'></div>
+  <!-- Tarjeta ranking álbum — visible solo en filtro Mi Álbum -->
+  <div id='poi-drawer-carousel' style='display:flex;gap:0.75rem;overflow-x:auto;overflow-y:visible;padding:0.75rem 1rem 0.75rem 1.25rem;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;scroll-padding-left:1.25rem;width:100%;box-sizing:border-box;touch-action:pan-x;overscroll-behavior-x:contain'>
+    <!-- Tarjeta ranking — primer elemento fijo del carousel, visible solo en Mi Álbum -->
+    <div id='album-ranking-card' style='display:none;flex-shrink:0;width:200px;border-radius:14px;overflow:hidden;background:linear-gradient(160deg,#0e2038 0%,#1a3a5c 60%,#1e4570 100%);border:1px solid rgba(255,255,255,0.15);scroll-snap-align:start;flex-direction:column'>
+      <div style='padding:0.85rem 0.9rem 0.65rem;border-bottom:1px solid rgba(255,255,255,0.08)'>
+        <div style='display:flex;align-items:center;gap:8px;margin-bottom:8px'>
+          <div id='rank-emoji' style='font-size:30px;line-height:1'>🌱</div>
+          <div style='flex:1;min-width:0'>
+            <div id='rank-label' style='font-size:14px;font-weight:700;color:#fff'>Aspirante</div>
+            <div id='rank-count' style='font-size:10px;color:rgba(255,255,255,0.4)'>0 cromos</div>
+          </div>
+        </div>
+        <div id='rank-siguiente' style='font-size:9px;color:rgba(255,255,255,0.35);margin-bottom:8px;line-height:1.4'>Visita tu primer lugar para comenzar</div>
+        <div style='background:rgba(255,255,255,0.08);border-radius:20px;height:4px;overflow:hidden;margin-bottom:8px'>
+          <div id='rank-barra' style='height:100%;width:0%;background:linear-gradient(90deg,#1D9E75,#6ee7b7);border-radius:20px;transition:width 0.6s ease'></div>
+        </div>
+        <div id='rank-escalera' style='display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:8px'></div>
+        <div style='font-size:8px;font-weight:700;color:rgba(255,255,255,0.25);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:5px'>Logros</div>
+        <div id='rank-logros' style='display:flex;flex-wrap:wrap;gap:4px'></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- PANEL DONACIONES -->
@@ -1949,14 +1970,13 @@ function cerrarComoUsarDrawer() { _cerrarSlide('comousar-drawer'); }
 function abrirContactoDrawer() { _abrirSlide('contacto-drawer'); }
 function cerrarContactoDrawer() { _cerrarSlide('contacto-drawer'); }
 function abrirAlbumDrawer() {
-  _abrirSlide('poi-drawer');
-  // Pequeño delay para que el drawer esté visible antes de filtrar
-  setTimeout(function() {
-    var chip = document.getElementById('chip-album-drawer');
-    _poiDrawerFiltrar(chip, 'album');
-  }, 50);
+  // Activa el filtro "Mi Álbum" en el poi-drawer (ya abierto)
+  var chip = document.getElementById('chip-album-drawer');
+  _poiDrawerFiltrar(chip, 'album');
+  // Actualizar tarjeta de ranking
+  if (window._renderAlbum) window._renderAlbum();
 }
-function cerrarAlbumDrawer() { _cerrarSlide('poi-drawer'); }
+function cerrarAlbumDrawer() { _cerrarSlide('album-drawer'); }
 
 function abrirBrujulaDrawer() { _abrirSlide('brujula-drawer'); }
 function cerrarBrujulaDrawer() { _cerrarSlide('brujula-drawer'); }
@@ -2045,6 +2065,9 @@ function _poiDrawerFiltrar(chip, cat) {
   _poiDrawerCatActual = cat;
   document.querySelectorAll('#poi-drawer-chips .cat-chip').forEach(function(c){ c.classList.remove('active'); });
   if (chip) chip.classList.add('active');
+  // Mostrar/ocultar tarjeta de ranking
+  var rankCard = document.getElementById('album-ranking-card');
+  if (rankCard) rankCard.style.display = (cat === 'album') ? 'flex' : 'none';
   _renderPoiDrawerCarrusel();
 }
 
@@ -2065,13 +2088,7 @@ function _renderPoiDrawerCarrusel() {
   });
   if (!filtrados.length) {
     if (_poiDrawerCatActual === 'album') {
-      // No sobreescribir — el ranking ya está insertado. Añadir mensaje vacío a continuación.
-      var emptyDiv = document.createElement('div');
-      emptyDiv.style.cssText = 'flex-shrink:0;width:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:1rem;text-align:center';
-      emptyDiv.innerHTML = '<div style="font-size:32px">🐚</div>'
-        + '<div style="color:rgba(255,255,255,0.7);font-size:12px;font-weight:600;line-height:1.4">Tu álbum está vacío</div>'
-        + '<div style="color:rgba(255,255,255,0.38);font-size:10px;line-height:1.5">Acércate a los lugares del Camino con el GPS activo</div>';
-      car.appendChild(emptyDiv);
+      car.innerHTML = '<div style="width:100%;padding:2rem 1.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center"><div style="font-size:36px;margin-bottom:10px">🐚</div><div style="color:rgba(255,255,255,0.75);font-size:13px;font-weight:600;margin-bottom:6px">Tu álbum está vacío</div><div style="color:rgba(255,255,255,0.4);font-size:12px;line-height:1.6;max-width:240px">Activa el seguimiento GPS y acércate a los puntos del Camino. Cada visita desbloquea el cromo.</div></div>';
     } else {
       car.innerHTML = '<div style="width:100%;padding:2rem 1.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center"><div style="font-size:36px;margin-bottom:10px">🐚</div><div style="color:rgba(255,255,255,0.75);font-size:13px;font-weight:600;margin-bottom:6px">Ningún punto cerca</div><div style="color:rgba(255,255,255,0.4);font-size:12px;line-height:1.6;max-width:240px">No hay lugares de esta categoría en el radio actual. Amplía el radio o explora otra categoría del Camino.</div></div>';
     }
@@ -2226,32 +2243,10 @@ function _renderPoiDrawerCarrusel() {
       _poiDrawerToggleRuta(p.id, rutaBtn);
     });
   });
+  // Limpiar carousel preservando la tarjeta de ranking
+  var _rankCard = document.getElementById('album-ranking-card');
   car.innerHTML = '';
-  // Tarjeta ranking — primera tarjeta cuando filtro es álbum
-  if (_poiDrawerCatActual === 'album' && window._renderAlbum) {
-    var rankCard = document.createElement('div');
-    rankCard.id = 'album-ranking-card';
-    rankCard.style.cssText = 'flex-shrink:0;width:220px;border-radius:14px;overflow:hidden;background:linear-gradient(160deg,#0e2038 0%,#1a3a5c 60%,#1e4570 100%);border:1px solid rgba(255,255,255,0.15);scroll-snap-align:start;display:flex;flex-direction:column';
-    rankCard.innerHTML =
-      '<div style="padding:0.85rem 0.9rem 0.65rem;border-bottom:1px solid rgba(255,255,255,0.08);flex:1">'
-        + '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">'
-          + '<div id="rank-emoji" style="font-size:30px;line-height:1">🌱</div>'
-          + '<div style="flex:1;min-width:0">'
-            + '<div id="rank-label" style="font-size:14px;font-weight:700;color:#fff">Aspirante</div>'
-            + '<div id="rank-count" style="font-size:10px;color:rgba(255,255,255,0.4)">0 cromos</div>'
-          + '</div>'
-        + '</div>'
-        + '<div id="rank-siguiente" style="font-size:9px;color:rgba(255,255,255,0.35);margin-bottom:8px;line-height:1.4">Visita tu primer lugar para comenzar</div>'
-        + '<div style="background:rgba(255,255,255,0.08);border-radius:20px;height:4px;overflow:hidden;margin-bottom:8px">'
-          + '<div id="rank-barra" style="height:100%;width:0%;background:linear-gradient(90deg,#1D9E75,#6ee7b7);border-radius:20px;transition:width 0.6s ease"></div>'
-        + '</div>'
-        + '<div id="rank-escalera" style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:10px"></div>'
-        + '<div style="font-size:8px;font-weight:700;color:rgba(255,255,255,0.25);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:5px">Logros</div>'
-        + '<div id="rank-logros" style="display:flex;flex-wrap:wrap;gap:4px"></div>'
-      + '</div>';
-    car.appendChild(rankCard);
-    window._renderAlbum();
-  }
+  if (_rankCard) car.appendChild(_rankCard);
   car.appendChild(frag);
   // Sincronizar botones ruta con estado actual
   var t2 = T[idiomaActual] || T.es;
@@ -7436,6 +7431,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v488</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v489</div>
 </body>
 </html>
