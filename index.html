@@ -792,25 +792,6 @@
     </div>
   </div>
   <div style='padding:0.75rem 1rem 1.5rem'>
-    <!-- Panel de rango -->
-    <div id='album-rango-panel' style='background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:0.85rem 1rem;margin-bottom:0.85rem'>
-      <div style='display:flex;align-items:center;gap:10px;margin-bottom:8px'>
-        <div id='album-rango-emoji' style='font-size:28px;line-height:1'>🌱</div>
-        <div style='flex:1'>
-          <div style='display:flex;align-items:baseline;gap:6px'>
-            <span id='album-rango-label' style='font-size:14px;font-weight:700;color:#fff'>Aspirante</span>
-            <span id='album-rango-count' style='font-size:11px;color:rgba(255,255,255,0.45)'>0 cromos</span>
-          </div>
-          <div id='album-rango-siguiente' style='font-size:10px;color:rgba(255,255,255,0.4);margin-top:1px'>Visita 1 lugar para comenzar</div>
-        </div>
-      </div>
-      <!-- Barra de progreso -->
-      <div style='background:rgba(255,255,255,0.1);border-radius:20px;height:6px;overflow:hidden'>
-        <div id='album-rango-barra' style='height:100%;background:linear-gradient(90deg,#1D9E75,#6ee7b7);border-radius:20px;width:0%;transition:width 0.6s ease'></div>
-      </div>
-      <!-- Logros especiales desbloqueados -->
-      <div id='album-logros-especiales' style='display:flex;gap:6px;flex-wrap:wrap;margin-top:8px'></div>
-    </div>
     <!-- Mosaico de cromos -->
     <div id='album-grid' style='display:grid;grid-template-columns:repeat(3,1fr);gap:8px'></div>
     <div id='album-vacio' style='display:none;text-align:center;padding:2.5rem 1rem'>
@@ -2125,7 +2106,7 @@ function _renderPoiDrawerCarrusel() {
         (!p.esAlerta && !p.esUsuario ? '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'" style="position:absolute;top:8px;right:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);background:'+(enRuta?'#1D9E75':'rgba(255,255,255,0.92)')+';color:'+(enRuta?'#fff':'#0F6E56')+';border:1px solid '+(enRuta?'#1D9E75':'rgba(29,158,117,0.4)')+'">'+
           (enRuta?'&#10003; '+(T[idiomaActual]||T.es).enRuta.replace('✓ ',''):(T[idiomaActual]||T.es).añadirRuta)+'</button>' : '')+
       '</div>')+
-      '<div class="poi-ranking" id="rank-'+p.id+'" style="left:8px;right:auto">&#9733; '+(val.votos>0?media:'-')+'</div>'+
+      (!p.esUsuario ? '<div class="poi-ranking" id="rank-'+p.id+'" style="left:8px;right:auto">&#9733; '+(val.votos>0?media:'-')+'</div>' : '')+
       '<div class="poi-body">'+
         '<div class="poi-category">'+( p.categoria||'')+'</div>'+
         '<div class="poi-nombre-row"><span class="poi-emoji">'+p.emoji+'</span><span class="poi-nombre">'+pNombre+'</span></div>'+
@@ -2140,13 +2121,13 @@ function _renderPoiDrawerCarrusel() {
         '<p class="poi-desc" id="desc-'+p.id+'">'+pDesc+'</p>'+
         '<button class="poi-leer-mas" id="leer-mas-'+p.id+'">'+(T[idiomaActual]||T.es).leerMas+'</button>'+
         (!p.esUsuario ? '<div class="poi-stars"><div class="stars" id="stars-'+p.id+'"></div><span class="stars-count" id="scount-'+p.id+'">'+(val.votos>0?media+' &middot; '+val.votos+' votos':'')+'</span></div>' : '')+
-        '<div class="poi-share">'+
+        (!p.esUsuario ? '<div class="poi-share">'+
           '<a class="poi-share-btn" href="https://wa.me/?text='+texto+'%20'+pageUrl+'" target="_blank">&#128172;</a>'+
           '<a class="poi-share-btn" href="https://www.facebook.com/sharer/sharer.php?u='+pageUrl+'" target="_blank">&#128248;</a>'+
           '<a class="poi-share-btn" href="https://twitter.com/intent/tweet?text='+texto+'&url='+pageUrl+'" target="_blank">&#128038;</a>'+
           '<a class="poi-share-btn" href="https://t.me/share/url?url='+pageUrl+'&text='+texto+'" target="_blank">&#9992;</a>'+
-        '</div>'+
-        (p.esAlerta ? '' :
+        '</div>' : '')+
+        (p.esAlerta || p.esUsuario ? '' :
           '<div class="poi-opiniones">'+
             '<div class="poi-opiniones-lista" id="ops-'+p.id+'">'+opsList+'</div>'+
             '<div class="opinion-form">'+
@@ -4389,7 +4370,7 @@ function renderCarrusel(categoria) {
         '<img src="'+(p.imagen||'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png')+'" alt="'+p.nombre+'" class="poi-img-cover" decoding="async" fetchpriority="low"/>' +
         (mostrarBtnRuta && !p.esAlerta && !p.esUsuario ? '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'" style="position:absolute;top:8px;right:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);background:'+(enRuta?'#1D9E75':'rgba(255,255,255,0.92)')+';color:'+(enRuta?'#fff':'#0F6E56')+';border:1px solid '+(enRuta?'#1D9E75':'rgba(29,158,117,0.4)')+'">'+  (enRuta?'&#10003; '+(T[idiomaActual]||T.es).enRuta.replace('✓ ',''):(T[idiomaActual]||T.es).añadirRuta)+'</button>' : '') +
       '</div>')+
-      '<div class="poi-ranking" id="rank-'+p.id+'" style="left:8px;right:auto">&#9733; '+(val.votos>0?media:'-')+'</div>'+
+      (!p.esUsuario ? '<div class="poi-ranking" id="rank-'+p.id+'" style="left:8px;right:auto">&#9733; '+(val.votos>0?media:'-')+'</div>' : '')+
       '<div class="poi-body">'+
         '<div class="poi-category">'+(function(c){var t2=T[idiomaActual]||T.es;var cm={'naturaleza':t2.chipNaturaleza,'monumento':t2.chipMonumento,'albergue':t2.chipAlbergue,'mirador':t2.chipMirador,'edificación religiosa':t2.chipEdif,'localización histórica':t2.chipHist,'vestigio arqueológico':t2.chipVest,'edificación histórica':t2.chipEdifH,'naturaleza':t2.chipNat};return cm[c]||c;})(p.categoria)+'</div>'+
         '<div class="poi-nombre-row"><span class="poi-emoji">'+p.emoji+'</span><span class="poi-nombre">'+pNombre+'</span></div>'+
@@ -4411,12 +4392,12 @@ function renderCarrusel(categoria) {
         '<p class="poi-desc" id="desc-'+p.id+'">'+pDesc+'</p>'+
         '<button class="poi-leer-mas" id="leer-mas-'+p.id+'">'+(T[idiomaActual]||T.es).leerMas+'</button>'+
         (!p.esUsuario ? '<div class="poi-stars"><div class="stars" id="stars-'+p.id+'"></div><span class="stars-count" id="scount-'+p.id+'">'+(val.votos>0?media+' &middot; '+val.votos+' votos':'')+'</span></div>' : '')+
-        '<div class="poi-share">'+
+        (!p.esUsuario ? '<div class="poi-share">'+
           '<a class="poi-share-btn" href="https://wa.me/?text='+texto+'%20'+pageUrl+'" target="_blank">&#128172;</a>'+
           '<a class="poi-share-btn" href="https://www.facebook.com/sharer/sharer.php?u='+pageUrl+'" target="_blank">&#128248;</a>'+
           '<a class="poi-share-btn" href="https://twitter.com/intent/tweet?text='+texto+'&url='+pageUrl+'" target="_blank">&#128038;</a>'+
           '<a class="poi-share-btn" href="https://t.me/share/url?url='+pageUrl+'&text='+texto+'" target="_blank">&#9992;</a>'+
-        '</div>'+
+        '</div>' : '')+
         (p.esAlerta
           ? '<div style="margin:8px 0 4px">' +
               '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">' +
@@ -7013,6 +6994,30 @@ if ('serviceWorker' in navigator) {
   };
 
   // ---- Render del álbum ----
+  function _renderRankingCard(grid, n, rango, nextRango) {
+    var card = document.createElement('div');
+    card.style.cssText = 'grid-column:span 3;border-radius:12px;background:linear-gradient(135deg,rgba(29,158,117,0.25),rgba(29,158,117,0.1));border:1px solid rgba(29,158,117,0.4);padding:0.85rem 1rem;margin-bottom:4px';
+    var pct = nextRango ? Math.min(Math.round((n - rango.min) / (nextRango.min - rango.min) * 100), 99) : 100;
+    var siguienteTexto = nextRango
+      ? (nextRango.min - n) + ' cromo' + (nextRango.min - n !== 1 ? 's' : '') + ' para ' + nextRango.emoji + ' ' + nextRango.label
+      : '🌟 ¡Rango máximo alcanzado!';
+    card.innerHTML =
+      '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">'
+      + '<div style="font-size:32px;line-height:1">'+rango.emoji+'</div>'
+      + '<div style="flex:1">'
+        + '<div style="display:flex;align-items:baseline;gap:8px">'
+          + '<span style="font-size:15px;font-weight:700;color:#fff">'+rango.label+'</span>'
+          + '<span style="font-size:11px;color:rgba(255,255,255,0.45)">'+n+' cromo'+(n!==1?'s':'')+'</span>'
+        + '</div>'
+        + '<div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:1px">'+siguienteTexto+'</div>'
+      + '</div>'
+      + '</div>'
+      + '<div style="background:rgba(255,255,255,0.1);border-radius:20px;height:5px;overflow:hidden">'
+        + '<div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,#1D9E75,#6ee7b7);border-radius:20px;transition:width 0.6s ease"></div>'
+      + '</div>';
+    grid.appendChild(card);
+  }
+
   window._renderAlbum = function() {
     _albumGetVisitas(function(visitas) {
       var grid = document.getElementById('album-grid');
@@ -7064,9 +7069,13 @@ if ('serviceWorker' in navigator) {
       if (visitas.length === 0) {
         vacio.style.display = 'block';
         contador.textContent = 'Visita lugares para desbloquear cromos';
+        // Tarjeta ranking incluso sin cromos
+        _renderRankingCard(grid, n, rango, nextRango);
       } else {
         vacio.style.display = 'none';
         contador.textContent = visitas.length + ' cromo' + (visitas.length!==1?'s':'') + ' desbloqueado' + (visitas.length!==1?'s':'');
+        // Tarjeta ranking siempre primera
+        _renderRankingCard(grid, n, rango, nextRango);
         // Ordenar por fecha
         visitas.sort(function(a,b){ return a.fecha - b.fecha; });
         visitas.forEach(function(v) {
@@ -7358,6 +7367,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v476</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v477</div>
 </body>
 </html>
