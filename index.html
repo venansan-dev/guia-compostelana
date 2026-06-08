@@ -792,8 +792,25 @@
     </div>
   </div>
   <div style='padding:0.75rem 1rem 1.5rem'>
-    <!-- Logros / badges -->
-    <div id='album-badges' style='display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:1rem;scrollbar-width:none'></div>
+    <!-- Panel de rango -->
+    <div id='album-rango-panel' style='background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:0.85rem 1rem;margin-bottom:0.85rem'>
+      <div style='display:flex;align-items:center;gap:10px;margin-bottom:8px'>
+        <div id='album-rango-emoji' style='font-size:28px;line-height:1'>🌱</div>
+        <div style='flex:1'>
+          <div style='display:flex;align-items:baseline;gap:6px'>
+            <span id='album-rango-label' style='font-size:14px;font-weight:700;color:#fff'>Aspirante</span>
+            <span id='album-rango-count' style='font-size:11px;color:rgba(255,255,255,0.45)'>0 cromos</span>
+          </div>
+          <div id='album-rango-siguiente' style='font-size:10px;color:rgba(255,255,255,0.4);margin-top:1px'>Visita 1 lugar para comenzar</div>
+        </div>
+      </div>
+      <!-- Barra de progreso -->
+      <div style='background:rgba(255,255,255,0.1);border-radius:20px;height:6px;overflow:hidden'>
+        <div id='album-rango-barra' style='height:100%;background:linear-gradient(90deg,#1D9E75,#6ee7b7);border-radius:20px;width:0%;transition:width 0.6s ease'></div>
+      </div>
+      <!-- Logros especiales desbloqueados -->
+      <div id='album-logros-especiales' style='display:flex;gap:6px;flex-wrap:wrap;margin-top:8px'></div>
+    </div>
     <!-- Mosaico de cromos -->
     <div id='album-grid' style='display:grid;grid-template-columns:repeat(3,1fr);gap:8px'></div>
     <div id='album-vacio' style='display:none;text-align:center;padding:2.5rem 1rem'>
@@ -6946,14 +6963,35 @@ if ('serviceWorker' in navigator) {
   };
 
   // Definición de badges
+  // Rangos por número de visitas
+  var RANGOS = [
+    { min:1,  max:4,  emoji:'🌱', label:'Aspirante' },
+    { min:5,  max:14, emoji:'🎒', label:'Mochilero' },
+    { min:15, max:29, emoji:'👣', label:'Caminante' },
+    { min:30, max:49, emoji:'🐚', label:'Peregrino' },
+    { min:50, max:96, emoji:'⭐', label:'Veterano'  },
+    { min:97, max:999,emoji:'🏆', label:'Ultreia'   }
+  ];
+
+  function _getRango(n) {
+    for (var i = RANGOS.length-1; i >= 0; i--) {
+      if (n >= RANGOS[i].min) return RANGOS[i];
+    }
+    return { emoji:'🌱', label:'Aspirante', min:1, max:4 };
+  }
+
+  // Logros especiales por categoría
   var BADGES = [
-    { id:'primer-cromo',  emoji:'🌱', label:'Primer paso',    desc:'Primera visita registrada',            test: function(v){ return v.length >= 1; } },
-    { id:'5-cromos',      emoji:'⭐', label:'Cinco estrellas', desc:'5 visitas registradas',                test: function(v){ return v.length >= 5; } },
-    { id:'10-cromos',     emoji:'🏆', label:'Peregrino',       desc:'10 visitas registradas',               test: function(v){ return v.length >= 10; } },
-    { id:'templario',     emoji:'✝️', label:'Templario',       desc:'Visitaste 3 lugares templarios',
-      test: function(v){ return v.filter(function(x){ return x.categoria==='localización histórica'||x.categoria==='vestigio arqueológico'; }).length >= 3; } },
-    { id:'costero',       emoji:'🌊', label:'Marinero',        desc:'Visitaste 3 puntos de la costa',
-      test: function(v){ return v.filter(function(x){ return x.categoria==='mirador'||x.categoria==='naturaleza'; }).length >= 3; } }
+    { id:'templario',   emoji:'✝️', label:'Custodio Templario',     desc:'5 lugares históricos o arqueológicos',
+      test: function(v){ return v.filter(function(x){ return x.categoria==='localización histórica'||x.categoria==='vestigio arqueológico'; }).length >= 5; } },
+    { id:'marinero',    emoji:'🌊', label:'Marinero del Atlántico', desc:'3 miradores o lugares naturales',
+      test: function(v){ return v.filter(function(x){ return x.categoria==='mirador'||x.categoria==='naturaleza'; }).length >= 3; } },
+    { id:'hospitalero', emoji:'🏠', label:'Hospitalero',            desc:'3 albergues visitados',
+      test: function(v){ return v.filter(function(x){ return x.categoria==='albergue'; }).length >= 3; } },
+    { id:'devoto',      emoji:'⛪', label:'Devoto',                 desc:'5 edificaciones religiosas',
+      test: function(v){ return v.filter(function(x){ return x.categoria==='edificación religiosa'; }).length >= 5; } },
+    { id:'compostela',  emoji:'🌟', label:'Compostela',             desc:'¡Todos los puntos del Camino!',
+      test: function(v){ return v.filter(function(x){ return !(x.poiId||'').startsWith('u_'); }).length >= 97; } }
   ];
 
   window._albumComprobarLogros = function() {
@@ -6984,6 +7022,47 @@ if ('serviceWorker' in navigator) {
       var contador = document.getElementById('album-contador');
       if (!grid) return;
       grid.innerHTML = '';
+
+      // --- Panel de rango ---
+      var n = visitas.filter(function(v){ return !(v.poiId||'').startsWith('u_'); }).length;
+      var rango = _getRango(n);
+      var elEmoji  = document.getElementById('album-rango-emoji');
+      var elLabel  = document.getElementById('album-rango-label');
+      var elCount  = document.getElementById('album-rango-count');
+      var elSig    = document.getElementById('album-rango-siguiente');
+      var elBarra  = document.getElementById('album-rango-barra');
+      if (elEmoji) elEmoji.textContent = rango.emoji;
+      if (elLabel) elLabel.textContent = rango.label;
+      if (elCount) elCount.textContent = n + ' cromo' + (n!==1?'s':'');
+      // Progreso hacia el siguiente rango
+      var nextRango = null;
+      for (var ri = 0; ri < RANGOS.length; ri++) {
+        if (RANGOS[ri].min > n) { nextRango = RANGOS[ri]; break; }
+      }
+      if (nextRango) {
+        var pct = Math.round((n - rango.min) / (nextRango.min - rango.min) * 100);
+        if (elBarra) elBarra.style.width = Math.min(pct, 99) + '%';
+        if (elSig) elSig.textContent = (nextRango.min - n) + ' más para ' + nextRango.emoji + ' ' + nextRango.label;
+      } else {
+        if (elBarra) elBarra.style.width = '100%';
+        if (elSig) elSig.textContent = '🌟 ¡Rango máximo alcanzado!';
+      }
+      // Logros especiales
+      _albumGetLogros(function(logros) {
+        var el = document.getElementById('album-logros-especiales');
+        if (!el) return;
+        el.innerHTML = '';
+        var desbloqueados = logros.map(function(l){ return l.badgeId; });
+        BADGES.forEach(function(b) {
+          var ok = desbloqueados.indexOf(b.id) !== -1;
+          var pill = document.createElement('div');
+          pill.title = b.desc;
+          pill.style.cssText = 'display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:600;white-space:nowrap;border:1px solid '+(ok?'rgba(255,215,0,0.5)':'rgba(255,255,255,0.12)')+';background:'+(ok?'rgba(255,215,0,0.12)':'rgba(255,255,255,0.05)')+';color:'+(ok?'#FFD700':'rgba(255,255,255,0.28)');
+          pill.textContent = b.emoji + ' ' + b.label;
+          el.appendChild(pill);
+        });
+      });
+
       if (visitas.length === 0) {
         vacio.style.display = 'block';
         contador.textContent = 'Visita lugares para desbloquear cromos';
@@ -7281,6 +7360,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v473</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v474</div>
 </body>
 </html>
