@@ -18,8 +18,38 @@
     e.preventDefault();
   }, { passive: false });
   </script>
-  <title>Guía Compostelana Ultreia</title>
-  <meta name="description" content="Guía interactiva del Camino Portugués a Santiago"/>
+  <title>Guía Compostelana Ultreia — Camino Portugués de la Costa</title>
+  <meta name="description" content="Guía interactiva y gratuita del Camino Portugués de la Costa y del Interior. Mapas, etapas, albergues, patrimonio templario y jacobeo desde Oporto hasta Santiago de Compostela."/>
+  <meta name="keywords" content="Camino Portugués de la Costa, Camino de Santiago, guía del peregrino, Vigo, Baiona, A Guarda, etapas, albergues, patrimonio templario, Oia, Pontevedra, Padrón"/>
+  <meta name="author" content="Guía Compostelana Ultreia"/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://guia-compostelana-ultreia.com/"/>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://guia-compostelana-ultreia.com/"/>
+  <meta property="og:title" content="Guía Compostelana Ultreia — Camino Portugués de la Costa"/>
+  <meta property="og:description" content="Guía interactiva y gratuita del Camino Portugués de la Costa y del Interior. Mapas, etapas, albergues, patrimonio templario y jacobeo desde Oporto hasta Santiago de Compostela."/>
+  <meta property="og:image" content="https://guia-compostelana-ultreia.com/og-image.jpg"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:locale" content="es_ES"/>
+  <meta property="og:locale:alternate" content="gl_ES"/>
+  <meta property="og:locale:alternate" content="en_GB"/>
+  <meta property="og:site_name" content="Guía Compostelana Ultreia"/>
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Guía Compostelana Ultreia — Camino Portugués de la Costa"/>
+  <meta name="twitter:description" content="Guía interactiva y gratuita del Camino Portugués de la Costa. Mapas, etapas, patrimonio templario desde Oporto a Santiago."/>
+  <meta name="twitter:image" content="https://guia-compostelana-ultreia.com/og-image.jpg"/>
+
+  <!-- Hreflang -->
+  <link rel="alternate" hreflang="es" href="https://guia-compostelana-ultreia.com/"/>
+  <link rel="alternate" hreflang="gl" href="https://guia-compostelana-ultreia.com/?lang=gl"/>
+  <link rel="alternate" hreflang="en" href="https://guia-compostelana-ultreia.com/?lang=en"/>
+  <link rel="alternate" hreflang="x-default" href="https://guia-compostelana-ultreia.com/"/>
+
   <meta name="theme-color" content="#1D9E75"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
@@ -109,6 +139,69 @@
 .modal-box h3{font-family:'Playfair Display',serif}
 </style>
 <style>@keyframes bounceDownArrow{0%,100%{transform:translateY(0);}45%{transform:translateY(8px);}65%{transform:translateY(3px);}}</style>
+
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://guia-compostelana-ultreia.com/#website",
+        "url": "https://guia-compostelana-ultreia.com/",
+        "name": "Guía Compostelana Ultreia",
+        "description": "Guía interactiva y gratuita del Camino Portugués de la Costa y del Interior desde Oporto hasta Santiago de Compostela.",
+        "inLanguage": ["es", "gl", "en"],
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://guia-compostelana-ultreia.com/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://guia-compostelana-ultreia.com/#app",
+        "name": "Guía Compostelana Ultreia",
+        "url": "https://guia-compostelana-ultreia.com/",
+        "applicationCategory": "TravelApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "EUR"
+        },
+        "description": "PWA gratuita con mapas interactivos, etapas, albergues y patrimonio del Camino Portugués de la Costa.",
+        "inLanguage": ["es", "gl", "en"],
+        "author": {
+          "@type": "Person",
+          "name": "Guía Compostelana Ultreia",
+          "url": "https://guia-compostelana-ultreia.com/"
+        }
+      },
+      {
+        "@type": "TouristTrip",
+        "@id": "https://guia-compostelana-ultreia.com/#camino",
+        "name": "Camino Portugués de la Costa",
+        "description": "Ruta de peregrinación jacobea que recorre la costa atlántica desde Oporto hasta Santiago de Compostela, pasando por A Guarda, Baiona, Vigo, Redondela y Pontevedra.",
+        "touristType": "Pilgrim",
+        "itinerary": {
+          "@type": "ItemList",
+          "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Oporto"},
+            {"@type": "ListItem", "position": 2, "name": "A Guarda"},
+            {"@type": "ListItem", "position": 3, "name": "Baiona"},
+            {"@type": "ListItem", "position": 4, "name": "Vigo"},
+            {"@type": "ListItem", "position": 5, "name": "Redondela"},
+            {"@type": "ListItem", "position": 6, "name": "Pontevedra"},
+            {"@type": "ListItem", "position": 7, "name": "Caldas de Reis"},
+            {"@type": "ListItem", "position": 8, "name": "Padrón"},
+            {"@type": "ListItem", "position": 9, "name": "Santiago de Compostela"}
+          ]
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
