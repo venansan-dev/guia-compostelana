@@ -336,7 +336,7 @@
   </div>
   <!-- Botón refresh alineado bajo el panel, en el mismo nivel que el buscador -->
   <button id='btn-refresh-loc' onclick='refrescarUbicacion()' title='Actualizar mi ubicación'
-    style='display:flex;position:absolute;bottom:36px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>
+    style='display:flex;position:absolute;bottom:36px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>
     <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='#333' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='23 4 23 10 17 10'/><polyline points='1 20 1 14 7 14'/><path d='M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15'/></svg>
   </button>
   <!-- btn-go oculto para compatibilidad con JS existente -->
@@ -349,10 +349,10 @@
   <span id='ruta-bar-puntos' style='display:none'></span>
   <!-- Botón brújula (izquierda, tercero) -->
   <button id='btn-brujula-mapa' onclick='abrirBrujulaDrawer()' title='Brújula'
-    style='display:flex;position:absolute;top:98px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>🧭</button>
+    style='display:flex;position:absolute;top:98px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>🧭</button>
   <!-- Botón SOS (izquierda, primero) -->
   <button id='btn-sos-mapa' onclick='abrirSOSDrawer()' title='Emergencias SOS'
-    style='display:flex;position:absolute;top:10px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(220,38,38,0.4);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(220,38,38,0.25);padding:0'>
+    style='display:flex;position:absolute;top:10px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(220,38,38,0.35);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(220,38,38,0.18);padding:0'>
     <svg width='22' height='22' viewBox='0 0 22 22' xmlns='http://www.w3.org/2000/svg'>
       <circle cx='11' cy='11' r='10' fill='#dc2626'/>
       <rect x='8' y='4' width='6' height='14' rx='1.5' fill='#fff'/>
@@ -368,23 +368,23 @@
     <div id='ar-status' style='position:absolute;top:20px;left:20px;color:#fff;font-size:12px;font-family:DM Sans,sans-serif;background:rgba(0,0,0,0.5);padding:4px 10px;border-radius:8px'></div>
   </div>
   <!-- Botón añadir punto (derecha) -->
-  <button id='btn-add-poi-map' onclick='abrirFormPOI()' title='Añadir un punto' style='position:absolute;top:10px;right:10px;z-index:400;height:36px;background:#1D9E75;color:#fff;border:none;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;font-size:13px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,0.2);padding:0 12px;font-family:DM Sans,sans-serif;white-space:nowrap'>➕ <span id='btn-add-poi-map-txt'>Punto</span></button>
+  <button id='btn-add-poi-map' onclick='abrirFormPOI()' title='Añadir un punto' style='position:absolute;top:10px;right:10px;z-index:400;height:36px;background:#1D9E75;color:#fff;border:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;font-size:13px;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,0.18);padding:0 12px;font-family:DM Sans,sans-serif;white-space:nowrap'>➕ <span id='btn-add-poi-map-txt'>Punto</span></button>
   <!-- Panel radio en mapa (columna derecha bajo +punto) -->
   <div id='map-radio-control' style='display:flex;position:absolute;top:54px;right:10px;z-index:400;flex-direction:column;align-items:stretch;gap:4px;font-family:DM Sans,sans-serif'>
     <div style='height:22px'></div>
-    <div class='map-radio-btn active' onclick='cambiarRadio(1,this)' style='background:#1D9E75;color:#fff;border:2px solid #1D9E75;border-radius:6px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.15);min-width:52px;transition:all 0.15s'>1 km</div>
-    <div class='map-radio-btn' onclick='cambiarRadio(2,this)' style='background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.15);min-width:52px;transition:all 0.15s'>2 km</div>
-    <div class='map-radio-btn' onclick='cambiarRadio(3,this)' style='background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.15);min-width:52px;transition:all 0.15s'>3 km</div>
+    <div class='map-radio-btn active' onclick='cambiarRadio(1,this)' style='background:#1D9E75;color:#fff;border:1.5px solid #1D9E75;border-radius:8px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);min-width:52px;transition:all 0.15s'>1 km</div>
+    <div class='map-radio-btn' onclick='cambiarRadio(2,this)' style='background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);min-width:52px;transition:all 0.15s'>2 km</div>
+    <div class='map-radio-btn' onclick='cambiarRadio(3,this)' style='background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);min-width:52px;transition:all 0.15s'>3 km</div>
   </div>
   <!-- Botón buscador derecha bottom:70px -->
   <button id='btn-buscar-mapa' onclick='toggleBuscadorMapa()' title='Buscar'
-    style='display:flex;position:absolute;bottom:80px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:17px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>&#128269;</button>
+    style='display:flex;position:absolute;bottom:80px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:17px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>&#128269;</button>
   <!-- Botón meteorología (izquierda, segundo) -->
   <button id='btn-meteo-mapa' onclick='abrirMeteoDrawer()' title='Previsión meteorológica'
-    style='display:flex;position:absolute;top:54px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>&#9925;</button>
+    style='display:flex;position:absolute;top:54px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>&#9925;</button>
   <!-- Botón POI derecha bottom:114px -->
   <button id='btn-poi-drawer-mapa' onclick='abrirPoiDrawer()' title='Puntos de interés'
-    style='display:flex;position:absolute;bottom:124px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:6px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);padding:0'>📍</button>
+    style='display:flex;position:absolute;bottom:124px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>📍</button>
   <!-- Tira de búsqueda flotante alineada con buscar -->
   <div id='mapa-search-strip' style='display:none;position:absolute;bottom:80px;right:56px;z-index:401;background:rgba(255,255,255,0.97);border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.18);border:1.5px solid rgba(29,158,117,0.3);overflow:hidden;backdrop-filter:blur(4px);min-width:180px;max-width:calc(100% - 110px)'>
     <div style='display:flex;align-items:center;gap:0'>
@@ -782,9 +782,9 @@
 </div>
 
 <!-- BANNER DONACIONES BAJO EL MAPA -->
-<div style='margin:1.5rem 1.5rem;border-radius:var(--radio);background:linear-gradient(135deg,#0F6E56 0%,#1D9E75 60%,#22c55e 100%);padding:1.6rem 1.5rem;position:relative;overflow:hidden;animation:donGlow 2.5s ease-in-out infinite;border:3px solid rgba(255,220,100,0.4)'>
-  <div style='position:absolute;top:-30px;right:-30px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.07);animation:donFloat 4s ease-in-out infinite;pointer-events:none'></div>
-  <div style='position:absolute;bottom:-20px;left:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.05);animation:donFloat 5s ease-in-out infinite reverse;pointer-events:none'></div>
+<div style='margin:1.5rem 1.5rem;border-radius:var(--radio);background:linear-gradient(135deg,#0F6E56 0%,#1D9E75 60%,#22c55e 100%);padding:1.6rem 1.5rem;position:relative;overflow:hidden;border:2px solid rgba(255,220,100,0.3)'>
+  <div style='position:absolute;top:-30px;right:-30px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.07);pointer-events:none'></div>
+  <div style='position:absolute;bottom:-20px;left:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.05);pointer-events:none'></div>
   <div style='position:relative;z-index:2;max-width:640px;margin:0 auto'>
     <div style='display:flex;align-items:center;gap:12px;margin-bottom:8px'>
       <span style='display:inline-flex;flex-direction:column;align-items:center;animation:donCatBody 1.2s ease-in-out infinite;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.3));position:relative;flex-shrink:0'>
@@ -796,7 +796,7 @@
       <h4 id='footer-don-title' style='font-family:Playfair Display,serif;font-size:18px;font-weight:700;color:#FFE066;margin:0;text-shadow:0 2px 6px rgba(0,0,0,0.35);letter-spacing:0.3px'>Apoya esta guía</h4>
     </div>
     <p id='footer-don-sub' style='font-size:13px;color:rgba(255,255,255,0.92);margin:0 0 12px;line-height:1.5;text-align:center'>Proyecto gratuito y sin publicidad. Tu apoyo nos permite seguir creciendo.</p>
-    <div style='width:80px;height:3px;background:rgba(255,220,100,0.8);border-radius:2px;margin:0 auto 12px;animation:donGlow 2s ease-in-out infinite'></div>
+    <div style='width:80px;height:3px;background:rgba(255,220,100,0.7);border-radius:2px;margin:0 auto 12px'></div>
     <div style='display:flex;gap:8px;flex-wrap:wrap;justify-content:center'>
       <button onclick='abrirBizum()' style='display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.2);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:8px 16px;cursor:pointer;color:#fff;font-size:13px;font-weight:600;font-family:DM Sans,sans-serif;transition:background 0.2s'>📱 Bizum</button>
       <a href='https://paypal.me/GuiaCompostelana' target='_blank' style='display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.2);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:8px 16px;color:#fff;font-size:13px;font-weight:600;font-family:DM Sans,sans-serif;text-decoration:none'>💳 PayPal</a>
@@ -4501,11 +4501,29 @@ function filtrarCategoria(chip,categoria) {
 }
 
 // MODALES
-function abrirBizum(){document.getElementById('modal-bizum').classList.add('visible');}
 function abrirCripto(){document.getElementById('modal-cripto').classList.add('visible');}
 function cerrarModal(id,e){if(e.target===document.getElementById(id))document.getElementById(id).classList.remove('visible');}
+function revelarBizum(){
+  var el=document.getElementById('bizum-num');
+  var hint=document.getElementById('bizum-reveal-hint');
+  if(el.textContent.indexOf('•')!==-1){
+    el.textContent=el.getAttribute('data-real');
+    if(hint)hint.style.visibility='hidden';
+  } else {
+    el.textContent='••• ••• •••';
+    if(hint)hint.style.visibility='visible';
+  }
+}
+function abrirBizum(){
+  var el=document.getElementById('bizum-num');
+  if(el){el.textContent='••• ••• •••';}
+  var hint=document.getElementById('bizum-reveal-hint');
+  if(hint)hint.style.visibility='visible';
+  document.getElementById('modal-bizum').classList.add('visible');
+}
 function copiarBizum(){
-  var num=document.getElementById('bizum-num').textContent.trim();
+  var el=document.getElementById('bizum-num');
+  var num=el.getAttribute('data-real')||el.textContent.trim();
   if(navigator.clipboard)navigator.clipboard.writeText(num);
   var m=document.getElementById('bizum-copied');m.textContent='Numero copiado';
   setTimeout(function(){m.textContent='';},2000);
@@ -4575,19 +4593,63 @@ function quitarDeRuta(id) {
 function limpiarRuta() {
   if (_navActiva) detenerNavegacionVoz();
   if (rutaPuntos.length > 0) {
-    if (!confirm((T[idiomaActual]||T.es).confirmLimpiar||'¿Eliminar la ruta? Este cambio no puede deshacerse.')) return;
+    var tl = T[idiomaActual]||T.es;
+    var msg = tl.confirmLimpiar||'¿Eliminar la ruta?';
+    _mostrarConfirmLimpiar(msg, function() { _ejecutarLimpiarRuta(); });
+    return;
   }
+  _ejecutarLimpiarRuta();
+}
+function _mostrarConfirmLimpiar(msg, onConfirm) {
+  var existing = document.getElementById('modal-confirm-limpiar');
+  if (existing) existing.remove();
+  var overlay = document.createElement('div');
+  overlay.id = 'modal-confirm-limpiar';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:19999;display:flex;align-items:center;justify-content:center';
+  overlay.innerHTML =
+    '<div style="background:#fff;border-radius:14px;padding:1.5rem 1.5rem 1.25rem;max-width:300px;width:88%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.18)">' +
+    '<div style="font-size:32px;margin-bottom:10px">🗑️</div>' +
+    '<p style="font-family:DM Sans,sans-serif;font-size:15px;font-weight:600;color:#1a1a1a;margin:0 0 6px">'+msg+'</p>' +
+    '<p style="font-family:DM Sans,sans-serif;font-size:13px;color:#6b7280;margin:0 0 20px">Esta acción no puede deshacerse.</p>' +
+    '<div style="display:flex;gap:10px;justify-content:center">' +
+    '<button id="confirm-limpiar-cancel" style="flex:1;background:#f3f4f6;border:none;border-radius:10px;padding:10px 0;font-size:14px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;color:#374151">Cancelar</button>' +
+    '<button id="confirm-limpiar-ok" style="flex:1;background:#dc2626;border:none;border-radius:10px;padding:10px 0;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;color:#fff">Eliminar</button>' +
+    '</div></div>';
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', function(e){ if(e.target===overlay) overlay.remove(); });
+  document.getElementById('confirm-limpiar-cancel').addEventListener('click', function(){ overlay.remove(); });
+  document.getElementById('confirm-limpiar-ok').addEventListener('click', function(){ overlay.remove(); onConfirm(); });
+}
+function _ejecutarLimpiarRuta() {
   _verRutaMapa = false;
   try { localStorage.removeItem('rutaGuardadaV2'); } catch(e) {}
-  if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
-  if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); }); window._rutaFlechas = []; }
+  try {
+    if (_rutaLinea && typeof mapa !== 'undefined' && mapa) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
+  } catch(e) { _rutaLinea = null; }
+  try {
+    if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ try{mapa.removeLayer(m);}catch(e){} }); window._rutaFlechas = []; }
+  } catch(e) { window._rutaFlechas = []; }
   var btnVer=document.getElementById('ruta-bar-btn-ver');
   if(btnVer) btnVer.style.background='#185FA5';
   var panel=document.getElementById('map-ruta-panel');
-  // El panel permanece visible aunque se limpie la ruta
   if(panel) { panel.style.display='flex'; panel.style.flexDirection='column'; }
   rutaPuntos=[];
-  // Sync POI generator directly — no depende de actualizarRuta
+  // Forzar reset de TODOS los botones directamente, sin depender de actualizarRuta
+  var btnClrBar = document.getElementById('ruta-bar-btn-clear');
+  if(btnClrBar) { btnClrBar.style.display='none'; btnClrBar.disabled=true; }
+  var btnGoBar  = document.getElementById('ruta-bar-btn-go');
+  if(btnGoBar)  { btnGoBar.style.opacity='0.5'; btnGoBar.style.cursor='default'; btnGoBar.disabled=true; }
+  var btnNavBar = document.getElementById('ruta-nav-btn');
+  if(btnNavBar) btnNavBar.style.display='none';
+  var btnSaveBar= document.getElementById('ruta-bar-btn-save');
+  if(btnSaveBar) btnSaveBar.style.display='none';
+  var emptyEl   = document.getElementById('ruta-bar-empty');
+  if(emptyEl) emptyEl.style.display='';
+  var infoEl    = document.getElementById('ruta-bar-info');
+  if(infoEl)  infoEl.style.display='none';
+  var puntEl    = document.getElementById('ruta-bar-puntos');
+  if(puntEl)  puntEl.innerHTML='';
+  // Sync POI generator
   var statsEl = document.getElementById('poi-ruta-stats');
   var vaciaEl = document.getElementById('poi-ruta-vacia');
   var listaEl = document.getElementById('poi-ruta-lista2');
@@ -4598,14 +4660,16 @@ function limpiarRuta() {
   if (listaEl) { listaEl.style.display = 'none'; listaEl.innerHTML = ''; var t=document.getElementById('ruta-scroll-track');if(t)t.style.display='none'; }
   if (btnIr)   { btnIr.style.opacity = '0.4'; btnIr.style.cursor = 'default'; }
   if (btnClr2) { btnClr2.style.opacity = '0.4'; btnClr2.style.cursor = 'default'; }
-  actualizarRuta();
-  actualizarBotonesRuta();
-  // Retomar vista 1 km centrada en la posición del usuario (o centro por defecto)
-  if (typeof mapa !== 'undefined' && mapa) {
-    var lat = (typeof userLat !== 'undefined' && userLat) ? userLat : 42.2328;
-    var lng = (typeof userLng !== 'undefined' && userLng) ? userLng : -8.7226;
-    mapa.setView([lat, lng], 15, {animate: true});
-  }
+  try { actualizarRuta(); } catch(e) { console.warn('limpiarRuta: actualizarRuta falló', e); }
+  try { actualizarBotonesRuta(); } catch(e) {}
+  // Retomar vista centrada en posición del usuario
+  try {
+    if (typeof mapa !== 'undefined' && mapa) {
+      var lat = (typeof userLat !== 'undefined' && userLat) ? userLat : 42.2328;
+      var lng = (typeof userLng !== 'undefined' && userLng) ? userLng : -8.7226;
+      mapa.setView([lat, lng], 15, {animate: true});
+    }
+  } catch(e) {}
 }
 
 var _rutaLinea = null;
@@ -4867,7 +4931,7 @@ function actualizarRuta() {
     actualizarBotonesRuta(); return;
   }
   empty.style.display = 'none';
-  info.style.display  = 'flex';
+  if(info) info.style.display  = 'flex';
 
   var distTotal = 0;
   // Si tenemos ubicación del usuario, añadir distancia hasta el primer punto
@@ -4918,9 +4982,8 @@ function actualizarRuta() {
     if (dst2) dst2.textContent = distEl ? distEl.textContent : '';
     if (tim2) tim2.textContent = timeEl ? timeEl.textContent : '';
   }
-  timeEl.textContent = tMin >= 60 ? Math.floor(tMin/60)+'h '+(tMin%60)+'min' : tMin+' min';
-
-  puntEl.innerHTML = '';
+  if(timeEl) timeEl.textContent = tMin >= 60 ? Math.floor(tMin/60)+'h '+(tMin%60)+'min' : tMin+' min';
+  if(puntEl) { puntEl.innerHTML = '';
   rutaPuntos.forEach(function(p, i) {
     var pill = document.createElement('span');
     pill.className = 'ruta-bar-punto';
@@ -4928,10 +4991,9 @@ function actualizarRuta() {
     pill.innerHTML = '<span>'+(i+1)+'. '+shortName+'</span>'+
       '<button class="ruta-pill-del" data-rid="'+p.id+'" onclick="rutaPillDel(this)">&#x2715;</button>';
     puntEl.appendChild(pill);
-  });
-
-  btnGo.disabled  = rutaPuntos.length < 2;
-  btnClr.disabled = false; btnClr.style.display='block';
+  }); }
+  if(btnGo)  { btnGo.disabled  = rutaPuntos.length < 2; }
+  if(btnClr) { btnClr.disabled = false; btnClr.style.display='block'; }
   var btnNavEl=document.getElementById('ruta-nav-btn');if(btnNavEl&&!_navActiva){btnNavEl.style.display='block';}
   var btnSaveEl=document.getElementById('ruta-bar-btn-save');if(btnSaveEl)btnSaveEl.style.display='block';
   actualizarBotonesRuta();
@@ -6640,7 +6702,8 @@ document.addEventListener('DOMContentLoaded', function() {
     <button class='modal-close' onclick='document.getElementById("modal-bizum").classList.remove("visible")'>×</button>
     <h3>📱 Bizum</h3>
     <p id='bizum-modal-txt'>Envía tu donación por Bizum al número:</p>
-    <div class='bizum-number' id='bizum-num'>657 281 137</div>
+    <div class='bizum-number' id='bizum-num' data-real='657 281 137' style='cursor:pointer;user-select:none' onclick='revelarBizum()'>••• ••• •••</div>
+    <p style='font-size:11px;color:var(--texto-suave);text-align:center;margin-bottom:10px' id='bizum-reveal-hint'>Pulsa para revelar</p>
     <button class='bizum-copy-btn' onclick='copiarBizum()' id='bizum-copy-btn-txt'>Copiar número</button>
     <div class='bizum-copied' id='bizum-copied'></div>
   </div>
@@ -6738,6 +6801,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v809</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v813</div>
 </body>
 </html>
