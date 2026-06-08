@@ -650,6 +650,15 @@
       </div>
       <div id='poi-coords-display' style='margin-top:4px;font-size:11px;color:#6b7280;min-height:14px'></div>
     </div>
+    <!-- Foto opcional -->
+    <div style='flex-shrink:0'>
+      <label style='font-size:11px;font-weight:600;color:#374151;display:block;margin-bottom:4px' id='lbl-poi-foto'>📷 Foto del lugar <span style='font-weight:400;color:#9ca3af'>(opcional)</span></label>
+      <div style='display:flex;align-items:center;gap:8px'>
+        <button type='button' onclick='_poiFormPedirFoto()' id='btn-poi-foto' style='background:#f0fdf4;color:#15803d;border:1px solid #86efac;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap'>📷 Añadir foto</button>
+        <span id='poi-foto-status' style='font-size:11px;color:#6b7280'></span>
+      </div>
+      <canvas id='poi-foto-canvas' style='display:none'></canvas>
+    </div>
     <!-- Botones acción -->
     <div style='display:flex;gap:8px;flex-shrink:0'>
       <button onclick='cerrarFormPOI()' style='flex:1;background:#f3f4f6;color:#374151;border:none;border-radius:12px;padding:9px;font-size:13px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif' id='btn-poi-cancelar'>Cancelar</button>
@@ -837,7 +846,7 @@
   <div class='categories'>
     <div class='cat-chip active' id='chip-todos'><span id='chip-todos-txt'></span></div>
     <div class='cat-chip' id='chip-alertas'></div>
-    <div class='cat-chip' id='chip-usuario'><span id='chip-usuario-txt'></span></div>
+    <div class='cat-chip' id='chip-usuario' style='display:none'><span id='chip-usuario-txt'></span></div>
     <div class='cat-chip' id='chip-etapas-costa'><span id='chip-etapas-costa-txt'></span></div>
     <div class='cat-chip' id='chip-etapas-interior'><span id='chip-etapas-interior-txt'></span></div>
     <div class='cat-chip' id='chip-naturaleza'></div>
@@ -2458,7 +2467,7 @@ function cargarPOIsUsuario() {
     var stored = localStorage.getItem('poi_usuario');
     if (!stored) return;
     PUNTOS_USUARIO = JSON.parse(stored);
-  if(PUNTOS_USUARIO.length>0){var cu=document.getElementById('chip-usuario');if(cu)cu.style.display='inline-flex';}
+  if(PUNTOS_USUARIO.length>0){ /* chip-usuario reemplazado por Mi Álbum */ }
     PUNTOS_USUARIO.forEach(function(p) {
       p.esUsuario = true;
       if (!valoraciones[p.id]) valoraciones[p.id] = {total:0, votos:0, miVoto:0};
@@ -2937,6 +2946,39 @@ function selSubcat(cat, label) {
 
 function cerrarFormPOI() {
   _cerrarSlide('modal-add-poi');
+  window._poiFormFotoBlob = null;
+  var st = document.getElementById('poi-foto-status'); if (st) st.textContent = '';
+  var btn = document.getElementById('btn-poi-foto'); if (btn) btn.innerHTML = '📷 Añadir foto';
+}
+
+// Foto para el formulario de nuevo POI
+window._poiFormFotoBlob = null;
+function _poiFormPedirFoto() {
+  var inp = document.createElement('input');
+  inp.type = 'file'; inp.accept = 'image/*'; inp.capture = 'environment';
+  inp.onchange = function() {
+    var file = inp.files[0]; if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var img = new Image();
+      img.onload = function() {
+        var canvas = document.getElementById('poi-foto-canvas');
+        var MAX = 800; var ratio = Math.min(MAX/img.width, MAX/img.height, 1);
+        canvas.width = Math.round(img.width*ratio); canvas.height = Math.round(img.height*ratio);
+        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+        canvas.toBlob(function(blob) {
+          window._poiFormFotoBlob = blob;
+          var st = document.getElementById('poi-foto-status');
+          if (st) st.textContent = '✅ ' + file.name.substring(0,28);
+          var btn = document.getElementById('btn-poi-foto');
+          if (btn) btn.innerHTML = '✏️ Cambiar foto';
+        }, 'image/jpeg', 0.82);
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+  inp.click();
 }
 
 // Usar GPS actual
@@ -3118,8 +3160,15 @@ function guardarPOIUsuario() {
   // Alertas: visibles inmediatamente para todos via Firebase en tiempo real
   // Otros: solo local hasta moderación
   PUNTOS_USUARIO.push(poi);
-  var chipU=document.getElementById('chip-usuario');if(chipU)chipU.style.display='inline-flex';
   try { localStorage.setItem('poi_usuario', JSON.stringify(PUNTOS_USUARIO)); } catch(e) {}
+
+  // Registrar en álbum automáticamente (el usuario creó este punto, ya lo "visitó")
+  if (window._albumRegistrarVisita) window._albumRegistrarVisita(poi);
+  // Si tiene foto, guardarla en IndexedDB
+  if (window._poiFormFotoBlob) {
+    if (window._albumGuardarFoto) window._albumGuardarFoto(poi.id, window._poiFormFotoBlob);
+    window._poiFormFotoBlob = null;
+  }
 
   if (!valoraciones[id]) valoraciones[id] = {total:0, votos:0, miVoto:0};
   if (!opiniones[id]) opiniones[id] = [];
@@ -7098,7 +7147,7 @@ if ('serviceWorker' in navigator) {
   // Helper síncrono: devuelve el HTML del bloque imagen de una tarjeta POI
   // Si visitado → imagen real + badge foto. Si no → cromo bloqueado.
   window._imgCromo = function(p, enRuta, T, idiomaActual) {
-    var visitado = !!window._albumVisitasSet[p.id];
+    var visitado = !!window._albumVisitasSet[p.id] || !!p.esUsuario;
     if (visitado) {
       // Imagen desbloqueada — igual que antes + badge álbum + botón foto
       var enRutaStyle = enRuta
@@ -7244,6 +7293,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v459</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v460</div>
 </body>
 </html>
