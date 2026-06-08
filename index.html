@@ -574,6 +574,29 @@
       <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"mirador")'>🔭 Miradores</div>
     </div>
   </div>
+  <!-- Tarjeta ranking álbum — visible solo en filtro Mi Álbum -->
+  <div id='album-ranking-card' style='display:none;margin:0 1rem 0.5rem;border-radius:14px;overflow:hidden;background:linear-gradient(160deg,#0e2038 0%,#1a3a5c 50%,#1e4570 100%);border:1px solid rgba(255,255,255,0.12)'>
+    <div style='padding:0.9rem 1rem 0.7rem;border-bottom:1px solid rgba(255,255,255,0.08)'>
+      <div style='display:flex;align-items:center;gap:12px;margin-bottom:10px'>
+        <div id='rank-emoji' style='font-size:36px;line-height:1'>🌱</div>
+        <div style='flex:1'>
+          <div style='display:flex;align-items:baseline;gap:8px'>
+            <span id='rank-label' style='font-size:16px;font-weight:700;color:#fff'>Aspirante</span>
+            <span id='rank-count' style='font-size:11px;color:rgba(255,255,255,0.4)'>0 cromos</span>
+          </div>
+          <div id='rank-siguiente' style='font-size:10px;color:rgba(255,255,255,0.38);margin-top:2px'>Visita tu primer lugar para comenzar</div>
+        </div>
+      </div>
+      <div style='background:rgba(255,255,255,0.08);border-radius:20px;height:5px;overflow:hidden;margin-bottom:10px'>
+        <div id='rank-barra' style='height:100%;width:0%;background:linear-gradient(90deg,#1D9E75,#6ee7b7);border-radius:20px;transition:width 0.6s ease'></div>
+      </div>
+      <div id='rank-escalera' style='display:flex;justify-content:space-between;align-items:flex-end;padding:0 2px'></div>
+    </div>
+    <div style='padding:0.65rem 1rem'>
+      <div style='font-size:9px;font-weight:700;color:rgba(255,255,255,0.3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px'>Logros</div>
+      <div id='rank-logros' style='display:flex;flex-wrap:wrap;gap:5px'></div>
+    </div>
+  </div>
   <div id='poi-drawer-carousel' style='display:flex;gap:0.75rem;overflow-x:auto;overflow-y:visible;padding:0.75rem 1rem 0.75rem 1.25rem;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;scroll-padding-left:1.25rem;width:100%;box-sizing:border-box;touch-action:pan-x;overscroll-behavior-x:contain'></div>
 </div>
 
@@ -1952,6 +1975,8 @@ function abrirAlbumDrawer() {
   // Activa el filtro "Mi Álbum" en el poi-drawer (ya abierto)
   var chip = document.getElementById('chip-album-drawer');
   _poiDrawerFiltrar(chip, 'album');
+  // Actualizar tarjeta de ranking
+  if (window._renderAlbum) window._renderAlbum();
 }
 function cerrarAlbumDrawer() { _cerrarSlide('album-drawer'); }
 
@@ -2042,6 +2067,9 @@ function _poiDrawerFiltrar(chip, cat) {
   _poiDrawerCatActual = cat;
   document.querySelectorAll('#poi-drawer-chips .cat-chip').forEach(function(c){ c.classList.remove('active'); });
   if (chip) chip.classList.add('active');
+  // Mostrar/ocultar tarjeta de ranking
+  var rankCard = document.getElementById('album-ranking-card');
+  if (rankCard) rankCard.style.display = (cat === 'album') ? 'block' : 'none';
   _renderPoiDrawerCarrusel();
 }
 
@@ -7402,6 +7430,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v483</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v484</div>
 </body>
 </html>
