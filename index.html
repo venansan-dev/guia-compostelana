@@ -641,26 +641,20 @@
       </div>
       <div id='poi-cat-seleccionada' style='display:none;margin-top:3px;font-size:11px;color:#6ee7b7;font-weight:500'></div>
     </div>
-    <!-- Ubicación + Foto en la misma fila -->
-    <div style='flex-shrink:0'>
-      <div style='display:flex;gap:6px;margin-bottom:2px'>
-        <div style='flex:1'>
-          <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:2px' id='lbl-poi-ubic'>Ubicación *</label>
-          <div style='display:flex;gap:5px'>
-            <button onclick='usarMiUbicacion()' id='btn-mi-ubic' style='flex:1;background:rgba(29,158,117,0.3);color:#6ee7b7;border:1px solid rgba(29,158,117,0.5);border-radius:7px;padding:5px 6px;font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap'>📍 <span id='btn-mi-ubic-txt'>Mi GPS</span></button>
-            <button onclick='activarMarcarEnMapa()' id='btn-marcar-mapa' style='flex:1;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);border:1px solid rgba(255,255,255,0.2);border-radius:7px;padding:5px 6px;font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap'>🗺️ <span id='btn-marcar-mapa-txt'>Mapa</span></button>
-          </div>
-        </div>
-        <div style='flex:1' id='poi-foto-campo' style='display:none'>
-          <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:2px' id='lbl-poi-foto'>Foto <span style='font-weight:400;color:rgba(255,255,255,0.35)'>(opcional)</span></label>
-          <button type='button' onclick='_poiFormPedirFoto()' id='btn-poi-foto' style='width:100%;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);border:1px solid rgba(255,255,255,0.2);border-radius:7px;padding:5px 6px;font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>📷 Añadir foto</button>
-        </div>
-      </div>
-      <div style='display:flex;gap:6px'>
-        <div id='poi-coords-display' style='flex:1;font-size:10px;color:rgba(255,255,255,0.4);min-height:13px'></div>
-        <div id='poi-foto-status' style='flex:1;font-size:10px;color:rgba(255,255,255,0.4);text-align:right'></div>
-      </div>
+    <!-- Foto — solo visible con "Mis puntos", centrada entre categoría y ubicación -->
+    <div id='poi-foto-campo' style='display:none;flex-shrink:0;align-items:center;justify-content:center;gap:10px;padding:4px 0'>
+      <button type='button' onclick='_poiFormPedirFoto()' id='btn-poi-foto' style='background:rgba(59,130,246,0.25);color:#93c5fd;border:1.5px solid rgba(147,197,253,0.5);border-radius:20px;padding:7px 20px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap'>📷 Añadir foto</button>
+      <span id='poi-foto-status' style='font-size:10px;color:rgba(255,255,255,0.45)'></span>
       <canvas id='poi-foto-canvas' style='display:none'></canvas>
+    </div>
+    <!-- Ubicación -->
+    <div style='flex-shrink:0'>
+      <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:2px' id='lbl-poi-ubic'>Ubicación *</label>
+      <div style='display:flex;gap:5px'>
+        <button onclick='usarMiUbicacion()' id='btn-mi-ubic' style='flex:1;background:rgba(29,158,117,0.3);color:#6ee7b7;border:1px solid rgba(29,158,117,0.5);border-radius:7px;padding:5px 6px;font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap'>📍 <span id='btn-mi-ubic-txt'>Mi GPS</span></button>
+        <button onclick='activarMarcarEnMapa()' id='btn-marcar-mapa' style='flex:1;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);border:1px solid rgba(255,255,255,0.2);border-radius:7px;padding:5px 6px;font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap'>🗺️ <span id='btn-marcar-mapa-txt'>Mapa</span></button>
+      </div>
+      <div id='poi-coords-display' style='margin-top:3px;font-size:10px;color:rgba(255,255,255,0.4);min-height:13px'></div>
     </div>
     <!-- Botones acción -->
     <div style='display:flex;gap:8px;flex-shrink:0;margin-top:auto;padding-top:4px'>
@@ -2890,7 +2884,7 @@ function selPoiCat(btn, cat) {
   if (lbl) lbl.style.display = 'none';
   // Mostrar campo foto solo para "mis puntos"
   var fotoCampo = document.getElementById('poi-foto-campo');
-  if (fotoCampo) fotoCampo.style.display = (cat === 'punto de control') ? 'block' : 'none';
+  if (fotoCampo) fotoCampo.style.display = (cat === 'punto de control') ? 'flex' : 'none';
 }
 
 function resetAllPoiCatBtns() {
@@ -7327,6 +7321,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v468</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v469</div>
 </body>
 </html>
