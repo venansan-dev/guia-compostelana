@@ -2139,6 +2139,7 @@ function _renderPoiDrawerCarrusel() {
           '</div>'
         )+
         '<button class="poi-detail-btn" data-poi-id="'+p.id+'" style="margin-top:6px;width:100%;background:var(--verde-claro);border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:5px 8px;font-size:11px;font-weight:600;color:var(--verde-oscuro);cursor:pointer;font-family:DM Sans,sans-serif">💬 '+(T[idiomaActual]||T.es).verDetalle+'</button>'+
+        (p.esUsuario ? '<button data-poi-del="'+p.id+'" style="margin-top:5px;width:100%;background:rgba(239,68,68,0.08);color:#ef4444;border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:5px 8px;font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">🗑️ Eliminar este punto</button>' : '')+
       '</div>';
     frag.appendChild(card);
     // Si ya tiene foto propia guardada, aplicarla
@@ -3191,17 +3192,23 @@ function guardarPOIUsuario() {
   }
 
   if (_blobParaGuardar && window._albumGuardarFoto) {
-    // Guardar foto en IDB (sin esperar) y renderizar inmediatamente
     window._albumGuardarFoto(poi.id, _blobParaGuardar);
     _finalizarGuardado();
-    // Aplicar la foto a la tarjeta recién renderizada con objectURL directo
+    // Re-renderizar el poi-drawer para que la tarjeta nueva aparezca con imagen
+    if (typeof _renderPoiDrawerCarrusel === 'function') _renderPoiDrawerCarrusel();
+    // Aplicar foto a todas las tarjetas recién renderizadas
     var _fotoUrl = URL.createObjectURL(_blobParaGuardar);
     setTimeout(function() {
-      document.querySelectorAll('#cromo-img-'+poi.id).forEach(function(el){ el.src = _fotoUrl; });
-      document.querySelectorAll('#foto-btn-'+poi.id).forEach(function(el){ el.innerHTML = '✏️ cambiar'; });
-    }, 80);
+      document.querySelectorAll('[id^="cromo-img-"]').forEach(function(el){
+        if (el.id === 'cromo-img-'+poi.id) el.src = _fotoUrl;
+      });
+      document.querySelectorAll('[id^="foto-btn-"]').forEach(function(el){
+        if (el.id === 'foto-btn-'+poi.id) el.innerHTML = '✏️ cambiar';
+      });
+    }, 120);
   } else {
     _finalizarGuardado();
+    if (typeof _renderPoiDrawerCarrusel === 'function') _renderPoiDrawerCarrusel();
   }
 
   // Firebase: alertas van a rama 'alertas' (pública, tiempo real); resto a poi_usuarios (moderación)
@@ -7326,6 +7333,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v471</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v472</div>
 </body>
 </html>
