@@ -3796,13 +3796,16 @@ function initMapa() {
   var _radioFitBoundsTs = 0;
   function _sincRadioBtns() {
     if (!circuloRadio || !userLat) return;
-    if (Date.now() - _radioFitBoundsTs < 1200) return;
+    var elapsed = Date.now() - _radioFitBoundsTs;
+    console.log('[radio] _sincRadioBtns elapsed='+elapsed+'ms bloqueado='+(elapsed<1200));
+    if (elapsed < 1200) return;
     var mapBounds = mapa.getBounds();
     var circleBounds = circuloRadio.getBounds();
     var mapW = mapBounds.getEast() - mapBounds.getWest();
     var circW = circleBounds.getEast() - circleBounds.getWest();
     var ratio = circW / mapW;
     var radioVisible = ratio > 0.3 && ratio <= 1.05;
+    console.log('[radio] _sincRadioBtns ratio='+ratio.toFixed(3)+' visible='+radioVisible+' radioKm='+radioKm);
     if (!radioVisible) {
       document.querySelectorAll('#map-radio-control .map-radio-btn').forEach(function(b) {
         b.classList.remove('active');
@@ -4131,8 +4134,28 @@ function _aplicarEstadoRadioBtns(km) {
 function cambiarRadio(km, btn) {
   desactivarSeguimientoYBrujula();
   radioKm = km;
+  console.log('[radio] cambiarRadio km='+km);
   _aplicarEstadoRadioBtns(km);
+  var cont=document.getElementById('map-radio-control');
+  if(cont) cont.querySelectorAll('.map-radio-btn').forEach(function(b){
+    console.log('[radio] post-aplicar km='+b.getAttribute('data-km')+' bg='+b.style.background);
+  });
   if (userLat) aplicarRadio(km);
+}
+function _aplicarEstadoRadioBtns_orig(km) {
+  var cont = document.getElementById('map-radio-control');
+  if (!cont) return;
+  cont.querySelectorAll('.map-radio-btn').forEach(function(b) {
+    var activo = parseInt(b.getAttribute('data-km')) === km;
+    b.style.transition  = 'none';
+    b.classList.toggle('active', activo);
+    b.style.background  = activo ? '#1D9E75' : '#fff';
+    b.style.color       = activo ? '#fff'    : '#555';
+    b.style.borderColor = activo ? '#1D9E75' : 'rgba(0,0,0,0.15)';
+    b.offsetHeight;
+    b.style.transition  = '';
+    console.log('[radio] _aplicar km='+b.getAttribute('data-km')+' activo='+activo+' bg='+b.style.background);
+  });
 }
 
 // BUSCADOR NOMINATIM
@@ -6787,6 +6810,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v820</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v821d</div>
 </body>
 </html>
