@@ -372,9 +372,9 @@
   <!-- Panel radio en mapa (columna derecha bajo +punto) -->
   <div id='map-radio-control' style='display:flex;position:absolute;top:54px;right:10px;z-index:400;flex-direction:column;align-items:stretch;gap:4px;font-family:DM Sans,sans-serif'>
     <div style='height:22px'></div>
-    <div class='map-radio-btn active' onclick='cambiarRadio(1,this)' style='background:#1D9E75;color:#fff;border:1.5px solid #1D9E75;border-radius:8px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);min-width:52px;transition:all 0.15s'>1 km</div>
-    <div class='map-radio-btn' onclick='cambiarRadio(2,this)' style='background:#fff;color:#555;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);min-width:52px;transition:all 0.15s'>2 km</div>
-    <div class='map-radio-btn' onclick='cambiarRadio(3,this)' style='background:#fff;color:#555;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);min-width:52px;transition:all 0.15s'>3 km</div>
+    <div class='map-radio-btn active' data-km='1' onclick='cambiarRadio(1,this)' style='background:#1D9E75;color:#fff;border:1.5px solid #1D9E75;border-radius:8px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);min-width:52px;transition:all 0.15s'>1 km</div>
+    <div class='map-radio-btn' data-km='2' onclick='cambiarRadio(2,this)' style='background:#fff;color:#555;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);min-width:52px;transition:all 0.15s'>2 km</div>
+    <div class='map-radio-btn' data-km='3' onclick='cambiarRadio(3,this)' style='background:#fff;color:#555;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);min-width:52px;transition:all 0.15s'>3 km</div>
   </div>
   <!-- Botón buscador derecha bottom:70px -->
   <button id='btn-buscar-mapa' onclick='toggleBuscadorMapa()' title='Buscar'
@@ -2562,9 +2562,7 @@ function refrescarUbicacion() {
     }
     // Siempre volver a radio 1km
     radioKm = 1;
-    document.querySelectorAll('.map-radio-btn').forEach(function(b){ b.classList.remove('active'); });
-    var r1 = document.querySelector('.map-radio-btn');
-    if (r1) r1.classList.add('active');
+    _aplicarEstadoRadioBtns(1);
     aplicarRadio(1);
     // Recalcular distancias y reordenar
     PUNTOS.forEach(function(p){ p.distancia = haversine(userLat,userLng,p.lat,p.lng); });
@@ -3738,12 +3736,7 @@ function initMapa() {
   if (radioCtrl) radioCtrl.style.display = 'flex';
   // Forzar radio 1km al iniciar
   radioKm = 1;
-  document.querySelectorAll('.map-radio-btn').forEach(function(b){
-    b.classList.remove('active');
-    b.style.background='#fff'; b.style.color='#555'; b.style.borderColor='rgba(0,0,0,0.15)';
-  });
-  var r1btn = document.querySelector('.map-radio-btn');
-  if (r1btn) { r1btn.classList.add('active'); r1btn.style.background='#1D9E75'; r1btn.style.color='#fff'; r1btn.style.borderColor='#1D9E75'; }
+  _aplicarEstadoRadioBtns(1);
   setTimeout(cargarRutaGuardada, 1200); // cargar ruta guardada tras iniciar mapa
   mapa = L.map('map', { center:[42.2220,-8.7580], zoom:14, zoomControl:false, preferCanvas:true });
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -3815,8 +3808,8 @@ function initMapa() {
     var circW = circleBounds.getEast() - circleBounds.getWest();
     var ratio = circW / mapW;
     var radioVisible = ratio > 0.3 && ratio <= 1.05;
-    document.querySelectorAll('.map-radio-btn').forEach(function(b) {
-      var esEsteRadio = parseInt(b.textContent) === radioKm;
+    document.querySelectorAll('#map-radio-control .map-radio-btn').forEach(function(b) {
+      var esEsteRadio = parseInt(b.getAttribute('data-km')) === radioKm;
       var esActivo = esEsteRadio && radioVisible;
       b.classList.toggle('active', esActivo);
       b.style.background  = esActivo ? '#1D9E75' : '#fff';
@@ -4027,9 +4020,7 @@ function toggleSeguimiento() {
     // Volver a radio 1km
     aplicarRadio(1);
     radioKm = 1;
-    document.querySelectorAll('.map-radio-btn').forEach(function(b){ b.classList.remove('active'); });
-    var r1 = document.querySelector('.map-radio-btn');
-    if (r1) r1.classList.add('active');
+    _aplicarEstadoRadioBtns(1);
     mostrarToast('📡 Seguimiento desactivado');
   }
 }
@@ -4127,15 +4118,21 @@ function aplicarRadio(km) {
   mapa.fitBounds(circuloRadio.getBounds(), {padding:[20,20]});
 }
 
-function cambiarRadio(km,btn) {
+function _aplicarEstadoRadioBtns(km) {
+  var btns = document.getElementById('map-radio-control');
+  if (!btns) return;
+  btns.querySelectorAll('.map-radio-btn').forEach(function(b) {
+    var activo = parseInt(b.getAttribute('data-km')) === km;
+    b.classList.toggle('active', activo);
+    b.style.background  = activo ? '#1D9E75' : '#fff';
+    b.style.color       = activo ? '#fff'    : '#555';
+    b.style.borderColor = activo ? '#1D9E75' : 'rgba(0,0,0,0.15)';
+  });
+}
+function cambiarRadio(km, btn) {
   desactivarSeguimientoYBrujula();
   radioKm = km;
-  document.querySelectorAll('.map-radio-btn').forEach(function(b){
-    b.classList.remove('active');
-    b.style.background='#fff'; b.style.color='#555'; b.style.borderColor='rgba(0,0,0,0.15)';
-  });
-  btn.classList.add('active');
-  btn.style.background='#1D9E75'; btn.style.color='#fff'; btn.style.borderColor='#1D9E75';
+  _aplicarEstadoRadioBtns(km);
   if (userLat) aplicarRadio(km);
 }
 
@@ -5473,12 +5470,7 @@ function detenerNavegacionVoz() {
   if (brujulaEstaba) setTimeout(pedirOrientacion, 300);
   // Restaurar radio 1km
   radioKm = 1;
-  document.querySelectorAll('.map-radio-btn').forEach(function(b){
-    b.classList.remove('active');
-    b.style.background='#fff'; b.style.color='#333'; b.style.border='2px solid rgba(0,0,0,0.2)';
-  });
-  var r1btn = document.querySelector('.map-radio-btn');
-  if (r1btn) { r1btn.classList.add('active'); r1btn.style.background='#1D9E75'; r1btn.style.color='#fff'; r1btn.style.border='2px solid #1D9E75'; }
+  _aplicarEstadoRadioBtns(1);
   if (userLat) aplicarRadio(1);
   mostrarToast('⏹ Navegación detenida');
 }
@@ -6796,6 +6788,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v816</div>
+<div id='version-badge' style='position:fixed;bottom:4px;left:4px;font-size:10px;font-weight:600;color:#fff;background:rgba(29,158,117,0.85);padding:2px 6px;border-radius:6px;z-index:9999;pointer-events:none;font-family:monospace'>v817</div>
 </body>
 </html>
