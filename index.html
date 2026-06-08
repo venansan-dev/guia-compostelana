@@ -641,26 +641,16 @@
       </div>
       <div id='poi-cat-seleccionada' style='display:none;margin-top:3px;font-size:11px;color:#6ee7b7;font-weight:500'></div>
     </div>
-    <!-- Ubicación + Foto en la misma fila -->
+    <!-- Ubicación -->
     <div style='flex-shrink:0'>
-      <div style='display:flex;gap:6px;margin-bottom:2px'>
-        <div style='flex:1'>
-          <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:2px' id='lbl-poi-ubic'>Ubicación *</label>
-          <div style='display:flex;gap:5px'>
-            <button onclick='usarMiUbicacion()' id='btn-mi-ubic' style='flex:1;background:rgba(29,158,117,0.3);color:#6ee7b7;border:1px solid rgba(29,158,117,0.5);border-radius:7px;padding:5px 6px;font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap'>📍 <span id='btn-mi-ubic-txt'>Mi GPS</span></button>
-            <button onclick='activarMarcarEnMapa()' id='btn-marcar-mapa' style='flex:1;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);border:1px solid rgba(255,255,255,0.2);border-radius:7px;padding:5px 6px;font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap'>🗺️ <span id='btn-marcar-mapa-txt'>Mapa</span></button>
-          </div>
-        </div>
-        <div style='flex:1'>
-          <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:2px' id='lbl-poi-foto'>Foto <span style='font-weight:400;color:rgba(255,255,255,0.35)'>(opcional)</span></label>
-          <button type='button' onclick='_poiFormPedirFoto()' id='btn-poi-foto' style='width:100%;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);border:1px solid rgba(255,255,255,0.2);border-radius:7px;padding:5px 6px;font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>📷 Añadir foto</button>
-        </div>
+      <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:2px' id='lbl-poi-ubic'>Ubicación *</label>
+      <div style='display:flex;gap:5px'>
+        <button onclick='usarMiUbicacion()' id='btn-mi-ubic' style='flex:1;background:rgba(29,158,117,0.3);color:#6ee7b7;border:1px solid rgba(29,158,117,0.5);border-radius:7px;padding:5px 6px;font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap'>📍 <span id='btn-mi-ubic-txt'>Mi GPS</span></button>
+        <button onclick='activarMarcarEnMapa()' id='btn-marcar-mapa' style='flex:1;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);border:1px solid rgba(255,255,255,0.2);border-radius:7px;padding:5px 6px;font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap'>🗺️ <span id='btn-marcar-mapa-txt'>Mapa</span></button>
       </div>
-      <div style='display:flex;gap:6px'>
-        <div id='poi-coords-display' style='flex:1;font-size:10px;color:rgba(255,255,255,0.4);min-height:13px'></div>
-        <div id='poi-foto-status' style='flex:1;font-size:10px;color:rgba(255,255,255,0.4);text-align:right'></div>
-      </div>
-      <canvas id='poi-foto-canvas' style='display:none'></canvas>
+      <div id='poi-coords-display' style='margin-top:3px;font-size:10px;color:rgba(255,255,255,0.4);min-height:13px'></div>
+      <!-- Foto oculta — IDs necesarios para el JS -->
+      <div style='display:none'><label id='lbl-poi-foto'></label><button type='button' id='btn-poi-foto' disabled></button><span id='poi-foto-status'></span><canvas id='poi-foto-canvas'></canvas></div>
     </div>
     <!-- Botones acción -->
     <div style='display:flex;gap:8px;flex-shrink:0;margin-top:auto;padding-top:4px'>
@@ -718,6 +708,10 @@
       <div style='background:#fff;border:0.5px solid rgba(0,0,0,0.08);border-radius:12px;padding:1rem 1.1rem;display:flex;gap:12px;align-items:flex-start'>
         <div style='width:32px;height:32px;background:#F3F4F6;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0'>📴</div>
         <div><div style='font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:2px'>Funciona sin conexión</div><div style='font-size:11px;color:#6b7280;font-weight:500;margin-bottom:2px'>Primera visita con WiFi · Se descarga automáticamente</div><div style='font-size:11px;color:#6b7280;line-height:1.6'>La primera vez que abres la guía con WiFi se descarga el mapa. Después puedes consultarla sin datos — ideal en zonas sin cobertura. Alertas y puntos nuevos sí requieren conexión.</div></div>
+      </div>
+      <div style='background:#fff;border:0.5px solid rgba(0,0,0,0.08);border-radius:12px;padding:1rem 1.1rem;display:flex;gap:12px;align-items:flex-start'>
+        <div style='width:32px;height:32px;background:#EDE9FE;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0'>📷</div>
+        <div><div style='font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:2px'>Álbum del peregrino</div><div style='font-size:11px;color:#6b7280;line-height:1.6'>Cada lugar que visites físicamente <strong style='color:#1a1a1a'>desbloquea su cromo</strong> — la imagen de la tarjeta se revela cuando el GPS detecta tu presencia. Accede desde el chip <strong style='color:#1a1a1a'>📷 Mi Álbum</strong> en la sección Puntos de interés para ver tu colección. Puedes añadir tu propia foto a cada cromo desbloqueado pulsando el botón de cámara en la tarjeta. Los puntos que tú mismo creas aparecen también en tu álbum.</div></div>
       </div>
       <div style='background:#1D9E75;border-radius:12px;padding:1rem 1.1rem;display:flex;gap:12px;align-items:flex-start'>
         <div style='font-size:24px;flex-shrink:0'>📲</div>
@@ -2111,7 +2105,7 @@ function _renderPoiDrawerCarrusel() {
     card.innerHTML =
       (window._imgCromo ? window._imgCromo(p, enRuta, T, idiomaActual) : '<div class="poi-img '+p.color+'" style="position:relative;overflow:hidden">'+
         '<img src="'+(p.imagen||'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png')+'" alt="'+p.nombre+'" class="poi-img-cover" decoding="async" fetchpriority="low"/>'+
-        (!p.esAlerta ? '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'" style="position:absolute;top:8px;right:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);background:'+(enRuta?'#1D9E75':'rgba(255,255,255,0.92)')+';color:'+(enRuta?'#fff':'#0F6E56')+';border:1px solid '+(enRuta?'#1D9E75':'rgba(29,158,117,0.4)')+'">'+
+        (!p.esAlerta && !p.esUsuario ? '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'" style="position:absolute;top:8px;right:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);background:'+(enRuta?'#1D9E75':'rgba(255,255,255,0.92)')+';color:'+(enRuta?'#fff':'#0F6E56')+';border:1px solid '+(enRuta?'#1D9E75':'rgba(29,158,117,0.4)')+'">'+
           (enRuta?'&#10003; '+(T[idiomaActual]||T.es).enRuta.replace('✓ ',''):(T[idiomaActual]||T.es).añadirRuta)+'</button>' : '')+
       '</div>')+
       '<div class="poi-ranking" id="rank-'+p.id+'" style="left:8px;right:auto">&#9733; '+(val.votos>0?media:'-')+'</div>'+
@@ -2145,6 +2139,7 @@ function _renderPoiDrawerCarrusel() {
           '</div>'
         )+
         '<button class="poi-detail-btn" data-poi-id="'+p.id+'" style="margin-top:6px;width:100%;background:var(--verde-claro);border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:5px 8px;font-size:11px;font-weight:600;color:var(--verde-oscuro);cursor:pointer;font-family:DM Sans,sans-serif">💬 '+(T[idiomaActual]||T.es).verDetalle+'</button>'+
+        (p.esUsuario ? '<button data-poi-del="'+p.id+'" style="margin-top:5px;width:100%;background:rgba(239,68,68,0.08);color:#ef4444;border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:5px 8px;font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">🗑️ Eliminar este punto</button>' : '')+
       '</div>';
     frag.appendChild(card);
     // Si ya tiene foto propia guardada, aplicarla
@@ -3478,8 +3473,10 @@ function eliminarPOIUsuario(poiId) {
   // 5. Eliminar de Firebase
   db.ref('poi_usuarios/' + poiId).remove().catch(function(e){ console.warn('No se pudo eliminar de Firebase:', e); });
 
-  // 6. Actualizar carrusel
+  // 6. Actualizar carrusel y poi-drawer
   renderCarrusel(categoriaActiva);
+  if (typeof _renderPoiDrawerCarrusel === 'function') _renderPoiDrawerCarrusel();
+  mostrarToast('🗑️ Punto eliminado');
 }
 
 // Delegación de eventos para el botón eliminar
@@ -4402,7 +4399,7 @@ function renderCarrusel(categoria) {
     card.innerHTML =
       (window._imgCromo ? window._imgCromo(p, enRuta, T, idiomaActual) : '<div class="poi-img '+p.color+'" style="position:relative;overflow:hidden">' +
         '<img src="'+(p.imagen||'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png')+'" alt="'+p.nombre+'" class="poi-img-cover" decoding="async" fetchpriority="low"/>' +
-        (mostrarBtnRuta && !p.esAlerta ? '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'" style="position:absolute;top:8px;right:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);background:'+(enRuta?'#1D9E75':'rgba(255,255,255,0.92)')+';color:'+(enRuta?'#fff':'#0F6E56')+';border:1px solid '+(enRuta?'#1D9E75':'rgba(29,158,117,0.4)')+'">'+  (enRuta?'&#10003; '+(T[idiomaActual]||T.es).enRuta.replace('✓ ',''):(T[idiomaActual]||T.es).añadirRuta)+'</button>' : '') +
+        (mostrarBtnRuta && !p.esAlerta && !p.esUsuario ? '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'" style="position:absolute;top:8px;right:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);background:'+(enRuta?'#1D9E75':'rgba(255,255,255,0.92)')+';color:'+(enRuta?'#fff':'#0F6E56')+';border:1px solid '+(enRuta?'#1D9E75':'rgba(29,158,117,0.4)')+'">'+  (enRuta?'&#10003; '+(T[idiomaActual]||T.es).enRuta.replace('✓ ',''):(T[idiomaActual]||T.es).añadirRuta)+'</button>' : '') +
       '</div>')+
       '<div class="poi-ranking" id="rank-'+p.id+'" style="left:8px;right:auto">&#9733; '+(val.votos>0?media:'-')+'</div>'+
       '<div class="poi-body">'+
@@ -4457,7 +4454,7 @@ function renderCarrusel(categoria) {
               '</div>'+
             '</div>'
         )+
-
+        (p.esUsuario ? '<button data-poi-del="'+p.id+'" style="margin-top:6px;width:100%;background:rgba(239,68,68,0.12);color:#ef4444;border:1px solid rgba(239,68,68,0.35);border-radius:8px;padding:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">🗑️ Eliminar este punto</button>' : '')+
       '</div>';
     _frag.appendChild(card);
 
@@ -7307,6 +7304,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v465</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v469</div>
 </body>
 </html>
