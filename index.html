@@ -4511,6 +4511,7 @@ function initMapa() {
         // Ya tenemos posición, actualizar marcador y círculo SIN cambiar vista
         userLat = pos.coords.latitude; userLng = pos.coords.longitude;
         _lastKnownLat = userLat; _lastKnownLng = userLng;
+        if (window._albumCheckProximidad) window._albumCheckProximidad(userLat, userLng);
         if (window._userMarker) {
           window._userMarker.setLatLng([userLat, userLng]);
           // Mantener icono correcto según estado
@@ -4625,6 +4626,40 @@ function toggleSeguimiento() {
     _aplicarEstadoRadioBtns(1);
     mostrarToast('📡 Seguimiento desactivado');
   }
+}
+
+var _cromoCola = [];
+var _cromoMostrando = false;
+function _cromoSiguiente() {
+  if (_cromoCola.length === 0) { _cromoMostrando = false; return; }
+  _cromoMostrando = true;
+  var poi = _cromoCola.shift();
+  _mostrarUnCromo(poi, function(){ setTimeout(_cromoSiguiente, 400); });
+}
+function mostrarToastCromo(poi) {
+  _cromoCola.push(poi);
+  if (!_cromoMostrando) _cromoSiguiente();
+}
+function _mostrarUnCromo(poi, onClose) {
+  var existing = document.getElementById('cromo-celebracion');
+  if (existing) existing.remove();
+  var overlay = document.createElement('div');
+  overlay.id = 'cromo-celebracion';
+  overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:99999;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;font-family:DM Sans,sans-serif';
+  var box = document.createElement('div');
+  box.style.cssText = 'background:linear-gradient(160deg,#1a0e2e,#3b1f6a);border-radius:20px;padding:2rem;max-width:85vw;width:280px;text-align:center;border:1px solid rgba(255,255,255,0.2)';
+  var nombre = (poi.nombre||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  var subtitulo = (poi.subtitulo||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  box.innerHTML = '<div style="font-size:14px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.5);margin-bottom:12px">Cromo desbloqueado</div>'
+    +'<div style="font-size:22px;font-weight:700;color:#fff;margin-bottom:8px">'+nombre+'</div>'
+    +'<div style="font-size:14px;color:rgba(255,255,255,0.6);font-style:italic;margin-bottom:24px">'+subtitulo+'</div>'
+    +'<div id="cromo-btn-cerrar" style="background:#1D9E75;color:#fff;border:none;border-radius:24px;padding:12px 32px;font-size:15px;font-weight:600;cursor:pointer;display:inline-block">Genial!</div>';
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+  function cerrar(){ if(document.getElementById('cromo-celebracion')) document.getElementById('cromo-celebracion').remove(); if(onClose) onClose(); }
+  overlay.querySelector('#cromo-btn-cerrar').addEventListener('click', cerrar);
+  overlay.addEventListener('click', function(e){ if(e.target===overlay) cerrar(); });
+  // Sin timeout — solo se cierra al pulsar
 }
 
 function mostrarToast(msg) {
@@ -5968,6 +6003,7 @@ function _navTick(pos) {
   var lat = pos.coords.latitude;
   var lng = pos.coords.longitude;
   userLat = lat; userLng = lng;
+  if (window._albumCheckProximidad) window._albumCheckProximidad(lat, lng);
 
   // Centrar mapa en usuario
   mapa.panTo([lat, lng], {animate:true, duration:0.8});
@@ -7512,7 +7548,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v541';
+var _APP_VERSION = 'v617';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7583,7 +7619,7 @@ if ('serviceWorker' in navigator) {
           mostrarToast('📌 Punto añadido a tu álbum');
         } else {
           // Visita GPS — toast de cromo y comprobar logros
-          mostrarToast('🏅 ¡Cromo desbloqueado! ' + (poi.emoji||'📍') + ' ' + poi.nombre);
+          mostrarToastCromo(poi);
           _albumComprobarLogros();
         }
       };
@@ -7881,7 +7917,7 @@ if ('serviceWorker' in navigator) {
   // ---- Detección de proximidad durante el seguimiento GPS ----
   // Se engancha al watchPosition existente comprobando cada posición
   var _albumYaNotificado = {};
-  var RADIO_VISITA_M = 60; // metros para registrar visita
+  var RADIO_VISITA_M = 50; // metros para registrar visita
 
   window._albumCheckProximidad = function(lat, lng) {
     if (typeof PUNTOS === 'undefined') return;
@@ -7901,7 +7937,7 @@ if ('serviceWorker' in navigator) {
   function _refrescarCacheVisitas(cb) {
     _albumGetVisitas(function(v) {
       window._albumVisitasSet = {};
-      v.forEach(function(x){ window._albumVisitasSet[x.poiId] = true; });
+      v.forEach(function(x){ window._albumVisitasSet[x.poiId] = true; _albumYaNotificado[x.poiId] = true; });
       if (cb) cb();
     });
   }
@@ -8187,6 +8223,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v541</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v617</div>
 </body>
 </html>
