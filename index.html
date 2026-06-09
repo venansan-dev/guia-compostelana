@@ -746,7 +746,37 @@
       </div>
       <div style='background:#fff;border:0.5px solid rgba(0,0,0,0.08);border-radius:12px;padding:1rem 1.1rem;display:flex;gap:12px;align-items:flex-start'>
         <div style='width:32px;height:32px;background:#EDE9FE;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0'>📷</div>
-        <div><div style='font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:2px'>Álbum del peregrino</div><div style='font-size:11px;color:#6b7280;line-height:1.6'>Cada lugar que visites físicamente <strong style='color:#1a1a1a'>desbloquea su cromo</strong> — la imagen de la tarjeta se revela cuando el GPS detecta tu presencia. Accede desde el chip <strong style='color:#1a1a1a'>📷 Mi Álbum</strong> en la sección Puntos de interés para ver tu colección. Puedes añadir tu propia foto a cada cromo desbloqueado pulsando el botón de cámara en la tarjeta. Los puntos que tú mismo creas aparecen también en tu álbum.</div></div>
+        <div style='flex:1'>
+          <div style='font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:2px'>Álbum del peregrino</div>
+          <div style='font-size:11px;color:#6b7280;line-height:1.6;margin-bottom:8px'>Cada lugar que visites físicamente <strong style='color:#1a1a1a'>desbloquea su cromo</strong> — la imagen se revela cuando el GPS detecta tu presencia. Accede desde el chip <strong style='color:#1a1a1a'>📷 Mi Álbum</strong> y añade tu propia foto pulsando la cámara en cada tarjeta.</div>
+          <div style='font-size:11px;font-weight:600;color:#1a1a1a;margin-bottom:6px'>🏅 Tu rango de peregrino</div>
+          <div style='display:flex;flex-direction:column;gap:4px'>
+            <div style='display:flex;align-items:center;gap:8px;background:#F5F3FF;border-radius:8px;padding:5px 8px'>
+              <span style='font-size:15px'>🌱</span>
+              <div style='flex:1'><span style='font-size:11px;font-weight:700;color:#7C3AED'>Aspirante</span> <span style='font-size:10px;color:#9CA3AF'>1–4 cromos · El camino empieza aquí</span></div>
+            </div>
+            <div style='display:flex;align-items:center;gap:8px;background:#EFF6FF;border-radius:8px;padding:5px 8px'>
+              <span style='font-size:15px'>🎒</span>
+              <div style='flex:1'><span style='font-size:11px;font-weight:700;color:#2563EB'>Mochilero</span> <span style='font-size:10px;color:#9CA3AF'>5–14 · Ya llevas kilómetros encima</span></div>
+            </div>
+            <div style='display:flex;align-items:center;gap:8px;background:#F0FDF4;border-radius:8px;padding:5px 8px'>
+              <span style='font-size:15px'>👣</span>
+              <div style='flex:1'><span style='font-size:11px;font-weight:700;color:#15803D'>Caminante</span> <span style='font-size:10px;color:#9CA3AF'>15–29 · Las botas ya están rodadas</span></div>
+            </div>
+            <div style='display:flex;align-items:center;gap:8px;background:#E1F5EE;border-radius:8px;padding:5px 8px'>
+              <span style='font-size:15px'>🐚</span>
+              <div style='flex:1'><span style='font-size:11px;font-weight:700;color:#0F6E56'>Peregrino</span> <span style='font-size:10px;color:#9CA3AF'>30–49 · La vieira te reconoce</span></div>
+            </div>
+            <div style='display:flex;align-items:center;gap:8px;background:#FFFBEB;border-radius:8px;padding:5px 8px'>
+              <span style='font-size:15px'>⭐</span>
+              <div style='flex:1'><span style='font-size:11px;font-weight:700;color:#D97706'>Veterano</span> <span style='font-size:10px;color:#9CA3AF'>50–96 · Conoces cada piedra del camino</span></div>
+            </div>
+            <div style='display:flex;align-items:center;gap:8px;background:linear-gradient(90deg,#1a0e2e,#3b1f6a);border-radius:8px;padding:5px 8px'>
+              <span style='font-size:15px'>🏆</span>
+              <div style='flex:1'><span style='font-size:11px;font-weight:700;color:#FFD700'>Ultreia</span> <span style='font-size:10px;color:rgba(255,255,255,0.6)'>97+ · Leyenda viva del Camino</span></div>
+            </div>
+          </div>
+        </div>
       </div>
       <div style='background:#1D9E75;border-radius:12px;padding:1rem 1.1rem;display:flex;gap:12px;align-items:flex-start'>
         <div style='font-size:24px;flex-shrink:0'>📲</div>
@@ -7357,7 +7387,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v538';
+var _APP_VERSION = 'v539';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7367,7 +7397,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v538') === -1) {
+        if (key.indexOf('guia-compostelana-v539') === -1) {
           caches.delete(key);
         }
       });
@@ -8032,6 +8062,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v538</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v539</div>
 </body>
 </html>
