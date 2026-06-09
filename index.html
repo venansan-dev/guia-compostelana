@@ -630,19 +630,19 @@
     </div>
     <!-- Tipo de alerta (solo visible al seleccionar Alerta) -->
     <div id='poi-alerta-tipos' style='display:none;flex-shrink:0'>
-      <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:4px'>Tipo de alerta *</label>
-      <div style='display:flex;flex-direction:column;gap:6px'>
+      <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.5);display:block;margin-bottom:6px;letter-spacing:0.04em;text-transform:uppercase'>Tipo de alerta *</label>
+      <div style='display:flex;flex-direction:column;gap:5px'>
         <button type='button' onclick='selAlertaTipo(this,"⚠️ Vía cortada")' data-tipo='⚠️ Vía cortada'
-          style='display:flex;align-items:center;gap:10px;background:rgba(220,38,38,0.15);border:1.5px solid rgba(252,165,165,0.4);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:#fca5a5;cursor:pointer;font-family:DM Sans,sans-serif;text-align:left'>
-          ⚠️ <span>Vía cortada</span>
+          style='display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:9px 14px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:DM Sans,sans-serif;text-align:left;transition:all 0.15s'>
+          <span style='font-size:18px;line-height:1'>⚠️</span><span>Vía cortada</span>
         </button>
         <button type='button' onclick='selAlertaTipo(this,"🪨 Mal estado")' data-tipo='🪨 Mal estado'
-          style='display:flex;align-items:center;gap:10px;background:rgba(220,38,38,0.15);border:1.5px solid rgba(252,165,165,0.4);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:#fca5a5;cursor:pointer;font-family:DM Sans,sans-serif;text-align:left'>
-          🪨 <span>Mal estado</span>
+          style='display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:9px 14px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:DM Sans,sans-serif;text-align:left;transition:all 0.15s'>
+          <span style='font-size:18px;line-height:1'>🪨</span><span>Mal estado</span>
         </button>
         <button type='button' onclick='selAlertaTipo(this,"🆘 Necesito ayuda")' data-tipo='🆘 Necesito ayuda'
-          style='display:flex;align-items:center;gap:10px;background:rgba(220,38,38,0.15);border:1.5px solid rgba(252,165,165,0.4);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:#fca5a5;cursor:pointer;font-family:DM Sans,sans-serif;text-align:left'>
-          🆘 <span>Necesito ayuda</span>
+          style='display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:9px 14px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:DM Sans,sans-serif;text-align:left;transition:all 0.15s'>
+          <span style='font-size:18px;line-height:1'>🆘</span><span>Necesito ayuda</span>
         </button>
       </div>
     </div>
@@ -3278,7 +3278,7 @@ function abrirFormPOI() {
   if (descBlock)   descBlock.style.display   = '';
   if (tiposBlock)  tiposBlock.style.display  = 'none';
   var tipoBtns = document.querySelectorAll('#poi-alerta-tipos [data-tipo]');
-  tipoBtns.forEach(function(b){ b.style.background='rgba(220,38,38,0.15)'; b.style.border='1.5px solid rgba(252,165,165,0.4)'; b.style.color='#fca5a5'; });
+  tipoBtns.forEach(function(b){ b.style.background='rgba(255,255,255,0.06)'; b.style.border='1px solid rgba(255,255,255,0.12)'; b.style.color='rgba(255,255,255,0.75)'; });
   document.getElementById('poi-input-cat').value = '';
   document.getElementById('poi-coords-display').textContent = '';
   document.getElementById('poi-form-msg').textContent = '';
@@ -3309,19 +3309,20 @@ function selPoiCat(btn, cat) {
   if (!esAlerta) {
     document.getElementById('poi-input-nombre').value = '';
     var tipoBtns = document.querySelectorAll('#poi-alerta-tipos [data-tipo]');
-    tipoBtns.forEach(function(b){ b.style.background='rgba(220,38,38,0.15)'; b.style.border='1.5px solid rgba(252,165,165,0.4)'; b.style.color='#fca5a5'; });
+    tipoBtns.forEach(function(b){ b.style.background='rgba(255,255,255,0.06)'; b.style.border='1px solid rgba(255,255,255,0.12)'; b.style.color='rgba(255,255,255,0.75)'; });
   }
 }
 
 function selAlertaTipo(btn, tipo) {
-  // Resetear todos los botones de tipo
   var tipoBtns = document.querySelectorAll('#poi-alerta-tipos [data-tipo]');
-  tipoBtns.forEach(function(b){ b.style.background='rgba(220,38,38,0.15)'; b.style.border='1.5px solid rgba(252,165,165,0.4)'; b.style.color='#fca5a5'; });
-  // Marcar seleccionado
-  btn.style.background = 'rgba(220,38,38,0.45)';
-  btn.style.border = '2px solid #fca5a5';
+  tipoBtns.forEach(function(b){
+    b.style.background = 'rgba(255,255,255,0.06)';
+    b.style.border = '1px solid rgba(255,255,255,0.12)';
+    b.style.color = 'rgba(255,255,255,0.75)';
+  });
+  btn.style.background = 'rgba(220,38,38,0.35)';
+  btn.style.border = '1.5px solid rgba(252,165,165,0.7)';
   btn.style.color = '#fff';
-  // Guardar tipo como nombre del POI
   document.getElementById('poi-input-nombre').value = tipo;
   document.getElementById('poi-form-msg').textContent = '';
 }
@@ -7288,7 +7289,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v526';
+var _APP_VERSION = 'v527';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7298,7 +7299,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v526') === -1) {
+        if (key.indexOf('guia-compostelana-v527') === -1) {
           caches.delete(key);
         }
       });
@@ -7963,6 +7964,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v526</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v527</div>
 </body>
 </html>
