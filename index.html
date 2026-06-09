@@ -3139,21 +3139,36 @@ var alertasOcultas = {};
 try { alertasOcultas = JSON.parse(localStorage.getItem('alertasOcultas')||'{}'); } catch(e) {}
 
 function eliminarAlerta(id) {
-  if (!confirm('¿Eliminar esta alerta para todos los usuarios? Esta acción no se puede deshacer.')) return;
-  var alerta = PUNTOS.find(function(p){ return p.id === id; });
-  if (alerta && alerta._marker) mapa.removeLayer(alerta._marker);
-  PUNTOS = PUNTOS.filter(function(p){ return p.id !== id; });
-  PUNTOS_USUARIO = PUNTOS_USUARIO.filter(function(p){ return p.id !== id; });
-  try { localStorage.setItem('poi_usuario', JSON.stringify(PUNTOS_USUARIO)); } catch(e) {}
-  // Marcar como eliminada localmente para que el listener no la restaure
-  if (!window._alertasEliminadas) window._alertasEliminadas = {};
-  window._alertasEliminadas[id] = true;
-  db.ref('alertas/' + id).remove();
-  mapa.closePopup();
-  var card = document.querySelector('[data-poi-id="'+id+'"]');
-  if (card) card.remove();
-  mostrarToast('🗑️ Alerta eliminada para todos');
-  _irAlMapa();
+  var _doEliminarAlerta = function() {
+    var alerta = PUNTOS.find(function(p){ return p.id === id; });
+    if (alerta && alerta._marker) mapa.removeLayer(alerta._marker);
+    PUNTOS = PUNTOS.filter(function(p){ return p.id !== id; });
+    PUNTOS_USUARIO = PUNTOS_USUARIO.filter(function(p){ return p.id !== id; });
+    try { localStorage.setItem('poi_usuario', JSON.stringify(PUNTOS_USUARIO)); } catch(e) {}
+    if (!window._alertasEliminadas) window._alertasEliminadas = {};
+    window._alertasEliminadas[id] = true;
+    db.ref('alertas/' + id).remove();
+    mapa.closePopup();
+    var card = document.querySelector('[data-poi-id="'+id+'"]');
+    if (card) card.remove();
+    mostrarToast('🗑️ Alerta eliminada para todos');
+    _irAlMapa();
+  };
+  var overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:19999;display:flex;align-items:center;justify-content:center';
+  overlay.innerHTML =
+    '<div style="background:#fff;border-radius:14px;padding:1.5rem 1.5rem 1.25rem;max-width:300px;width:88%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.18)">' +
+    '<div style="font-size:32px;margin-bottom:10px">🚨</div>' +
+    '<p style="font-family:DM Sans,sans-serif;font-size:15px;font-weight:600;color:#1a1a1a;margin:0 0 6px">¿Eliminar esta alerta?</p>' +
+    '<p style="font-family:DM Sans,sans-serif;font-size:13px;color:#6b7280;margin:0 0 20px">Se eliminará para todos los usuarios. Esta acción no puede deshacerse.</p>' +
+    '<div style="display:flex;gap:10px;justify-content:center">' +
+    '<button id="confirm-alerta-cancel" style="flex:1;background:#f3f4f6;border:none;border-radius:10px;padding:10px 0;font-size:14px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;color:#374151">Cancelar</button>' +
+    '<button id="confirm-alerta-ok" style="flex:1;background:#dc2626;border:none;border-radius:10px;padding:10px 0;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;color:#fff">Eliminar</button>' +
+    '</div></div>';
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', function(e){ if(e.target===overlay) overlay.remove(); });
+  document.getElementById('confirm-alerta-cancel').addEventListener('click', function(){ overlay.remove(); });
+  document.getElementById('confirm-alerta-ok').addEventListener('click', function(){ overlay.remove(); _doEliminarAlerta(); });
 }
 
 function ocultarAlerta(id) {
@@ -3961,35 +3976,41 @@ function rechazarOpinion(poiId, opKey, el) {
 // ── ELIMINAR POI DE USUARIO ──────────────────────────────────────────────────
 function eliminarPOIUsuario(poiId) {
   var t2 = T[idiomaActual]||T.es;
-  var conf = confirm((t2.confirmarEliminar)||'¿Eliminar este punto? Esta acción no se puede deshacer.');
-  if (!conf) return;
-
-  // 1. Cerrar popup del mapa
-  mapa.closePopup();
-
-  // 2. Quitar marcador del mapa
-  var poi = PUNTOS.find(function(p){ return p.id === poiId; });
-  if (poi && poi._marker) {
-    mapa.removeLayer(poi._marker);
-  }
-
-  // 3. Quitar de PUNTOS y PUNTOS_USUARIO
-  PUNTOS = PUNTOS.filter(function(p){ return p.id !== poiId; });
-  PUNTOS_USUARIO = PUNTOS_USUARIO.filter(function(p){ return p.id !== poiId; });
-  try { localStorage.setItem('poi_usuario', JSON.stringify(PUNTOS_USUARIO)); } catch(e) {}
-
-  // 4. Quitar de la ruta si estaba añadido
-  if (rutaPuntos.find(function(x){ return x.id === poiId; })) {
-    quitarDeRuta(poiId);
-  }
-
-  // 5. Eliminar de Firebase
-  db.ref('poi_usuarios/' + poiId).remove().catch(function(e){ console.warn('No se pudo eliminar de Firebase:', e); });
-
-  // 6. Actualizar carrusel y poi-drawer
-  renderCarrusel(categoriaActiva);
-  if (typeof _renderPoiDrawerCarrusel === 'function') _renderPoiDrawerCarrusel();
-  mostrarToast('🗑️ Punto eliminado');
+  var _doEliminar = function() {
+    // 1. Cerrar popup del mapa
+    mapa.closePopup();
+    // 2. Quitar marcador del mapa
+    var poi = PUNTOS.find(function(p){ return p.id === poiId; });
+    if (poi && poi._marker) { mapa.removeLayer(poi._marker); }
+    // 3. Quitar de PUNTOS y PUNTOS_USUARIO
+    PUNTOS = PUNTOS.filter(function(p){ return p.id !== poiId; });
+    PUNTOS_USUARIO = PUNTOS_USUARIO.filter(function(p){ return p.id !== poiId; });
+    try { localStorage.setItem('poi_usuario', JSON.stringify(PUNTOS_USUARIO)); } catch(e) {}
+    // 4. Quitar de la ruta si estaba añadido
+    if (rutaPuntos.find(function(x){ return x.id === poiId; })) { quitarDeRuta(poiId); }
+    // 5. Eliminar de Firebase
+    db.ref('poi_usuarios/' + poiId).remove().catch(function(e){ console.warn('No se pudo eliminar de Firebase:', e); });
+    // 6. Actualizar carrusel y poi-drawer
+    renderCarrusel(categoriaActiva);
+    if (typeof _renderPoiDrawerCarrusel === 'function') _renderPoiDrawerCarrusel();
+    mostrarToast('🗑️ Punto eliminado');
+  };
+  var msgElim = (t2.confirmarEliminar)||'¿Eliminar este punto?';
+  var overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:19999;display:flex;align-items:center;justify-content:center';
+  overlay.innerHTML =
+    '<div style="background:#fff;border-radius:14px;padding:1.5rem 1.5rem 1.25rem;max-width:300px;width:88%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.18)">' +
+    '<div style="font-size:32px;margin-bottom:10px">📍</div>' +
+    '<p style="font-family:DM Sans,sans-serif;font-size:15px;font-weight:600;color:#1a1a1a;margin:0 0 6px">'+msgElim+'</p>' +
+    '<p style="font-family:DM Sans,sans-serif;font-size:13px;color:#6b7280;margin:0 0 20px">Esta acción no puede deshacerse.</p>' +
+    '<div style="display:flex;gap:10px;justify-content:center">' +
+    '<button id="confirm-poi-cancel" style="flex:1;background:#f3f4f6;border:none;border-radius:10px;padding:10px 0;font-size:14px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;color:#374151">Cancelar</button>' +
+    '<button id="confirm-poi-ok" style="flex:1;background:#dc2626;border:none;border-radius:10px;padding:10px 0;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;color:#fff">Eliminar</button>' +
+    '</div></div>';
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', function(e){ if(e.target===overlay) overlay.remove(); });
+  document.getElementById('confirm-poi-cancel').addEventListener('click', function(){ overlay.remove(); });
+  document.getElementById('confirm-poi-ok').addEventListener('click', function(){ overlay.remove(); _doEliminar(); });
 }
 
 // Delegación de eventos para el botón eliminar
@@ -5861,7 +5882,7 @@ function activarNavegacionVoz() {
     if (btnOrMap) btnOrMap.style.display = 'none';
     var btnOrPanel = document.getElementById('ruta-nav-orientacion');
     if (btnOrPanel) btnOrPanel.style.display = 'block';
-    ['btn-add-poi-map','map-radio-control','btn-refresh-loc','btn-sos-mapa','btn-meteo-mapa','btn-buscar-mapa'].forEach(function(id){
+    ['btn-add-poi-map','map-radio-control','btn-refresh-loc','btn-sos-mapa','btn-meteo-mapa','btn-buscar-mapa','btn-album-mapa','btn-poi-drawer-mapa'].forEach(function(id){
       var el=document.getElementById(id); if(el) el.style.display='none';
     });
     ['ruta-bar-count','ruta-bar-dist','ruta-bar-time'].forEach(function(id){
@@ -6133,7 +6154,7 @@ function detenerNavegacionVoz() {
   // Restaurar brújula en mapa
   var btnOrMapRst = document.getElementById('btn-brujula-mapa');
   if (btnOrMapRst) btnOrMapRst.style.display = 'flex';
-  ['btn-sos-mapa','btn-meteo-mapa','btn-buscar-mapa'].forEach(function(id){
+  ['btn-sos-mapa','btn-meteo-mapa','btn-buscar-mapa','btn-album-mapa','btn-poi-drawer-mapa'].forEach(function(id){
     var b=document.getElementById(id); if(b) b.style.display='flex';
   });
   var btnOrPanelRst = document.getElementById('ruta-nav-orientacion');
@@ -7555,7 +7576,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v625';
+var _APP_VERSION = 'v627';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -8230,6 +8251,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v625</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v627</div>
 </body>
 </html>
