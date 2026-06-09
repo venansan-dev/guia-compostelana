@@ -650,9 +650,9 @@
           style='display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:9px 14px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:DM Sans,sans-serif;text-align:left;transition:all 0.15s'>
           <span style='font-size:18px;line-height:1'>🪨</span><span>Mal estado</span>
         </button>
-        <button type='button' onclick='selAlertaTipo(this,"🆘 Necesito ayuda")' data-tipo='🆘 Necesito ayuda'
+        <button type='button' onclick='selAlertaTipo(this,"⛺ Albergue cerrado")' data-tipo='⛺ Albergue cerrado'
           style='display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:9px 14px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:DM Sans,sans-serif;text-align:left;transition:all 0.15s'>
-          <span style='font-size:18px;line-height:1'>🆘</span><span>Necesito ayuda</span>
+          <span style='font-size:18px;line-height:1'>⛺</span><span>Albergue cerrado</span>
         </button>
       </div>
     </div>
@@ -3336,7 +3336,7 @@ function selPoiCat(btn, cat) {
   var tiposBlock  = document.getElementById('poi-alerta-tipos');
   var inputNombre = document.getElementById('poi-input-nombre');
   var nombreActual = inputNombre ? inputNombre.value : '';
-  var tiposAlerta = ['⚠️ Vía cortada','🪨 Mal estado','🆘 Necesito ayuda'];
+  var tiposAlerta = ['⚠️ Vía cortada','🪨 Mal estado','⛺ Albergue cerrado'];
   var esAlerta = (cat === 'alerta');
   if (esAlerta) {
     // Guardar nombre escrito por el usuario antes de ocultar
@@ -7357,7 +7357,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v536';
+var _APP_VERSION = 'v537';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7367,7 +7367,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v536') === -1) {
+        if (key.indexOf('guia-compostelana-v537') === -1) {
           caches.delete(key);
         }
       });
@@ -8032,6 +8032,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v536</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v537</div>
 </body>
 </html>
