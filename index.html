@@ -566,12 +566,12 @@
       <div class='cat-chip active' onclick='_poiDrawerFiltrar(this,"todos")'>🗺️ Todos</div>
       <div class='cat-chip' id='chip-album-drawer' onclick='abrirAlbumDrawer()'>📷 Mi Álbum</div>
       <div class='cat-chip' id='chip-alerta-drawer' onclick='_poiDrawerFiltrar(this,"alerta")'>🚨 Alertas</div>
-      <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-costa")'>🔵 Costa</div>
-      <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-interior")'>🟢 Interior</div>
-      <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-frances")'>🔴 Francés</div>
-      <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-norte")'>🟠 Norte</div>
-      <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-primitivo")'>🟣 Primitivo</div>
-      <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-ingles")'>🟡 Inglés</div>
+      <div class='cat-chip' id='chip-etapa-costa-btn' onclick='_poiDrawerFiltrar(this,"etapa-costa")'>🔵 Costa</div>
+      <div class='cat-chip' id='chip-etapa-interior-btn' onclick='_poiDrawerFiltrar(this,"etapa-interior")'>🟢 Interior</div>
+      <div class='cat-chip' id='chip-etapa-frances-btn' onclick='_poiDrawerFiltrar(this,"etapa-frances")'>🔴 Francés</div>
+      <div class='cat-chip' id='chip-etapa-norte-btn' onclick='_poiDrawerFiltrar(this,"etapa-norte")'>🟠 Norte</div>
+      <div class='cat-chip' id='chip-etapa-primitivo-btn' onclick='_poiDrawerFiltrar(this,"etapa-primitivo")'>🟣 Primitivo</div>
+      <div class='cat-chip' id='chip-etapa-ingles-btn' onclick='_poiDrawerFiltrar(this,"etapa-ingles")'>🟡 Inglés</div>
       <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"naturaleza")'>🌿 Naturaleza</div>
       <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"monumento")'>🏛️ Monumentos</div>
       <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"edificación religiosa")'>⛪ Religiosa</div>
@@ -640,17 +640,17 @@
     </div>
     <!-- Tipo de alerta (solo visible al seleccionar Alerta) -->
     <div id='poi-alerta-tipos' style='display:none;flex-shrink:0'>
-      <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.5);display:block;margin-bottom:6px;letter-spacing:0.04em;text-transform:uppercase'>Tipo de alerta *</label>
+      <label id='lbl-tipo-alerta' style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.5);display:block;margin-bottom:6px;letter-spacing:0.04em;text-transform:uppercase'>Tipo de alerta *</label>
       <div style='display:flex;flex-direction:column;gap:5px'>
-        <button type='button' onclick='selAlertaTipo(this,"⚠️ Vía cortada")' data-tipo='⚠️ Vía cortada'
+        <button type='button' onclick='selAlertaTipo(this,"⚠️ Vía cortada")' id='btn-tipo-via' data-tipo='⚠️ Vía cortada'
           style='display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:9px 14px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:DM Sans,sans-serif;text-align:left;transition:all 0.15s'>
           <span style='font-size:18px;line-height:1'>⚠️</span><span>Vía cortada</span>
         </button>
-        <button type='button' onclick='selAlertaTipo(this,"🪨 Mal estado")' data-tipo='🪨 Mal estado'
+        <button type='button' onclick='selAlertaTipo(this,"🪨 Mal estado")' id='btn-tipo-mal' data-tipo='🪨 Mal estado'
           style='display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:9px 14px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:DM Sans,sans-serif;text-align:left;transition:all 0.15s'>
           <span style='font-size:18px;line-height:1'>🪨</span><span>Mal estado</span>
         </button>
-        <button type='button' onclick='selAlertaTipo(this,"⛺ Albergue cerrado")' data-tipo='⛺ Albergue cerrado'
+        <button type='button' onclick='selAlertaTipo(this,"⛺ Albergue cerrado")' id='btn-tipo-alb' data-tipo='⛺ Albergue cerrado'
           style='display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:9px 14px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:DM Sans,sans-serif;text-align:left;transition:all 0.15s'>
           <span style='font-size:18px;line-height:1'>⛺</span><span>Albergue cerrado</span>
         </button>
@@ -861,7 +861,7 @@
     <div id='album-grid' style='display:grid;grid-template-columns:repeat(3,1fr);gap:8px'></div>
     <div id='album-vacio' style='display:none;text-align:center;padding:2.5rem 1rem'>
       <div style='font-size:40px;margin-bottom:12px'>🐚</div>
-      <div style='font-size:14px;color:rgba(255,255,255,0.7);font-weight:600;margin-bottom:6px'>Tu álbum está vacío</div>
+      <div id='album-vacio-txt' style='font-size:14px;color:rgba(255,255,255,0.7);font-weight:600;margin-bottom:6px'>Tu álbum está vacío</div>
       <div style='font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6'>Activa el seguimiento GPS y acércate a los puntos del Camino. Cada visita desbloquea un cromo.</div>
     </div>
   </div>
@@ -909,7 +909,7 @@
       <div id='ap-album-grid' style='display:grid;grid-template-columns:repeat(3,1fr);gap:8px'></div>
       <div id='ap-album-vacio' style='display:none;text-align:center;padding:2rem 1rem'>
         <div style='font-size:36px;margin-bottom:10px'>🐚</div>
-        <div style='font-size:13px;color:rgba(255,255,255,0.7);font-weight:600;margin-bottom:6px'>Tu álbum está vacío</div>
+        <div id='ap-album-vacio-txt' style='font-size:13px;color:rgba(255,255,255,0.7);font-weight:600;margin-bottom:6px'>Tu álbum está vacío</div>
         <div style='font-size:11px;color:rgba(255,255,255,0.4);line-height:1.6'>Activa el seguimiento GPS y acércate a los puntos del Camino.</div>
       </div>
     </div>
@@ -2493,7 +2493,11 @@ function _renderPoiDrawerCarrusel() {
     // Render especial para tarjetas de etapa
     if (p.categoria === 'etapa') {
       var difColor = p.dificultad === 'Fácil' ? '#22c55e' : p.dificultad === 'Media' ? '#f59e0b' : '#ef4444';
-      var varianteLabel = p.variante === 'costa' ? '🌊 Ruta Costa' : '🥾 Ruta Interior';
+      var _difMap = {'Fácil':{es:'Fácil',gl:'Fácil',en:'Easy'},'Media':{es:'Media',gl:'Media',en:'Moderate'},'Moderada':{es:'Moderada',gl:'Moderada',en:'Moderate'},'Media-Alta':{es:'Media-Alta',gl:'Media-Alta',en:'Medium-High'},'Difícil':{es:'Difícil',gl:'Difícil',en:'Hard'},'Muy difícil':{es:'Muy difícil',gl:'Moi difícil',en:'Very hard'}};
+      var difLabel = (_difMap[p.dificultad]||{})[idiomaActual] || (_difMap[p.dificultad]||{}).es || p.dificultad;
+      var _tv = T[idiomaActual]||T.es;
+      var _varMap = {costa:_tv.varianteCosta||'🌊 Ruta Costa',interior:_tv.varianteInterior||'🥾 Ruta Interior',frances:_tv.varianteFrances||'🔴 Ruta Francés',norte:_tv.varianteNorte||'🟠 Ruta Norte',primitivo:_tv.variantePrimitivo||'🟣 Ruta Primitivo',ingles:_tv.varianteIngles||'🟡 Ruta Inglés'};
+      var varianteLabel = _varMap[p.variante] || p.variante;
       card.innerHTML =
         '<div style="background:linear-gradient(135deg,'+(p.variante==='costa'?'#0f2e50 0%,#1a3d65 50%,#1e4d7a':'#1a3020 0%,#2d5a3d 50%,#1D9E75')+'  100%);height:90px;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:8px 10px">'+
           '<div style="position:absolute;top:0;left:0;right:0;bottom:0;background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:20px 20px;pointer-events:none"></div>'+
@@ -2506,7 +2510,7 @@ function _renderPoiDrawerCarrusel() {
           '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">'+
             '<span style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:3px 8px;font-size:11px;font-weight:600;color:#0369a1">⬆ '+p.desnivel_pos+' m</span>'+
             '<span style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:3px 8px;font-size:11px;font-weight:600;color:#15803d">'+p.km+' km</span>'+
-            '<span style="background:#fefce8;border:1px solid #fde68a;border-radius:8px;padding:3px 8px;font-size:11px;font-weight:600;color:'+difColor+'">'+p.dificultad+'</span>'+
+            '<span style="background:#fefce8;border:1px solid #fde68a;border-radius:8px;padding:3px 8px;font-size:11px;font-weight:600;color:'+difColor+'">'+difLabel+'</span>'+
           '</div>'+
           (pSub ? '<div class="poi-subtitulo" style="margin-bottom:6px">'+pSub+'</div>' : '')+
           '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">'+
@@ -2516,6 +2520,12 @@ function _renderPoiDrawerCarrusel() {
           '<button class="poi-detail-btn" data-poi-id="'+p.id+'" style="margin-top:2px;width:100%;background:rgba(29,158,117,0.12);border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:5px 8px;font-size:11px;font-weight:600;color:var(--verde-oscuro);cursor:pointer;font-family:DM Sans,sans-serif">📖 '+(T[idiomaActual]||T.es).verDetalle+'</button>'+
         '</div>';
       frag.appendChild(card);
+      // Listener Ver detalle para etapas
+      var detailBtnEtapa = card.querySelector('.poi-detail-btn');
+      if (detailBtnEtapa) detailBtnEtapa.addEventListener('click', function(e) {
+        e.stopPropagation();
+        _abrirPoiDetalle(p);
+      });
       return;
     }
     card.innerHTML =
@@ -2723,7 +2733,7 @@ function _abrirPoiDetalle(p) {
         '<div style="display:flex;gap:6px;flex-wrap:wrap;padding:0.5rem 1rem 0">'+
           '<span style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:3px 8px;font-size:11px;font-weight:600;color:#0369a1">⬆ '+p.desnivel_pos+' m</span>'+
           '<span style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:3px 8px;font-size:11px;font-weight:600;color:#15803d">'+p.km+' km</span>'+
-          '<span style="background:#fefce8;border:1px solid #fde68a;border-radius:8px;padding:3px 8px;font-size:11px;font-weight:600;color:#a16207">'+(p.dificultad||'')+'</span>'+
+          '<span style="background:#fefce8;border:1px solid #fde68a;border-radius:8px;padding:3px 8px;font-size:11px;font-weight:600;color:#a16207">'+((({'Fácil':{es:'Fácil',gl:'Fácil',en:'Easy'},'Media':{es:'Media',gl:'Media',en:'Moderate'},'Moderada':{es:'Moderada',gl:'Moderada',en:'Moderate'},'Media-Alta':{es:'Media-Alta',gl:'Media-Alta',en:'Medium-High'},'Difícil':{es:'Difícil',gl:'Difícil',en:'Hard'},'Muy difícil':{es:'Muy difícil',gl:'Moi difícil',en:'Very hard'}})[p.dificultad]||{})[idiomaActual]||p.dificultad||'')+'</span>'+
         '</div>' : '')+
       '<div style="padding:0.75rem 1rem;font-size:13px;color:#444;line-height:1.7">'+pDesc+'</div>'+
       '<div style="padding:0 1rem 0.5rem;display:flex;align-items:center;gap:8px">'+
@@ -6288,6 +6298,30 @@ var T={
     btnAlerta:'Alerta',
     btnControl:'Mis puntos',
     btnRecomendar:'Recomendar',
+    tipoAlertaLabel:'Tipo de alerta *',
+    viaCortada:'Vía cortada',
+    malEstado:'Mal estado',
+    albergueCerrado:'Albergue cerrado',
+    chipCosta:'🔵 Costa',
+    chipInterior:'🟢 Interior',
+    chipFrances:'🔴 Francés',
+    chipNorte:'🟠 Norte',
+    chipPrimitivo:'🟣 Primitivo',
+    chipIngles:'🟡 Inglés',
+    albumVacio:'Tu álbum está vacío',
+    albumVacioSub:'Activa el seguimiento GPS y acércate a los puntos del Camino. Cada visita desbloquea el cromo.',
+    albumContador:'Visita lugares para desbloquear cromos',
+    visitaDesbloquear:'Visita el lugar para desbloquear y añadir tu imagen',
+    rankingTitulo:'Mi ranking',
+    rankingVacio:'Aún no has visitado ningún punto',
+    dificultadLabel:'Dificultad',
+    ascenso:'Ascenso',
+    varianteCosta:'🌊 Ruta Costa',
+    varianteInterior:'🥾 Ruta Interior',
+    varianteFrances:'🔴 Ruta Francés',
+    varianteNorte:'🟠 Ruta Norte',
+    variantePrimitivo:'🟣 Ruta Primitivo',
+    varianteIngles:'🟡 Ruta Inglés',
     lblUbic:'Ubicación *',
     btnMiUbic:'Usar mi ubicación',
     btnMarcarMapa:'Marcar en el mapa',
@@ -6496,8 +6530,56 @@ var T={
     lblDesc:'Descrición',
     lblCat:'Categoría *',
     btnAlerta:'Alerta',
-    btnControl:'Mis puntos',
+    btnControl:'Os meus puntos',
     btnRecomendar:'Recomendar',
+    tipoAlertaLabel:'Tipo de alerta *',
+    viaCortada:'Vía cortada',
+    malEstado:'Mal estado',
+    albergueCerrado:'Albergue pechado',
+    chipCosta:'🔵 Costa',
+    chipInterior:'🟢 Interior',
+    chipFrances:'🔴 Francés',
+    chipNorte:'🟠 Norte',
+    chipPrimitivo:'🟣 Primitivo',
+    chipIngles:'🟡 Inglés',
+    albumVacio:'O teu álbum está baleiro',
+    albumVacioSub:'Activa o seguimento GPS e achégate aos puntos do Camiño. Cada visita desbloquea o cromo.',
+    albumContador:'Visita lugares para desbloquear cromos',
+    visitaDesbloquear:'Visita o lugar para desbloquear e engadir a túa imaxe',
+    rankingTitulo:'O meu ranking',
+    rankingVacio:'Aínda non visitaches ningún punto',
+    dificultadLabel:'Dificultade',
+    ascenso:'Ascenso',
+    varianteCosta:'🌊 Ruta Costa',
+    varianteInterior:'🥾 Ruta Interior',
+    varianteFrances:'🔴 Ruta Francés',
+    varianteNorte:'🟠 Ruta Norte',
+    variantePrimitivo:'🟣 Ruta Primitivo',
+    varianteIngles:'🟡 Ruta Inglés',
+    tipoAlertaLabel:'Tipo de alerta *',
+    viaCortada:'Vía cortada',
+    malEstado:'Mal estado',
+    albergueCerrado:'Albergue cerrado',
+    chipCosta:'🔵 Costa',
+    chipInterior:'🟢 Interior',
+    chipFrances:'🔴 Francés',
+    chipNorte:'🟠 Norte',
+    chipPrimitivo:'🟣 Primitivo',
+    chipIngles:'🟡 Inglés',
+    albumVacio:'Tu álbum está vacío',
+    albumVacioSub:'Activa el seguimiento GPS y acércate a los puntos del Camino. Cada visita desbloquea el cromo.',
+    albumContador:'Visita lugares para desbloquear cromos',
+    visitaDesbloquear:'Visita el lugar para desbloquear y añadir tu imagen',
+    rankingTitulo:'Mi ranking',
+    rankingVacio:'Aún no has visitado ningún punto',
+    dificultadLabel:'Dificultad',
+    ascenso:'Ascenso',
+    varianteCosta:'🌊 Ruta Costa',
+    varianteInterior:'🥾 Ruta Interior',
+    varianteFrances:'🔴 Ruta Francés',
+    varianteNorte:'🟠 Ruta Norte',
+    variantePrimitivo:'🟣 Ruta Primitivo',
+    varianteIngles:'🟡 Ruta Inglés',
     lblUbic:'Localización *',
     btnMiUbic:'Usar a miña localización',
     btnMarcarMapa:'Marcar no mapa',
@@ -6712,6 +6794,30 @@ var T={
     btnAlerta:'Alert',
     btnControl:'My points',
     btnRecomendar:'Recommend',
+    tipoAlertaLabel:'Alert type *',
+    viaCortada:'Road closed',
+    malEstado:'Poor condition',
+    albergueCerrado:'Hostel closed',
+    chipCosta:'🔵 Coast',
+    chipInterior:'🟢 Interior',
+    chipFrances:'🔴 French Way',
+    chipNorte:'🟠 Northern Way',
+    chipPrimitivo:'🟣 Primitive Way',
+    chipIngles:'🟡 English Way',
+    albumVacio:'Your album is empty',
+    albumVacioSub:'Enable GPS tracking and get close to the Camino points. Each visit unlocks a card.',
+    albumContador:'Visit places to unlock cards',
+    visitaDesbloquear:'Visit this place to unlock and add your image',
+    rankingTitulo:'My ranking',
+    rankingVacio:'You have not visited any point yet',
+    dificultadLabel:'Difficulty',
+    ascenso:'Ascent',
+    varianteCosta:'🌊 Coast Route',
+    varianteInterior:'🥾 Interior Route',
+    varianteFrances:'🔴 French Way',
+    varianteNorte:'🟠 Northern Way',
+    variantePrimitivo:'🟣 Primitive Way',
+    varianteIngles:'🟡 English Way',
     lblUbic:'Location *',
     btnMiUbic:'Use my location',
     btnMarcarMapa:'Mark on map',
@@ -7011,6 +7117,25 @@ function cambiarIdioma(lang){
   el=document.getElementById('btn-alerta-label');if(el)el.textContent=t.btnAlerta||'Alerta';
   el=document.getElementById('btn-control-label');if(el)el.textContent=t.btnControl||'Control';
   el=document.getElementById('btn-recomendar-label');if(el)el.textContent=t.btnRecomendar||'Recomendar';
+  // Tipo de alerta label
+  el=document.getElementById('lbl-tipo-alerta');if(el)el.textContent=t.tipoAlertaLabel||'Tipo de alerta *';
+  // Botones tipo alerta
+  el=document.getElementById('btn-tipo-via');if(el)el.querySelector('span:last-child').textContent=t.viaCortada||'Vía cortada';
+  el=document.getElementById('btn-tipo-mal');if(el)el.querySelector('span:last-child').textContent=t.malEstado||'Mal estado';
+  el=document.getElementById('btn-tipo-alb');if(el)el.querySelector('span:last-child').textContent=t.albergueCerrado||'Albergue cerrado';
+  // Chips caminos
+  el=document.getElementById('chip-etapa-costa-btn');if(el)el.textContent=t.chipCosta||'🔵 Costa';
+  el=document.getElementById('chip-etapa-interior-btn');if(el)el.textContent=t.chipInterior||'🟢 Interior';
+  el=document.getElementById('chip-etapa-frances-btn');if(el)el.textContent=t.chipFrances||'🔴 Francés';
+  el=document.getElementById('chip-etapa-norte-btn');if(el)el.textContent=t.chipNorte||'🟠 Norte';
+  el=document.getElementById('chip-etapa-primitivo-btn');if(el)el.textContent=t.chipPrimitivo||'🟣 Primitivo';
+  el=document.getElementById('chip-etapa-ingles-btn');if(el)el.textContent=t.chipIngles||'🟡 Inglés';
+  // Álbum vacío
+  el=document.getElementById('album-vacio-txt');if(el)el.textContent=t.albumVacio||'Tu álbum está vacío';
+  el=document.getElementById('ap-album-vacio-txt');if(el)el.textContent=t.albumVacio||'Tu álbum está vacío';
+  // Contadores álbum
+  el=document.getElementById('album-contador');if(el&&!el.textContent.match(/\d/))el.textContent=t.albumContador||'Visita lugares para desbloquear cromos';
+  el=document.getElementById('album-panel-contador');if(el&&!el.textContent.match(/\d/))el.textContent=t.albumContador||'Visita lugares para desbloquear cromos';
   el=document.getElementById('lbl-poi-ubic');if(el)el.textContent=t.lblUbic||'Ubicación *';
   el=document.getElementById('btn-mi-ubic-txt');if(el)el.textContent=t.btnMiUbic||'Usar mi ubicación';
   el=document.getElementById('btn-marcar-mapa-txt');if(el)el.textContent=t.btnMarcarMapa||'Marcar en el mapa';
@@ -7387,7 +7512,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v539';
+var _APP_VERSION = 'v540';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7397,7 +7522,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v539') === -1) {
+        if (key.indexOf('guia-compostelana-v540') === -1) {
           caches.delete(key);
         }
       });
@@ -7631,7 +7756,7 @@ if ('serviceWorker' in navigator) {
 
       if (visitas.length === 0) {
         vacio.style.display = 'block';
-        contador.textContent = 'Visita lugares para desbloquear cromos';
+        contador.textContent = (T[idiomaActual]||T.es).albumContador||'Visita lugares para desbloquear cromos';
         // Tarjeta ranking incluso sin cromos
         _renderRankingCard(grid, n, rango, nextRango);
       } else {
@@ -7804,7 +7929,7 @@ if ('serviceWorker' in navigator) {
         '<div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,0.02) 0px,rgba(255,255,255,0.02) 10px,transparent 10px,transparent 20px)"></div>' +
         '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px">' +
           '<div style="width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.06);font-size:16px">🔒</div>' +
-          '<div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.25);letter-spacing:1.5px;text-transform:uppercase;font-family:DM Sans,sans-serif;text-align:center;padding:0 6px;line-height:1.4">Visita el lugar para desbloquear y añadir tu imagen</div>' +
+          '<div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.25);letter-spacing:1.5px;text-transform:uppercase;font-family:DM Sans,sans-serif;text-align:center;padding:0 6px;line-height:1.4">'+(T[idiomaActual]||T.es).visitaDesbloquear||'Visita el lugar para desbloquear y añadir tu imagen'+'</div>' +
         '</div>' +
       '</div>';
     }
@@ -7884,7 +8009,7 @@ function _renderAlbumPanel() {
 
     // Contador
     var elC = document.getElementById('album-panel-contador');
-    if (elC) elC.textContent = n > 0 ? n+' cromo'+(n!==1?'s':'')+' desbloqueado'+(n!==1?'s':'') : 'Visita lugares para desbloquear cromos';
+    if (elC) elC.textContent = n > 0 ? n+' cromo'+(n!==1?'s':'')+' desbloqueado'+(n!==1?'s':'') : (T[idiomaActual]||T.es).albumContador||'Visita lugares para desbloquear cromos';
 
     // Ranking
     var elEmoji = document.getElementById('ap-rank-emoji'); if (elEmoji) elEmoji.textContent = rango.emoji;
@@ -8062,6 +8187,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v539</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v540</div>
 </body>
 </html>
