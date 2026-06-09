@@ -673,6 +673,43 @@
         <button type='button' onclick='cambiarAlertaTipo()' style='background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:3px 10px;font-size:11px;font-weight:600;color:rgba(255,255,255,0.8);cursor:pointer;font-family:DM Sans,sans-serif'>Cambiar</button>
       </div>
     </div>
+    <!-- Tipo de recomendación (solo visible al seleccionar Recomendar) -->
+    <div id='poi-recomendar-tipos' style='display:none;flex-shrink:0'>
+      <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.5);display:block;margin-bottom:6px;letter-spacing:0.04em;text-transform:uppercase'>Tipo de lugar *</label>
+      <div style='display:grid;grid-template-columns:1fr 1fr;gap:5px'>
+        <button type='button' onclick='selSubcat("naturaleza","🌿","Naturaleza")' style='display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:9px 12px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s'>
+          <span style='font-size:16px;line-height:1'>🌿</span><span>Naturaleza</span>
+        </button>
+        <button type='button' onclick='selSubcat("monumento","🏛️","Monumento")' style='display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:9px 12px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s'>
+          <span style='font-size:16px;line-height:1'>🏛️</span><span>Monumento</span>
+        </button>
+        <button type='button' onclick='selSubcat("edificación religiosa","⛪","Religiosa")' style='display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:9px 12px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s'>
+          <span style='font-size:16px;line-height:1'>⛪</span><span>Religiosa</span>
+        </button>
+        <button type='button' onclick='selSubcat("mirador","🔭","Mirador")' style='display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:9px 12px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s'>
+          <span style='font-size:16px;line-height:1'>🔭</span><span>Mirador</span>
+        </button>
+        <button type='button' onclick='selSubcat("albergue","🏠","Albergue")' style='display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:9px 12px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s'>
+          <span style='font-size:16px;line-height:1'>🏠</span><span>Albergue</span>
+        </button>
+        <button type='button' onclick='selSubcat("localización histórica","📜","Histórica")' style='display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:9px 12px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s'>
+          <span style='font-size:16px;line-height:1'>📜</span><span>Histórica</span>
+        </button>
+        <button type='button' onclick='selSubcat("vestigio arqueológico","🔍","Arqueológico")' style='display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:9px 12px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s'>
+          <span style='font-size:16px;line-height:1'>🔍</span><span>Arqueológico</span>
+        </button>
+      </div>
+    </div>
+    <!-- Indicador tipo recomendación seleccionado -->
+    <div id='poi-recomendar-indicador' style='display:none;flex-shrink:0'>
+      <div style='display:flex;align-items:center;justify-content:space-between;background:rgba(29,158,117,0.2);border:1.5px solid rgba(110,231,183,0.5);border-radius:12px;padding:10px 14px'>
+        <div style='display:flex;align-items:center;gap:8px'>
+          <span id='poi-recomendar-indicador-emoji' style='font-size:18px'></span>
+          <span id='poi-recomendar-indicador-texto' style='font-size:13px;font-weight:600;color:#fff'></span>
+        </div>
+        <button type='button' onclick='cambiarRecomendar()' style='background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:3px 10px;font-size:11px;font-weight:600;color:rgba(255,255,255,0.8);cursor:pointer;font-family:DM Sans,sans-serif'>Cambiar</button>
+      </div>
+    </div>
     <!-- Nombre (oculto hasta seleccionar Mis puntos o Recomendar) -->
     <div style='display:none;flex-shrink:0' id='poi-nombre-block'>
       <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:2px' id='lbl-poi-nombre'>📍 Nombre *</label>
@@ -3420,6 +3457,11 @@ function selPoiCat(btn, cat) {
     if (tiposBlock)  tiposBlock.style.display  = '';
     var indicador = document.getElementById('poi-alerta-indicador');
     if (indicador) indicador.style.display = 'none';
+    // Cerrar submenú de recomendar
+    var recBlock = document.getElementById('poi-recomendar-tipos');
+    if (recBlock) recBlock.style.display = 'none';
+    var recInd = document.getElementById('poi-recomendar-indicador');
+    if (recInd) recInd.style.display = 'none';
   } else {
     // Restaurar nombre guardado si venía de alerta
     if (tiposAlerta.indexOf(nombreActual) !== -1) {
@@ -3434,6 +3476,11 @@ function selPoiCat(btn, cat) {
     if (indicador) indicador.style.display = 'none';
     var tipoBtns = document.querySelectorAll('#poi-alerta-tipos [data-tipo]');
     tipoBtns.forEach(function(b){ b.style.background='rgba(255,255,255,0.06)'; b.style.border='1px solid rgba(255,255,255,0.12)'; b.style.color='rgba(255,255,255,0.75)'; });
+    // Ocultar también el bloque de recomendar
+    var recBlock = document.getElementById('poi-recomendar-tipos');
+    if (recBlock) recBlock.style.display = 'none';
+    var recInd = document.getElementById('poi-recomendar-indicador');
+    if (recInd) recInd.style.display = 'none';
   }
 }
 
@@ -3458,6 +3505,14 @@ function selAlertaTipo(btn, tipo) {
   document.getElementById('poi-alerta-indicador-emoji').textContent = emoji;
   document.getElementById('poi-alerta-indicador-texto').textContent = texto;
   if (indicador) indicador.style.display = '';
+}
+
+function cambiarRecomendar() {
+  document.getElementById('poi-recomendar-tipos').style.display = '';
+  var ind = document.getElementById('poi-recomendar-indicador'); if (ind) ind.style.display = 'none';
+  document.getElementById('poi-nombre-block').style.display = 'none';
+  document.getElementById('poi-desc-block').style.display = 'none';
+  document.getElementById('poi-input-cat').value = '';
 }
 
 function cambiarAlertaTipo() {
@@ -3496,8 +3551,18 @@ function aplicarEstiloSeleccionado(btn) {
 }
 
 function abrirSubcatDrawer() {
-  document.getElementById('subcats-drawer-bg').style.display = 'block';
-  document.getElementById('subcats-drawer').style.display = 'block';
+  var btn = document.getElementById('btn-recomendar-poi');
+  if (btn) { resetAllPoiCatBtns(); btn.setAttribute('data-selected','1'); aplicarEstiloSeleccionado(btn); }
+  document.getElementById('poi-input-cat').value = '';
+  var lbl = document.getElementById('poi-cat-seleccionada'); if (lbl) lbl.style.display = 'none';
+  document.getElementById('poi-alerta-tipos').style.display = 'none';
+  var ind = document.getElementById('poi-alerta-indicador'); if (ind) ind.style.display = 'none';
+  document.getElementById('poi-nombre-block').style.display = 'none';
+  document.getElementById('poi-desc-block').style.display = 'none';
+  document.getElementById('poi-recomendar-tipos').style.display = '';
+  var ri = document.getElementById('poi-recomendar-indicador'); if (ri) ri.style.display = 'none';
+  var tipoBtns = document.querySelectorAll('#poi-recomendar-tipos button');
+  tipoBtns.forEach(function(b){ b.style.background='rgba(255,255,255,0.06)'; b.style.border='1px solid rgba(255,255,255,0.12)'; b.style.color='rgba(255,255,255,0.75)'; });
 }
 
 function cerrarSubcatDrawer() {
@@ -3505,25 +3570,24 @@ function cerrarSubcatDrawer() {
   document.getElementById('subcats-drawer').style.display = 'none';
 }
 
-function selSubcat(cat, label) {
-  // Marcar chip "Recomendar" como seleccionado
-  document.querySelectorAll('#modal-add-poi [data-cat]').forEach(function(b){
-    b.style.outline = ''; b.style.boxShadow = '';
-  });
-  var mainBtn = document.getElementById('btn-recomendar-poi');
-  if (mainBtn) {
-    resetAllPoiCatBtns();
-    mainBtn.setAttribute('data-selected','1');
-    mainBtn.style.background = '#15803d';
-    mainBtn.style.border = '2px solid #15803d';
-    mainBtn.style.color = '#fff';
-  }
+function selSubcat(cat, emoji, texto) {
+  var tipoBtns = document.querySelectorAll('#poi-recomendar-tipos button');
+  tipoBtns.forEach(function(b){ b.style.background='rgba(255,255,255,0.06)'; b.style.border='1px solid rgba(255,255,255,0.12)'; b.style.color='rgba(255,255,255,0.75)'; });
+  // Resaltar el botón pulsado
+  event.currentTarget.style.background = 'rgba(29,158,117,0.35)';
+  event.currentTarget.style.border = '1.5px solid rgba(110,231,183,0.7)';
+  event.currentTarget.style.color = '#fff';
   document.getElementById('poi-input-cat').value = cat;
   document.getElementById('poi-form-msg').textContent = '';
-  // Mostrar etiqueta de lo seleccionado
-  var lbl = document.getElementById('poi-cat-seleccionada');
-  if (lbl) { lbl.textContent = '✓ ' + label; lbl.style.display = 'block'; }
-  cerrarSubcatDrawer();
+  // Ocultar selector, mostrar indicador
+  document.getElementById('poi-recomendar-tipos').style.display = 'none';
+  document.getElementById('poi-recomendar-indicador-emoji').textContent = emoji;
+  document.getElementById('poi-recomendar-indicador-texto').textContent = texto;
+  var ind = document.getElementById('poi-recomendar-indicador'); if (ind) ind.style.display = '';
+  // Mostrar campos nombre y descripción
+  document.getElementById('poi-nombre-block').style.display = '';
+  document.getElementById('poi-desc-block').style.display = '';
+  var lbl = document.getElementById('poi-cat-seleccionada'); if (lbl) lbl.style.display = 'none';
 }
 
 function cerrarFormPOI() {
@@ -7549,42 +7613,42 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <!-- DRAWER SUBCATEGORÍAS (desliza desde abajo sobre el modal) -->
-<div id='subcats-drawer-bg' onclick='cerrarSubcatDrawer()' style='display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.35)'></div>
-<div id='subcats-drawer' style='display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-radius:20px 20px 0 0;z-index:10001;padding:1.2rem 1.2rem 2rem;box-sizing:border-box;transition:transform 0.25s'>
+<div id='subcats-drawer-bg' onclick='cerrarSubcatDrawer()' style='display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.55)'></div>
+<div id='subcats-drawer' style='display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:linear-gradient(160deg,#0e2038 0%,#1a3a5c 60%,#1e4570 100%);border-radius:20px 20px 0 0;z-index:10001;padding:1.2rem 1.2rem 2rem;box-sizing:border-box;transition:transform 0.25s;font-family:DM Sans,sans-serif;color:#fff'>
   <div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem'>
     <div>
-      <div style='font-size:14px;font-weight:700;color:#15803d'>⭐ Recomendar punto</div>
-      <div style='font-size:11px;color:#9ca3af;margin-top:1px'>Elige el tipo de lugar</div>
+      <div style='font-size:14px;font-weight:700;color:#6ee7b7'>⭐ Recomendar punto</div>
+      <div style='font-size:11px;color:rgba(255,255,255,0.45);margin-top:1px'>Elige el tipo de lugar</div>
     </div>
-    <button onclick='cerrarSubcatDrawer()' style='background:#f3f4f6;border:none;border-radius:50%;width:30px;height:30px;font-size:16px;cursor:pointer;color:#6b7280;display:flex;align-items:center;justify-content:center;flex-shrink:0'>✕</button>
+    <button onclick='cerrarSubcatDrawer()' style='background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:50%;width:30px;height:30px;font-size:16px;cursor:pointer;color:rgba(255,255,255,0.7);display:flex;align-items:center;justify-content:center;flex-shrink:0'>✕</button>
   </div>
-  <div style='display:grid;grid-template-columns:1fr 1fr;gap:8px'>
-    <button type='button' onclick='selSubcat("naturaleza","🌿 Naturaleza")' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
-      <span style='font-size:18px'>🌿</span> Naturaleza
+  <div style='display:flex;flex-direction:column;gap:5px'>
+    <button type='button' onclick='selSubcat("naturaleza","🌿 Naturaleza")' style='display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:9px 14px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:DM Sans,sans-serif;text-align:left;transition:all 0.15s'>
+      <span style='font-size:18px;line-height:1'>🌿</span><span>Naturaleza</span>
     </button>
-    <button type='button' onclick='selSubcat("monumento","🏛️ Monumento")' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
-      <span style='font-size:18px'>🏛️</span> Monumento
+    <button type='button' onclick='selSubcat("monumento","🏛️ Monumento")' style='display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:9px 14px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:DM Sans,sans-serif;text-align:left;transition:all 0.15s'>
+      <span style='font-size:18px;line-height:1'>🏛️</span><span>Monumento</span>
     </button>
-    <button type='button' onclick='selSubcat("edificación religiosa","⛪ Religiosa")' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
-      <span style='font-size:18px'>⛪</span> Religiosa
+    <button type='button' onclick='selSubcat("edificación religiosa","⛪ Religiosa")' style='display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:9px 14px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:DM Sans,sans-serif;text-align:left;transition:all 0.15s'>
+      <span style='font-size:18px;line-height:1'>⛪</span><span>Religiosa</span>
     </button>
-    <button type='button' onclick='selSubcat("mirador","🔭 Mirador")' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
-      <span style='font-size:18px'>🔭</span> Mirador
+    <button type='button' onclick='selSubcat("mirador","🔭 Mirador")' style='display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:9px 14px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:DM Sans,sans-serif;text-align:left;transition:all 0.15s'>
+      <span style='font-size:18px;line-height:1'>🔭</span><span>Mirador</span>
     </button>
-    <button type='button' onclick='selSubcat("albergue","🏠 Albergue")' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
-      <span style='font-size:18px'>🏠</span> Albergue
+    <button type='button' onclick='selSubcat("albergue","🏠 Albergue")' style='display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:9px 14px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:DM Sans,sans-serif;text-align:left;transition:all 0.15s'>
+      <span style='font-size:18px;line-height:1'>🏠</span><span>Albergue</span>
     </button>
-    <button type='button' onclick='selSubcat("localización histórica","📜 Histórica")' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
-      <span style='font-size:18px'>📜</span> Histórica
+    <button type='button' onclick='selSubcat("localización histórica","📜 Histórica")' style='display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:9px 14px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:DM Sans,sans-serif;text-align:left;transition:all 0.15s'>
+      <span style='font-size:18px;line-height:1'>📜</span><span>Histórica</span>
     </button>
-    <button type='button' onclick='selSubcat("vestigio arqueológico","🔍 Arqueológico")' style='display:flex;align-items:center;gap:8px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;font-family:DM Sans,sans-serif;transition:background 0.15s'>
-      <span style='font-size:18px'>🔍</span> Arqueológico
+    <button type='button' onclick='selSubcat("vestigio arqueológico","🔍 Arqueológico")' style='display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:9px 14px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:DM Sans,sans-serif;text-align:left;transition:all 0.15s'>
+      <span style='font-size:18px;line-height:1'>🔍</span><span>Arqueológico</span>
     </button>
   </div>
 </div>
 
 <script>
-var _APP_VERSION = 'v643';
+var _APP_VERSION = 'v646';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -8258,6 +8322,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v643</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v646</div>
 </body>
 </html>
