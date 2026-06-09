@@ -229,14 +229,14 @@
 <!-- MENU MOVIL -->
 <nav class='nav-mobile' id='nav-mobile'>
   <a href='#' id='nav-m-inicio' onclick='cerrarMenu();cerrarTodosLosPaneles();setTimeout(function(){var m=document.getElementById("inicio");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},300);return false'><span style='font-size:18px;margin-right:8px'>🏠</span>Inicio</a>
-  <a href='#' id='nav-m-emergencias' onclick='cerrarMenu();setTimeout(abrirSOSDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>🆘</span>Emergencias</a>
+  <a href='#' id='nav-m-emergencias' onclick='cerrarMenu();setTimeout(function(){_irAlMapa();setTimeout(abrirSOSDrawer,500)},50);return false'><span style='font-size:18px;margin-right:8px'>🆘</span>Emergencias</a>
   <a href='#' id='nav-m-historia' onclick='cerrarMenu();setTimeout(abrirHistoriaDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>🐚</span>Historia Xacobea</a>
   <a href='#' id='nav-m-mapa' onclick='cerrarMenu();cerrarTodosLosPaneles();_irAlMapa();return false'><span style='font-size:18px;margin-right:8px'>🗺️</span>Mapa</a>
   <a href='#' id='nav-m-puntos' onclick='cerrarMenu();setTimeout(abrirPoiDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>📍</span>Puntos de interés</a>
-  <a href='#' id='nav-m-brujula' onclick='cerrarMenu();setTimeout(abrirBrujulaDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>🧭</span>Brújula</a>
+  <a href='#' id='nav-m-brujula' onclick='cerrarMenu();setTimeout(function(){_irAlMapa();setTimeout(abrirBrujulaDrawer,500)},50);return false'><span style='font-size:18px;margin-right:8px'>🧭</span>Brújula</a>
   <a href='#' id='nav-m-comousar' onclick='cerrarMenu();setTimeout(abrirComoUsarDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>📖</span>Cómo usar</a>
   <a href='#' id='nav-m-contacto' onclick='cerrarMenu();setTimeout(abrirContactoDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>✉️</span>Contacto</a>
-  <a class='dona-link' href='#' id='nav-m-donaciones' onclick='cerrarMenu();setTimeout(abrirDonacionesDrawer,350);return false' style='grid-column:1/-1;border-right:none'><span style='font-size:18px;margin-right:8px'>🙏</span>Donaciones / Ayuda al soporte</a>
+  <a class='dona-link' href='#' id='nav-m-donaciones' onclick='cerrarMenu();setTimeout(function(){_irAlMapa();setTimeout(abrirDonacionesDrawer,500)},50);return false' style='grid-column:1/-1;border-right:none'><span style='font-size:18px;margin-right:8px'>🙏</span>Donaciones / Ayuda al soporte</a>
 </nav>
 
 <!-- HERO -->
@@ -2210,7 +2210,7 @@ function _abrirSlide(panelId) {
   panel.scrollTop = 0;
   mapSection.classList.add('slide-out');
   panel.classList.add('slide-in');
-  setTimeout(_centrarMapa, 150);
+  _centrarMapa();
 }
 function _cerrarSlide(panelId) {
   var mapSection = document.querySelector('#map-block .map-section');
@@ -7185,7 +7185,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v519';
+var _APP_VERSION = 'v520';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7195,7 +7195,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v519') === -1) {
+        if (key.indexOf('guia-compostelana-v520') === -1) {
           caches.delete(key);
         }
       });
@@ -7859,6 +7859,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v519</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v520</div>
 </body>
 </html>
