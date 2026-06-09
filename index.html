@@ -7648,7 +7648,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v646';
+var _APP_VERSION = 'v647';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7765,12 +7765,12 @@ if ('serviceWorker' in navigator) {
   // Definición de badges
   // Rangos por número de visitas
   var RANGOS = [
-    { min:1,  max:4,  emoji:'🌱', label:'Aspirante' },
-    { min:5,  max:14, emoji:'🎒', label:'Mochilero' },
-    { min:15, max:29, emoji:'👣', label:'Caminante' },
-    { min:30, max:49, emoji:'🐚', label:'Peregrino' },
-    { min:50, max:96, emoji:'⭐', label:'Veterano'  },
-    { min:97, max:999,emoji:'🏆', label:'Ultreia'   }
+    { min:1,  max:3,  emoji:'🌱', label:'Aspirante' },
+    { min:4,  max:9,  emoji:'🎒', label:'Mochilero' },
+    { min:10, max:19, emoji:'👣', label:'Caminante' },
+    { min:20, max:34, emoji:'🐚', label:'Peregrino' },
+    { min:35, max:59, emoji:'🪿', label:'Veterano'  },
+    { min:60, max:999,emoji:'🏆', label:'Ultreia'   }
   ];
   window.RANGOS = RANGOS;
 
@@ -8322,6 +8322,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v646</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v647</div>
 </body>
 </html>
