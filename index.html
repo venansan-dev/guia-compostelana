@@ -618,15 +618,33 @@
   <div style='position:absolute;inset:0;display:flex;flex-direction:column;gap:0.35rem;box-sizing:border-box;padding:0.6rem 0.85rem;overflow:hidden'>
     <!-- Volver -->
     <button onclick='cerrarFormPOI()' id='addpoi-panel-volver' style='display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:4px 10px;color:rgba(255,255,255,0.9);font-size:11px;cursor:pointer;font-family:DM Sans,sans-serif;width:fit-content;font-weight:600;flex-shrink:0'>← Volver</button>
-    <!-- Nombre -->
-    <div style='flex-shrink:0'>
+    <!-- Nombre (oculto para alertas) -->
+    <div style='flex-shrink:0' id='poi-nombre-block'>
       <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:2px' id='lbl-poi-nombre'>📍 Nombre *</label>
       <input id='poi-input-nombre' type='text' maxlength='80' placeholder='Ej: Fuente del Peregrino' style='width:100%;border:1px solid rgba(255,255,255,0.2);border-radius:7px;padding:5px 9px;font-size:13px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none;background:rgba(255,255,255,0.1);color:#fff'/>
     </div>
-    <!-- Descripción -->
-    <div style='flex-shrink:0'>
+    <!-- Descripción (oculta para alertas) -->
+    <div style='flex-shrink:0' id='poi-desc-block'>
       <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:2px' id='lbl-poi-desc'>Descripción</label>
       <textarea id='poi-input-desc' maxlength='300' rows='1' placeholder='Cuéntanos algo sobre este lugar...' style='width:100%;border:1px solid rgba(255,255,255,0.2);border-radius:7px;padding:5px 9px;font-size:12px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none;resize:none;background:rgba(255,255,255,0.1);color:#fff'></textarea>
+    </div>
+    <!-- Tipo de alerta (solo visible al seleccionar Alerta) -->
+    <div id='poi-alerta-tipos' style='display:none;flex-shrink:0'>
+      <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:4px'>Tipo de alerta *</label>
+      <div style='display:flex;flex-direction:column;gap:6px'>
+        <button type='button' onclick='selAlertaTipo(this,"⚠️ Vía cortada")' data-tipo='⚠️ Vía cortada'
+          style='display:flex;align-items:center;gap:10px;background:rgba(220,38,38,0.15);border:1.5px solid rgba(252,165,165,0.4);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:#fca5a5;cursor:pointer;font-family:DM Sans,sans-serif;text-align:left'>
+          ⚠️ <span>Vía cortada</span>
+        </button>
+        <button type='button' onclick='selAlertaTipo(this,"🪨 Mal estado")' data-tipo='🪨 Mal estado'
+          style='display:flex;align-items:center;gap:10px;background:rgba(220,38,38,0.15);border:1.5px solid rgba(252,165,165,0.4);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:#fca5a5;cursor:pointer;font-family:DM Sans,sans-serif;text-align:left'>
+          🪨 <span>Mal estado</span>
+        </button>
+        <button type='button' onclick='selAlertaTipo(this,"🆘 Necesito ayuda")' data-tipo='🆘 Necesito ayuda'
+          style='display:flex;align-items:center;gap:10px;background:rgba(220,38,38,0.15);border:1.5px solid rgba(252,165,165,0.4);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:#fca5a5;cursor:pointer;font-family:DM Sans,sans-serif;text-align:left'>
+          🆘 <span>Necesito ayuda</span>
+        </button>
+      </div>
     </div>
     <!-- Categoría -->
     <div style='flex-shrink:0'>
@@ -900,6 +918,10 @@
     <div class='cat-chip' id='chip-usuario' style='display:none'><span id='chip-usuario-txt'></span></div>
     <div class='cat-chip' id='chip-etapas-costa'><span id='chip-etapas-costa-txt'></span></div>
     <div class='cat-chip' id='chip-etapas-interior'><span id='chip-etapas-interior-txt'></span></div>
+    <div class='cat-chip' id='chip-etapas-frances'><span id='chip-etapas-frances-txt'></span></div>
+    <div class='cat-chip' id='chip-etapas-norte'><span id='chip-etapas-norte-txt'></span></div>
+    <div class='cat-chip' id='chip-etapas-primitivo'><span id='chip-etapas-primitivo-txt'></span></div>
+    <div class='cat-chip' id='chip-etapas-ingles'><span id='chip-etapas-ingles-txt'></span></div>
     <div class='cat-chip' id='chip-etapas-frances'><span id='chip-etapas-frances-txt'></span></div>
     <div class='cat-chip' id='chip-etapas-norte'><span id='chip-etapas-norte-txt'></span></div>
     <div class='cat-chip' id='chip-etapas-primitivo'><span id='chip-etapas-primitivo-txt'></span></div>
@@ -2386,6 +2408,10 @@ function _renderPoiDrawerCarrusel() {
     if (_poiDrawerCatActual === 'etapa-norte') return p.categoria === 'etapa' && p.variante === 'norte';
     if (_poiDrawerCatActual === 'etapa-primitivo') return p.categoria === 'etapa' && p.variante === 'primitivo';
     if (_poiDrawerCatActual === 'etapa-ingles') return p.categoria === 'etapa' && p.variante === 'ingles';
+    if (_poiDrawerCatActual === 'etapa-frances') return p.categoria === 'etapa' && p.variante === 'frances';
+    if (_poiDrawerCatActual === 'etapa-norte') return p.categoria === 'etapa' && p.variante === 'norte';
+    if (_poiDrawerCatActual === 'etapa-primitivo') return p.categoria === 'etapa' && p.variante === 'primitivo';
+    if (_poiDrawerCatActual === 'etapa-ingles') return p.categoria === 'etapa' && p.variante === 'ingles';
     if (_poiDrawerCatActual === 'album') return !!(window._albumVisitasSet && window._albumVisitasSet[p.id]);
     return (p.categoria || '') === _poiDrawerCatActual;
   });
@@ -3115,6 +3141,21 @@ function _centrarMapa() {
     }
   }, 400);
 }
+
+function _centrarMapa() {
+  var mapEl = document.getElementById('map');
+  if (!mapEl) return;
+  var rect = mapEl.getBoundingClientRect();
+  var mapCenterY = window.pageYOffset + rect.top + rect.height / 2;
+  var targetY = mapCenterY - window.innerHeight / 2;
+  window.scrollTo({ top: targetY, behavior: 'smooth' });
+  setTimeout(function() {
+    if (typeof mapa !== 'undefined' && mapa) {
+      mapa.invalidateSize();
+      mapa.panTo(mapa.getCenter(), { animate: false });
+    }
+  }, 400);
+}
 function _irAlMapa() {
   setTimeout(_centrarMapa, 150);
 }
@@ -3230,6 +3271,14 @@ function abrirFormPOI() {
   poiFormLat = null; poiFormLng = null;
   document.getElementById('poi-input-nombre').value = '';
   document.getElementById('poi-input-desc').value = '';
+  var nombreBlock = document.getElementById('poi-nombre-block');
+  var descBlock   = document.getElementById('poi-desc-block');
+  var tiposBlock  = document.getElementById('poi-alerta-tipos');
+  if (nombreBlock) nombreBlock.style.display = '';
+  if (descBlock)   descBlock.style.display   = '';
+  if (tiposBlock)  tiposBlock.style.display  = 'none';
+  var tipoBtns = document.querySelectorAll('#poi-alerta-tipos [data-tipo]');
+  tipoBtns.forEach(function(b){ b.style.background='rgba(220,38,38,0.15)'; b.style.border='1.5px solid rgba(252,165,165,0.4)'; b.style.color='#fca5a5'; });
   document.getElementById('poi-input-cat').value = '';
   document.getElementById('poi-coords-display').textContent = '';
   document.getElementById('poi-form-msg').textContent = '';
@@ -3241,15 +3290,40 @@ function abrirFormPOI() {
 }
 
 function selPoiCat(btn, cat) {
-  // Reset todos los chips al estado original
   resetAllPoiCatBtns();
-  // Marcar el seleccionado con fondo sólido
   btn.setAttribute('data-selected','1');
   aplicarEstiloSeleccionado(btn);
   document.getElementById('poi-input-cat').value = cat;
   document.getElementById('poi-form-msg').textContent = '';
   var lbl = document.getElementById('poi-cat-seleccionada');
   if (lbl) lbl.style.display = 'none';
+  // Mostrar/ocultar campos según si es alerta
+  var esAlerta = (cat === 'alerta');
+  var nombreBlock = document.getElementById('poi-nombre-block');
+  var descBlock   = document.getElementById('poi-desc-block');
+  var tiposBlock  = document.getElementById('poi-alerta-tipos');
+  if (nombreBlock) nombreBlock.style.display = esAlerta ? 'none' : '';
+  if (descBlock)   descBlock.style.display   = esAlerta ? 'none' : '';
+  if (tiposBlock)  tiposBlock.style.display  = esAlerta ? '' : 'none';
+  // Resetear tipo de alerta al cambiar categoría
+  if (!esAlerta) {
+    document.getElementById('poi-input-nombre').value = '';
+    var tipoBtns = document.querySelectorAll('#poi-alerta-tipos [data-tipo]');
+    tipoBtns.forEach(function(b){ b.style.background='rgba(220,38,38,0.15)'; b.style.border='1.5px solid rgba(252,165,165,0.4)'; b.style.color='#fca5a5'; });
+  }
+}
+
+function selAlertaTipo(btn, tipo) {
+  // Resetear todos los botones de tipo
+  var tipoBtns = document.querySelectorAll('#poi-alerta-tipos [data-tipo]');
+  tipoBtns.forEach(function(b){ b.style.background='rgba(220,38,38,0.15)'; b.style.border='1.5px solid rgba(252,165,165,0.4)'; b.style.color='#fca5a5'; });
+  // Marcar seleccionado
+  btn.style.background = 'rgba(220,38,38,0.45)';
+  btn.style.border = '2px solid #fca5a5';
+  btn.style.color = '#fff';
+  // Guardar tipo como nombre del POI
+  document.getElementById('poi-input-nombre').value = tipo;
+  document.getElementById('poi-form-msg').textContent = '';
 }
 
 function resetAllPoiCatBtns() {
@@ -3463,7 +3537,9 @@ function guardarPOIUsuario() {
   var cat    = document.getElementById('poi-input-cat').value;
   var msg    = document.getElementById('poi-form-msg');
 
-  if (!nombre) { msg.innerHTML = '<span style="color:#dc2626">⚠️ El nombre es obligatorio</span>'; return; }
+  var esAlertaCheck = (cat === 'alerta');
+  if (esAlertaCheck && !nombre) { msg.innerHTML = '<span style="color:#dc2626">⚠️ Selecciona el tipo de alerta</span>'; return; }
+  if (!esAlertaCheck && !nombre) { msg.innerHTML = '<span style="color:#dc2626">⚠️ El nombre es obligatorio</span>'; return; }
   if (!cat)    { msg.innerHTML = '<span style="color:#dc2626">⚠️ Selecciona una categoría</span>'; return; }
   if (!poiFormLat || !poiFormLng) { msg.innerHTML = '<span style="color:#dc2626">⚠️ Indica la ubicación</span>'; return; }
 
@@ -4688,7 +4764,7 @@ function renderCarrusel(categoria) {
     };
     var iconos = {
       'naturaleza':'🌿','monumento':'🏛️','edificación religiosa':'⛪','localización histórica':'📜',
-      'vestigio arqueológico':'🔍','albergue':'🏠','mirador':'🔭','etapa-costa':'🌊','etapa-interior':'🥾','etapa-frances':'🔴','etapa-norte':'🟠','etapa-primitivo':'🟣','etapa-ingles':'🟡'
+      'vestigio arqueológico':'🔍','albergue':'🏠','mirador':'🔭','etapa-costa':'🌊','etapa-interior':'🥾','etapa-frances':'🔴','etapa-norte':'🟠','etapa-primitivo':'🟣','etapa-ingles':'🟡','etapa-frances':'🔴','etapa-norte':'🟠','etapa-primitivo':'🟣','etapa-ingles':'🟡'
     };
     var icono = iconos[categoria] || '🐚';
     var textoEs = (msgs[categoria] && msgs[categoria].es) || 'No hay puntos en esta categoría';
@@ -7212,7 +7288,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v524';
+var _APP_VERSION = 'v525';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7222,7 +7298,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v524') === -1) {
+        if (key.indexOf('guia-compostelana-v525') === -1) {
           caches.delete(key);
         }
       });
@@ -7887,6 +7963,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v524</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v525</div>
 </body>
 </html>
