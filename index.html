@@ -2926,9 +2926,6 @@ function cargarPOIsFirebase() {
     renderCarrusel(categoriaActiva);
   });
 
-  // IDs eliminados en esta sesión — evita race condition con el listener de Firebase
-  var _alertasEliminadas = window._alertasEliminadas || (window._alertasEliminadas = {});
-
   // Cargar alertas activas en tiempo real (sin moderación, caducan 24h)
   db.ref('alertas').on('value', function(snap) {
     var data = snap.val();
@@ -2956,7 +2953,7 @@ function cargarPOIsFirebase() {
       a.esAlerta = true;
       a.esUsuario = true;
       // Ignorar alertas eliminadas localmente (race condition con Firebase)
-      if (_alertasEliminadas[key]) return;
+      if (window._alertasEliminadas && window._alertasEliminadas[key]) return;
       // Verificar si ha caducado
       if (a.expiraTs && ahora > a.expiraTs) {
         db.ref('alertas/' + key).remove(); // limpiar Firebase
@@ -3087,7 +3084,8 @@ function eliminarAlerta(id) {
   PUNTOS_USUARIO = PUNTOS_USUARIO.filter(function(p){ return p.id !== id; });
   try { localStorage.setItem('poi_usuario', JSON.stringify(PUNTOS_USUARIO)); } catch(e) {}
   // Marcar como eliminada localmente para que el listener no la restaure
-  _alertasEliminadas[id] = true;
+  if (!window._alertasEliminadas) window._alertasEliminadas = {};
+  window._alertasEliminadas[id] = true;
   db.ref('alertas/' + id).remove();
   mapa.closePopup();
   var card = document.querySelector('[data-poi-id="'+id+'"]');
@@ -7344,7 +7342,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v534';
+var _APP_VERSION = 'v535';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7354,7 +7352,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v534') === -1) {
+        if (key.indexOf('guia-compostelana-v535') === -1) {
           caches.delete(key);
         }
       });
@@ -8019,6 +8017,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v534</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v535</div>
 </body>
 </html>
