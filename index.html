@@ -385,9 +385,9 @@
   <!-- Botón Ranking derecha bottom:124px (entre POI y Buscar) -->
   <button id='btn-album-mapa' onclick='abrirAlbumPanel()' title='Ranking'
     style='display:flex;position:absolute;bottom:124px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>🏅</button>
-  <!-- Botón POI derecha bottom:168px -->
-  <button id='btn-poi-drawer-mapa' onclick='abrirPoiDrawer()' title='Puntos de interés'
-    style='display:flex;position:absolute;bottom:168px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>📍</button>
+  <!-- Botón Ruta generada (izquierda, cuarto — bajo brújula) -->
+  <button id='btn-poi-drawer-mapa' onclick='_abrirRutaModal()' title='Ruta generada'
+    style='display:flex;position:absolute;top:142px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>🗺️</button>
   <!-- Tira de búsqueda flotante alineada con buscar -->
   <div id='mapa-search-strip' style='display:none;position:absolute;bottom:80px;right:56px;z-index:401;background:rgba(255,255,255,0.97);border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.18);border:1.5px solid rgba(29,158,117,0.3);overflow:hidden;backdrop-filter:blur(4px);min-width:180px;max-width:calc(100% - 110px)'>
     <div style='display:flex;align-items:center;gap:0'>
@@ -562,8 +562,7 @@
   <div style='padding:0.6rem 1rem 0;position:sticky;top:0;background:linear-gradient(150deg,#0e2038 0%,#1a3a5c 60%,#1e4570 100%);z-index:10;border-bottom:1px solid rgba(255,255,255,0.12)'>
     <div style='display:flex;align-items:center;gap:5px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;white-space:nowrap' id='poi-drawer-chips'>
       <button onclick='cerrarPoiDrawer()' id='poi-panel-volver' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:#722F37;border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:6px 12px;color:rgba(255,255,255,0.92);font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600;white-space:nowrap;box-shadow:inset 0 1px 0 rgba(255,255,255,0.15)'>← Volver</button>
-      <div class='cat-chip' id='chip-ranking-drawer' onclick='abrirAlbumPanel()'>🏅 Ranking</div>
-      <button onclick='_abrirRutaModal()' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:#1D9E75;border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:6px 12px;color:rgba(255,255,255,0.92);font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600;white-space:nowrap;box-shadow:inset 0 1px 0 rgba(255,255,255,0.15)' id='poi-ruta-drawer-btn'>🛤️ <span id='poi-ruta-drawer-label'>Ruta</span></button>
+      <button onclick='abrirAlbumPanel()' id='chip-ranking-drawer' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:linear-gradient(135deg,#7B4F00 0%,#C8860A 50%,#F5C800 100%);border:1px solid rgba(245,200,0,0.45);border-radius:20px;padding:6px 12px;color:#fff;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:700;white-space:nowrap;box-shadow:0 2px 8px rgba(200,134,10,0.45),inset 0 1px 0 rgba(255,255,255,0.2);text-shadow:0 1px 2px rgba(0,0,0,0.4)'>🏅 Ranking</button>
       <div class='cat-chip active' onclick='_poiDrawerFiltrar(this,"todos")'>🗺️ Todos</div>
       <div class='cat-chip' id='chip-album-drawer' onclick='abrirAlbumDrawer()'>📷 Mi Álbum</div>
       <div class='cat-chip' id='chip-alerta-drawer' onclick='_poiDrawerFiltrar(this,"alerta")'>🚨 Alertas</div>
@@ -2663,7 +2662,7 @@ function _abrirRutaModal() {
       '<div style="padding:1rem 1rem 0.75rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--borde)">'+
         '<div style="display:flex;align-items:center;gap:7px">'+
           '<span style="font-size:18px">🗺️</span>'+
-          '<span style="font-family:Playfair Display,serif;font-size:16px;font-weight:600;color:var(--texto)">Generador de ruta</span>'+
+          '<span style="font-family:Playfair Display,serif;font-size:16px;font-weight:600;color:var(--texto)">Ruta generada</span>'+
         '</div>'+
         '<button id="ruta-modal-close" style="background:var(--verde-claro);border:none;border-radius:50%;width:28px;height:28px;font-size:15px;cursor:pointer;color:var(--verde-oscuro);display:flex;align-items:center;justify-content:center">✕</button>'+
       '</div>'+
@@ -6308,13 +6307,13 @@ var T={
     chipMirador:'Miradores',
     chipEtapa:'Etapas',
     chipUsuario:'Mis puntos',
-    rutaLabel:'Generador de ruta',
+    rutaLabel:'Ruta generada',
     mapRutaTitulo:'RUTA',
     poiRutaDrawerLabel:'Ruta',
     rutaVacio:'Añade puntos desde el mapa o las tarjetas',
     poiVerMapa:'🗺️ Ver en mapa',
     confirmLimpiar:'¿Eliminar la ruta? Este cambio no puede deshacerse.',
-    poiRutaTitulo:'Generador de ruta',
+    poiRutaTitulo:'Ruta generada',
     poiRutaVacia:'Añade puntos desde las tarjetas o el mapa 👆',
     poiRutaBtnIr:'▶ Ir',
     rutaStatLabel:'Ruta:',
@@ -6544,11 +6543,11 @@ var T={
     chipEtapa:'Etapas',
     chipUsuario:'Os meus puntos',
     chipUsuario:'Mis puntos',
-    rutaLabel:'Xerador de ruta',
+    rutaLabel:'Ruta xerada',
     mapRutaTitulo:'RUTA',
     poiRutaDrawerLabel:'Ruta',
     rutaVacio:'Engade puntos desde o mapa ou as tarxetas',
-    poiRutaTitulo:'Xerador de ruta',
+    poiRutaTitulo:'Ruta xerada',
     poiRutaVacia:'Engade puntos desde as tarxetas ou o mapa 👆',
     poiRutaBtnIr:'▶ Ir',
     rutaStatLabel:'Ruta:',
@@ -6802,7 +6801,7 @@ var T={
     chipMirador:'Viewpoints',
     chipEtapa:'Stages',
     chipUsuario:'My points',
-    rutaLabel:'Route builder',
+    rutaLabel:'Generated route',
     mapRutaTitulo:'ROUTE',
     poiRutaDrawerLabel:'Route',
     rutaVacio:'Add points from the map or the cards',
@@ -6810,7 +6809,7 @@ var T={
     chipUsuario:'My points',
     poiVerMapa:'🗺️ View on map',
     confirmLimpiar:'Delete route? This cannot be undone.',
-    poiRutaTitulo:'Route builder',
+    poiRutaTitulo:'Generated route',
     poiRutaVacia:'Add points from the cards or the map 👆',
     poiRutaBtnIr:'▶ Go',
     rutaStatLabel:'Route:',
@@ -7549,7 +7548,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v621';
+var _APP_VERSION = 'v623';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -8224,6 +8223,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v621</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v623</div>
 </body>
 </html>
