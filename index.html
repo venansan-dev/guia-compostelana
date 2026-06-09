@@ -214,7 +214,7 @@
     <a href='#' id='nav-emergencias' onclick='abrirSOSDrawer();return false'>🆘 Emergencias</a>
     <a href='#' id='nav-historia' onclick='abrirHistoriaDrawer();return false'>🐚 Historia Compostelana</a>
     <a href='#' id='nav-mapa' onclick='cerrarTodosLosPaneles();_irAlMapa();return false'>🗺️ Mapa</a>
-    <a href='#' id='nav-puntos' onclick='abrirPoiDrawer();return false'>📍 Puntos de interés</a>
+    <a href='#' id='nav-puntos' onclick='abrirPoiDrawer();return false'>🏅 Ranking</a>
     <a href='#' id='nav-brujula' onclick='abrirBrujulaDrawer();return false'>🧭 Brújula</a>
     <a href='#' id='nav-comousar' onclick='abrirComoUsarDrawer();return false'>📖 Cómo usar</a>
     <a href='#' id='nav-contacto' onclick='abrirContactoDrawer();return false'>✉️ Contacto</a>
@@ -232,7 +232,7 @@
   <a href='#' id='nav-m-emergencias' onclick='cerrarMenu();setTimeout(function(){_irAlMapa();setTimeout(abrirSOSDrawer,500)},50);return false'><span style='font-size:18px;margin-right:8px'>🆘</span>Emergencias</a>
   <a href='#' id='nav-m-historia' onclick='cerrarMenu();setTimeout(abrirHistoriaDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>🐚</span>Historia Xacobea</a>
   <a href='#' id='nav-m-mapa' onclick='cerrarMenu();cerrarTodosLosPaneles();_irAlMapa();return false'><span style='font-size:18px;margin-right:8px'>🗺️</span>Mapa</a>
-  <a href='#' id='nav-m-puntos' onclick='cerrarMenu();setTimeout(abrirPoiDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>📍</span>Puntos de interés</a>
+  <a href='#' id='nav-m-puntos' onclick='cerrarMenu();setTimeout(abrirPoiDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>🏅</span>Ranking</a>
   <a href='#' id='nav-m-brujula' onclick='cerrarMenu();setTimeout(function(){_irAlMapa();setTimeout(abrirBrujulaDrawer,500)},50);return false'><span style='font-size:18px;margin-right:8px'>🧭</span>Brújula</a>
   <a href='#' id='nav-m-comousar' onclick='cerrarMenu();setTimeout(abrirComoUsarDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>📖</span>Cómo usar</a>
   <a href='#' id='nav-m-contacto' onclick='cerrarMenu();setTimeout(abrirContactoDrawer,350);return false'><span style='font-size:18px;margin-right:8px'>✉️</span>Contacto</a>
@@ -386,8 +386,8 @@
   <button id='btn-album-mapa' onclick='_abrirRutaModal()' title='Ruta generada'
     style='display:flex;position:absolute;top:142px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>🗺️</button>
   <!-- Botón POI (derecha, sobre Buscar) -->
-  <button id='btn-poi-drawer-mapa' onclick='abrirPoiDrawer()' title='Puntos de interés'
-    style='display:flex;position:absolute;bottom:124px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>📍</button>
+  <button id='btn-poi-drawer-mapa' onclick='abrirPoiDrawer()' title='Ranking'
+    style='display:flex;position:absolute;bottom:124px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>🏅</button>
   <!-- Tira de búsqueda flotante alineada con buscar -->
   <div id='mapa-search-strip' style='display:none;position:absolute;bottom:80px;right:56px;z-index:401;background:rgba(255,255,255,0.97);border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.18);border:1.5px solid rgba(29,158,117,0.3);overflow:hidden;backdrop-filter:blur(4px);min-width:180px;max-width:calc(100% - 110px)'>
     <div style='display:flex;align-items:center;gap:0'>
@@ -6292,7 +6292,7 @@ var T={
     historiaH2:'El origen de la vieira y la huella templaria',
     navInicio:'Inicio',
     navHistoria:'Historia Xacobea',
-    navPuntos:'Puntos de interés',
+    navPuntos:'Ranking',
     navEmergencias:'🆘 Emergencias',
     navComoUsar:'Cómo usar',
     navContacto:'Contacto',
@@ -6527,7 +6527,7 @@ var T={
     historiaH2:'A orixe da vieira e a pegada templaria',
     navInicio:'Inicio',
     navHistoria:'Historia Compostelá',
-    navPuntos:'Puntos de interese',
+    navPuntos:'Ranking',
     navEmergencias:'🆘 Emerxencias',
     navComoUsar:'Como usar',
     navContacto:'Contacto',
@@ -6786,7 +6786,7 @@ var T={
     historiaH2:'The origin of the scallop and the Templar footprint',
     navInicio:'Home',
     navHistoria:'Compostelan History',
-    navPuntos:'Points of interest',
+    navPuntos:'Ranking',
     navEmergencias:'🆘 Emergencies',
     navComoUsar:'How to use',
     navContacto:'Contact',
@@ -7032,7 +7032,7 @@ function cambiarIdioma(lang){
   // Nav desktop
   el=document.getElementById('nav-inicio');if(el)el.textContent='🏠 '+t.navInicio;
   el=document.getElementById('nav-historia');if(el)el.textContent='🐚 '+t.navHistoria;
-  el=document.getElementById('nav-puntos');if(el)el.textContent='📍 '+t.navPuntos;
+  el=document.getElementById('nav-puntos');if(el)el.textContent='🏅 '+t.navPuntos;
   el=document.getElementById('nav-emergencias');if(el)el.textContent='🆘 '+t.navEmergencias.replace(/^🆘\s*/,'');
   el=document.getElementById('nav-comousar');if(el)el.textContent='📖 '+t.navComoUsar;
   el=document.getElementById('nav-brujula');if(el)el.textContent='🧭 '+t.navBrujula;
@@ -7042,7 +7042,7 @@ function cambiarIdioma(lang){
   // Nav móvil
   el=document.getElementById('nav-m-inicio');if(el)el.innerHTML='<span style="font-size:18px;margin-right:8px">🏠</span>'+t.navInicio;
   el=document.getElementById('nav-m-historia');if(el)el.innerHTML='<span style="font-size:18px;margin-right:8px">🐚</span>'+t.navHistoria;
-  el=document.getElementById('nav-m-puntos');if(el)el.innerHTML='<span style="font-size:18px;margin-right:8px">📍</span>'+t.navPuntos;
+  el=document.getElementById('nav-m-puntos');if(el)el.innerHTML='<span style="font-size:18px;margin-right:8px">🏅</span>'+t.navPuntos;
   el=document.getElementById('nav-m-emergencias');if(el)el.innerHTML='<span style="font-size:18px;margin-right:8px">🆘</span>'+(t.navEmergencias||'Emergencias').replace(/^🆘\s*/,'');
   el=document.getElementById('nav-m-comousar');if(el)el.innerHTML='<span style="font-size:18px;margin-right:8px">📖</span>'+t.navComoUsar;
   el=document.getElementById('nav-m-contacto');if(el)el.innerHTML='<span style="font-size:18px;margin-right:8px">✉️</span>'+t.navContacto;
@@ -7576,7 +7576,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v627';
+var _APP_VERSION = 'v629';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -8251,6 +8251,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v627</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v629</div>
 </body>
 </html>
