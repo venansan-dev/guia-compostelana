@@ -7179,7 +7179,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v511';
+var _APP_VERSION = 'v513';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7189,7 +7189,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v511') === -1) {
+        if (key.indexOf('guia-compostelana-v513') === -1) {
           caches.delete(key);
         }
       });
@@ -7853,6 +7853,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v511</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v513</div>
 </body>
 </html>
