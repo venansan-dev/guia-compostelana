@@ -2927,49 +2927,64 @@ function cargarPOIsFirebase() {
   });
 
   // Cargar alertas activas en tiempo real (sin moderación, caducan 24h)
-  db.ref('alertas').on('value', function(snap) {
-    var data = snap.val();
-    var ahora = Date.now();
-    // Eliminar alertas caducadas del mapa
-    PUNTOS.filter(function(p){ return p.esAlerta; }).forEach(function(p) {
-      if (p._marker) { mapa.removeLayer(p._marker); }
-    });
-    PUNTOS = PUNTOS.filter(function(p){ return !p.esAlerta; });
+  // Cargar alertas activas en tiempo real — eventos quirúrgicos para evitar duplicados
+  var chipAlerta = document.getElementById('chip-alertas');
 
-    // Activar/desactivar parpadeo en chip de alertas
-    var chipAlerta = document.getElementById('chip-alertas');
-    if (!data || Object.keys(data).length === 0) {
-      if (chipAlerta) chipAlerta.style.animation = '';
-      renderCarrusel(categoriaActiva);
-      _sincronizarChipAlertasPOI();
+  function _actualizarChipAlerta() {
+    var hayVisibles = PUNTOS.some(function(p){ return p.esAlerta && !alertasOcultas[p.id]; });
+    if (chipAlerta) chipAlerta.style.animation = hayVisibles ? 'chipAlertaPulse 1.2s ease-in-out infinite' : '';
+    _sincronizarChipAlertasPOI();
+  }
+
+  db.ref('alertas').on('child_added', function(snap) {
+    var key = snap.key;
+    var a = snap.val();
+    if (!a) return;
+    a.id = key;
+    a.esAlerta = true;
+    a.esUsuario = true;
+    // Ignorar si ya eliminada localmente
+    if (window._alertasEliminadas && window._alertasEliminadas[key]) return;
+    // Ignorar si caducada
+    if (a.expiraTs && Date.now() > a.expiraTs) {
+      db.ref('alertas/' + key).remove();
       return;
     }
-    if (chipAlerta && !chipAlerta.classList.contains('active')) {
-      chipAlerta.style.animation = 'chipAlertaPulse 1.2s ease-in-out infinite';
+    // Añadir solo si no existe ya
+    if (!PUNTOS.find(function(x){ return x.id === key; })) {
+      PUNTOS.push(a);
+      if (typeof mapa !== 'undefined' && mapa && !alertasOcultas[key]) añadirMarcadorAlerta(a);
     }
-    Object.keys(data).forEach(function(key) {
-      var a = data[key];
-      a.id = key;
-      a.esAlerta = true;
-      a.esUsuario = true;
-      // Ignorar alertas eliminadas localmente (race condition con Firebase)
-      if (window._alertasEliminadas && window._alertasEliminadas[key]) return;
-      // Verificar si ha caducado
-      if (a.expiraTs && ahora > a.expiraTs) {
-        db.ref('alertas/' + key).remove(); // limpiar Firebase
-        return;
-      }
-      if (!PUNTOS.find(function(x){return x.id===a.id;})) {
-        PUNTOS.push(a);
-        if (typeof mapa !== 'undefined' && mapa && !alertasOcultas[a.id]) añadirMarcadorAlerta(a);
-      }
-    });
     if (typeof userLat !== 'undefined' && userLat) {
-      PUNTOS.forEach(function(p){p.distancia=haversine(userLat,userLng,p.lat,p.lng);});
-      PUNTOS.sort(function(a,b){return a.distancia-b.distancia;});
+      PUNTOS.forEach(function(p){ p.distancia = haversine(userLat, userLng, p.lat, p.lng); });
+      PUNTOS.sort(function(a,b){ return a.distancia - b.distancia; });
     }
     renderCarrusel(categoriaActiva);
-    _sincronizarChipAlertasPOI();
+    _actualizarChipAlerta();
+  });
+
+  db.ref('alertas').on('child_removed', function(snap) {
+    var key = snap.key;
+    var poi = PUNTOS.find(function(p){ return p.id === key; });
+    if (poi && poi._marker) mapa.removeLayer(poi._marker);
+    PUNTOS = PUNTOS.filter(function(p){ return p.id !== key; });
+    renderCarrusel(categoriaActiva);
+    _actualizarChipAlerta();
+  });
+
+  db.ref('alertas').on('child_changed', function(snap) {
+    var key = snap.key;
+    var a = snap.val();
+    if (!a) return;
+    a.id = key;
+    a.esAlerta = true;
+    a.esUsuario = true;
+    var idx = PUNTOS.findIndex(function(p){ return p.id === key; });
+    if (idx !== -1) {
+      if (PUNTOS[idx]._marker) mapa.removeLayer(PUNTOS[idx]._marker);
+      PUNTOS[idx] = a;
+      if (!alertasOcultas[key]) añadirMarcadorAlerta(a);
+    }
   });
 }
 
@@ -7342,7 +7357,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v535';
+var _APP_VERSION = 'v536';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7352,7 +7367,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v535') === -1) {
+        if (key.indexOf('guia-compostelana-v536') === -1) {
           caches.delete(key);
         }
       });
@@ -8017,6 +8032,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v535</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v536</div>
 </body>
 </html>
