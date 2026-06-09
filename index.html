@@ -568,6 +568,10 @@
       <div class='cat-chip' id='chip-alerta-drawer' onclick='_poiDrawerFiltrar(this,"alerta")'>🚨 Alertas</div>
       <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-costa")'>🌊 Costa</div>
       <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-interior")'>🥾 Interior</div>
+      <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-frances")'>🔴 Francés</div>
+      <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-norte")'>🟠 Norte</div>
+      <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-primitivo")'>🟣 Primitivo</div>
+      <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-ingles")'>🟡 Inglés</div>
       <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"naturaleza")'>🌿 Naturaleza</div>
       <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"monumento")'>🏛️ Monumentos</div>
       <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"edificación religiosa")'>⛪ Religiosa</div>
@@ -896,6 +900,10 @@
     <div class='cat-chip' id='chip-usuario' style='display:none'><span id='chip-usuario-txt'></span></div>
     <div class='cat-chip' id='chip-etapas-costa'><span id='chip-etapas-costa-txt'></span></div>
     <div class='cat-chip' id='chip-etapas-interior'><span id='chip-etapas-interior-txt'></span></div>
+    <div class='cat-chip' id='chip-etapas-frances'><span id='chip-etapas-frances-txt'></span></div>
+    <div class='cat-chip' id='chip-etapas-norte'><span id='chip-etapas-norte-txt'></span></div>
+    <div class='cat-chip' id='chip-etapas-primitivo'><span id='chip-etapas-primitivo-txt'></span></div>
+    <div class='cat-chip' id='chip-etapas-ingles'><span id='chip-etapas-ingles-txt'></span></div>
     <div class='cat-chip' id='chip-naturaleza'></div>
     <div class='cat-chip' id='chip-monumentos'></div>
     <div class='cat-chip' id='chip-religiosa'></div>
@@ -2374,6 +2382,10 @@ function _renderPoiDrawerCarrusel() {
     if (_poiDrawerCatActual === 'alerta') return p.esAlerta;
     if (_poiDrawerCatActual === 'etapa-costa') return p.categoria === 'etapa' && p.variante === 'costa';
     if (_poiDrawerCatActual === 'etapa-interior') return p.categoria === 'etapa' && p.variante === 'interior';
+    if (_poiDrawerCatActual === 'etapa-frances') return p.categoria === 'etapa' && p.variante === 'frances';
+    if (_poiDrawerCatActual === 'etapa-norte') return p.categoria === 'etapa' && p.variante === 'norte';
+    if (_poiDrawerCatActual === 'etapa-primitivo') return p.categoria === 'etapa' && p.variante === 'primitivo';
+    if (_poiDrawerCatActual === 'etapa-ingles') return p.categoria === 'etapa' && p.variante === 'ingles';
     if (_poiDrawerCatActual === 'album') return !!(window._albumVisitasSet && window._albumVisitasSet[p.id]);
     return (p.categoria || '') === _poiDrawerCatActual;
   });
@@ -4676,7 +4688,7 @@ function renderCarrusel(categoria) {
     };
     var iconos = {
       'naturaleza':'🌿','monumento':'🏛️','edificación religiosa':'⛪','localización histórica':'📜',
-      'vestigio arqueológico':'🔍','albergue':'🏠','mirador':'🔭','etapa-costa':'🌊','etapa-interior':'🥾'
+      'vestigio arqueológico':'🔍','albergue':'🏠','mirador':'🔭','etapa-costa':'🌊','etapa-interior':'🥾','etapa-frances':'🔴','etapa-norte':'🟠','etapa-primitivo':'🟣','etapa-ingles':'🟡'
     };
     var icono = iconos[categoria] || '🐚';
     var textoEs = (msgs[categoria] && msgs[categoria].es) || 'No hay puntos en esta categoría';
@@ -7200,7 +7212,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v521';
+var _APP_VERSION = 'v522';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7210,7 +7222,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v521') === -1) {
+        if (key.indexOf('guia-compostelana-v522') === -1) {
           caches.delete(key);
         }
       });
@@ -7875,6 +7887,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v521</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v522</div>
 </body>
 </html>
