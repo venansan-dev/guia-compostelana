@@ -3496,7 +3496,8 @@ function guardarPOIUsuario() {
   PUNTOS_USUARIO.push(poi);
   try { localStorage.setItem('poi_usuario', JSON.stringify(PUNTOS_USUARIO)); } catch(e) {}
 
-  // Los puntos creados por el usuario NO se registran en el álbum de cromos
+  // Registrar en álbum automáticamente (el usuario creó este punto, ya lo "visitó")
+  if (window._albumRegistrarVisita) window._albumRegistrarVisita(poi, true);
 
   if (!valoraciones[id]) valoraciones[id] = {total:0, votos:0, miVoto:0};
   if (!opiniones[id]) opiniones[id] = [];
@@ -7211,7 +7212,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v523';
+var _APP_VERSION = 'v524';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7221,7 +7222,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v523') === -1) {
+        if (key.indexOf('guia-compostelana-v524') === -1) {
           caches.delete(key);
         }
       });
@@ -7463,8 +7464,7 @@ if ('serviceWorker' in navigator) {
         contador.textContent = visitas.length + ' cromo' + (visitas.length!==1?'s':'') + ' desbloqueado' + (visitas.length!==1?'s':'');
         // Tarjeta ranking siempre primera
         _renderRankingCard(grid, n, rango, nextRango);
-        // Ordenar por fecha — excluir POIs creados por el usuario
-        visitas = visitas.filter(function(v){ return !(v.poiId||'').startsWith('u_'); });
+        // Ordenar por fecha
         visitas.sort(function(a,b){ return a.fecha - b.fecha; });
         visitas.forEach(function(v) {
           var card = document.createElement('div');
@@ -7887,6 +7887,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v523</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v524</div>
 </body>
 </html>
