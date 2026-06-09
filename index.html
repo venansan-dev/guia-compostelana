@@ -571,7 +571,7 @@
   <!-- Chips de filtro en la parte inferior -->
   <div style='flex-shrink:0;padding:0.5rem 1rem;background:linear-gradient(0deg,#0e2038 0%,#1a3a5c 100%);border-top:1px solid rgba(255,255,255,0.12)'>
     <div style='display:flex;align-items:center;gap:5px;overflow-x:auto;scrollbar-width:none;white-space:nowrap;padding-bottom:2px' id='poi-drawer-filtros'>
-      <div class='cat-chip active' onclick='_poiDrawerFiltrar(this,"todos")'>📍 Todos</div>
+      <div class='cat-chip active' id='chip-todos-drawer' onclick='_poiDrawerFiltrar(this,"todos")'>📍 Todos</div>
       <div class='cat-chip' id='chip-album-drawer' onclick='abrirAlbumDrawer()'>📷 Mi Álbum</div>
       <div class='cat-chip' id='chip-alerta-drawer' onclick='_poiDrawerFiltrar(this,"alerta")'>🚨 Alertas</div>
       <div class='cat-chip' id='chip-etapa-costa-btn' onclick='_poiDrawerFiltrar(this,"etapa-costa")'>🔵 Costa</div>
@@ -580,13 +580,13 @@
       <div class='cat-chip' id='chip-etapa-norte-btn' onclick='_poiDrawerFiltrar(this,"etapa-norte")'>🟠 Norte</div>
       <div class='cat-chip' id='chip-etapa-primitivo-btn' onclick='_poiDrawerFiltrar(this,"etapa-primitivo")'>🟣 Primitivo</div>
       <div class='cat-chip' id='chip-etapa-ingles-btn' onclick='_poiDrawerFiltrar(this,"etapa-ingles")'>🟡 Inglés</div>
-      <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"naturaleza")'>🌿 Naturaleza</div>
-      <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"monumento")'>🏛️ Monumentos</div>
-      <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"edificación religiosa")'>⛪ Religiosa</div>
-      <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"localización histórica")'>📜 Histórica</div>
-      <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"vestigio arqueológico")'>🔍 Arqueológico</div>
-      <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"albergue")'>🏠 Albergues</div>
-      <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"mirador")'>🔭 Miradores</div>
+      <div class='cat-chip' id='chip-naturaleza-drawer' onclick='_poiDrawerFiltrar(this,"naturaleza")'>🌿 Naturaleza</div>
+      <div class='cat-chip' id='chip-monumento-drawer' onclick='_poiDrawerFiltrar(this,"monumento")'>🏛️ Monumentos</div>
+      <div class='cat-chip' id='chip-religiosa-drawer' onclick='_poiDrawerFiltrar(this,"edificación religiosa")'>⛪ Religiosa</div>
+      <div class='cat-chip' id='chip-historica-drawer' onclick='_poiDrawerFiltrar(this,"localización histórica")'>📜 Histórica</div>
+      <div class='cat-chip' id='chip-arqueologico-drawer' onclick='_poiDrawerFiltrar(this,"vestigio arqueológico")'>🔍 Arqueológico</div>
+      <div class='cat-chip' id='chip-albergue-drawer' onclick='_poiDrawerFiltrar(this,"albergue")'>🏠 Albergues</div>
+      <div class='cat-chip' id='chip-mirador-drawer' onclick='_poiDrawerFiltrar(this,"mirador")'>🔭 Miradores</div>
     </div>
   </div>
 </div>
@@ -893,7 +893,7 @@
 <div id='album-drawer' class='map-slide-panel' style='background:linear-gradient(160deg,#1a0e2e 0%,#2d1854 40%,#3b1f6a 70%,#1e1040 100%);font-family:DM Sans,sans-serif;overflow-y:auto;touch-action:pan-y'>
   <div style='padding:0.6rem 1rem 0;position:sticky;top:0;background:linear-gradient(160deg,#1a0e2e 0%,#2d1854 60%,#3b1f6a 100%);z-index:10;border-bottom:1px solid rgba(255,255,255,0.12)'>
     <div style='display:flex;align-items:center;gap:8px;padding-bottom:0.6rem'>
-      <button onclick='cerrarAlbumDrawer()' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:#722F37;border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:6px 12px;color:rgba(255,255,255,0.92);font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600'>← Volver</button>
+      <button id='album-drawer-volver' onclick='cerrarAlbumDrawer()' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:#722F37;border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:6px 12px;color:rgba(255,255,255,0.92);font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600'>← Volver</button>
       <div style='flex:1'>
         <div style='font-size:14px;font-weight:700;color:#fff'>📷 Mi Álbum del Camino</div>
         <div id='album-contador' style='font-size:11px;color:rgba(255,255,255,0.55)'>Visita lugares para desbloquear cromos</div>
@@ -914,7 +914,7 @@
 <!-- PANEL MI ÁLBUM -->
 <div id='album-panel' class='map-slide-panel' style='background:linear-gradient(160deg,#1a0e2e 0%,#2d1854 40%,#3b1f6a 70%,#1e1040 100%);font-family:DM Sans,sans-serif;overflow-y:auto;touch-action:pan-y'>
   <div style='position:absolute;inset:0;padding:0.75rem 1rem;display:flex;flex-direction:column;gap:0.75rem;box-sizing:border-box;overflow-y:auto'>
-    <button onclick='cerrarAlbumPanel()' style='display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:7px 14px;color:rgba(255,255,255,0.85);font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;width:fit-content;flex-shrink:0'>← Volver</button>
+    <button id='album-panel-volver' onclick='cerrarAlbumPanel()' style='display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:7px 14px;color:rgba(255,255,255,0.85);font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;width:fit-content;flex-shrink:0'>← Volver</button>
     <!-- Título -->
     <div style='flex-shrink:0'>
       <div style='font-size:18px;font-weight:700;color:#fff;margin-bottom:2px'>🏅 Ranking del Peregrino</div>
@@ -2480,6 +2480,16 @@ function _poiDrawerFiltrar(chip, cat) {
   _poiDrawerCatActual = cat;
   document.querySelectorAll('#poi-drawer-filtros .cat-chip').forEach(function(c){ c.classList.remove('active'); });
   if (chip) chip.classList.add('active');
+  // Parar latido al entrar en alertas; restaurarlo al salir si siguen habiendo alertas
+  var chipAl = document.getElementById('chip-alerta-drawer');
+  if (chipAl) {
+    if (cat === 'alerta') {
+      chipAl.style.animation = 'none';
+    } else {
+      var hayAlertas = typeof PUNTOS !== 'undefined' && PUNTOS.some(function(p){ return p.esAlerta && !alertasOcultas[p.id]; });
+      chipAl.style.animation = hayAlertas ? 'chipAlertaPulse 1.2s ease-in-out infinite' : '';
+    }
+  }
   _renderPoiDrawerCarrusel();
 }
 
@@ -6444,6 +6454,19 @@ var T={
     chipNorte:'🟠 Norte',
     chipPrimitivo:'🟣 Primitivo',
     chipIngles:'🟡 Inglés',
+    chipAlbum:'📷 Mi Álbum',
+    chipTodos2:'📍 Todos',
+    chipNaturaleza2:'🌿 Naturaleza',
+    chipMonumento2:'🏛️ Monumentos',
+    chipReligiosa:'⛪ Religiosa',
+    chipHistorica:'📜 Histórica',
+    chipArqueologico:'🔍 Arqueológico',
+    chipAlbergue2:'🏠 Albergues',
+    chipMirador2:'🔭 Miradores',
+    chipAlertas:'🚨 Alertas',
+    chipRankingDrawer:'🏅 Ranking',
+    chipRutaDrawer:'🗺️ Ruta',
+    btnVolver:'← Volver',
     albumVacio:'Tu álbum está vacío',
     albumVacioSub:'Activa el seguimiento GPS y acércate a los puntos del Camino. Cada visita desbloquea el cromo.',
     albumContador:'Visita lugares para desbloquear cromos',
@@ -6678,6 +6701,19 @@ var T={
     chipNorte:'🟠 Norte',
     chipPrimitivo:'🟣 Primitivo',
     chipIngles:'🟡 Inglés',
+    chipAlbum:'📷 O meu Álbum',
+    chipTodos2:'📍 Todos',
+    chipNaturaleza2:'🌿 Natureza',
+    chipMonumento2:'🏛️ Monumentos',
+    chipReligiosa:'⛪ Relixiosa',
+    chipHistorica:'📜 Histórica',
+    chipArqueologico:'🔍 Arqueolóxico',
+    chipAlbergue2:'🏠 Albergues',
+    chipMirador2:'🔭 Miradoiros',
+    chipAlertas:'🚨 Alertas',
+    chipRankingDrawer:'🏅 Ranking',
+    chipRutaDrawer:'🗺️ Ruta',
+    btnVolver:'← Volver',
     albumVacio:'O teu álbum está baleiro',
     albumVacioSub:'Activa o seguimento GPS e achégate aos puntos do Camiño. Cada visita desbloquea o cromo.',
     albumContador:'Visita lugares para desbloquear cromos',
@@ -6702,6 +6738,19 @@ var T={
     chipNorte:'🟠 Norte',
     chipPrimitivo:'🟣 Primitivo',
     chipIngles:'🟡 Inglés',
+    chipAlbum:'📷 My Album',
+    chipTodos2:'📍 All',
+    chipNaturaleza2:'🌿 Nature',
+    chipMonumento2:'🏛️ Monuments',
+    chipReligiosa:'⛪ Religious',
+    chipHistorica:'📜 Historic',
+    chipArqueologico:'🔍 Archaeological',
+    chipAlbergue2:'🏠 Hostels',
+    chipMirador2:'🔭 Viewpoints',
+    chipAlertas:'🚨 Alerts',
+    chipRankingDrawer:'🏅 Ranking',
+    chipRutaDrawer:'🗺️ Route',
+    btnVolver:'← Back',
     albumVacio:'Tu álbum está vacío',
     albumVacioSub:'Activa el seguimiento GPS y acércate a los puntos del Camino. Cada visita desbloquea el cromo.',
     albumContador:'Visita lugares para desbloquear cromos',
@@ -7266,6 +7315,27 @@ function cambiarIdioma(lang){
   el=document.getElementById('chip-etapa-norte-btn');if(el)el.textContent=t.chipNorte||'🟠 Norte';
   el=document.getElementById('chip-etapa-primitivo-btn');if(el)el.textContent=t.chipPrimitivo||'🟣 Primitivo';
   el=document.getElementById('chip-etapa-ingles-btn');if(el)el.textContent=t.chipIngles||'🟡 Inglés';
+  // Chips poi-drawer barra inferior
+  el=document.getElementById('chip-album-drawer');if(el)el.textContent=t.chipAlbum||'📷 Mi Álbum';
+  el=document.getElementById('chip-alerta-drawer');if(el)el.textContent=t.chipAlertas||'🚨 Alertas';
+  el=document.getElementById('chip-ranking-drawer');if(el)el.textContent=t.chipRankingDrawer||'🏅 Ranking';
+  el=document.getElementById('chip-ruta-drawer');if(el)el.textContent=t.chipRutaDrawer||'🗺️ Ruta';
+  // Chips categoría poi-drawer-filtros
+  el=document.getElementById('chip-todos-drawer');if(el)el.textContent=t.chipTodos2||'📍 Todos';
+  el=document.getElementById('chip-naturaleza-drawer');if(el)el.textContent=t.chipNaturaleza2||'🌿 Naturaleza';
+  el=document.getElementById('chip-monumento-drawer');if(el)el.textContent=t.chipMonumento2||'🏛️ Monumentos';
+  el=document.getElementById('chip-religiosa-drawer');if(el)el.textContent=t.chipReligiosa||'⛪ Religiosa';
+  el=document.getElementById('chip-historica-drawer');if(el)el.textContent=t.chipHistorica||'📜 Histórica';
+  el=document.getElementById('chip-arqueologico-drawer');if(el)el.textContent=t.chipArqueologico||'🔍 Arqueológico';
+  el=document.getElementById('chip-albergue-drawer');if(el)el.textContent=t.chipAlbergue2||'🏠 Albergues';
+  el=document.getElementById('chip-mirador-drawer');if(el)el.textContent=t.chipMirador2||'🔭 Miradores';
+  // Botones Volver (todos los drawers)
+  var volverTxt = t.btnVolver||'← Volver';
+  ['brujula-panel-volver','sos-panel-volver','meteo-panel-volver','historia-panel-volver-top',
+   'historia-panel-volver-bot','poi-panel-volver','don-panel-volver','addpoi-panel-volver',
+   'comousar-panel-volver-top','comousar-panel-volver-bot','contacto-panel-volver',
+   'contacto-panel-volver-bot','album-panel-volver','album-drawer-volver'
+  ].forEach(function(id){el=document.getElementById(id);if(el)el.textContent=volverTxt;});
   // Álbum vacío
   el=document.getElementById('album-vacio-txt');if(el)el.textContent=t.albumVacio||'Tu álbum está vacío';
   el=document.getElementById('ap-album-vacio-txt');if(el)el.textContent=t.albumVacio||'Tu álbum está vacío';
@@ -7648,7 +7718,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v647';
+var _APP_VERSION = 'v649';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -8322,6 +8392,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v647</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v649</div>
 </body>
 </html>
