@@ -618,15 +618,25 @@
   <div style='position:absolute;inset:0;display:flex;flex-direction:column;gap:0.35rem;box-sizing:border-box;padding:0.6rem 0.85rem;overflow:hidden'>
     <!-- Volver -->
     <button onclick='cerrarFormPOI()' id='addpoi-panel-volver' style='display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:4px 10px;color:rgba(255,255,255,0.9);font-size:11px;cursor:pointer;font-family:DM Sans,sans-serif;width:fit-content;font-weight:600;flex-shrink:0'>← Volver</button>
-    <!-- Nombre (oculto para alertas) -->
-    <div style='flex-shrink:0' id='poi-nombre-block'>
-      <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:2px' id='lbl-poi-nombre'>📍 Nombre *</label>
-      <input id='poi-input-nombre' type='text' maxlength='80' placeholder='Ej: Fuente del Peregrino' style='width:100%;border:1px solid rgba(255,255,255,0.2);border-radius:7px;padding:5px 9px;font-size:13px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none;background:rgba(255,255,255,0.1);color:#fff'/>
-    </div>
-    <!-- Descripción (oculta para alertas) -->
-    <div style='flex-shrink:0' id='poi-desc-block'>
-      <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:2px' id='lbl-poi-desc'>Descripción</label>
-      <textarea id='poi-input-desc' maxlength='300' rows='1' placeholder='Cuéntanos algo sobre este lugar...' style='width:100%;border:1px solid rgba(255,255,255,0.2);border-radius:7px;padding:5px 9px;font-size:12px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none;resize:none;background:rgba(255,255,255,0.1);color:#fff'></textarea>
+    <!-- Categoría -->
+    <div style='flex-shrink:0'>
+      <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:3px' id='lbl-poi-cat'>Categoría *</label>
+      <input type='hidden' id='poi-input-cat' value=''/>
+      <div style='display:flex;gap:5px'>
+        <button type='button' onclick='selPoiCat(this,"alerta")' data-cat='alerta'
+          style='flex:1;display:flex;align-items:center;justify-content:center;gap:4px;background:rgba(220,38,38,0.2);border:1.5px solid rgba(252,165,165,0.5);border-radius:8px;padding:5px 4px;font-size:11px;font-weight:600;color:#fca5a5;cursor:pointer;font-family:DM Sans,sans-serif'>
+          🚨 <span id='btn-alerta-label'>Alerta</span>
+        </button>
+        <button type='button' onclick='selPoiCat(this,"punto de control")' data-cat='punto de control'
+          style='flex:1;display:flex;align-items:center;justify-content:center;gap:4px;background:rgba(59,130,246,0.2);border:1.5px solid rgba(147,197,253,0.5);border-radius:8px;padding:5px 4px;font-size:11px;font-weight:600;color:#93c5fd;cursor:pointer;font-family:DM Sans,sans-serif'>
+          📌 <span id='btn-control-label'>Mis puntos</span>
+        </button>
+        <button type='button' onclick='abrirSubcatDrawer()' id='btn-recomendar-poi' data-cat=''
+          style='flex:1;display:flex;align-items:center;justify-content:center;gap:4px;background:rgba(29,158,117,0.2);border:1.5px solid rgba(134,239,172,0.5);border-radius:8px;padding:5px 4px;font-size:11px;font-weight:600;color:#6ee7b7;cursor:pointer;font-family:DM Sans,sans-serif'>
+          ⭐ <span id='btn-recomendar-label'>Recomendar</span>
+        </button>
+      </div>
+      <div id='poi-cat-seleccionada' style='display:none;margin-top:3px;font-size:11px;color:#6ee7b7;font-weight:500'></div>
     </div>
     <!-- Tipo de alerta (solo visible al seleccionar Alerta) -->
     <div id='poi-alerta-tipos' style='display:none;flex-shrink:0'>
@@ -656,24 +666,15 @@
         <button type='button' onclick='cambiarAlertaTipo()' style='background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:3px 10px;font-size:11px;font-weight:600;color:rgba(255,255,255,0.8);cursor:pointer;font-family:DM Sans,sans-serif'>Cambiar</button>
       </div>
     </div>
-    <div style='flex-shrink:0'>
-      <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:3px' id='lbl-poi-cat'>Categoría *</label>
-      <input type='hidden' id='poi-input-cat' value=''/>
-      <div style='display:flex;gap:5px'>
-        <button type='button' onclick='selPoiCat(this,"alerta")' data-cat='alerta'
-          style='flex:1;display:flex;align-items:center;justify-content:center;gap:4px;background:rgba(220,38,38,0.2);border:1.5px solid rgba(252,165,165,0.5);border-radius:8px;padding:5px 4px;font-size:11px;font-weight:600;color:#fca5a5;cursor:pointer;font-family:DM Sans,sans-serif'>
-          🚨 <span id='btn-alerta-label'>Alerta</span>
-        </button>
-        <button type='button' onclick='selPoiCat(this,"punto de control")' data-cat='punto de control'
-          style='flex:1;display:flex;align-items:center;justify-content:center;gap:4px;background:rgba(59,130,246,0.2);border:1.5px solid rgba(147,197,253,0.5);border-radius:8px;padding:5px 4px;font-size:11px;font-weight:600;color:#93c5fd;cursor:pointer;font-family:DM Sans,sans-serif'>
-          📌 <span id='btn-control-label'>Mis puntos</span>
-        </button>
-        <button type='button' onclick='abrirSubcatDrawer()' id='btn-recomendar-poi' data-cat=''
-          style='flex:1;display:flex;align-items:center;justify-content:center;gap:4px;background:rgba(29,158,117,0.2);border:1.5px solid rgba(134,239,172,0.5);border-radius:8px;padding:5px 4px;font-size:11px;font-weight:600;color:#6ee7b7;cursor:pointer;font-family:DM Sans,sans-serif'>
-          ⭐ <span id='btn-recomendar-label'>Recomendar</span>
-        </button>
-      </div>
-      <div id='poi-cat-seleccionada' style='display:none;margin-top:3px;font-size:11px;color:#6ee7b7;font-weight:500'></div>
+    <!-- Nombre (oculto hasta seleccionar Mis puntos o Recomendar) -->
+    <div style='display:none;flex-shrink:0' id='poi-nombre-block'>
+      <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:2px' id='lbl-poi-nombre'>📍 Nombre *</label>
+      <input id='poi-input-nombre' type='text' maxlength='80' placeholder='Ej: Fuente del Peregrino' style='width:100%;border:1px solid rgba(255,255,255,0.2);border-radius:7px;padding:5px 9px;font-size:13px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none;background:rgba(255,255,255,0.1);color:#fff'/>
+    </div>
+    <!-- Descripción (oculta hasta seleccionar Mis puntos o Recomendar) -->
+    <div style='display:none;flex-shrink:0' id='poi-desc-block'>
+      <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:2px' id='lbl-poi-desc'>Descripción</label>
+      <textarea id='poi-input-desc' maxlength='300' rows='1' placeholder='Cuéntanos algo sobre este lugar...' style='width:100%;border:1px solid rgba(255,255,255,0.2);border-radius:7px;padding:5px 9px;font-size:12px;font-family:DM Sans,sans-serif;box-sizing:border-box;outline:none;resize:none;background:rgba(255,255,255,0.1);color:#fff'></textarea>
     </div>
     <!-- Ubicación -->
     <div style='flex-shrink:0'>
@@ -3285,8 +3286,8 @@ function abrirFormPOI() {
   var nombreBlock = document.getElementById('poi-nombre-block');
   var descBlock   = document.getElementById('poi-desc-block');
   var tiposBlock  = document.getElementById('poi-alerta-tipos');
-  if (nombreBlock) nombreBlock.style.display = '';
-  if (descBlock)   descBlock.style.display   = '';
+  if (nombreBlock) nombreBlock.style.display = 'none';
+  if (descBlock)   descBlock.style.display   = 'none';
   if (tiposBlock)  tiposBlock.style.display  = 'none';
   var indicador = document.getElementById('poi-alerta-indicador');
   if (indicador) indicador.style.display = 'none';
@@ -3310,13 +3311,13 @@ function selPoiCat(btn, cat) {
   document.getElementById('poi-form-msg').textContent = '';
   var lbl = document.getElementById('poi-cat-seleccionada');
   if (lbl) lbl.style.display = 'none';
-  var esAlerta = (cat === 'alerta');
   var nombreBlock = document.getElementById('poi-nombre-block');
   var descBlock   = document.getElementById('poi-desc-block');
   var tiposBlock  = document.getElementById('poi-alerta-tipos');
   var inputNombre = document.getElementById('poi-input-nombre');
   var nombreActual = inputNombre ? inputNombre.value : '';
   var tiposAlerta = ['⚠️ Vía cortada','🪨 Mal estado','🆘 Necesito ayuda'];
+  var esAlerta = (cat === 'alerta');
   if (esAlerta) {
     // Guardar nombre escrito por el usuario antes de ocultar
     if (nombreActual && tiposAlerta.indexOf(nombreActual) === -1) {
@@ -3328,7 +3329,7 @@ function selPoiCat(btn, cat) {
     var indicador = document.getElementById('poi-alerta-indicador');
     if (indicador) indicador.style.display = 'none';
   } else {
-    // Restaurar nombre guardado si lo había, o limpiar si venía de alerta
+    // Restaurar nombre guardado si venía de alerta
     if (tiposAlerta.indexOf(nombreActual) !== -1) {
       var guardado = document.getElementById('modal-add-poi')._nombreGuardado || '';
       if (inputNombre) inputNombre.value = guardado;
@@ -3621,7 +3622,7 @@ function guardarPOIUsuario() {
   try { localStorage.setItem('poi_usuario', JSON.stringify(PUNTOS_USUARIO)); } catch(e) {}
 
   // Registrar en álbum automáticamente (el usuario creó este punto, ya lo "visitó")
-  if (window._albumRegistrarVisita) window._albumRegistrarVisita(poi, true);
+  if (window._albumRegistrarVisita && cat === 'punto de control') window._albumRegistrarVisita(poi, true);
 
   if (!valoraciones[id]) valoraciones[id] = {total:0, votos:0, miVoto:0};
   if (!opiniones[id]) opiniones[id] = [];
@@ -7336,7 +7337,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v528';
+var _APP_VERSION = 'v531';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7346,7 +7347,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v528') === -1) {
+        if (key.indexOf('guia-compostelana-v531') === -1) {
           caches.delete(key);
         }
       });
@@ -8011,6 +8012,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v528</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v531</div>
 </body>
 </html>
