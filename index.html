@@ -315,7 +315,7 @@
 
 
   <!-- Panel ruta flotante esquina inferior izquierda del mapa -->
-  <div id='map-ruta-panel' style='display:flex;position:absolute;bottom:52px;left:10px;z-index:400;background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);border-radius:12px;padding:6px;box-shadow:0 2px 16px rgba(0,0,0,0.35);flex-direction:column;align-items:center;gap:4px;font-family:DM Sans,sans-serif'>
+  <div id='map-ruta-panel' style='display:flex;position:absolute;bottom:36px;left:10px;z-index:400;background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);border-radius:12px;padding:6px;box-shadow:0 2px 16px rgba(0,0,0,0.35);flex-direction:column;align-items:center;gap:4px;font-family:DM Sans,sans-serif'>
     <span id='map-ruta-titulo' style='font-weight:700;color:rgba(255,255,255,0.85);font-size:10px;letter-spacing:0.5px;padding:0 2px'>RUTA</span>
     <span id='ruta-bar-count' style='background:#1D9E75;color:#fff;padding:2px 6px;border-radius:8px;font-weight:700;font-size:10px'>0 📍</span>
     <span id='ruta-bar-dist' style='color:#7EE8C0;font-weight:600;font-size:10px'>0 km</span>
@@ -334,9 +334,7 @@
     <button onclick='guardarRuta()' id='ruta-bar-btn-save' style='display:none;width:36px;height:36px;background:#6366f1;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title='Guardar'>💾<span id='ruta-save-txt' style='display:none'></span></button>
     <button onclick='limpiarRuta()' id='ruta-bar-btn-clear' style='display:none;width:36px;height:36px;background:#dc2626;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title='Limpiar'>🗑</button>
   </div>
-  <!-- Botón generador de ruta (derecha del panel de ruta) -->
-  <button id='btn-album-mapa' onclick='_abrirRutaModal()' title='Ruta'
-    style='display:flex;position:absolute;bottom:52px;left:58px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>🗺️</button>
+
   <!-- Botón refresh alineado bajo el panel, en el mismo nivel que el buscador -->
   <button id='btn-refresh-loc' onclick='refrescarUbicacion()' title='Actualizar mi ubicación'
     style='display:flex;position:absolute;bottom:36px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>
@@ -564,7 +562,8 @@
     <div style='display:flex;align-items:center;gap:5px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;white-space:nowrap' id='poi-drawer-chips'>
       <button onclick='cerrarPoiDrawer()' id='poi-panel-volver' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:#722F37;border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:6px 12px;color:rgba(255,255,255,0.92);font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600;white-space:nowrap;box-shadow:inset 0 1px 0 rgba(255,255,255,0.15)'>← Volver</button>
       <button onclick="abrirAlbumPanel('poi-drawer')" id='chip-ranking-drawer' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:linear-gradient(135deg,#7B4F00 0%,#C8860A 50%,#F5C800 100%);border:1px solid rgba(245,200,0,0.45);border-radius:20px;padding:6px 12px;color:#fff;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:700;white-space:nowrap;box-shadow:0 2px 8px rgba(200,134,10,0.45),inset 0 1px 0 rgba(255,255,255,0.2);text-shadow:0 1px 2px rgba(0,0,0,0.4)'>🏅 Ranking</button>
-      <div class='cat-chip active' onclick='_poiDrawerFiltrar(this,"todos")'>🗺️ Todos</div>
+      <button onclick='_abrirRutaModal()' id='chip-ruta-drawer' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:#1D9E75;border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:6px 12px;color:#fff;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600;white-space:nowrap;box-shadow:0 2px 8px rgba(29,158,117,0.4),inset 0 1px 0 rgba(255,255,255,0.15)'>🗺️ Ruta</button>
+      <div class='cat-chip active' onclick='_poiDrawerFiltrar(this,"todos")'>📍 Todos</div>
       <div class='cat-chip' id='chip-album-drawer' onclick='abrirAlbumDrawer()'>📷 Mi Álbum</div>
       <div class='cat-chip' id='chip-alerta-drawer' onclick='_poiDrawerFiltrar(this,"alerta")'>🚨 Alertas</div>
       <div class='cat-chip' id='chip-etapa-costa-btn' onclick='_poiDrawerFiltrar(this,"etapa-costa")'>🔵 Costa</div>
@@ -2539,7 +2538,7 @@ function _renderPoiDrawerCarrusel() {
     card.innerHTML =
       (window._imgCromo ? window._imgCromo(p, enRuta, T, idiomaActual) : '<div class="poi-img '+p.color+'" style="position:relative;overflow:hidden">'+
         '<img src="'+(p.imagen||'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png')+'" alt="'+p.nombre+'" class="poi-img-cover" decoding="async" fetchpriority="low"/>'+
-        (!p.esAlerta && !p.esUsuario ? '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'" style="position:absolute;top:8px;right:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);background:'+(enRuta?'#1D9E75':'rgba(255,255,255,0.92)')+';color:'+(enRuta?'#fff':'#0F6E56')+';border:1px solid '+(enRuta?'#1D9E75':'rgba(29,158,117,0.4)')+'">'+
+        (!p.esAlerta && !p.esUsuario && !!(window._albumVisitasSet && window._albumVisitasSet[p.id]) ? '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'" style="position:absolute;top:8px;right:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);background:'+(enRuta?'#1D9E75':'rgba(255,255,255,0.92)')+';color:'+(enRuta?'#fff':'#0F6E56')+';border:1px solid '+(enRuta?'#1D9E75':'rgba(29,158,117,0.4)')+'">'+
           (enRuta?'&#10003; '+(T[idiomaActual]||T.es).enRuta.replace('✓ ',''):(T[idiomaActual]||T.es).añadirRuta)+'</button>' : '')+
       '</div>')+
       (!p.esUsuario ? '<div class="poi-ranking" id="rank-'+p.id+'" style="left:8px;right:auto">&#9733; '+(val.votos>0?media:'-')+'</div>' : '')+
@@ -4996,7 +4995,7 @@ function renderCarrusel(categoria) {
     card.innerHTML =
       (window._imgCromo ? window._imgCromo(p, enRuta, T, idiomaActual) : '<div class="poi-img '+p.color+'" style="position:relative;overflow:hidden">' +
         '<img src="'+(p.imagen||'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png')+'" alt="'+p.nombre+'" class="poi-img-cover" decoding="async" fetchpriority="low"/>' +
-        (mostrarBtnRuta && !p.esAlerta && !p.esUsuario ? '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'" style="position:absolute;top:8px;right:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);background:'+(enRuta?'#1D9E75':'rgba(255,255,255,0.92)')+';color:'+(enRuta?'#fff':'#0F6E56')+';border:1px solid '+(enRuta?'#1D9E75':'rgba(29,158,117,0.4)')+'">'+  (enRuta?'&#10003; '+(T[idiomaActual]||T.es).enRuta.replace('✓ ',''):(T[idiomaActual]||T.es).añadirRuta)+'</button>' : '') +
+        (mostrarBtnRuta && !p.esAlerta && !p.esUsuario && !!(window._albumVisitasSet && window._albumVisitasSet[p.id]) ? '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'" style="position:absolute;top:8px;right:8px;z-index:10;font-size:11px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);background:'+(enRuta?'#1D9E75':'rgba(255,255,255,0.92)')+';color:'+(enRuta?'#fff':'#0F6E56')+';border:1px solid '+(enRuta?'#1D9E75':'rgba(29,158,117,0.4)')+'">'+  (enRuta?'&#10003; '+(T[idiomaActual]||T.es).enRuta.replace('✓ ',''):(T[idiomaActual]||T.es).añadirRuta)+'</button>' : '') +
       '</div>')+
       (!p.esUsuario ? '<div class="poi-ranking" id="rank-'+p.id+'" style="left:8px;right:auto">&#9733; '+(val.votos>0?media:'-')+'</div>' : '')+
       '<div class="poi-body">'+
@@ -5883,7 +5882,7 @@ function activarNavegacionVoz() {
     if (btnOrMap) btnOrMap.style.display = 'none';
     var btnOrPanel = document.getElementById('ruta-nav-orientacion');
     if (btnOrPanel) btnOrPanel.style.display = 'block';
-    ['btn-add-poi-map','map-radio-control','btn-refresh-loc','btn-sos-mapa','btn-meteo-mapa','btn-buscar-mapa','btn-album-mapa','btn-poi-drawer-mapa'].forEach(function(id){
+    ['btn-add-poi-map','map-radio-control','btn-refresh-loc','btn-sos-mapa','btn-meteo-mapa','btn-buscar-mapa','btn-poi-drawer-mapa'].forEach(function(id){
       var el=document.getElementById(id); if(el) el.style.display='none';
     });
     ['ruta-bar-count','ruta-bar-dist','ruta-bar-time'].forEach(function(id){
@@ -6155,7 +6154,7 @@ function detenerNavegacionVoz() {
   // Restaurar brújula en mapa
   var btnOrMapRst = document.getElementById('btn-brujula-mapa');
   if (btnOrMapRst) btnOrMapRst.style.display = 'flex';
-  ['btn-sos-mapa','btn-meteo-mapa','btn-buscar-mapa','btn-album-mapa','btn-poi-drawer-mapa'].forEach(function(id){
+  ['btn-sos-mapa','btn-meteo-mapa','btn-buscar-mapa','btn-poi-drawer-mapa'].forEach(function(id){
     var b=document.getElementById(id); if(b) b.style.display='flex';
   });
   var btnOrPanelRst = document.getElementById('ruta-nav-orientacion');
@@ -7577,7 +7576,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v631';
+var _APP_VERSION = 'v635';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -8252,6 +8251,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v631</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v635</div>
 </body>
 </html>
