@@ -6161,7 +6161,7 @@ function cargarEnSlot(slotIdx, imgIdx) {
 
 // FRASES ROTANTES
 var FRASES={
-  es:['Puntos de interés, rutas y experiencias únicas cerca de ti','¿Sabías que la vieira jacobea nació en las aguas de Bouzas?','El Temple gobernó estas tierras durante más de un siglo','El olivo del escudo de Vigo lo plantaron los Caballeros Templarios','La encomienda de Coia controlaba todo el sur de Galicia','El Camino de Santiago pasa por el corazón de Vigo','La pentalfa de la estela de Coia sigue mirando a los peregrinos','La Casa de Ceta es la vivienda más antigua conservada de Vigo','Bouzas: donde la leyenda del Caballero de las Conchas se hizo símbolo','En la Rúa Real se esconden marcas gremiales templarias del siglo XIII'],
+  es:['Puntos de interés, rutas y experiencias únicas cerca de ti','¿Sabías que la vieira jacobea nació en las aguas de Bouzas?','El Temple gobernó estas tierras durante más de un siglo','El olivo del escudo de Vigo lo plantaron los Caballeros Templarios','La bailía de Coia controlaba todo el sur de Galicia','El Camino de Santiago pasa por el corazón de Vigo','La pentalfa de la estela de Coia sigue mirando a los peregrinos','La Casa de Ceta es la vivienda más antigua conservada de Vigo','Bouzas: donde la leyenda del Caballero de las Conchas se hizo símbolo','En la Rúa Real se esconden marcas gremiales templarias del siglo XIII'],
   gl:['Puntos de interése, rutas e experiencias únicas preto de ti','¿Sabías que a vieira xacobea naceu nas augas de Bouzas?','O Temple gobernou estas terras durante máis dun século','O olivo do escudo de Vigo plantonárono os Cabaleiros Templarios','A encomenda de Coia controlaba todo o sur de Galicia','O Camiño de Santiago pasa polo corazón de Vigo','A pentalfa da estela de Coia segue mirando aos peregrinos','A Casa de Ceta é a vivenda máis antiga conservada de Vigo','Bouzas: onde a lenda do Cabaleiro das Cunchas se fixo símbolo','Na Rúa Real agóchanse marcas gremiais templarias do século XIII'],
   en:['Points of interest, routes and unique experiences near you','Did you know the Jacobean shell was born in the waters of Bouzas?','The Knights Templar governed these lands for over a century','The olive tree on Vigos coat of arms was planted by the Templars','The commandery of Coia controlled all of southern Galicia','The Portuguese Coastal Way passes through the heart of Vigo','The pentagram on the Coia stele still watches over pilgrims','Casa de Ceta is the oldest preserved dwelling in Vigo','Bouzas: where the legend of the Knight of the Shells became a symbol','Templar guild marks from the 13th century are hidden in Rua Real']
 };
@@ -7357,7 +7357,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v537';
+var _APP_VERSION = 'v538';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7367,7 +7367,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v537') === -1) {
+        if (key.indexOf('guia-compostelana-v538') === -1) {
           caches.delete(key);
         }
       });
@@ -8032,6 +8032,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v537</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v538</div>
 </body>
 </html>
