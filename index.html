@@ -3088,6 +3088,21 @@ function _centrarMapa() {
     }
   }, 400);
 }
+
+function _centrarMapa() {
+  var mapEl = document.getElementById('map');
+  if (!mapEl) return;
+  var rect = mapEl.getBoundingClientRect();
+  var mapCenterY = window.pageYOffset + rect.top + rect.height / 2;
+  var targetY = mapCenterY - window.innerHeight / 2;
+  window.scrollTo({ top: targetY, behavior: 'smooth' });
+  setTimeout(function() {
+    if (typeof mapa !== 'undefined' && mapa) {
+      mapa.invalidateSize();
+      mapa.panTo(mapa.getCenter(), { animate: false });
+    }
+  }, 400);
+}
 function _irAlMapa() {
   setTimeout(_centrarMapa, 150);
 }
@@ -7185,7 +7200,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v520';
+var _APP_VERSION = 'v521';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7195,7 +7210,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v520') === -1) {
+        if (key.indexOf('guia-compostelana-v521') === -1) {
           caches.delete(key);
         }
       });
@@ -7437,7 +7452,8 @@ if ('serviceWorker' in navigator) {
         contador.textContent = visitas.length + ' cromo' + (visitas.length!==1?'s':'') + ' desbloqueado' + (visitas.length!==1?'s':'');
         // Tarjeta ranking siempre primera
         _renderRankingCard(grid, n, rango, nextRango);
-        // Ordenar por fecha
+        // Ordenar por fecha — excluir POIs creados por el usuario
+        visitas = visitas.filter(function(v){ return !(v.poiId||'').startsWith('u_'); });
         visitas.sort(function(a,b){ return a.fecha - b.fecha; });
         visitas.forEach(function(v) {
           var card = document.createElement('div');
@@ -7859,6 +7875,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v520</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v521</div>
 </body>
 </html>
