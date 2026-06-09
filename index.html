@@ -646,7 +646,16 @@
         </button>
       </div>
     </div>
-    <!-- Categoría -->
+    <!-- Indicador tipo alerta seleccionado -->
+    <div id='poi-alerta-indicador' style='display:none;flex-shrink:0'>
+      <div style='display:flex;align-items:center;justify-content:space-between;background:rgba(220,38,38,0.2);border:1.5px solid rgba(252,165,165,0.5);border-radius:12px;padding:10px 14px'>
+        <div style='display:flex;align-items:center;gap:8px'>
+          <span id='poi-alerta-indicador-emoji' style='font-size:18px'></span>
+          <span id='poi-alerta-indicador-texto' style='font-size:13px;font-weight:600;color:#fff'></span>
+        </div>
+        <button type='button' onclick='cambiarAlertaTipo()' style='background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:3px 10px;font-size:11px;font-weight:600;color:rgba(255,255,255,0.8);cursor:pointer;font-family:DM Sans,sans-serif'>Cambiar</button>
+      </div>
+    </div>
     <div style='flex-shrink:0'>
       <label style='font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);display:block;margin-bottom:3px' id='lbl-poi-cat'>Categoría *</label>
       <input type='hidden' id='poi-input-cat' value=''/>
@@ -3271,12 +3280,16 @@ function abrirFormPOI() {
   poiFormLat = null; poiFormLng = null;
   document.getElementById('poi-input-nombre').value = '';
   document.getElementById('poi-input-desc').value = '';
+  var modal = document.getElementById('modal-add-poi');
+  if (modal) modal._nombreGuardado = '';
   var nombreBlock = document.getElementById('poi-nombre-block');
   var descBlock   = document.getElementById('poi-desc-block');
   var tiposBlock  = document.getElementById('poi-alerta-tipos');
   if (nombreBlock) nombreBlock.style.display = '';
   if (descBlock)   descBlock.style.display   = '';
   if (tiposBlock)  tiposBlock.style.display  = 'none';
+  var indicador = document.getElementById('poi-alerta-indicador');
+  if (indicador) indicador.style.display = 'none';
   var tipoBtns = document.querySelectorAll('#poi-alerta-tipos [data-tipo]');
   tipoBtns.forEach(function(b){ b.style.background='rgba(255,255,255,0.06)'; b.style.border='1px solid rgba(255,255,255,0.12)'; b.style.color='rgba(255,255,255,0.75)'; });
   document.getElementById('poi-input-cat').value = '';
@@ -3297,17 +3310,35 @@ function selPoiCat(btn, cat) {
   document.getElementById('poi-form-msg').textContent = '';
   var lbl = document.getElementById('poi-cat-seleccionada');
   if (lbl) lbl.style.display = 'none';
-  // Mostrar/ocultar campos según si es alerta
   var esAlerta = (cat === 'alerta');
   var nombreBlock = document.getElementById('poi-nombre-block');
   var descBlock   = document.getElementById('poi-desc-block');
   var tiposBlock  = document.getElementById('poi-alerta-tipos');
-  if (nombreBlock) nombreBlock.style.display = esAlerta ? 'none' : '';
-  if (descBlock)   descBlock.style.display   = esAlerta ? 'none' : '';
-  if (tiposBlock)  tiposBlock.style.display  = esAlerta ? '' : 'none';
-  // Resetear tipo de alerta al cambiar categoría
-  if (!esAlerta) {
-    document.getElementById('poi-input-nombre').value = '';
+  var inputNombre = document.getElementById('poi-input-nombre');
+  var nombreActual = inputNombre ? inputNombre.value : '';
+  var tiposAlerta = ['⚠️ Vía cortada','🪨 Mal estado','🆘 Necesito ayuda'];
+  if (esAlerta) {
+    // Guardar nombre escrito por el usuario antes de ocultar
+    if (nombreActual && tiposAlerta.indexOf(nombreActual) === -1) {
+      document.getElementById('modal-add-poi')._nombreGuardado = nombreActual;
+    }
+    if (nombreBlock) nombreBlock.style.display = 'none';
+    if (descBlock)   descBlock.style.display   = 'none';
+    if (tiposBlock)  tiposBlock.style.display  = '';
+    var indicador = document.getElementById('poi-alerta-indicador');
+    if (indicador) indicador.style.display = 'none';
+  } else {
+    // Restaurar nombre guardado si lo había, o limpiar si venía de alerta
+    if (tiposAlerta.indexOf(nombreActual) !== -1) {
+      var guardado = document.getElementById('modal-add-poi')._nombreGuardado || '';
+      if (inputNombre) inputNombre.value = guardado;
+      document.getElementById('modal-add-poi')._nombreGuardado = '';
+    }
+    if (nombreBlock) nombreBlock.style.display = '';
+    if (descBlock)   descBlock.style.display   = '';
+    if (tiposBlock)  tiposBlock.style.display  = 'none';
+    var indicador = document.getElementById('poi-alerta-indicador');
+    if (indicador) indicador.style.display = 'none';
     var tipoBtns = document.querySelectorAll('#poi-alerta-tipos [data-tipo]');
     tipoBtns.forEach(function(b){ b.style.background='rgba(255,255,255,0.06)'; b.style.border='1px solid rgba(255,255,255,0.12)'; b.style.color='rgba(255,255,255,0.75)'; });
   }
@@ -3325,6 +3356,22 @@ function selAlertaTipo(btn, tipo) {
   btn.style.color = '#fff';
   document.getElementById('poi-input-nombre').value = tipo;
   document.getElementById('poi-form-msg').textContent = '';
+  // Cerrar selector y mostrar indicador
+  var partes = tipo.split(' ');
+  var emoji = partes[0];
+  var texto = partes.slice(1).join(' ');
+  document.getElementById('poi-alerta-tipos').style.display = 'none';
+  var indicador = document.getElementById('poi-alerta-indicador');
+  document.getElementById('poi-alerta-indicador-emoji').textContent = emoji;
+  document.getElementById('poi-alerta-indicador-texto').textContent = texto;
+  if (indicador) indicador.style.display = '';
+}
+
+function cambiarAlertaTipo() {
+  document.getElementById('poi-alerta-tipos').style.display = '';
+  var indicador = document.getElementById('poi-alerta-indicador');
+  if (indicador) indicador.style.display = 'none';
+  document.getElementById('poi-input-nombre').value = '';
 }
 
 function resetAllPoiCatBtns() {
@@ -7289,7 +7336,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v527';
+var _APP_VERSION = 'v528';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7299,7 +7346,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v527') === -1) {
+        if (key.indexOf('guia-compostelana-v528') === -1) {
           caches.delete(key);
         }
       });
@@ -7964,6 +8011,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v527</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v528</div>
 </body>
 </html>
