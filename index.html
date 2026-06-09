@@ -3170,7 +3170,7 @@ function eliminarAlerta(id) {
     '<div style="background:#fff;border-radius:14px;padding:1.5rem 1.5rem 1.25rem;max-width:300px;width:88%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.18)">' +
     '<div style="font-size:32px;margin-bottom:10px">🚨</div>' +
     '<p style="font-family:DM Sans,sans-serif;font-size:15px;font-weight:600;color:#1a1a1a;margin:0 0 6px">¿Eliminar esta alerta?</p>' +
-    '<p style="font-family:DM Sans,sans-serif;font-size:13px;color:#6b7280;margin:0 0 20px">Se eliminará para todos los usuarios. Esta acción no puede deshacerse.</p>' +
+    '<p style="font-family:DM Sans,sans-serif;font-size:13px;color:#6b7280;margin:0 0 20px">Se eliminará para todos los usuarios.</p>' +
     '<div style="display:flex;gap:10px;justify-content:center">' +
     '<button id="confirm-alerta-cancel" style="flex:1;background:#f3f4f6;border:none;border-radius:10px;padding:10px 0;font-size:14px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;color:#374151">Cancelar</button>' +
     '<button id="confirm-alerta-ok" style="flex:1;background:#dc2626;border:none;border-radius:10px;padding:10px 0;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;color:#fff">Eliminar</button>' +
@@ -4011,8 +4011,7 @@ function eliminarPOIUsuario(poiId) {
   overlay.innerHTML =
     '<div style="background:#fff;border-radius:14px;padding:1.5rem 1.5rem 1.25rem;max-width:300px;width:88%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.18)">' +
     '<div style="font-size:32px;margin-bottom:10px">📍</div>' +
-    '<p style="font-family:DM Sans,sans-serif;font-size:15px;font-weight:600;color:#1a1a1a;margin:0 0 6px">'+msgElim+'</p>' +
-    '<p style="font-family:DM Sans,sans-serif;font-size:13px;color:#6b7280;margin:0 0 20px">Esta acción no puede deshacerse.</p>' +
+    '<p style="font-family:DM Sans,sans-serif;font-size:15px;font-weight:600;color:#1a1a1a;margin:0 0 20px">'+msgElim+'</p>' +
     '<div style="display:flex;gap:10px;justify-content:center">' +
     '<button id="confirm-poi-cancel" style="flex:1;background:#f3f4f6;border:none;border-radius:10px;padding:10px 0;font-size:14px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;color:#374151">Cancelar</button>' +
     '<button id="confirm-poi-ok" style="flex:1;background:#dc2626;border:none;border-radius:10px;padding:10px 0;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;color:#fff">Eliminar</button>' +
@@ -5313,7 +5312,6 @@ function _mostrarConfirmLimpiar(msg, onConfirm) {
     '<div style="background:#fff;border-radius:14px;padding:1.5rem 1.5rem 1.25rem;max-width:300px;width:88%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.18)">' +
     '<div style="font-size:32px;margin-bottom:10px">🗑️</div>' +
     '<p style="font-family:DM Sans,sans-serif;font-size:15px;font-weight:600;color:#1a1a1a;margin:0 0 6px">'+msg+'</p>' +
-    '<p style="font-family:DM Sans,sans-serif;font-size:13px;color:#6b7280;margin:0 0 20px">Esta acción no puede deshacerse.</p>' +
     '<div style="display:flex;gap:10px;justify-content:center">' +
     '<button id="confirm-limpiar-cancel" style="flex:1;background:#f3f4f6;border:none;border-radius:10px;padding:10px 0;font-size:14px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;color:#374151">Cancelar</button>' +
     '<button id="confirm-limpiar-ok" style="flex:1;background:#dc2626;border:none;border-radius:10px;padding:10px 0;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;color:#fff">Eliminar</button>' +
@@ -6404,7 +6402,7 @@ var T={
     btnGuardarRuta:'Guardar',
     guardandoRuta:'Ruta guardada ✓',
     guardandoRutaSub:'Recuerda que este es un proyecto gratuito y necesitamos tu apoyo. ¡Gracias! 🙏',
-    confirmarEliminar:'¿Eliminar este punto? Esta acción no se puede deshacer.',
+    confirmarEliminar:'¿Eliminar este punto?',
     btnNotifOff:'Activa avisos de puntos de interés cercanos',
     btnNotifOn:'✅ Avisos de POIs activados',
     notifNoSoportado:'Las notificaciones no están disponibles en este navegador.\n\nEn iPhone/iPad: añade esta página a tu pantalla de inicio (Safari → Compartir → Añadir a inicio) y vuelve a intentarlo.',
@@ -7586,7 +7584,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v642';
+var _APP_VERSION = 'v643';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -8260,6 +8258,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v642</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v643</div>
 </body>
 </html>
