@@ -2926,6 +2926,9 @@ function cargarPOIsFirebase() {
     renderCarrusel(categoriaActiva);
   });
 
+  // IDs eliminados en esta sesión — evita race condition con el listener de Firebase
+  var _alertasEliminadas = window._alertasEliminadas || (window._alertasEliminadas = {});
+
   // Cargar alertas activas en tiempo real (sin moderación, caducan 24h)
   db.ref('alertas').on('value', function(snap) {
     var data = snap.val();
@@ -3076,8 +3079,6 @@ try { alertasReportadas = JSON.parse(localStorage.getItem('alertasReportadas')||
 var alertasOcultas = {};
 try { alertasOcultas = JSON.parse(localStorage.getItem('alertasOcultas')||'{}'); } catch(e) {}
 
-// IDs eliminados en esta sesión — evita race condition con el listener de Firebase
-var _alertasEliminadas = {};
   if (!confirm('¿Eliminar esta alerta para todos los usuarios? Esta acción no se puede deshacer.')) return;
   var alerta = PUNTOS.find(function(p){ return p.id === id; });
   if (alerta && alerta._marker) mapa.removeLayer(alerta._marker);
@@ -7342,7 +7343,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v532';
+var _APP_VERSION = 'v533';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7352,7 +7353,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v532') === -1) {
+        if (key.indexOf('guia-compostelana-v533') === -1) {
           caches.delete(key);
         }
       });
@@ -8017,6 +8018,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v532</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v533</div>
 </body>
 </html>
