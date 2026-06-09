@@ -2210,14 +2210,8 @@ function _abrirSlide(panelId) {
   panel.scrollTop = 0;
   mapSection.classList.add('slide-out');
   panel.classList.add('slide-in');
-  // Desplazar la página para que el map-block quede justo debajo del header
   var mapBlock = document.getElementById('map-block');
-  var header = document.querySelector('.header');
-  if (mapBlock) {
-    var headerH = header ? header.getBoundingClientRect().height : 64;
-    var targetY = mapBlock.getBoundingClientRect().top + window.pageYOffset - headerH - 52;
-    window.scrollTo({ top: targetY, behavior: 'smooth' });
-  }
+  if (mapBlock) mapBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 function _cerrarSlide(panelId) {
   var mapSection = document.querySelector('#map-block .map-section');
@@ -2225,6 +2219,14 @@ function _cerrarSlide(panelId) {
   if (!panel) return;
   panel.classList.remove('slide-in');
   if (mapSection) mapSection.classList.remove('slide-out');
+  setTimeout(function() {
+    var mapBlock = document.getElementById('map-block');
+    if (mapBlock) mapBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (typeof mapa !== 'undefined' && mapa) {
+      mapa.invalidateSize();
+      mapa.panTo(mapa.getCenter(), { animate: false });
+    }
+  }, 300);
 }
 
 function _sincronizarChipAlertasPOI() {
@@ -3083,12 +3085,15 @@ function _irAlMapa() {
   setTimeout(function() {
     var mb = document.getElementById('map-block') || document.getElementById('map');
     if (!mb) return;
-    mb.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Posición absoluta en el documento (no relativa al viewport)
+    var top = 0, el = mb;
+    while (el) { top += el.offsetTop || 0; el = el.offsetParent; }
+    var header = document.querySelector('.header');
+    var headerH = header ? header.getBoundingClientRect().height : 64;
+    window.scrollTo({ top: top - headerH - 52, behavior: 'smooth' });
+    // Invalidar tamaño del mapa para que Leaflet lo recentre
     setTimeout(function() {
-      if (typeof mapa !== 'undefined' && mapa) {
-        mapa.invalidateSize();
-        mapa.panTo(mapa.getCenter(), { animate: false });
-      }
+      if (typeof mapa !== 'undefined' && mapa) mapa.invalidateSize();
     }, 500);
   }, 150);
 }
@@ -7186,7 +7191,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v517';
+var _APP_VERSION = 'v518';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7196,7 +7201,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v517') === -1) {
+        if (key.indexOf('guia-compostelana-v518') === -1) {
           caches.delete(key);
         }
       });
@@ -7860,6 +7865,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v517</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v518</div>
 </body>
 </html>
