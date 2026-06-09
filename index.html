@@ -566,8 +566,8 @@
       <div class='cat-chip active' onclick='_poiDrawerFiltrar(this,"todos")'>🗺️ Todos</div>
       <div class='cat-chip' id='chip-album-drawer' onclick='abrirAlbumDrawer()'>📷 Mi Álbum</div>
       <div class='cat-chip' id='chip-alerta-drawer' onclick='_poiDrawerFiltrar(this,"alerta")'>🚨 Alertas</div>
-      <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-costa")'>🌊 Costa</div>
-      <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-interior")'>🥾 Interior</div>
+      <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-costa")'>🔵 Costa</div>
+      <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-interior")'>🟢 Interior</div>
       <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-frances")'>🔴 Francés</div>
       <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-norte")'>🟠 Norte</div>
       <div class='cat-chip' onclick='_poiDrawerFiltrar(this,"etapa-primitivo")'>🟣 Primitivo</div>
@@ -7288,7 +7288,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v525';
+var _APP_VERSION = 'v526';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7298,7 +7298,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v525') === -1) {
+        if (key.indexOf('guia-compostelana-v526') === -1) {
           caches.delete(key);
         }
       });
@@ -7963,6 +7963,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v525</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v526</div>
 </body>
 </html>
