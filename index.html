@@ -3089,9 +3089,12 @@ function _irAlMapa() {
     var header = document.querySelector('.header');
     var headerH = header ? header.getBoundingClientRect().height : 64;
     window.scrollTo({ top: top - headerH - 52, behavior: 'smooth' });
-    // Invalidar tamaño del mapa para que Leaflet lo recentre
+    // Invalidar tamaño y recentrar el mapa en el centro actual del viewport
     setTimeout(function() {
-      if (typeof mapa !== 'undefined' && mapa) mapa.invalidateSize();
+      if (typeof mapa !== 'undefined' && mapa) {
+        mapa.invalidateSize();
+        mapa.panTo(mapa.getCenter(), { animate: false });
+      }
     }, 500);
   }, 150);
 }
@@ -7189,7 +7192,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v515';
+var _APP_VERSION = 'v516';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7863,6 +7866,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v515</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v516</div>
 </body>
 </html>
