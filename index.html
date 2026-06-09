@@ -562,10 +562,10 @@
   <div style='padding:0.6rem 1rem 0;position:sticky;top:0;background:linear-gradient(150deg,#0e2038 0%,#1a3a5c 60%,#1e4570 100%);z-index:10;border-bottom:1px solid rgba(255,255,255,0.12)'>
     <div style='display:flex;align-items:center;gap:5px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;white-space:nowrap' id='poi-drawer-chips'>
       <button onclick='cerrarPoiDrawer()' id='poi-panel-volver' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:#722F37;border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:6px 12px;color:rgba(255,255,255,0.92);font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600;white-space:nowrap;box-shadow:inset 0 1px 0 rgba(255,255,255,0.15)'>← Volver</button>
+      <div class='cat-chip' id='chip-ranking-drawer' onclick='abrirAlbumPanel()'>🏅 Ranking</div>
       <button onclick='_abrirRutaModal()' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:#1D9E75;border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:6px 12px;color:rgba(255,255,255,0.92);font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600;white-space:nowrap;box-shadow:inset 0 1px 0 rgba(255,255,255,0.15)' id='poi-ruta-drawer-btn'>🛤️ <span id='poi-ruta-drawer-label'>Ruta</span></button>
       <div class='cat-chip active' onclick='_poiDrawerFiltrar(this,"todos")'>🗺️ Todos</div>
       <div class='cat-chip' id='chip-album-drawer' onclick='abrirAlbumDrawer()'>📷 Mi Álbum</div>
-      <div class='cat-chip' id='chip-ranking-drawer' onclick='abrirAlbumPanel()'>🏅 Ranking</div>
       <div class='cat-chip' id='chip-alerta-drawer' onclick='_poiDrawerFiltrar(this,"alerta")'>🚨 Alertas</div>
       <div class='cat-chip' id='chip-etapa-costa-btn' onclick='_poiDrawerFiltrar(this,"etapa-costa")'>🔵 Costa</div>
       <div class='cat-chip' id='chip-etapa-interior-btn' onclick='_poiDrawerFiltrar(this,"etapa-interior")'>🟢 Interior</div>
@@ -8037,10 +8037,10 @@ function _renderAlbumPanel() {
   if (!getVisitas || !getRango) return;
   getVisitas(function(visitas) {
     var n = visitas.filter(function(v){ return !(v.poiId||'').startsWith('u_'); }).length;
-    var rango = _getRango(n);
+    var rango = window._getRango(n);
     var nextRango = null;
-    for (var ri = 0; ri < RANGOS.length; ri++) {
-      if (RANGOS[ri].min > n) { nextRango = RANGOS[ri]; break; }
+    for (var ri = 0; ri < window.RANGOS.length; ri++) {
+      if (window.RANGOS[ri].min > n) { nextRango = window.RANGOS[ri]; break; }
     }
     var pct = nextRango ? Math.min(Math.round((n - rango.min) / (nextRango.min - rango.min) * 100), 99) : 100;
 
@@ -8058,7 +8058,7 @@ function _renderAlbumPanel() {
 
     // Escalera
     var elEsc = document.getElementById('ap-rank-escalera');
-    if (elEsc) elEsc.innerHTML = RANGOS.map(function(r) {
+    if (elEsc) elEsc.innerHTML = window.RANGOS.map(function(r) {
       var activo = r.label === rango.label, superado = n >= r.min && !activo;
       return '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;opacity:'+(superado||activo?'1':'0.3')+'">'
         + '<div style="font-size:'+(activo?'22':'14')+'px;line-height:1">'+r.emoji+'</div>'
@@ -8097,12 +8097,12 @@ function _renderAlbumPanel() {
     // Logros
     var elLog = document.getElementById('ap-rank-logros');
     if (elLog) {
-      elLog.innerHTML = BADGES.map(function(b) {
+      elLog.innerHTML = window.BADGES.map(function(b) {
         return '<div id="ap-badge-'+b.id+'" title="'+b.desc+'" style="display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.28)">'+b.emoji+' '+b.label+'</div>';
       }).join('');
-      _albumGetLogros(function(logros) {
+      window._albumGetLogros(function(logros) {
         var desbloqueados = logros.map(function(l){ return l.badgeId; });
-        BADGES.forEach(function(b) {
+        window.BADGES.forEach(function(b) {
           var pill = document.getElementById('ap-badge-'+b.id);
           if (pill && desbloqueados.indexOf(b.id) !== -1) {
             pill.style.background = 'rgba(255,215,0,0.12)';
