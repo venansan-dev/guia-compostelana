@@ -1975,7 +1975,19 @@ function _sincronizarChipAlertasPOI() {
 
 function abrirComoUsarDrawer() { _abrirSlide('comousar-drawer'); }
 function cerrarComoUsarDrawer() { _cerrarSlide('comousar-drawer'); }
-function abrirAlbumPanel() { _renderAlbumPanel(); _abrirSlide('album-panel'); }
+function abrirAlbumPanel() {
+  _abrirSlide('album-panel');
+  // Reintentar hasta que el IIFE del álbum esté listo
+  var intentos = 0;
+  function _intentarRender() {
+    if (window._albumGetVisitas && window._getRango) {
+      _renderAlbumPanel();
+    } else if (intentos++ < 20) {
+      setTimeout(_intentarRender, 100);
+    }
+  }
+  _intentarRender();
+}
 function cerrarAlbumPanel() { _cerrarSlide('album-panel'); }
 function abrirContactoDrawer() { _abrirSlide('contacto-drawer'); }
 function cerrarContactoDrawer() { _cerrarSlide('contacto-drawer'); }
@@ -6887,18 +6899,24 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
+var _APP_VERSION = 'v500';
 if ('serviceWorker' in navigator) {
-  // Forzar actualización del SW si la versión no coincide
+  // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
-    regs.forEach(function(reg) {
-      reg.update();
-    });
+    regs.forEach(function(reg) { reg.update(); });
   });
+  // Limpiar cachés obsoletas
+  if (window.caches) {
+    caches.keys().then(function(keys) {
+      keys.forEach(function(key) {
+        if (key.indexOf('guia-compostelana-v501') === -1) {
+          caches.delete(key);
+        }
+      });
+    });
+  }
   window.addEventListener('load', function() {
     navigator.serviceWorker.register('/guia-compostelana/sw.js').then(function(reg) {
-
-
-
     }).catch(function(err) {
       console.warn('SW error:', err);
     });
@@ -7361,8 +7379,10 @@ if ('serviceWorker' in navigator) {
 
 // ---- Render del panel Mi Álbum ----
 function _renderAlbumPanel() {
-  if (!window._albumGetVisitas || !window._getRango) return;
-  _albumGetVisitas(function(visitas) {
+  var getVisitas = window._albumGetVisitas;
+  var getRango   = window._getRango;
+  if (!getVisitas || !getRango) return;
+  getVisitas(function(visitas) {
     var n = visitas.filter(function(v){ return !(v.poiId||'').startsWith('u_'); }).length;
     var rango = _getRango(n);
     var nextRango = null;
@@ -7550,6 +7570,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v500</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v501</div>
 </body>
 </html>
