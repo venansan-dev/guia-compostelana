@@ -2354,7 +2354,7 @@ function abrirAlbumDrawer() {
   var chip = document.getElementById('chip-album-drawer');
   _poiDrawerFiltrar(chip, 'album');
 }
-function cerrarAlbumDrawer() { _cerrarSlide('album-drawer'); }
+function cerrarAlbumDrawer() { _cerrarSlide('album-drawer'); setTimeout(function() { _abrirSlide('poi-drawer'); }, 50); }
 
 function abrirBrujulaDrawer() { _abrirSlide('brujula-drawer'); }
 function cerrarBrujulaDrawer() { _cerrarSlide('brujula-drawer'); }
@@ -2578,7 +2578,7 @@ function _renderPoiDrawerCarrusel() {
           '</div>'
         )+
         '<div style="display:flex;gap:5px;margin-top:6px">'+
-          (!p.esAlerta && !(window._albumVisitasSet && window._albumVisitasSet[p.id]) ? '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'" style="flex:1;justify-content:center;font-size:11px;padding:5px 6px;border-radius:8px;background:'+(enRuta?'#1D9E75':'rgba(29,158,117,0.12)')+';color:'+(enRuta?'#fff':'#1D9E75')+';border:1px solid '+(enRuta?'#1D9E75':'rgba(29,158,117,0.4)')+'">'+
+          (!p.esAlerta && (p.esUsuario || !(window._albumVisitasSet && window._albumVisitasSet[p.id])) ? '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'" style="flex:1;justify-content:center;font-size:11px;padding:5px 6px;border-radius:8px;background:'+(enRuta?'#1D9E75':'rgba(29,158,117,0.12)')+';color:'+(enRuta?'#fff':'#1D9E75')+';border:1px solid '+(enRuta?'#1D9E75':'rgba(29,158,117,0.4)')+'">'+
             (enRuta?'&#10003; '+((T[idiomaActual]||T.es).enRuta||'En ruta').replace('✓ ',''):('+ '+(T[idiomaActual]||T.es).añadirRuta||'+ a ruta'))+'</button>' : '')+
           '<button class="poi-detail-btn" data-poi-id="'+p.id+'" style="flex:1;background:var(--verde-claro);border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:5px 6px;font-size:11px;font-weight:600;color:var(--verde-oscuro);cursor:pointer;font-family:DM Sans,sans-serif;text-align:center">💬 '+(T[idiomaActual]||T.es).verDetalle+'</button>'+
         '</div>'+
@@ -7586,7 +7586,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v640';
+var _APP_VERSION = 'v642';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -8260,6 +8260,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v640</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v642</div>
 </body>
 </html>
