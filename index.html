@@ -333,6 +333,7 @@
     <button onclick='toggleVozNav()' id='ruta-nav-voz' style='display:none;width:36px;height:36px;background:#444;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title='Voz'>🔇</button>
     <button onclick='guardarRuta()' id='ruta-bar-btn-save' style='display:none;width:36px;height:36px;background:#6366f1;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title='Guardar'>💾<span id='ruta-save-txt' style='display:none'></span></button>
     <button onclick='limpiarRuta()' id='ruta-bar-btn-clear' style='display:none;width:36px;height:36px;background:#dc2626;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title='Limpiar'>🗑</button>
+    <button id='btn-album-mapa' onclick='_abrirRutaModal()' title='Ruta' style='width:36px;height:36px;background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.25);border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;padding:0'>🗺️</button>
   </div>
   <!-- Botón refresh alineado bajo el panel, en el mismo nivel que el buscador -->
   <button id='btn-refresh-loc' onclick='refrescarUbicacion()' title='Actualizar mi ubicación'
@@ -382,9 +383,7 @@
   <!-- Botón meteorología (izquierda, segundo) -->
   <button id='btn-meteo-mapa' onclick='abrirMeteoDrawer()' title='Previsión meteorológica'
     style='display:flex;position:absolute;top:54px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>&#9925;</button>
-  <!-- Botón Ruta generada (izquierda, bajo brújula) -->
-  <button id='btn-album-mapa' onclick='_abrirRutaModal()' title='Ruta generada'
-    style='display:flex;position:absolute;top:142px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>🗺️</button>
+
   <!-- Botón POI (derecha, sobre Buscar) -->
   <button id='btn-poi-drawer-mapa' onclick='abrirPoiDrawer()' title='Ranking'
     style='display:flex;position:absolute;bottom:124px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>🏅</button>
@@ -2669,7 +2668,7 @@ function _abrirRutaModal() {
       '<div style="padding:1rem 1rem 0.75rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--borde)">'+
         '<div style="display:flex;align-items:center;gap:7px">'+
           '<span style="font-size:18px">🗺️</span>'+
-          '<span style="font-family:Playfair Display,serif;font-size:16px;font-weight:600;color:var(--texto)">Ruta generada</span>'+
+          '<span style="font-family:Playfair Display,serif;font-size:16px;font-weight:600;color:var(--texto)">Ruta</span>'+
         '</div>'+
         '<button id="ruta-modal-close" style="background:var(--verde-claro);border:none;border-radius:50%;width:28px;height:28px;font-size:15px;cursor:pointer;color:var(--verde-oscuro);display:flex;align-items:center;justify-content:center">✕</button>'+
       '</div>'+
@@ -6335,13 +6334,13 @@ var T={
     chipMirador:'Miradores',
     chipEtapa:'Etapas',
     chipUsuario:'Mis puntos',
-    rutaLabel:'Ruta generada',
+    rutaLabel:'Ruta',
     mapRutaTitulo:'RUTA',
     poiRutaDrawerLabel:'Ruta',
     rutaVacio:'Añade puntos desde el mapa o las tarjetas',
     poiVerMapa:'🗺️ Ver en mapa',
     confirmLimpiar:'¿Eliminar la ruta? Este cambio no puede deshacerse.',
-    poiRutaTitulo:'Ruta generada',
+    poiRutaTitulo:'Ruta',
     poiRutaVacia:'Añade puntos desde las tarjetas o el mapa 👆',
     poiRutaBtnIr:'▶ Ir',
     rutaStatLabel:'Ruta:',
@@ -6571,11 +6570,11 @@ var T={
     chipEtapa:'Etapas',
     chipUsuario:'Os meus puntos',
     chipUsuario:'Mis puntos',
-    rutaLabel:'Ruta xerada',
+    rutaLabel:'Ruta',
     mapRutaTitulo:'RUTA',
     poiRutaDrawerLabel:'Ruta',
     rutaVacio:'Engade puntos desde o mapa ou as tarxetas',
-    poiRutaTitulo:'Ruta xerada',
+    poiRutaTitulo:'Ruta',
     poiRutaVacia:'Engade puntos desde as tarxetas ou o mapa 👆',
     poiRutaBtnIr:'▶ Ir',
     rutaStatLabel:'Ruta:',
@@ -6829,7 +6828,7 @@ var T={
     chipMirador:'Viewpoints',
     chipEtapa:'Stages',
     chipUsuario:'My points',
-    rutaLabel:'Generated route',
+    rutaLabel:'Route',
     mapRutaTitulo:'ROUTE',
     poiRutaDrawerLabel:'Route',
     rutaVacio:'Add points from the map or the cards',
@@ -6837,7 +6836,7 @@ var T={
     chipUsuario:'My points',
     poiVerMapa:'🗺️ View on map',
     confirmLimpiar:'Delete route? This cannot be undone.',
-    poiRutaTitulo:'Generated route',
+    poiRutaTitulo:'Route',
     poiRutaVacia:'Add points from the cards or the map 👆',
     poiRutaBtnIr:'▶ Go',
     rutaStatLabel:'Route:',
@@ -7576,7 +7575,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v629';
+var _APP_VERSION = 'v630';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -8251,6 +8250,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v629</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v630</div>
 </body>
 </html>
