@@ -4246,7 +4246,7 @@ function initMapa() {
   });
 
   PUNTOS.forEach(function(p) {
-    var m = L.marker([p.lat,p.lng], { icon:crearIcono(p.emoji, p.color) }).addTo(window._cluster);
+    var m = L.marker([p.lat,p.lng], { icon:crearIcono(p.emoji, p.categoria==='etapa' ? p.color : null) }).addTo(window._cluster);
     m.on('click', (function(punto) {
       return function() {
         if (window._navBloqPopups) return;
@@ -7189,7 +7189,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v514';
+var _APP_VERSION = 'v515';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7199,7 +7199,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v514') === -1) {
+        if (key.indexOf('guia-compostelana-v515') === -1) {
           caches.delete(key);
         }
       });
@@ -7863,6 +7863,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v514</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v515</div>
 </body>
 </html>
