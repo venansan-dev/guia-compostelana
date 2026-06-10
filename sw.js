@@ -1,11 +1,12 @@
-const CACHE_NAME = 'guia-compostelana-v669';
+const CACHE_NAME = 'guia-compostelana-v670';
 const TILE_CACHE = 'guia-tiles-v5';
 const IMG_CACHE  = 'guia-imgs-v5';
 
 const STATIC_ASSETS = [
   '/',
   '/index.html',
-  '/manifest.json'
+  '/manifest.json',
+  '/guia-compostelana/data.js'
 ];
 
 // Tiles OSM zoom 13-15 zona Vigo-Mos-Nigrán
