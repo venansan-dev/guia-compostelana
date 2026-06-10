@@ -5279,7 +5279,7 @@ function initMapa() {
   // Ocultar botón ➕ cuando se abre un popup, restaurar al cerrar
   var _popupAbierto = false;
 
-  var _mapBtns = ['btn-add-poi-map','btn-brujula-mapa','btn-sos-mapa','map-ruta-panel','map-radio-control'];
+  var _mapBtns = ['btn-add-poi-map','btn-poi-drawer-mapa','btn-alertas-toggle','btn-brujula-mapa','btn-sos-mapa','map-ruta-panel','map-radio-control'];
   mapa.on('popupopen', function() {
     _popupAbierto = true;
     _mapBtns.forEach(function(id){
@@ -5292,6 +5292,7 @@ function initMapa() {
     _popupAbierto = false;
     var b;
     b=document.getElementById('btn-add-poi-map'); if(b&&!_navActiva) b.style.display='flex';
+    b=document.getElementById('btn-poi-drawer-mapa'); if(b) b.style.display='flex';
     b=document.getElementById('btn-alertas-toggle'); if(b) b.style.display='flex';
     b=document.getElementById('btn-brujula-mapa'); if(b&&!_navActiva) b.style.display='flex';
     b=document.getElementById('btn-sos-mapa'); if(b) b.style.display='flex';
