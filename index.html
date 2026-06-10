@@ -916,12 +916,12 @@
   <div style='position:absolute;inset:0;padding:0.75rem 1rem;display:flex;flex-direction:column;gap:0.75rem;box-sizing:border-box;overflow-y:auto'>
     <div style='display:flex;align-items:center;justify-content:space-between;flex-shrink:0'>
       <button id='album-panel-volver' onclick='cerrarAlbumPanel()' style='display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:7px 14px;color:rgba(255,255,255,0.85);font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif'>← Volver</button>
-      <button onclick='abrirTableroDrawer()' style='display:flex;align-items:center;gap:6px;background:rgba(245,200,0,0.15);border:1px solid rgba(245,200,0,0.4);border-radius:10px;padding:7px 14px;color:#F5C800;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>🎴 Colección</button>
+      <button onclick='abrirTableroDrawer()' style='display:flex;align-items:center;gap:5px;background:rgba(245,200,0,0.12);border:1px solid rgba(245,200,0,0.35);border-radius:20px;padding:6px 14px;color:#F5C800;font-size:12px;font-weight:500;cursor:pointer;font-family:Playfair Display,serif;letter-spacing:0.3px'>🐚 Colección</button>
     </div>
     <!-- Título -->
     <div style='flex-shrink:0'>
       <div style='font-size:18px;font-weight:700;color:#fff;margin-bottom:2px'>🏅 Ranking del Peregrino</div>
-      <div id='album-panel-contador' style='font-size:12px;color:rgba(255,255,255,0.45)'>Visita lugares para desbloquear cromos</div>
+      <div id='album-panel-contador' style='font-size:12px;color:rgba(255,255,255,0.45)'>Visita lugares del Camino para avanzar en el ranking</div>
     </div>
     <!-- Tarjeta ranking -->
     <div style='flex-shrink:0;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:1rem'>
@@ -961,7 +961,10 @@
       <button id='tablero-panel-volver' onclick='cerrarTableroDrawer()' style='display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:7px 14px;color:rgba(255,255,255,0.85);font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif'>← Volver</button>
     </div>
     <div style='flex-shrink:0'>
-      <div style='font-size:18px;font-weight:700;color:#F5C800;margin-bottom:2px'>🐚 Colección de Cromos</div>
+      <div style='flex-shrink:0'>
+        <div style='font-size:10px;font-weight:600;color:rgba(245,200,0,0.5);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:4px'>Juego de la Oca Jacobeo</div>
+        <div style='font-family:Playfair Display,serif;font-size:22px;font-weight:600;color:#F5C800;line-height:1.15;margin-bottom:2px'>🐚 Colección del Peregrino</div>
+      </div>
       <div id='tablero-contador' style='font-size:12px;color:rgba(255,255,255,0.45)'>Visita lugares para obtener cromos</div>
     </div>
     <div id='ap-tablero-oca' style='display:grid;grid-template-columns:repeat(7,1fr);gap:3px;flex-shrink:0'></div>
@@ -7922,7 +7925,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v655';
+var _APP_VERSION = 'v658';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -8409,7 +8412,7 @@ if ('serviceWorker' in navigator) {
         _renderRankingCard(grid, n, rango, nextRango);
       } else {
         vacio.style.display = 'none';
-        contador.textContent = visitas.length + ' cromo' + (visitas.length!==1?'s':'') + ' desbloqueado' + (visitas.length!==1?'s':'');
+        contador.textContent = visitas.length + ' lugar' + (visitas.length!==1?'es':'') + ' visitado' + (visitas.length!==1?'s':'');
         // Tarjeta ranking siempre primera
         _renderRankingCard(grid, n, rango, nextRango);
         // Ordenar por fecha
@@ -8656,7 +8659,7 @@ function _renderAlbumPanel() {
 
     // Contador
     var elC = document.getElementById('album-panel-contador');
-    if (elC) elC.textContent = n > 0 ? n+' cromo'+(n!==1?'s':'')+' desbloqueado'+(n!==1?'s':'') : (T[idiomaActual]||T.es).albumContador||'Visita lugares para desbloquear cromos';
+    if (elC) elC.textContent = n > 0 ? n+' lugar'+(n!==1?'es':'')+' visitado'+(n!==1?'s':'') : 'Visita lugares del Camino para avanzar en el ranking';
 
     // Ranking
     var elEmoji = document.getElementById('ap-rank-emoji'); if (elEmoji) elEmoji.textContent = rango.emoji;
@@ -8844,6 +8847,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v655</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v658</div>
 </body>
 </html>
