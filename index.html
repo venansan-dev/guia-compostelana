@@ -842,7 +842,12 @@
             <span style='font-size:16px;flex-shrink:0'>💀</span>
             <div style='font-size:10px;color:rgba(255,255,255,0.75);line-height:1.6'><strong style='color:#fca5a5'>La Muerte</strong> — La casilla más temida. Extremadamente rara, pero existe. Si la encuentras, pierdes todos tus cromos. No se puede evitar.<br><span style='color:rgba(255,255,255,0.45);font-style:italic'>El Camino siempre ha sido así: caer, levantarse y volver a empezar. Morir en el juego es renacer en el Camino.</span></div>
           </div>
-          <div style='margin-top:7px;font-size:10px;color:rgba(255,255,255,0.4);line-height:1.5'>Los cromos repetidos actúan como escudo — cuando pierdes cromos, tú decides cuáles sacrificar.</div>
+          <div style='margin-top:7px;font-size:10px;color:rgba(255,255,255,0.4);line-height:1.5;margin-bottom:6px'>Los cromos repetidos actúan como escudo — cuando pierdes cromos, tú decides cuáles sacrificar.</div>
+          <div style='font-size:10px;color:rgba(255,255,255,0.4);line-height:1.5;margin-bottom:10px'>Las casillas de penalización (Posada, Laberinto, Cárcel) quedan marcadas en tu tablero hasta que saldes la deuda. La Muerte permanece hasta que consigas un nuevo cromo.</div>
+          <div style='border-top:1px solid rgba(255,255,255,0.08);padding-top:8px;display:flex;align-items:center;justify-content:space-between'>
+            <div style='font-size:9px;color:rgba(255,255,255,0.2);font-style:italic;letter-spacing:0.3px'>Sistema de juego GCU © 2025</div>
+            <div style='font-size:9px;color:rgba(255,255,255,0.2);letter-spacing:0.5px'>Guía Xacobea Ultreia</div>
+          </div>
         </div>
       </div>
       <div style='background:#1D9E75;border-radius:12px;padding:1rem 1.1rem;display:flex;gap:12px;align-items:flex-start'>
@@ -990,10 +995,15 @@
       </div>
       <div id='tablero-contador' style='font-size:12px;color:rgba(255,255,255,0.45)'>Visita lugares para obtener cromos</div>
     </div>
-    <div id='ap-tablero-oca' style='display:grid;grid-template-columns:repeat(7,1fr);gap:3px;flex-shrink:0'></div>
+    <div id='ap-tablero-oca' style='flex-shrink:0'></div>
     <div id='ap-tablero-vacio' style='display:none;text-align:center;padding:1.5rem 1rem;flex-shrink:0'>
       <div style='font-size:36px;margin-bottom:8px'>🎴</div>
       <div style='font-size:13px;color:rgba(255,255,255,0.5)'>Visita lugares del Camino para obtener cromos</div>
+    </div>
+    <!-- Copyright -->
+    <div style='flex-shrink:0;border-top:1px solid rgba(255,255,255,0.07);padding-top:10px;display:flex;align-items:center;justify-content:space-between'>
+      <div style='font-size:9px;color:rgba(255,255,255,0.18);font-style:italic;letter-spacing:0.3px'>Sistema de juego GCU © 2025</div>
+      <div style='font-size:9px;color:rgba(255,255,255,0.18);letter-spacing:0.5px'>Guía Xacobea Ultreia</div>
     </div>
   </div>
 </div>
@@ -1007,26 +1017,22 @@
 </div>
 
 <!-- BANNER DONACIONES BAJO EL MAPA -->
-<div style='margin:1.5rem 1.5rem;border-radius:var(--radio);background:linear-gradient(135deg,#0F6E56 0%,#1D9E75 60%,#22c55e 100%);padding:1.6rem 1.5rem;position:relative;overflow:hidden;border:2px solid rgba(255,220,100,0.3)'>
-  <div style='position:absolute;top:-30px;right:-30px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.07);pointer-events:none'></div>
-  <div style='position:absolute;bottom:-20px;left:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.05);pointer-events:none'></div>
-  <div style='position:relative;z-index:2;max-width:640px;margin:0 auto'>
-    <div style='display:flex;align-items:center;gap:12px;margin-bottom:8px'>
-      <span style='display:inline-flex;flex-direction:column;align-items:center;animation:donCatBody 1.2s ease-in-out infinite;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.3));position:relative;flex-shrink:0'>
-        <span style='font-size:34px;position:relative;display:inline-block'>
-          🐱
-          <span style='position:absolute;top:-10px;right:-20px;font-size:18px;display:inline-block;transform-origin:bottom center;animation:donCoin 0.7s ease-in-out infinite;transform:scaleX(-1)'>🤚</span>
-        </span>
-      </span>
-      <h4 id='footer-don-title' style='font-family:Playfair Display,serif;font-size:18px;font-weight:700;color:#FFE066;margin:0;text-shadow:0 2px 6px rgba(0,0,0,0.35);letter-spacing:0.3px'>Apoya esta guía</h4>
-    </div>
-    <p id='footer-don-sub' style='font-size:13px;color:rgba(255,255,255,0.92);margin:0 0 12px;line-height:1.5;text-align:center'>Proyecto gratuito y sin publicidad. Tu apoyo nos permite seguir creciendo.</p>
-    <div style='width:80px;height:3px;background:rgba(255,220,100,0.7);border-radius:2px;margin:0 auto 12px'></div>
+<div style='background:linear-gradient(135deg,#0F6E56 0%,#1D9E75 40%,#1a3a5c 80%,#0e2038 100%);padding:1.75rem 2rem;position:relative;overflow:hidden'>
+  <!-- Rejilla sutil de fondo -->
+  <div style='position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none'></div>
+  <!-- Círculos decorativos -->
+  <div style='position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.05);pointer-events:none'></div>
+  <div style='position:absolute;bottom:-30px;left:10%;width:120px;height:120px;border-radius:50%;background:rgba(110,231,183,0.08);pointer-events:none'></div>
+  <div style='position:relative;z-index:2;max-width:640px;margin:0 auto;text-align:center'>
+    <div style='font-size:36px;margin-bottom:10px;filter:drop-shadow(0 3px 8px rgba(0,0,0,0.4))'>🐚</div>
+    <div style='font-size:10px;font-weight:600;color:rgba(255,220,100,0.6);letter-spacing:3px;text-transform:uppercase;margin-bottom:6px'>Guía gratuita y sin publicidad</div>
+    <h4 id='footer-don-title' style='font-family:Playfair Display,serif;font-size:20px;font-weight:600;color:#FFE066;margin:0 0 8px;letter-spacing:0.2px;line-height:1.2'>Apoya esta guía</h4>
+    <p id='footer-don-sub' style='font-size:13px;color:rgba(255,255,255,0.75);margin:0 0 16px;line-height:1.6;max-width:380px;margin-left:auto;margin-right:auto'>Tu apoyo nos permite seguir creciendo y mantener vivo el Camino digital.</p>
     <div style='display:flex;gap:8px;flex-wrap:wrap;justify-content:center'>
-      <button onclick='abrirBizum()' style='display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.2);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:8px 16px;cursor:pointer;color:#fff;font-size:13px;font-weight:600;font-family:DM Sans,sans-serif;transition:background 0.2s'>📱 Bizum</button>
-      <a href='https://paypal.me/GuiaCompostelana' target='_blank' style='display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.2);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:8px 16px;color:#fff;font-size:13px;font-weight:600;font-family:DM Sans,sans-serif;text-decoration:none'>💳 PayPal</a>
-      <button onclick='abrirCripto()' style='display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.2);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:8px 16px;cursor:pointer;color:#fff;font-size:13px;font-weight:600;font-family:DM Sans,sans-serif;transition:background 0.2s'>&#8383; Cripto</button>
-      <a href='https://ko-fi.com/guiacompostelana' target='_blank' style='display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.2);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.4);border-radius:24px;padding:8px 16px;color:#fff;font-size:13px;font-weight:600;font-family:DM Sans,sans-serif;text-decoration:none'>&#9749; Ko-fi</a>
+      <button onclick='abrirBizum()' style='display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:24px;padding:8px 18px;cursor:pointer;color:#fff;font-size:13px;font-weight:500;font-family:DM Sans,sans-serif;transition:background 0.2s;backdrop-filter:blur(4px)'>📱 Bizum</button>
+      <a href='https://paypal.me/GuiaCompostelana' target='_blank' style='display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:24px;padding:8px 18px;color:#fff;font-size:13px;font-weight:500;font-family:DM Sans,sans-serif;text-decoration:none;backdrop-filter:blur(4px)'>💳 PayPal</a>
+      <button onclick='abrirCripto()' style='display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:24px;padding:8px 18px;cursor:pointer;color:#fff;font-size:13px;font-weight:500;font-family:DM Sans,sans-serif;transition:background 0.2s;backdrop-filter:blur(4px)'>&#8383; Cripto</button>
+      <a href='https://ko-fi.com/guiacompostelana' target='_blank' style='display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:24px;padding:8px 18px;color:#fff;font-size:13px;font-weight:500;font-family:DM Sans,sans-serif;text-decoration:none;backdrop-filter:blur(4px)'>&#9749; Ko-fi</a>
     </div>
   </div>
 </div>
@@ -7990,7 +7996,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v662';
+var _APP_VERSION = 'v666';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -8847,6 +8853,8 @@ function _renderAlbumPanel() {
   });
 }
 
+var _OCA_POSICIONES = [null,[6,0],[6,1],[6,2],[6,3],[6,4],[6,5],[6,6],[6,7],[6,8],[5,8],[4,8],[3,8],[2,8],[1,8],[0,8],[0,7],[0,6],[0,5],[0,4],[0,3],[0,2],[0,1],[0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[5,1],[5,2],[5,3],[5,4],[5,5],[5,6],[5,7],[4,7],[3,7],[2,7],[1,7],[1,6],[1,5],[1,4],[1,3],[1,2],[1,1],[2,1],[3,1],[4,1],[4,2],[4,3],[4,4],[4,5],[4,6],[3,6],[2,6],[2,5],[2,4],[2,3],[2,2],[3,2],[3,3],[3,4],[3,5]];
+
 function _renderTableroOca() {
   var tableroGrid = document.getElementById('ap-tablero-oca');
   var tableroVacio = document.getElementById('ap-tablero-vacio');
@@ -8859,46 +8867,67 @@ function _renderTableroOca() {
     cromos.forEach(function(item) { conteo[item.num] = (conteo[item.num] || 0) + 1; });
 
     var total = Object.keys(conteo).length;
-    var _tTab = T[idiomaActual]||T.es; if (contador) contador.textContent = total > 0 ? total+' '+(_tTab.coleccionContador||'de 63 casillas')+' · '+cromos.length+' cromo'+(cromos.length!==1?'s':'') : (_tTab.coleccionVacio||'Visita lugares para obtener cromos');
+    var _tTab = T[idiomaActual]||T.es;
+    if (contador) contador.textContent = total > 0
+      ? total+' '+(_tTab.coleccionContador||'de 63 casillas')+' · '+cromos.length+' cromo'+(cromos.length!==1?'s':'')
+      : (_tTab.coleccionVacio||'Visita lugares para obtener cromos');
     if (tableroVacio) tableroVacio.style.display = cromos.length > 0 ? 'none' : 'block';
 
+    // Grid 9 cols x 7 rows en espiral
+    tableroGrid.style.cssText = 'display:grid;grid-template-columns:repeat(9,1fr);grid-template-rows:repeat(7,1fr);gap:3px;width:100%;aspect-ratio:9/7';
+
+    // Crear 63 celdas vacías y asignar por posición
+    var cells = [];
+    for (var r = 0; r < 7; r++) {
+      for (var col = 0; col < 9; col++) {
+        var ph = document.createElement('div');
+        cells.push(ph);
+        tableroGrid.appendChild(ph);
+      }
+    }
+
     var tablero = window._OCA_TABLERO || {};
+    var colores = {oca:'rgba(110,231,183,0.6)',puente:'rgba(96,165,250,0.6)',posada:'rgba(251,191,36,0.6)',dados:'rgba(147,197,253,0.6)',laberinto:'rgba(167,139,250,0.6)',carcel:'rgba(252,165,165,0.6)',muerte:'rgba(220,38,38,0.8)'};
+
     for (var i = 1; i <= 63; i++) {
-      var casilla = tablero[i] || { emoji: '🐚', tipo: 'normal' };
+      var pos = _OCA_POSICIONES[i];
+      if (!pos) continue;
+      var cellIdx = pos[0] * 9 + pos[1];
+      var cell = cells[cellIdx];
+      var casilla = tablero[i] || { emoji: '🐚', tipo: 'normal', latin: '' };
       var cantidad = conteo[i] || 0;
       var tiene = cantidad > 0;
 
-      var cell = document.createElement('div');
-      cell.style.cssText = 'position:relative;aspect-ratio:1;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;'
+      cell.style.cssText = 'position:relative;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;'
         + (tiene ? 'background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);'
                  : 'background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);');
 
+      // Casilla 63 centro
+      if (i === 63) {
+        cell.style.background = tiene ? 'rgba(245,200,0,0.25)' : 'rgba(245,200,0,0.06)';
+        cell.style.borderColor = tiene ? 'rgba(245,200,0,0.8)' : 'rgba(245,200,0,0.2)';
+      } else if (tiene && casilla.tipo !== 'normal') {
+        cell.style.borderColor = colores[casilla.tipo] || 'rgba(255,255,255,0.25)';
+      }
+
+      if (casilla.latin) cell.title = casilla.latin + (casilla.trad ? ' · ' + casilla.trad : '');
+
       var emojiEl = document.createElement('div');
-      emojiEl.style.cssText = 'font-size:' + (tiene ? '16px' : '11px') + ';line-height:1;' + (tiene ? '' : 'opacity:0.2');
+      emojiEl.style.cssText = 'font-size:' + (tiene ? '14px' : '10px') + ';line-height:1;' + (tiene ? '' : 'opacity:0.2');
       emojiEl.textContent = casilla.emoji;
       cell.appendChild(emojiEl);
 
       var numEl = document.createElement('div');
-      numEl.style.cssText = 'font-size:8px;font-weight:700;margin-top:1px;' + (tiene ? 'color:rgba(255,255,255,0.6)' : 'color:rgba(255,255,255,0.15)');
+      numEl.style.cssText = 'font-size:7px;font-weight:700;margin-top:1px;' + (tiene ? 'color:rgba(255,255,255,0.55)' : 'color:rgba(255,255,255,0.12)');
       numEl.textContent = i;
       cell.appendChild(numEl);
 
       if (cantidad > 1) {
         var badge = document.createElement('div');
-        badge.style.cssText = 'position:absolute;top:2px;right:2px;background:#1D9E75;color:#fff;font-size:7px;font-weight:700;border-radius:8px;padding:1px 4px;line-height:1.4';
+        badge.style.cssText = 'position:absolute;top:1px;right:1px;background:#1D9E75;color:#fff;font-size:6px;font-weight:700;border-radius:6px;padding:1px 3px;line-height:1.4';
         badge.textContent = '×' + cantidad;
         cell.appendChild(badge);
       }
-
-      if (tiene && casilla.tipo !== 'normal' && casilla.tipo !== 'santiago') {
-        var colores = {oca:'rgba(110,231,183,0.6)',puente:'rgba(96,165,250,0.6)',posada:'rgba(251,191,36,0.6)',dados:'rgba(147,197,253,0.6)',laberinto:'rgba(167,139,250,0.6)',carcel:'rgba(252,165,165,0.6)',muerte:'rgba(220,38,38,0.8)'};
-        cell.style.borderColor = colores[casilla.tipo] || 'rgba(255,255,255,0.25)';
-      }
-      if (i === 63 && tiene) {
-        cell.style.background = 'rgba(245,200,0,0.2)';
-        cell.style.borderColor = 'rgba(245,200,0,0.7)';
-      }
-      tableroGrid.appendChild(cell);
     }
   });
 }
@@ -8965,6 +8994,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v662</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v666</div>
 </body>
 </html>
