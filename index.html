@@ -914,11 +914,14 @@
 <!-- PANEL MI ÁLBUM -->
 <div id='album-panel' class='map-slide-panel' style='background:linear-gradient(160deg,#1a0e2e 0%,#2d1854 40%,#3b1f6a 70%,#1e1040 100%);font-family:DM Sans,sans-serif;overflow-y:auto;touch-action:pan-y'>
   <div style='position:absolute;inset:0;padding:0.75rem 1rem;display:flex;flex-direction:column;gap:0.75rem;box-sizing:border-box;overflow-y:auto'>
-    <button id='album-panel-volver' onclick='cerrarAlbumPanel()' style='display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:7px 14px;color:rgba(255,255,255,0.85);font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;width:fit-content;flex-shrink:0'>← Volver</button>
+    <div style='display:flex;align-items:center;justify-content:space-between;flex-shrink:0'>
+      <button id='album-panel-volver' onclick='cerrarAlbumPanel()' style='display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:7px 14px;color:rgba(255,255,255,0.85);font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif'>← Volver</button>
+      <button onclick='abrirTableroDrawer()' style='display:flex;align-items:center;gap:5px;background:rgba(245,200,0,0.12);border:1px solid rgba(245,200,0,0.35);border-radius:20px;padding:6px 14px;color:#F5C800;font-size:12px;font-weight:500;cursor:pointer;font-family:Playfair Display,serif;letter-spacing:0.3px'>🐚 Colección</button>
+    </div>
     <!-- Título -->
     <div style='flex-shrink:0'>
       <div style='font-size:18px;font-weight:700;color:#fff;margin-bottom:2px'>🏅 Ranking del Peregrino</div>
-      <div id='album-panel-contador' style='font-size:12px;color:rgba(255,255,255,0.45)'>Visita lugares para desbloquear cromos</div>
+      <div id='album-panel-contador' style='font-size:12px;color:rgba(255,255,255,0.45)'>Visita lugares del Camino para avanzar en el ranking</div>
     </div>
     <!-- Tarjeta ranking -->
     <div style='flex-shrink:0;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:1rem'>
@@ -947,15 +950,27 @@
       <div style='font-size:10px;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px'>Logros</div>
       <div id='ap-rank-logros' style='display:flex;flex-wrap:wrap;gap:6px'></div>
     </div>
-    <!-- Cromos -->
+
+  </div>
+</div>
+
+<!-- PANEL TABLERO DE LA OCA -->
+<div id='tablero-drawer' class='map-slide-panel' style='background:linear-gradient(160deg,#1a0e2e 0%,#2d1854 40%,#3b1f6a 70%,#1e1040 100%);font-family:DM Sans,sans-serif;overflow-y:auto;touch-action:pan-y'>
+  <div style='position:absolute;inset:0;padding:0.75rem 1rem;display:flex;flex-direction:column;gap:0.75rem;box-sizing:border-box;overflow-y:auto'>
+    <div style='display:flex;align-items:center;justify-content:space-between;flex-shrink:0'>
+      <button id='tablero-panel-volver' onclick='cerrarTableroDrawer()' style='display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:7px 14px;color:rgba(255,255,255,0.85);font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif'>← Volver</button>
+    </div>
     <div style='flex-shrink:0'>
-      <div style='font-size:10px;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px'>Cromos desbloqueados</div>
-      <div id='ap-album-grid' style='display:grid;grid-template-columns:repeat(3,1fr);gap:8px'></div>
-      <div id='ap-album-vacio' style='display:none;text-align:center;padding:2rem 1rem'>
-        <div style='font-size:36px;margin-bottom:10px'>🐚</div>
-        <div id='ap-album-vacio-txt' style='font-size:13px;color:rgba(255,255,255,0.7);font-weight:600;margin-bottom:6px'>Tu álbum está vacío</div>
-        <div style='font-size:11px;color:rgba(255,255,255,0.4);line-height:1.6'>Activa el seguimiento GPS y acércate a los puntos del Camino.</div>
+      <div style='flex-shrink:0'>
+        <div style='font-size:10px;font-weight:600;color:rgba(245,200,0,0.5);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:4px'>Juego de la Oca Jacobeo</div>
+        <div style='font-family:Playfair Display,serif;font-size:22px;font-weight:600;color:#F5C800;line-height:1.15;margin-bottom:2px'>🐚 Colección del Peregrino</div>
       </div>
+      <div id='tablero-contador' style='font-size:12px;color:rgba(255,255,255,0.45)'>Visita lugares para obtener cromos</div>
+    </div>
+    <div id='ap-tablero-oca' style='display:grid;grid-template-columns:repeat(7,1fr);gap:3px;flex-shrink:0'></div>
+    <div id='ap-tablero-vacio' style='display:none;text-align:center;padding:1.5rem 1rem;flex-shrink:0'>
+      <div style='font-size:36px;margin-bottom:8px'>🎴</div>
+      <div style='font-size:13px;color:rgba(255,255,255,0.5)'>Visita lugares del Camino para obtener cromos</div>
     </div>
   </div>
 </div>
@@ -2301,7 +2316,7 @@ function actualizarBtnPrincipal() {
 
 var _TODOS_PANELES = [
   'brujula-drawer','sos-drawer','meteo-drawer','historia-drawer',
-  'poi-drawer','donaciones-drawer','comousar-drawer','contacto-drawer','album-drawer','album-panel','modal-add-poi'
+  'poi-drawer','donaciones-drawer','comousar-drawer','contacto-drawer','album-drawer','album-panel','tablero-drawer','modal-add-poi'
 ];
 function cerrarTodosLosPaneles() {
   var mapSection = document.querySelector('#map-block .map-section');
@@ -2376,6 +2391,14 @@ function abrirAlbumPanel(origen) {
     }
   }
   _intentarRender();
+}
+function abrirTableroDrawer() {
+  _abrirSlide('tablero-drawer');
+  _renderTableroOca();
+}
+function cerrarTableroDrawer() {
+  _cerrarSlide('tablero-drawer');
+  setTimeout(function() { _abrirSlide('album-panel'); _renderAlbumPanel(); }, 50);
 }
 function cerrarAlbumPanel() {
   _cerrarSlide('album-panel');
@@ -4747,30 +4770,213 @@ function _cromoSiguiente() {
   var poi = _cromoCola.shift();
   _mostrarUnCromo(poi, function(){ setTimeout(_cromoSiguiente, 400); });
 }
-function mostrarToastCromo(poi) {
-  _cromoCola.push(poi);
+function mostrarToastCromo(poi, numCromo, tipoCromo, extras, doble) {
+  // Compatibilidad con llamadas antiguas
+  if (typeof numCromo === 'undefined') { _cromoCola.push({poi:poi}); if (!_cromoMostrando) _cromoSiguiente(); return; }
+  _cromoCola.push({poi:poi, num:numCromo, tipo:tipoCromo, extras:extras||[], doble:!!doble});
   if (!_cromoMostrando) _cromoSiguiente();
 }
-function _mostrarUnCromo(poi, onClose) {
+function _mostrarUnCromo(item, onClose) {
+  var poi = item.poi || item; // compatibilidad
+  var num = item.num;
+  var tipo = item.tipo || 'normal';
+  var extras = item.extras || [];
+  var doble = item.doble;
   var existing = document.getElementById('cromo-celebracion');
   if (existing) existing.remove();
+  var tablero = window._OCA_TABLERO || {};
+  var casilla = tablero[num] || {emoji:'🐚', label:'Casilla '+num, tipo:'normal'};
+  var nombre = (poi.nombre||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+  // Construir contenido según tipo
+  var headerTxt = doble ? '🏨 ¡Doble por la Posada!' : 'Cromo desbloqueado';
+  var cromoInfo = num
+    ? '<div style="display:flex;align-items:center;justify-content:center;gap:10px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:12px 16px;margin-bottom:12px">'
+      + '<span style="font-size:32px">'+casilla.emoji+'</span>'
+      + '<div style="text-align:left"><div style="font-size:11px;color:rgba(255,255,255,0.45);letter-spacing:1.5px;text-transform:uppercase">Casilla '+num+'</div>'
+      + '<div style="font-size:15px;font-weight:700;color:#fff">'+casilla.label+'</div></div>'
+      + '</div>'
+    : '';
+
+  var efectoHtml = '';
+  var botonesHtml = '<div id="cromo-btn-cerrar" style="background:#1D9E75;color:#fff;border:none;border-radius:24px;padding:12px 32px;font-size:15px;font-weight:600;cursor:pointer;display:inline-block;width:100%;box-sizing:border-box">¡Genial!</div>';
+
+  if (tipo === 'oca') {
+    var extCasilla = tablero[extras[0]] || {emoji:'🐚'};
+    efectoHtml = '<div style="font-size:12px;color:#6ee7b7;margin-bottom:12px">🪿 ¡De oca en oca! +1 cromo extra: '+extCasilla.emoji+' #'+extras[0]+'</div>';
+  } else if (tipo === 'puente_menos') {
+    efectoHtml = '<div style="font-size:12px;color:#fca5a5;margin-bottom:12px">🌉 El puente te cobra peaje — perderás 1 cromo</div>';
+    botonesHtml = '<div id="cromo-btn-perder1" style="background:#dc2626;color:#fff;border:none;border-radius:24px;padding:12px 32px;font-size:15px;font-weight:600;cursor:pointer;display:inline-block;width:100%;box-sizing:border-box">Elegir cuál perder</div>';
+  } else if (tipo === 'puente') {
+    var extCasilla2 = tablero[extras[0]] || {emoji:'🐚'};
+    efectoHtml = '<div style="font-size:12px;color:#6ee7b7;margin-bottom:12px">🌉 ¡El puente te favorece! +1 cromo: '+extCasilla2.emoji+' #'+extras[0]+'</div>';
+  } else if (tipo === 'posada') {
+    efectoHtml = '<div style="font-size:12px;color:#fbbf24;margin-bottom:12px">🏨 Descansas en la posada — el próximo lugar te dará doble cromo</div>';
+  } else if (tipo === 'dados') {
+    efectoHtml = '<div style="font-size:12px;color:#93c5fd;margin-bottom:12px">🎲 ¿Pruebas suerte con otro cromo aleatorio?</div>';
+    botonesHtml = '<div style="display:flex;gap:8px">'
+      + '<div id="cromo-btn-guardar" style="flex:1;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:24px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;text-align:center">Guardar #'+num+'</div>'
+      + '<div id="cromo-btn-cambiar" style="flex:1;background:#3b82f6;color:#fff;border:none;border-radius:24px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;text-align:center">Probar suerte</div>'
+      + '</div>';
+  } else if (tipo === 'laberinto' || tipo === 'carcel') {
+    var icon2 = tipo==='laberinto'?'🌀':'⛓️';
+    efectoHtml = '<div style="font-size:12px;color:#fca5a5;margin-bottom:12px">'+icon2+' Pierdes 2 cromos — elige cuáles</div>';
+    botonesHtml = '<div id="cromo-btn-perder2" style="background:#dc2626;color:#fff;border:none;border-radius:24px;padding:12px 32px;font-size:15px;font-weight:600;cursor:pointer;display:inline-block;width:100%;box-sizing:border-box">Elegir cuáles perder</div>';
+  } else if (tipo === 'muerte') {
+    efectoHtml = '<div style="font-size:12px;color:#fca5a5;margin-bottom:12px">💀 La Muerte se lleva todos tus cromos...</div>';
+    botonesHtml = '<div id="cromo-btn-muerte" style="background:#7f1d1d;color:#fff;border:none;border-radius:24px;padding:12px 32px;font-size:15px;font-weight:600;cursor:pointer;display:inline-block;width:100%;box-sizing:border-box">Aceptar destino</div>';
+  }
+
   var overlay = document.createElement('div');
   overlay.id = 'cromo-celebracion';
-  overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:99999;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;font-family:DM Sans,sans-serif';
+  overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:99999;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;font-family:DM Sans,sans-serif;padding:1rem;box-sizing:border-box';
   var box = document.createElement('div');
-  box.style.cssText = 'background:linear-gradient(160deg,#1a0e2e,#3b1f6a);border-radius:20px;padding:2rem;max-width:85vw;width:280px;text-align:center;border:1px solid rgba(255,255,255,0.2)';
-  var nombre = (poi.nombre||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  var subtitulo = (poi.subtitulo||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  box.innerHTML = '<div style="font-size:14px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.5);margin-bottom:12px">Cromo desbloqueado</div>'
-    +'<div style="font-size:22px;font-weight:700;color:#fff;margin-bottom:8px">'+nombre+'</div>'
-    +'<div style="font-size:14px;color:rgba(255,255,255,0.6);font-style:italic;margin-bottom:24px">'+subtitulo+'</div>'
-    +'<div id="cromo-btn-cerrar" style="background:#1D9E75;color:#fff;border:none;border-radius:24px;padding:12px 32px;font-size:15px;font-weight:600;cursor:pointer;display:inline-block">Genial!</div>';
+  box.style.cssText = 'background:linear-gradient(160deg,#1a0e2e,#3b1f6a);border-radius:20px;padding:1.5rem;max-width:85vw;width:300px;text-align:center;border:1px solid rgba(255,255,255,0.2)';
+  box.innerHTML =
+    '<div style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.4);margin-bottom:10px">'+headerTxt+'</div>'
+    +'<div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:10px">'+nombre+'</div>'
+    +cromoInfo+efectoHtml+botonesHtml;
   overlay.appendChild(box);
   document.body.appendChild(overlay);
-  function cerrar(){ if(document.getElementById('cromo-celebracion')) document.getElementById('cromo-celebracion').remove(); if(onClose) onClose(); }
-  overlay.querySelector('#cromo-btn-cerrar').addEventListener('click', cerrar);
+
+  function cerrar(){ var el=document.getElementById('cromo-celebracion'); if(el) el.remove(); if(onClose) onClose(); }
+
+  var btnCerrar = box.querySelector('#cromo-btn-cerrar');
+  if (btnCerrar) btnCerrar.addEventListener('click', cerrar);
+
+  var btnMuerte = box.querySelector('#cromo-btn-muerte');
+  if (btnMuerte) btnMuerte.addEventListener('click', function(){
+    window._ocaEliminarTodos(function(){ cerrar(); mostrarToast('💀 Todos tus cromos perdidos'); });
+  });
+
+  var btnPerder1 = box.querySelector('#cromo-btn-perder1');
+  if (btnPerder1) btnPerder1.addEventListener('click', function(){ cerrar(); _ocaMostrarSelectorPerder(1); });
+
+  var btnPerder2 = box.querySelector('#cromo-btn-perder2');
+  if (btnPerder2) btnPerder2.addEventListener('click', function(){ cerrar(); _ocaMostrarSelectorPerder(2); });
+
+  var btnGuardar = box.querySelector('#cromo-btn-guardar');
+  if (btnGuardar) btnGuardar.addEventListener('click', cerrar);
+
+  var btnCambiar = box.querySelector('#cromo-btn-cambiar');
+  if (btnCambiar) btnCambiar.addEventListener('click', function(){
+    // Eliminar el cromo actual y dar uno nuevo
+    window._ocaGetCromos(function(cromos){
+      // Encontrar el último cromo con ese número
+      var ultimo = null;
+      for (var i=cromos.length-1; i>=0; i--){ if(cromos[i].num===num){ ultimo=i+1; break; } } // IDB autoincrement empieza en 1
+      // Obtener IDs reales
+      var tx = window._ocaDB ? null : null; // usamos _ocaGetCromos de nuevo con IDs
+      _abrirDB(function(db){
+        var tx2 = db.transaction('cromos','readwrite');
+        var store = tx2.objectStore('cromos');
+        var allReq = store.getAllKeys();
+        allReq.onsuccess = function(){
+          var keys = allReq.result;
+          // Encontrar la key del último cromo con num
+          var keyDel = null;
+          var getAll = store.getAll();
+          getAll.onsuccess = function(){
+            var items = getAll.result;
+            for(var j=items.length-1;j>=0;j--){
+              if(items[j].num===num){ keyDel=keys[j]; break; }
+            }
+            if(keyDel!==null){
+              store.delete(keyDel);
+            }
+            var nuevoNum = Math.floor(Math.random()*62)+1;
+            store.add({num:nuevoNum, poiId:poi.id||'', fecha:Date.now()});
+            tx2.oncomplete = function(){
+              var nCasilla = (window._OCA_TABLERO||{})[nuevoNum]||{emoji:'🐚',label:'Casilla '+nuevoNum};
+              cerrar();
+              mostrarToast('🎲 Nuevo cromo: '+nCasilla.emoji+' #'+nuevoNum+' '+nCasilla.label);
+            };
+          };
+        };
+      });
+    });
+  });
+
   overlay.addEventListener('click', function(e){ if(e.target===overlay) cerrar(); });
-  // Sin timeout — solo se cierra al pulsar
+}
+
+// Selector de cromos para perder N
+function _ocaMostrarSelectorPerder(n) {
+  window._ocaGetCromos(function(cromos){
+    if (cromos.length === 0) { mostrarToast('No tienes cromos que perder'); return; }
+    var overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;font-family:DM Sans,sans-serif;padding:1rem;box-sizing:border-box';
+    var tablero = window._OCA_TABLERO || {};
+    // Contar cromos por número
+    var conteo = {};
+    var keysPorNum = {};
+    cromos.forEach(function(item, idx){
+      var num = item.num;
+      conteo[num] = (conteo[num]||0)+1;
+      if (!keysPorNum[num]) keysPorNum[num] = [];
+      keysPorNum[num].push(idx);
+    });
+    var nums = Object.keys(conteo).map(Number).sort(function(a,b){return b-a;});
+    var seleccionados = [];
+    var html = '<div style="background:linear-gradient(160deg,#1a0e2e,#3b1f6a);border-radius:20px;padding:1.25rem;max-width:90vw;width:320px;border:1px solid rgba(255,255,255,0.2)">'
+      + '<div style="font-size:12px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px">Elige '+n+' cromo'+(n>1?'s':'')+' para perder</div>'
+      + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;max-height:50vh;overflow-y:auto;margin-bottom:12px" id="sel-cromos-grid">';
+    nums.forEach(function(num){
+      var cas = tablero[num]||{emoji:'🐚',label:'Casilla '+num};
+      var rep = conteo[num]>1 ? '<span style="font-size:9px;background:#1D9E75;color:#fff;border-radius:10px;padding:1px 5px;margin-left:4px">×'+conteo[num]+'</span>' : '';
+      html += '<div class="sel-cromo-item" data-num="'+num+'" style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:7px 10px;cursor:pointer;transition:all 0.15s">'
+        + '<span style="font-size:18px">'+cas.emoji+'</span>'
+        + '<div style="flex:1"><div style="font-size:10px;color:rgba(255,255,255,0.4)">#'+num+'</div>'
+        + '<div style="font-size:11px;font-weight:600;color:#fff">'+cas.label+'</div></div>'
+        + rep+'</div>';
+    });
+    html += '</div><button id="sel-confirmar" disabled style="width:100%;background:#6b7280;color:#fff;border:none;border-radius:24px;padding:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">Confirmar</button></div>';
+    overlay.innerHTML = html;
+    document.body.appendChild(overlay);
+    var confirmBtn = overlay.querySelector('#sel-confirmar');
+    overlay.querySelectorAll('.sel-cromo-item').forEach(function(item){
+      item.addEventListener('click', function(){
+        var num = parseInt(this.getAttribute('data-num'));
+        var idx = seleccionados.indexOf(num);
+        if (idx >= 0){
+          seleccionados.splice(idx,1);
+          this.style.background='rgba(255,255,255,0.06)';
+          this.style.border='1px solid rgba(255,255,255,0.12)';
+        } else if (seleccionados.length < n){
+          seleccionados.push(num);
+          this.style.background='rgba(220,38,38,0.3)';
+          this.style.border='1.5px solid rgba(252,165,165,0.7)';
+        }
+        confirmBtn.disabled = seleccionados.length < Math.min(n, nums.length);
+        confirmBtn.style.background = confirmBtn.disabled ? '#6b7280' : '#dc2626';
+      });
+    });
+    confirmBtn.addEventListener('click', function(){
+      var pendiente = seleccionados.slice();
+      function _eliminarSiguiente(){
+        if (pendiente.length === 0){ overlay.remove(); mostrarToast('🗑️ '+n+' cromo'+(n>1?'s':'')+' perdido'+(n>1?'s':'')); return; }
+        var numDel = pendiente.shift();
+        // Eliminar una instancia de ese número
+        _abrirDB(function(db){
+          var tx = db.transaction('cromos','readwrite');
+          var store = tx.objectStore('cromos');
+          var allK = store.getAllKeys();
+          allK.onsuccess = function(){
+            var keys = allK.result;
+            var allV = store.getAll();
+            allV.onsuccess = function(){
+              var vals = allV.result;
+              for(var k=0;k<vals.length;k++){
+                if(vals[k].num===numDel){ store.delete(keys[k]); break; }
+              }
+              tx.oncomplete = function(){ _eliminarSiguiente(); };
+            };
+          };
+        });
+      }
+      _eliminarSiguiente();
+    });
+  });
 }
 
 function mostrarToast(msg) {
@@ -7332,6 +7538,7 @@ function cambiarIdioma(lang){
   // Botones Volver (todos los drawers)
   var volverTxt = t.btnVolver||'← Volver';
   ['brujula-panel-volver','sos-panel-volver','meteo-panel-volver','historia-panel-volver-top',
+   'tablero-panel-volver',
    'historia-panel-volver-bot','poi-panel-volver','don-panel-volver','addpoi-panel-volver',
    'comousar-panel-volver-top','comousar-panel-volver-bot','contacto-panel-volver',
    'contacto-panel-volver-bot','album-panel-volver','album-drawer-volver'
@@ -7718,7 +7925,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v649';
+var _APP_VERSION = 'v658';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -7747,7 +7954,7 @@ if ('serviceWorker' in navigator) {
 // ============================================================
 (function() {
   var DB_NAME = 'album-peregrino';
-  var DB_VER  = 1;
+  var DB_VER  = 2;
   var _db = null;
 
   function _abrirDB(cb) {
@@ -7764,9 +7971,25 @@ if ('serviceWorker' in navigator) {
       if (!db.objectStoreNames.contains('logros')) {
         db.createObjectStore('logros', { keyPath: 'badgeId' });
       }
+      try {
+        if (!db.objectStoreNames.contains('cromos')) {
+          db.createObjectStore('cromos', { autoIncrement: true });
+        }
+      } catch(e) { console.warn('AlbumDB: no se pudo crear store cromos', e); }
+      try {
+        if (!db.objectStoreNames.contains('estado')) {
+          db.createObjectStore('estado', { keyPath: 'key' });
+        }
+      } catch(e) { console.warn('AlbumDB: no se pudo crear store estado', e); }
     };
-    req.onsuccess = function(e) { _db = e.target.result; cb(_db); };
-    req.onerror   = function()  { console.warn('AlbumDB: error al abrir'); };
+    req.onsuccess = function(e) {
+      _db = e.target.result;
+      // Resetear _db si otra pestaña cierra la BD
+      _db.onversionchange = function() { _db.close(); _db = null; };
+      cb(_db);
+    };
+    req.onerror   = function(e) { console.warn('AlbumDB: error al abrir', e.target.error); };
+    req.onblocked = function()  { console.warn('AlbumDB: bloqueada por otra pestaña'); };
   }
 
   // Guardar visita
@@ -7788,12 +8011,234 @@ if ('serviceWorker' in navigator) {
           // Punto creado por el usuario — toast neutro, sin logros
           mostrarToast('📌 Punto añadido a tu álbum');
         } else {
-          // Visita GPS — toast de cromo y comprobar logros
-          mostrarToastCromo(poi);
+          // Visita GPS — sistema de cromos
           _albumComprobarLogros();
+          if (window._ocaGenerarNumero && window._ocaProcesarCromo) {
+            // Comprobar posada pendiente
+            window._ocaGetPosada(function(posada) {
+              var veces = posada ? 2 : 1;
+              if (posada) window._ocaSetPosada(false, function(){});
+              function _darCromo(n) {
+                var num = window._ocaGenerarNumero(poi.id);
+                window._ocaProcesarCromo(num, poi.id, function(numFinal, tipo, extras) {
+                  if (n === veces) {
+                    // Último cromo — mostrar modal
+                    mostrarToastCromo(poi, numFinal, tipo, extras, posada && veces===2);
+                  } else {
+                    _darCromo(n+1);
+                  }
+                });
+              }
+              _darCromo(1);
+            });
+          } else {
+            mostrarToastCromo(poi);
+          }
         }
       };
     });
+  };
+
+
+  // ============================================================
+  // SISTEMA DE CROMOS — Juego de la Oca Jacobeo
+  // ============================================================
+
+  // Definición de las 63 casillas
+  var _OCA_TABLERO = (function() {
+    var t = {};
+    var ocas     = [5,9,14,18,23,27,32,36,41,45,50,54,59];
+    var puentes  = [6,12];
+    var posadas  = [19,31];
+    var dados    = [26,53];
+    for (var i=1; i<=63; i++) {
+      if (i===63)              t[i]={tipo:'santiago', emoji:'🏆', label:'Santiago'};
+      else if (i===58)         t[i]={tipo:'muerte',   emoji:'💀', label:'La Muerte'};
+      else if (i===52)         t[i]={tipo:'carcel',   emoji:'⛓️',  label:'La Cárcel'};
+      else if (i===42)         t[i]={tipo:'laberinto',emoji:'🌀', label:'El Laberinto'};
+      else if (dados.indexOf(i)>=0)   t[i]={tipo:'dados',   emoji:'🎲', label:'Los Dados'};
+      else if (posadas.indexOf(i)>=0) t[i]={tipo:'posada',  emoji:'🏨', label:'La Posada'};
+      else if (puentes.indexOf(i)>=0) t[i]={tipo:'puente',  emoji:'🌉', label:'El Puente'};
+      else if (ocas.indexOf(i)>=0)    t[i]={tipo:'oca',     emoji:'🪿', label:'La Oca'};
+      else                            t[i]={tipo:'normal',  emoji:'🐚', label:'Casilla '+i};
+    }
+    return t;
+  })();
+
+  // IDs de POIs templarios/masónicos
+  var _POI_TEMPLARIOS = ['bouzas','graffiti-coia','cruz-pate-coia','iglesia-coia','campo-torre-coia',
+    'rua-real','casa-ceta','puente-abeleira','hospital-magdalena','concatedral','olivo','torre-penso',
+    'puente-balaidos','torre-lavandeira','sardoma','graffiti-laxe','bembrive','valadares',
+    'fortaleza-monte-alba','cuadrado-magico-alba','tau-monte-alba','san-xoan-freixo','teis',
+    'torre-padin','lavadores','tau-matama','san-simon','redondela-villa','redondela-santiago',
+    'soutomaior','castillo-entenca-torono','castello-torono-oia','colegiata-baiona',
+    'santiago-parada','guizan','eunate','iglesia-crucifijo','terradillos-templarios',
+    'castillo-ponferrada'];
+
+  // IDs de POIs de puentes
+  var _POI_PUENTES = ['puente-abeleira','puente-balaidos','ponte-sampaio','peregrina-pontevedra',
+    'santa-maria-pontevedra','santa-cristina-ramallosa','rebordans-tui','albergue-pontevedra',
+    'albergue-pontecesures','arcade-ostra','iglesia-crucifijo'];
+
+  // IDs de POIs de Santiago (único que da cromo 63)
+  var _POI_SANTIAGO = ['catedral-santiago','albergue-san-lazaro'];
+
+  // IDs de albergues
+  var _POI_ALBERGUES = [];
+  (function(){
+    if (typeof PUNTOS !== 'undefined') {
+      PUNTOS.forEach(function(p){ if(p.categoria==='albergue') _POI_ALBERGUES.push(p.id); });
+    }
+  })();
+
+  // Generar número de cromo aleatorio según contexto del POI
+  window._ocaGenerarNumero = function(poiId) {
+    var r = Math.random();
+    // Santiago → solo cromo 63
+    if (_POI_SANTIAGO.indexOf(poiId) >= 0) return 63;
+    // Templario → puede salir Oca (prob 25%) o normal
+    if (_POI_TEMPLARIOS.indexOf(poiId) >= 0 && r < 0.25) {
+      var ocas = [5,9,14,18,23,27,32,36,41,45,50,54,59];
+      return ocas[Math.floor(Math.random()*ocas.length)];
+    }
+    // Puente → prob 40% de casilla puente
+    if (_POI_PUENTES.indexOf(poiId) >= 0 && r < 0.40) {
+      return Math.random() < 0.5 ? 6 : 12;
+    }
+    // Albergue → prob 35% de casilla posada
+    if (_POI_ALBERGUES.indexOf(poiId) >= 0 && r < 0.35) {
+      return Math.random() < 0.5 ? 19 : 31;
+    }
+    // Normal → aleatorio 1-62 (63 solo en Santiago)
+    return Math.floor(Math.random() * 62) + 1;
+  };
+
+  // Guardar cromo en IndexedDB (store 'cromos': {num, fecha, poiId})
+  window._ocaGuardarCromo = function(num, poiId, cb) {
+    _abrirDB(function(db) {
+      if (!db.objectStoreNames.contains('cromos')) { if (cb) cb(); return; }
+      try {
+        var tx = db.transaction('cromos', 'readwrite');
+        tx.objectStore('cromos').add({ num: num, poiId: poiId, fecha: Date.now() });
+        tx.oncomplete = function() { if (cb) cb(); };
+        tx.onerror = function() { if (cb) cb(); };
+      } catch(e) { if (cb) cb(); }
+    });
+  };
+
+  // Leer todos los cromos
+  window._ocaGetCromos = function(cb) {
+    _abrirDB(function(db) {
+      if (!db.objectStoreNames.contains('cromos')) { cb([]); return; }
+      try {
+        var tx = db.transaction('cromos', 'readonly');
+        var req = tx.objectStore('cromos').getAll();
+        req.onsuccess = function() { cb(req.result || []); };
+        req.onerror = function() { cb([]); };
+      } catch(e) { cb([]); }
+    });
+  };
+
+  // Eliminar un cromo por su id autoincremental (para pérdidas)
+  window._ocaEliminarCromo = function(id, cb) {
+    _abrirDB(function(db) {
+      var tx = db.transaction('cromos', 'readwrite');
+      tx.objectStore('cromos').delete(id);
+      tx.oncomplete = function() { if (cb) cb(); };
+    });
+  };
+
+  // Eliminar todos los cromos (muerte)
+  window._ocaEliminarTodos = function(cb) {
+    _abrirDB(function(db) {
+      var tx = db.transaction('cromos', 'readwrite');
+      tx.objectStore('cromos').clear();
+      tx.oncomplete = function() { if (cb) cb(); };
+    });
+  };
+
+  // Estado posada pendiente
+  window._ocaGetPosada = function(cb) {
+    _abrirDB(function(db) {
+      if (!db.objectStoreNames.contains('estado')) { cb(false); return; }
+      try {
+        var tx = db.transaction('estado', 'readonly');
+        var req = tx.objectStore('estado').get('posadaPendiente');
+        req.onsuccess = function() { cb(!!(req.result && req.result.valor)); };
+        req.onerror = function() { cb(false); };
+      } catch(e) { cb(false); }
+    });
+  };
+  window._ocaSetPosada = function(val, cb) {
+    _abrirDB(function(db) {
+      if (!db.objectStoreNames.contains('estado')) { if (cb) cb(); return; }
+      try {
+        var tx = db.transaction('estado', 'readwrite');
+        tx.objectStore('estado').put({ key: 'posadaPendiente', valor: val });
+        tx.oncomplete = function() { if (cb) cb(); };
+        tx.onerror = function() { if (cb) cb(); };
+      } catch(e) { if (cb) cb(); }
+    });
+  };
+
+  // Procesar cromo obtenido — lógica completa
+  window._ocaProcesarCromo = function(num, poiId, cb) {
+    var casilla = _OCA_TABLERO[num];
+    var tipo = casilla.tipo;
+
+    if (tipo === 'normal' || tipo === 'santiago') {
+      window._ocaGuardarCromo(num, poiId, function() { if (cb) cb(num, tipo, []); });
+
+    } else if (tipo === 'oca') {
+      // Guardar la oca + 1 cromo extra aleatorio
+      var extra = Math.floor(Math.random()*62)+1;
+      window._ocaGuardarCromo(num, poiId, function() {
+        window._ocaGuardarCromo(extra, poiId, function() {
+          if (cb) cb(num, tipo, [extra]);
+        });
+      });
+
+    } else if (tipo === 'puente') {
+      // ±1 cromo aleatorio
+      if (Math.random() < 0.5) {
+        // +1 extra
+        var extra2 = Math.floor(Math.random()*62)+1;
+        window._ocaGuardarCromo(num, poiId, function() {
+          window._ocaGuardarCromo(extra2, poiId, function() {
+            if (cb) cb(num, tipo, [extra2]);
+          });
+        });
+      } else {
+        // Guardar el puente pero disparar pérdida de 1
+        window._ocaGuardarCromo(num, poiId, function() {
+          if (cb) cb(num, tipo+'_menos', []);
+        });
+      }
+
+    } else if (tipo === 'posada') {
+      // Sin cromo ahora, doble en el próximo
+      window._ocaGuardarCromo(num, poiId, function() {
+        window._ocaSetPosada(true, function() {
+          if (cb) cb(num, tipo, []);
+        });
+      });
+
+    } else if (tipo === 'dados') {
+      // Guardar provisional, se decide en el modal
+      window._ocaGuardarCromo(num, poiId, function() {
+        if (cb) cb(num, tipo, []);
+      });
+
+    } else if (tipo === 'laberinto' || tipo === 'carcel') {
+      window._ocaGuardarCromo(num, poiId, function() {
+        if (cb) cb(num, tipo, []); // pérdida de 2 se gestiona en modal
+      });
+
+    } else if (tipo === 'muerte') {
+      window._ocaGuardarCromo(num, poiId, function() {
+        if (cb) cb(num, tipo, []);
+      });
+    }
   };
 
   // Guardar foto (blob) asociada a un POI
@@ -7967,7 +8412,7 @@ if ('serviceWorker' in navigator) {
         _renderRankingCard(grid, n, rango, nextRango);
       } else {
         vacio.style.display = 'none';
-        contador.textContent = visitas.length + ' cromo' + (visitas.length!==1?'s':'') + ' desbloqueado' + (visitas.length!==1?'s':'');
+        contador.textContent = visitas.length + ' lugar' + (visitas.length!==1?'es':'') + ' visitado' + (visitas.length!==1?'s':'');
         // Tarjeta ranking siempre primera
         _renderRankingCard(grid, n, rango, nextRango);
         // Ordenar por fecha
@@ -8214,7 +8659,7 @@ function _renderAlbumPanel() {
 
     // Contador
     var elC = document.getElementById('album-panel-contador');
-    if (elC) elC.textContent = n > 0 ? n+' cromo'+(n!==1?'s':'')+' desbloqueado'+(n!==1?'s':'') : (T[idiomaActual]||T.es).albumContador||'Visita lugares para desbloquear cromos';
+    if (elC) elC.textContent = n > 0 ? n+' lugar'+(n!==1?'es':'')+' visitado'+(n!==1?'s':'') : 'Visita lugares del Camino para avanzar en el ranking';
 
     // Ranking
     var elEmoji = document.getElementById('ap-rank-emoji'); if (elEmoji) elEmoji.textContent = rango.emoji;
@@ -8281,51 +8726,61 @@ function _renderAlbumPanel() {
       });
     }
 
-    // Cromos
-    var grid = document.getElementById('ap-album-grid');
-    var vacio = document.getElementById('ap-album-vacio');
-    if (!grid) return;
-    grid.innerHTML = '';
-    if (visitas.length === 0) {
-      if (vacio) vacio.style.display = 'block';
-    } else {
-      if (vacio) vacio.style.display = 'none';
-      visitas = visitas.filter(function(v){ return !(v.poiId||'').startsWith('u_'); });
-      visitas.sort(function(a,b){ return a.fecha - b.fecha; });
-      visitas.forEach(function(v) {
-        var card = document.createElement('div');
-        card.style.cssText = 'position:relative;border-radius:10px;overflow:hidden;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);aspect-ratio:3/4;display:flex;flex-direction:column;align-items:center;justify-content:flex-end';
-        var imgWrap = document.createElement('div');
-        imgWrap.style.cssText = 'position:absolute;inset:0;z-index:0';
-        if (v.imagen) {
-          imgWrap.innerHTML = '<img src="'+v.imagen+'" style="width:100%;height:100%;object-fit:cover;opacity:0.7" loading="lazy"/>';
-        } else {
-          imgWrap.style.background = 'linear-gradient(135deg,#2d1854,#1D9E75)';
-          imgWrap.innerHTML = '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:28px">'+(v.emoji||'📍')+'</div>';
-        }
-        card.appendChild(imgWrap);
-        var overlay = document.createElement('div');
-        overlay.style.cssText = 'position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(transparent,rgba(0,0,0,0.82));z-index:1';
-        card.appendChild(overlay);
-        var info = document.createElement('div');
-        info.style.cssText = 'position:relative;z-index:2;padding:5px 6px;width:100%;box-sizing:border-box';
-        var d = new Date(v.fecha);
-        info.innerHTML = '<div style="font-size:10px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:1px;text-shadow:0 1px 3px rgba(0,0,0,0.8)">'+(v.emoji||'📍')+' '+v.nombre+'</div>'
-          +'<div style="font-size:9px;color:rgba(255,255,255,0.55)">'+d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear()+'</div>';
-        card.appendChild(info);
-        var btnFoto = document.createElement('button');
-        btnFoto.style.cssText = 'position:absolute;top:5px;right:5px;z-index:3;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.3);border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px';
-        btnFoto.innerHTML = '📷';
-        btnFoto.onclick = function(e){ e.stopPropagation(); if(window._albumPedirFotoCard) _albumPedirFotoCard(v.poiId); };
-        card.appendChild(btnFoto);
-        _albumGetFoto(v.poiId, function(blob){
-          if (!blob) return;
-          var url = URL.createObjectURL(blob);
-          imgWrap.innerHTML = '<img src="'+url+'" style="width:100%;height:100%;object-fit:cover;opacity:0.85"/>';
-          btnFoto.innerHTML = '✏️';
-        });
-        grid.appendChild(card);
-      });
+  });
+}
+
+function _renderTableroOca() {
+  var tableroGrid = document.getElementById('ap-tablero-oca');
+  var tableroVacio = document.getElementById('ap-tablero-vacio');
+  var contador = document.getElementById('tablero-contador');
+  if (!tableroGrid || !window._ocaGetCromos) return;
+
+  window._ocaGetCromos(function(cromos) {
+    tableroGrid.innerHTML = '';
+    var conteo = {};
+    cromos.forEach(function(item) { conteo[item.num] = (conteo[item.num] || 0) + 1; });
+
+    var total = Object.keys(conteo).length;
+    if (contador) contador.textContent = total > 0 ? total + ' de 63 casillas · ' + cromos.length + ' cromo' + (cromos.length !== 1 ? 's' : '') : 'Visita lugares para obtener cromos';
+    if (tableroVacio) tableroVacio.style.display = cromos.length > 0 ? 'none' : 'block';
+
+    var tablero = window._OCA_TABLERO || {};
+    for (var i = 1; i <= 63; i++) {
+      var casilla = tablero[i] || { emoji: '🐚', tipo: 'normal' };
+      var cantidad = conteo[i] || 0;
+      var tiene = cantidad > 0;
+
+      var cell = document.createElement('div');
+      cell.style.cssText = 'position:relative;aspect-ratio:1;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;'
+        + (tiene ? 'background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);'
+                 : 'background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);');
+
+      var emojiEl = document.createElement('div');
+      emojiEl.style.cssText = 'font-size:' + (tiene ? '16px' : '11px') + ';line-height:1;' + (tiene ? '' : 'opacity:0.2');
+      emojiEl.textContent = casilla.emoji;
+      cell.appendChild(emojiEl);
+
+      var numEl = document.createElement('div');
+      numEl.style.cssText = 'font-size:8px;font-weight:700;margin-top:1px;' + (tiene ? 'color:rgba(255,255,255,0.6)' : 'color:rgba(255,255,255,0.15)');
+      numEl.textContent = i;
+      cell.appendChild(numEl);
+
+      if (cantidad > 1) {
+        var badge = document.createElement('div');
+        badge.style.cssText = 'position:absolute;top:2px;right:2px;background:#1D9E75;color:#fff;font-size:7px;font-weight:700;border-radius:8px;padding:1px 4px;line-height:1.4';
+        badge.textContent = '×' + cantidad;
+        cell.appendChild(badge);
+      }
+
+      if (tiene && casilla.tipo !== 'normal' && casilla.tipo !== 'santiago') {
+        var colores = {oca:'rgba(110,231,183,0.6)',puente:'rgba(96,165,250,0.6)',posada:'rgba(251,191,36,0.6)',dados:'rgba(147,197,253,0.6)',laberinto:'rgba(167,139,250,0.6)',carcel:'rgba(252,165,165,0.6)',muerte:'rgba(220,38,38,0.8)'};
+        cell.style.borderColor = colores[casilla.tipo] || 'rgba(255,255,255,0.25)';
+      }
+      if (i === 63 && tiene) {
+        cell.style.background = 'rgba(245,200,0,0.2)';
+        cell.style.borderColor = 'rgba(245,200,0,0.7)';
+      }
+      tableroGrid.appendChild(cell);
     }
   });
 }
@@ -8392,6 +8847,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v649</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v658</div>
 </body>
 </html>
