@@ -3489,6 +3489,8 @@ function cerrarBuscadorMapa() {
   if (strip) strip.style.display = 'none';
   if (btn)   { btn.style.display = 'flex'; btn.style.background='#fff'; btn.style.borderColor='rgba(0,0,0,0.2)'; btn.style.color=''; btn.innerHTML='&#128269;'; btn.style.fontSize='17px'; }
   if (panel) { panel.style.display = 'flex'; panel.style.flexDirection = 'column'; }
+  limpiarBusquedaMapa();
+  try { radioKm = 1; aplicarRadio(1); } catch(e) {}
 }
 
 // Tags OSM para búsqueda por Overpass
@@ -6427,9 +6429,8 @@ function _ejecutarLimpiarRuta() {
   // Retomar vista centrada en posición del usuario
   try {
     if (typeof mapa !== 'undefined' && mapa) {
-      var lat = (typeof userLat !== 'undefined' && userLat) ? userLat : 42.2328;
-      var lng = (typeof userLng !== 'undefined' && userLng) ? userLng : -8.7226;
-      mapa.setView([lat, lng], 15, {animate: true});
+      radioKm = 1;
+      aplicarRadio(1);
     }
   } catch(e) {}
 }
@@ -8747,7 +8748,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v698';
+var _APP_VERSION = 'v700';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -9745,7 +9746,7 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v698</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v700</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
