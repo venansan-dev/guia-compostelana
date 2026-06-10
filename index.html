@@ -301,10 +301,15 @@
 
     </div>
   </div>
+  <!-- Onda de transición hero→mapa -->
+  <div style='position:relative;height:32px;margin-top:-1px;overflow:hidden;pointer-events:none'>
+    <svg viewBox='0 0 1440 32' preserveAspectRatio='none' style='position:absolute;bottom:0;width:100%;height:32px' xmlns='http://www.w3.org/2000/svg'>
+      <path d='M0,16 C240,32 480,0 720,16 C960,32 1200,0 1440,16 L1440,32 L0,32 Z' fill='#F5F5F0'/>
+    </svg>
+  </div>
 </section>
 
-
-<div class='map-block' id='map-block'>
+<div class='map-block' id='map-block' style='box-shadow:inset 0 6px 18px rgba(15,110,86,0.08)'>
 <!-- MAPA INTERACTIVO -->
 <div class='map-section' style='position:relative'>
   <div class='map-status' id='map-status'><span id='map-status-text'>📍 Obteniendo tu ubicación...</span></div>
@@ -7996,7 +8001,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v666';
+var _APP_VERSION = 'v668';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -8853,7 +8858,7 @@ function _renderAlbumPanel() {
   });
 }
 
-var _OCA_POSICIONES = [null,[6,0],[6,1],[6,2],[6,3],[6,4],[6,5],[6,6],[6,7],[6,8],[5,8],[4,8],[3,8],[2,8],[1,8],[0,8],[0,7],[0,6],[0,5],[0,4],[0,3],[0,2],[0,1],[0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[5,1],[5,2],[5,3],[5,4],[5,5],[5,6],[5,7],[4,7],[3,7],[2,7],[1,7],[1,6],[1,5],[1,4],[1,3],[1,2],[1,1],[2,1],[3,1],[4,1],[4,2],[4,3],[4,4],[4,5],[4,6],[3,6],[2,6],[2,5],[2,4],[2,3],[2,2],[3,2],[3,3],[3,4],[3,5]];
+var _OCA_POSICIONES = [null,[6,0],[6,1],[6,2],[6,3],[6,4],[6,5],[6,6],[6,7],[6,8],[5,8],[4,8],[3,8],[2,8],[1,8],[0,8],[0,7],[0,6],[0,5],[0,4],[0,3],[0,2],[0,1],[0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[5,1],[5,2],[5,3],[5,4],[5,5],[5,6],[5,7],[4,7],[3,7],[2,7],[1,7],[1,6],[1,5],[1,4],[1,3],[1,2],[1,1],[2,1],[3,1],[4,1],[4,2],[4,3],[4,4],[4,5],[4,6],[3,6],[2,6],[2,5],[2,4],[2,3],[2,2],[3,2],[3,3],[3,5],[3,4]];
 
 function _renderTableroOca() {
   var tableroGrid = document.getElementById('ap-tablero-oca');
@@ -8994,6 +8999,6 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v666</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v668</div>
 </body>
 </html>
