@@ -3633,7 +3633,7 @@ function ejecutarBusquedaMapa() {
             if (clearBtn) clearBtn.style.display = 'flex';
             if (bounds.length > 1) { mapa.fitBounds(bounds, {padding:[50,50]}); }
             else if (bounds.length === 1) { mapa.setView(bounds[0], 16); }
-            setTimeout(function(){ var el=document.getElementById('map'); if(el){ var top=el.getBoundingClientRect().top+window.pageYOffset; var center=top-(window.innerHeight/2)+(el.offsetHeight/2); window.scrollTo({top:center,behavior:'smooth'}); } },350);
+            document.activeElement && document.activeElement.blur(); setTimeout(function(){ var el=document.getElementById('map'); if(el){ var rect=el.getBoundingClientRect(); var center=window.pageYOffset+rect.top-(window.innerHeight/2)+(rect.height/2); window.scrollTo({top:Math.max(0,center),behavior:'smooth'}); } },600);
             mostrarToast('📍 '+searchMarkers.length+' '+q+' encontrado'+(searchMarkers.length!==1?'s':'')+' cerca');
           } else {
             mostrarToast('🔍 No hay '+q+' en 3km');
@@ -3673,7 +3673,7 @@ function ejecutarBusquedaMapa() {
             if (clearBtn) clearBtn.style.display = 'flex';
             if (bounds2.length > 1) { mapa.fitBounds(bounds2, {padding:[40,40]}); }
             else { mapa.setView(bounds2[0], 17); }
-            setTimeout(function(){ var el=document.getElementById('map'); if(el){ var top=el.getBoundingClientRect().top+window.pageYOffset; var center=top-(window.innerHeight/2)+(el.offsetHeight/2); window.scrollTo({top:center,behavior:'smooth'}); } },350);
+            document.activeElement && document.activeElement.blur(); setTimeout(function(){ var el=document.getElementById('map'); if(el){ var rect=el.getBoundingClientRect(); var center=window.pageYOffset+rect.top-(window.innerHeight/2)+(rect.height/2); window.scrollTo({top:Math.max(0,center),behavior:'smooth'}); } },600);
           } else {
             mostrarToast('🔍 Sin resultados para "' + q + '" cerca');
           }
@@ -5918,7 +5918,7 @@ function ejecutarBusqueda() {
           if (clearBtn) clearBtn.style.display = 'flex';
           if (bounds.length>1){mapa.fitBounds(bounds,{padding:[40,40]});}
           else{mapa.setView(bounds[0],17);}
-          setTimeout(function(){ var el=document.getElementById('map'); if(el){ var top=el.getBoundingClientRect().top+window.pageYOffset; var center=top-(window.innerHeight/2)+(el.offsetHeight/2); window.scrollTo({top:center,behavior:'smooth'}); } },350);
+          document.activeElement && document.activeElement.blur(); setTimeout(function(){ var el=document.getElementById('map'); if(el){ var rect=el.getBoundingClientRect(); var center=window.pageYOffset+rect.top-(window.innerHeight/2)+(rect.height/2); window.scrollTo({top:Math.max(0,center),behavior:'smooth'}); } },600);
         } else {
           mostrarToast('🔍 Sin resultados para "'+q+'"');
         }
@@ -6229,7 +6229,7 @@ function irDesdeCarrusel(id) {
 }
 function verEnMapa(lat,lng) {
   mapa.setView([lat,lng],16);
-  setTimeout(function(){ var el=document.getElementById('map'); if(el){ var top=el.getBoundingClientRect().top+window.pageYOffset; var center=top-(window.innerHeight/2)+(el.offsetHeight/2); window.scrollTo({top:center,behavior:'smooth'}); } },350);
+  document.activeElement && document.activeElement.blur(); setTimeout(function(){ var el=document.getElementById('map'); if(el){ var rect=el.getBoundingClientRect(); var center=window.pageYOffset+rect.top-(window.innerHeight/2)+(rect.height/2); window.scrollTo({top:Math.max(0,center),behavior:'smooth'}); } },600);
 }
 function irACoordenadasNav(lat,lng) {
   mapa.closePopup();
@@ -8747,7 +8747,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v696';
+var _APP_VERSION = 'v697';
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -9745,7 +9745,7 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v696</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v697</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
