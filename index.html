@@ -304,7 +304,8 @@
 </section>
 
 <!-- FILTRO DE CATEGORÍAS SOBRE EL MAPA -->
-<div id='mapa-cat-bar' style='background:#fff;border-top:1px solid rgba(0,0,0,0.07);border-bottom:1px solid rgba(0,0,0,0.07);padding:8px 12px;overflow-x:auto;scrollbar-width:none;white-space:nowrap;display:flex;gap:6px;-webkit-overflow-scrolling:touch'>
+<div id='mapa-cat-bar' style='background:#fff;border-top:1px solid rgba(0,0,0,0.07);border-bottom:1px solid rgba(0,0,0,0.07);padding:8px 12px;overflow-x:auto;scrollbar-width:none;white-space:nowrap;display:flex;gap:6px;-webkit-overflow-scrolling:touch;position:relative'>
+  <div id='mapa-cat-panel-title' style='display:none;position:absolute;inset:0;background:#fff;align-items:center;justify-content:center;font-family:DM Sans,sans-serif;font-size:13px;font-weight:600;color:#374151'></div>
   <button onclick='_filtrarMapaCat(this,"")' class='mapa-cat-chip' style='flex-shrink:0;background:#1D9E75;color:#fff;border:1px solid #1D9E75;border-radius:16px;padding:5px 13px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>📍 Todos</button>
   <button id='chip-usuario-mapa' onclick='_filtrarMapaCat(this,"usuario")' class='mapa-cat-chip' style='flex-shrink:0;display:none;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>👤 Mis puntos</button>
   <button id='chip-alerta-mapa' onclick='_filtrarMapaCat(this,"alerta")' class='mapa-cat-chip' style='flex-shrink:0;display:none;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🚨 Alertas</button>
@@ -591,7 +592,7 @@
       <div style='font-size:13px;font-weight:600;color:rgba(255,255,255,0.7);margin-bottom:5px'>Tu álbum está vacío</div>
       <div style='font-size:11px;color:rgba(255,255,255,0.4);line-height:1.6'>Añade fotos desde las tarjetas de lugares desbloqueados.</div>
     </div>
-    <div id='album-rec-grid' style='display:grid;grid-template-columns:repeat(5,1fr);gap:4px'></div>
+    <div id='album-rec-grid' style='display:grid;grid-template-columns:repeat(3,1fr);gap:6px'></div>
   </div>
 </div>
 
@@ -2917,8 +2918,12 @@ function _abrirSlide(panelId) {
   panel.classList.add('slide-in');
   var _noCenter = ['album-panel','tablero-drawer','album-recuerdos-drawer','donaciones-drawer','comousar-drawer','contacto-drawer','poi-drawer'];
   if (_noCenter.indexOf(panelId) === -1) _centrarMapa();
-  var bar = document.getElementById('mapa-cat-bar');
-  if (bar) { bar.style.visibility='hidden'; bar.style.pointerEvents='none'; }
+  var _panelTitles = {"poi-drawer": "📍 Localizaciones cercanas", "album-panel": "🏅 Ranking del Peregrino", "tablero-drawer": "🐚 Tablero de cromos", "album-recuerdos-drawer": "📷 Álbum de recuerdos", "brujula-drawer": "🧭 Brújula", "meteo-drawer": "🌤️ Previsión meteorológica", "sos-drawer": "🆘 Emergencias", "historia-drawer": "🐚 Historia Compostelana", "donaciones-drawer": "❤️ Donaciones", "comousar-drawer": "ℹ️ Cómo usar", "contacto-drawer": "✉️ Contacto", "modal-add-poi": "📌 Nuevo punto"};
+  var barTitle = document.getElementById('mapa-cat-panel-title');
+  if (barTitle) {
+    barTitle.textContent = _panelTitles[panelId] || '';
+    barTitle.style.display = 'flex';
+  }
 }
 function _cerrarSlide(panelId) {
   var mapSection = document.querySelector('#map-block .map-section');
@@ -2928,8 +2933,8 @@ function _cerrarSlide(panelId) {
   panel.classList.remove('slide-in');
   if (mapSection) mapSection.classList.remove('slide-out');
   if (_noCenter2.indexOf(panelId) === -1) setTimeout(_centrarMapa, 300);
-  var bar = document.getElementById('mapa-cat-bar');
-  if (bar) { bar.style.visibility=''; bar.style.pointerEvents=''; }
+  var barTitle = document.getElementById('mapa-cat-panel-title');
+  if (barTitle) { barTitle.style.display = 'none'; barTitle.textContent = ''; }
 }
 
 function _sincronizarChipAlertasPOI() {
@@ -3064,6 +3069,26 @@ function _renderAlbumRecuerdos(grid, vacioCont) {
                 document.body.appendChild(lb);
               });
             })(hasOwn, src, v2.nombre||v2.poiId||'', v2.emoji||'📍', fechaTxt);
+            // Botón cámara
+            (function(pid, crd){
+              var btnCam = document.createElement('button');
+              btnCam.style.cssText = 'position:absolute;top:3px;right:3px;background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.3);border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;color:#fff;backdrop-filter:blur(3px);z-index:2;padding:0';
+              btnCam.textContent = '📷';
+              btnCam.title = 'Añadir foto';
+              btnCam.addEventListener('click', function(e){
+                e.stopPropagation();
+                window._albumPedirFotoCard ? window._albumPedirFotoCard(pid) : _albumPedirFoto(pid, crd);
+                // Refresh grid after photo saved
+                setTimeout(function(){
+                  var g=document.getElementById('album-rec-grid');
+                  var v=document.getElementById('album-rec-vacio');
+                  if(g&&v&&window._renderAlbumRecuerdos){g.innerHTML='';_renderAlbumRecuerdos(g,v);}
+                }, 1500);
+              });
+              // Make card position:relative for absolute button
+              crd.style.position = 'relative';
+              crd.appendChild(btnCam);
+            })(v2.poiId, card);
             grid.appendChild(card);
           });
           if (contador) contador.textContent = poiVisitas.length + ' lugar' + (poiVisitas.length!==1?'es':'') + ' · ' + nFotos + ' foto' + (nFotos!==1?'s':'');
@@ -8828,7 +8853,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v776";
+var _APP_VERSION = "v778";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -8838,7 +8863,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v776') === -1) {
+        if (key.indexOf('guia-compostelana-v778') === -1) {
           caches.delete(key);
         }
       });
@@ -10320,7 +10345,7 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v776</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v778</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
