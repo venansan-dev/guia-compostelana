@@ -303,6 +303,26 @@
   </div>
 </section>
 
+<!-- FILTRO DE CATEGORÍAS SOBRE EL MAPA -->
+<div id='mapa-cat-bar' style='background:#fff;border-top:1px solid rgba(0,0,0,0.07);border-bottom:1px solid rgba(0,0,0,0.07);padding:8px 12px;overflow-x:auto;scrollbar-width:none;white-space:nowrap;display:flex;gap:6px;-webkit-overflow-scrolling:touch'>
+  <button onclick='_filtrarMapaCat(this,"")' class='mapa-cat-chip' style='flex-shrink:0;background:#1D9E75;color:#fff;border:1px solid #1D9E75;border-radius:16px;padding:5px 13px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>📍 Todos</button>
+  <button onclick='_filtrarMapaCat(this,"alerta")' class='mapa-cat-chip' style='flex-shrink:0;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🚨 Alertas</button>
+  <button onclick='_filtrarMapaCat(this,"etapa-costa")' class='mapa-cat-chip' style='flex-shrink:0;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🔵 Costa</button>
+  <button onclick='_filtrarMapaCat(this,"etapa-interior")' class='mapa-cat-chip' style='flex-shrink:0;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🟢 Interior</button>
+  <button onclick='_filtrarMapaCat(this,"etapa-frances")' class='mapa-cat-chip' style='flex-shrink:0;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🔴 Francés</button>
+  <button onclick='_filtrarMapaCat(this,"etapa-norte")' class='mapa-cat-chip' style='flex-shrink:0;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🟠 Norte</button>
+  <button onclick='_filtrarMapaCat(this,"etapa-primitivo")' class='mapa-cat-chip' style='flex-shrink:0;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🟣 Primitivo</button>
+  <button onclick='_filtrarMapaCat(this,"etapa-ingles")' class='mapa-cat-chip' style='flex-shrink:0;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🟡 Inglés</button>
+  <button onclick='_filtrarMapaCat(this,"edificación religiosa")' class='mapa-cat-chip' style='flex-shrink:0;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>⛪ Religiosos</button>
+  <button onclick='_filtrarMapaCat(this,"vestigio arqueológico")' class='mapa-cat-chip' style='flex-shrink:0;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🔍 Arqueológicos</button>
+  <button onclick='_filtrarMapaCat(this,"albergue")' class='mapa-cat-chip' style='flex-shrink:0;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🏠 Albergues</button>
+  <button onclick='_filtrarMapaCat(this,"edificación histórica")' class='mapa-cat-chip' style='flex-shrink:0;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🏛️ Históricos</button>
+  <button onclick='_filtrarMapaCat(this,"localización histórica")' class='mapa-cat-chip' style='flex-shrink:0;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>📜 Localizaciones</button>
+  <button onclick='_filtrarMapaCat(this,"monumento")' class='mapa-cat-chip' style='flex-shrink:0;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🗿 Monumentos</button>
+  <button onclick='_filtrarMapaCat(this,"mirador")' class='mapa-cat-chip' style='flex-shrink:0;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🔭 Miradores</button>
+  <button onclick='_filtrarMapaCat(this,"naturaleza")' class='mapa-cat-chip' style='flex-shrink:0;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🌿 Naturaleza</button>
+</div>
+
 <div class='map-block' id='map-block' style='box-shadow:inset 0 6px 18px rgba(15,110,86,0.08)'>
 <!-- MAPA INTERACTIVO -->
 <div class='map-section' style='position:relative'>
@@ -382,7 +402,7 @@
     style='display:flex;position:absolute;top:54px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>&#9925;</button>
 
   <!-- Botón POI (derecha, sobre Buscar) -->
-  <button id='btn-poi-drawer-mapa' onclick='abrirPoiDrawer()' title='Ranking'
+  <button id='btn-poi-drawer-mapa' onclick='abrirAlbumPanel()' title='Ranking'
     style='display:flex;position:absolute;bottom:124px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>🏅</button>
   <!-- Tira de búsqueda flotante alineada con lupa -->
   <div id='mapa-search-strip' style='display:none;position:absolute;bottom:80px;right:10px;z-index:401;background:rgba(255,255,255,0.97);border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.18);border:1.5px solid rgba(29,158,117,0.3);overflow:hidden;backdrop-filter:blur(4px);min-width:180px;max-width:calc(100% - 70px)'>
@@ -559,8 +579,7 @@
   <!-- Barra superior: solo botones de acción -->
   <div style='padding:0.6rem 1rem 0.5rem;flex-shrink:0;background:linear-gradient(150deg,#0e2038 0%,#1a3a5c 60%,#1e4570 100%);border-bottom:1px solid rgba(255,255,255,0.12)'>
     <div style='display:flex;align-items:center;gap:6px' id='poi-drawer-chips'>
-      <button onclick='cerrarPoiDrawer()' id='poi-panel-volver' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:#722F37;border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:6px 12px;color:rgba(255,255,255,0.92);font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600;white-space:nowrap;box-shadow:inset 0 1px 0 rgba(255,255,255,0.15)'>← Volver</button>
-      <button onclick="abrirAlbumPanel('poi-drawer')" id='chip-ranking-drawer' style='flex:1;display:flex;align-items:center;justify-content:center;gap:5px;background:linear-gradient(135deg,#7B4F00 0%,#C8860A 50%,#F5C800 100%);border:1px solid rgba(245,200,0,0.45);border-radius:20px;padding:6px 12px;color:#fff;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:700;white-space:nowrap;box-shadow:0 2px 8px rgba(200,134,10,0.45),inset 0 1px 0 rgba(255,255,255,0.2);text-shadow:0 1px 2px rgba(0,0,0,0.4)'>🏅 Ranking</button>
+      <button onclick='cerrarPoiDrawer();abrirAlbumPanel()' id='poi-panel-volver' style='flex-shrink:0;display:flex;align-items:center;gap:5px;background:#722F37;border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:6px 12px;color:rgba(255,255,255,0.92);font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600;white-space:nowrap;box-shadow:inset 0 1px 0 rgba(255,255,255,0.15)'>← Volver</button>
       <button onclick='_abrirRutaModal()' id='chip-ruta-drawer' style='flex:1;display:flex;align-items:center;justify-content:center;gap:5px;background:#1D9E75;border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:6px 12px;color:#fff;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600;white-space:nowrap;box-shadow:0 2px 8px rgba(29,158,117,0.4),inset 0 1px 0 rgba(255,255,255,0.15)'>🗺️ Ruta</button>
     </div>
   </div>
@@ -572,12 +591,6 @@
       <div class='cat-chip active' id='chip-todos-drawer' onclick='_poiDrawerFiltrar(this,"todos")'>📍 Todos</div>
       <div class='cat-chip' id='chip-album-drawer' onclick='abrirAlbumDrawer()'>📷 Mi Álbum</div>
       <div class='cat-chip' id='chip-alerta-drawer' onclick='_poiDrawerFiltrar(this,"alerta")'>🚨 Alertas</div>
-      <div class='cat-chip' id='chip-etapa-costa-btn' onclick='_poiDrawerFiltrar(this,"etapa-costa")'>🔵 Costa</div>
-      <div class='cat-chip' id='chip-etapa-interior-btn' onclick='_poiDrawerFiltrar(this,"etapa-interior")'>🟢 Interior</div>
-      <div class='cat-chip' id='chip-etapa-frances-btn' onclick='_poiDrawerFiltrar(this,"etapa-frances")'>🔴 Francés</div>
-      <div class='cat-chip' id='chip-etapa-norte-btn' onclick='_poiDrawerFiltrar(this,"etapa-norte")'>🟠 Norte</div>
-      <div class='cat-chip' id='chip-etapa-primitivo-btn' onclick='_poiDrawerFiltrar(this,"etapa-primitivo")'>🟣 Primitivo</div>
-      <div class='cat-chip' id='chip-etapa-ingles-btn' onclick='_poiDrawerFiltrar(this,"etapa-ingles")'>🟡 Inglés</div>
       <div class='cat-chip' id='chip-naturaleza-drawer' onclick='_poiDrawerFiltrar(this,"naturaleza")'>🌿 Naturaleza</div>
       <div class='cat-chip' id='chip-monumento-drawer' onclick='_poiDrawerFiltrar(this,"monumento")'>🏛️ Monumentos</div>
       <div class='cat-chip' id='chip-religiosa-drawer' onclick='_poiDrawerFiltrar(this,"edificación religiosa")'>⛪ Religiosa</div>
@@ -941,12 +954,18 @@
 <div id='album-panel' class='map-slide-panel' style='background:linear-gradient(160deg,#1a0e2e 0%,#2d1854 40%,#3b1f6a 70%,#1e1040 100%);font-family:DM Sans,sans-serif;overflow-y:auto;touch-action:pan-y'>
   <div style='position:absolute;inset:0;padding:0.75rem 1rem;display:flex;flex-direction:column;gap:0.75rem;box-sizing:border-box;overflow-y:auto'>
     <div style='display:flex;align-items:center;justify-content:space-between;flex-shrink:0'>
-      <button id='album-panel-volver' onclick='cerrarAlbumPanel()' style='display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:7px 14px;color:rgba(255,255,255,0.85);font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif'>← Volver</button>
-      <button onclick='abrirTableroDrawer()' style='display:flex;align-items:center;gap:6px;background:rgba(245,200,0,0.08);border:1px solid rgba(245,200,0,0.45);border-radius:10px;padding:7px 14px;color:rgba(255,255,255,0.85);font-size:13px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;box-shadow:0 0 8px rgba(245,200,0,0.15)'>🐚 Colección →</button>
+      <button id='album-panel-volver' onclick='cerrarAlbumPanel()' style='flex-shrink:0;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:7px 14px;color:rgba(255,255,255,0.85);font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif'>← Volver</button>
     </div>
-    <!-- Título -->
+    <!-- Título + botones -->
     <div style='flex-shrink:0'>
-      <div id='album-panel-titulo' style='font-size:18px;font-weight:700;color:#fff;margin-bottom:2px'>🏅 Ranking del Peregrino</div>
+      <div style='display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px'>
+        <div id='album-panel-titulo' style='font-size:18px;font-weight:700;color:#fff'>🏅 Ranking del Peregrino</div>
+        <div style='display:flex;align-items:center;gap:5px;flex-shrink:0'>
+          <button onclick='abrirTableroDrawer()' style='display:flex;align-items:center;gap:3px;background:rgba(245,200,0,0.08);border:1px solid rgba(245,200,0,0.45);border-radius:8px;padding:5px 9px;color:rgba(255,255,255,0.85);font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;box-shadow:0 0 5px rgba(245,200,0,0.12)'>🐚 Colección</button>
+          <button onclick='abrirAlbumDrawer()' style='display:flex;align-items:center;gap:3px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:5px 9px;color:rgba(255,255,255,0.85);font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>📷 Álbum</button>
+          <button onclick='cerrarAlbumPanel();abrirPoiDrawer()' style='display:flex;align-items:center;gap:3px;background:rgba(220,38,38,0.12);border:1px solid rgba(220,38,38,0.4);border-radius:8px;padding:5px 9px;color:#fca5a5;font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🔒 Cercanos</button>
+        </div>
+      </div>
       <div id='album-panel-contador' style='font-size:12px;color:rgba(255,255,255,0.45)'>Visita lugares del Camino para avanzar en el ranking</div>
     </div>
     <!-- Tarjeta ranking -->
@@ -984,7 +1003,7 @@
 <div id='tablero-drawer' class='map-slide-panel' style='background:linear-gradient(160deg,#1a0e2e 0%,#2d1854 40%,#3b1f6a 70%,#1e1040 100%);font-family:DM Sans,sans-serif;overflow-y:auto;touch-action:pan-y'>
   <div style='position:absolute;inset:0;padding:0.75rem 1rem;display:flex;flex-direction:column;gap:0.75rem;box-sizing:border-box;overflow-y:auto'>
     <div style='display:flex;align-items:center;justify-content:space-between;flex-shrink:0'>
-      <button id='tablero-panel-volver' onclick='cerrarTableroDrawer()' style='display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:7px 14px;color:rgba(255,255,255,0.85);font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif'>← Volver</button>
+      <button id='tablero-panel-volver' onclick='cerrarTableroDrawer();abrirAlbumPanel()' style='display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:7px 14px;color:rgba(255,255,255,0.85);font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif'>← Volver</button>
     </div>
     <div style='flex-shrink:0'>
       <div style='flex-shrink:0'>
@@ -2957,11 +2976,120 @@ function cerrarAlbumPanel() {
 function abrirContactoDrawer() { _abrirSlide('contacto-drawer'); }
 function cerrarContactoDrawer() { _cerrarSlide('contacto-drawer'); }
 function abrirAlbumDrawer() {
-  // Activa el filtro "Mi Álbum" en el poi-drawer (ya abierto)
-  var chip = document.getElementById('chip-album-drawer');
-  _poiDrawerFiltrar(chip, 'album');
+  _abrirModalAlbumRecuerdos();
 }
 function cerrarAlbumDrawer() { _cerrarSlide('album-drawer'); setTimeout(function() { _abrirSlide('poi-drawer'); }, 50); }
+
+function _abrirModalAlbumRecuerdos() {
+  var existing = document.getElementById('modal-album-recuerdos');
+  if (existing) { existing.remove(); return; }
+
+  // Overlay
+  var overlay = document.createElement('div');
+  overlay.id = 'modal-album-recuerdos';
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);display:flex;flex-direction:column;font-family:DM Sans,sans-serif;box-sizing:border-box';
+
+  // Panel
+  var panel = document.createElement('div');
+  panel.style.cssText = 'background:linear-gradient(160deg,#1a0e2e 0%,#2d1854 50%,#1e1040 100%);flex:1;display:flex;flex-direction:column;overflow:hidden;max-width:600px;width:100%;margin:0 auto;box-shadow:0 0 40px rgba(0,0,0,0.6)';
+
+  // Header
+  var header = document.createElement('div');
+  header.style.cssText = 'flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.2)';
+  header.innerHTML =
+    '<button onclick="document.getElementById(\'modal-album-recuerdos\').remove();abrirAlbumPanel()" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:7px 14px;color:rgba(255,255,255,0.85);font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif">← Volver</button>'
+    + '<div style="text-align:center">'
+    + '<div style="font-size:15px;font-weight:700;color:#fff">📷 Álbum de recuerdos</div>'
+    + '<div id="album-rec-contador" style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px">Cargando...</div>'
+    + '</div>'
+    + '<button onclick="document.getElementById(\'modal-album-recuerdos\').remove();abrirTableroDrawer()" style="display:flex;align-items:center;gap:6px;background:rgba(245,200,0,0.08);border:1px solid rgba(245,200,0,0.45);border-radius:10px;padding:7px 14px;color:rgba(255,255,255,0.85);font-size:13px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;box-shadow:0 0 8px rgba(245,200,0,0.15)">🐚 Colección →</button>';
+  panel.appendChild(header);
+
+  // Contenido scrollable
+  var body = document.createElement('div');
+  body.style.cssText = 'flex:1;overflow-y:auto;padding:14px 14px 24px;box-sizing:border-box';
+
+  // Estado vacío
+  var vacioCont = document.createElement('div');
+  vacioCont.id = 'album-rec-vacio';
+  vacioCont.style.cssText = 'display:none;text-align:center;padding:3rem 1rem';
+  vacioCont.innerHTML =
+    '<div style="font-size:48px;margin-bottom:12px">🐚</div>'
+    + '<div style="font-size:14px;font-weight:600;color:rgba(255,255,255,0.7);margin-bottom:6px">Tu álbum está vacío</div>'
+    + '<div style="font-size:12px;color:rgba(255,255,255,0.4);line-height:1.6">Añade fotos desde las tarjetas de lugares desbloqueados.</div>';
+  body.appendChild(vacioCont);
+
+  // Grid fotos
+  var grid = document.createElement('div');
+  grid.id = 'album-rec-grid';
+  grid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px';
+  body.appendChild(grid);
+
+  panel.appendChild(body);
+  overlay.appendChild(panel);
+  document.body.appendChild(overlay);
+
+  overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
+
+  // Cargar fotos
+  _renderAlbumRecuerdos(grid, vacioCont);
+}
+
+function _renderAlbumRecuerdos(grid, vacioCont) {
+  if (!window._albumGetVisitas || !window._albumGetFoto) {
+    vacioCont.style.display = 'block'; return;
+  }
+  var GENERIC = 'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png';
+  window._albumGetVisitas(function(visitas) {
+    var poiVisitas = visitas.filter(function(v){ return v.poiId && !(v.poiId||'').startsWith('u_'); });
+    var contador = document.getElementById('album-rec-contador');
+    if (poiVisitas.length === 0) {
+      vacioCont.style.display = 'block';
+      if (contador) contador.textContent = 'Sin lugares visitados';
+      return;
+    }
+    vacioCont.style.display = 'none';
+    var nFotos = 0;
+    // Ordenar por fecha desc
+    poiVisitas.sort(function(a,b){ return (b.fecha||0)-(a.fecha||0); });
+    var pending = poiVisitas.length;
+    var results = new Array(poiVisitas.length);
+    poiVisitas.forEach(function(v, idx) {
+      window._albumGetFoto(v.poiId, function(blob) {
+        results[idx] = { v: v, blob: blob };
+        if (--pending === 0) {
+          results.forEach(function(item) {
+            var v2 = item.v, blob = item.blob;
+            var hasOwn = !!blob;
+            if (hasOwn) nFotos++;
+            var src = hasOwn ? URL.createObjectURL(blob) : GENERIC;
+            var d = new Date(v2.fecha || 0);
+            var fechaTxt = d.toLocaleDateString('es-ES',{day:'2-digit',month:'2-digit',year:'numeric'})
+              + ' · ' + d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+            var card = document.createElement('div');
+            card.style.cssText = 'background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:10px;overflow:hidden;display:flex;flex-direction:column';
+            var imgOverlay = !hasOwn
+              ? '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">'
+                + '<div style="background:rgba(0,0,0,0.55);backdrop-filter:blur(3px);border-radius:8px;padding:3px 7px;font-size:8px;font-weight:700;color:rgba(255,255,255,0.9);text-align:center">📷 Añade foto</div>'
+                + '</div>'
+              : '';
+            card.innerHTML =
+              '<div style="position:relative;aspect-ratio:1/1;overflow:hidden;flex-shrink:0">'
+              + '<img src="' + src + '" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy">'
+              + imgOverlay
+              + '</div>'
+              + '<div style="padding:5px 6px">'
+              + '<div style="font-size:9px;font-weight:700;color:#fff;line-height:1.3;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + (v2.emoji||'📍') + ' ' + (v2.nombre||v2.poiId||'') + '</div>'
+              + '<div style="font-size:8px;color:rgba(255,255,255,0.35)">' + fechaTxt + '</div>'
+              + '</div>';
+            grid.appendChild(card);
+          });
+          if (contador) contador.textContent = poiVisitas.length + ' lugar' + (poiVisitas.length!==1?'es':'') + ' · ' + nFotos + ' foto' + (nFotos!==1?'s':'');
+        }
+      });
+    });
+  });
+}
 
 function abrirBrujulaDrawer() { _abrirSlide('brujula-drawer'); }
 function cerrarBrujulaDrawer() { _cerrarSlide('brujula-drawer'); }
@@ -3071,7 +3199,7 @@ function _renderPoiDrawerCarrusel() {
   var _vistos = {};
   var todos = _todosRaw.filter(function(p){ if(_vistos[p.id]) return false; _vistos[p.id]=true; return true; });
   var filtrados = todos.filter(function(p) {
-    if (_poiDrawerCatActual === 'todos') return !p.esUsuario && !(p.id && p.id.indexOf('u_')===0) && p.categoria !== 'etapa';
+    if (_poiDrawerCatActual === 'todos') return !p.esUsuario && !(p.id && p.id.indexOf('u_')===0) && p.categoria !== 'etapa' && !(window._albumVisitasSet && window._albumVisitasSet[p.id]);
     if (_poiDrawerCatActual === 'alerta') return p.esAlerta;
     if (_poiDrawerCatActual === 'etapa-costa') return p.categoria === 'etapa' && p.variante === 'costa';
     if (_poiDrawerCatActual === 'etapa-interior') return p.categoria === 'etapa' && p.variante === 'interior';
@@ -3194,7 +3322,11 @@ function _renderPoiDrawerCarrusel() {
             '</div>'+
           '</div>'
         )+
-        '<div style="display:flex;gap:5px;margin-top:6px">'+
+        '<div style="display:flex;gap:5px;margin-top:6px;flex-wrap:wrap">'+
+          (!p.esAlerta && !p.esUsuario ? (window._albumVisitasSet && window._albumVisitasSet[p.id]
+            ? '<div style="width:100%;display:flex;align-items:center;gap:4px;background:rgba(29,158,117,0.12);border:1px solid rgba(29,158,117,0.35);border-radius:7px;padding:4px 8px;font-size:10px;font-weight:600;color:#6ee7b7">🔓 Localización desbloqueada</div>'
+            : '<div style="width:100%;display:flex;align-items:center;gap:4px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:7px;padding:4px 8px;font-size:10px;font-weight:600;color:rgba(255,255,255,0.35)">🔒 Localización bloqueada</div>'
+          ) : '')+
           (!p.esAlerta && (p.esUsuario || !(window._albumVisitasSet && window._albumVisitasSet[p.id])) ? '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'" style="flex:1;justify-content:center;font-size:11px;padding:5px 6px;border-radius:8px;background:'+(enRuta?'#1D9E75':'rgba(29,158,117,0.12)')+';color:'+(enRuta?'#fff':'#1D9E75')+';border:1px solid '+(enRuta?'#1D9E75':'rgba(29,158,117,0.4)')+'">'+
             (enRuta?'&#10003; '+((T[idiomaActual]||T.es).enRuta||'En ruta').replace('✓ ',''):('+ '+(T[idiomaActual]||T.es).añadirRuta||'+ a ruta'))+'</button>' : '')+
           '<button class="poi-detail-btn" data-poi-id="'+p.id+'" style="flex:1;background:var(--verde-claro);border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:5px 6px;font-size:11px;font-weight:600;color:var(--verde-oscuro);cursor:pointer;font-family:DM Sans,sans-serif;text-align:center">💬 '+(T[idiomaActual]||T.es).verDetalle+'</button>'+
@@ -3209,6 +3341,9 @@ function _renderPoiDrawerCarrusel() {
         var url = URL.createObjectURL(blob);
         var el = document.getElementById('cromo-img-'+pid); if (el) el.src = url;
         var btn = document.getElementById('foto-btn-'+pid); if (btn) btn.innerHTML = '✏️ cambiar';
+        // Eliminar overlay 'Añade foto' ya que el usuario tiene foto propia
+        var wrap = document.querySelector('[data-cromo-id="'+pid+'"]');
+        if (wrap) { var ov = wrap.querySelector('div[style*="pointer-events:none"]'); if (ov) ov.remove(); }
       }); })(p.id);
     }
     if (!p.esUsuario) { var starsContainer = card.querySelector('.stars');
@@ -5400,7 +5535,33 @@ function initMapa() {
           '<div id="pp-scroll-' + punto.id + '" style="font-size:13px;margin-top:6px;color:#444;max-height:180px;overflow-y:auto;padding-right:' + (window.innerWidth<768?'10':'4') + 'px" onscroll="var el=this;var bar=document.getElementById(\'pp-bar-\'+\'' + punto.id + '\');if(bar){var pct=(el.scrollTop/(el.scrollHeight-el.clientHeight))*100;bar.style.top=pct*0.8+\'%\'}">' + pPopupDesc + (punto.imagen ? '<img src="' + punto.imagen + '" style="width:100%;height:120px;object-fit:cover;border-radius:8px;margin-top:10px;display:block" loading="lazy"/>' : '') + '</div>' +
           (window.innerWidth<768 ? '<div style="position:absolute;top:0;right:2px;width:3px;height:100%;background:rgba(0,0,0,0.08);border-radius:3px;margin-top:6px"><div id="pp-bar-' + punto.id + '" style="position:absolute;top:0;right:0;width:3px;height:20%;background:rgba(0,0,0,0.25);border-radius:3px;transition:top 0.1s"></div></div>' : '') +
           '</div>' +
+          (function(){
+            var val = (typeof valoraciones !== 'undefined' && valoraciones[punto.id]) || {total:0,votos:0,miVoto:0};
+            var media = val.votos > 0 ? (val.total/val.votos).toFixed(1) : null;
+            var ops = (typeof opiniones !== 'undefined' && opiniones[punto.id]) || [];
+            var starsHtml = '<div style="display:flex;align-items:center;gap:6px;margin-top:8px;padding:6px 0;border-top:1px solid #f0f0f0">';
+            starsHtml += '<div style="display:flex;gap:2px">';
+            for (var si=1;si<=5;si++) starsHtml += '<span style="font-size:15px;color:'+(si<=(val.miVoto||0)?'#F5C800':'#d1d5db')+';cursor:pointer" onclick="_popupVotar(\''+punto.id+'\','+si+')">'+(si<=(val.miVoto||0)?'★':'☆')+'</span>';
+            starsHtml += '</div>';
+            if (media) starsHtml += '<span style="font-size:11px;color:#6b7280">'+media+' · '+val.votos+' voto'+(val.votos!==1?'s':'')+'</span>';
+            starsHtml += '</div>';
+            var opsHtml = '';
+            if (ops.length > 0) {
+              var ultimas = ops.slice(-2);
+              opsHtml = '<div style="border-top:1px solid #f0f0f0;padding-top:6px;margin-top:2px">';
+              ultimas.forEach(function(op){ opsHtml += '<div style="font-size:11px;color:#374151;padding:3px 0;border-bottom:1px solid #f9fafb"><strong style="font-size:10px;color:#6b7280">'+(op.autor||'Peregrino')+'</strong> '+op.texto+'</div>'; });
+              opsHtml += '</div>';
+            }
+            var inputHtml = '<div style="display:flex;gap:4px;margin-top:6px">'
+              + '<input id="pp-op-'+punto.id+'" type="text" placeholder="Tu comentario..." style="flex:1;border:1px solid #e5e7eb;border-radius:8px;padding:5px 8px;font-size:11px;font-family:DM Sans,sans-serif;outline:none" />'
+              + '<button onclick="_popupEnviarOp(\''+punto.id+'\')" style="background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:5px 10px;font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">→</button>'
+              + '</div>';
+            return starsHtml + opsHtml + inputHtml;
+          })() +
           '<div style="position:relative;margin-top:8px;border-top:1px solid #f0f0f0;padding-top:8px;min-height:28px">' +
+          (window._albumVisitasSet && window._albumVisitasSet[punto.id]
+            ? '<span style="position:absolute;bottom:0;left:0;display:inline-flex;align-items:center;gap:3px;background:#e6f7f1;color:#0F6E56;border:1px solid rgba(29,158,117,0.35);border-radius:12px;padding:5px 10px;font-size:11px;font-weight:600">✓ Visitada</span>'
+            : '<span style="position:absolute;bottom:0;left:0;display:inline-flex;align-items:center;gap:3px;background:#fff2f2;color:#dc2626;border:1px solid rgba(220,38,38,0.3);border-radius:12px;padding:5px 10px;font-size:11px;font-weight:600">🔒 Sin visitar</span>') +
           '<span id="mpbtn-' + punto.id + '" data-poi="' + punto.id + '" onclick="addToRoute(this.getAttribute(\'data-poi\')); mapa.closePopup();" style="position:absolute;bottom:0;right:0;display:inline-block;background:' + (enR?'#1D9E75':'#E1F5EE') + ';color:' + (enR?'#fff':'#0F6E56') + ';border:1px solid rgba(29,158,117,0.3);border-radius:12px;padding:5px 12px;font-size:12px;cursor:pointer;font-weight:600;">' + (enR ? '&#10003; '+(T[idiomaActual]||T.es).enRuta.replace('✓ ','') : (T[idiomaActual]||T.es).añadirRutaCorto||'+ ruta') + '</span>' +
           '</div></div>';
         L.popup({maxWidth:240, className:"poi-popup"}).setLatLng(m.getLatLng()).setContent(content).openOn(mapa);
@@ -6075,6 +6236,9 @@ function renderCarrusel(categoria) {
         var url = URL.createObjectURL(blob);
         var el = document.getElementById('cromo-img-'+pid); if (el) el.src = url;
         var btn = document.getElementById('foto-btn-'+pid); if (btn) btn.innerHTML = '✏️ cambiar';
+        // Eliminar overlay 'Añade foto' ya que el usuario tiene foto propia
+        var wrap = document.querySelector('[data-cromo-id="'+pid+'"]');
+        if (wrap) { var ov = wrap.querySelector('div[style*="pointer-events:none"]'); if (ov) ov.remove(); }
       }); })(p.id);
     }
     if (!p.esUsuario) { var starsContainer = card.querySelector('.stars');
@@ -8711,7 +8875,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v721";
+var _APP_VERSION = "v741";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -8721,7 +8885,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v541') === -1) {
+        if (key.indexOf('guia-compostelana-v741') === -1) {
           caches.delete(key);
         }
       });
@@ -9406,9 +9570,9 @@ if ('serviceWorker' in navigator) {
       var enRutaLabel = enRuta
         ? '&#10003; '+((T[idiomaActual]||T.es).enRuta||'En ruta').replace('✓ ','')
         : ((T[idiomaActual]||T.es).añadirRuta||'+ Ruta');
-      var _imgSrc = p.imagen || 'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png';
-      var _noFoto = !p.imagen;
-      var _fotoOverlay = _noFoto ? ('<div style="position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:30px;pointer-events:none"><div style="background:rgba(0,0,0,0.55);backdrop-filter:blur(3px);border-radius:10px;padding:4px 8px;font-size:9px;font-weight:600;color:rgba(255,255,255,0.85);text-align:center;font-family:DM Sans,sans-serif;letter-spacing:0.3px;max-width:90%">📷 Añade una foto para tu álbum de recuerdos</div></div>') : '';
+      // Siempre imagen genérica hasta que el usuario asigne su propia foto (se sustituye async)
+      var _imgSrc = 'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png';
+      var _fotoOverlay = '<div style="position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:30px;pointer-events:none"><div style="background:rgba(0,0,0,0.55);backdrop-filter:blur(3px);border-radius:10px;padding:4px 8px;font-size:9px;font-weight:600;color:rgba(255,255,255,0.85);text-align:center;font-family:DM Sans,sans-serif;letter-spacing:0.3px;max-width:90%">📷 Añade una foto para tu álbum de recuerdos</div></div>';
       return '<div class="poi-img '+p.color+'" style="position:relative;overflow:hidden" data-cromo-id="'+p.id+'">' +
         '<img id="cromo-img-'+p.id+'" src="'+_imgSrc+'" alt="'+p.nombre+'" class="poi-img-cover" decoding="async" fetchpriority="low"/>' +
         _fotoOverlay +
@@ -9436,8 +9600,8 @@ if ('serviceWorker' in navigator) {
       div.style.background = '';
       (function(d,poi){
         window._albumGetFoto(poi.id, function(blob) {
-          var src = blob ? URL.createObjectURL(blob) : (poi.imagen || 'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png');
-          var noFoto = !blob && !poi.imagen;
+          var src = blob ? URL.createObjectURL(blob) : 'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png';
+          var noFoto = !blob; // overlay hasta que usuario asigne foto propia
           var ov = noFoto ? '<div style="position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:30px;pointer-events:none"><div style="background:rgba(0,0,0,0.55);backdrop-filter:blur(3px);border-radius:10px;padding:4px 8px;font-size:9px;font-weight:600;color:rgba(255,255,255,0.85);text-align:center;font-family:DM Sans,sans-serif;letter-spacing:0.3px;max-width:90%">📷 Añade una foto para tu álbum de recuerdos</div></div>' : '';
           d.innerHTML = '<img id="cromo-img-'+poi.id+'" src="'+src+'" alt="'+poi.nombre+'" class="poi-img-cover" decoding="async"/>' + ov +
             '<button onclick="event.stopPropagation();_albumPedirFotoCard(\''+poi.id+'\')" style="position:absolute;bottom:7px;right:7px;z-index:10;background:rgba(0,0,0,0.52);border:1px solid rgba(255,255,255,0.35);border-radius:20px;padding:3px 9px;color:#fff;font-size:10px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;backdrop-filter:blur(4px)" id="foto-btn-'+poi.id+'">📷 mi foto</button>';
@@ -9984,6 +10148,58 @@ function _hardResetJuego(){
   });
 }
 
+function _filtrarMapaCat(chip, cat) {
+  document.querySelectorAll('#mapa-cat-bar .mapa-cat-chip').forEach(function(b){
+    var activo = b === chip;
+    b.style.background = activo ? '#1D9E75' : '#fff';
+    b.style.color = activo ? '#fff' : '#374151';
+    b.style.borderColor = activo ? '#1D9E75' : 'rgba(0,0,0,0.15)';
+    b.style.fontWeight = activo ? '600' : '500';
+  });
+  if (!window._cluster || typeof PUNTOS === 'undefined') return;
+  window._cluster.clearLayers();
+  PUNTOS.forEach(function(p) {
+    if (!p.marker) return;
+    if (!cat) { window._cluster.addLayer(p.marker); return; }
+    // Etapas
+    if (cat.indexOf('etapa-') === 0) {
+      var variante = cat.replace('etapa-','');
+      if (p.categoria === 'etapa' && p.variante === variante) window._cluster.addLayer(p.marker);
+      return;
+    }
+    // Alertas
+    if (cat === 'alerta') { if (p.esAlerta) window._cluster.addLayer(p.marker); return; }
+    // Categorías normales
+    if (p.categoria === cat) window._cluster.addLayer(p.marker);
+  });
+}
+
+function _popupVotar(poiId, n) {
+  if (typeof valoraciones === 'undefined') return;
+  if (!valoraciones[poiId]) valoraciones[poiId] = {total:0,votos:0,miVoto:0};
+  var val = valoraciones[poiId];
+  if (val.miVoto) { val.total -= val.miVoto; val.votos--; }
+  val.miVoto = n; val.total += n; val.votos++;
+  // Actualizar estrellitas en el popup
+  var popup = document.querySelector('.leaflet-popup-content');
+  if (popup) { var spans = popup.querySelectorAll('span[onclick*="_popupVotar"]'); spans.forEach(function(s,i){ s.style.color = (i+1)<=n?'#F5C800':'#d1d5db'; s.textContent = (i+1)<=n?'★':'☆'; }); }
+  // Guardar en Firebase si disponible
+  if (typeof guardarVoto === 'function') guardarVoto(poiId, n);
+}
+function _popupEnviarOp(poiId) {
+  var inp = document.getElementById('pp-op-'+poiId);
+  if (!inp || !inp.value.trim()) return;
+  var texto = inp.value.trim();
+  inp.value = '';
+  if (typeof enviarOpinion === 'function') enviarOpinion(poiId, texto);
+  // Añadir localmente
+  if (typeof opiniones !== 'undefined') {
+    if (!opiniones[poiId]) opiniones[poiId] = [];
+    opiniones[poiId].push({autor:'Tú',texto:texto,ts:Date.now()});
+  }
+  mostrarToast('💬 Comentario enviado');
+}
+
 // Detectar si estamos offline y avisar
 window.addEventListener('online',  function() { ocultarBannerRed(); });
 window.addEventListener('offline', function() { mostrarBannerRed(); });
@@ -10046,7 +10262,7 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v721</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v741</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
