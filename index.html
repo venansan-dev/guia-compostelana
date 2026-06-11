@@ -335,7 +335,7 @@
   </div>
 
   <!-- Botón toggle alertas -->
-  <button id='btn-alertas-toggle' onclick='toggleAlertasFirebase()' title='Alertas activas'
+  <button id='btn-alertas-toggle' onclick='abrirModalNotificaciones()' title='Notificaciones'
     style='display:flex;position:absolute;bottom:36px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0;font-size:18px;line-height:1'>🔔</button>
   <!-- btn-go oculto para compatibilidad con JS existente -->
   <span id='ruta-bar-btn-go' style='display:none'></span>
@@ -385,7 +385,7 @@
   <button id='btn-poi-drawer-mapa' onclick='abrirPoiDrawer()' title='Ranking'
     style='display:flex;position:absolute;bottom:124px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>🏅</button>
   <!-- Tira de búsqueda flotante alineada con lupa -->
-  <div id='mapa-search-strip' style='display:none;position:absolute;bottom:98px;right:10px;z-index:401;transform:translateY(50%);background:rgba(255,255,255,0.97);border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.18);border:1.5px solid rgba(29,158,117,0.3);overflow:hidden;backdrop-filter:blur(4px);min-width:180px;max-width:calc(100% - 70px)'>
+  <div id='mapa-search-strip' style='display:none;position:absolute;bottom:80px;right:10px;z-index:401;background:rgba(255,255,255,0.97);border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.18);border:1.5px solid rgba(29,158,117,0.3);overflow:hidden;backdrop-filter:blur(4px);min-width:180px;max-width:calc(100% - 70px)'>
     <div style='display:flex;align-items:center;gap:0'>
       <input id='buscar-mapa-strip-input' type='text' placeholder='Buscar cerca del mapa: albergue, farmacia...' autocomplete='off'
         style='flex:1;border:none;background:none;font-size:13px;color:#1a1a1a;font-family:DM Sans,sans-serif;outline:none;padding:9px 12px;min-width:0'
@@ -942,7 +942,7 @@
   <div style='position:absolute;inset:0;padding:0.75rem 1rem;display:flex;flex-direction:column;gap:0.75rem;box-sizing:border-box;overflow-y:auto'>
     <div style='display:flex;align-items:center;justify-content:space-between;flex-shrink:0'>
       <button id='album-panel-volver' onclick='cerrarAlbumPanel()' style='display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:7px 14px;color:rgba(255,255,255,0.85);font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif'>← Volver</button>
-      <button onclick='abrirTableroDrawer()' style='display:flex;align-items:center;gap:5px;background:rgba(245,200,0,0.12);border:1px solid rgba(245,200,0,0.35);border-radius:20px;padding:6px 14px;color:#F5C800;font-size:12px;font-weight:500;cursor:pointer;font-family:Playfair Display,serif;letter-spacing:0.3px'>🐚 Colección</button>
+      <button onclick='abrirTableroDrawer()' style='display:flex;align-items:center;gap:6px;background:rgba(245,200,0,0.08);border:1px solid rgba(245,200,0,0.45);border-radius:10px;padding:7px 14px;color:rgba(255,255,255,0.85);font-size:13px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;box-shadow:0 0 8px rgba(245,200,0,0.15)'>🐚 Colección →</button>
     </div>
     <!-- Título -->
     <div style='flex-shrink:0'>
@@ -993,15 +993,19 @@
       </div>
       <div id='tablero-contador' style='font-size:12px;color:rgba(255,255,255,0.45)'>Visita lugares para obtener cromos</div>
     </div>
+    <div id='ap-mazo-cromos' style='flex-shrink:0;display:none'></div>
     <div id='ap-tablero-oca' style='flex-shrink:0'></div>
     <div id='ap-tablero-vacio' style='display:none;text-align:center;padding:1.5rem 1rem;flex-shrink:0'>
       <div style='font-size:36px;margin-bottom:8px'>🎴</div>
       <div style='font-size:13px;color:rgba(255,255,255,0.5)'>Visita lugares del Camino para obtener cromos</div>
     </div>
-    <!-- Copyright -->
-    <div style='flex-shrink:0;border-top:1px solid rgba(255,255,255,0.07);padding-top:10px;display:flex;align-items:center;justify-content:space-between'>
-      <div style='font-size:9px;color:rgba(255,255,255,0.18);font-style:italic;letter-spacing:0.3px'>Sistema de juego GCU © 2025</div>
-      <div style='font-size:9px;color:rgba(255,255,255,0.18);letter-spacing:0.5px'>Guía Xacobea Ultreia</div>
+    <!-- Copyright + hard reset -->
+    <div style='flex-shrink:0;border-top:1px solid rgba(255,255,255,0.07);padding-top:10px;display:flex;flex-direction:column;gap:8px'>
+      <div style='display:flex;align-items:center;justify-content:space-between'>
+        <div style='font-size:9px;color:rgba(255,255,255,0.18);font-style:italic;letter-spacing:0.3px'>Sistema de juego GCU © 2025</div>
+        <div style='font-size:9px;color:rgba(255,255,255,0.18);letter-spacing:0.5px'>Guía Xacobea Ultreia</div>
+      </div>
+      <button onclick='_hardResetJuego()' style='width:100%;background:rgba(220,38,38,0.15);color:rgba(252,165,165,0.8);border:1px solid rgba(220,38,38,0.3);border-radius:10px;padding:8px;font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>🗑️ Hard Reset — borrar cromos y visitas</button>
     </div>
   </div>
 </div>
@@ -2615,7 +2619,9 @@ document.addEventListener('DOMContentLoaded', function() {
 // - En el navegador normal: ofrece instalar la PWA (Android) o guía (iOS)
 // - Dentro de la app instalada (standalone): activa/desactiva notificaciones
 
-var notifActivadas = false;
+var notifActivadas = (typeof Notification !== 'undefined' && Notification.permission === 'granted');
+if (notifActivadas) { setTimeout(function(){ if(typeof iniciarProximidad==='function') iniciarProximidad(); }, 2000); }
+var _cromosNotifOn = (function(){ try{ var v=localStorage.getItem('cromosNotifOn'); return v===null?true:v==='1'; }catch(e){return true;} })(); // controla modales de desbloqueo y cromos
 var deferredInstallPrompt = null; // guarda el evento beforeinstallprompt
 
 // Capturar el evento de instalación de Android Chrome
@@ -3489,8 +3495,6 @@ function cerrarBuscadorMapa() {
   if (strip) strip.style.display = 'none';
   if (btn)   { btn.style.display = 'flex'; btn.style.background='#fff'; btn.style.borderColor='rgba(0,0,0,0.2)'; btn.style.color=''; btn.innerHTML='&#128269;'; btn.style.fontSize='17px'; }
   if (panel) { panel.style.display = 'flex'; panel.style.flexDirection = 'column'; }
-  limpiarBusquedaMapa();
-  try { radioKm = 1; aplicarRadio(1); } catch(e) {}
 }
 
 // Tags OSM para búsqueda por Overpass
@@ -3845,32 +3849,65 @@ function cargarPOIsFirebase() {
 
 var _alertasFirebaseOn = true;
 
-function toggleAlertasFirebase() {
-  _alertasFirebaseOn = !_alertasFirebaseOn;
-  var btn = document.getElementById('btn-alertas-toggle');
-  var mi = document.getElementById('modal-alertas-icono');
-  var mt = document.getElementById('modal-alertas-titulo');
-  var mx = document.getElementById('modal-alertas-texto');
-  var mb = document.getElementById('modal-alertas-bg');
-  if (_alertasFirebaseOn) {
-    btn.style.background = '#fff';
-    btn.style.border = '1.5px solid rgba(0,0,0,0.15)';
-    btn.textContent = '🔔';
-    btn.title = 'Alertas activas';
-    mi.textContent = '🚨';
-    mt.textContent = 'Alertas activadas';
-    mx.textContent = 'Recibirás avisos en tiempo real sobre incidencias en el Camino.';
+function _actualizarBtnAlertas() {
+  var btn=document.getElementById('btn-alertas-toggle'); if(!btn)return;
+  var ambasOff=!_alertasFirebaseOn&&!_cromosNotifOn;
+  var unaOff=!_alertasFirebaseOn||!_cromosNotifOn;
+  if(ambasOff){
+    btn.style.background='#fecaca';btn.style.border='1.5px solid #ef4444';
+    btn.textContent='🔕';btn.title='Alertas y notificaciones desactivadas';
+  } else if(unaOff){
+    btn.style.background='#fef3c7';btn.style.border='1.5px solid #f59e0b';
+    btn.textContent='🔔';btn.title='Algunas notificaciones desactivadas';
   } else {
-    btn.style.background = '#fee2e2';
-    btn.style.border = '1.5px solid #fca5a5';
-    btn.textContent = '🔕';
-    btn.title = 'Alertas desactivadas';
-    mi.textContent = '🚨';
-    mt.textContent = 'Alertas desactivadas';
-    mx.textContent = 'Ya no recibirás avisos sobre incidencias en el Camino.';
+    btn.style.background='#fff';btn.style.border='1.5px solid rgba(0,0,0,0.15)';
+    btn.textContent='🔔';btn.title='Notificaciones activas';
   }
-  mb.classList.add('visible');
-  setTimeout(function(){ mb.classList.remove('visible'); }, 2500);
+}
+
+function toggleAlertasFirebase(){
+  _alertasFirebaseOn=!_alertasFirebaseOn;
+  _actualizarBtnAlertas();
+}
+
+function abrirModalNotificaciones(){
+  var existing=document.getElementById('modal-notif-opciones');
+  if(existing){existing.remove();return;}
+  var overlay=document.createElement('div');
+  overlay.id='modal-notif-opciones';
+  overlay.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;font-family:DM Sans,sans-serif;padding:1rem;box-sizing:border-box';
+  var box=document.createElement('div');
+  box.style.cssText='background:#fff;border-radius:16px;padding:1.25rem;max-width:85vw;width:280px;box-shadow:0 8px 32px rgba(0,0,0,0.2)';
+  function renderBox(){
+    var a=_alertasFirebaseOn,n=_cromosNotifOn;
+    box.innerHTML=
+      '<div style="font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:14px">🔔 Notificaciones</div>'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0">'
+      +'<div><div style="font-size:13px;font-weight:600;color:#1a1a1a">🚨 Alertas del Camino</div>'
+      +'<div style="font-size:11px;color:#6b7280">Incidencias en tiempo real</div></div>'
+      +'<button id="notif-toggle-alertas" style="width:44px;height:26px;border-radius:13px;border:none;cursor:pointer;background:'+(a?'#1D9E75':'#d1d5db')+';position:relative;flex-shrink:0">'
+      +'<span style="position:absolute;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.2);left:'+(a?'21px':'3px')+'"></span>'
+      +'</button></div>'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0">'
+      +'<div><div style="font-size:13px;font-weight:600;color:#1a1a1a">🐚 Cromos y desbloqueos</div>'
+      +'<div style="font-size:11px;color:#6b7280">Avisos de lugares cercanos</div></div>'
+      +'<button id="notif-toggle-cromos" style="width:44px;height:26px;border-radius:13px;border:none;cursor:pointer;background:'+(n?'#1D9E75':'#d1d5db')+';position:relative;flex-shrink:0">'
+      +'<span style="position:absolute;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.2);left:'+(n?'21px':'3px')+'"></span>'
+      +'</button></div>'
+      +'<button id="notif-cerrar" style="width:100%;margin-top:14px;background:#f3f4f6;color:#374151;border:none;border-radius:10px;padding:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">Cerrar</button>';
+    box.querySelector('#notif-toggle-alertas').addEventListener('click',function(){
+      _alertasFirebaseOn=!_alertasFirebaseOn;_actualizarBtnAlertas();renderBox();
+    });
+    box.querySelector('#notif-toggle-cromos').addEventListener('click',function(){
+      _cromosNotifOn=!_cromosNotifOn;
+      try{localStorage.setItem('cromosNotifOn',_cromosNotifOn?'1':'0');}catch(e){}
+      _actualizarBtnAlertas();renderBox();
+    });
+    box.querySelector('#notif-cerrar').addEventListener('click',function(){overlay.remove();});
+  }
+  renderBox();
+  overlay.appendChild(box);document.body.appendChild(overlay);
+  overlay.addEventListener('click',function(e){if(e.target===overlay)overlay.remove();});
 }
 
 var _modoSeguimiento = false;
@@ -4640,7 +4677,7 @@ function iniciarProximidad() {
       PUNTOS.forEach(function(p) {
         if (notifEnviadas[p.id]) return;
         var d = calcDistancia(lat, lng, p.lat, p.lng);
-        if (d < 0.15) { // 150 metros
+        if (d < 0.3) { // 30 metros (pruebas)
           notifEnviadas[p.id] = true;
           var t = (T[idiomaActual]||T.es);
           new Notification('📍 ' + (idiomaActual==='gl'&&p.nombre_gl?p.nombre_gl:idiomaActual==='en'&&p.nombre_en?p.nombre_en:p.nombre), {
@@ -5292,12 +5329,12 @@ function initMapa() {
     _popupAbierto = false;
     var b;
     b=document.getElementById('btn-add-poi-map'); if(b&&!_navActiva) b.style.display='flex';
-    b=document.getElementById('btn-poi-drawer-mapa'); if(b) b.style.display='flex';
     b=document.getElementById('btn-alertas-toggle'); if(b) b.style.display='flex';
     b=document.getElementById('btn-brujula-mapa'); if(b&&!_navActiva) b.style.display='flex';
     b=document.getElementById('btn-sos-mapa'); if(b) b.style.display='flex';
     b=document.getElementById('btn-buscar-mapa'); if(b) b.style.display='flex';
     b=document.getElementById('btn-meteo-mapa'); if(b) b.style.display='flex';
+    b=document.getElementById('btn-poi-drawer-mapa'); if(b) b.style.display='flex';
     // Restaurar panel ruta siempre visible
     b=document.getElementById('map-ruta-panel'); if(b){b.style.display='flex';b.style.flexDirection='column';}
     b=document.getElementById('map-radio-control'); if(b){b.style.display='flex';}
@@ -5530,6 +5567,7 @@ function _cromoSiguiente() {
   _mostrarUnCromo(poi, function(){ setTimeout(_cromoSiguiente, 400); });
 }
 function mostrarToastCromo(poi, numCromo, tipoCromo, extras, doble) {
+  if (!_cromosNotifOn) return;
   // Compatibilidad con llamadas antiguas
   if (typeof numCromo === 'undefined') { _cromoCola.push({poi:poi}); if (!_cromoMostrando) _cromoSiguiente(); return; }
   _cromoCola.push({poi:poi, num:numCromo, tipo:tipoCromo, extras:extras||[], doble:!!doble});
@@ -5546,46 +5584,15 @@ function _mostrarUnCromo(item, onClose) {
   var tablero = window._OCA_TABLERO || {};
   var casilla = tablero[num] || {emoji:'🐚', label:'Casilla '+num, tipo:'normal'};
   var nombre = (poi.nombre||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  var nombre = (poi.nombre||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  var poiEmoji = poi.emoji || '📍';
 
-  // Construir contenido según tipo
-  var headerTxt = doble ? '🏨 ¡Doble por la Posada!' : 'Cromo desbloqueado';
+  // Modal de notificación — efectos especiales se resuelven al pulsar casilla en el Tablero
+  var headerTxt = doble ? '🏨 ¡Doble por la Posada!' : 'Localización desbloqueada';
   var cromoInfo = num
-    ? '<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:12px 16px;margin-bottom:12px;text-align:center">'
-      + '<span style="font-size:36px">'+casilla.emoji+'</span>'
-      + '<div style="font-family:serif;font-size:15px;font-weight:600;color:#F5C800;margin:8px 0 3px">'+casilla.latin+'</div>'
-      + '<div style="font-size:10px;color:rgba(255,255,255,0.45);font-style:italic;margin-bottom:6px">'+casilla.trad+'</div>'
-      + '<div style="font-size:9px;color:rgba(255,255,255,0.25);letter-spacing:1.5px;text-transform:uppercase">'+casilla.label+'</div>'
-      + '</div>'
-    : '';
+    ? '<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:14px 16px;margin-bottom:14px;text-align:center">'      + '<div style="font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:8px">Obtienes un cromo</div>'      + '<div style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.5">Ahora puedes añadir tu foto recuerdo en <strong style=\"color:#fff\">Mi Álbum</strong> y abrir el cromo en el <strong style=\"color:#fff\">Tablero</strong></div>'      + '</div>'    : '<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:14px 16px;margin-bottom:14px;text-align:center">'      + '<div style="font-size:13px;color:rgba(255,255,255,0.75)">Localización registrada en tu álbum</div>'      + '</div>';
 
-  var efectoHtml = '';
   var botonesHtml = '<div id="cromo-btn-cerrar" style="background:#1D9E75;color:#fff;border:none;border-radius:24px;padding:12px 32px;font-size:15px;font-weight:600;cursor:pointer;display:inline-block;width:100%;box-sizing:border-box">¡Genial!</div>';
-
-  if (tipo === 'oca') {
-    var extCasilla = tablero[extras[0]] || {emoji:'🐚'};
-    efectoHtml = '<div style="font-size:12px;color:#6ee7b7;margin-bottom:12px">🪿 ¡De oca en oca! +1 cromo extra: '+extCasilla.emoji+' #'+extras[0]+'</div>';
-  } else if (tipo === 'puente_menos') {
-    efectoHtml = '<div style="font-size:12px;color:#fca5a5;margin-bottom:12px">🌉 El puente te cobra peaje — perderás 1 cromo</div>';
-    botonesHtml = '<div id="cromo-btn-perder1" style="background:#dc2626;color:#fff;border:none;border-radius:24px;padding:12px 32px;font-size:15px;font-weight:600;cursor:pointer;display:inline-block;width:100%;box-sizing:border-box">Elegir cuál perder</div>';
-  } else if (tipo === 'puente') {
-    var extCasilla2 = tablero[extras[0]] || {emoji:'🐚'};
-    efectoHtml = '<div style="font-size:12px;color:#6ee7b7;margin-bottom:12px">🌉 ¡El puente te favorece! +1 cromo: '+extCasilla2.emoji+' #'+extras[0]+'</div>';
-  } else if (tipo === 'posada') {
-    efectoHtml = '<div style="font-size:12px;color:#fbbf24;margin-bottom:12px">🏨 Descansas en la posada — el próximo lugar te dará doble cromo</div>';
-  } else if (tipo === 'dados') {
-    efectoHtml = '<div style="font-size:12px;color:#93c5fd;margin-bottom:12px">🎲 ¿Pruebas suerte con otro cromo aleatorio?</div>';
-    botonesHtml = '<div style="display:flex;gap:8px">'
-      + '<div id="cromo-btn-guardar" style="flex:1;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:24px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;text-align:center">Guardar #'+num+'</div>'
-      + '<div id="cromo-btn-cambiar" style="flex:1;background:#3b82f6;color:#fff;border:none;border-radius:24px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;text-align:center">Probar suerte</div>'
-      + '</div>';
-  } else if (tipo === 'laberinto' || tipo === 'carcel') {
-    var icon2 = tipo==='laberinto'?'🌀':'⛓️';
-    efectoHtml = '<div style="font-size:12px;color:#fca5a5;margin-bottom:12px">'+icon2+' Pierdes 2 cromos — elige cuáles</div>';
-    botonesHtml = '<div id="cromo-btn-perder2" style="background:#dc2626;color:#fff;border:none;border-radius:24px;padding:12px 32px;font-size:15px;font-weight:600;cursor:pointer;display:inline-block;width:100%;box-sizing:border-box">Elegir cuáles perder</div>';
-  } else if (tipo === 'muerte') {
-    efectoHtml = '<div style="font-size:12px;color:#fca5a5;margin-bottom:12px">💀 La Muerte se lleva todos tus cromos...</div>';
-    botonesHtml = '<div id="cromo-btn-muerte" style="background:#7f1d1d;color:#fff;border:none;border-radius:24px;padding:12px 32px;font-size:15px;font-weight:600;cursor:pointer;display:inline-block;width:100%;box-sizing:border-box">Aceptar destino</div>';
-  }
 
   var overlay = document.createElement('div');
   overlay.id = 'cromo-celebracion';
@@ -5594,8 +5601,8 @@ function _mostrarUnCromo(item, onClose) {
   box.style.cssText = 'background:linear-gradient(160deg,#1a0e2e,#3b1f6a);border-radius:20px;padding:1.5rem;max-width:85vw;width:300px;text-align:center;border:1px solid rgba(255,255,255,0.2)';
   box.innerHTML =
     '<div style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.4);margin-bottom:10px">'+headerTxt+'</div>'
-    +'<div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:10px">'+nombre+'</div>'
-    +cromoInfo+efectoHtml+botonesHtml;
+    +'<div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:14px">'+poiEmoji+' '+nombre+'</div>'
+    +cromoInfo+botonesHtml;
   overlay.appendChild(box);
   document.body.appendChild(overlay);
 
@@ -5604,60 +5611,8 @@ function _mostrarUnCromo(item, onClose) {
   var btnCerrar = box.querySelector('#cromo-btn-cerrar');
   if (btnCerrar) btnCerrar.addEventListener('click', cerrar);
 
-  var btnMuerte = box.querySelector('#cromo-btn-muerte');
-  if (btnMuerte) btnMuerte.addEventListener('click', function(){
-    window._ocaEliminarTodos(function(){ cerrar(); mostrarToast('💀 Todos tus cromos perdidos'); });
-  });
-
-  var btnPerder1 = box.querySelector('#cromo-btn-perder1');
-  if (btnPerder1) btnPerder1.addEventListener('click', function(){ cerrar(); _ocaMostrarSelectorPerder(1); });
-
-  var btnPerder2 = box.querySelector('#cromo-btn-perder2');
-  if (btnPerder2) btnPerder2.addEventListener('click', function(){ cerrar(); _ocaMostrarSelectorPerder(2); });
-
-  var btnGuardar = box.querySelector('#cromo-btn-guardar');
-  if (btnGuardar) btnGuardar.addEventListener('click', cerrar);
-
-  var btnCambiar = box.querySelector('#cromo-btn-cambiar');
-  if (btnCambiar) btnCambiar.addEventListener('click', function(){
-    // Eliminar el cromo actual y dar uno nuevo
-    window._ocaGetCromos(function(cromos){
-      // Encontrar el último cromo con ese número
-      var ultimo = null;
-      for (var i=cromos.length-1; i>=0; i--){ if(cromos[i].num===num){ ultimo=i+1; break; } } // IDB autoincrement empieza en 1
-      // Obtener IDs reales
-      var tx = window._ocaDB ? null : null; // usamos _ocaGetCromos de nuevo con IDs
-      _abrirDB(function(db){
-        var tx2 = db.transaction('cromos','readwrite');
-        var store = tx2.objectStore('cromos');
-        var allReq = store.getAllKeys();
-        allReq.onsuccess = function(){
-          var keys = allReq.result;
-          // Encontrar la key del último cromo con num
-          var keyDel = null;
-          var getAll = store.getAll();
-          getAll.onsuccess = function(){
-            var items = getAll.result;
-            for(var j=items.length-1;j>=0;j--){
-              if(items[j].num===num){ keyDel=keys[j]; break; }
-            }
-            if(keyDel!==null){
-              store.delete(keyDel);
-            }
-            var nuevoNum = Math.floor(Math.random()*62)+1;
-            store.add({num:nuevoNum, poiId:poi.id||'', fecha:Date.now()});
-            tx2.oncomplete = function(){
-              var nCasilla = (window._OCA_TABLERO||{})[nuevoNum]||{emoji:'🐚',label:'Casilla '+nuevoNum};
-              cerrar();
-              mostrarToast('🎲 Nuevo cromo: '+nCasilla.emoji+' #'+nuevoNum+' '+nCasilla.label);
-            };
-          };
-        };
-      });
-    });
-  });
-
   overlay.addEventListener('click', function(e){ if(e.target===overlay) cerrar(); });
+
 }
 
 // Selector de cromos para perder N
@@ -6430,8 +6385,9 @@ function _ejecutarLimpiarRuta() {
   // Retomar vista centrada en posición del usuario
   try {
     if (typeof mapa !== 'undefined' && mapa) {
-      radioKm = 1;
-      aplicarRadio(1);
+      var lat = (typeof userLat !== 'undefined' && userLat) ? userLat : 42.2328;
+      var lng = (typeof userLng !== 'undefined' && userLng) ? userLng : -8.7226;
+      mapa.setView([lat, lng], 15, {animate: true});
     }
   } catch(e) {}
 }
@@ -7476,6 +7432,8 @@ var T={
     coleccionTitulo:'🐚 Colección del Peregrino',
     coleccionVacio:'Visita lugares del Camino para obtener cromos',
     coleccionContador:'de 63 casillas',
+    coleccionAbierto:'abierto',coleccionAbiertos:'abiertos',coleccionMazo:'en mazo',
+    mazoTitulo:'Mazo sin abrir',mazoPendiente:'cromo pendiente',mazoPendientes:'cromos pendientes',mazoTap:'Pulsa para abrir el siguiente',
     visitaDesbloquear:'Visita el lugar para desbloquear y añadir tu imagen',
     rankingTitulo:'Mi ranking',
     rankingVacio:'Aún no has visitado ningún punto',
@@ -7733,6 +7691,8 @@ var T={
     rankingMaximo:'¡Rango máximo acadado!',
     coleccionSuper:'Xogo da Oca Xacobeo',coleccionTitulo:'🐚 Colección do Peregrino',
     coleccionVacio:'Visita lugares do Camiño para obter cromos',coleccionContador:'de 63 casillas',
+    coleccionAbierto:'aberto',coleccionAbiertos:'abertos',coleccionMazo:'no mazo',
+    mazoTitulo:'Mazo sen abrir',mazoPendiente:'cromo pendente',mazoPendientes:'cromos pendentes',mazoTap:'Preme para abrir o seguinte',
     rankingVacio:'Aínda non visitaches ningún punto',
     dificultadLabel:'Dificultade',
     ascenso:'Ascenso',
@@ -7778,6 +7738,8 @@ var T={
     rankingMaximo:'Maximum rank reached!',
     coleccionSuper:'Jacobean Goose Game',coleccionTitulo:'🐚 Pilgrim Collection',
     coleccionVacio:'Visit places along the Way to collect cards',coleccionContador:'of 63 squares',
+    coleccionAbierto:'opened',coleccionAbiertos:'opened',coleccionMazo:'in deck',
+    mazoTitulo:'Unopened deck',mazoPendiente:'card pending',mazoPendientes:'cards pending',mazoTap:'Tap to open the next one',
     rankingVacio:'Aún no has visitado ningún punto',
     dificultadLabel:'Dificultad',
     ascenso:'Ascenso',
@@ -8749,7 +8711,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = 'v700';
+var _APP_VERSION = "v721";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -8781,7 +8743,7 @@ if ('serviceWorker' in navigator) {
   var DB_VER  = 2;
   var _db = null;
 
-  function _abrirDB(cb) {
+  function _abrirDB(cb) { window._abrirDB = _abrirDB;
     if (_db) { cb(_db); return; }
     var req = indexedDB.open(DB_NAME, DB_VER);
     req.onupgradeneeded = function(e) {
@@ -8843,14 +8805,14 @@ if ('serviceWorker' in navigator) {
               var veces = posada ? 2 : 1;
               if (posada) window._ocaSetPosada(false, function(){});
               function _darCromo(n) {
-                var num = window._ocaGenerarNumero(poi.id);
-                window._ocaProcesarCromo(num, poi.id, function(numFinal, tipo, extras) {
-                  if (n === veces) {
-                    // Último cromo — mostrar modal
-                    mostrarToastCromo(poi, numFinal, tipo, extras, posada && veces===2);
-                  } else {
-                    _darCromo(n+1);
-                  }
+                window._ocaGenerarNumero(poi.id, function(num) {
+                  window._ocaProcesarCromo(num, poi.id, function(numFinal, tipo, extras) {
+                    if (n === veces) {
+                      mostrarToastCromo(poi, numFinal, tipo, extras, posada && veces===2);
+                    } else {
+                      _darCromo(n+1);
+                    }
+                  });
                 });
               }
               _darCromo(1);
@@ -8962,25 +8924,56 @@ if ('serviceWorker' in navigator) {
   })();
 
   // Generar número de cromo aleatorio según contexto del POI
-  window._ocaGenerarNumero = function(poiId) {
-    var r = Math.random();
-    // Santiago → solo cromo 63
-    if (_POI_SANTIAGO.indexOf(poiId) >= 0) return 63;
-    // Templario → puede salir Oca (prob 25%) o normal
-    if (_POI_TEMPLARIOS.indexOf(poiId) >= 0 && r < 0.25) {
-      var ocas = [5,9,14,18,23,27,32,36,41,45,50,54,59];
-      return ocas[Math.floor(Math.random()*ocas.length)];
-    }
-    // Puente → prob 40% de casilla puente
-    if (_POI_PUENTES.indexOf(poiId) >= 0 && r < 0.40) {
-      return Math.random() < 0.5 ? 6 : 12;
-    }
-    // Albergue → prob 35% de casilla posada
-    if (_POI_ALBERGUES.indexOf(poiId) >= 0 && r < 0.35) {
-      return Math.random() < 0.5 ? 19 : 31;
-    }
-    // Normal → aleatorio 1-62 (63 solo en Santiago)
-    return Math.floor(Math.random() * 62) + 1;
+  window._OCA_TABLERO = _OCA_TABLERO;
+  window._ocaGenerarNumero = function(poiId, cb) {
+    if (_POI_SANTIAGO.indexOf(poiId) >= 0) { cb(63); return; }
+    var porTipo = {
+      oca:[5,9,14,18,23,27,32,36,41,45,50,54,59],
+      puente:[6,12], posada:[19,31], dados:[26,53],
+      laberinto:[42], carcel:[52], muerte:[58]
+    };
+    // Casillas normales (1-62 excluidas las especiales y la 63)
+    var especiales=[5,6,9,12,14,18,19,23,26,27,31,32,36,41,42,45,50,52,53,54,58,59];
+    var espSet={}; especiales.forEach(function(n){espSet[n]=true;});
+    var normales=[]; for(var ni=1;ni<=62;ni++){if(!espSet[ni])normales.push(ni);}
+    _abrirDB(function(db){
+      if(!db.objectStoreNames.contains('cromos')){cb(normales[Math.floor(Math.random()*normales.length)]);return;}
+      var tx=db.transaction('cromos','readonly');
+      var req=tx.objectStore('cromos').getAll();
+      req.onsuccess=function(){
+        var items=req.result||[];
+        var ocupadas={};
+        items.forEach(function(it){ocupadas[it.num]=true;}); // incluye mazo sin abrir
+        var tiposCompletos={};
+        Object.keys(porTipo).forEach(function(tipo){
+          if(porTipo[tipo].every(function(n){return ocupadas[n];}))tiposCompletos[tipo]=true;
+        });
+        var tablero=window._OCA_TABLERO||{};
+        // Especiales libres (excluye muerte del pool normal)
+        var especLibres=especiales.filter(function(n){
+          if(n===58)return false; // muerte se sortea aparte
+          if(ocupadas[n])return false;
+          var tipo=(tablero[n]||{}).tipo;
+          if(tipo&&tiposCompletos[tipo])return false;
+          return true;
+        });
+        // Normales libres
+        var normLibres=normales.filter(function(n){return !ocupadas[n];});
+        // Muerte libre
+        var muerteLibre=!ocupadas[58];
+        // Sorteo ponderado:
+        // ~70% normal, ~29.99% especial, ~0.01% muerte
+        var r=Math.random();
+        var usarMuerte=muerteLibre&&r<0.000001;
+        var usarEspecial=!usarMuerte&&especLibres.length>0&&r<0.30;
+        if(usarMuerte){cb(58);}
+        else if(usarEspecial){cb(especLibres[Math.floor(Math.random()*especLibres.length)]);}
+        else if(normLibres.length>0){cb(normLibres[Math.floor(Math.random()*normLibres.length)]);}
+        else if(especLibres.length>0){cb(especLibres[Math.floor(Math.random()*especLibres.length)]);}
+        else{cb(normales[Math.floor(Math.random()*normales.length)]);}
+      };
+      req.onerror=function(){cb(normales[Math.floor(Math.random()*normales.length)]);}
+    });
   };
 
   // Guardar cromo en IndexedDB (store 'cromos': {num, fecha, poiId})
@@ -8989,7 +8982,7 @@ if ('serviceWorker' in navigator) {
       if (!db.objectStoreNames.contains('cromos')) { if (cb) cb(); return; }
       try {
         var tx = db.transaction('cromos', 'readwrite');
-        tx.objectStore('cromos').add({ num: num, poiId: poiId, fecha: Date.now() });
+        tx.objectStore('cromos').add({ num: num, poiId: poiId, fecha: Date.now(), resuelto: false });
         tx.oncomplete = function() { if (cb) cb(); };
         tx.onerror = function() { if (cb) cb(); };
       } catch(e) { if (cb) cb(); }
@@ -9027,6 +9020,32 @@ if ('serviceWorker' in navigator) {
     });
   };
 
+  window._ocaGetCromosConKeys = function(cb) {
+    _abrirDB(function(db) {
+      if (!db.objectStoreNames.contains('cromos')) { cb([]); return; }
+      try {
+        var tx=db.transaction('cromos','readonly'),items=[],keys=[];
+        tx.objectStore('cromos').openCursor().onsuccess=function(e){
+          var cursor=e.target.result;
+          if(cursor){keys.push(cursor.key);items.push(cursor.value);cursor.continue();}
+          else{cb(items.map(function(v,i){return{key:keys[i],item:v};}));}
+        };
+      } catch(e2){cb([]);}
+    });
+  };
+  window._ocaMarcarResuelto = function(idbKey, cb) {
+    _abrirDB(function(db) {
+      var tx=db.transaction('cromos','readwrite');
+      var store=tx.objectStore('cromos');
+      var req=store.get(idbKey);
+      req.onsuccess=function(){
+        var item=req.result;
+        if(item){item.resuelto=true;store.put(item,idbKey);}
+        tx.oncomplete=function(){if(cb)cb();};
+      };
+      tx.onerror=function(){if(cb)cb();};
+    });
+  };
   // Estado posada pendiente
   window._ocaGetPosada = function(cb) {
     _abrirDB(function(db) {
@@ -9053,62 +9072,10 @@ if ('serviceWorker' in navigator) {
 
   // Procesar cromo obtenido — lógica completa
   window._ocaProcesarCromo = function(num, poiId, cb) {
-    var casilla = window._OCA_TABLERO ? window._OCA_TABLERO[num] : _OCA_TABLERO[num];
-    var tipo = casilla.tipo;
-
-    if (tipo === 'normal' || tipo === 'santiago') {
-      window._ocaGuardarCromo(num, poiId, function() { if (cb) cb(num, tipo, []); });
-
-    } else if (tipo === 'oca') {
-      // Guardar la oca + 1 cromo extra aleatorio
-      var extra = Math.floor(Math.random()*62)+1;
-      window._ocaGuardarCromo(num, poiId, function() {
-        window._ocaGuardarCromo(extra, poiId, function() {
-          if (cb) cb(num, tipo, [extra]);
-        });
-      });
-
-    } else if (tipo === 'puente') {
-      // ±1 cromo aleatorio
-      if (Math.random() < 0.5) {
-        // +1 extra
-        var extra2 = Math.floor(Math.random()*62)+1;
-        window._ocaGuardarCromo(num, poiId, function() {
-          window._ocaGuardarCromo(extra2, poiId, function() {
-            if (cb) cb(num, tipo, [extra2]);
-          });
-        });
-      } else {
-        // Guardar el puente pero disparar pérdida de 1
-        window._ocaGuardarCromo(num, poiId, function() {
-          if (cb) cb(num, tipo+'_menos', []);
-        });
-      }
-
-    } else if (tipo === 'posada') {
-      // Sin cromo ahora, doble en el próximo
-      window._ocaGuardarCromo(num, poiId, function() {
-        window._ocaSetPosada(true, function() {
-          if (cb) cb(num, tipo, []);
-        });
-      });
-
-    } else if (tipo === 'dados') {
-      // Guardar provisional, se decide en el modal
-      window._ocaGuardarCromo(num, poiId, function() {
-        if (cb) cb(num, tipo, []);
-      });
-
-    } else if (tipo === 'laberinto' || tipo === 'carcel') {
-      window._ocaGuardarCromo(num, poiId, function() {
-        if (cb) cb(num, tipo, []); // pérdida de 2 se gestiona en modal
-      });
-
-    } else if (tipo === 'muerte') {
-      window._ocaGuardarCromo(num, poiId, function() {
-        if (cb) cb(num, tipo, []);
-      });
-    }
+    var casilla = _OCA_TABLERO[num] || {tipo:'normal'};
+    window._ocaGuardarCromo(num, poiId, function() {
+      if (cb) cb(num, casilla.tipo, []);
+    });
   };
 
   // Guardar foto (blob) asociada a un POI
@@ -9402,7 +9369,7 @@ if ('serviceWorker' in navigator) {
   // ---- Detección de proximidad durante el seguimiento GPS ----
   // Se engancha al watchPosition existente comprobando cada posición
   var _albumYaNotificado = {};
-  var RADIO_VISITA_M = 50; // metros para registrar visita
+  var RADIO_VISITA_M = 25; // metros para registrar visita (pruebas)
 
   window._albumCheckProximidad = function(lat, lng) {
     if (typeof PUNTOS === 'undefined') return;
@@ -9439,8 +9406,12 @@ if ('serviceWorker' in navigator) {
       var enRutaLabel = enRuta
         ? '&#10003; '+((T[idiomaActual]||T.es).enRuta||'En ruta').replace('✓ ','')
         : ((T[idiomaActual]||T.es).añadirRuta||'+ Ruta');
+      var _imgSrc = p.imagen || 'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png';
+      var _noFoto = !p.imagen;
+      var _fotoOverlay = _noFoto ? ('<div style="position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:30px;pointer-events:none"><div style="background:rgba(0,0,0,0.55);backdrop-filter:blur(3px);border-radius:10px;padding:4px 8px;font-size:9px;font-weight:600;color:rgba(255,255,255,0.85);text-align:center;font-family:DM Sans,sans-serif;letter-spacing:0.3px;max-width:90%">📷 Añade una foto para tu álbum de recuerdos</div></div>') : '';
       return '<div class="poi-img '+p.color+'" style="position:relative;overflow:hidden" data-cromo-id="'+p.id+'">' +
-        '<img id="cromo-img-'+p.id+'" src="'+( p.imagen||'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png')+'" alt="'+p.nombre+'" class="poi-img-cover" decoding="async" fetchpriority="low"/>' +
+        '<img id="cromo-img-'+p.id+'" src="'+_imgSrc+'" alt="'+p.nombre+'" class="poi-img-cover" decoding="async" fetchpriority="low"/>' +
+        _fotoOverlay +
         '<button onclick="event.stopPropagation();_albumPedirFotoCard(\''+p.id+'\')" style="position:absolute;bottom:7px;right:7px;z-index:10;background:rgba(0,0,0,0.52);border:1px solid rgba(255,255,255,0.35);border-radius:20px;padding:3px 9px;color:#fff;font-size:10px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;backdrop-filter:blur(4px)" id="foto-btn-'+p.id+'">📷 mi foto</button>' +
       '</div>';
     } else {
@@ -9463,9 +9434,15 @@ if ('serviceWorker' in navigator) {
     var divs = document.querySelectorAll('[data-cromo-id="'+poiId+'"]');
     divs.forEach(function(div) {
       div.style.background = '';
-      div.innerHTML =
-        '<img id="cromo-img-'+p.id+'" src="'+(p.imagen||'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png')+'" alt="'+p.nombre+'" class="poi-img-cover" decoding="async"/>' +
-        '<button onclick="event.stopPropagation();_albumPedirFotoCard(\''+p.id+'\')" style="position:absolute;bottom:7px;right:7px;z-index:10;background:rgba(0,0,0,0.52);border:1px solid rgba(255,255,255,0.35);border-radius:20px;padding:3px 9px;color:#fff;font-size:10px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;backdrop-filter:blur(4px)" id="foto-btn-'+p.id+'">📷 mi foto</button>';
+      (function(d,poi){
+        window._albumGetFoto(poi.id, function(blob) {
+          var src = blob ? URL.createObjectURL(blob) : (poi.imagen || 'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png');
+          var noFoto = !blob && !poi.imagen;
+          var ov = noFoto ? '<div style="position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:30px;pointer-events:none"><div style="background:rgba(0,0,0,0.55);backdrop-filter:blur(3px);border-radius:10px;padding:4px 8px;font-size:9px;font-weight:600;color:rgba(255,255,255,0.85);text-align:center;font-family:DM Sans,sans-serif;letter-spacing:0.3px;max-width:90%">📷 Añade una foto para tu álbum de recuerdos</div></div>' : '';
+          d.innerHTML = '<img id="cromo-img-'+poi.id+'" src="'+src+'" alt="'+poi.nombre+'" class="poi-img-cover" decoding="async"/>' + ov +
+            '<button onclick="event.stopPropagation();_albumPedirFotoCard(\''+poi.id+'\')" style="position:absolute;bottom:7px;right:7px;z-index:10;background:rgba(0,0,0,0.52);border:1px solid rgba(255,255,255,0.35);border-radius:20px;padding:3px 9px;color:#fff;font-size:10px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;backdrop-filter:blur(4px)" id="foto-btn-'+poi.id+'">📷 mi foto</button>';
+        });
+      })(div, p);
     });
   };
 
@@ -9609,79 +9586,401 @@ function _renderAlbumPanel() {
 var _OCA_POSICIONES = [null,[6,0],[6,1],[6,2],[6,3],[6,4],[6,5],[6,6],[6,7],[6,8],[5,8],[4,8],[3,8],[2,8],[1,8],[0,8],[0,7],[0,6],[0,5],[0,4],[0,3],[0,2],[0,1],[0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[5,1],[5,2],[5,3],[5,4],[5,5],[5,6],[5,7],[4,7],[3,7],[2,7],[1,7],[1,6],[1,5],[1,4],[1,3],[1,2],[1,1],[2,1],[3,1],[4,1],[4,2],[4,3],[4,4],[4,5],[4,6],[3,6],[2,6],[2,5],[2,4],[2,3],[2,2],[3,2],[3,3],[3,5],[3,4]];
 
 function _renderTableroOca() {
-  var tableroGrid = document.getElementById('ap-tablero-oca');
-  var tableroVacio = document.getElementById('ap-tablero-vacio');
-  var contador = document.getElementById('tablero-contador');
-  if (!tableroGrid || !window._ocaGetCromos) return;
+  var tableroGrid=document.getElementById('ap-tablero-oca');
+  var tableroVacio=document.getElementById('ap-tablero-vacio');
+  var mazoCont=document.getElementById('ap-mazo-cromos');
+  var contador=document.getElementById('tablero-contador');
+  if(!tableroGrid||!window._ocaGetCromosConKeys) return;
+  window._ocaGetCromosConKeys(function(entries){
+    var mazo=entries.filter(function(e){return !e.item.resuelto;});
+    var abiertos=entries.filter(function(e){return e.item.resuelto;});
+    var numAb={};
+    abiertos.forEach(function(e){numAb[e.item.num]=(numAb[e.item.num]||0)+1;});
+    var casillasAb=Object.keys(numAb).length;
+    var _tTab=T[idiomaActual]||T.es;
+    if(contador) contador.textContent=entries.length>0
+      ?casillasAb+' '+(_tTab.coleccionContador||'de 63 casillas')+' · '+abiertos.length+' '+(abiertos.length!==1?(_tTab.coleccionAbiertos||'abiertos'):(_tTab.coleccionAbierto||'abierto'))+(mazo.length?' · '+mazo.length+' '+(_tTab.coleccionMazo||'en mazo'):'')
+      :(_tTab.coleccionVacio||'Visita lugares para obtener cromos');
+    if(tableroVacio) tableroVacio.style.display=entries.length>0?'none':'block';
 
-  window._ocaGetCromos(function(cromos) {
-    tableroGrid.innerHTML = '';
-    var conteo = {};
-    cromos.forEach(function(item) { conteo[item.num] = (conteo[item.num] || 0) + 1; });
-
-    var total = Object.keys(conteo).length;
-    var _tTab = T[idiomaActual]||T.es;
-    if (contador) contador.textContent = total > 0
-      ? total+' '+(_tTab.coleccionContador||'de 63 casillas')+' · '+cromos.length+' cromo'+(cromos.length!==1?'s':'')
-      : (_tTab.coleccionVacio||'Visita lugares para obtener cromos');
-    if (tableroVacio) tableroVacio.style.display = cromos.length > 0 ? 'none' : 'block';
-
-    // Grid 9 cols x 7 rows en espiral
-    tableroGrid.style.cssText = 'display:grid;grid-template-columns:repeat(9,1fr);grid-template-rows:repeat(7,1fr);gap:3px;width:100%;aspect-ratio:9/7';
-
-    // Crear 63 celdas vacías y asignar por posición
-    var cells = [];
-    for (var r = 0; r < 7; r++) {
-      for (var col = 0; col < 9; col++) {
-        var ph = document.createElement('div');
-        cells.push(ph);
-        tableroGrid.appendChild(ph);
-      }
+    // Mazo
+    if(mazoCont){
+      mazoCont.innerHTML='';
+      if(mazo.length>0){
+        mazoCont.style.display='block';
+        var mazoEl=document.createElement('div');
+        mazoEl.style.cssText='display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.07);border:1.5px solid rgba(245,200,0,0.35);border-radius:14px;padding:12px 16px;cursor:pointer;transition:background 0.15s;margin-bottom:4px';
+        mazoEl.innerHTML='<div style="position:relative;width:44px;height:58px;flex-shrink:0">'
+          +(mazo.length>2?'<div style="position:absolute;top:4px;left:4px;width:36px;height:50px;background:rgba(245,200,0,0.15);border:1px solid rgba(245,200,0,0.25);border-radius:6px"></div>':'')
+          +(mazo.length>1?'<div style="position:absolute;top:2px;left:2px;width:36px;height:50px;background:rgba(245,200,0,0.2);border:1px solid rgba(245,200,0,0.3);border-radius:6px"></div>':'')
+          +'<div style="position:absolute;top:0;left:0;width:36px;height:50px;background:linear-gradient(135deg,#2d1854,#1a0e2e);border:1.5px solid rgba(245,200,0,0.6);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:22px">🎴</div>'
+          +'</div>'
+          +'<div style="flex:1">'
+          +'<div style="font-size:13px;font-weight:700;color:#F5C800;margin-bottom:3px">'+(_tTab.mazoTitulo||'Mazo sin abrir')+'</div>'
+          +'<div style="font-size:12px;color:rgba(255,255,255,0.55)">'+(mazo.length>1?'×'+mazo.length+' '+(_tTab.mazoPendientes||'cromos pendientes'):'1 '+(_tTab.mazoPendiente||'cromo pendiente'))+'</div>'
+          +'<div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:2px">'+(_tTab.mazoTap||'Pulsa para abrir el siguiente')+'</div>'
+          +'</div>'
+          +'<div style="font-size:20px">▶️</div>';
+        mazoEl.addEventListener('mouseenter',function(){this.style.background='rgba(255,255,255,0.12)';});
+        mazoEl.addEventListener('mouseleave',function(){this.style.background='rgba(255,255,255,0.07)';});
+        mazoEl.addEventListener('click',function(){_abrirCromoDelMazo(mazo[0]);});
+        mazoCont.appendChild(mazoEl);
+      } else { mazoCont.style.display='none'; }
     }
 
-    var tablero = window._OCA_TABLERO || {};
-    var colores = {oca:'rgba(110,231,183,0.6)',puente:'rgba(96,165,250,0.6)',posada:'rgba(251,191,36,0.6)',dados:'rgba(147,197,253,0.6)',laberinto:'rgba(167,139,250,0.6)',carcel:'rgba(252,165,165,0.6)',muerte:'rgba(220,38,38,0.8)'};
+    // Grid solo abiertos
+    tableroGrid.innerHTML='';
+    if(abiertos.length===0) return;
+    tableroGrid.style.cssText='display:grid;grid-template-columns:repeat(9,1fr);grid-template-rows:repeat(7,1fr);gap:3px;width:100%;aspect-ratio:9/7';
+    var cells=[];
+    for(var r=0;r<7;r++) for(var cc=0;cc<9;cc++){var ph=document.createElement('div');cells.push(ph);tableroGrid.appendChild(ph);}
+    var tablero=window._OCA_TABLERO||{};
+    var coloresEsp={oca:'rgba(110,231,183,0.7)',puente:'rgba(96,165,250,0.7)',posada:'rgba(251,191,36,0.7)',dados:'rgba(147,197,253,0.7)',laberinto:'rgba(167,139,250,0.7)',carcel:'rgba(252,165,165,0.7)',muerte:'rgba(220,38,38,0.85)',santiago:'rgba(245,200,0,0.85)'};
+    var conteo={};
+    abiertos.forEach(function(e){var n=e.item.num;if(!conteo[n])conteo[n]=[];conteo[n].push(e);});
 
-    for (var i = 1; i <= 63; i++) {
-      var pos = _OCA_POSICIONES[i];
-      if (!pos) continue;
-      var cellIdx = pos[0] * 9 + pos[1];
-      var cell = cells[cellIdx];
-      var casilla = tablero[i] || { emoji: '🐚', tipo: 'normal', latin: '' };
-      var cantidad = conteo[i] || 0;
-      var tiene = cantidad > 0;
+    // Deuda por tipo para mostrar badges
+    _ocaGetDeuda(function(deuda){
+      // Casillas de deuda: carcel=52, laberinto=42, posada=19/31, puente=6/12, dados=26/53
+      var deudaBadge={
+        52: deuda.carcel||0,
+        42: deuda.laberinto||0,
+        19: Math.ceil((deuda.posada||0)/2), 31: Math.floor((deuda.posada||0)/2),
+        6:  Math.ceil((deuda.puente||0)/2),  12: Math.floor((deuda.puente||0)/2),
+        26: Math.ceil((deuda.dados||0)/2),   53: Math.floor((deuda.dados||0)/2)
+      };
 
-      cell.style.cssText = 'position:relative;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;'
-        + (tiene ? 'background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);'
-                 : 'background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);');
-
-      // Casilla 63 centro
-      if (i === 63) {
-        cell.style.background = tiene ? 'rgba(245,200,0,0.25)' : 'rgba(245,200,0,0.06)';
-        cell.style.borderColor = tiene ? 'rgba(245,200,0,0.8)' : 'rgba(245,200,0,0.2)';
-      } else if (tiene && casilla.tipo !== 'normal') {
-        cell.style.borderColor = colores[casilla.tipo] || 'rgba(255,255,255,0.25)';
+      for(var i=1;i<=63;i++){
+        var pos=_OCA_POSICIONES[i]; if(!pos) continue;
+        var cell=cells[pos[0]*9+pos[1]];
+        var casilla=tablero[i]||{emoji:'🐚',tipo:'normal',latin:'',trad:'',label:'Casilla '+i};
+        var ents=conteo[i]||[],cantidad=ents.length,tiene=cantidad>0;
+        var bgBase=tiene?'rgba(255,255,255,0.12)':'rgba(255,255,255,0.03)';
+        var bdBase=tiene?'rgba(255,255,255,0.25)':'rgba(255,255,255,0.06)';
+        if(i===63){bgBase=tiene?'rgba(245,200,0,0.25)':'rgba(245,200,0,0.06)';bdBase=tiene?'rgba(245,200,0,0.8)':'rgba(245,200,0,0.2)';}
+        else if(tiene&&casilla.tipo!=='normal'){bdBase=coloresEsp[casilla.tipo]||bdBase;}
+        cell.style.cssText='position:relative;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:'+bgBase+';border:1px solid '+bdBase+';'+(tiene?'cursor:pointer;':'');
+        if(casilla.latin) cell.title=casilla.latin+(casilla.trad?' · '+casilla.trad:'');
+        var em=document.createElement('div');em.style.cssText='font-size:'+(tiene?'14px':'10px')+';line-height:1;'+(tiene?'':'opacity:0.2');em.textContent=casilla.emoji;cell.appendChild(em);
+        var nl=document.createElement('div');nl.style.cssText='font-size:7px;font-weight:700;margin-top:1px;'+(tiene?'color:rgba(255,255,255,0.55)':'color:rgba(255,255,255,0.12)');nl.textContent=i;cell.appendChild(nl);
+        if(cantidad>1){var bg=document.createElement('div');bg.style.cssText='position:absolute;top:1px;right:1px;background:#1D9E75;color:#fff;font-size:6px;font-weight:700;border-radius:6px;padding:1px 3px;line-height:1.4';bg.textContent='×'+cantidad;cell.appendChild(bg);}
+        // Badge de deuda
+        var db=deudaBadge[i]||0;
+        if(db>0){
+          var dbEl=document.createElement('div');
+          dbEl.style.cssText='position:absolute;bottom:1px;left:1px;background:#dc2626;color:#fff;font-size:6px;font-weight:700;border-radius:6px;padding:1px 3px;line-height:1.4';
+          dbEl.textContent='-'+db;
+          cell.appendChild(dbEl);
+        }
+        if(tiene){(function(n,cas,ents_){cell.addEventListener('click',function(){_abrirModalCasilla(n,cas,ents_);});})(i,casilla,ents);}
       }
+    });
+  });
+}
 
-      if (casilla.latin) cell.title = casilla.latin + (casilla.trad ? ' · ' + casilla.trad : '');
+function _abrirCromoDelMazo(entry){
+  var num=entry.item.num;
+  var tablero=window._OCA_TABLERO||{};
+  var casilla=tablero[num]||{emoji:'🐚',tipo:'normal',latin:'',trad:'',label:'Casilla '+num};
+  _abrirModalCasilla(num,casilla,[entry]);
+}
 
-      var emojiEl = document.createElement('div');
-      emojiEl.style.cssText = 'font-size:' + (tiene ? '14px' : '10px') + ';line-height:1;' + (tiene ? '' : 'opacity:0.2');
-      emojiEl.textContent = casilla.emoji;
-      cell.appendChild(emojiEl);
+// ── Deuda: objeto {carcel, laberinto, posada, puente, dados} ─────────────────
+// Orden de cobro: carcel > laberinto > posada > puente > dados
+var _DEUDA_ORDEN=['carcel','laberinto','posada','puente','dados'];
+var _DEUDA_COSTE={carcel:2,laberinto:2,posada:1,puente:1,dados:2};
+var _DEUDA_ICONO={carcel:'⛓️',laberinto:'🌀',posada:'🏨',puente:'🌉',dados:'🎲'};
 
-      var numEl = document.createElement('div');
-      numEl.style.cssText = 'font-size:7px;font-weight:700;margin-top:1px;' + (tiene ? 'color:rgba(255,255,255,0.55)' : 'color:rgba(255,255,255,0.12)');
-      numEl.textContent = i;
-      cell.appendChild(numEl);
+function _ocaGetDeuda(cb){
+  window._abrirDB(function(db){
+    if(!db.objectStoreNames.contains('estado')){cb({});return;}
+    var tx=db.transaction('estado','readonly');
+    var req=tx.objectStore('estado').get('deudaCromos');
+    req.onsuccess=function(){cb(req.result&&req.result.valor&&typeof req.result.valor==='object'?req.result.valor:{});};
+    req.onerror=function(){cb({});};
+  });
+}
+function _ocaSetDeuda(obj,cb){
+  window._abrirDB(function(db){
+    var tx=db.transaction('estado','readwrite');
+    tx.objectStore('estado').put({key:'deudaCromos',valor:obj});
+    tx.oncomplete=function(){if(cb)cb();};
+  });
+}
+function _ocaAddDeuda(tipo,cantidad,cb){
+  _ocaGetDeuda(function(d){
+    d[tipo]=(d[tipo]||0)+cantidad;
+    _ocaSetDeuda(d,cb);
+  });
+}
+function _ocaTotalDeuda(d){
+  return _DEUDA_ORDEN.reduce(function(s,t){return s+(d[t]||0);},0);
+}
 
-      if (cantidad > 1) {
-        var badge = document.createElement('div');
-        badge.style.cssText = 'position:absolute;top:1px;right:1px;background:#1D9E75;color:#fff;font-size:6px;font-weight:700;border-radius:6px;padding:1px 3px;line-height:1.4';
-        badge.textContent = '×' + cantidad;
-        cell.appendChild(badge);
-      }
+// Mostrar modal informando de deuda acumulada (sin cromos comunes)
+function _ocaModalDeudaInfo(tipo){
+  var overlay=document.createElement('div');
+  overlay.style.cssText='position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,0.88);display:flex;align-items:center;justify-content:center;font-family:DM Sans,sans-serif;padding:1rem;box-sizing:border-box';
+  var box=document.createElement('div');
+  box.style.cssText='background:linear-gradient(160deg,#2d0a0a,#7f1d1d);border-radius:20px;padding:1.5rem;max-width:85vw;width:300px;text-align:center;border:1px solid rgba(220,38,38,0.4)';
+  var icono=_DEUDA_ICONO[tipo]||'⚠️';
+  var coste=_DEUDA_COSTE[tipo]||0;
+  box.innerHTML='<div style="font-size:32px;margin-bottom:8px">'+icono+'</div>'
+    +'<div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:8px">Deuda pendiente</div>'
+    +'<div style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.5;margin-bottom:16px">No hay cromos comunes en el tablero. Se han anotado <strong style="color:#fca5a5">-'+coste+'</strong> como deuda de <strong style="color:#fff">'+tipo.charAt(0).toUpperCase()+tipo.slice(1)+'</strong>. Se cobrarán automáticamente cuando entren cromos normales.</div>'
+    +'<button id="deuda-ok" style="width:100%;background:#dc2626;color:#fff;border:none;border-radius:16px;padding:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">Entendido</button>';
+  overlay.appendChild(box);document.body.appendChild(overlay);
+  box.querySelector('#deuda-ok').addEventListener('click',function(){overlay.remove();_renderTableroOca();});
+}
+
+// Cobrar deuda cuando entra un cromo normal — llama desde _marcarResueltoYComprobarDeuda
+function _ocaCobrarDeudaSiProcede(cb){
+  _ocaGetDeuda(function(deuda){
+    var total=_ocaTotalDeuda(deuda);
+    if(total===0){if(cb)cb(false);return;}
+    // Buscar primer tipo con deuda
+    var tipoActivo=null;
+    for(var ti=0;ti<_DEUDA_ORDEN.length;ti++){
+      if((deuda[_DEUDA_ORDEN[ti]]||0)>0){tipoActivo=_DEUDA_ORDEN[ti];break;}
     }
+    if(!tipoActivo){if(cb)cb(false);return;}
+    // Eliminar 1 cromo común del tablero como pago
+    _ocaEliminarComunesAleatorio(1,function(eli){
+      if(eli===0){if(cb)cb(false);return;} // no había, deuda sigue
+      deuda[tipoActivo]=(deuda[tipoActivo]||0)-1;
+      if(deuda[tipoActivo]<=0) delete deuda[tipoActivo];
+      _ocaSetDeuda(deuda,function(){
+        // Mostrar modal de cobro
+        var restante=_ocaTotalDeuda(deuda);
+        _ocaModalDeudaCobrada(tipoActivo,restante,function(){if(cb)cb(true);});
+      });
+    });
+  });
+}
+
+function _ocaModalDeudaCobrada(tipo,restante,cb){
+  var overlay=document.createElement('div');
+  overlay.style.cssText='position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,0.88);display:flex;align-items:center;justify-content:center;font-family:DM Sans,sans-serif;padding:1rem;box-sizing:border-box';
+  var box=document.createElement('div');
+  box.style.cssText='background:linear-gradient(160deg,#1a2a0a,#2d4a1a);border-radius:20px;padding:1.5rem;max-width:85vw;width:300px;text-align:center;border:1px solid rgba(110,231,183,0.3)';
+  var icono=_DEUDA_ICONO[tipo]||'⚠️';
+  box.innerHTML='<div style="font-size:32px;margin-bottom:8px">'+icono+'</div>'
+    +'<div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:8px">Deuda cobrada</div>'
+    +'<div style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.5;margin-bottom:16px">Se ha retirado 1 cromo común del tablero como pago de <strong style="color:#fff">'+tipo.charAt(0).toUpperCase()+tipo.slice(1)+'</strong>.'+(restante>0?' Deuda restante: <strong style="color:#fca5a5">-'+restante+'</strong>':' ¡Deuda saldada!')+'</div>'
+    +'<button id="deuda-cobro-ok" style="width:100%;background:#1D9E75;color:#fff;border:none;border-radius:16px;padding:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">OK</button>';
+  overlay.appendChild(box);document.body.appendChild(overlay);
+  box.querySelector('#deuda-cobro-ok').addEventListener('click',function(){overlay.remove();_renderTableroOca();if(cb)cb();});
+}
+
+function _ocaEliminarComunesAleatorio(n,cb){
+  window._ocaGetCromosConKeys(function(entries){
+    var tablero=window._OCA_TABLERO||{};
+    var comunes=entries.filter(function(e){return e.item.resuelto&&(tablero[e.item.num]||{tipo:'normal'}).tipo==='normal';});
+    for(var i=comunes.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=comunes[i];comunes[i]=comunes[j];comunes[j]=t;}
+    var elim=comunes.slice(0,n),eliminados=elim.length;
+    function next(){if(!elim.length){cb(eliminados);return;}window._ocaEliminarCromo(elim.shift().key,next);}
+    next();
+  });
+}
+function _ocaAnadirAlMazo(n,poiId,cb){
+  function uno(rest){
+    if(rest<=0){if(cb)cb();return;}
+    window._ocaGenerarNumero(poiId||'',function(num){
+      window._ocaGuardarCromo(num,poiId||'',function(){uno(rest-1);});
+    });
+  }
+  uno(n);
+}
+
+// Selector de cromos normales para pagar
+function _ocaSelectorRetirar(n,tipo,cb){
+  window._ocaGetCromosConKeys(function(entries){
+    var tablero=window._OCA_TABLERO||{};
+    var disponibles=entries.filter(function(e){
+      return e.item.resuelto&&(tablero[e.item.num]||{tipo:'normal'}).tipo==='normal';
+    });
+    if(disponibles.length===0){
+      // No hay comunes — anotar deuda y mostrar modal informativo
+      _ocaAddDeuda(tipo,n,function(){
+        cb(0);
+        _ocaModalDeudaInfo(tipo);
+      });
+      return;
+    }
+    var overlay=document.createElement('div');
+    overlay.style.cssText='position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,0.9);display:flex;align-items:center;justify-content:center;font-family:DM Sans,sans-serif;padding:1rem;box-sizing:border-box';
+    var grupos={};
+    disponibles.forEach(function(e){var num=e.item.num;if(!grupos[num])grupos[num]=[];grupos[num].push(e);});
+    var nums=Object.keys(grupos).map(Number).sort(function(a,b){return a-b;});
+    var seleccionados=[];
+    var maxSel=Math.min(n,disponibles.length);
+    var itemsHtml=nums.map(function(num){
+      var cas=tablero[num]||{emoji:'🐚',label:'Casilla '+num};
+      var cnt=grupos[num].length;
+      return '<div class="oca-sel-item" data-num="'+num+'" style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:8px 10px;cursor:pointer;transition:all 0.15s">'
+        +'<span style="font-size:20px">'+cas.emoji+'</span>'
+        +'<div style="flex:1"><div style="font-size:11px;color:rgba(255,255,255,0.4)">#'+num+'</div>'
+        +'<div style="font-size:12px;font-weight:600;color:#fff">'+cas.label+'</div></div>'
+        +(cnt>1?'<div style="font-size:10px;background:#1D9E75;color:#fff;border-radius:8px;padding:1px 6px">×'+cnt+'</div>':'')
+        +'</div>';
+    }).join('');
+    var box=document.createElement('div');
+    box.style.cssText='background:linear-gradient(160deg,#1a0e2e,#3b1f6a);border-radius:20px;padding:1.25rem;max-width:85vw;width:300px;max-height:80vh;overflow-y:auto;border:1px solid rgba(255,255,255,0.18)';
+    box.innerHTML='<div style="font-size:12px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px">Elige '+maxSel+' cromo'+(maxSel>1?'s':'')+' a entregar</div>'
+      +'<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px">'+itemsHtml+'</div>'
+      +'<button id="oca-sel-confirmar" disabled style="width:100%;background:#6b7280;color:#fff;border:none;border-radius:20px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">Confirmar</button>';
+    overlay.appendChild(box);document.body.appendChild(overlay);
+    var confirmBtn=box.querySelector('#oca-sel-confirmar');
+    box.querySelectorAll('.oca-sel-item').forEach(function(item){
+      item.addEventListener('click',function(){
+        var num=parseInt(this.getAttribute('data-num'));
+        var idx=seleccionados.indexOf(num);
+        if(idx>=0){seleccionados.splice(idx,1);this.style.background='rgba(255,255,255,0.07)';this.style.borderColor='rgba(255,255,255,0.12)';}
+        else if(seleccionados.length<maxSel){seleccionados.push(num);this.style.background='rgba(220,38,38,0.25)';this.style.borderColor='rgba(252,165,165,0.6)';}
+        var listo=seleccionados.length>=maxSel;
+        confirmBtn.disabled=!listo;confirmBtn.style.background=listo?'#dc2626':'#6b7280';
+      });
+    });
+    confirmBtn.addEventListener('click',function(){
+      overlay.remove();
+      var pendSel=seleccionados.slice(),eliminados=0;
+      function next(){if(!pendSel.length){
+        // Si había más deuda que comunes disponibles, anotar el resto
+        var deuda=n-eliminados;
+        if(deuda>0){_ocaAddDeuda(tipo,deuda,function(){cb(eliminados);});}
+        else{cb(eliminados);}
+        return;
+      }var num=pendSel.shift();var ents=grupos[num];if(ents&&ents.length){window._ocaEliminarCromo(ents[0].key,function(){eliminados++;next();});}else{next();}}
+      next();
+    });
+  });
+}
+
+function _abrirModalCasilla(num,casilla,entradas){
+  var existing=document.getElementById('oca-casilla-modal');if(existing)existing.remove();
+  var poiId=entradas[0]?entradas[0].item.poiId:null,poi=null;
+  if(poiId&&typeof PUNTOS!=='undefined') for(var pi=0;pi<PUNTOS.length;pi++){if(PUNTOS[pi].id===poiId){poi=PUNTOS[pi];break;}}
+  var tipo=casilla.tipo||'normal',cantidad=entradas.length;
+  var pendientes=entradas.filter(function(e){return !e.item.resuelto;}),yaResuelto=pendientes.length===0;
+  var colorTipo={oca:'#6ee7b7',puente:'#93c5fd',posada:'#fbbf24',dados:'#c4b5fd',laberinto:'#a78bfa',carcel:'#fca5a5',muerte:'#ef4444',santiago:'#F5C800',normal:'rgba(255,255,255,0.7)'};
+  var color=colorTipo[tipo]||colorTipo.normal;
+  var imgHtml=poi&&poi.imagen
+    ?'<img src="'+poi.imagen+'" style="width:100%;height:120px;object-fit:cover;border-radius:10px;margin-bottom:12px;display:block" onerror="this.style.display=\'none\'">'
+    :'<div style="width:100%;height:60px;display:flex;align-items:center;justify-content:center;font-size:40px;margin-bottom:12px">'+casilla.emoji+'</div>';
+  var casillaHtml='<div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.14);border-radius:12px;padding:12px;margin-bottom:12px;text-align:center">'
+    +'<div style="font-size:26px;margin-bottom:6px">'+casilla.emoji+'</div>'
+    +'<div style="font-family:serif;font-size:14px;font-weight:600;color:'+color+';margin-bottom:3px">'+(casilla.latin||'')+'</div>'
+    +'<div style="font-size:11px;color:rgba(255,255,255,0.45);font-style:italic;margin-bottom:4px">'+(casilla.trad||'')+'</div>'
+    +'<div style="font-size:9px;color:rgba(255,255,255,0.2);letter-spacing:1.5px;text-transform:uppercase">'+(casilla.label||'Casilla '+num)+'</div></div>';
+  var poiHtml=poi?'<div style="font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:14px">'+(poi.emoji||'📍')+' '+(poi.nombre||'')+'</div>':'';
+  var resultadoTexto={oca:'+1 cromo añadido al mazo',puente:'El puente ya fue cruzado',posada:'1 cromo entregado',dados:'Los dados ya fueron lanzados',laberinto:'2 cromos comunes retirados',carcel:'2 cromos comunes retirados',muerte:'Todos los cromos perdidos — la Muerte permanece',santiago:'¡Compostela completada!',normal:'Sin efecto especial'};
+  var efectoHtml='',botonesHtml='';
+  if(yaResuelto){
+    var resTexto=resultadoTexto[tipo]||'Casilla resuelta';
+    efectoHtml='<div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:14px;background:rgba(255,255,255,0.05);border-radius:8px;padding:8px 10px;text-align:center">✓ '+resTexto+'</div>';
+    botonesHtml='<button id="oca-btn-cerrar" style="width:100%;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">Cerrar</button>';
+  } else if(tipo==='normal'){
+    efectoHtml='<div style="font-size:13px;color:rgba(255,255,255,0.65);margin-bottom:14px">Sin efecto especial.</div>';
+    botonesHtml='<button id="oca-btn-resolver" style="width:100%;background:#1D9E75;color:#fff;border:none;border-radius:20px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">¡Genial!</button>';
+  } else if(tipo==='santiago'){
+    efectoHtml='<div style="font-size:13px;color:#F5C800;margin-bottom:14px">🏆 ¡Compostela! Has completado el Camino.</div>';
+    botonesHtml='<button id="oca-btn-resolver" style="width:100%;background:#b45309;color:#fff;border:none;border-radius:20px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">Ultreïa!</button>';
+  } else if(tipo==='oca'){
+    efectoHtml='<div style="font-size:13px;color:#6ee7b7;margin-bottom:14px">🪷 <strong style="color:#fff">De oca en oca</strong> — +1 cromo al mazo.</div>';
+    botonesHtml='<button id="oca-btn-oca" style="width:100%;background:#059669;color:#fff;border:none;border-radius:20px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">Recibir cromo extra</button>';
+  } else if(tipo==='puente'){
+    efectoHtml='<div style="font-size:13px;color:#93c5fd;margin-bottom:14px">🌉 <strong style="color:#fff">El Puente</strong> — la suerte decide: +1 al mazo o −1 cromo normal.</div>';
+    botonesHtml='<button id="oca-btn-puente" style="width:100%;background:#2563eb;color:#fff;border:none;border-radius:20px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">Cruzar el puente</button>';
+  } else if(tipo==='posada'){
+    efectoHtml='<div style="font-size:13px;color:#fbbf24;margin-bottom:14px">🏨 <strong style="color:#fff">La Posada</strong> — elige 1 cromo normal del tablero a entregar.</div>';
+    botonesHtml='<button id="oca-btn-posada" style="width:100%;background:#d97706;color:#fff;border:none;border-radius:20px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">Elegir cromo a entregar</button>';
+  } else if(tipo==='dados'){
+    efectoHtml='<div style="font-size:13px;color:#c4b5fd;margin-bottom:14px">🎲 <strong style="color:#fff">Los Dados</strong> — la suerte lanza: +2 al mazo o −2 normales del tablero.</div>';
+    botonesHtml='<button id="oca-btn-dados" style="width:100%;background:#7c3aed;color:#fff;border:none;border-radius:20px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">Lanzar los dados</button>';
+  } else if(tipo==='laberinto'){
+    efectoHtml='<div style="font-size:13px;color:#a78bfa;margin-bottom:14px">🌀 <strong style="color:#fff">El Laberinto</strong> — se retiran 2 cromos normales del tablero.</div>';
+    botonesHtml='<button id="oca-btn-perder2c" style="width:100%;background:#dc2626;color:#fff;border:none;border-radius:20px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">Aceptar el castigo</button>';
+  } else if(tipo==='carcel'){
+    efectoHtml='<div style="font-size:13px;color:#fca5a5;margin-bottom:14px">⛓️ <strong style="color:#fff">La Cárcel</strong> — se retiran 2 cromos normales del tablero.</div>';
+    botonesHtml='<button id="oca-btn-perder2c" style="width:100%;background:#dc2626;color:#fff;border:none;border-radius:20px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">Pagar rescate</button>';
+  } else if(tipo==='muerte'){
+    efectoHtml='<div style="font-size:13px;color:#ef4444;margin-bottom:14px">💀 <strong style="color:#fff">La Muerte</strong> — se pierden todos los cromos. La casilla de muerte permanece.</div>';
+    botonesHtml='<button id="oca-btn-muerte" style="width:100%;background:#7f1d1d;color:#fff;border:none;border-radius:20px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">Aceptar el destino</button>';
+  }
+  var overlay=document.createElement('div');overlay.id='oca-casilla-modal';
+  overlay.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.88);display:flex;align-items:center;justify-content:center;font-family:DM Sans,sans-serif;padding:1rem;box-sizing:border-box';
+  var box=document.createElement('div');
+  box.style.cssText='background:linear-gradient(160deg,#1a0e2e,#3b1f6a);border-radius:20px;padding:1.25rem;max-width:85vw;width:300px;max-height:85vh;overflow-y:auto;border:1px solid rgba(255,255,255,0.18)';
+  var headerHtml='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">'
+    +'<div style="font-size:10px;text-transform:uppercase;letter-spacing:2px;color:'+color+'">'+(casilla.label||'Casilla '+num)+'</div>'
+    +(cantidad>1?'<div style="font-size:10px;background:rgba(29,158,117,0.3);color:#6ee7b7;border-radius:8px;padding:2px 8px">×'+cantidad+'</div>':'')+'</div>';
+  box.innerHTML=headerHtml+imgHtml+casillaHtml+poiHtml+efectoHtml+botonesHtml;
+  overlay.appendChild(box);document.body.appendChild(overlay);
+  function cerrar(){var el=document.getElementById('oca-casilla-modal');if(el)el.remove();_renderTableroOca();}
+  function marcarResueltos(cb2){var pend=pendientes.slice();function next(){if(!pend.length){if(cb2)cb2();return;}window._ocaMarcarResuelto(pend.shift().key,next);}next();}
+  overlay.addEventListener('click',function(e){if(e.target===overlay)cerrar();});
+  var btn=box.querySelector('#oca-btn-cerrar');if(btn)btn.addEventListener('click',cerrar);
+  btn=box.querySelector('#oca-btn-resolver');if(btn)btn.addEventListener('click',function(){marcarResueltos(function(){cerrar();});});
+  btn=box.querySelector('#oca-btn-oca');
+  if(btn)btn.addEventListener('click',function(){_ocaAnadirAlMazo(1,poiId,function(){marcarResueltos(function(){cerrar();mostrarToast('🪷 +1 cromo añadido al mazo');});});});
+  btn=box.querySelector('#oca-btn-puente');
+  if(btn)btn.addEventListener('click',function(){
+    if(Math.random()<0.5){_ocaAnadirAlMazo(1,poiId,function(){marcarResueltos(function(){cerrar();mostrarToast('🌉 Suerte: +1 cromo al mazo');});});}
+    else{_ocaSelectorRetirar(1,'puente',function(eli){marcarResueltos(function(){cerrar();if(eli>0)mostrarToast('🌉 Mala suerte: −1 cromo normal retirado');});});}
+  });
+  btn=box.querySelector('#oca-btn-posada');
+  if(btn)btn.addEventListener('click',function(){marcarResueltos(function(){cerrar();_ocaSelectorRetirar(1,'posada',function(eli){if(eli>0)mostrarToast('🏨 1 cromo entregado en la posada');});});});
+  btn=box.querySelector('#oca-btn-dados');
+  if(btn)btn.addEventListener('click',function(){
+    if(Math.random()<0.5){_ocaAnadirAlMazo(2,poiId,function(){marcarResueltos(function(){cerrar();mostrarToast('🎲 Suerte: +2 cromos al mazo');});});}
+    else{_ocaSelectorRetirar(2,'dados',function(eli){marcarResueltos(function(){cerrar();if(eli>0)mostrarToast('🎲 Mala suerte: −'+eli+' cromo(s) retirado(s)');});});}
+  });
+  btn=box.querySelector('#oca-btn-perder2c');
+  if(btn)btn.addEventListener('click',function(){_ocaSelectorRetirar(2,tipo,function(eli){marcarResueltos(function(){cerrar();if(eli>0)mostrarToast((tipo==='laberinto'?'🌀':'⛓️')+' '+eli+' cromo(s) retirado(s)');});});});
+  btn=box.querySelector('#oca-btn-muerte');
+  if(btn)btn.addEventListener('click',function(){
+    window._ocaGetCromosConKeys(function(entries){
+      var aMatar=entries.filter(function(e){return e.item.num!==58;});
+      function next(){if(!aMatar.length){marcarResueltos(function(){
+        _ocaSetDeuda({},function(){cerrar();mostrarToast('💀 Todos los cromos perdidos — la Muerte permanece');});
+      });return;}window._ocaEliminarCromo(aMatar.shift().key,next);}
+      next();
+    });
+  });
+}
+
+// Al marcar un cromo como resuelto, comprobar y cobrar deuda si es cromo normal
+window._ocaMarcarResueltoYComprobarDeuda = function(idbKey, numCromo, cb) {
+  window._ocaMarcarResuelto(idbKey, function(){
+    var tablero=window._OCA_TABLERO||{};
+    var esNormal=(tablero[numCromo]||{tipo:'normal'}).tipo==='normal';
+    if(esNormal){_ocaCobrarDeudaSiProcede(function(){if(cb)cb();});}
+    else{if(cb)cb();}
+  });
+};
+
+// Hard reset
+function _hardResetJuego(){
+  var overlay=document.createElement('div');
+  overlay.style.cssText='position:fixed;inset:0;z-index:999999;background:rgba(0,0,0,0.92);display:flex;align-items:center;justify-content:center;font-family:DM Sans,sans-serif;padding:1rem;box-sizing:border-box';
+  var box=document.createElement('div');
+  box.style.cssText='background:linear-gradient(160deg,#2d0a0a,#7f1d1d);border-radius:20px;padding:1.5rem;max-width:85vw;width:300px;text-align:center;border:1px solid rgba(220,38,38,0.4)';
+  box.innerHTML='<div style="font-size:32px;margin-bottom:10px">🗑️</div>'
+    +'<div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:8px">Hard Reset</div>'
+    +'<div style="font-size:13px;color:rgba(255,255,255,0.65);margin-bottom:20px;line-height:1.5">Se borrarán todos los cromos, visitas, fotos y logros. Esta acción no se puede deshacer.</div>'
+    +'<div style="display:flex;gap:8px">'
+    +'<button id="hreset-cancelar" style="flex:1;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">Cancelar</button>'
+    +'<button id="hreset-confirmar" style="flex:1;background:#dc2626;color:#fff;border:none;border-radius:16px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">Borrar todo</button>'
+    +'</div>';
+  overlay.appendChild(box);document.body.appendChild(overlay);
+  box.querySelector('#hreset-cancelar').addEventListener('click',function(){overlay.remove();});
+  box.querySelector('#hreset-confirmar').addEventListener('click',function(){
+    box.innerHTML='<div style="font-size:28px;margin-bottom:12px">⏳</div><div style="font-size:14px;color:#fff">Borrando datos...</div>';
+    var req=indexedDB.deleteDatabase('album-peregrino');
+    req.onsuccess=req.onerror=function(){
+      if('caches' in window){caches.keys().then(function(keys){return Promise.all(keys.map(function(k){return caches.delete(k);}));}).then(function(){overlay.remove();mostrarToast('🗑️ Reset completado — recargando...');setTimeout(function(){window.location.reload(true);},1200);});}
+      else{overlay.remove();mostrarToast('🗑️ Reset completado — recargando...');setTimeout(function(){window.location.reload(true);},1200);}
+    };
   });
 }
 
@@ -9747,7 +10046,7 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v700</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v721</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
