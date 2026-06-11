@@ -309,6 +309,8 @@
   <button onclick='_filtrarMapaCat(this,"")' class='mapa-cat-chip' style='flex-shrink:0;background:#1D9E75;color:#fff;border:1px solid #1D9E75;border-radius:16px;padding:5px 13px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>📍 Todos</button>
   <button id='chip-usuario-mapa' onclick='_filtrarMapaCat(this,"usuario")' class='mapa-cat-chip' style='flex-shrink:0;display:none;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>👤 Mis puntos</button>
   <button id='chip-alerta-mapa' onclick='_filtrarMapaCat(this,"alerta")' class='mapa-cat-chip' style='flex-shrink:0;display:none;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🚨 Alertas</button>
+  <button onclick='_filtrarMapaCat(this,"visitado")' class='mapa-cat-chip' style='flex-shrink:0;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>👁️ Visitados</button>
+  <button onclick='_filtrarMapaCat(this,"no-visitado")' class='mapa-cat-chip' style='flex-shrink:0;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🔒 Sin visitar</button>
   <button onclick='_filtrarMapaCat(this,"etapa-costa")' class='mapa-cat-chip' style='flex-shrink:0;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🔵 Costa</button>
   <button onclick='_filtrarMapaCat(this,"etapa-interior")' class='mapa-cat-chip' style='flex-shrink:0;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🟢 Interior</button>
   <button onclick='_filtrarMapaCat(this,"etapa-frances")' class='mapa-cat-chip' style='flex-shrink:0;background:#fff;color:#374151;border:1px solid rgba(0,0,0,0.15);border-radius:16px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🔴 Francés</button>
@@ -578,15 +580,11 @@
 
 <!-- PANEL ÁLBUM DE RECUERDOS -->
 <div id='album-recuerdos-drawer' class='map-slide-panel' style='background:linear-gradient(160deg,#1a0e2e 0%,#2d1854 50%,#1e1040 100%);font-family:DM Sans,sans-serif;display:flex;flex-direction:column'>
-  <div style='flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.2)'>
+  <div style='flex-shrink:0;display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.2)'>
     <button onclick='_cerrarSlide("album-recuerdos-drawer");abrirAlbumPanel()' style='background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:6px 12px;color:rgba(255,255,255,0.85);font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif'>← Volver</button>
-    <div style='text-align:center'>
-      <div style='font-size:14px;font-weight:700;color:#fff'>📷 Álbum de recuerdos</div>
-      <div id='album-rec-contador' style='font-size:10px;color:rgba(255,255,255,0.4);margin-top:1px'>Cargando...</div>
-    </div>
-
   </div>
   <div style='flex:1;overflow-y:auto;padding:10px 12px 16px;box-sizing:border-box'>
+    <div id='album-rec-contador' style='font-size:11px;color:rgba(255,255,255,0.5);text-align:center;margin-bottom:8px'>Cargando...</div>
     <div id='album-rec-vacio' style='display:none;text-align:center;padding:2.5rem 1rem'>
       <div style='font-size:40px;margin-bottom:10px'>🐚</div>
       <div style='font-size:13px;font-weight:600;color:rgba(255,255,255,0.7);margin-bottom:5px'>Tu álbum está vacío</div>
@@ -974,14 +972,14 @@
     <div style='display:flex;align-items:center;justify-content:space-between;flex-shrink:0'>
       <button id='album-panel-volver' onclick='cerrarAlbumPanel()' style='flex-shrink:0;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:7px 14px;color:rgba(255,255,255,0.85);font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif'>← Volver</button>
     </div>
-    <!-- Título + botones -->
+    <!-- Botones + Título -->
     <div style='flex-shrink:0'>
-      <div id='album-panel-titulo' style='font-size:16px;font-weight:700;color:#fff;margin-bottom:6px;text-align:center'>🏅 Ranking del Peregrino</div>
-      <div style='display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:5px'>
+      <div style='display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:8px'>
         <button onclick='abrirTableroDrawer()' style='display:flex;align-items:center;justify-content:center;gap:3px;background:rgba(245,200,0,0.08);border:1px solid rgba(245,200,0,0.45);border-radius:8px;padding:6px 4px;color:rgba(255,255,255,0.85);font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;box-shadow:0 0 5px rgba(245,200,0,0.12)'>🐚 Colección</button>
         <button onclick='abrirAlbumDrawer()' style='display:flex;align-items:center;justify-content:center;gap:3px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:6px 4px;color:rgba(255,255,255,0.85);font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>📷 Álbum</button>
-        <button onclick='cerrarAlbumPanel();abrirPoiDrawer()' style='display:flex;align-items:center;justify-content:center;gap:3px;background:rgba(220,38,38,0.12);border:1px solid rgba(220,38,38,0.4);border-radius:8px;padding:6px 4px;color:#fca5a5;font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🔒 Cercanos</button>
+        <button onclick='cerrarAlbumPanel();abrirPoiDrawer()' style='display:flex;align-items:center;justify-content:center;gap:3px;background:rgba(220,38,38,0.12);border:1px solid rgba(220,38,38,0.4);border-radius:8px;padding:6px 4px;color:#fca5a5;font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🔒 Por ver</button>
       </div>
+      <div id='album-panel-titulo' style='font-size:16px;font-weight:700;color:#fff;margin-bottom:4px;text-align:center'>🏅 Ranking del Peregrino</div>
       <div id='album-panel-contador' style='font-size:11px;color:rgba(255,255,255,0.45);text-align:center'>Visita lugares del Camino para avanzar en el ranking</div>
     </div>
     <!-- Tarjeta ranking -->
@@ -7551,6 +7549,11 @@ var T={
     chipAlbergue2:'🏠 Albergues',
     chipMirador2:'🔭 Miradores',
     chipAlertas:'🚨 Alertas',
+    chipVisitados:'👁️ Visitados',
+    chipSinVisitar:'🔒 Sin visitar',
+    btnColeccion:'🐚 Colección',
+    btnAlbumRec:'📷 Álbum',
+    btnPorVer:'🔒 Por ver',
     chipRankingDrawer:'🏅 Ranking',
     chipRutaDrawer:'🗺️ Ruta',
     btnVolver:'← Volver',
@@ -7578,10 +7581,10 @@ var T={
     mazoTitulo:'Mazo sin abrir',mazoPendiente:'cromo pendiente',mazoPendientes:'cromos pendientes',mazoTap:'Pulsa para abrir el siguiente',
     visitaDesbloquear:'Visita el lugar para desbloquear y añadir tu imagen',
     rankingTitulo:'Mi ranking',
-    rankingVacio:'Aún no has visitado ningún punto',
-    dificultadLabel:'Dificultad',
-    ascenso:'Ascenso',
-    varianteCosta:'🌊 Ruta Costa',
+    rankingVacio:'You haven\'t visited any place yet',
+    dificultadLabel:'Difficulty',
+    ascenso:'Ascent',
+    varianteCosta:'🌊 Costa Route',
     varianteInterior:'🥾 Ruta Interior',
     varianteFrances:'🔴 Ruta Francés',
     varianteNorte:'🟠 Ruta Norte',
@@ -7771,7 +7774,6 @@ var T={
     chipMirador:'Miradoiros',
     chipEtapa:'Etapas',
     chipUsuario:'Os meus puntos',
-    chipUsuario:'Mis puntos',
     rutaLabel:'Ruta',
     mapRutaTitulo:'RUTA',
     poiRutaDrawerLabel:'Ruta',
@@ -7817,6 +7819,11 @@ var T={
     chipAlbergue2:'🏠 Albergues',
     chipMirador2:'🔭 Miradoiros',
     chipAlertas:'🚨 Alertas',
+    chipVisitados:'👁️ Visitados',
+    chipSinVisitar:'🔒 Sen visitar',
+    btnColeccion:'🐚 Colección',
+    btnAlbumRec:'📷 Álbum',
+    btnPorVer:'🔒 Por ver',
     chipRankingDrawer:'🏅 Ranking',
     chipRutaDrawer:'🗺️ Ruta',
     btnVolver:'← Volver',
@@ -7832,7 +7839,7 @@ var T={
     rankingVisitado:'visitado',rankingVisitados:'visitados',rankingPara:'para',
     rankingMaximo:'¡Rango máximo acadado!',
     coleccionSuper:'Xogo da Oca Xacobeo',coleccionTitulo:'🐚 Colección do Peregrino',
-    coleccionVacio:'Visita lugares do Camiño para obter cromos',coleccionContador:'de 63 casillas',
+    coleccionVacio:'Visita lugares do Camiño para obter cromos',coleccionContador:'de 63 cadros',
     coleccionAbierto:'aberto',coleccionAbiertos:'abertos',coleccionMazo:'no mazo',
     mazoTitulo:'Mazo sen abrir',mazoPendiente:'cromo pendente',mazoPendientes:'cromos pendentes',mazoTap:'Preme para abrir o seguinte',
     rankingVacio:'Aínda non visitaches ningún punto',
@@ -7864,12 +7871,17 @@ var T={
     chipAlbergue2:'🏠 Hostels',
     chipMirador2:'🔭 Viewpoints',
     chipAlertas:'🚨 Alerts',
+    chipVisitados:'👁️ Visited',
+    chipSinVisitar:'🔒 Unvisited',
+    btnColeccion:'🐚 Collection',
+    btnAlbumRec:'📷 Album',
+    btnPorVer:'🔒 To visit',
     chipRankingDrawer:'🏅 Ranking',
     chipRutaDrawer:'🗺️ Route',
     btnVolver:'← Back',
-    albumVacio:'Tu álbum está vacío',
-    albumVacioSub:'Activa el seguimiento GPS y acércate a los puntos del Camino. Cada visita desbloquea el cromo.',
-    albumContador:'Visita lugares para desbloquear cromos',
+    albumVacio:'Your album is empty',
+    albumVacioSub:'Enable GPS tracking and approach points along the Way. Each visit unlocks a card.',
+    albumContador:'Visit places to unlock cards',
     visitaDesbloquear:'Visit the place to unlock and add your image',
     rankingTitulo:'🏅 Pilgrim Ranking',
     rankingContador:'Visit places along the Way to advance in ranking',
@@ -8463,6 +8475,29 @@ function cambiarIdioma(lang){
   el=document.getElementById('chip-arqueologico-drawer');if(el)el.textContent=t.chipArqueologico||'🔍 Arqueológico';
   el=document.getElementById('chip-albergue-drawer');if(el)el.textContent=t.chipAlbergue2||'🏠 Albergues';
   el=document.getElementById('chip-mirador-drawer');if(el)el.textContent=t.chipMirador2||'🔭 Miradores';
+  // Chips mapa (visitados/sin visitar/usuario/alertas)
+  el=document.getElementById('chip-usuario-mapa');if(el)el.textContent=t.chipUsuario||'👤 Mis puntos';
+  el=document.getElementById('chip-alerta-mapa');if(el)el.textContent=t.chipAlertas||'🚨 Alertas';
+  // Chips mapa visitados/sin visitar - update all static buttons by text match
+  document.querySelectorAll('#mapa-cat-bar .mapa-cat-chip').forEach(function(b){
+    var txt=b.textContent.trim();
+    if(txt.includes('Visitados')||txt.includes('Visited')||txt.includes('Visitados')) b.textContent=t.chipVisitados||'👁️ Visitados';
+    if(txt.includes('Sin visitar')||txt.includes('Sen visitar')||txt.includes('Unvisited')) b.textContent=t.chipSinVisitar||'🔒 Sin visitar';
+  });
+  // Botones ranking panel
+  document.querySelectorAll('#album-panel button').forEach(function(b){
+    var txt=b.textContent.trim();
+    if(txt.includes('Colecci')) b.textContent=t.btnColeccion||'🐚 Colección';
+    if(txt.includes('lbum')&&!txt.includes('Volver')) b.textContent=t.btnAlbumRec||'📷 Álbum';
+    if(txt.includes('Por ver')||txt.includes('To visit')||txt.includes('ver')) b.textContent=t.btnPorVer||'🔒 Por ver';
+  });
+  // Panel ranking título y contador
+  el=document.getElementById('album-panel-titulo');if(el)el.textContent=t.rankingTitulo||'🏅 Ranking del Peregrino';
+  el=document.getElementById('album-panel-contador');if(el&&!el.textContent.match(/\d/))el.textContent=t.rankingContador||'Visita lugares del Camino para avanzar en el ranking';
+  // Panel álbum recuerdos vacío
+  el=document.getElementById('album-rec-vacio');if(el){var vt=el.querySelector('div:nth-child(2)');if(vt)vt.textContent=t.albumVacio||'Tu álbum está vacío';}
+  // Botones volver álbum recuerdos
+  el=document.querySelector('#album-recuerdos-drawer button');if(el&&el.textContent.includes('Volver')||el&&el.textContent.includes('Back'))el.textContent=t.btnVolver||'← Volver';
   // Botones Volver (todos los drawers)
   var volverTxt = t.btnVolver||'← Volver';
   ['brujula-panel-volver','sos-panel-volver','meteo-panel-volver','historia-panel-volver-top',
@@ -8853,7 +8888,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v778";
+var _APP_VERSION = "v788";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -8863,7 +8898,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v778') === -1) {
+        if (key.indexOf('guia-compostelana-v788') === -1) {
           caches.delete(key);
         }
       });
@@ -10176,6 +10211,9 @@ function _filtrarMapaCat(chip, cat) {
     }
     // Alertas
     if (cat === 'alerta') { if (p.esAlerta) window._cluster.addLayer(p.marker); return; }
+    // Visitados / Sin visitar
+    if (cat === 'visitado') { if (!p.esAlerta && !p.esUsuario && window._albumVisitasSet && window._albumVisitasSet[p.id]) window._cluster.addLayer(p.marker); return; }
+    if (cat === 'no-visitado') { if (!p.esAlerta && !p.esUsuario && !(window._albumVisitasSet && window._albumVisitasSet[p.id])) window._cluster.addLayer(p.marker); return; }
     // Categorías normales
     if (p.categoria === cat) window._cluster.addLayer(p.marker);
   });
@@ -10345,7 +10383,7 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v778</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v788</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
