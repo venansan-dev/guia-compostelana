@@ -3062,6 +3062,7 @@ function activarNotificaciones() {
     if (perm === 'granted') {
       notifActivadas = true;
       actualizarBtnPrincipal();
+      _actualizarBtnAlertas();
       iniciarProximidad();
     }
   });
@@ -3070,6 +3071,7 @@ function activarNotificaciones() {
 function desactivarNotificaciones() {
   notifActivadas = false;
   actualizarBtnPrincipal();
+  _actualizarBtnAlertas();
 }
 
 // Mantener alias por si se llama desde otro sitio
@@ -4265,7 +4267,10 @@ function abrirModalNotificaciones(){
   var box=document.createElement('div');
   box.style.cssText='background:#fff;border-radius:16px;padding:1.25rem;max-width:85vw;width:280px;box-shadow:0 8px 32px rgba(0,0,0,0.2)';
   function renderBox(){
-    var a=_alertasFirebaseOn,n=_cromosNotifOn;
+    var a=_alertasFirebaseOn,n=_cromosNotifOn,l=notifActivadas;
+    var permDenied=(typeof Notification!=='undefined'&&Notification.permission==='denied');
+    var lBg=l?'#1D9E75':(permDenied?'#ef4444':'#ef4444');
+    var lLeft=l?'21px':'3px';
     box.innerHTML=
       '<div style="font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:14px">🔔 Notificaciones</div>'
       +'<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0">'
@@ -4280,6 +4285,12 @@ function abrirModalNotificaciones(){
       +'<button id="notif-toggle-cromos" style="width:44px;height:26px;border-radius:13px;border:none;cursor:pointer;background:'+(n?'#1D9E75':'#d1d5db')+';position:relative;flex-shrink:0">'
       +'<span style="position:absolute;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.2);left:'+(n?'21px':'3px')+'"></span>'
       +'</button></div>'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0">'
+      +'<div><div style="font-size:13px;font-weight:600;color:#1a1a1a">📍 Localizaciones cercanas</div>'
+      +'<div style="font-size:11px;color:#6b7280">'+(l?'Avisos de POIs activos':(permDenied?'Permiso bloqueado en ajustes':'Toca para activar y aceptar permisos'))+'</div></div>'
+      +'<button id="notif-toggle-loc" style="width:44px;height:26px;border-radius:13px;border:none;cursor:pointer;background:'+lBg+';position:relative;flex-shrink:0">'
+      +'<span style="position:absolute;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.2);left:'+lLeft+'"></span>'
+      +'</button></div>'
       +'<button id="notif-cerrar" style="width:100%;margin-top:14px;background:#f3f4f6;color:#374151;border:none;border-radius:10px;padding:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">Cerrar</button>';
     box.querySelector('#notif-toggle-alertas').addEventListener('click',function(){
       _alertasFirebaseOn=!_alertasFirebaseOn;_actualizarBtnAlertas();renderBox();
@@ -4288,6 +4299,37 @@ function abrirModalNotificaciones(){
       _cromosNotifOn=!_cromosNotifOn;
       try{localStorage.setItem('cromosNotifOn',_cromosNotifOn?'1':'0');}catch(e){}
       _actualizarBtnAlertas();renderBox();
+    });
+    box.querySelector('#notif-toggle-loc').addEventListener('click',function(){
+      if(notifActivadas){
+        // Desactivar
+        desactivarNotificaciones();
+        _actualizarBtnAlertas();
+        renderBox();
+      } else {
+        // Activar: pedir permisos
+        if(!("Notification" in window)){
+          var t2=T[idiomaActual]||T.es;
+          alert(t2.notifNoSoportado||'Las notificaciones no están disponibles.');
+          return;
+        }
+        if(Notification.permission==='denied'){
+          var t2=T[idiomaActual]||T.es;
+          alert(t2.notifBloqueadas||'Las notificaciones están bloqueadas. Actívalas en los ajustes del navegador para este sitio.');
+          _actualizarBtnAlertas();
+          renderBox();
+          return;
+        }
+        Notification.requestPermission().then(function(perm){
+          if(perm==='granted'){
+            notifActivadas=true;
+            actualizarBtnPrincipal();
+            iniciarProximidad();
+          }
+          _actualizarBtnAlertas();
+          renderBox();
+        });
+      }
     });
     box.querySelector('#notif-cerrar').addEventListener('click',function(){overlay.remove();});
   }
@@ -9164,7 +9206,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v853";
+var _APP_VERSION = "v854";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -10823,7 +10865,7 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v853</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v854</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
