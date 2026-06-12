@@ -9004,6 +9004,8 @@ window.addEventListener('hashchange', function() {
 if (window.location.hash === '#moderacion') { window.location.hash = ''; setTimeout(abrirAdmin, 1500); }
 
 document.addEventListener('DOMContentLoaded', function() {
+  // Pintar botón campana según estado inicial (notifActivadas puede ser false)
+  setTimeout(function(){ _actualizarBtnAlertas(); }, 100);
   var input=document.getElementById('buscar-input');
   if(input)input.addEventListener('keydown',function(e){if(e.key==='Enter')ejecutarBusqueda();});
   var c=document.getElementById('carousel');
