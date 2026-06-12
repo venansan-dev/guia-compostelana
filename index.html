@@ -844,7 +844,7 @@
               <div style='flex:1'><span style='font-size:11px;font-weight:700;color:#0F6E56'>Peregrino</span> <span style='font-size:10px;color:#9CA3AF'>20–34 · La vieira te reconoce</span></div>
             </div>
             <div style='display:flex;align-items:center;gap:8px;background:#FFFBEB;border-radius:8px;padding:5px 8px'>
-              <span style='font-size:15px'>🪿</span>
+              <span style='font-size:15px'>🦢</span>
               <div style='flex:1'><span style='font-size:11px;font-weight:700;color:#D97706'>Veterano</span> <span style='font-size:10px;color:#9CA3AF'>35–59 · Conoces cada piedra del camino</span></div>
             </div>
             <div style='display:flex;align-items:center;gap:8px;background:linear-gradient(90deg,#1a0e2e,#3b1f6a);border-radius:8px;padding:5px 8px'>
@@ -862,7 +862,7 @@
           <div style='font-size:11px;color:rgba(255,255,255,0.65);line-height:1.6;margin-bottom:8px'>Al visitar cualquier lugar obtienes un cromo aleatorio del <strong style='color:#fff'>Juego de la Oca Jacobeo</strong> — 63 casillas inspiradas en el tablero que los medievales usaban para peregrinar. Colecciona los 63. El cromo nº 63 solo se obtiene en Santiago.</div>
           <div style='font-size:11px;font-weight:600;color:rgba(255,255,255,0.85);margin-bottom:6px'>Las casillas especiales</div>
           <div style='display:flex;flex-direction:column;gap:3px;margin-bottom:8px'>
-            <div style='display:flex;align-items:flex-start;gap:6px;font-size:10px;color:rgba(255,255,255,0.65);line-height:1.5'><span style='flex-shrink:0'>🪿</span><span><strong style='color:#6ee7b7'>Oca</strong> — Solo en lugares templarios y masónicos. Te da un cromo extra.</span></div>
+            <div style='display:flex;align-items:flex-start;gap:6px;font-size:10px;color:rgba(255,255,255,0.65);line-height:1.5'><span style='flex-shrink:0'>🦢</span><span><strong style='color:#6ee7b7'>Oca</strong> — Solo en lugares templarios y masónicos. Te da un cromo extra.</span></div>
             <div style='display:flex;align-items:flex-start;gap:6px;font-size:10px;color:rgba(255,255,255,0.65);line-height:1.5'><span style='flex-shrink:0'>🌉</span><span><strong style='color:#93c5fd'>Puente</strong> — El camino tiene dos caras: puede sumarte o quitarte un cromo.</span></div>
             <div style='display:flex;align-items:flex-start;gap:6px;font-size:10px;color:rgba(255,255,255,0.65);line-height:1.5'><span style='flex-shrink:0'>🏨</span><span><strong style='color:#fbbf24'>Posada</strong> — Descansas. Sin cromo ahora, pero el próximo lugar te da doble.</span></div>
             <div style='display:flex;align-items:flex-start;gap:6px;font-size:10px;color:rgba(255,255,255,0.65);line-height:1.5'><span style='flex-shrink:0'>🎲</span><span><strong style='color:#a78bfa'>Dados</strong> — ¿Guardas el cromo o pruebas suerte con otro aleatorio?</span></div>
@@ -1079,10 +1079,6 @@
     <div class='cat-chip' id='chip-usuario' style='display:none'><span id='chip-usuario-txt'></span></div>
     <div class='cat-chip' id='chip-etapas-costa'><span id='chip-etapas-costa-txt'></span></div>
     <div class='cat-chip' id='chip-etapas-interior'><span id='chip-etapas-interior-txt'></span></div>
-    <div class='cat-chip' id='chip-etapas-frances'><span id='chip-etapas-frances-txt'></span></div>
-    <div class='cat-chip' id='chip-etapas-norte'><span id='chip-etapas-norte-txt'></span></div>
-    <div class='cat-chip' id='chip-etapas-primitivo'><span id='chip-etapas-primitivo-txt'></span></div>
-    <div class='cat-chip' id='chip-etapas-ingles'><span id='chip-etapas-ingles-txt'></span></div>
     <div class='cat-chip' id='chip-etapas-frances'><span id='chip-etapas-frances-txt'></span></div>
     <div class='cat-chip' id='chip-etapas-norte'><span id='chip-etapas-norte-txt'></span></div>
     <div class='cat-chip' id='chip-etapas-primitivo'><span id='chip-etapas-primitivo-txt'></span></div>
@@ -4466,36 +4462,6 @@ function _centrarMapa() { return; // salto desactivado
     }
   }, 400);
 }
-
-function _centrarMapa() { return; // salto desactivado
-  var mapEl = document.getElementById('map');
-  if (!mapEl) return;
-  var rect = mapEl.getBoundingClientRect();
-  var mapCenterY = window.pageYOffset + rect.top + rect.height / 2;
-  var targetY = mapCenterY - window.innerHeight / 2;
-  window.scrollTo({ top: targetY, behavior: 'smooth' });
-  setTimeout(function() {
-    if (typeof mapa !== 'undefined' && mapa) {
-      mapa.invalidateSize();
-      mapa.panTo(mapa.getCenter(), { animate: false });
-    }
-  }, 400);
-}
-
-function _centrarMapa() { return; // salto desactivado
-  var mapEl = document.getElementById('map');
-  if (!mapEl) return;
-  var rect = mapEl.getBoundingClientRect();
-  var mapCenterY = window.pageYOffset + rect.top + rect.height / 2;
-  var targetY = mapCenterY - window.innerHeight / 2;
-  window.scrollTo({ top: targetY, behavior: 'smooth' });
-  setTimeout(function() {
-    if (typeof mapa !== 'undefined' && mapa) {
-      mapa.invalidateSize();
-      mapa.panTo(mapa.getCenter(), { animate: false });
-    }
-  }, 400);
-}
 function _irAlMapa() {
   setTimeout(_centrarMapa, 150);
 }
@@ -5958,7 +5924,7 @@ function _mostrarUnCromo(item, onClose) {
   // Modal de notificación — efectos especiales se resuelven al pulsar casilla en el Tablero
   var headerTxt = doble ? '🏨 ¡Doble por la Posada!' : 'Localización desbloqueada';
   var cromoInfo = num
-    ? '<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:14px 16px;margin-bottom:14px;text-align:center">'      + '<div style="font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:8px">Obtienes un cromo</div>'      + '<div style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.5">Ahora puedes añadir tu foto recuerdo en <strong style=\"color:#fff\">Mi Álbum</strong> y abrir el cromo en el <strong style=\"color:#fff\">Tablero</strong></div>'      + '</div>'    : '<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:14px 16px;margin-bottom:14px;text-align:center">'      + '<div style="font-size:13px;color:rgba(255,255,255,0.75)">Localización registrada en tu álbum</div>'      + '</div>';
+    ? '<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:14px 16px;margin-bottom:14px;text-align:center">'      + '<div style="font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:8px">Obtienes un cromo</div>'      + '<div style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.5">Ahora puedes añadir tu foto recuerdo en <strong style=\"color:#fff\">Mi Álbum</strong> y abrir el cromo en el <strong style=\"color:#fff\">Tablero</strong></div>'      + '</div>'    : '<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:14px 16px;margin-bottom:14px;text-align:center">'      + '<div style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.6">Localización registrada en tu <strong style=\"color:#6ee7b7\">Álbum</strong> · cromo disponible en tu <strong style=\"color:#F5C800\">Colección</strong></div>'      + '</div>';
 
   var botonesHtml = '<div id="cromo-btn-cerrar" style="background:#1D9E75;color:#fff;border:none;border-radius:24px;padding:12px 32px;font-size:15px;font-weight:600;cursor:pointer;display:inline-block;width:100%;box-sizing:border-box">¡Genial!</div>';
 
@@ -9181,7 +9147,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v818";
+var _APP_VERSION = "v836";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -9191,7 +9157,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v818') === -1) {
+        if (key.indexOf('guia-compostelana-v836') === -1) {
           caches.delete(key);
         }
       });
@@ -9240,8 +9206,9 @@ if ('serviceWorker' in navigator) {
     };
     req.onsuccess = function(e) {
       _db = e.target.result;
+      window._albumDB = _db; // exponer para hard reset
       // Resetear _db si otra pestaña cierra la BD
-      _db.onversionchange = function() { _db.close(); _db = null; };
+      _db.onversionchange = function() { _db.close(); _db = null; window._albumDB = null; };
       cb(_db);
     };
     req.onerror   = function(e) { console.warn('AlbumDB: error al abrir', e.target.error); };
@@ -9269,23 +9236,22 @@ if ('serviceWorker' in navigator) {
         } else {
           // Visita GPS — sistema de cromos
           _albumComprobarLogros();
-          if (window._ocaGenerarNumero && window._ocaProcesarCromo) {
+          if (window._ocaGuardarCromo) {
             // Comprobar posada pendiente
             window._ocaGetPosada(function(posada) {
               var veces = posada ? 2 : 1;
               if (posada) window._ocaSetPosada(false, function(){});
-              function _darCromo(n) {
-                window._ocaGenerarNumero(poi.id, function(num) {
-                  window._ocaProcesarCromo(num, poi.id, function(numFinal, tipo, extras) {
-                    if (n === veces) {
-                      mostrarToastCromo(poi, numFinal, tipo, extras, posada && veces===2);
-                    } else {
-                      _darCromo(n+1);
-                    }
-                  });
+              // Guardar cromos con num:null — el número se asigna al abrir del mazo
+              var guardados = 0;
+              for (var v = 0; v < veces; v++) {
+                window._ocaGuardarCromo(null, poi.id, function() {
+                  guardados++;
+                  if (guardados === veces) {
+                    mostrarToastCromo(poi, null, null, [], posada && veces===2);
+                    _renderTableroOca();
+                  }
                 });
               }
-              _darCromo(1);
             });
           } else {
             mostrarToastCromo(poi);
@@ -9306,61 +9272,61 @@ if ('serviceWorker' in navigator) {
     2: {tipo:'normal',   emoji:'🐚', label:'Casilla II',      latin:'Surge et ambula',                 trad:'Levántate y camina'},
     3: {tipo:'normal',   emoji:'🐚', label:'Casilla III',     latin:'Primus passus longissimus',       trad:'El primer paso es el más largo'},
     4: {tipo:'normal',   emoji:'🐚', label:'Casilla IV',      latin:'Porta aperta manet',              trad:'La puerta permanece abierta'},
-    5: {tipo:'oca',      emoji:'🪿', label:'La Oca',          latin:'De ansere in anserem',            trad:'De oca en oca'},
+    5: {tipo:'oca',      emoji:'🦢', label:'La Oca',          latin:'De ansere in anserem',            trad:'De oca en oca'},
     6: {tipo:'puente',   emoji:'🌉', label:'El Puente',       latin:'Pons et via',                     trad:'El puente y el camino'},
     7: {tipo:'normal',   emoji:'🐚', label:'Casilla VII',     latin:'Dum calcas, vives',               trad:'Mientras caminas, vives'},
     8: {tipo:'normal',   emoji:'🐚', label:'Casilla VIII',    latin:'Via veritas lux',                 trad:'Camino, verdad, luz'},
-    9: {tipo:'oca',      emoji:'🪿', label:'La Oca',          latin:'Iterum vola, peregrino',          trad:'Vuela de nuevo, peregrino'},
+    9: {tipo:'oca',      emoji:'🦢', label:'La Oca',          latin:'Iterum vola, peregrino',          trad:'Vuela de nuevo, peregrino'},
     10:{tipo:'normal',   emoji:'🐚', label:'Casilla X',       latin:'Fac et spera',                    trad:'Haz y espera'},
     11:{tipo:'normal',   emoji:'🐚', label:'Casilla XI',      latin:'Peregrinus sum',                  trad:'Soy peregrino'},
     12:{tipo:'puente',   emoji:'🌉', label:'El Puente',       latin:'Flumina transeunda sunt',         trad:'Los ríos han de cruzarse'},
     13:{tipo:'normal',   emoji:'🐚', label:'Casilla XIII',    latin:'Corpus lassatur, animus crescit', trad:'El cuerpo se cansa, el alma crece'},
-    14:{tipo:'oca',      emoji:'🪿', label:'La Oca',          latin:'Templum in pectore portas',       trad:'Llevas el templo en el pecho'},
+    14:{tipo:'oca',      emoji:'🦢', label:'La Oca',          latin:'Templum in pectore portas',       trad:'Llevas el templo en el pecho'},
     15:{tipo:'normal',   emoji:'🐚', label:'Casilla XV',      latin:'Iter longum, fides brevis',       trad:'Largo el camino, corta la fe'},
     16:{tipo:'normal',   emoji:'🐚', label:'Casilla XVI',     latin:'Calcando saxa, calcando stellas', trad:'Pisando piedras, pisando estrellas'},
     17:{tipo:'normal',   emoji:'🐚', label:'Casilla XVII',    latin:'Non recedo',                      trad:'No me rindo'},
-    18:{tipo:'oca',      emoji:'🪿', label:'La Oca',          latin:'Signum electorum',                trad:'Señal de los elegidos'},
-    19:{tipo:'posada',   emoji:'🏨', label:'La Posada',       latin:'Quiesce, peregrino',              trad:'Descansa, peregrino'},
+    18:{tipo:'oca',      emoji:'🦢', label:'La Oca',          latin:'Signum electorum',                trad:'Señal de los elegidos'},
+    19:{tipo:'posada',   emoji:'⛺', label:'La Posada',       latin:'Quiesce, peregrino',              trad:'Descansa, peregrino'},
     20:{tipo:'normal',   emoji:'🐚', label:'Casilla XX',      latin:'Media via est',                   trad:'Estás a mitad del camino'},
     21:{tipo:'normal',   emoji:'🐚', label:'Casilla XXI',     latin:'Nunc aut numquam',                trad:'Ahora o nunca'},
     22:{tipo:'normal',   emoji:'🐚', label:'Casilla XXII',    latin:'Paulatim ergo certe',             trad:'Despacio pero seguro'},
-    23:{tipo:'oca',      emoji:'🪿', label:'La Oca',          latin:'Iter felix sit tibi',             trad:'Que te sea feliz el viaje'},
+    23:{tipo:'oca',      emoji:'🦢', label:'La Oca',          latin:'Iter felix sit tibi',             trad:'Que te sea feliz el viaje'},
     24:{tipo:'normal',   emoji:'🐚', label:'Casilla XXIV',    latin:'Ora et ambula',                   trad:'Reza y camina'},
     25:{tipo:'normal',   emoji:'🐚', label:'Casilla XXV',     latin:'Per pedes apostolorum',           trad:'Por los pasos de los apóstoles'},
     26:{tipo:'dados',    emoji:'🎲', label:'Los Dados',       latin:'Alea iacta est',                  trad:'La suerte está echada'},
-    27:{tipo:'oca',      emoji:'🪿', label:'La Oca',          latin:'Signum Templi portas',            trad:'Llevas el signo del Temple'},
+    27:{tipo:'oca',      emoji:'🦢', label:'La Oca',          latin:'Signum Templi portas',            trad:'Llevas el signo del Temple'},
     28:{tipo:'normal',   emoji:'🐚', label:'Casilla XXVIII',  latin:'Omnia munda mundis',              trad:'Todo es puro para el puro'},
     29:{tipo:'normal',   emoji:'🐚', label:'Casilla XXIX',    latin:'Virtus in itinere',               trad:'La virtud está en el camino'},
     30:{tipo:'normal',   emoji:'🐚', label:'Casilla XXX',     latin:'Fessus sed non victus',           trad:'Cansado pero no vencido'},
-    31:{tipo:'posada',   emoji:'🏨', label:'La Posada',       latin:'Hospes eras, hospes eris',        trad:'Fuiste huésped, serás huésped'},
-    32:{tipo:'oca',      emoji:'🪿', label:'La Oca',          latin:'Per lucem ad tenebras',           trad:'Por la luz hacia las tinieblas'},
+    31:{tipo:'posada',   emoji:'⛺', label:'La Posada',       latin:'Hospes eras, hospes eris',        trad:'Fuiste huésped, serás huésped'},
+    32:{tipo:'oca',      emoji:'🦢', label:'La Oca',          latin:'Per lucem ad tenebras',           trad:'Por la luz hacia las tinieblas'},
     33:{tipo:'normal',   emoji:'🐚', label:'Casilla XXXIII',  latin:'Lux in tenebris lucet',           trad:'La luz brilla en las tinieblas'},
     34:{tipo:'normal',   emoji:'🐚', label:'Casilla XXXIV',   latin:'Spem in alium pone',              trad:'Pon la esperanza en otro'},
     35:{tipo:'normal',   emoji:'🐚', label:'Casilla XXXV',    latin:'Gressu tuo duce',                 trad:'Guíate por tus propios pasos'},
-    36:{tipo:'oca',      emoji:'🪿', label:'La Oca',          latin:'Sanctus Iacobus te vocat',        trad:'Santiago te llama'},
+    36:{tipo:'oca',      emoji:'🦢', label:'La Oca',          latin:'Sanctus Iacobus te vocat',        trad:'Santiago te llama'},
     37:{tipo:'normal',   emoji:'🐚', label:'Casilla XXXVII',  latin:'Caelum, non animum, mutant',      trad:'Cambian el cielo, no el alma'},
     38:{tipo:'normal',   emoji:'🐚', label:'Casilla XXXVIII', latin:'Memento mori, memento vivere',    trad:'Recuerda morir, recuerda vivir'},
     39:{tipo:'normal',   emoji:'🐚', label:'Casilla XXXIX',   latin:'In silentio et spe',              trad:'En silencio y esperanza'},
     40:{tipo:'normal',   emoji:'🐚', label:'Casilla XL',      latin:'Viam inveniam',                   trad:'Encontraré el camino'},
-    41:{tipo:'oca',      emoji:'🪿', label:'La Oca',          latin:'Stella te ducit',                 trad:'La estrella te guía'},
+    41:{tipo:'oca',      emoji:'🦢', label:'La Oca',          latin:'Stella te ducit',                 trad:'La estrella te guía'},
     42:{tipo:'laberinto',emoji:'🌀', label:'El Laberinto',    latin:'Errando discitur via',            trad:'Errando se aprende el camino'},
     43:{tipo:'normal',   emoji:'🐚', label:'Casilla XLIII',   latin:'Nusquam est qui ubique est',      trad:'El que está en todas partes no está en ninguna'},
     44:{tipo:'normal',   emoji:'🐚', label:'Casilla XLIV',    latin:'Gradatim ferociter',              trad:'Paso a paso, con fiereza'},
-    45:{tipo:'oca',      emoji:'🪿', label:'La Oca',          latin:'Lapis angularis',                 trad:'La piedra angular'},
+    45:{tipo:'oca',      emoji:'🦢', label:'La Oca',          latin:'Lapis angularis',                 trad:'La piedra angular'},
     46:{tipo:'normal',   emoji:'🐚', label:'Casilla XLVI',    latin:'Iam prope es',                    trad:'Ya estás cerca'},
     47:{tipo:'normal',   emoji:'🐚', label:'Casilla XLVII',   latin:'Pauca sed bona',                  trad:'Pocas cosas pero buenas'},
     48:{tipo:'normal',   emoji:'🐚', label:'Casilla XLVIII',  latin:'Sicut aquila renovabitur',        trad:'Como el águila se renovará'},
     49:{tipo:'normal',   emoji:'🐚', label:'Casilla XLIX',    latin:'Ultima meta appropinquat',        trad:'La meta final se acerca'},
-    50:{tipo:'oca',      emoji:'🪿', label:'La Oca',          latin:'Quasi modo natus',                trad:'Como recién nacido'},
+    50:{tipo:'oca',      emoji:'🦢', label:'La Oca',          latin:'Quasi modo natus',                trad:'Como recién nacido'},
     51:{tipo:'normal',   emoji:'🐚', label:'Casilla LI',      latin:'Tenax propositi',                 trad:'Firme en el propósito'},
     52:{tipo:'carcel',   emoji:'⛓️',  label:'La Cárcel',      latin:'Manet immotus',                   trad:'Permanece inmóvil'},
     53:{tipo:'dados',    emoji:'🎲', label:'Los Dados',       latin:'Fortunam tempta',                 trad:'Tienta a la fortuna'},
-    54:{tipo:'oca',      emoji:'🪿', label:'La Oca',          latin:'Ad finem properas',               trad:'Te apresuras hacia el final'},
+    54:{tipo:'oca',      emoji:'🦢', label:'La Oca',          latin:'Ad finem properas',               trad:'Te apresuras hacia el final'},
     55:{tipo:'normal',   emoji:'🐚', label:'Casilla LV',      latin:'Paucis a fine',                   trad:'A pocos pasos del final'},
     56:{tipo:'normal',   emoji:'🐚', label:'Casilla LVI',     latin:'Non desistas',                    trad:'No te detengas'},
     57:{tipo:'normal',   emoji:'🐚', label:'Casilla LVII',    latin:'Porta Sancti Iacobi',             trad:'La puerta de Santiago'},
     58:{tipo:'muerte',   emoji:'💀', label:'La Muerte',       latin:'Moriendum est',                   trad:'Hay que morir — sed resurges'},
-    59:{tipo:'oca',      emoji:'🪿', label:'La Oca',          latin:'Ultima oca ante finem',           trad:'La última oca antes del final'},
+    59:{tipo:'oca',      emoji:'🦢', label:'La Oca',          latin:'Ultima oca ante finem',           trad:'La última oca antes del final'},
     60:{tipo:'normal',   emoji:'🐚', label:'Casilla LX',      latin:'Prope iam adsum',                 trad:'Ya estoy casi aquí'},
     61:{tipo:'normal',   emoji:'🐚', label:'Casilla LXI',     latin:'Cor meum ardet',                  trad:'Mi corazón arde'},
     62:{tipo:'normal',   emoji:'🐚', label:'Casilla LXII',    latin:'Ad ostium gloriae',               trad:'A las puertas de la gloria'},
@@ -9412,40 +9378,33 @@ if ('serviceWorker' in navigator) {
       var req=tx.objectStore('cromos').getAll();
       req.onsuccess=function(){
         var items=req.result||[];
+        // Solo contar cromos con número asignado (excluir los null del mazo sin abrir)
+        var itemsConNum=items.filter(function(it){return it.num!==null&&it.num!==undefined;});
         var ocupadas={};
-        items.forEach(function(it){ocupadas[it.num]=true;}); // incluye mazo sin abrir
-        // Para especiales: contar todas las instancias (nunca deben repetirse)
+        itemsConNum.forEach(function(it){ocupadas[it.num]=true;});
+        // Para especiales: ocupada si tiene >=1 cromo con ese número
         var conteoTotal={};
-        items.forEach(function(it){conteoTotal[it.num]=(conteoTotal[it.num]||0)+1;});
-        // Una especial está ocupada si tiene >=1 cromo (en mazo o tablero)
+        itemsConNum.forEach(function(it){conteoTotal[it.num]=(conteoTotal[it.num]||0)+1;});
         especiales.forEach(function(n){if(conteoTotal[n]>=1)ocupadas[n]=true;});
-        var tiposCompletos={};
-        Object.keys(porTipo).forEach(function(tipo){
-          if(porTipo[tipo].every(function(n){return ocupadas[n];}))tiposCompletos[tipo]=true;
-        });
         var tablero=window._OCA_TABLERO||{};
-        // Especiales libres (excluye muerte del pool normal)
+        // Especiales libres: no ocupadas (ni en mazo ni en tablero), excluye muerte
         var especLibres=especiales.filter(function(n){
           if(n===58)return false; // muerte se sortea aparte
-          if(ocupadas[n])return false;
-          var tipo=(tablero[n]||{}).tipo;
-          if(tipo&&tiposCompletos[tipo])return false;
-          return true;
+          return !ocupadas[n];   // ocupada = está en mazo o en tablero
         });
-        // Normales libres
+        // Normales libres (sin repetir)
         var normLibres=normales.filter(function(n){return !ocupadas[n];});
+        // Si todos los normales están ocupados, reabrir todos
+        if(normLibres.length===0)normLibres=normales.slice();
         // Muerte libre
         var muerteLibre=!ocupadas[58];
-        // Sorteo ponderado:
-        // ~70% normal, ~29.99% especial, ~0.01% muerte
+        // Sorteo ponderado: ~70% normal, ~30% especial (si las hay libres), ~0.001% muerte
         var r=Math.random();
-        var usarMuerte=muerteLibre&&r<0.000001;
+        var usarMuerte=muerteLibre&&r<0.0001;
         var usarEspecial=!usarMuerte&&especLibres.length>0&&r<0.30;
         if(usarMuerte){cb(58);}
         else if(usarEspecial){cb(especLibres[Math.floor(Math.random()*especLibres.length)]);}
-        else if(normLibres.length>0){cb(normLibres[Math.floor(Math.random()*normLibres.length)]);}
-        else if(especLibres.length>0){cb(especLibres[Math.floor(Math.random()*especLibres.length)]);}
-        else{cb(normales[Math.floor(Math.random()*normales.length)]);}
+        else{cb(normLibres[Math.floor(Math.random()*normLibres.length)]);}
       };
       req.onerror=function(){cb(normales[Math.floor(Math.random()*normales.length)]);}
     });
@@ -9457,7 +9416,7 @@ if ('serviceWorker' in navigator) {
       if (!db.objectStoreNames.contains('cromos')) { if (cb) cb(); return; }
       try {
         var tx = db.transaction('cromos', 'readwrite');
-        tx.objectStore('cromos').add({ num: num, poiId: poiId, fecha: Date.now(), resuelto: false });
+        tx.objectStore('cromos').add({ num: (num !== undefined ? num : null), poiId: poiId, fecha: Date.now(), resuelto: false });
         tx.oncomplete = function() { if (cb) cb(); setTimeout(function(){ if(typeof _rankingColeccionPulsar==='function') _rankingColeccionPulsar(true); },200); if (navigator.vibrate) navigator.vibrate([60,30,60]); };
         tx.onerror = function() { if (cb) cb(); };
       } catch(e) { if (cb) cb(); }
@@ -9596,7 +9555,7 @@ if ('serviceWorker' in navigator) {
     { min:4,  max:9,  emoji:'🎒', label:'Mochilero' },
     { min:10, max:19, emoji:'👣', label:'Caminante' },
     { min:20, max:34, emoji:'🐚', label:'Peregrino' },
-    { min:35, max:59, emoji:'🪿', label:'Veterano'  },
+    { min:35, max:59, emoji:'🦢', label:'Veterano'  },
     { min:60, max:999,emoji:'🏆', label:'Ultreia'   }
   ];
   window.RANGOS = RANGOS;
@@ -9830,14 +9789,13 @@ if ('serviceWorker' in navigator) {
   var _inputFoto = null;
   var _inputFotoCallback = null;
   function _albumPedirFoto(poiId, card) {
-    if (!_inputFoto) {
-      _inputFoto = document.createElement('input');
-      _inputFoto.type = 'file';
-      _inputFoto.accept = 'image/*';
-      _inputFoto.capture = 'environment';
-      _inputFoto.style.display = 'none';
-      document.body.appendChild(_inputFoto);
-    }
+    if (_inputFoto) { try { document.body.removeChild(_inputFoto); } catch(e){} }
+    _inputFoto = document.createElement('input');
+    _inputFoto.type = 'file';
+    _inputFoto.accept = 'image/*';
+    _inputFoto.capture = 'environment';
+    _inputFoto.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0;width:1px;height:1px';
+    document.body.appendChild(_inputFoto);
     _inputFoto.onchange = function() {
       var file = _inputFoto.files[0];
       if (!file) return;
@@ -9875,15 +9833,18 @@ if ('serviceWorker' in navigator) {
   // ---- Detección de proximidad durante el seguimiento GPS ----
   // Se engancha al watchPosition existente comprobando cada posición
   var _albumYaNotificado = {};
-  var RADIO_VISITA_M = 25; // metros para registrar visita (pruebas)
+  var RADIO_VISITA_M = 25; // metros para registrar visita
 
   window._albumCheckProximidad = function(lat, lng) {
     if (typeof PUNTOS === 'undefined') return;
     PUNTOS.forEach(function(poi) {
       if (_albumYaNotificado[poi.id]) return;
+      // Puntos de usuario, alertas y búsquedas no entran en el juego
+      if (poi.esUsuario || poi.esAlerta || poi.categoria === 'busqueda' || (poi.id && poi.id.indexOf('u_') === 0)) return;
       var distM = haversine(lat, lng, poi.lat, poi.lng) * 1000;
       if (distM <= RADIO_VISITA_M) {
         _albumYaNotificado[poi.id] = true;
+        if (navigator.vibrate) navigator.vibrate([80,40,80,40,160]);
         window._albumRegistrarVisita(poi);
       }
     });
@@ -9921,12 +9882,23 @@ if ('serviceWorker' in navigator) {
         '<button onclick="event.stopPropagation();_albumPedirFotoCard(\''+p.id+'\')" style="position:absolute;bottom:7px;right:7px;z-index:10;background:rgba(0,0,0,0.52);border:1px solid rgba(255,255,255,0.35);border-radius:20px;padding:3px 9px;color:#fff;font-size:10px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;backdrop-filter:blur(4px)" id="foto-btn-'+p.id+'">📷 mi foto</button>' +
       '</div>';
     } else {
-      // Cromo bloqueado — misma altura, todo el cuerpo de la tarjeta sigue visible
-      return '<div class="poi-img '+p.color+'" style="position:relative;overflow:hidden;background:linear-gradient(135deg,#12082a 0%,#1a0e35 50%,#0e0620 100%)" data-cromo-id="'+p.id+'">' +
-        '<div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,0.02) 0px,rgba(255,255,255,0.02) 10px,transparent 10px,transparent 20px)"></div>' +
-        '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding-bottom:30%">' +
-          '<div style="width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.06);font-size:16px">🔒</div>' +
-          '<div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.25);letter-spacing:1.5px;text-transform:uppercase;font-family:DM Sans,sans-serif;text-align:center;padding:0 6px;line-height:1.4">'+((T[idiomaActual]||T.es).visitaDesbloquear||'Visita el lugar para desbloquear y añadir tu imagen')+'</div>' +
+      // Cromo bloqueado — diseño elegante con color del POI y emoji central
+      var _colBg = {verde:'135deg,#0a2a1a,#0f3d26,#071a10', azul:'135deg,#0a1a2e,#0f2a4a,#071018', morado:'135deg,#1a0a2e,#2d1050,#0e0620', ambar:'135deg,#2a1a04,#3d2a06,#1a1002', rojo:'135deg,#2a0a0a,#3d1010,#1a0505'};
+      var _bg = _colBg[p.color] || _colBg.morado;
+      var _accentCol = {verde:'rgba(29,158,117,', azul:'rgba(59,130,246,', morado:'rgba(139,92,246,', ambar:'rgba(245,158,11,', rojo:'rgba(239,68,68,'};
+      var _ac = _accentCol[p.color] || _accentCol.morado;
+      return '<div class="poi-img '+p.color+'" style="position:relative;overflow:hidden;background:linear-gradient('+_bg+')" data-cromo-id="'+p.id+'">' +
+        '<div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,'+_ac+'0.12) 0%,transparent 70%)"></div>' +
+        '<div style="position:absolute;inset:0;background:repeating-linear-gradient(45deg,'+_ac+'0.04) 0px,'+_ac+'0.04) 1px,transparent 1px,transparent 18px)"></div>' +
+        '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:0 12px;padding-bottom:20%">' +
+          '<div style="position:relative">' +
+            '<div style="font-size:38px;line-height:1;filter:grayscale(1) brightness(0.35);user-select:none">'+p.emoji+'</div>' +
+            '<div style="position:absolute;top:-4px;right:-8px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,0.7);border:1px solid '+_ac+'0.5);display:flex;align-items:center;justify-content:center;font-size:9px">🔒</div>' +
+          '</div>' +
+          '<div style="text-align:center">' +
+            '<div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.85);font-family:DM Sans,sans-serif;margin-bottom:3px;letter-spacing:0.3px">'+p.nombre.split('·')[0].trim().substring(0,22)+(p.nombre.length>22?'…':'')+'</div>' +
+            '<div style="font-size:9px;font-weight:600;color:'+_ac+'0.6);letter-spacing:1.2px;text-transform:uppercase;font-family:DM Sans,sans-serif">Localización bloqueada</div>' +
+          '</div>' +
         '</div>' +
       '</div>';
     }
@@ -9954,12 +9926,12 @@ if ('serviceWorker' in navigator) {
 
   // Pedir foto desde la tarjeta POI (no desde el álbum drawer)
   window._albumPedirFotoCard = function(poiId) {
-    if (!_inputFoto) {
-      _inputFoto = document.createElement('input');
-      _inputFoto.type = 'file'; _inputFoto.accept = 'image/*';
-      _inputFoto.capture = 'environment'; _inputFoto.style.display = 'none';
-      document.body.appendChild(_inputFoto);
-    }
+    if (_inputFoto) { try { document.body.removeChild(_inputFoto); } catch(e){} }
+    _inputFoto = document.createElement('input');
+    _inputFoto.type = 'file'; _inputFoto.accept = 'image/*';
+    _inputFoto.capture = 'environment';
+    _inputFoto.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0;width:1px;height:1px';
+    document.body.appendChild(_inputFoto);
     _inputFoto.onchange = function() {
       var file = _inputFoto.files[0]; if (!file) return; _inputFoto.value = '';
       var reader = new FileReader();
@@ -10186,17 +10158,50 @@ function _renderTableroOca() {
 }
 
 function _abrirCromoDelMazo(entry){
-  var num=entry.item.num;
   var tablero=window._OCA_TABLERO||{};
-  var casilla=tablero[num]||{emoji:'🐚',tipo:'normal',latin:'',trad:'',label:'Casilla '+num};
-  _abrirModalCasilla(num,casilla,[entry]);
+  // Si ya tiene número asignado (retrocompatibilidad), abrir directamente
+  if(entry.item.num!==null&&entry.item.num!==undefined){
+    var casilla=tablero[entry.item.num]||{emoji:'🐚',tipo:'normal',latin:'',trad:'',label:'Casilla '+entry.item.num};
+    _abrirModalCasilla(entry.item.num,casilla,[entry]);
+    return;
+  }
+  // Asignar número ahora, al abrir — lee el estado real del tablero en este instante
+  window._ocaGenerarNumero(entry.item.poiId||'',function(num){
+    // Actualizar el registro en IndexedDB con el número asignado
+    window._abrirDB(function(db){
+      try{
+        var tx=db.transaction('cromos','readwrite');
+        var store=tx.objectStore('cromos');
+        var req=store.get(entry.key);
+        req.onsuccess=function(){
+          var item=req.result;
+          if(item){item.num=num;store.put(item,entry.key);}
+          else{store.add({num:num,poiId:entry.item.poiId,fecha:entry.item.fecha,resuelto:false});}
+        };
+        tx.oncomplete=function(){
+          var casilla=tablero[num]||{emoji:'🐚',tipo:'normal',latin:'',trad:'',label:'Casilla '+num};
+          entry.item.num=num;
+          _abrirModalCasilla(num,casilla,[entry]);
+        };
+        tx.onerror=function(){
+          var casilla=tablero[num]||{emoji:'🐚',tipo:'normal',latin:'',trad:'',label:'Casilla '+num};
+          entry.item.num=num;
+          _abrirModalCasilla(num,casilla,[entry]);
+        };
+      }catch(e){
+        var casilla=tablero[num]||{emoji:'🐚',tipo:'normal',latin:'',trad:'',label:'Casilla '+num};
+        entry.item.num=num;
+        _abrirModalCasilla(num,casilla,[entry]);
+      }
+    });
+  });
 }
 
 // ── Deuda: objeto {carcel, laberinto, posada, puente, dados} ─────────────────
 // Orden de cobro: carcel > laberinto > posada > puente > dados
 var _DEUDA_ORDEN=['carcel','laberinto','posada','puente','dados'];
 var _DEUDA_COSTE={carcel:2,laberinto:2,posada:1,puente:1,dados:2};
-var _DEUDA_ICONO={carcel:'⛓️',laberinto:'🌀',posada:'🏨',puente:'🌉',dados:'🎲'};
+var _DEUDA_ICONO={carcel:'⛓️',laberinto:'🌀',posada:'⛺',puente:'🌉',dados:'🎲'};
 
 function _ocaGetDeuda(cb){
   window._abrirDB(function(db){
@@ -10296,7 +10301,7 @@ function _ocaModalDeudaCobrada(tipo,restante,infoCromos,cb){
 function _ocaEliminarComunesAleatorio(n,cb){
   window._ocaGetCromosConKeys(function(entries){
     var tablero=window._OCA_TABLERO||{};
-    var comunes=entries.filter(function(e){return e.item.resuelto&&(tablero[e.item.num]||{tipo:'normal'}).tipo==='normal';});
+    var comunes=entries.filter(function(e){return e.item.resuelto&&e.item.num!==null&&e.item.num!==undefined&&(tablero[e.item.num]||{tipo:'normal'}).tipo==='normal';});
     for(var i=comunes.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=comunes[i];comunes[i]=comunes[j];comunes[j]=t;}
     var aEliminar=comunes.slice(0,n);
     var eliminados=aEliminar.length;
@@ -10312,9 +10317,7 @@ function _ocaEliminarComunesAleatorio(n,cb){
 function _ocaAnadirAlMazo(n,poiId,cb){
   function uno(rest){
     if(rest<=0){if(cb)cb();return;}
-    window._ocaGenerarNumero(poiId||'',function(num){
-      window._ocaGuardarCromo(num,poiId||'',function(){uno(rest-1);});
-    });
+    window._ocaGuardarCromo(null,poiId||'',function(){uno(rest-1);});
   }
   uno(n);
 }
@@ -10501,11 +10504,52 @@ function _hardResetJuego(){
   box.querySelector('#hreset-cancelar').addEventListener('click',function(){overlay.remove();});
   box.querySelector('#hreset-confirmar').addEventListener('click',function(){
     box.innerHTML='<div style="font-size:28px;margin-bottom:12px">⏳</div><div style="font-size:14px;color:#fff">Borrando datos...</div>';
-    var req=indexedDB.deleteDatabase('album-peregrino');
-    req.onsuccess=req.onerror=function(){
-      if('caches' in window){caches.keys().then(function(keys){return Promise.all(keys.map(function(k){return caches.delete(k);}));}).then(function(){overlay.remove();mostrarToast('🗑️ Reset completado — recargando...');setTimeout(function(){window.location.reload(true);},1200);});}
-      else{overlay.remove();mostrarToast('🗑️ Reset completado — recargando...');setTimeout(function(){window.location.reload(true);},1200);}
-    };
+    // Timeout de seguridad: si algo falla, recargar igualmente tras 5s
+    var _safetyTimer=setTimeout(function(){ window.location.reload(); },5000);
+    function _doReload(){
+      clearTimeout(_safetyTimer);
+      window.location.reload();
+    }
+    // Estrategia móvil: vaciar stores uno a uno con la conexión existente
+    // evita deleteDatabase que se bloquea en iOS/Android
+    function _vaciarStores(db, cb){
+      var stores=['visitas','fotos','logros','cromos','estado'];
+      var pendiente=stores.length;
+      if(pendiente===0){cb();return;}
+      stores.forEach(function(s){
+        try{
+          if(!db.objectStoreNames.contains(s)){pendiente--;if(!pendiente)cb();return;}
+          var tx=db.transaction(s,'readwrite');
+          tx.objectStore(s).clear();
+          tx.oncomplete=function(){pendiente--;if(!pendiente)cb();};
+          tx.onerror=function(){pendiente--;if(!pendiente)cb();};
+        }catch(e){pendiente--;if(!pendiente)cb();}
+      });
+    }
+    function _limpiarSW(cb){
+      if('caches' in window){
+        caches.keys().then(function(keys){return Promise.all(keys.map(function(k){return caches.delete(k);}));}).then(cb).catch(cb);
+      } else {cb();}
+    }
+    function _hacerReset(db){
+      _vaciarStores(db,function(){
+        _limpiarSW(function(){
+          if('serviceWorker' in navigator){
+            navigator.serviceWorker.getRegistrations().then(function(regs){
+              Promise.all(regs.map(function(r){return r.unregister();})).then(_doReload).catch(_doReload);
+            }).catch(_doReload);
+          } else {_doReload();}
+        });
+      });
+    }
+    // Usar conexión existente si está disponible, si no abrir una nueva
+    if(window._albumDB&&window._albumDB.transaction){
+      _hacerReset(window._albumDB);
+    } else {
+      var req=indexedDB.open('album-peregrino');
+      req.onsuccess=function(e){_hacerReset(e.target.result);};
+      req.onerror=function(){_doReload();};
+    }
   });
 }
 
@@ -10766,7 +10810,7 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v818</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v836</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
