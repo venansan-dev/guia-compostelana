@@ -3203,8 +3203,10 @@ function abrirAlbumPanel(origen) {
   _intentarRender();
 }
 function abrirTableroDrawer() {
+  window._tableroNeedsRefresh = false;
   _abrirSlide('tablero-drawer');
-  _renderTableroOca();
+  // Defer para que slide-in esté aplicado antes de renderizar
+  setTimeout(_renderTableroOca, 50);
 }
 function cerrarTableroDrawer() {
   _cerrarSlide('tablero-drawer');
@@ -9162,7 +9164,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v851";
+var _APP_VERSION = "v853";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -9172,7 +9174,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v851') === -1) {
+        if (key.indexOf('guia-compostelana-v853') === -1) {
           caches.delete(key);
         }
       });
@@ -9263,7 +9265,7 @@ if ('serviceWorker' in navigator) {
                   guardados++;
                   if (guardados === veces) {
                     mostrarToastCromo(poi, null, null, [], posada && veces===2);
-                    _renderTableroOca();
+                    window._tableroNeedsRefresh = true; // marcar dirty, renderizar al abrir
                   }
                 });
               }
@@ -9473,12 +9475,15 @@ if ('serviceWorker' in navigator) {
     _abrirDB(function(db) {
       if (!db.objectStoreNames.contains('cromos')) { cb([]); return; }
       try {
-        var tx=db.transaction('cromos','readonly'),items=[],keys=[];
-        tx.objectStore('cromos').openCursor().onsuccess=function(e){
-          var cursor=e.target.result;
-          if(cursor){keys.push(cursor.key);items.push(cursor.value);cursor.continue();}
-          else{cb(items.map(function(v,i){return{key:keys[i],item:v};}));}
-        };
+        var tx=db.transaction('cromos','readonly');
+        var store=tx.objectStore('cromos');
+        var reqAll=store.getAll();
+        var reqKeys=store.getAllKeys();
+        var all=null,keys=null;
+        reqAll.onsuccess=function(){all=reqAll.result;if(keys!==null)done();};
+        reqKeys.onsuccess=function(){keys=reqKeys.result;if(all!==null)done();};
+        function done(){cb(all.map(function(v,i){return{key:keys[i],item:v};}));}
+        tx.onerror=function(){cb([]);};
       } catch(e2){cb([]);}
     });
   };
@@ -10075,6 +10080,9 @@ function _renderTableroOca() {
   var mazoCont=document.getElementById('ap-mazo-cromos');
   var contador=document.getElementById('tablero-contador');
   if(!tableroGrid||!window._ocaGetCromosConKeys) return;
+  // No renderizar si el tablero no está visible — evita lecturas IndexedDB innecesarias
+  var drawerTablero=document.getElementById('tablero-drawer');
+  if(!drawerTablero||!drawerTablero.classList.contains('slide-in')) return;
   window._ocaGetCromosConKeys(function(entries){
     var mazo=entries.filter(function(e){return !e.item.resuelto;});
     var abiertos=entries.filter(function(e){return e.item.resuelto;});
@@ -10682,7 +10690,7 @@ function _abrirModalPOI(punto) {
   actionsDiv.style.cssText = 'flex-shrink:0;display:flex;gap:6px;padding:6px 12px 12px;background:rgba(255,255,255,0)';
   var _esBusqueda = punto.categoria === 'busqueda';
   var _btnRuta = '<button id="mpbtn-'+punto.id+'" data-poi="'+punto.id+'" onclick="addToRoute(this.getAttribute(\'data-poi\')); document.getElementById(\'modal-poi-info\').remove();" style="flex:1;background:'+(enR?'#1D9E75':'#E1F5EE')+';color:'+(enR?'#fff':'#0F6E56')+';border:1px solid rgba(29,158,117,0.3);border-radius:12px;padding:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">'+(enR?'&#10003; En ruta':'+ Añadir a ruta')+'</button>';
-  var _btnNavegar = '<button onclick="addToRoute(\''+punto.id+'\'); document.getElementById(\'modal-poi-info\').remove(); setTimeout(iniciarRuta,300);" style="flex:1;background:#1D9E75;color:#fff;border:none;border-radius:12px;padding:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">🧭 '+(t2.comoLlegar||'Cómo llegar →')+'</button>';
+  var _btnNavegar = '<button onclick="addToRoute(\''+punto.id+'\'); document.getElementById(\'modal-poi-info\').remove(); setTimeout(activarNavegacionVoz,400);" style="flex:1;background:#1D9E75;color:#fff;border:none;border-radius:12px;padding:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">🧭 '+(t2.comoLlegar||'Cómo llegar →')+'</button>';
   actionsDiv.innerHTML = _esBusqueda
     ? _btnRuta  // puntos de búsqueda: solo añadir a ruta
     : _btnRuta + _btnNavegar;  // POIs normales: añadir a ruta + cómo llegar
@@ -10815,7 +10823,7 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v851</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v853</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
