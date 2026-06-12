@@ -1004,7 +1004,7 @@
     </div>
     <!-- Estadísticas por categoría -->
     <div style='flex-shrink:0'>
-      <div style='font-size:10px;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px'>Estadísticas</div>
+      <div id='ranking-stats-label' style='font-size:10px;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px'>Estadísticas</div>
       <div id='ap-stats' style='display:grid;grid-template-columns:1fr 1fr;gap:6px'></div>
     </div>
 
@@ -1036,7 +1036,7 @@
         <div style='font-size:9px;color:rgba(255,255,255,0.18);font-style:italic;letter-spacing:0.3px'>Sistema de juego GCU © 2025</div>
         <div style='font-size:9px;color:rgba(255,255,255,0.18);letter-spacing:0.5px'>Guía Xacobea Ultreia</div>
       </div>
-      <button onclick='_hardResetJuego()' style='width:100%;background:rgba(220,38,38,0.15);color:rgba(252,165,165,0.8);border:1px solid rgba(220,38,38,0.3);border-radius:10px;padding:8px;font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>🗑️ Hard Reset — borrar cromos y visitas</button>
+      <button id='tablero-hard-reset-btn' onclick='_hardResetJuego()' style='width:100%;background:rgba(220,38,38,0.15);color:rgba(252,165,165,0.8);border:1px solid rgba(220,38,38,0.3);border-radius:10px;padding:8px;font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>🗑️ Hard Reset — borrar cromos y visitas</button>
     </div>
   </div>
 </div>
@@ -3124,6 +3124,8 @@ function cerrarTodosLosPaneles() {
     if (p) p.classList.remove('slide-in');
   });
   if (mapSection) mapSection.classList.remove('slide-out');
+  var _bt = document.getElementById('mapa-cat-panel-title');
+  if (_bt) { _bt.style.display = 'none'; _bt.textContent = ''; }
 }
 function _abrirSlide(panelId) {
   var mapSection = document.querySelector('#map-block .map-section');
@@ -4591,7 +4593,6 @@ function añadirMarcadorUsuario(p) {
       var content = '<div style="font-family:DM Sans,sans-serif;min-width:200px;max-width:260px">' +
         '<strong style="font-size:14px">👤 ' + punto.nombre + '</strong><br>' +
         '<small style="color:#6b7280;font-size:11px">Punto añadido por usuario' +
-        (punto.estado === 'pendiente' ? ' · <span style="color:#f59e0b">⏳ Pendiente revisión</span>' : '') +
         '</small>' +
         (punto.descripcion ? '<p style="font-size:13px;margin:6px 0 4px;color:#374151">' + punto.descripcion + '</p>' : '') +
         '<button onclick="addToRoute(\'' + punto.id + '\');mapa.closePopup();" style="' + btnRutaStyle + '">' + btnRutaLabel + '</button>' +
@@ -7806,6 +7807,11 @@ var T={
     rankingPrimer:'Visita tu primer lugar para comenzar',
     rankingLogros:'Logros',
     rankingEscala:'Escala de rangos',
+    rankingEstadisticas:'Estadísticas',
+    rankingHardReset:'🗑️ Borrar cromos y visitas',
+    rankingPrimer:'Visita tu primer lugar para comenzar',
+    statReligiosos:'Religiosos',statArqueologicos:'Arqueológicos',statAlbergues:'Albergues',
+    statHistoricos:'Históricos',statLocalizaciones:'Localizaciones',statMonumentos:'Monumentos',
     rankingVisita:'visita',
     rankingVisitas:'visitas',
     rankingLugar:'lugar',
@@ -7967,7 +7973,7 @@ var T={
   },
   gl:{
     h1:'Descobre os recunchos máis especiais',
-    heroTag:'A túa guía Xacobea',
+    heroTag:'A túa guía local compostelá da costa',
     puntosH2:'Puntos de interese próximos',
     historiaH2:'A orixe da vieira e a pegada templaria',
     navInicio:'Inicio',
@@ -8076,6 +8082,12 @@ var T={
     rankingContador:'Visita lugares do Camiño para avanzar no ranking',
     rankingPrimer:'Visita o teu primeiro lugar para comezar',
     rankingLogros:'Logros',
+    rankingEscala:'Escala de rangos',
+    rankingEstadisticas:'Estatísticas',
+    rankingHardReset:'🗑️ Borrar cromos e visitas',
+    rankingPrimer:'Visita o teu primeiro lugar para comezar',
+    statReligiosos:'Relixiosos',statArqueologicos:'Arqueolóxicos',statAlbergues:'Albergues',
+    statHistoricos:'Históricos',statLocalizaciones:'Localizacións',statMonumentos:'Monumentos',
     rankingVisita:'visita',rankingVisitas:'visitas',rankingLugar:'lugar',rankingLugares:'lugares',
     rankingVisitado:'visitado',rankingVisitados:'visitados',rankingPara:'para',
     rankingMaximo:'¡Rango máximo acadado!',
@@ -8128,6 +8140,12 @@ var T={
     rankingContador:'Visit places along the Way to advance in ranking',
     rankingPrimer:'Visit your first place to begin',
     rankingLogros:'Achievements',
+    rankingEscala:'Rank ladder',
+    rankingEstadisticas:'Statistics',
+    rankingHardReset:'🗑️ Reset cards and visits',
+    rankingPrimer:'Visit your first place to begin',
+    statReligiosos:'Religious',statArqueologicos:'Archaeological',statAlbergues:'Hostels',
+    statHistoricos:'Historical',statLocalizaciones:'Locations',statMonumentos:'Monuments',
     rankingVisita:'visit',rankingVisitas:'visits',rankingLugar:'place',rankingLugares:'places',
     rankingVisitado:'visited',rankingVisitados:'visited',rankingPara:'to reach',
     rankingMaximo:'Maximum rank reached!',
@@ -8281,7 +8299,7 @@ var T={
   },
   en:{
     h1:'Discover the most special corners',
-    heroTag:'Your Jacobean guide',
+    heroTag:'Your compostelan guide of the coast',
     puntosH2:'Nearby points of interest',
     historiaH2:'The origin of the scallop and the Templar footprint',
     navInicio:'Home',
@@ -8698,6 +8716,14 @@ function cambiarIdioma(lang){
   el=document.getElementById('album-panel-titulo');if(el)el.textContent=t.rankingTitulo||'🏅 Ranking del Peregrino';
   if(el&&!el.textContent.match(/\d/)){el=document.getElementById('album-panel-contador');if(el)el.textContent=t.rankingContador||'Visita lugares del Camino para avanzar en el ranking';}
   el=document.getElementById('ranking-logros-label');if(el)el.textContent=t.rankingLogros||'Logros';
+  el=document.getElementById('ranking-stats-label');if(el)el.textContent=t.rankingEstadisticas||'Estadísticas';
+  el=document.getElementById('tablero-hard-reset-btn');if(el)el.textContent=t.rankingHardReset||'🗑️ Borrar cromos y visitas';
+  el=document.getElementById('album-panel-volver');if(el)el.textContent=t.btnVolver||'← Volver';
+  el=document.getElementById('tablero-panel-volver');if(el)el.textContent=t.btnVolver||'← Volver';
+  var _elSigInit=document.getElementById('ap-rank-siguiente');
+  if(_elSigInit&&_elSigInit.textContent&&!_elSigInit.textContent.match(/\d/))_elSigInit.textContent=t.rankingPrimer||'Visita tu primer lugar para comenzar';
+  var _elCountInit=document.getElementById('ap-rank-count');
+  if(_elCountInit&&_elCountInit.textContent==='0 visitas')_elCountInit.textContent='0 '+(t.rankingVisitas||'visitas');
   // Panel Colección
   el=document.getElementById('tablero-super-titulo');if(el)el.textContent=t.coleccionSuper||'Juego de la Oca Jacobeo';
   el=document.getElementById('tablero-titulo');if(el)el.textContent=t.coleccionTitulo||'🐚 Colección del Peregrino';
@@ -8753,6 +8779,14 @@ function cambiarIdioma(lang){
   // Panel ranking título y contador
   el=document.getElementById('album-panel-titulo');if(el)el.textContent=t.rankingTitulo||'🏅 Ranking del Peregrino';
   el=document.getElementById('album-panel-contador');if(el&&!el.textContent.match(/\d/))el.textContent=t.rankingContador||'Visita lugares del Camino para avanzar en el ranking';
+  el=document.getElementById('ranking-stats-label');if(el)el.textContent=t.rankingEstadisticas||'Estadísticas';
+  el=document.getElementById('tablero-hard-reset-btn');if(el)el.textContent=t.rankingHardReset||'🗑️ Borrar cromos y visitas';
+  el=document.getElementById('album-panel-volver');if(el)el.textContent=t.btnVolver||'← Volver';
+  el=document.getElementById('tablero-panel-volver');if(el)el.textContent=t.btnVolver||'← Volver';
+  var _elSigInit2=document.getElementById('ap-rank-siguiente');
+  if(_elSigInit2&&_elSigInit2.textContent&&!_elSigInit2.textContent.match(/\d/))_elSigInit2.textContent=t.rankingPrimer||'Visita tu primer lugar para comenzar';
+  var _elCountInit2=document.getElementById('ap-rank-count');
+  if(_elCountInit2&&_elCountInit2.textContent&&!_elCountInit2.textContent.match(/[1-9]/))_elCountInit2.textContent='0 '+(t.rankingVisitas||'visitas');
   // Panel álbum recuerdos vacío
   el=document.getElementById('album-rec-vacio');if(el){var vt=el.querySelector('div:nth-child(2)');if(vt)vt.textContent=t.albumVacio||'Tu álbum está vacío';}
   // Botones volver álbum recuerdos
@@ -9147,7 +9181,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v815";
+var _APP_VERSION = "v818";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -9157,7 +9191,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v815') === -1) {
+        if (key.indexOf('guia-compostelana-v818') === -1) {
           caches.delete(key);
         }
       });
@@ -10008,13 +10042,14 @@ function _renderAlbumPanel() {
     // Estadísticas por categoría
     var elStats = document.getElementById('ap-stats');
     if (elStats) {
+      var _tSt=T[idiomaActual]||T.es;
       var statCats = [
-        { emoji:'⛪', label:'Religiosos',     cat:'edificación religiosa',  total:36 },
-        { emoji:'🔍', label:'Arqueológicos',  cat:'vestigio arqueológico',   total:12 },
-        { emoji:'🏠', label:'Albergues',      cat:'albergue',               total:11 },
-        { emoji:'🏛️', label:'Históricos',     cat:'edificación histórica',  total:9  },
-        { emoji:'📜', label:'Localizaciones', cat:'localización histórica', total:8  },
-        { emoji:'🗿', label:'Monumentos',     cat:'monumento',              total:5  }
+        { emoji:'⛪', label:_tSt.statReligiosos||'Religiosos',     cat:'edificación religiosa',  total:36 },
+        { emoji:'🔍', label:_tSt.statArqueologicos||'Arqueológicos',cat:'vestigio arqueológico',   total:12 },
+        { emoji:'🏠', label:_tSt.statAlbergues||'Albergues',       cat:'albergue',               total:11 },
+        { emoji:'🏛️', label:_tSt.statHistoricos||'Históricos',     cat:'edificación histórica',  total:9  },
+        { emoji:'📜', label:_tSt.statLocalizaciones||'Localizaciones',cat:'localización histórica',total:8 },
+        { emoji:'🗿', label:_tSt.statMonumentos||'Monumentos',     cat:'monumento',              total:5  }
       ];
       elStats.innerHTML = statCats.map(function(s) {
         var visitados = s.cat === 'usuario'
@@ -10731,7 +10766,7 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v815</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v818</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
