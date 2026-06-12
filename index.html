@@ -4258,6 +4258,86 @@ function toggleAlertasFirebase(){
   _actualizarBtnAlertas();
 }
 
+function abrirSheetInstalacion(){
+  var existing=document.getElementById('sheet-instalacion');
+  if(existing){existing.remove();return;}
+
+  var overlay=document.createElement('div');
+  overlay.id='sheet-instalacion';
+  overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;z-index:100000;background:rgba(0,0,0,0.45);display:flex;align-items:flex-end;justify-content:center;-webkit-tap-highlight-color:transparent;font-family:DM Sans,sans-serif';
+
+  var panel=document.createElement('div');
+  panel.style.cssText='background:#fff;border-radius:20px 20px 0 0;padding:0 0 env(safe-area-inset-bottom,20px);width:100%;max-width:480px;position:relative;box-sizing:border-box;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1)';
+
+  // Botón ✕
+  var btnX=document.createElement('button');
+  btnX.textContent='✕';
+  btnX.style.cssText='position:absolute;top:12px;right:12px;width:36px;height:36px;background:#f0f0f0;border:none;border-radius:50%;font-size:16px;cursor:pointer;z-index:1;display:flex;align-items:center;justify-content:center;color:#555;-webkit-appearance:none';
+  function cerrar(){
+    panel.style.transform='translateY(100%)';
+    setTimeout(function(){overlay.remove();},320);
+  }
+  btnX.addEventListener('click',cerrar);
+  btnX.addEventListener('touchend',function(e){e.preventDefault();cerrar();});
+
+  var inner=document.createElement('div');
+  inner.style.cssText='padding:20px 20px 8px';
+
+  var androidBtn = (typeof deferredInstallPrompt!=='undefined'&&deferredInstallPrompt)
+    ? '<button id="si-android" style="width:100%;background:#1D9E75;color:#fff;border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:14px">📲 Añadir a pantalla de inicio</button>'
+    : '';
+
+  inner.innerHTML=
+    '<div style="width:40px;height:4px;background:#e0e0e0;border-radius:2px;margin:0 auto 18px"></div>'
+    +'<div style="font-size:17px;font-weight:700;color:#1a1a1a;margin-bottom:4px;font-family:Playfair Display,serif">📲 Instalar la app</div>'
+    +'<div style="font-size:12px;color:#9ca3af;margin-bottom:18px">Las notificaciones requieren tener la app instalada en tu pantalla de inicio</div>'
+    +androidBtn
+    +'<div style="font-size:12px;font-weight:600;color:#6b7280;margin-bottom:10px">En iPhone/iPad (Safari):</div>'
+    +'<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">'
+      +'<div style="display:flex;align-items:center;gap:12px;background:#f8f9fa;border-radius:12px;padding:11px 14px">'
+        +'<span style="font-size:22px;flex-shrink:0">1️⃣</span>'
+        +'<span style="font-size:13px;color:#1a1a1a">Toca el botón <strong>Compartir ⬆️</strong> en la barra de Safari</span>'
+      +'</div>'
+      +'<div style="display:flex;align-items:center;gap:12px;background:#f8f9fa;border-radius:12px;padding:11px 14px">'
+        +'<span style="font-size:22px;flex-shrink:0">2️⃣</span>'
+        +'<span style="font-size:13px;color:#1a1a1a">Desplázate y toca <strong>Añadir a pantalla de inicio ➕</strong></span>'
+      +'</div>'
+      +'<div style="display:flex;align-items:center;gap:12px;background:#f8f9fa;border-radius:12px;padding:11px 14px">'
+        +'<span style="font-size:22px;flex-shrink:0">3️⃣</span>'
+        +'<span style="font-size:13px;color:#1a1a1a">Abre la app instalada y activa las notificaciones desde aquí</span>'
+      +'</div>'
+    +'</div>';
+
+  // Android install button listener
+  var btnAndroid=inner.querySelector('#si-android');
+  if(btnAndroid){
+    btnAndroid.addEventListener('click',function(){
+      if(deferredInstallPrompt){
+        deferredInstallPrompt.prompt();
+        deferredInstallPrompt.userChoice.then(function(r){
+          if(r.outcome==='accepted'){deferredInstallPrompt=null;}
+          cerrar();
+        });
+      }
+    });
+  }
+
+  panel.appendChild(btnX);
+  panel.appendChild(inner);
+  overlay.appendChild(panel);
+  document.body.appendChild(overlay);
+
+  // Animar entrada
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      panel.style.transform='translateY(0)';
+    });
+  });
+
+  overlay.addEventListener('click',function(e){if(e.target===overlay)cerrar();});
+  overlay.addEventListener('touchend',function(e){if(e.target===overlay){e.preventDefault();cerrar();}});
+}
+
 function abrirModalNotificaciones(){
   var existing=document.getElementById('modal-notif-opciones');
   if(existing){existing.remove();return;}
@@ -4319,24 +4399,7 @@ function abrirModalNotificaciones(){
         +'<div style="font-size:11px;color:#9ca3af;margin-top:2px">'+(lOn?'Activas — avisando de POIs cercanos':permDenied?'Permiso bloqueado — activa en ajustes':'Requiere permiso del navegador')+'</div></div>'
         +'<span id="nt-loc">'+toggle(lBg,lOn)+'</span>'
       +'</div>'
-      // Sección instalar — oculta por defecto, se expande solo cuando el navegador no soporta notificaciones
-      +(!standalone
-        ? '<div id="nt-instalar-wrap" style="overflow:hidden;max-height:0;transition:max-height 0.35s ease,opacity 0.3s ease;opacity:0">'
-          +'<div style="margin-top:16px;background:#f8f9fa;border-radius:14px;padding:14px 16px">'
-          +'<div style="font-size:13px;font-weight:700;color:#1a1a1a;margin-bottom:6px">📲 Instala la app para activar notificaciones</div>'
-          +'<div style="font-size:11px;color:#6b7280;margin-bottom:12px">Las notificaciones solo están disponibles cuando la app está instalada en tu pantalla de inicio.</div>'
-          +(typeof deferredInstallPrompt!=='undefined'&&deferredInstallPrompt
-            ? '<button id="nt-instalar-android" style="width:100%;background:#1D9E75;color:#fff;border:none;border-radius:12px;padding:11px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:12px">Añadir a pantalla de inicio</button>'
-            : '')
-          +'<div style="font-size:12px;color:#6b7280;margin-bottom:10px">En iPhone/iPad (Safari):</div>'
-          +'<div style="display:flex;flex-direction:column;gap:7px">'
-            +'<div style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:10px;padding:9px 12px;border:1px solid #e5e7eb"><span style="font-size:18px;flex-shrink:0">1️⃣</span><span style="font-size:12px;color:#1a1a1a">Toca el botón <strong>Compartir ⬆️</strong> en la barra de Safari</span></div>'
-            +'<div style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:10px;padding:9px 12px;border:1px solid #e5e7eb"><span style="font-size:18px;flex-shrink:0">2️⃣</span><span style="font-size:12px;color:#1a1a1a">Desplázate y toca <strong>Añadir a pantalla de inicio ➕</strong></span></div>'
-            +'<div style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:10px;padding:9px 12px;border:1px solid #e5e7eb"><span style="font-size:18px;flex-shrink:0">3️⃣</span><span style="font-size:12px;color:#1a1a1a">Abre la app instalada y activa las notificaciones desde aquí</span></div>'
-          +'</div>'
-          +'</div>'
-        +'</div>'
-        : '');
+      // Sección instalar eliminada del sheet de notificaciones — se abre como sheet independiente
 
     // Listeners toggles
     inner.querySelector('#nt-alertas button').addEventListener('click',function(){
@@ -4352,9 +4415,8 @@ function abrirModalNotificaciones(){
         desactivarNotificaciones();_actualizarBtnAlertas();renderInner();
       } else {
         if(!('Notification' in window)){
-          // No soporta notificaciones: expandir tutorial de instalación
-          var wrap=inner.querySelector('#nt-instalar-wrap');
-          if(wrap){wrap.style.maxHeight='600px';wrap.style.opacity='1';}
+          // No soporta notificaciones: abrir sheet tutorial independiente
+          abrirSheetInstalacion();
           return;
         }
         if(Notification.permission==='denied'){
@@ -4365,29 +4427,14 @@ function abrirModalNotificaciones(){
         Notification.requestPermission().then(function(perm){
           if(perm==='granted'){notifActivadas=true;actualizarBtnPrincipal();iniciarProximidad();}
           else {
-            // Permiso denegado o descartado: expandir tutorial si no es standalone
-            if(!esStandalone()){
-              var wrap=inner.querySelector('#nt-instalar-wrap');
-              if(wrap){wrap.style.maxHeight='600px';wrap.style.opacity='1';}
-            }
+            // Permiso denegado o descartado: abrir sheet tutorial si no es standalone
+            if(!esStandalone()) abrirSheetInstalacion();
           }
           _actualizarBtnAlertas();renderInner();
         });
       }
     });
-    // Botón instalar Android
-    var btnAndroid=inner.querySelector('#nt-instalar-android');
-    if(btnAndroid){
-      btnAndroid.addEventListener('click',function(){
-        if(deferredInstallPrompt){
-          deferredInstallPrompt.prompt();
-          deferredInstallPrompt.userChoice.then(function(r){
-            if(r.outcome==='accepted'){deferredInstallPrompt=null;}
-            renderInner();
-          });
-        }
-      });
-    }
+
   }
 
   renderInner();
@@ -9267,7 +9314,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v860";
+var _APP_VERSION = "v861";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -10926,7 +10973,7 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v860</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v861</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
