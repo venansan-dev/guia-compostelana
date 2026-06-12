@@ -3046,15 +3046,119 @@ function mostrarGuiaIOS() {
   document.head.appendChild(s);
 })();
 
+function mostrarToastNotif(tipo) {
+  var viejo = document.getElementById('modal-notif-info');
+  if (viejo) viejo.parentNode.removeChild(viejo);
+
+  var esNoSoportado = (tipo === 'noSoportado');
+
+  var overlay = document.createElement('div');
+  overlay.id = 'modal-notif-info';
+  overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.55);z-index:999999;display:flex;align-items:flex-end;justify-content:center;-webkit-tap-highlight-color:transparent;font-family:DM Sans,sans-serif';
+
+  var panel = document.createElement('div');
+  panel.style.cssText = 'background:#fff;border-radius:20px 20px 0 0;padding:20px 20px 40px;width:100%;max-width:480px;position:relative;box-sizing:border-box;transform:translateY(100%);transition:transform 0.3s cubic-bezier(0.32,0.72,0,1)';
+
+  function cerrar() {
+    panel.style.transform = 'translateY(100%)';
+    setTimeout(function(){ overlay.remove(); }, 300);
+  }
+
+  // ✕
+  var btnX = document.createElement('button');
+  btnX.textContent = '✕';
+  btnX.style.cssText = 'position:absolute;top:12px;right:12px;width:36px;height:36px;background:#f0f0f0;border:none;border-radius:50%;font-size:16px;cursor:pointer;z-index:1;display:flex;align-items:center;justify-content:center;color:#555;-webkit-appearance:none';
+  btnX.addEventListener('click', cerrar);
+  btnX.addEventListener('touchend', function(e){ e.preventDefault(); cerrar(); });
+
+  // Handle bar
+  var bar = document.createElement('div');
+  bar.style.cssText = 'width:40px;height:4px;background:#e0e0e0;border-radius:2px;margin:0 auto 18px';
+
+  // Icono grande
+  var ico = document.createElement('div');
+  ico.style.cssText = 'font-size:40px;text-align:center;margin-bottom:12px';
+  ico.textContent = esNoSoportado ? '📲' : '🔒';
+
+  // Título
+  var h3 = document.createElement('div');
+  h3.style.cssText = 'font-size:18px;font-weight:700;color:#1a1a1a;margin-bottom:6px;font-family:Playfair Display,serif;padding-right:40px';
+  h3.textContent = esNoSoportado ? 'Instala la app para recibir avisos' : 'Notificaciones bloqueadas';
+
+  // Subtítulo
+  var sub = document.createElement('div');
+  sub.style.cssText = 'font-size:13px;color:#6b7280;margin-bottom:18px;line-height:1.55';
+  sub.textContent = esNoSoportado
+    ? 'Tu navegador no permite notificaciones. Para activarlas necesitas instalar la app en tu pantalla de inicio.'
+    : 'Has bloqueado los permisos de notificación. Puedes activarlos desde los ajustes de tu navegador para este sitio.';
+
+  panel.appendChild(btnX);
+  panel.appendChild(bar);
+  panel.appendChild(ico);
+  panel.appendChild(h3);
+  panel.appendChild(sub);
+
+  if (esNoSoportado) {
+    // Pasos de instalación
+    var pasos = [
+      ['1️⃣', 'Toca el botón ', 'Compartir ⬆️', ' en la barra de Safari'],
+      ['2️⃣', 'Desplázate y toca ', 'Añadir a pantalla de inicio ➕', ''],
+      ['3️⃣', 'Abre la app instalada y activa las notificaciones desde aquí', '', '']
+    ];
+    pasos.forEach(function(paso) {
+      var fila = document.createElement('div');
+      fila.style.cssText = 'display:flex;align-items:center;gap:10px;background:#f5f5f0;border-radius:10px;padding:10px 12px;margin-bottom:8px';
+      var em = document.createElement('span');
+      em.style.cssText = 'font-size:20px;flex-shrink:0';
+      em.textContent = paso[0];
+      var txt = document.createElement('span');
+      txt.style.cssText = 'font-size:13px;color:#1a1a1a';
+      txt.innerHTML = paso[1] + (paso[2] ? '<strong>' + paso[2] + '</strong>' : '') + paso[3];
+      fila.appendChild(em);
+      fila.appendChild(txt);
+      panel.appendChild(fila);
+    });
+    // Botón Android si hay prompt
+    if (typeof deferredInstallPrompt !== 'undefined' && deferredInstallPrompt) {
+      var btnA = document.createElement('button');
+      btnA.textContent = '📲 Añadir a pantalla de inicio';
+      btnA.style.cssText = 'width:100%;margin-top:14px;background:#1D9E75;color:#fff;border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
+      btnA.addEventListener('click', function() {
+        deferredInstallPrompt.prompt();
+        deferredInstallPrompt.userChoice.then(function(r) {
+          if (r.outcome === 'accepted') deferredInstallPrompt = null;
+          cerrar();
+        });
+      });
+      panel.appendChild(btnA);
+    }
+  } else {
+    // Bloqueado: solo botón cerrar informativo
+    var btnC = document.createElement('button');
+    btnC.textContent = 'Entendido';
+    btnC.style.cssText = 'width:100%;background:#f3f4f6;color:#374151;border:none;border-radius:12px;padding:11px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnC.addEventListener('click', cerrar);
+    panel.appendChild(btnC);
+  }
+
+  overlay.appendChild(panel);
+  document.body.appendChild(overlay);
+
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){ panel.style.transform = 'translateY(0)'; });
+  });
+
+  overlay.addEventListener('click', function(e){ if (e.target === overlay) cerrar(); });
+  overlay.addEventListener('touchend', function(e){ if (e.target === overlay){ e.preventDefault(); cerrar(); } });
+}
+
 function activarNotificaciones() {
   if (!('Notification' in window)) {
-    var t2=T[idiomaActual]||T.es;
-    alert(t2.notifNoSoportado||'Las notificaciones no están disponibles.\n\nEn iPhone/iPad: instala la app primero (Safari → Compartir → Añadir a inicio).');
+    mostrarToastNotif('noSoportado');
     return;
   }
   if (Notification.permission === 'denied') {
-    var t2=T[idiomaActual]||T.es;
-    alert(t2.notifBloqueadas||'Las notificaciones están bloqueadas. Actívalas en los ajustes del navegador para este sitio.');
+    mostrarToastNotif('bloqueadas');
     return;
   }
   Notification.requestPermission().then(function(perm) {
@@ -4309,13 +4413,11 @@ function abrirModalNotificaciones(){
       } else {
         // Activar: pedir permisos
         if(!("Notification" in window)){
-          var t2=T[idiomaActual]||T.es;
-          alert(t2.notifNoSoportado||'Las notificaciones no están disponibles.');
+          mostrarToastNotif('noSoportado');
           return;
         }
         if(Notification.permission==='denied'){
-          var t2=T[idiomaActual]||T.es;
-          alert(t2.notifBloqueadas||'Las notificaciones están bloqueadas. Actívalas en los ajustes del navegador para este sitio.');
+          mostrarToastNotif('bloqueadas');
           _actualizarBtnAlertas();
           renderBox();
           return;
