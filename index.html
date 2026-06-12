@@ -4239,12 +4239,13 @@ var _alertasFirebaseOn = true;
 
 function _actualizarBtnAlertas() {
   var btn=document.getElementById('btn-alertas-toggle'); if(!btn)return;
-  var ambasOff=!_alertasFirebaseOn&&!_cromosNotifOn;
-  var unaOff=!_alertasFirebaseOn||!_cromosNotifOn;
-  if(ambasOff){
+  // notifActivadas también cuenta: false = desactivada o pendiente de permiso
+  var todasOff=!_alertasFirebaseOn&&!_cromosNotifOn&&!notifActivadas;
+  var alguOff=!_alertasFirebaseOn||!_cromosNotifOn||!notifActivadas;
+  if(todasOff){
     btn.style.background='#fecaca';btn.style.border='1.5px solid #ef4444';
     btn.textContent='🔕';btn.title='Alertas y notificaciones desactivadas';
-  } else if(unaOff){
+  } else if(alguOff){
     btn.style.background='#fef3c7';btn.style.border='1.5px solid #f59e0b';
     btn.textContent='🔔';btn.title='Algunas notificaciones desactivadas';
   } else {
@@ -9206,7 +9207,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v854";
+var _APP_VERSION = "v855";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -10865,7 +10866,7 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v854</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v855</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
