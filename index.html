@@ -52,7 +52,7 @@
 
   <meta name="theme-color" content="#1D9E75"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
   <meta name="apple-mobile-web-app-title" content="Guía Xacobea Ultreia"/>
   <link rel="manifest" href="/guia-compostelana/manifest.json"/>
   <link rel="apple-touch-icon" sizes="180x180" href="/guia-compostelana/apple-touch-icon.png?v=4"/>
@@ -6533,10 +6533,7 @@ function irACoordenadasNav(lat,lng) {
   PUNTOS.push(tmp);
   addToRoute(tmpId);
   verEnMapa(lat, lng);
-  setTimeout(function() {
-    var btnNav = document.getElementById('ruta-nav-btn');
-    if (btnNav && btnNav.style.display !== 'none') activarNavegacionVoz();
-  }, 600);
+  setTimeout(function() { activarNavegacionVoz(); }, 600);
 }
 
 function irIndicaciones(lat,lng) {
@@ -9105,7 +9102,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v811";
+var _APP_VERSION = "v814";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -9115,7 +9112,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v811') === -1) {
+        if (key.indexOf('guia-compostelana-v814') === -1) {
           caches.delete(key);
         }
       });
@@ -10175,28 +10172,42 @@ function _ocaCobrarDeudaSiProcede(cb){
     }
     if(!tipoActivo){if(cb)cb(false);return;}
     // Eliminar 1 cromo común del tablero como pago
-    _ocaEliminarComunesAleatorio(1,function(eli){
+    _ocaEliminarComunesAleatorio(1,function(eli,infoEli){
       if(eli===0){if(cb)cb(false);return;} // no había, deuda sigue
       deuda[tipoActivo]=(deuda[tipoActivo]||0)-1;
       if(deuda[tipoActivo]<=0) delete deuda[tipoActivo];
       _ocaSetDeuda(deuda,function(){
         // Mostrar modal de cobro
         var restante=_ocaTotalDeuda(deuda);
-        _ocaModalDeudaCobrada(tipoActivo,restante,function(){if(cb)cb(true);});
+        _ocaModalDeudaCobrada(tipoActivo,restante,infoEli||[],function(){if(cb)cb(true);});
       });
     });
   });
 }
 
-function _ocaModalDeudaCobrada(tipo,restante,cb){
+function _ocaModalDeudaCobrada(tipo,restante,infoCromos,cb){
   var overlay=document.createElement('div');
   overlay.style.cssText='position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,0.88);display:flex;align-items:center;justify-content:center;font-family:DM Sans,sans-serif;padding:1rem;box-sizing:border-box';
   var box=document.createElement('div');
   box.style.cssText='background:linear-gradient(160deg,#1a2a0a,#2d4a1a);border-radius:20px;padding:1.5rem;max-width:85vw;width:300px;text-align:center;border:1px solid rgba(110,231,183,0.3)';
   var icono=_DEUDA_ICONO[tipo]||'⚠️';
+  var cromosHtml='';
+  if(infoCromos&&infoCromos.length){
+    cromosHtml='<div style="margin:10px 0 14px;display:flex;flex-direction:column;gap:6px">';
+    infoCromos.forEach(function(c){
+      cromosHtml+='<div style="display:flex;align-items:center;gap:8px;background:rgba(220,38,38,0.15);border:1px solid rgba(220,38,38,0.35);border-radius:10px;padding:6px 10px;font-size:12px;color:#fca5a5">'
+        +'<span style="font-size:18px">'+c.emoji+'</span>'
+        +'<span style="flex:1;text-align:left"><strong style="color:#fff">'+c.label+'</strong></span>'
+        +'<span style="font-size:10px;opacity:0.7">nº '+c.num+'</span>'
+        +'</div>';
+    });
+    cromosHtml+='</div>';
+  }
   box.innerHTML='<div style="font-size:32px;margin-bottom:8px">'+icono+'</div>'
     +'<div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:8px">Deuda cobrada</div>'
-    +'<div style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.5;margin-bottom:16px">Se ha retirado 1 cromo común del tablero como pago de <strong style="color:#fff">'+tipo.charAt(0).toUpperCase()+tipo.slice(1)+'</strong>.'+(restante>0?' Deuda restante: <strong style="color:#fca5a5">-'+restante+'</strong>':' ¡Deuda saldada!')+'</div>'
+    +'<div style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.5">Se ha retirado del tablero como pago de <strong style="color:#fff">'+tipo.charAt(0).toUpperCase()+tipo.slice(1)+'</strong>:</div>'
+    +cromosHtml
+    +'<div style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:16px">'+(restante>0?'Deuda restante: <strong style="color:#fca5a5">-'+restante+'</strong>':'¡Deuda saldada! ✅')+'</div>'
     +'<button id="deuda-cobro-ok" style="width:100%;background:#1D9E75;color:#fff;border:none;border-radius:16px;padding:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">OK</button>';
   overlay.appendChild(box);document.body.appendChild(overlay);
   box.querySelector('#deuda-cobro-ok').addEventListener('click',function(){overlay.remove();_renderTableroOca();if(cb)cb();});
@@ -10207,8 +10218,14 @@ function _ocaEliminarComunesAleatorio(n,cb){
     var tablero=window._OCA_TABLERO||{};
     var comunes=entries.filter(function(e){return e.item.resuelto&&(tablero[e.item.num]||{tipo:'normal'}).tipo==='normal';});
     for(var i=comunes.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=comunes[i];comunes[i]=comunes[j];comunes[j]=t;}
-    var elim=comunes.slice(0,n),eliminados=elim.length;
-    function next(){if(!elim.length){cb(eliminados);return;}window._ocaEliminarCromo(elim.shift().key,next);}
+    var aEliminar=comunes.slice(0,n);
+    var eliminados=aEliminar.length;
+    var infoEliminados=aEliminar.map(function(e){
+      var cas=tablero[e.item.num]||{};
+      return {num:e.item.num, label:cas.label||('Casilla '+e.item.num), emoji:cas.emoji||'🐚'};
+    });
+    var copia=aEliminar.slice();
+    function next(){if(!copia.length){cb(eliminados,infoEliminados);return;}window._ocaEliminarCromo(copia.shift().key,next);}
     next();
   });
 }
@@ -10669,7 +10686,7 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v811</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v814</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
