@@ -361,7 +361,7 @@
 
   <!-- Botón toggle alertas -->
   <button id='btn-alertas-toggle' onclick='abrirModalNotificaciones()' title='Notificaciones'
-    style='display:flex;position:absolute;bottom:36px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0;font-size:18px;line-height:1'>⚙️</button>
+    style='display:flex;position:absolute;bottom:36px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0;font-size:18px;line-height:1'>🔔</button>
   <!-- btn-go oculto para compatibilidad con JS existente -->
   <span id='ruta-bar-btn-go' style='display:none'></span>
   <!-- IDs ocultos para compatibilidad con JS existente -->
@@ -3058,15 +3058,13 @@ function activarNotificaciones() {
     alert(t2.notifBloqueadas||'Las notificaciones están bloqueadas. Actívalas en los ajustes del navegador para este sitio.');
     return;
   }
-  try {
-    Notification.requestPermission().then(function(perm) {
-      if (perm === 'granted') {
-        notifActivadas = true;
-        actualizarBtnPrincipal();
-        iniciarProximidad();
-      }
-    }).catch(function(){});
-  } catch(e) {}
+  Notification.requestPermission().then(function(perm) {
+    if (perm === 'granted') {
+      notifActivadas = true;
+      actualizarBtnPrincipal();
+      iniciarProximidad();
+    }
+  });
 }
 
 function desactivarNotificaciones() {
@@ -4237,17 +4235,17 @@ var _alertasFirebaseOn = true;
 
 function _actualizarBtnAlertas() {
   var btn=document.getElementById('btn-alertas-toggle'); if(!btn)return;
-  var perm = (typeof Notification!=='undefined') ? Notification.permission : 'granted';
-  if(perm==='granted'){
-    btn.style.background='#dcfce7';btn.style.border='1.5px solid #22c55e';
-    btn.textContent='⚙️';btn.title='Avisos de proximidad activos';
-  } else if(perm==='denied'){
+  var ambasOff=!_alertasFirebaseOn&&!_cromosNotifOn;
+  var unaOff=!_alertasFirebaseOn||!_cromosNotifOn;
+  if(ambasOff){
     btn.style.background='#fecaca';btn.style.border='1.5px solid #ef4444';
-    btn.textContent='⚙️';btn.title='Notificaciones denegadas — pulsa para reintentar';
-  } else {
-    // default / pendiente
+    btn.textContent='🔕';btn.title='Alertas y notificaciones desactivadas';
+  } else if(unaOff){
     btn.style.background='#fef3c7';btn.style.border='1.5px solid #f59e0b';
-    btn.textContent='⚙️';btn.title='Permisos de notificación pendientes';
+    btn.textContent='🔔';btn.title='Algunas notificaciones desactivadas';
+  } else {
+    btn.style.background='#fff';btn.style.border='1.5px solid rgba(0,0,0,0.15)';
+    btn.textContent='🔔';btn.title='Notificaciones activas';
   }
 }
 
@@ -4266,19 +4264,8 @@ function abrirModalNotificaciones(){
   box.style.cssText='background:#fff;border-radius:16px;padding:1.25rem;max-width:85vw;width:280px;box-shadow:0 8px 32px rgba(0,0,0,0.2)';
   function renderBox(){
     var a=_alertasFirebaseOn,n=_cromosNotifOn;
-    var _perm = (typeof Notification!=='undefined') ? Notification.permission : 'granted';
-    var _permColor = _perm==='granted'?'#22c55e':_perm==='denied'?'#ef4444':'#f59e0b';
-    var _permLabel = _perm==='granted'?'✅ Activo — pulsa para desactivar':_perm==='denied'?'❌ Denegado — pulsa para reintentar':'⏳ Pendiente — pulsa para activar';
-    var _permBg    = _perm==='granted'?'#22c55e':_perm==='denied'?'#ef4444':'#f59e0b';
-    var _permDesc  = _perm==='granted'?'El navegador tiene permiso para avisos':_perm==='denied'?'Permiso denegado en el navegador':'El navegador aún no ha solicitado permiso';
     box.innerHTML=
-      '<div style="font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:12px">⚙️ Avisos y notificaciones</div>'
-      +'<div style="background:'+(_perm==='granted'?'#f0fdf4':_perm==='denied'?'#fef2f2':'#fffbeb')+';border:1px solid '+_permColor+';border-radius:10px;padding:10px 12px;margin-bottom:12px">'
-      +'<div style="display:flex;align-items:center;justify-content:space-between;gap:10px">'
-      +'<div><div style="font-size:13px;font-weight:700;color:#1a1a1a;margin-bottom:2px">🔔 Avisos de proximidad</div>'
-      +'<div style="font-size:11px;color:#6b7280">'+_permDesc+'</div></div>'
-      +'<button id="notif-btn-perm" style="background:'+_permBg+';color:#fff;border:none;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap">'+(_perm==='granted'?'Activo':'Activar')+'</button>'
-      +'</div></div>'
+      '<div style="font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:14px">🔔 Notificaciones</div>'
       +'<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0">'
       +'<div><div style="font-size:13px;font-weight:600;color:#1a1a1a">🚨 Alertas del Camino</div>'
       +'<div style="font-size:11px;color:#6b7280">Incidencias en tiempo real</div></div>'
@@ -4287,11 +4274,11 @@ function abrirModalNotificaciones(){
       +'</button></div>'
       +'<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0">'
       +'<div><div style="font-size:13px;font-weight:600;color:#1a1a1a">🐚 Cromos y desbloqueos</div>'
-      +'<div style="font-size:11px;color:#6b7280">Modales de localización cercana</div></div>'
+      +'<div style="font-size:11px;color:#6b7280">Avisos de lugares cercanos</div></div>'
       +'<button id="notif-toggle-cromos" style="width:44px;height:26px;border-radius:13px;border:none;cursor:pointer;background:'+(n?'#1D9E75':'#d1d5db')+';position:relative;flex-shrink:0">'
       +'<span style="position:absolute;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.2);left:'+(n?'21px':'3px')+'"></span>'
       +'</button></div>'
-      +'<button id="notif-cerrar" style="width:100%;margin-top:12px;background:#f3f4f6;color:#374151;border:none;border-radius:10px;padding:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">Cerrar</button>';
+      +'<button id="notif-cerrar" style="width:100%;margin-top:14px;background:#f3f4f6;color:#374151;border:none;border-radius:10px;padding:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">Cerrar</button>';
     box.querySelector('#notif-toggle-alertas').addEventListener('click',function(){
       _alertasFirebaseOn=!_alertasFirebaseOn;_actualizarBtnAlertas();renderBox();
     });
@@ -4301,23 +4288,6 @@ function abrirModalNotificaciones(){
       _actualizarBtnAlertas();renderBox();
     });
     box.querySelector('#notif-cerrar').addEventListener('click',function(){overlay.remove();});
-    var _btnPerm=box.querySelector('#notif-btn-perm');
-    if(_btnPerm)_btnPerm.addEventListener('click',function(){
-      var _p=(typeof Notification!=='undefined')?Notification.permission:'granted';
-      if(_p==='granted'){
-        // Activo → no podemos revocar programáticamente, informar
-        mostrarToast('Para desactivar, ve a los ajustes del navegador para este sitio');
-      } else {
-        // Pendiente o denegado → solicitar permiso (vuelve a pedir si fue denegado en algunos navegadores)
-        try{
-          Notification.requestPermission().then(function(p){
-            _actualizarBtnAlertas();renderBox();
-            if(p==='granted'){_cromosNotifOn=true;try{localStorage.setItem('cromosNotifOn','1');}catch(e){}mostrarToast('✅ Avisos de proximidad activados');}
-            else if(p==='denied'){mostrarToast('❌ Permiso denegado — actívalo en los ajustes del navegador');}
-          }).catch(function(){});
-        }catch(e){}
-      }
-    });
   }
   renderBox();
   overlay.appendChild(box);document.body.appendChild(overlay);
@@ -9192,7 +9162,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v849";
+var _APP_VERSION = "v851";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -9202,7 +9172,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v849') === -1) {
+        if (key.indexOf('guia-compostelana-v851') === -1) {
           caches.delete(key);
         }
       });
@@ -10845,7 +10815,7 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v849</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v851</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
