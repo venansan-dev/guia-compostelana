@@ -9173,7 +9173,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v846";
+var _APP_VERSION = "v847";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -9183,7 +9183,7 @@ if ('serviceWorker' in navigator) {
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
-        if (key.indexOf('guia-compostelana-v846') === -1) {
+        if (key.indexOf('guia-compostelana-v847') === -1) {
           caches.delete(key);
         }
       });
@@ -9859,7 +9859,7 @@ if ('serviceWorker' in navigator) {
   // ---- Detección de proximidad durante el seguimiento GPS ----
   // Se engancha al watchPosition existente comprobando cada posición
   var _albumYaNotificado = {};
-  var RADIO_VISITA_M = 3000; // metros para registrar visita (PRUEBAS)
+  var RADIO_VISITA_M = 25; // metros para registrar visita
 
   window._albumCheckProximidad = function(lat, lng) {
     if (typeof PUNTOS === 'undefined') return;
@@ -10826,7 +10826,7 @@ function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
 </script>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v846</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v847</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
