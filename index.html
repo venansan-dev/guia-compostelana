@@ -1008,9 +1008,9 @@
     <div id='album-panel-contador' style='display:none'></div>
     <!-- Botones -->
     <div style='flex-shrink:0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px'>
-      <button id='btn-porver-ranking' onclick='cerrarAlbumPanel();abrirPoiDrawer()' style='display:flex;align-items:center;justify-content:center;gap:3px;background:rgba(220,38,38,0.12);border:1px solid rgba(220,38,38,0.4);border-radius:8px;padding:6px 4px;color:#fca5a5;font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🔒 Por ver</button>
-      <button id='btn-album-ranking' onclick='abrirAlbumDrawer()' style='display:flex;align-items:center;justify-content:center;gap:3px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:6px 4px;color:rgba(255,255,255,0.85);font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>📷 Álbum</button>
-      <button id='btn-ranking-coleccion' onclick='_abrirColeccionDesdeRanking()' style='display:flex;align-items:center;justify-content:center;gap:3px;background:rgba(245,200,0,0.08);border:1px solid rgba(245,200,0,0.45);border-radius:8px;padding:6px 4px;color:rgba(255,255,255,0.85);font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;box-shadow:0 0 5px rgba(245,200,0,0.12)'>🐚 Colección</button>
+      <button id='btn-porver-ranking' onclick='cerrarAlbumPanel();abrirPoiDrawer()' style='display:flex;align-items:center;justify-content:center;gap:3px;background:rgba(220,38,38,0.12);border:1px solid rgba(220,38,38,0.4);border-radius:8px;padding:6px 4px;color:#fca5a5;font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>Por ver</button>
+      <button id='btn-album-ranking' onclick='abrirAlbumDrawer()' style='display:flex;align-items:center;justify-content:center;gap:3px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:6px 4px;color:rgba(255,255,255,0.85);font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>Álbum</button>
+      <button id='btn-ranking-coleccion' onclick='_abrirColeccionDesdeRanking()' style='display:flex;align-items:center;justify-content:center;gap:3px;background:rgba(245,200,0,0.08);border:1px solid rgba(245,200,0,0.45);border-radius:8px;padding:6px 4px;color:rgba(255,255,255,0.85);font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;box-shadow:0 0 5px rgba(245,200,0,0.12)'>Colección</button>
     </div>
     <!-- Tarjeta ranking -->
     <div style='flex-shrink:0;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:1rem'>
@@ -8045,9 +8045,9 @@ var T={
     chipAlertas:'🚨 Alertas',
     chipVisitados:'👁️ Visitados',
     chipSinVisitar:'🔒 Sin visitar',
-    btnColeccion:'🐚 Colección',
-    btnAlbumRec:'📷 Álbum',
-    btnPorVer:'🔒 Por ver',
+    btnColeccion:'Colección',
+    btnAlbumRec:'Álbum',
+    btnPorVer:'Por ver',
     chipRankingDrawer:'🏅 Ranking',
     chipRutaDrawer:'🗺️ Ruta',
     btnVolver:'← Volver',
@@ -8225,6 +8225,11 @@ var T={
     rutaDrawerBoton:'🛤️ Ruta',
     comoUsarPanelTitulo:'Cómo usar la guía',
     comoUsarPanelSub:'Instrucciones básicas para sacarle el máximo partido',
+    rangoAspiranteLabel:'Aspirante',
+    rangoMochileroLabel:'Mochilero',
+    rangoCaminanteLabel:'Caminante',
+    rangoPeregrinoLabel:'Peregrino',
+    rangoVeteranoLabel:'Veterano',
     panelInstalarTitulo:'Añade la guía a tu pantalla de inicio'
   },
   gl:{
@@ -8325,9 +8330,9 @@ var T={
     chipVisitados:'👁️ Visitados',
     chipSinVisitar:'🔒 Sen visitar',
     chipVisitados:'👁️ Visitados',
-    btnColeccion:'🐚 Colección',
-    btnAlbumRec:'📷 Álbum',
-    btnPorVer:'🔒 Por ver',
+    btnColeccion:'Colección',
+    btnAlbumRec:'Álbum',
+    btnPorVer:'Por ver',
     chipRankingDrawer:'🏅 Ranking',
     chipRutaDrawer:'🗺️ Ruta',
     btnVolver:'← Volver',
@@ -8498,7 +8503,22 @@ var T={
     rutaDrawerBoton:'🛤️ Ruta',
     comoUsarPanelTitulo:'Como usar a guía',
     comoUsarPanelSub:'Instrucións básicas para aproveitala ao máximo',
-    panelInstalarTitulo:'Engade a guía á túa pantalla de inicio'
+    rangoAspiranteLabel:'Aspirante',
+    rangoMochileroLabel:'Mochileiro',
+    rangoCaminanteLabel:'Camiñante',
+    rangoPeregrinoLabel:'Peregrino',
+    rangoVeteranoLabel:'Veterano',
+    panelInstalarTitulo:'Engade a guía á túa pantalla de inicio',
+    coleccionContador:'de 63 cadros',
+    coleccionTitulo:'🐚 Colección do Peregrino',
+    confirmLimpiar:'¿Eliminar a ruta? Este cambio non pode desfacerse',
+    donacionesH2:'Donacións',
+    poiVerMapa:'🗺️ Ver no mapa',
+    rankingLugar:'lugar',
+    rankingLugares:'lugares',
+    rankingPara:'para',
+    rankingVisitados:'visitados',
+    rankingVisitas:'visitas',
   },
   en:{
     h1:'Discover the most special corners',
@@ -8752,15 +8772,33 @@ var T={
     rutaDrawerBoton:'🛤️ Route',
     comoUsarPanelTitulo:'How to use the guide',
     comoUsarPanelSub:'Basic instructions to get the most out of it',
+    rangoAspiranteLabel:'Pilgrim',
+    rangoMochileroLabel:'Hiker',
+    rangoCaminanteLabel:'Walker',
+    rangoPeregrinoLabel:'Pilgrim',
+    rangoVeteranoLabel:'Veteran',
     panelInstalarTitulo:'Add the guide to your home screen',
     mazoTitulo:'Unopened deck',
     mazoPendiente:'card pending',
     mazoPendientes:'cards pending',
     mazoTap:'Tap to open the next one',
+    coleccionAbierto:'opened',
+    coleccionContador:'of 63 squares',
+    donacionesH2:'Donations',
+    rankingEscala:'Rank ladder',
+    rankingLugar:'place',
+    rankingLugares:'places',
+    rankingMaximo:'Maximum rank reached!',
+    rankingPara:'to reach',
+    rankingVisita:'visit',
+    rankingVisitado:'visited',
+    rankingVisitados:'visited',
+    statHistoricos:'Historical',
+    statReligiosos:'Religious',
     btnVolver:'← Back',
-    btnAlbumRec:'📷 Album',
-    btnColeccion:'🐚 Collection',
-    btnPorVer:'🔒 To visit',
+    btnAlbumRec:'Album',
+    btnColeccion:'Collection',
+    btnPorVer:'To visit',
     chipRankingDrawer:'🏅 Ranking',
     chipRutaDrawer:'🗺️ Route',
     coleccionSuper:'Jacobean Goose Game',
@@ -9008,9 +9046,9 @@ function cambiarIdioma(lang){
   // Botones ranking panel
   document.querySelectorAll('#album-panel button').forEach(function(b){
     var txt=b.textContent.trim();
-    if(txt.includes('Colecci')) b.textContent=t.btnColeccion||'🐚 Colección';
-    if(txt.includes('lbum')&&!txt.includes('Volver')) b.textContent=t.btnAlbumRec||'📷 Álbum';
-    if(txt.includes('Por ver')||txt.includes('To visit')||txt.includes('ver')) b.textContent=t.btnPorVer||'🔒 Por ver';
+    if(txt.includes('Colecci')) b.textContent='🐚 '+(t.btnColeccion||'Colección');
+    if(txt.includes('lbum')&&!txt.includes('Volver')) b.textContent='📷 '+(t.btnAlbumRec||'Álbum');
+    if(txt.includes('Por ver')||txt.includes('To visit')||txt.includes('ver')) b.textContent='🔒 '+(t.btnPorVer||'Por ver');
   });
   // Panel ranking título y contador
   el=document.getElementById('album-panel-titulo');if(el)el.textContent=t.rankingTitulo||'🏅 Ranking del Peregrino';
@@ -9452,7 +9490,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v932";
+var _APP_VERSION = "v936";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -9858,12 +9896,13 @@ if ('serviceWorker' in navigator) {
 
   // Definición de badges
   // Rangos por número de visitas
+  var _RL = T[idiomaActual]||T.es;
   var RANGOS = [
-    { min:1,  max:3,  emoji:'🌱', label:'Aspirante' },
-    { min:4,  max:9,  emoji:'🎒', label:'Mochilero' },
-    { min:10, max:19, emoji:'👣', label:'Caminante' },
-    { min:20, max:34, emoji:'🐚', label:'Peregrino' },
-    { min:35, max:59, emoji:'🦢', label:'Veterano'  },
+    { min:1,  max:3,  emoji:'🌱', label:_RL.rangoAspiranteLabel||'Aspirante' },
+    { min:4,  max:9,  emoji:'🎒', label:_RL.rangoMochileroLabel||'Mochilero' },
+    { min:10, max:19, emoji:'👣', label:_RL.rangoCaminanteLabel||'Caminante' },
+    { min:20, max:34, emoji:'🐚', label:_RL.rangoPeregrinoLabel||'Peregrino' },
+    { min:35, max:59, emoji:'🦢', label:_RL.rangoVeteranoLabel||'Veterano'  },
     { min:60, max:999,emoji:'🏆', label:'Xacobeapp'   }
   ];
   window.RANGOS = RANGOS;
@@ -10268,6 +10307,15 @@ if ('serviceWorker' in navigator) {
 
 // ---- Render del panel Mi Álbum ----
 function _renderAlbumPanel() {
+  // Refresh RANGOS with current language
+  var _RL2 = T[idiomaActual]||T.es;
+  if(window.RANGOS) {
+    window.RANGOS[0].label = _RL2.rangoAspiranteLabel||'Aspirante';
+    window.RANGOS[1].label = _RL2.rangoMochileroLabel||'Mochilero';
+    window.RANGOS[2].label = _RL2.rangoCaminanteLabel||'Caminante';
+    window.RANGOS[3].label = _RL2.rangoPeregrinoLabel||'Peregrino';
+    window.RANGOS[4].label = _RL2.rangoVeteranoLabel||'Veterano';
+  }
   var getVisitas = window._albumGetVisitas;
   var getRango   = window._getRango;
   if (!getVisitas || !getRango) return;
@@ -11123,7 +11171,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v932</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v936</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
