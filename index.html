@@ -3318,12 +3318,13 @@ function _sincronizarChipAlertasPOI() {
   }
 }
 
-function abrirComoUsarDrawer() { _abrirSlide('comousar-drawer'); }
+function abrirComoUsarDrawer() { _abrirSlide('comousar-drawer'); cambiarIdioma(idiomaActual); }
 function cerrarComoUsarDrawer() { _cerrarSlide('comousar-drawer'); }
 var _albumPanelOrigen = null;
 function abrirAlbumPanel(origen) {
   _albumPanelOrigen = origen || null;
   _abrirSlide('album-panel');
+  cambiarIdioma(idiomaActual);
   var intentos = 0;
   function _intentarRender() {
     if (window._albumGetVisitas && window._getRango) {
@@ -3351,7 +3352,7 @@ function cerrarAlbumPanel() {
     setTimeout(function() { _abrirSlide('poi-drawer'); }, 50);
   }
 }
-function abrirContactoDrawer() { _abrirSlide('contacto-drawer'); }
+function abrirContactoDrawer() { _abrirSlide('contacto-drawer'); cambiarIdioma(idiomaActual); }
 function cerrarContactoDrawer() { _cerrarSlide('contacto-drawer'); }
 function abrirAlbumDrawer() {
   _abrirModalAlbumRecuerdos();
@@ -3470,12 +3471,13 @@ function _renderAlbumRecuerdos(grid, vacioCont) {
   });
 }
 
-function abrirBrujulaDrawer() { _abrirSlide('brujula-drawer'); }
+function abrirBrujulaDrawer() { _abrirSlide('brujula-drawer'); cambiarIdioma(idiomaActual); }
 function cerrarBrujulaDrawer() { _cerrarSlide('brujula-drawer'); }
-function abrirSOSDrawer() { _abrirSlide('sos-drawer'); }
+function abrirSOSDrawer() { _abrirSlide('sos-drawer'); cambiarIdioma(idiomaActual); }
 function cerrarSOSDrawer() { _cerrarSlide('sos-drawer'); }
 function abrirMeteoDrawer() {
   _abrirSlide('meteo-drawer');
+  cambiarIdioma(idiomaActual);
   var lat=(typeof userLat!=='undefined'&&userLat)?userLat:42.2328;
   var lng=(typeof userLng!=='undefined'&&userLng)?userLng:-8.7226;
   var lugar=document.getElementById('meteo-drawer-lugar');
@@ -3483,10 +3485,11 @@ function abrirMeteoDrawer() {
   _cargarMeteoDrawer(lat,lng);
 }
 function cerrarMeteoDrawer() { _cerrarSlide('meteo-drawer'); }
-function abrirHistoriaDrawer() { _abrirSlide('historia-drawer'); }
+function abrirHistoriaDrawer() { _abrirSlide('historia-drawer'); cambiarIdioma(idiomaActual); }
 function cerrarHistoriaDrawer() { _cerrarSlide('historia-drawer'); }
 function abrirPoiDrawer() {
   _abrirSlide('poi-drawer');
+  cambiarIdioma(idiomaActual);
   _poiDrawerCatActual = 'todos';
   document.querySelectorAll('#poi-drawer-filtros .cat-chip').forEach(function(c,i){ c.classList.toggle('active', i===0); });
   _renderPoiDrawerCarrusel();
@@ -3499,7 +3502,7 @@ function cerrarPoiDrawer() { _cerrarSlide('poi-drawer'); }
 
 
 
-function abrirDonacionesDrawer() { _abrirSlide('donaciones-drawer'); }
+function abrirDonacionesDrawer() { _abrirSlide('donaciones-drawer'); cambiarIdioma(idiomaActual); }
 function cerrarDonacionesDrawer() { _cerrarSlide('donaciones-drawer'); }
 
 
@@ -9296,6 +9299,8 @@ document.addEventListener('DOMContentLoaded', function() {
   iniciarFrases();
   cambiarIdioma(idiomaActual);
   actualizarBtnPrincipal();
+  // Segunda pasada para elementos que cargan tarde
+  setTimeout(function(){ cambiarIdioma(idiomaActual); }, 800);
   // Mantener chip-mapa-todos traducido (se puede resetear por orden de init)
   setInterval(function(){
     var el=document.getElementById('chip-mapa-todos');
@@ -9423,7 +9428,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v926";
+var _APP_VERSION = "v928";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -11094,7 +11099,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v926</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v928</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
