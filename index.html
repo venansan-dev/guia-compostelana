@@ -2,22 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-  <script>
-  // Bloquear pinch-zoom en iOS excepto dentro del mapa
-  document.addEventListener('touchmove', function(e) {
-    if (e.touches.length > 1) {
-      var map = document.getElementById('map');
-      if (map && map.contains(e.target)) return;
-      e.preventDefault();
-    }
-  }, { passive: false });
-  document.addEventListener('gesturestart', function(e) {
-    var map = document.getElementById('map');
-    if (map && map.contains(e.target)) return;
-    e.preventDefault();
-  }, { passive: false });
-  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes"/>
+
   <title>Xacobeapp — Tu Guía Xacobea</title>
   <meta name="description" content="Guía interactiva y gratuita del Camino de Santiago. Mapas, etapas, albergues, patrimonio templario y jacobeo desde Oporto hasta Santiago de Compostela."/>
   <meta name="keywords" content="Camino de Santiago, Camino Xacobeo, guía del peregrino, Vigo, Baiona, A Guarda, etapas, albergues, patrimonio templario, Oia, Pontevedra, Padrón"/>
@@ -91,6 +77,7 @@
 #rotate-overlay .rotate-icon{font-size:64px;margin-bottom:20px;animation:rotatePulse 2s ease-in-out infinite}
 #rotate-overlay .rotate-title{font-size:20px;font-weight:700;font-family:Playfair Display,serif;margin-bottom:8px}
 #rotate-overlay .rotate-sub{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.5}
+@media (orientation:landscape) and (max-width:1024px){#rotate-overlay{display:flex}}
 
 
 
@@ -7037,9 +7024,12 @@ function _ejecutarLimpiarRuta() {
   if (btnClr2) { btnClr2.style.opacity = '0.4'; btnClr2.style.cursor = 'default'; }
   try { actualizarRuta(); } catch(e) { console.warn('limpiarRuta: actualizarRuta falló', e); }
   try { actualizarBotonesRuta(); } catch(e) {}
-  // Retomar vista centrada en posición del usuario
+  // Retomar vista centrada en posición del usuario con radio 1km
   try {
     if (typeof mapa !== 'undefined' && mapa) {
+      radioKm = 1;
+      _aplicarEstadoRadioBtns(1);
+      if (typeof aplicarRadio === 'function') aplicarRadio(1);
       var lat = (typeof userLat !== 'undefined' && userLat) ? userLat : 42.2328;
       var lng = (typeof userLng !== 'undefined' && userLng) ? userLng : -8.7226;
       mapa.setView([lat, lng], 15, {animate: true});
@@ -7837,7 +7827,7 @@ function detenerNavegacionVoz() {
   // Restaurar brújula en mapa
   var btnOrMapRst = document.getElementById('btn-brujula-mapa');
   if (btnOrMapRst) btnOrMapRst.style.display = 'flex';
-  ['btn-sos-mapa','btn-meteo-mapa','btn-buscar-mapa','btn-poi-drawer-mapa','btn-expandir-mapa'].forEach(function(id){
+  ['btn-sos-mapa','btn-meteo-mapa','btn-buscar-mapa','btn-poi-drawer-mapa'].forEach(function(id){
     var b=document.getElementById(id); if(b) b.style.display='flex';
   });
   var btnOrPanelRst = document.getElementById('ruta-nav-orientacion');
@@ -7853,10 +7843,13 @@ function detenerNavegacionVoz() {
   // scroll desbloqueado (no se bloqueó al entrar en modo navegación)
   // Restaurar brújula si estaba encendida
   if (brujulaEstaba) setTimeout(pedirOrientacion, 300);
-  // Restaurar radio 1km
+  // Restaurar radio 1km y zoom
   radioKm = 1;
   _aplicarEstadoRadioBtns(1);
-  if (userLat) aplicarRadio(1);
+  if (userLat) {
+    aplicarRadio(1);
+    mapa.setView([userLat, userLng], 15, {animate: true});
+  }
   mostrarToast('⏹ Navegación detenida');
 }
 // ═══════════════════════════════════════════════
@@ -9516,7 +9509,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v957";
+var _APP_VERSION = "v961";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -11227,7 +11220,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v957</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v961</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
