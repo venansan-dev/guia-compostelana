@@ -3273,7 +3273,21 @@ function _abrirSlide(panelId) {
   panel.classList.add('slide-in');
   var _noCenter = ['album-panel','tablero-drawer','album-recuerdos-drawer','donaciones-drawer','comousar-drawer','contacto-drawer','poi-drawer'];
   if (_noCenter.indexOf(panelId) === -1) _centrarMapa();
-  var _panelTitles = {"poi-drawer": "📍 Localizaciones cercanas", "album-panel": "🏅 Ranking del Peregrino", "tablero-drawer": "🐚 Tablero de cromos", "album-recuerdos-drawer": "📷 Álbum de recuerdos", "brujula-drawer": "🧭 Brújula", "meteo-drawer": "🌤️ Previsión meteorológica", "sos-drawer": "🆘 Emergencias", "historia-drawer": "🐚 Historia Compostelana", "donaciones-drawer": "❤️ Donaciones", "comousar-drawer": "ℹ️ Cómo usar", "contacto-drawer": "✉️ Contacto", "modal-add-poi": "📌 Nuevo punto"};
+  var _t = T[idiomaActual]||T.es;
+  var _panelTitles = {
+    "poi-drawer": "📍 "+(_t.navPuntos||'Ranking'),
+    "album-panel": "🏅 "+(_t.rankingTitulo||'Ranking del Peregrino'),
+    "tablero-drawer": "🐚 "+(_t.coleccionTitulo||'Colección del Peregrino'),
+    "album-recuerdos-drawer": "📷 "+(_t.btnAlbumRec||'Álbum'),
+    "brujula-drawer": "🧭 "+(_t.navBrujula||'Brújula'),
+    "meteo-drawer": "🌤️ "+(_t.meteoTitulo||'Previsión meteorológica'),
+    "sos-drawer": "🆘 "+(_t.navEmergencias||'Emergencias').replace(/^🆘\s*/,''),
+    "historia-drawer": "🐚 "+(_t.navHistoria||'Historia Compostelana'),
+    "donaciones-drawer": "❤️ "+(_t.navDonaciones||'Donaciones'),
+    "comousar-drawer": "ℹ️ "+(_t.navComoUsar||'Cómo usar'),
+    "contacto-drawer": "✉️ "+(_t.navContacto||'Contacto'),
+    "modal-add-poi": "📌 "+(_t.addPoi||'Nuevo punto')
+  };
   var barTitle = document.getElementById('mapa-cat-panel-title');
   if (barTitle) {
     barTitle.textContent = _panelTitles[panelId] || '';
@@ -9490,7 +9504,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v936";
+var _APP_VERSION = "v937";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -11171,7 +11185,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v936</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v937</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
