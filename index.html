@@ -4446,17 +4446,127 @@ function abrirHeroModal() {
   inner.style.cssText = 'position:relative;z-index:1';
   panel.appendChild(inner);
 
+  // ── DESPEDIDA: mensaje de apoyo al cerrar ───────────────────────
+  function _renderDespedida(fnDespues) {
+    inner.innerHTML = '';
+
+    var icono = document.createElement('div');
+    icono.style.cssText = 'font-size:36px;text-align:center;margin-bottom:10px';
+    icono.textContent = '🐚';
+    inner.appendChild(icono);
+
+    var titulo = document.createElement('div');
+    titulo.style.cssText = 'font-family:Playfair Display,serif;font-size:18px;font-weight:600;color:#fff;text-align:center;margin-bottom:10px;line-height:1.3';
+    titulo.textContent = '¡Buen Camino, peregrino!';
+    inner.appendChild(titulo);
+
+    var msg = document.createElement('p');
+    msg.style.cssText = 'font-size:13px;color:rgba(255,255,255,0.82);text-align:center;line-height:1.7;margin-bottom:16px';
+    msg.innerHTML = 'Esta guía es <strong style="color:#fff">gratuita, sin publicidad y sin cookies</strong>. '
+      + 'Solo el apoyo de peregrinos como tú hace posible que siga creciendo y libre para todos. 🙏';
+    inner.appendChild(msg);
+
+    var btnApoyo = document.createElement('button');
+    btnApoyo.textContent = '💚 Apoyar la guía';
+    btnApoyo.style.cssText = 'width:100%;background:#fff;color:#0F6E56;border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:8px';
+    btnApoyo.addEventListener('click', function() {
+      cerrar();
+      setTimeout(function(){ abrirDonacionesDrawer(); }, 340);
+    });
+    inner.appendChild(btnApoyo);
+
+    var btnSalir = document.createElement('button');
+    btnSalir.textContent = 'Continuar sin apoyar';
+    btnSalir.style.cssText = 'width:100%;background:transparent;color:rgba(255,255,255,0.4);border:none;padding:8px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnSalir.addEventListener('click', function(){ if(fnDespues) fnDespues(); else cerrar(); });
+    inner.appendChild(btnSalir);
+  }
+
+  // ── DATOS CONTEXTUALES Y CURIOSIDADES ──────────────────────────
+  var _curiosidades = [
+    'El nombre "Compostela" probablemente deriva del latín <em>campus stellae</em>, "campo de la estrella". Aunque también hay quien lo vincula a <em>compositum</em>, lugar donde se depositan los muertos.',
+    'Los templarios custodiaron el Camino durante casi dos siglos. En Galicia, su bailía de Vigo controlaba las rutas costeras y varios puntos estratégicos que hoy son paradas del Camino Portugués.',
+    'La vieira, símbolo universal del peregrino, tiene un origen incierto. Una leyenda dice que un caballero salió del mar cubierto de conchas tras seguir el cuerpo de Santiago flotando desde Jaffa.',
+    'El Camino Francés mide oficialmente 778 km desde Saint-Jean-Pied-de-Port. Pero la distancia real varía según la fuente: el terreno gallego suma más metros de los que aparecen en el plano.',
+    'La Catedral de Santiago guarda un secreto arquitectónico: el Pórtico de la Gloria fue policromado en colores vivos durante siglos. Lo que hoy ves en piedra desnuda fue una vez una explosión de color.',
+    'El Botafumeiro de la Catedral pesa 53 kg y puede alcanzar los 68 km/h cuando ocho tiraboleiros lo hacen oscilar. Nació, según la tradición, para purificar el aire cargado de peregrinos.',
+    'Existen más de 30 rutas jacobeas reconocidas en Europa. La más larga parte de Riga, en Letonia, y suma más de 3.000 km hasta Compostela.',
+    'La Puerta Santa de la Catedral solo se abre en los Años Santos Jacobeos, cuando el 25 de julio cae en domingo. El próximo es 2027.',
+    'El rey Alfonso II "el Casto" fue el primer peregrino documentado a Compostela, hacia el año 830. Mandó construir la primera iglesia sobre el sepulcro del Apóstol.',
+    'Los peregrinos medievales no caminaban solos por elección: viajar en grupo era una necesidad. Los caminos estaban llenos de bandidos, y la peregrinación era también un seguro de vida colectivo.'
+  ];
+
+  function _curiosidadAleatoria() {
+    return _curiosidades[Math.floor(Math.random() * _curiosidades.length)];
+  }
+
+  function _numCromosActuales() {
+    if (window._albumVisitasSet) return Object.keys(window._albumVisitasSet).length;
+    return 0;
+  }
+
+  function _saludoConContexto() {
+    var hora = new Date().getHours();
+    var base = hora < 13 ? '¡Buenos días, peregrino! 🌅' : hora < 20 ? '¡Buenas tardes, peregrino! ☀️' : '¡Buenas noches, peregrino! 🌙';
+    return base;
+  }
+
+  function _subtituloContextual() {
+    var n = _numCromosActuales();
+    var ruta = (typeof rutaPuntos !== 'undefined') ? rutaPuntos.length : 0;
+    // Mensajes según estado del usuario
+    if (n === 0 && ruta === 0) {
+      var frases = [
+        'Parece que es tu primera vez por aquí. ¡Bienvenido al Camino!',
+        'Todo está listo para tu peregrinación. ¿Por dónde empezamos?',
+        'El Camino empieza con el primer paso. ¿Damos el tuyo?'
+      ];
+      return frases[Math.floor(Math.random() * frases.length)];
+    }
+    if (n > 0 && ruta === 0) {
+      var rango = (window._getRango) ? window._getRango(n) : null;
+      var rangoTxt = rango ? ' Eres ' + rango.emoji + ' ' + rango.label + '.' : '';
+      return 'Llevas ' + n + ' cromo' + (n !== 1 ? 's' : '') + ' en tu álbum.' + rangoTxt + ' ¡Sigue así!';
+    }
+    if (ruta > 0 && n === 0) {
+      return 'Tienes ' + ruta + ' lugar' + (ruta !== 1 ? 'es' : '') + ' en ruta. ¿Salimos?';
+    }
+    if (ruta > 0 && n > 0) {
+      return 'Llevas ' + n + ' cromo' + (n !== 1 ? 's' : '') + ' y una ruta con ' + ruta + ' parada' + (ruta !== 1 ? 's' : '') + '. ¡El Camino te espera!';
+    }
+    return 'El Camino te espera. ¿En qué puedo ayudarte?';
+  }
+
+  // Inserta un bloque de curiosidad con estilo discreto
+  function _appendCuriosidad(container) {
+    // Solo mostrar ~60% de las veces para que no sea predecible
+    if (Math.random() > 0.6) return;
+    var wrap = document.createElement('div');
+    wrap.style.cssText = 'background:rgba(255,255,255,0.08);border-left:3px solid rgba(255,255,255,0.3);border-radius:0 8px 8px 0;padding:10px 12px;margin-bottom:16px';
+    var label = document.createElement('div');
+    label.style.cssText = 'font-size:10px;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:600';
+    label.textContent = '📜 Sabías que…';
+    var txt = document.createElement('p');
+    txt.style.cssText = 'font-size:12px;color:rgba(255,255,255,0.7);line-height:1.6;margin:0';
+    txt.innerHTML = _curiosidadAleatoria();
+    wrap.appendChild(label);
+    wrap.appendChild(txt);
+    container.appendChild(wrap);
+  }
+
   // ── PASO 1: Saludo + bifurcación según estado de ruta ───────────
   function _renderPaso1() {
     inner.innerHTML = '';
 
-    // Saludo contextual
-    var hora = new Date().getHours();
-    var saludo = hora < 13 ? '¡Buenos días, peregrino! 🌅' : hora < 20 ? '¡Buenas tardes, peregrino! ☀️' : '¡Buenas noches, peregrino! 🌙';
+    // Saludo contextual con subtítulo dinámico
     var h1 = document.createElement('div');
-    h1.style.cssText = 'font-family:Playfair Display,serif;font-size:22px;font-weight:600;color:#fff;line-height:1.2;margin-bottom:10px';
-    h1.textContent = saludo;
+    h1.style.cssText = 'font-family:Playfair Display,serif;font-size:22px;font-weight:600;color:#fff;line-height:1.2;margin-bottom:6px';
+    h1.textContent = _saludoConContexto();
     inner.appendChild(h1);
+    var subCtx = document.createElement('p');
+    subCtx.style.cssText = 'font-size:13px;color:rgba(255,255,255,0.75);margin-bottom:12px;line-height:1.5';
+    subCtx.textContent = _subtituloContextual();
+    inner.appendChild(subCtx);
 
     // ¿Hay ruta activa?
     if (typeof rutaPuntos !== 'undefined' && rutaPuntos.length > 0) {
@@ -4476,7 +4586,7 @@ function abrirHeroModal() {
       var btnNo = document.createElement('button');
       btnNo.textContent = 'No, volver al mapa';
       btnNo.style.cssText = 'flex:1;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
-      btnNo.addEventListener('click', cerrar);
+      btnNo.addEventListener('click', function(){ _renderDespedida(); });
 
       btnRow.appendChild(btnSi);
       btnRow.appendChild(btnNo);
@@ -4506,7 +4616,7 @@ function abrirHeroModal() {
       var btnCerrar = document.createElement('button');
       btnCerrar.textContent = 'Cerrar';
       btnCerrar.style.cssText = 'width:100%;background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
-      btnCerrar.addEventListener('click', cerrar);
+      btnCerrar.addEventListener('click', function(){ _renderDespedida(); });
       inner.appendChild(btnCerrar);
       return;
     }
@@ -4520,9 +4630,11 @@ function abrirHeroModal() {
     inner.appendChild(sub);
 
     var sub2 = document.createElement('p');
-    sub2.style.cssText = 'font-size:13px;color:rgba(255,255,255,0.7);line-height:1.5;margin-bottom:20px';
+    sub2.style.cssText = 'font-size:13px;color:rgba(255,255,255,0.7);line-height:1.5;margin-bottom:12px';
     sub2.textContent = '¿Te gustaría visitar alguno?';
     inner.appendChild(sub2);
+
+    _appendCuriosidad(inner);
 
     var btnRow = document.createElement('div');
     btnRow.style.cssText = 'display:flex;gap:10px';
@@ -4535,7 +4647,180 @@ function abrirHeroModal() {
     var btnNo = document.createElement('button');
     btnNo.textContent = 'Ahora no';
     btnNo.style.cssText = 'flex:1;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
-    btnNo.addEventListener('click', cerrar);
+    btnNo.addEventListener('click', function(){ _renderSugerencias(); });
+
+    btnRow.appendChild(btnSi);
+    btnRow.appendChild(btnNo);
+    inner.appendChild(btnRow);
+  }
+
+  // ── SUGERENCIAS: cuando el usuario dice "ahora no" ───────────────
+  // Catálogo de opciones con descripción extendida
+  var _opcionesCatalogo = [
+    {
+      emoji: '🐚',
+      titulo: 'Historia Compostelana',
+      desc: 'El Camino, los templarios, las rutas históricas…',
+      detalle: [
+        'Aquí encontrarás los textos históricos que dan vida al Camino: desde los orígenes del culto jacobeo hasta la presencia templaria en Galicia, pasando por las rutas medievales y sus etapas más emblemáticas.',
+        'Cada sección está escrita con rigor histórico y pensada para el peregrino curioso. Puedes leerla tranquilamente antes de salir o consultarla en cualquier momento del Camino.',
+        '📜 Textos históricos · ⚔️ Legado Templario · 🗺️ Rutas y etapas · 🏛️ Arte y arquitectura jacobea'
+      ],
+      abrir: function() {
+        cerrar();
+        setTimeout(function(){ _irAlMapa(); setTimeout(abrirHistoriaDrawer, 400); }, 340);
+      }
+    },
+    {
+      emoji: '🎲',
+      titulo: 'Juego del Tablero de la Oca',
+      desc: '63 casillas jacobeas. Desbloquéalas visitando lugares reales.',
+      detalle: [
+        'Una versión jacobea del clásico juego de la oca con 63 casillas inspiradas en el Camino. Cada casilla tiene su nombre en latín, su mecánica especial y su simbolismo peregrino.',
+        'Las casillas se desbloquean automáticamente cuando visitas los lugares reales del Camino con el GPS activado. Casillas especiales como la Muerte, el Laberinto o la Cárcel tienen mecánicas únicas que condicionan tu avance.',
+        '🎲 63 casillas · 📍 Desbloqueo por GPS · ⚔️ Casillas especiales · 🏆 Progresión real en el Camino'
+      ],
+      abrir: function() {
+        cerrar();
+        setTimeout(function(){ _irAlMapa(); setTimeout(function(){ abrirAlbumPanel(); setTimeout(abrirTableroDrawer, 300); }, 400); }, 340);
+      }
+    },
+    {
+      emoji: '🏅',
+      titulo: 'Álbum del Peregrino',
+      desc: 'Tu colección de cromos desbloqueados en el Camino.',
+      detalle: [
+        'El Álbum registra cada lugar que visitas a lo largo del Camino. Cuando te acercas a menos de 25 metros de un punto de interés con el GPS activo, desbloqueas automáticamente su cromo coleccionable.',
+        'Cada cromo tiene diseño de postal barroca con iconografía jacobea, el nombre del lugar, su descripción histórica y tu fecha de visita. Cuantos más reúnas, mayor será tu rango de peregrino: desde Aspirante hasta Ultreia 🏆.',
+        '🐚 Cromos coleccionables · 📍 GPS automático · 🏆 Sistema de rangos · 📅 Historial de visitas'
+      ],
+      abrir: function() {
+        cerrar();
+        setTimeout(function(){ _irAlMapa(); setTimeout(abrirAlbumPanel, 400); }, 340);
+      }
+    },
+    {
+      emoji: '🆘',
+      titulo: 'Emergencias y seguridad',
+      desc: 'Teléfonos útiles y recursos para el Camino.',
+      detalle: [
+        'Un panel de recursos esenciales pensado para cuando el Camino se complica: teléfonos de emergencia, contactos de la Guardia Civil, Cruz Roja y servicios sanitarios en las principales etapas.',
+        'También encontrarás consejos básicos de seguridad para peregrinos: qué hacer si te pierdes, cómo gestionar una lesión en ruta y cómo activar tu localización de emergencia desde el móvil.',
+        '📞 Teléfonos de emergencia · 🏥 Servicios sanitarios · 🧭 Protocolos de seguridad · 🆘 Localización GPS'
+      ],
+      abrir: function() {
+        cerrar();
+        setTimeout(function(){ _irAlMapa(); setTimeout(abrirSOSDrawer, 400); }, 340);
+      }
+    }
+  ];
+
+  function _renderSugerencias() {
+    inner.innerHTML = '';
+
+    var titulo = document.createElement('div');
+    titulo.style.cssText = 'font-family:Playfair Display,serif;font-size:19px;font-weight:600;color:#fff;line-height:1.3;margin-bottom:6px';
+    titulo.textContent = '¿Qué te apetece explorar?';
+    inner.appendChild(titulo);
+
+    var sub = document.createElement('p');
+    sub.style.cssText = 'font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:12px;line-height:1.5';
+    sub.textContent = 'Hay mucho más en la guía. Elige algo que te llame la atención:';
+    inner.appendChild(sub);
+
+    var lista = document.createElement('div');
+    lista.style.cssText = 'display:flex;flex-direction:column;gap:8px;margin-bottom:16px';
+
+    _opcionesCatalogo.forEach(function(op) {
+      var fila = document.createElement('div');
+      fila.style.cssText = 'display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:12px;padding:11px 14px;cursor:pointer;transition:background 0.15s';
+      fila.addEventListener('click', function(){ _renderDetalle(op); });
+
+      var em = document.createElement('div');
+      em.style.cssText = 'font-size:24px;flex-shrink:0;width:32px;text-align:center';
+      em.textContent = op.emoji;
+      fila.appendChild(em);
+
+      var info = document.createElement('div');
+      info.style.cssText = 'flex:1;min-width:0';
+      info.innerHTML = '<div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:2px">' + op.titulo + '</div>'
+        + '<div style="font-size:11px;color:rgba(255,255,255,0.6);line-height:1.4">' + op.desc + '</div>';
+      fila.appendChild(info);
+
+      var arr = document.createElement('div');
+      arr.style.cssText = 'color:rgba(255,255,255,0.4);font-size:18px;flex-shrink:0';
+      arr.textContent = '›';
+      fila.appendChild(arr);
+
+      lista.appendChild(fila);
+    });
+    inner.appendChild(lista);
+
+    var btnAtras = document.createElement('button');
+    btnAtras.textContent = '← Volver';
+    btnAtras.style.cssText = 'width:100%;background:transparent;color:rgba(255,255,255,0.55);border:none;padding:8px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:2px';
+    btnAtras.addEventListener('click', function(){ _renderPaso1(); });
+    inner.appendChild(btnAtras);
+
+    var btnCerrar = document.createElement('button');
+    btnCerrar.textContent = 'Quizás más tarde';
+    btnCerrar.style.cssText = 'width:100%;background:transparent;color:rgba(255,255,255,0.35);border:none;padding:4px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnCerrar.addEventListener('click', function(){ _renderDespedida(); });
+    inner.appendChild(btnCerrar);
+  }
+
+  // ── DETALLE de opción + pregunta ¿ver otra? ──────────────────────
+  function _renderDetalle(op) {
+    inner.innerHTML = '';
+
+    // Cabecera
+    var cab = document.createElement('div');
+    cab.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:12px';
+    cab.innerHTML = '<div style="font-size:32px">' + op.emoji + '</div>'
+      + '<div style="font-family:Playfair Display,serif;font-size:18px;font-weight:600;color:#fff;line-height:1.2">' + op.titulo + '</div>';
+    inner.appendChild(cab);
+
+    // Párrafos descriptivos
+    var textos = document.createElement('div');
+    textos.style.cssText = 'max-height:38vh;overflow-y:auto;margin-bottom:14px;padding-right:4px';
+    op.detalle.forEach(function(parrafo, i) {
+      var p = document.createElement('p');
+      p.style.cssText = 'font-size:13px;color:rgba(255,255,255,' + (i === op.detalle.length - 1 ? '0.55' : '0.82') + ');line-height:1.7;margin-bottom:8px';
+      p.textContent = parrafo;
+      textos.appendChild(p);
+    });
+    inner.appendChild(textos);
+
+    // Botón abrir panel
+    var btnAbrir = document.createElement('button');
+    btnAbrir.textContent = 'Abrir ' + op.titulo + ' →';
+    btnAbrir.style.cssText = 'width:100%;background:#fff;color:#0F6E56;border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:10px';
+    btnAbrir.addEventListener('click', op.abrir);
+    inner.appendChild(btnAbrir);
+
+    // Separador
+    var sep = document.createElement('div');
+    sep.style.cssText = 'border-top:1px solid rgba(255,255,255,0.15);margin-bottom:10px';
+    inner.appendChild(sep);
+
+    // ¿Ver otra opción?
+    var pregunta = document.createElement('p');
+    pregunta.style.cssText = 'font-size:13px;color:rgba(255,255,255,0.7);text-align:center;margin-bottom:10px';
+    pregunta.textContent = '¿Quieres ver otra opción?';
+    inner.appendChild(pregunta);
+
+    var btnRow = document.createElement('div');
+    btnRow.style.cssText = 'display:flex;gap:8px';
+
+    var btnSi = document.createElement('button');
+    btnSi.textContent = 'Sí, ver más';
+    btnSi.style.cssText = 'flex:1;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:10px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnSi.addEventListener('click', function(){ _renderSugerencias(); });
+
+    var btnNo = document.createElement('button');
+    btnNo.textContent = 'No, cerrar';
+    btnNo.style.cssText = 'flex:1;background:transparent;color:rgba(255,255,255,0.45);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:10px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnNo.addEventListener('click', function(){ _renderDespedida(); });
 
     btnRow.appendChild(btnSi);
     btnRow.appendChild(btnNo);
@@ -4550,6 +4835,16 @@ function abrirHeroModal() {
     titulo.style.cssText = 'font-family:Playfair Display,serif;font-size:18px;font-weight:600;color:#fff;margin-bottom:6px';
     titulo.textContent = 'Tu ruta actual';
     inner.appendChild(titulo);
+
+    // Aviso de cromos si tiene alguno
+    var _nCromos = _numCromosActuales();
+    if (_nCromos > 0 && window._getRango) {
+      var _rng = window._getRango(_nCromos);
+      var cromoBanner = document.createElement('div');
+      cromoBanner.style.cssText = 'background:rgba(245,200,0,0.12);border:1px solid rgba(245,200,0,0.3);border-radius:10px;padding:8px 12px;margin-bottom:10px;font-size:12px;color:rgba(255,255,255,0.8);line-height:1.5';
+      cromoBanner.innerHTML = _rng.emoji + ' <strong style="color:#F5C800">' + _rng.label + '</strong> · ' + _nCromos + ' cromo' + (_nCromos !== 1 ? 's' : '') + ' desbloqueado' + (_nCromos !== 1 ? 's' : '') + '. Sigue visitando para subir de rango.';
+      inner.appendChild(cromoBanner);
+    }
 
     var hint = document.createElement('p');
     hint.style.cssText = 'font-size:12px;color:rgba(255,255,255,0.65);margin-bottom:14px';
@@ -4600,7 +4895,7 @@ function abrirHeroModal() {
     var btnVolver = document.createElement('button');
     btnVolver.textContent = '← Regresar al mapa';
     btnVolver.style.cssText = 'width:100%;background:#fff;color:#0F6E56;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif';
-    btnVolver.addEventListener('click', cerrar);
+    btnVolver.addEventListener('click', function(){ _renderDespedida(); });
     inner.appendChild(btnVolver);
   }
 
@@ -4687,7 +4982,7 @@ function abrirHeroModal() {
         }
       });
       try { actualizarRuta(); } catch(e){}
-      _renderPaso3(ids.length);
+      _renderPaso3(ids.length, seleccionados);
     });
     inner.appendChild(btnConfirmar);
 
@@ -4698,22 +4993,77 @@ function abrirHeroModal() {
     inner.appendChild(btnVolver);
   }
 
-  // ── PASO 3: ¿Comenzar navegación ahora? ─────────────────────────
-  function _renderPaso3(num) {
+  // ── PASO 3: Resumen de ruta + ¿Comenzar navegación? ────────────
+  function _renderPaso3(num, seleccionados) {
     inner.innerHTML = '';
 
     var icono = document.createElement('div');
-    icono.style.cssText = 'font-size:40px;text-align:center;margin-bottom:12px';
+    icono.style.cssText = 'font-size:36px;text-align:center;margin-bottom:8px';
     icono.textContent = '🗺️';
     inner.appendChild(icono);
 
     var titulo = document.createElement('div');
-    titulo.style.cssText = 'font-family:Playfair Display,serif;font-size:20px;font-weight:600;color:#fff;text-align:center;margin-bottom:8px;line-height:1.3';
+    titulo.style.cssText = 'font-family:Playfair Display,serif;font-size:19px;font-weight:600;color:#fff;text-align:center;margin-bottom:10px;line-height:1.3';
     titulo.textContent = num === 1 ? '¡Lugar añadido a tu ruta!' : '¡' + num + ' lugares añadidos a tu ruta!';
     inner.appendChild(titulo);
 
+    // ── Resumen de la ruta ───────────────────────────────────────
+    if (seleccionados && Object.keys(seleccionados).length > 0) {
+      var pois = Object.values(seleccionados);
+
+      // Calcular distancia total aproximada entre puntos (orden actual)
+      var distTotal = 0;
+      for (var i = 0; i < pois.length - 1; i++) {
+        distTotal += haversine(pois[i].lat, pois[i].lng, pois[i+1].lat, pois[i+1].lng);
+      }
+      // Añadir distancia desde usuario al primer punto si hay GPS
+      if (typeof userLat !== 'undefined' && userLat && pois.length > 0) {
+        distTotal += haversine(userLat, userLng, pois[0].lat, pois[0].lng);
+      }
+      var distTxt = distTotal < 1 ? Math.round(distTotal * 1000) + ' m' : distTotal.toFixed(1) + ' km';
+
+      // Bloque resumen visual
+      var resumen = document.createElement('div');
+      resumen.style.cssText = 'background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:12px;padding:12px 14px;margin-bottom:12px';
+
+      // Línea de distancia
+      var distLine = document.createElement('div');
+      distLine.style.cssText = 'font-size:12px;color:rgba(255,255,255,0.55);margin-bottom:8px;display:flex;align-items:center;gap:6px';
+      distLine.innerHTML = '📍 Distancia estimada: <strong style="color:#fff">' + distTxt + '</strong>';
+      resumen.appendChild(distLine);
+
+      // Lista de paradas
+      pois.forEach(function(p, i) {
+        var fila = document.createElement('div');
+        fila.style.cssText = 'display:flex;align-items:center;gap:8px;' + (i < pois.length - 1 ? 'margin-bottom:6px' : '');
+
+        // Conector vertical
+        var col = document.createElement('div');
+        col.style.cssText = 'display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:16px';
+        var dot = document.createElement('div');
+        dot.style.cssText = 'width:10px;height:10px;border-radius:50%;background:' + (i === 0 ? '#7EE8C0' : i === pois.length-1 ? '#F5C800' : 'rgba(255,255,255,0.5)') + ';flex-shrink:0';
+        col.appendChild(dot);
+        if (i < pois.length - 1) {
+          var line = document.createElement('div');
+          line.style.cssText = 'width:2px;height:14px;background:rgba(255,255,255,0.2);margin-top:2px';
+          col.appendChild(line);
+        }
+        fila.appendChild(col);
+
+        var info = document.createElement('div');
+        info.style.cssText = 'flex:1;min-width:0';
+        var emoji = p.emoji || '📍';
+        info.innerHTML = '<span style="font-size:12px;color:rgba(255,255,255,0.9);font-weight:600">' + emoji + ' ' + p.nombre + '</span>'
+          + (p.subtitulo ? '<div style="font-size:11px;color:rgba(255,255,255,0.45);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + p.subtitulo + '</div>' : '');
+        fila.appendChild(info);
+        resumen.appendChild(fila);
+      });
+
+      inner.appendChild(resumen);
+    }
+
     var sub = document.createElement('p');
-    sub.style.cssText = 'font-size:14px;color:rgba(255,255,255,0.8);text-align:center;line-height:1.6;margin-bottom:22px';
+    sub.style.cssText = 'font-size:13px;color:rgba(255,255,255,0.75);text-align:center;line-height:1.6;margin-bottom:14px';
     sub.textContent = '¿Quieres comenzar la navegación ahora?';
     inner.appendChild(sub);
 
@@ -9783,7 +10133,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v964";
+var _APP_VERSION = "v970";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -11496,7 +11846,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v964</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v970</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
