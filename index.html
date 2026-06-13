@@ -225,7 +225,7 @@
   
   <!-- Header móvil: recuadro Tu Guía Xacobea + idiomas -->
   <div class='header-mobile-brand' onclick='abrirHeroModal()' style='display:none;cursor:pointer;flex:1;margin:0 4px;min-width:0;align-items:center;gap:6px'>
-    <img src='https://i.postimg.cc/J0gSs1LP/logingf.png' id='header-vieira-img' style='height:44px;width:44px;border-radius:5px;flex-shrink:0;object-fit:cover;border:none;margin-left:-6px'/>
+    <img src='https://i.postimg.cc/rm387xgK/IMG-0201.jpg' id='header-vieira-img' style='height:44px;width:44px;border-radius:5px;flex-shrink:0;object-fit:cover;border:2px solid transparent;margin-left:-6px;transition:border-color 0.3s' onload="this.style.borderColor='#F5C800'"/>
     <div style='display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0'>
       <img src='https://i.postimg.cc/wxDrVkF5/final2.png' alt='Tu Guía Xacobea' id='header-tag-text' style='width:auto;height:30px;max-width:100%;display:block;object-fit:contain;opacity:0.92'/>
       <span style='display:inline-flex;align-items:center;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:2px 8px'>
@@ -9401,7 +9401,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v921";
+var _APP_VERSION = "v920";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -11072,7 +11072,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v921</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v920</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
