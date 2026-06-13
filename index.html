@@ -8753,6 +8753,10 @@ var T={
     comoUsarPanelTitulo:'How to use the guide',
     comoUsarPanelSub:'Basic instructions to get the most out of it',
     panelInstalarTitulo:'Add the guide to your home screen',
+    mazoTitulo:'Unopened deck',
+    mazoPendiente:'card pending',
+    mazoPendientes:'cards pending',
+    mazoTap:'Tap to open the next one',
     btnVolver:'← Back',
     btnAlbumRec:'📷 Album',
     btnColeccion:'🐚 Collection',
@@ -9063,9 +9067,9 @@ function cambiarIdioma(lang){
   el=document.getElementById('contacto-panel-volver-bot');if(el)el.textContent=t.btnVolver||'← Volver';
   el=document.getElementById('historia-panel-volver-top');if(el)el.textContent=t.btnVolver||'← Volver';
   el=document.getElementById('historia-panel-volver-bot');if(el)el.textContent=t.btnVolver||'← Volver';
-  el=document.getElementById('btn-porver-ranking');if(el)el.innerHTML='🔒 '+(t.btnPorVer||'Por ver');
-  el=document.getElementById('btn-album-ranking');if(el)el.innerHTML='📷 '+(t.btnAlbumRec||'Álbum');
-  el=document.getElementById('btn-ranking-coleccion');if(el)el.innerHTML='🐚 '+(t.btnColeccion||'Colección');
+  el=document.getElementById('btn-porver-ranking');if(el)el.textContent='🔒 '+(t.btnPorVer||'Por ver');
+  el=document.getElementById('btn-album-ranking');if(el)el.textContent='📷 '+(t.btnAlbumRec||'Álbum');
+  el=document.getElementById('btn-ranking-coleccion');if(el)el.textContent='🐚 '+(t.btnColeccion||'Colección');
   el=document.getElementById('tablero-vacio-txt');if(el)el.textContent=t.tablerovacioTxt||t.coleccionVacio||'Visita lugares del Camino para obtener cromos';
   el=document.getElementById('brujula-sub');if(el)el.textContent=t.brujulaSub||'Norte magnético y rumbo a Santiago';
   el=document.getElementById('brujula-drawer-label');if(el)el.textContent=t.brujulaActivar||'Activar';
@@ -9448,7 +9452,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v931";
+var _APP_VERSION = "v932";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -11119,7 +11123,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v931</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v932</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
