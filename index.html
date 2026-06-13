@@ -4441,50 +4441,324 @@ function abrirHeroModal() {
   bar.style.cssText = 'width:40px;height:4px;background:rgba(255,255,255,0.35);border-radius:2px;margin:0 auto 20px;position:relative;z-index:1';
   panel.appendChild(bar);
 
-  // Inner content (relative z-index so it sits above the grid)
+  // Inner content
   var inner = document.createElement('div');
   inner.style.cssText = 'position:relative;z-index:1';
+  panel.appendChild(inner);
 
-  // h1
-  var h1 = document.createElement('div');
-  h1.style.cssText = 'font-family:Playfair Display,serif;font-size:26px;font-weight:600;color:#fff;line-height:1.2;margin-bottom:6px';
-  h1.textContent = document.querySelector('.hero h1') ? document.querySelector('.hero h1').textContent : 'Descubre los rincones más especiales';
-  inner.appendChild(h1);
+  // ── PASO 1: Saludo + bifurcación según estado de ruta ───────────
+  function _renderPaso1() {
+    inner.innerHTML = '';
 
-  // Subtítulo
-  var sub = document.createElement('p');
-  sub.style.cssText = 'font-size:14px;color:rgba(255,255,255,0.8);margin-bottom:20px;line-height:1.5';
-  var heroSub = document.getElementById('hero-sub');
-  sub.textContent = heroSub ? heroSub.textContent : '';
-  inner.appendChild(sub);
+    // Saludo contextual
+    var hora = new Date().getHours();
+    var saludo = hora < 13 ? '¡Buenos días, peregrino! 🌅' : hora < 20 ? '¡Buenas tardes, peregrino! ☀️' : '¡Buenas noches, peregrino! 🌙';
+    var h1 = document.createElement('div');
+    h1.style.cssText = 'font-family:Playfair Display,serif;font-size:22px;font-weight:600;color:#fff;line-height:1.2;margin-bottom:10px';
+    h1.textContent = saludo;
+    inner.appendChild(h1);
 
-  // Galería (slots de imagen si existen)
-  var slots = ['gallery-slot-0','gallery-slot-1','gallery-slot-2'];
-  var galeria = document.createElement('div');
-  galeria.style.cssText = 'display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:20px';
-  slots.forEach(function(id) {
-    var orig = document.getElementById(id);
-    if (orig) {
-      var clone = orig.cloneNode(true);
-      clone.style.cssText = 'height:72px;border-radius:8px;overflow:hidden;background:rgba(255,255,255,0.1)';
-      // fix any img inside
-      var imgs = clone.querySelectorAll('img');
-      imgs.forEach(function(img){ img.style.cssText = 'width:100%;height:100%;object-fit:cover'; });
-      galeria.appendChild(clone);
+    // ¿Hay ruta activa?
+    if (typeof rutaPuntos !== 'undefined' && rutaPuntos.length > 0) {
+      var sub = document.createElement('p');
+      sub.style.cssText = 'font-size:14px;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:20px';
+      sub.textContent = 'Tienes una ruta seleccionada con ' + rutaPuntos.length + ' lugar' + (rutaPuntos.length !== 1 ? 'es' : '') + '. ¿Quieres revisarla o modificarla?';
+      inner.appendChild(sub);
+
+      var btnRow = document.createElement('div');
+      btnRow.style.cssText = 'display:flex;gap:10px';
+
+      var btnSi = document.createElement('button');
+      btnSi.textContent = 'Sí, ver ruta';
+      btnSi.style.cssText = 'flex:1;background:#fff;color:#0F6E56;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif';
+      btnSi.addEventListener('click', function(){ _renderRevision(); });
+
+      var btnNo = document.createElement('button');
+      btnNo.textContent = 'No, volver al mapa';
+      btnNo.style.cssText = 'flex:1;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
+      btnNo.addEventListener('click', cerrar);
+
+      btnRow.appendChild(btnSi);
+      btnRow.appendChild(btnNo);
+      inner.appendChild(btnRow);
+      return;
     }
-  });
-  if (galeria.children.length > 0) inner.appendChild(galeria);
 
-  // Share buttons row (reusar los del hero si existen)
-  var shareOrig = document.querySelector('.hero-share-mobile');
-  if (shareOrig) {
-    var shareClone = shareOrig.cloneNode(true);
-    shareClone.style.display = 'flex';
-    shareClone.style.marginBottom = '0';
-    inner.appendChild(shareClone);
+    // Sin ruta activa — flujo original con POIs cercanos
+    var cercanos = [];
+    if (typeof PUNTOS !== 'undefined' && typeof userLat !== 'undefined' && userLat) {
+      var todos = PUNTOS.filter(function(p) {
+        return !p.esUsuario && !p.esAlerta && p.categoria !== 'etapa' && p.categoria !== 'busqueda' && !(p.id && p.id.indexOf('u_') === 0);
+      });
+      todos.forEach(function(p) {
+        var d = haversine(userLat, userLng, p.lat, p.lng) * 1000;
+        cercanos.push({poi: p, dist: d});
+      });
+      cercanos.sort(function(a,b){ return a.dist - b.dist; });
+      cercanos = cercanos.slice(0, 5);
+    }
+
+    if (cercanos.length === 0) {
+      var noGps = document.createElement('p');
+      noGps.style.cssText = 'font-size:14px;color:rgba(255,255,255,0.8);line-height:1.6;margin-bottom:20px';
+      noGps.textContent = 'Activa el GPS para ver los lugares del Camino más cercanos a ti.';
+      inner.appendChild(noGps);
+      var btnCerrar = document.createElement('button');
+      btnCerrar.textContent = 'Cerrar';
+      btnCerrar.style.cssText = 'width:100%;background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
+      btnCerrar.addEventListener('click', cerrar);
+      inner.appendChild(btnCerrar);
+      return;
+    }
+
+    var primero = cercanos[0];
+    var distTexto = primero.dist < 1000 ? Math.round(primero.dist) + ' m' : (primero.dist/1000).toFixed(1) + ' km';
+
+    var sub = document.createElement('p');
+    sub.style.cssText = 'font-size:14px;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:6px';
+    sub.textContent = 'Tienes ' + cercanos.length + ' lugar' + (cercanos.length !== 1 ? 'es' : '') + ' del Camino cerca de ti. El más próximo es ' + primero.poi.nombre + ', a ' + distTexto + '.';
+    inner.appendChild(sub);
+
+    var sub2 = document.createElement('p');
+    sub2.style.cssText = 'font-size:13px;color:rgba(255,255,255,0.7);line-height:1.5;margin-bottom:20px';
+    sub2.textContent = '¿Te gustaría visitar alguno?';
+    inner.appendChild(sub2);
+
+    var btnRow = document.createElement('div');
+    btnRow.style.cssText = 'display:flex;gap:10px';
+
+    var btnSi = document.createElement('button');
+    btnSi.textContent = 'Sí, ver lugares';
+    btnSi.style.cssText = 'flex:1;background:#fff;color:#0F6E56;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnSi.addEventListener('click', function(){ _renderPaso2(cercanos); });
+
+    var btnNo = document.createElement('button');
+    btnNo.textContent = 'Ahora no';
+    btnNo.style.cssText = 'flex:1;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnNo.addEventListener('click', cerrar);
+
+    btnRow.appendChild(btnSi);
+    btnRow.appendChild(btnNo);
+    inner.appendChild(btnRow);
   }
 
-  panel.appendChild(inner);
+  // ── REVISIÓN: lista de POIs en ruta con opción a quitar ─────────
+  function _renderRevision() {
+    inner.innerHTML = '';
+
+    var titulo = document.createElement('div');
+    titulo.style.cssText = 'font-family:Playfair Display,serif;font-size:18px;font-weight:600;color:#fff;margin-bottom:6px';
+    titulo.textContent = 'Tu ruta actual';
+    inner.appendChild(titulo);
+
+    var hint = document.createElement('p');
+    hint.style.cssText = 'font-size:12px;color:rgba(255,255,255,0.65);margin-bottom:14px';
+    hint.textContent = 'Pulsa la ✕ para quitar un lugar de la ruta.';
+    inner.appendChild(hint);
+
+    var lista = document.createElement('div');
+    lista.style.cssText = 'display:flex;flex-direction:column;gap:8px;margin-bottom:18px;max-height:45vh;overflow-y:auto';
+
+    function _renderItems() {
+      lista.innerHTML = '';
+      if (rutaPuntos.length === 0) {
+        lista.innerHTML = '<div style="font-size:13px;color:rgba(255,255,255,0.5);padding:12px 0;text-align:center">La ruta está vacía.</div>';
+        return;
+      }
+      rutaPuntos.forEach(function(p, idx) {
+        var fila = document.createElement('div');
+        fila.style.cssText = 'display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:10px 12px';
+
+        var num = document.createElement('div');
+        num.style.cssText = 'width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.25);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0';
+        num.textContent = idx + 1;
+        fila.appendChild(num);
+
+        var nombre = document.createElement('div');
+        nombre.style.cssText = 'flex:1;font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis';
+        nombre.textContent = p.nombre;
+        fila.appendChild(nombre);
+
+        var btnDel = document.createElement('button');
+        btnDel.textContent = '✕';
+        btnDel.style.cssText = 'width:28px;height:28px;border-radius:50%;background:rgba(220,38,38,0.35);border:1px solid rgba(220,38,38,0.5);color:#fff;font-size:13px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;-webkit-appearance:none';
+        btnDel.addEventListener('click', function() {
+          try { quitarDeRuta(p.id); } catch(e) {
+            rutaPuntos = rutaPuntos.filter(function(x){ return x.id !== p.id; });
+            try { actualizarRuta(); } catch(e2){}
+          }
+          _renderItems();
+        });
+        fila.appendChild(btnDel);
+        lista.appendChild(fila);
+      });
+    }
+
+    _renderItems();
+    inner.appendChild(lista);
+
+    var btnVolver = document.createElement('button');
+    btnVolver.textContent = '← Regresar al mapa';
+    btnVolver.style.cssText = 'width:100%;background:#fff;color:#0F6E56;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnVolver.addEventListener('click', cerrar);
+    inner.appendChild(btnVolver);
+  }
+
+  // ── PASO 2: Lista de 5 POIs para seleccionar ────────────────────
+  function _renderPaso2(cercanos) {
+    inner.innerHTML = '';
+    var seleccionados = {};
+
+    var titulo = document.createElement('div');
+    titulo.style.cssText = 'font-family:Playfair Display,serif;font-size:18px;font-weight:600;color:#fff;margin-bottom:6px;line-height:1.3';
+    titulo.textContent = 'Selecciona qué te gustaría visitar';
+    inner.appendChild(titulo);
+
+    var hint = document.createElement('p');
+    hint.style.cssText = 'font-size:12px;color:rgba(255,255,255,0.65);margin-bottom:14px';
+    hint.textContent = 'Puedes elegir uno o varios lugares.';
+    inner.appendChild(hint);
+
+    // Lista de POIs
+    var lista = document.createElement('div');
+    lista.style.cssText = 'display:flex;flex-direction:column;gap:8px;margin-bottom:18px;max-height:40vh;overflow-y:auto';
+
+    cercanos.forEach(function(item) {
+      var p = item.poi;
+      var distTexto = item.dist < 1000 ? Math.round(item.dist) + ' m' : (item.dist/1000).toFixed(1) + ' km';
+      var fila = document.createElement('div');
+      fila.style.cssText = 'display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:10px 12px;cursor:pointer;transition:background 0.15s';
+
+      var check = document.createElement('div');
+      check.style.cssText = 'width:22px;height:22px;border-radius:6px;border:2px solid rgba(255,255,255,0.5);background:transparent;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;transition:all 0.15s';
+      fila.appendChild(check);
+
+      var emoji = document.createElement('span');
+      emoji.textContent = p.emoji || '📍';
+      emoji.style.cssText = 'font-size:18px;flex-shrink:0';
+      fila.appendChild(emoji);
+
+      var info = document.createElement('div');
+      info.style.cssText = 'flex:1;min-width:0';
+      info.innerHTML = '<div style="font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + p.nombre + '</div>'
+        + '<div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:1px">📍 ' + distTexto + '</div>';
+      fila.appendChild(info);
+
+      function toggle() {
+        if (seleccionados[p.id]) {
+          delete seleccionados[p.id];
+          fila.style.background = 'rgba(255,255,255,0.12)';
+          fila.style.borderColor = 'rgba(255,255,255,0.15)';
+          check.style.background = 'transparent';
+          check.style.borderColor = 'rgba(255,255,255,0.5)';
+          check.textContent = '';
+        } else {
+          seleccionados[p.id] = p;
+          fila.style.background = 'rgba(255,255,255,0.25)';
+          fila.style.borderColor = 'rgba(255,255,255,0.6)';
+          check.style.background = '#fff';
+          check.style.borderColor = '#fff';
+          check.textContent = '✓';
+          check.style.color = '#0F6E56';
+        }
+        btnConfirmar.disabled = Object.keys(seleccionados).length === 0;
+        btnConfirmar.style.opacity = btnConfirmar.disabled ? '0.4' : '1';
+      }
+
+      fila.addEventListener('click', toggle);
+      lista.appendChild(fila);
+    });
+    inner.appendChild(lista);
+
+    // Botón confirmar
+    var btnConfirmar = document.createElement('button');
+    btnConfirmar.textContent = 'Confirmar selección';
+    btnConfirmar.disabled = true;
+    btnConfirmar.style.cssText = 'width:100%;background:#fff;color:#0F6E56;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;opacity:0.4;margin-bottom:8px;transition:opacity 0.2s';
+    btnConfirmar.addEventListener('click', function() {
+      var ids = Object.keys(seleccionados);
+      if (ids.length === 0) return;
+      // Añadir a ruta
+      ids.forEach(function(id) {
+        var yaEsta = rutaPuntos.find(function(x){ return x.id === id; });
+        if (!yaEsta) {
+          var p = seleccionados[id];
+          rutaPuntos.push({id: p.id, nombre: p.nombre, lat: p.lat, lng: p.lng});
+        }
+      });
+      try { actualizarRuta(); } catch(e){}
+      _renderPaso3(ids.length);
+    });
+    inner.appendChild(btnConfirmar);
+
+    var btnVolver = document.createElement('button');
+    btnVolver.textContent = '← Volver';
+    btnVolver.style.cssText = 'width:100%;background:transparent;color:rgba(255,255,255,0.65);border:none;padding:8px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnVolver.addEventListener('click', function(){ _renderPaso1(); });
+    inner.appendChild(btnVolver);
+  }
+
+  // ── PASO 3: ¿Comenzar navegación ahora? ─────────────────────────
+  function _renderPaso3(num) {
+    inner.innerHTML = '';
+
+    var icono = document.createElement('div');
+    icono.style.cssText = 'font-size:40px;text-align:center;margin-bottom:12px';
+    icono.textContent = '🗺️';
+    inner.appendChild(icono);
+
+    var titulo = document.createElement('div');
+    titulo.style.cssText = 'font-family:Playfair Display,serif;font-size:20px;font-weight:600;color:#fff;text-align:center;margin-bottom:8px;line-height:1.3';
+    titulo.textContent = num === 1 ? '¡Lugar añadido a tu ruta!' : '¡' + num + ' lugares añadidos a tu ruta!';
+    inner.appendChild(titulo);
+
+    var sub = document.createElement('p');
+    sub.style.cssText = 'font-size:14px;color:rgba(255,255,255,0.8);text-align:center;line-height:1.6;margin-bottom:22px';
+    sub.textContent = '¿Quieres comenzar la navegación ahora?';
+    inner.appendChild(sub);
+
+    var btnRow = document.createElement('div');
+    btnRow.style.cssText = 'display:flex;gap:10px;margin-bottom:10px';
+
+    var btnSi = document.createElement('button');
+    btnSi.textContent = '🧭 Sí, navegar';
+    btnSi.style.cssText = 'flex:1;background:#fff;color:#0F6E56;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnSi.addEventListener('click', function() {
+      cerrar();
+      setTimeout(function() {
+        // Scroll al mapa y arrancar navegación
+        var mapBlock = document.getElementById('map-block');
+        if (mapBlock) mapBlock.scrollIntoView({behavior:'smooth', block:'start'});
+        setTimeout(function() {
+          try { iniciarNavegacionVoz(); } catch(e) { try { iniciarRuta(); } catch(e2){} }
+        }, 400);
+      }, 340);
+    });
+
+    var btnNo = document.createElement('button');
+    btnNo.textContent = 'No, ver en mapa';
+    btnNo.style.cssText = 'flex:1;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnNo.addEventListener('click', function() {
+      cerrar();
+      setTimeout(function() {
+        // Mostrar ruta en mapa y toast informativo
+        var mapBlock = document.getElementById('map-block');
+        if (mapBlock) mapBlock.scrollIntoView({behavior:'smooth', block:'start'});
+        try {
+          if (typeof dibujarLineaEstática === 'function') dibujarLineaEstática();
+        } catch(e){}
+        mostrarToast('🗺️ Tu ruta queda guardada en el mapa');
+      }, 340);
+    });
+
+    btnRow.appendChild(btnSi);
+    btnRow.appendChild(btnNo);
+    inner.appendChild(btnRow);
+  }
+
+  // Arrancar en paso 1
+  _renderPaso1();
+
   overlay.appendChild(panel);
   document.body.appendChild(overlay);
 
@@ -6073,7 +6347,7 @@ function initMapa() {
         // Ya tenemos posición, actualizar marcador y círculo SIN cambiar vista
         userLat = pos.coords.latitude; userLng = pos.coords.longitude;
         _lastKnownLat = userLat; _lastKnownLng = userLng;
-        if (window._albumCheckProximidad) window._albumCheckProximidad(userLat, userLng);
+        if (window._albumCheckProximidad) window._albumCheckProximidad(userLat, userLng, pos.coords.accuracy);
         if (window._userMarker) {
           window._userMarker.setLatLng([userLat, userLng]);
           // Mantener icono correcto según estado
@@ -6157,7 +6431,7 @@ function toggleSeguimiento() {
         if (circuloRadio) { mapa.removeLayer(circuloRadio); circuloRadio = L.circle([userLat,userLng],{radius:radioKm*1000,color:'#1D9E75',fillColor:'#1D9E75',fillOpacity:0.07,weight:2,dashArray:'6 4'}).addTo(mapa); }
         mapa.panTo([userLat, userLng], {animate:true, duration:0.5});
         // Comprobar proximidad a POIs para álbum
-        if (window._albumCheckProximidad) window._albumCheckProximidad(userLat, userLng);
+        if (window._albumCheckProximidad) window._albumCheckProximidad(userLat, userLng, pos.coords.accuracy);
         // Actualizar línea máx cada 10s para no saturar OSRM
         var ahora = Date.now();
         if (!window._ultimaActLinea || ahora - window._ultimaActLinea > 10000) {
@@ -7704,7 +7978,7 @@ function _navTick(pos) {
   var lat = pos.coords.latitude;
   var lng = pos.coords.longitude;
   userLat = lat; userLng = lng;
-  if (window._albumCheckProximidad) window._albumCheckProximidad(lat, lng);
+  if (window._albumCheckProximidad) window._albumCheckProximidad(lat, lng, pos.coords.accuracy);
 
   // Centrar mapa en usuario
   mapa.panTo([lat, lng], {animate:true, duration:0.8});
@@ -9509,7 +9783,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v961";
+var _APP_VERSION = "v964";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -10201,8 +10475,10 @@ if ('serviceWorker' in navigator) {
   var _albumYaNotificado = {};
   var RADIO_VISITA_M = 25; // metros para registrar visita
 
-  window._albumCheckProximidad = function(lat, lng) {
+  window._albumCheckProximidad = function(lat, lng, accuracy) {
     if (typeof PUNTOS === 'undefined') return;
+    // Ignorar posiciones con GPS poco fiable (>50 m de error)
+    if (accuracy && accuracy > 50) return;
     PUNTOS.forEach(function(poi) {
       if (_albumYaNotificado[poi.id]) return;
       // Puntos de usuario, alertas y búsquedas no entran en el juego
@@ -11220,7 +11496,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v961</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v964</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
