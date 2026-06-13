@@ -228,7 +228,7 @@
   
   <!-- Header móvil: recuadro Tu Guía Xacobea + idiomas -->
   <div class='header-mobile-brand' onclick='abrirHeroModal()' style='display:none;cursor:pointer;flex:1;margin:0 4px;min-width:0;align-items:center;gap:6px'>
-    <img src='https://i.postimg.cc/rm387xgK/IMG-0201.jpg' id='header-vieira-img' style='height:44px;width:44px;border-radius:5px;flex-shrink:0;object-fit:cover;border:2px solid transparent;margin-left:-6px;transition:border-color 0.3s' onload="this.style.borderColor='#F5C800'"/>
+    <img src='https://i.postimg.cc/tRWLFtGh/vieira.png' id='header-vieira-img' style='height:44px;width:auto;flex-shrink:0;object-fit:contain;margin-left:-6px'/>
     <div style='display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0'>
       <img src='https://i.postimg.cc/k5yzbjd9/logohead.png' alt='Tu Guía Xacobea' id='header-tag-text' style='width:auto;height:30px;max-width:100%;display:block;object-fit:contain;opacity:0.92'/>
       <span style='display:inline-flex;align-items:center;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:2px 8px'>
@@ -287,7 +287,7 @@
       <!-- COLUMNA IZQUIERDA -->
       <div>
         <div class='hero-tag-row'>
-          <img src='https://i.postimg.cc/rm387xgK/IMG-0201.jpg' id='hero-vieira-desktop' style='height:62px;width:62px;border-radius:7px;flex-shrink:0;object-fit:cover;border:2px solid transparent;transition:border-color 0.3s' onload="this.style.borderColor='rgba(245,200,0,0.6)'"/>
+          <img src='https://i.postimg.cc/tRWLFtGh/vieira.png' id='header-vieira-img' style='height:44px;width:auto;flex-shrink:0;object-fit:contain;margin-left:-6px'/>
           <img src='https://i.postimg.cc/k5yzbjd9/logohead.png' alt='Tu Guía Xacobea' id='hero-tag-img' style='height:62px;width:auto;display:block;margin-bottom:2px'/>
           <span id='hero-tag-text' style='display:none'>Tu Guía Xacobea</span>
           <!-- Banderas: solo escritorio, junto al cajetín -->
@@ -3297,6 +3297,9 @@ function _abrirSlide(panelId) {
     barTitle.textContent = _panelTitles[panelId] || '';
     barTitle.style.display = 'flex';
   }
+  // Bloquear scroll horizontal de la barra de chips mientras hay panel activo
+  var catBar = document.getElementById('mapa-cat-bar');
+  if (catBar) { catBar.style.overflowX = 'hidden'; catBar.style.touchAction = 'none'; }
 }
 function _cerrarSlide(panelId) {
   var mapSection = document.querySelector('#map-block .map-section');
@@ -3308,6 +3311,9 @@ function _cerrarSlide(panelId) {
   if (_noCenter2.indexOf(panelId) === -1) setTimeout(_centrarMapa, 300);
   var barTitle = document.getElementById('mapa-cat-panel-title');
   if (barTitle) { barTitle.style.display = 'none'; barTitle.textContent = ''; }
+  // Restaurar scroll horizontal de la barra de chips
+  var catBar = document.getElementById('mapa-cat-bar');
+  if (catBar) { catBar.style.overflowX = 'auto'; catBar.style.touchAction = ''; }
 }
 
 function _sincronizarChipAlertasPOI() {
@@ -4332,10 +4338,7 @@ function cargarPOIsFirebase() {
     var hayVisibles = PUNTOS.some(function(p){ return p.esAlerta && !alertasOcultas[p.id]; });
     if (chipAlerta) chipAlerta.style.animation = hayVisibles ? 'chipAlertaPulse 1.2s ease-in-out infinite' : '';
     var chipAlertaMapa = document.getElementById('chip-alerta-mapa');
-    if (chipAlertaMapa) {
-      chipAlertaMapa.style.display = hayVisibles ? '' : 'none';
-      chipAlertaMapa.style.animation = hayVisibles ? 'chipAlertaPulse 1.2s ease-in-out infinite' : '';
-    }
+    if (chipAlertaMapa) chipAlertaMapa.style.display = hayVisibles ? '' : 'none';
     _sincronizarChipAlertasPOI();
   }
 
@@ -4663,23 +4666,12 @@ function buildAlertaPopup(a) {
   var yaReporte = alertasReportadas[a.id];
   var esMia = a.deviceId === DEVICE_ID;
   var yaOculta = alertasOcultas[a.id];
-  var fechaInicio = '';
-  if (a.ts) {
-    var d = new Date(a.ts);
-    var dia = d.getDate().toString().padStart(2,'0');
-    var mes = (d.getMonth()+1).toString().padStart(2,'0');
-    var hora = d.getHours().toString().padStart(2,'0');
-    var min = d.getMinutes().toString().padStart(2,'0');
-    fechaInicio = dia+'/'+mes+' '+hora+':'+min+'h';
-  }
   return '<div style="font-family:DM Sans,sans-serif;min-width:210px">' +
     '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">' +
     '<span style="font-size:22px">🚨</span>' +
     '<strong style="font-size:14px;color:#dc2626">' + a.nombre + '</strong></div>' +
     (a.descripcion ? '<p style="font-size:13px;margin:0 0 6px;color:#374151">' + a.descripcion + '</p>' : '') +
-    '<div style="font-size:11px;color:#9ca3af;margin-bottom:8px">' +
-    (fechaInicio ? '🕐 Desde ' + fechaInicio + '  · ' : '') +
-    '⏱ Caduca en ~' + tiempoRestante + 'h · ' + (a.reportes||1) + ' reporte(s)</div>' +
+    '<div style="font-size:11px;color:#9ca3af;margin-bottom:8px">⏱ Caduca en ~' + tiempoRestante + 'h · ' + (a.reportes||1) + ' reporte(s)</div>' +
     (yaReporte
       ? '<div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;padding:7px;font-size:12px;color:#dc2626;text-align:center;margin-bottom:6px">✓ Ya has confirmado esta alerta</div>'
       : '<button onclick="reportarAlerta(\'' + a.id + '\')" style="width:100%;background:#dc2626;color:#fff;border:none;border-radius:8px;padding:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:6px">🚨 Confirmar alerta (+24h)</button>'
@@ -4691,32 +4683,7 @@ function buildAlertaPopup(a) {
           : '<button onclick="ocultarAlerta(\'' + a.id + '\')" style="width:100%;background:#f3f4f6;color:#6b7280;border:1px solid #d1d5db;border-radius:8px;padding:7px;font-size:12px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;margin-top:2px">👁 Ocultar del mapa</button>'
         )
     ) +
-    _ocultarTodasBtn() +
     '</div>';
-}
-
-function _ocultarTodasBtn() {
-  var alertasVisibles = PUNTOS.filter(function(p){ return p.esAlerta && !alertasOcultas[p.id]; });
-  if (alertasVisibles.length < 2) return '';
-  return '<button onclick="ocultarTodasAlertas()" style="width:100%;background:transparent;color:#9ca3af;border:1px solid #e5e7eb;border-radius:8px;padding:6px;font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;margin-top:6px">👁 Ocultar todas del mapa</button>';
-}
-
-function ocultarTodasAlertas() {
-  var alertasActivas = PUNTOS.filter(function(p){ return p.esAlerta && !alertasOcultas[p.id]; });
-  alertasActivas.forEach(function(a) {
-    if (a._marker) { mapa.removeLayer(a._marker); a._marker = null; }
-    alertasOcultas[a.id] = true;
-  });
-  try { localStorage.setItem('alertasOcultas', JSON.stringify(alertasOcultas)); } catch(e) {}
-  mapa.closePopup();
-  // Apagar chip-alerta-mapa
-  var chipAlertaMapa = document.getElementById('chip-alerta-mapa');
-  if (chipAlertaMapa) { chipAlertaMapa.style.display = 'none'; chipAlertaMapa.style.animation = ''; }
-  var chipAlerta = document.getElementById('chip-alertas');
-  if (chipAlerta) chipAlerta.style.animation = '';
-  _sincronizarChipAlertasPOI();
-  mostrarToast('👁 Todas las alertas ocultadas del mapa');
-  _irAlMapa();
 }
 
 var alertasReportadas = {};
@@ -4770,11 +4737,6 @@ function ocultarAlerta(id) {
   var hayVisibles = PUNTOS.some(function(p){ return p.esAlerta && !alertasOcultas[p.id]; });
   var chipAlerta = document.getElementById('chip-alertas');
   if (chipAlerta) chipAlerta.style.animation = hayVisibles ? 'chipAlertaPulse 1.2s ease-in-out infinite' : '';
-  var chipAlertaMapa = document.getElementById('chip-alerta-mapa');
-  if (chipAlertaMapa) {
-    chipAlertaMapa.style.display = hayVisibles ? '' : 'none';
-    chipAlertaMapa.style.animation = hayVisibles ? 'chipAlertaPulse 1.2s ease-in-out infinite' : '';
-  }
   mostrarToast('👁 Alerta ocultada del mapa');
   _sincronizarChipAlertasPOI();
   _irAlMapa();
@@ -4790,11 +4752,6 @@ function mostrarAlerta(id) {
   var chipAlerta = document.getElementById('chip-alertas');
   if (chipAlerta && !chipAlerta.classList.contains('active')) {
     chipAlerta.style.animation = 'chipAlertaPulse 1.2s ease-in-out infinite';
-  }
-  var chipAlertaMapa = document.getElementById('chip-alerta-mapa');
-  if (chipAlertaMapa) {
-    chipAlertaMapa.style.display = '';
-    chipAlertaMapa.style.animation = 'chipAlertaPulse 1.2s ease-in-out infinite';
   }
   mostrarToast('👁 Alerta visible en el mapa');
   _sincronizarChipAlertasPOI();
@@ -9559,7 +9516,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v944";
+var _APP_VERSION = "v957";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -11270,7 +11227,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v944</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v957</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
