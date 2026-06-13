@@ -5302,7 +5302,7 @@ function iniciarProximidad() {
       PUNTOS.forEach(function(p) {
         if (notifEnviadas[p.id]) return;
         var d = calcDistancia(lat, lng, p.lat, p.lng);
-        if (d < 0.3) { // 30 metros (pruebas)
+        if (d < 2) { // 2 km (pruebas)
           notifEnviadas[p.id] = true;
           var t = (T[idiomaActual]||T.es);
           new Notification('📍 ' + (idiomaActual==='gl'&&p.nombre_gl?p.nombre_gl:idiomaActual==='en'&&p.nombre_en?p.nombre_en:p.nombre), {
@@ -9401,7 +9401,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v911";
+var _APP_VERSION = "v913";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -10090,7 +10090,7 @@ if ('serviceWorker' in navigator) {
   // ---- Detección de proximidad durante el seguimiento GPS ----
   // Se engancha al watchPosition existente comprobando cada posición
   var _albumYaNotificado = {};
-  var RADIO_VISITA_M = 25; // metros para registrar visita
+  var RADIO_VISITA_M = 2000; // metros para registrar visita (pruebas)
 
   window._albumCheckProximidad = function(lat, lng) {
     if (typeof PUNTOS === 'undefined') return;
@@ -11072,7 +11072,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v911</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v913</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
