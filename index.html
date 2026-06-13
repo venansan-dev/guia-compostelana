@@ -225,7 +225,7 @@
   
   <!-- Header móvil: recuadro Tu Guía Xacobea + idiomas -->
   <div class='header-mobile-brand' onclick='abrirHeroModal()' style='display:none;cursor:pointer;flex:1;margin:0 4px;min-width:0;align-items:center;gap:6px'>
-    <img src='https://i.postimg.cc/rm387xgK/IMG-0201.jpg' id='header-vieira-img' style='height:44px;width:44px;border-radius:5px;flex-shrink:0;object-fit:cover;border:2px solid transparent;margin-left:-6px;transition:border-color 0.3s' onload="this.style.borderColor='#F5C800'"/>
+    <img src='https://i.postimg.cc/J0gSs1LP/logingf.png' id='header-vieira-img' style='height:44px;width:44px;border-radius:5px;flex-shrink:0;object-fit:cover;border:none;margin-left:-6px'/>
     <div style='display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0'>
       <img src='https://i.postimg.cc/wxDrVkF5/final2.png' alt='Tu Guía Xacobea' id='header-tag-text' style='width:auto;height:30px;max-width:100%;display:block;object-fit:contain;opacity:0.92'/>
       <span style='display:inline-flex;align-items:center;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:2px 8px'>
@@ -1008,8 +1008,8 @@
     <div id='album-panel-contador' style='display:none'></div>
     <!-- Botones -->
     <div style='flex-shrink:0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px'>
-      <button onclick='cerrarAlbumPanel();abrirPoiDrawer()' style='display:flex;align-items:center;justify-content:center;gap:3px;background:rgba(220,38,38,0.12);border:1px solid rgba(220,38,38,0.4);border-radius:8px;padding:6px 4px;color:#fca5a5;font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🔒 Por ver</button>
-      <button onclick='abrirAlbumDrawer()' style='display:flex;align-items:center;justify-content:center;gap:3px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:6px 4px;color:rgba(255,255,255,0.85);font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>📷 Álbum</button>
+      <button id='btn-porver-ranking' onclick='cerrarAlbumPanel();abrirPoiDrawer()' style='display:flex;align-items:center;justify-content:center;gap:3px;background:rgba(220,38,38,0.12);border:1px solid rgba(220,38,38,0.4);border-radius:8px;padding:6px 4px;color:#fca5a5;font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>🔒 Por ver</button>
+      <button id='btn-album-ranking' onclick='abrirAlbumDrawer()' style='display:flex;align-items:center;justify-content:center;gap:3px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:6px 4px;color:rgba(255,255,255,0.85);font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>📷 Álbum</button>
       <button id='btn-ranking-coleccion' onclick='_abrirColeccionDesdeRanking()' style='display:flex;align-items:center;justify-content:center;gap:3px;background:rgba(245,200,0,0.08);border:1px solid rgba(245,200,0,0.45);border-radius:8px;padding:6px 4px;color:rgba(255,255,255,0.85);font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;box-shadow:0 0 5px rgba(245,200,0,0.12)'>🐚 Colección</button>
     </div>
     <!-- Tarjeta ranking -->
@@ -1055,7 +1055,7 @@
     <div id='ap-tablero-oca' style='flex-shrink:0'></div>
     <div id='ap-tablero-vacio' style='display:none;text-align:center;padding:1.5rem 1rem;flex-shrink:0'>
       <div style='font-size:36px;margin-bottom:8px'>🎴</div>
-      <div style='font-size:13px;color:rgba(255,255,255,0.5)'>Visita lugares del Camino para obtener cromos</div>
+      <div id='tablero-vacio-txt' style='font-size:13px;color:rgba(255,255,255,0.5)'>Visita lugares del Camino para obtener cromos</div>
     </div>
     <!-- Copyright + hard reset -->
     <div style='flex-shrink:0;border-top:1px solid rgba(255,255,255,0.07);padding-top:10px;display:flex;flex-direction:column;gap:8px'>
@@ -4496,7 +4496,7 @@ function abrirModalNotificaciones(){
     var lLeft=l?'21px':'3px';
     var esMovil=window.innerWidth<=768;
     box.innerHTML=
-      '<div style="font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:14px">🔔 Notificaciones</div>'
+      '<div style="font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:14px">⚙️ Notificaciones</div>'
       +'<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0">'
       +'<div><div style="font-size:13px;font-weight:600;color:#1a1a1a">🚨 Alertas del Camino</div>'
       +'<div style="font-size:11px;color:#6b7280">Incidencias en tiempo real</div></div>'
@@ -8208,6 +8208,7 @@ var T={
     brujulaActivar:'Activar',
     brujulaRecalibrar:'↺ Recalibrar',
     meteoTitulo:'Previsión meteorológica',
+    meteoPrevision:'🌤️ Previsión',
     meteoCargando:'Cargando...',
     meteoResumenDia:'Resumen del día',
     cruzRojaLabel:'Cruz Roja · Camino de Santiago',
@@ -8343,6 +8344,7 @@ var T={
     rankingMaximo:'¡Rango máximo acadado!',
     coleccionSuper:'Xogo da Oca Xacobeo',coleccionTitulo:'🐚 Colección do Peregrino',
     coleccionVacio:'Visita lugares do Camiño para obter cromos',coleccionContador:'de 63 cadros',
+    tablerovacioTxt:'Visita lugares do Camiño para obter cromos',
     coleccionAbierto:'aberto',coleccionAbiertos:'abertos',coleccionMazo:'no mazo',
     mazoTitulo:'Mazo sen abrir',mazoPendiente:'cromo pendente',mazoPendientes:'cromos pendentes',mazoTap:'Preme para abrir o seguinte',
     rankingVacio:'Aínda non visitaches ningún punto',
@@ -8369,6 +8371,8 @@ var T={
     notifBloqueadas:'As notificacións están bloqueadas. Por favor actívaas nos axustes do teu navegador para este sitio.',
     tuUbicacion:'📍 A túa localización',
     historiaTag:'☯️ Historia Compostelá',
+    historiaDrawerTitulo:'Historia Xacobea',
+    historiaDrawerTitulo:'Historia Xacobea',
     historiaSub:'Dúas historias extraordinarias que naceron nestas mesmas beiras',
     historiaH3a:'🐚 O Cabaleiro das Cunchas — A lenda que naceu en Bouzas',
     historiaH3b:'⚔️ Vigo, terra de templarios',
@@ -8477,6 +8481,7 @@ var T={
     brujulaActivar:'Activar',
     brujulaRecalibrar:'↺ Recalibrar',
     meteoTitulo:'Previsión meteorolóxica',
+    meteoPrevision:'🌤️ Previsión',
     meteoCargando:'Cargando...',
     meteoResumenDia:'Resumo do día',
     cruzRojaLabel:'Cruz Vermella · Camiño de Santiago',
@@ -8619,6 +8624,7 @@ var T={
     notifBloqueadas:'Notifications are blocked. Please enable them in your browser settings for this site.',
     tuUbicacion:'📍 Your location',
     historiaTag:'☯️ Compostelan History',
+    historiaDrawerTitulo:'Jacobean History',
     historiaSub:'Two extraordinary stories born on these very shores',
     historiaH3a:'🐚 The Knight of the Shells — The legend born in Bouzas',
     historiaH3b:'⚔️ Vigo, land of the Templars',
@@ -8727,6 +8733,7 @@ var T={
     brujulaActivar:'Activate',
     brujulaRecalibrar:'↺ Recalibrate',
     meteoTitulo:'Weather forecast',
+    meteoPrevision:'🌤️ Forecast',
     meteoCargando:'Loading...',
     meteoResumenDia:'Daily summary',
     cruzRojaLabel:'Red Cross · Portuguese Way',
@@ -8925,6 +8932,14 @@ function cambiarIdioma(lang){
   el=document.getElementById('ranking-logros-label');if(el)el.textContent=t.rankingLogros||'Logros';
   el=document.getElementById('ranking-stats-label');if(el)el.textContent=t.rankingEstadisticas||'Estadísticas';
   el=document.getElementById('tablero-hard-reset-btn');if(el)el.textContent=t.rankingHardReset||'🗑️ Borrar cromos y visitas';
+  // Album panel
+  el=document.getElementById('album-panel-volver');if(el)el.textContent=t.btnVolver||'← Volver';
+  el=document.getElementById('tablero-panel-volver');if(el)el.textContent=t.btnVolver||'← Volver';
+  el=document.getElementById('btn-porver-ranking');if(el)el.textContent='🔒 '+(t.btnPorVer||'Por ver');
+  el=document.getElementById('btn-album-ranking');if(el)el.textContent='📷 '+(t.btnAlbumRec||'Álbum');
+  el=document.getElementById('btn-ranking-coleccion');if(el)el.textContent='🐚 '+(t.btnColeccion||'Colección');
+  el=document.getElementById('ranking-stats-label');if(el)el.textContent=t.rankingEstadisticas||'Estadísticas';
+  el=document.getElementById('tablero-vacio-txt');if(el)el.textContent=t.tablerovacioTxt||t.coleccionVacio||'Visita lugares del Camino para obtener cromos';
   el=document.getElementById('album-panel-volver');if(el)el.textContent=t.btnVolver||'← Volver';
   el=document.getElementById('tablero-panel-volver');if(el)el.textContent=t.btnVolver||'← Volver';
   var _elSigInit=document.getElementById('ap-rank-siguiente');
@@ -8983,6 +8998,14 @@ function cambiarIdioma(lang){
   el=document.getElementById('album-panel-contador');if(el&&!el.textContent.match(/\d/))el.textContent=t.rankingContador||'Visita lugares del Camino para avanzar en el ranking';
   el=document.getElementById('ranking-stats-label');if(el)el.textContent=t.rankingEstadisticas||'Estadísticas';
   el=document.getElementById('tablero-hard-reset-btn');if(el)el.textContent=t.rankingHardReset||'🗑️ Borrar cromos y visitas';
+  // Album panel
+  el=document.getElementById('album-panel-volver');if(el)el.textContent=t.btnVolver||'← Volver';
+  el=document.getElementById('tablero-panel-volver');if(el)el.textContent=t.btnVolver||'← Volver';
+  el=document.getElementById('btn-porver-ranking');if(el)el.textContent='🔒 '+(t.btnPorVer||'Por ver');
+  el=document.getElementById('btn-album-ranking');if(el)el.textContent='📷 '+(t.btnAlbumRec||'Álbum');
+  el=document.getElementById('btn-ranking-coleccion');if(el)el.textContent='🐚 '+(t.btnColeccion||'Colección');
+  el=document.getElementById('ranking-stats-label');if(el)el.textContent=t.rankingEstadisticas||'Estadísticas';
+  el=document.getElementById('tablero-vacio-txt');if(el)el.textContent=t.tablerovacioTxt||t.coleccionVacio||'Visita lugares del Camino para obtener cromos';
   el=document.getElementById('album-panel-volver');if(el)el.textContent=t.btnVolver||'← Volver';
   el=document.getElementById('tablero-panel-volver');if(el)el.textContent=t.btnVolver||'← Volver';
   var _elSigInit2=document.getElementById('ap-rank-siguiente');
@@ -9022,6 +9045,19 @@ function cambiarIdioma(lang){
   el=document.getElementById('brujula-norte-label');if(el)el.textContent=t.brujulaNorte||'Norte';
   el=document.getElementById('brujula-stgo-label');if(el)el.textContent=t.brujulaSantiago||'Santiago';
   el=document.getElementById('brujula-h2');if(el)el.textContent=t.brujulaTitulo||'Brújula';
+  el=document.getElementById('historia-drawer-title');if(el)el.textContent=t.historiaDrawerTitulo||'Historia Xacobea';
+  el=document.getElementById('meteo-header-loc');if(el)el.textContent=t.meteoPrevision||'🌤️ Previsión';
+  el=document.getElementById('brujula-norte-label');if(el)el.textContent=t.brujulaNorte||'Norte';
+  el=document.getElementById('brujula-stgo-label');if(el)el.textContent=t.brujulaSantiago||'Santiago';
+  el=document.getElementById('brujula-drawer-label');if(el)el.textContent=t.brujulaActivar||'Activar';
+  el=document.getElementById('btn-refrescar-brujula');if(el)el.textContent='↺ '+(t.brujulaRecalibrar||'Recalibrar');
+  el=document.getElementById('brujula-panel-volver');if(el)el.textContent=t.btnVolver||'← Volver';
+  el=document.getElementById('sos-panel-volver');if(el)el.textContent=t.btnVolver||'← Volver';
+  el=document.getElementById('don-panel-volver');if(el)el.textContent=t.btnVolver||'← Volver';
+  el=document.getElementById('contacto-panel-volver');if(el)el.textContent=t.btnVolver||'← Volver';
+  el=document.getElementById('contacto-panel-volver-bot');if(el)el.textContent=t.btnVolver||'← Volver';
+  el=document.getElementById('historia-panel-volver-top');if(el)el.textContent=t.btnVolver||'← Volver';
+  el=document.getElementById('historia-panel-volver-bot');if(el)el.textContent=t.btnVolver||'← Volver';
   el=document.getElementById('brujula-sub');if(el)el.textContent=t.brujulaSub||'Norte magnético y rumbo a Santiago';
   el=document.getElementById('brujula-drawer-label');if(el)el.textContent=t.brujulaActivar||'Activar';
   el=document.getElementById('btn-refrescar-brujula');if(el&&el.style.display!=='none')el.textContent=t.brujulaRecalibrar||'↺ Recalibrar';
@@ -9401,7 +9437,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v920";
+var _APP_VERSION = "v924";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -11072,7 +11108,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v920</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v924</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
