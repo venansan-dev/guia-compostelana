@@ -584,7 +584,7 @@
       <span style='font-size:22px'>🐚</span>
       <div>
         <div style='font-size:16px;font-weight:700;color:#fff' id='historia-drawer-title'>Historia Xacobea</div>
-        <div style='font-size:12px;color:rgba(255,255,255,0.55)'>Vieira, Temple y el Camino de Santiago</div>
+        <div style='font-size:12px;color:rgba(255,255,255,0.55)' id='historia-drawer-sub'>Vieira, Temple y el Camino de Santiago</div>
       </div>
     </div>
     <div class='historia-inner' style='max-width:100%;margin:0'>
@@ -806,7 +806,7 @@
       <div style='width:36px;height:36px;background:#E1F5EE;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0'>🧭</div>
       <div>
         <h2 id='comousar-h2-panel' style='font-family:Playfair Display,serif;font-size:19px;color:#1a1a1a;margin:0;line-height:1.2'>Cómo usar la guía</h2>
-        <p style='font-size:12px;color:#6b7280;margin:0'>Instrucciones básicas para sacarle el máximo partido</p>
+        <p id='comousar-panel-sub' style='font-size:12px;color:#6b7280;margin:0'>Instrucciones básicas para sacarle el máximo partido</p>
       </div>
     </div>
     <div style='display:flex;flex-direction:column;gap:10px'>
@@ -8105,6 +8105,7 @@ var T={
     tuUbicacion:'📍 Tu ubicación',
     historiaTag:'☯️ Historia Xacobea',
     historiaDrawerTitulo:'Historia Xacobea',
+    historiaDrawerSub:'Vieira, Temple y el Camino de Santiago',
     meteoPrevision:'🌤️ Previsión',
     tablerovacioTxt:'Visita lugares del Camino para obtener cromos',
     historiaSub:'Dos historias extraordinarias que nacieron en estas mismas orillas',
@@ -8376,6 +8377,7 @@ var T={
     tuUbicacion:'📍 A túa localización',
     historiaTag:'☯️ Historia Compostelá',
     historiaDrawerTitulo:'Historia Xacobea',
+    historiaDrawerSub:'Vieira, Temple e o Camiño de Santiago',
     meteoPrevision:'🌤️ Previsión',
     tablerovacioTxt:'Visita lugares do Camiño para obter cromos',
     historiaSub:'Dúas historias extraordinarias que naceron nestas mesmas beiras',
@@ -8629,6 +8631,7 @@ var T={
     tuUbicacion:'📍 Your location',
     historiaTag:'☯️ Compostelan History',
     historiaDrawerTitulo:'Jacobean History',
+    historiaDrawerSub:'Scallop, Templars and the Way of Saint James',
     meteoPrevision:'🌤️ Forecast',
     tablerovacioTxt:'Visit places along the Way to collect cards',
     historiaSub:'Two extraordinary stories born on these very shores',
@@ -9035,6 +9038,8 @@ function cambiarIdioma(lang){
   el=document.getElementById('brujula-stgo-label');if(el)el.textContent=t.brujulaSantiago||'Santiago';
   el=document.getElementById('brujula-h2');if(el)el.textContent=t.brujulaTitulo||'Brújula';
   el=document.getElementById('historia-drawer-title');if(el)el.textContent=t.historiaDrawerTitulo||'Historia Xacobea';
+  el=document.getElementById('historia-drawer-sub');if(el)el.textContent=t.historiaDrawerSub||'Vieira, Temple y el Camino de Santiago';
+  el=document.getElementById('comousar-panel-sub');if(el)el.textContent=t.comoUsarPanelSub||t.comoUsarSub||'Instrucciones básicas';
   el=document.getElementById('meteo-header-loc');if(el)el.textContent=t.meteoPrevision||'🌤️ Previsión';
   el=document.getElementById('brujula-panel-volver');if(el)el.textContent=t.btnVolver||'← Volver';
   el=document.getElementById('sos-panel-volver');if(el)el.textContent=t.btnVolver||'← Volver';
@@ -9428,7 +9433,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v928";
+var _APP_VERSION = "v929";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -11099,7 +11104,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v928</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v929</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
