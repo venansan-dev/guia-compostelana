@@ -1,7 +1,7 @@
 {
   "id": "/",
   "name": "Xacobeapp",
-  "short_name": "Xacobeapp!",
+  "short_name": "Xacobeapp",
   "description": "Tu Guía Xacobea del Camino de Santiago",
   "start_url": "/",
   "display": "standalone",
