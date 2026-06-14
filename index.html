@@ -5017,7 +5017,7 @@ function abrirHeroModal() {
 
     var tit = document.createElement('div');
     tit.style.cssText = 'font-family:IM Fell English,serif;font-size:20px;color:#1a0800;margin-bottom:4px;display:flex;align-items:center;gap:8px';
-    tit.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:36px;height:36px;object-fit:contain;flex-shrink:0">¿Qué te apetece explorar?';
+    tit.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:36px;height:36px;object-fit:contain;flex-shrink:0">Aquí tienes otras funciones que quizás te gustarán';
     header.appendChild(tit);
 
     var orn = document.createElement('div');
@@ -5071,6 +5071,12 @@ function abrirHeroModal() {
     inner.appendChild(lista);
 
     // ── Pie fijo ──────────────────────────────────────────────────
+    var btnAtras = document.createElement('button');
+    btnAtras.textContent = _t.asistAtras||'← Volver';
+    btnAtras.style.cssText = 'width:100%;background:rgba(0,0,0,0.2);color:#fff8e8;border:1px solid #7a5010;border-radius:8px;padding:11px;font-size:15px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:8px;flex-shrink:0';
+    btnAtras.addEventListener('click', function(){ _renderPaso1(); });
+    inner.appendChild(btnAtras);
+
     var btnCerrar = document.createElement('button');
     btnCerrar.textContent = _t.asistQuizas||'Quizás más tarde';
     btnCerrar.style.cssText = 'width:100%;background:transparent;color:rgba(26,8,0,0.4);border:none;padding:8px;font-size:14px;cursor:pointer;font-family:DM Sans,sans-serif;flex-shrink:0';
@@ -5281,8 +5287,13 @@ function abrirHeroModal() {
     titulo.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">Selecciona qué te gustaría visitar';
     inner.appendChild(titulo);
 
+    var adornoPaso2 = document.createElement('div');
+    adornoPaso2.style.cssText = 'text-align:center;color:#8b6914;letter-spacing:6px;margin:4px 0 10px;font-size:15px;flex-shrink:0';
+    adornoPaso2.textContent = '✦ ✦ ✦';
+    inner.appendChild(adornoPaso2);
+
     var hint = document.createElement('p');
-    hint.style.cssText = 'font-size:14px;color:#8b6914;margin-bottom:14px;font-style:italic';
+    hint.style.cssText = 'font-size:15px;color:#1a0800;margin-bottom:14px;font-style:italic';
     hint.textContent = _t.asistEligeUno||'Puedes elegir uno o varios lugares.';
     inner.appendChild(hint);
 
@@ -10885,7 +10896,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1038";
+var _APP_VERSION = "v1041";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -12599,7 +12610,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1038</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1041</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
