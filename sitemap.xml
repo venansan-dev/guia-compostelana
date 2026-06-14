@@ -4,14 +4,14 @@
 
   <!-- Página principal -->
   <url>
-    <loc>https://guia-compostelana-ultreia.com/</loc>
+    <loc>https://xacobeapp.com/</loc>
     <lastmod>2026-06-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="es" href="https://guia-compostelana-ultreia.com/"/>
-    <xhtml:link rel="alternate" hreflang="gl" href="https://guia-compostelana-ultreia.com/?lang=gl"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://guia-compostelana-ultreia.com/?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://guia-compostelana-ultreia.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://xacobeapp.com/"/>
+    <xhtml:link rel="alternate" hreflang="gl" href="https://xacobeapp.com/?lang=gl"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://xacobeapp.com/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://xacobeapp.com/"/>
   </url>
 
 </urlset>
