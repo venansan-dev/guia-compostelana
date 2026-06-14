@@ -43,7 +43,7 @@
   <meta name="format-detection" content="telephone=no"/>
   <link rel="manifest" href="/manifest.json"/>
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=5"/>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@400;500&family=Cinzel:wght@700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet"/>
   <link rel="preconnect" href="https://unpkg.com" crossorigin/>
   <link rel="preconnect" href="https://www.gstatic.com" crossorigin/>
   <link rel="preconnect" href="https://i.postimg.cc" crossorigin/>
@@ -140,7 +140,8 @@
 .poi-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(to bottom,var(--ocre),transparent);opacity:0.5;transition:opacity 0.2s}
 .poi-card:hover::before{opacity:1}
 .modal-box h3{font-family:'Playfair Display',serif}
-@keyframes bounceDownArrow{0%,100%{transform:translateY(0);}45%{transform:translateY(8px);}65%{transform:translateY(3px);}}</style>
+@keyframes bounceDownArrow{0%,100%{transform:translateY(0);}45%{transform:translateY(8px);}65%{transform:translateY(3px);}}
+.pergamino-body{font-family:'IM Fell English',serif;font-size:14px;line-height:1.7}.pergamino-body::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");border-radius:inherit;opacity:1}.pergamino-body .num,.pergamino-body strong{font-size:1.15em;font-variant-numeric:oldstyle-nums}.pergamino-body span[style*='float:left']{font-family:'Cinzel',serif}</style>
 
 
   <!-- Schema.org Structured Data -->
@@ -4411,6 +4412,23 @@ function toggleAlertasFirebase(){
 
 
 function abrirHeroModal() {
+  var _t = (typeof T !== 'undefined' && T[idiomaActual]) ? T[idiomaActual] : T['es'];
+  function _capital(txt) {
+    if (!txt || typeof txt !== 'string') return txt;
+    var m = txt.match(/^(<[^>]+>)(.+)/s);
+    if (m) return m[1] + _capital(m[2]);
+    var first = txt.charAt(0);
+    if (first !== 'T') return txt;
+    return txt;
+  }
+  function _capitalAll(txt) {
+    if (!txt || typeof txt !== 'string') return txt;
+    var m = txt.match(/^(<[^>]+>)(.+)/s);
+    if (m) return m[1] + _capitalAll(m[2]);
+    var first = txt.charAt(0);
+    if (!first.match(/[A-Za-zÀ-ÿÁÉÍÓÚáéíóúÑñ]/)) return txt;
+    return txt;
+  }
   var viejo = document.getElementById('modal-hero-mobile');
   if (viejo) { viejo.remove(); return; }
 
@@ -4419,11 +4437,11 @@ function abrirHeroModal() {
   overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:99998;background:rgba(0,0,0,0.55);display:flex;align-items:flex-end;justify-content:center;-webkit-tap-highlight-color:transparent;font-family:DM Sans,sans-serif';
 
   var panel = document.createElement('div');
-  panel.style.cssText = 'background:linear-gradient(160deg,#0F6E56 0%,#1D9E75 100%);border-radius:20px 20px 0 0;padding:20px 20px 40px;width:100%;max-width:480px;position:relative;box-sizing:border-box;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);overflow:hidden';
+  panel.style.cssText = 'background:radial-gradient(ellipse at 20% 15%, rgba(90,50,0,0.18) 0%, transparent 55%),radial-gradient(ellipse at 80% 80%, rgba(60,30,0,0.22) 0%, transparent 50%),radial-gradient(ellipse at 60% 35%, rgba(180,130,40,0.12) 0%, transparent 40%),radial-gradient(ellipse at 10% 85%, rgba(80,40,0,0.15) 0%, transparent 45%),linear-gradient(180deg,#c9933a 0%,#b87d28 40%,#a86d18 100%);border-radius:20px 20px 0 0;padding:20px 20px 40px;width:100%;max-width:480px;position:relative;box-sizing:border-box;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);overflow:hidden;border-top:3px solid #5a3008;box-shadow:0 -4px 32px rgba(0,0,0,0.5),inset 0 0 60px rgba(60,25,0,0.25),inset 0 0 15px rgba(40,15,0,0.3),inset 0 1px 0 rgba(255,220,120,0.15)';
 
   // Grid background
   var grid = document.createElement('div');
-  grid.style.cssText = 'position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:50px 50px;pointer-events:none';
+  grid.style.cssText = 'position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(139,105,20,0.07) 28px,rgba(139,105,20,0.07) 29px);pointer-events:none;opacity:0.7';
   panel.appendChild(grid);
 
   function cerrar() {
@@ -4434,19 +4452,20 @@ function abrirHeroModal() {
   // ✕
   var btnX = document.createElement('button');
   btnX.textContent = '✕';
-  btnX.style.cssText = 'position:absolute;top:12px;right:12px;width:36px;height:36px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);border-radius:50%;font-size:16px;cursor:pointer;z-index:1;display:flex;align-items:center;justify-content:center;color:#fff;-webkit-appearance:none';
+  btnX.style.cssText = 'position:absolute;top:10px;right:10px;width:26px;height:26px;background:rgba(0,0,0,0.2);border:1.5px solid #7a5010;border-radius:50%;font-size:11px;cursor:pointer;z-index:1;display:flex;align-items:center;justify-content:center;color:#fff8e8;-webkit-appearance:none';
   btnX.addEventListener('click', cerrar);
   btnX.addEventListener('touchend', function(e){ e.preventDefault(); cerrar(); });
   panel.appendChild(btnX);
 
   // Handle bar
   var bar = document.createElement('div');
-  bar.style.cssText = 'width:40px;height:4px;background:rgba(255,255,255,0.35);border-radius:2px;margin:0 auto 20px;position:relative;z-index:1';
+  bar.style.cssText = 'text-align:center;font-size:18px;color:#fff0c0;margin:0 auto 16px;position:relative;z-index:1;letter-spacing:4px;line-height:1';
   panel.appendChild(bar);
 
   // Inner content
   var inner = document.createElement('div');
   inner.style.cssText = 'position:relative;z-index:1';
+  inner.className = 'pergamino-body';
   panel.appendChild(inner);
 
   // ── DESPEDIDA: mensaje de apoyo al cerrar ───────────────────────
@@ -4459,19 +4478,18 @@ function abrirHeroModal() {
     inner.appendChild(icono);
 
     var titulo = document.createElement('div');
-    titulo.style.cssText = 'font-family:Playfair Display,serif;font-size:18px;font-weight:600;color:#fff;text-align:center;margin-bottom:10px;line-height:1.3';
-    titulo.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">¡Buen Camino, peregrino!';
+    titulo.style.cssText = 'font-family:IM Fell English,serif;font-size:18px;font-weight:400;color:#1a0800;text-align:center;margin-bottom:10px;line-height:1.3';
+    titulo.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">'+(_t.asistBienCamino||'¡Buen Camino, peregrino!');
     inner.appendChild(titulo);
 
     var msg = document.createElement('p');
-    msg.style.cssText = 'font-size:13px;color:rgba(255,255,255,0.82);text-align:center;line-height:1.7;margin-bottom:16px';
-    msg.innerHTML = 'Esta guía es <strong style="color:#fff">gratuita, sin publicidad y sin cookies</strong>. '
-      + 'Solo el apoyo de peregrinos como tú hace posible que siga creciendo y libre para todos. 🙏';
+    msg.style.cssText = 'font-size:13px;color:#1a0800;text-align:center;line-height:1.7;margin-bottom:16px';
+    msg.innerHTML = _capital(_t.asistGratisMsg||'Esta guía es <strong style="color:#fff">gratuita, sin publicidad y sin cookies</strong>. Solo el apoyo de peregrinos como tú hace posible que siga creciendo y libre para todos. 🙏');
     inner.appendChild(msg);
 
     var btnApoyo = document.createElement('button');
-    btnApoyo.textContent = '💚 Apoyar la guía';
-    btnApoyo.style.cssText = 'width:100%;background:#fff;color:#0F6E56;border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:8px';
+    btnApoyo.textContent = _t.asistApoyo||'💚 Apoyar la guía';
+    btnApoyo.style.cssText = 'width:100%;background:linear-gradient(135deg,#7a1f1f,#5c1414);color:#f5e6c8;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:Playfair Display,serif;margin-bottom:8px;box-shadow:0 2px 8px rgba(122,31,31,0.4);letter-spacing:0.3px';
     btnApoyo.addEventListener('click', function() {
       cerrar();
       setTimeout(function(){ abrirDonacionesDrawer(); }, 340);
@@ -4479,25 +4497,14 @@ function abrirHeroModal() {
     inner.appendChild(btnApoyo);
 
     var btnSalir = document.createElement('button');
-    btnSalir.textContent = 'Continuar sin apoyar';
-    btnSalir.style.cssText = 'width:100%;background:transparent;color:rgba(255,255,255,0.4);border:none;padding:8px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnSalir.textContent = _t.asistSinApoyo||'Continuar sin apoyar';
+    btnSalir.style.cssText = 'width:100%;background:transparent;color:rgba(255,248,232,0.6);border:none;padding:8px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif';
     btnSalir.addEventListener('click', function(){ if(fnDespues) fnDespues(); else cerrar(); });
     inner.appendChild(btnSalir);
   }
 
   // ── DATOS CONTEXTUALES Y CURIOSIDADES ──────────────────────────
-  var _curiosidades = [
-    'El nombre "Compostela" probablemente deriva del latín <em>campus stellae</em>, "campo de la estrella". Aunque también hay quien lo vincula a <em>compositum</em>, lugar donde se depositan los muertos.',
-    'Los templarios custodiaron el Camino durante casi dos siglos. En Galicia, su bailía de Vigo controlaba las rutas costeras y varios puntos estratégicos que hoy son paradas del Camino Portugués.',
-    'La vieira, símbolo universal del peregrino, tiene un origen incierto. Una leyenda dice que un caballero salió del mar cubierto de conchas tras seguir el cuerpo de Santiago flotando desde Jaffa.',
-    'El Camino Francés mide oficialmente 778 km desde Saint-Jean-Pied-de-Port. Pero la distancia real varía según la fuente: el terreno gallego suma más metros de los que aparecen en el plano.',
-    'La Catedral de Santiago guarda un secreto arquitectónico: el Pórtico de la Gloria fue policromado en colores vivos durante siglos. Lo que hoy ves en piedra desnuda fue una vez una explosión de color.',
-    'El Botafumeiro de la Catedral pesa 53 kg y puede alcanzar los 68 km/h cuando ocho tiraboleiros lo hacen oscilar. Nació, según la tradición, para purificar el aire cargado de peregrinos.',
-    'Existen más de 30 rutas jacobeas reconocidas en Europa. La más larga parte de Riga, en Letonia, y suma más de 3.000 km hasta Compostela.',
-    'La Puerta Santa de la Catedral solo se abre en los Años Santos Jacobeos, cuando el 25 de julio cae en domingo. El próximo es 2027.',
-    'El rey Alfonso II "el Casto" fue el primer peregrino documentado a Compostela, hacia el año 830. Mandó construir la primera iglesia sobre el sepulcro del Apóstol.',
-    'Los peregrinos medievales no caminaban solos por elección: viajar en grupo era una necesidad. Los caminos estaban llenos de bandidos, y la peregrinación era también un seguro de vida colectivo.'
-  ];
+  var _curiosidades = _t.asistCuriosidades || [];
 
   function _curiosidadAleatoria() {
     return _curiosidades[Math.floor(Math.random() * _curiosidades.length)];
@@ -4513,30 +4520,9 @@ function abrirHeroModal() {
     var dia = new Date().getDay(); // 0=dom, 6=sab
     var finde = (dia === 0 || dia === 6);
 
-    var mañana = [
-      '¡Buenos días, peregrino! 🌅',
-      '¡Ultreia! El Camino te espera. 🌄',
-      '¡Arriba, caminante! El alba es tuya. ☀️',
-      'Un nuevo día en el Camino. ¡Buen paso! 🥾',
-      finde ? '¡Buenos días! ¿Fin de semana de Camino? 🐚' : '¡Buenos días! Cada paso cuenta. 🌿',
-      '¡Que la jornada te sea leve, peregrino! 🌤️',
-    ];
-    var tarde = [
-      '¡Buenas tardes, peregrino! ☀️',
-      '¿Cómo lleva el Camino la tarde de hoy? 🛤️',
-      '¡Tarde de Camino! ¿Cuántos kilómetros hoy? 🥾',
-      'La tarde es buena hora para planificar. 🗺️',
-      '¡Ultreia et suseia, peregrino! ⛰️',
-      finde ? '¡Buenas tardes! Buen momento para salir. 🌿' : '¡Buenas tardes! ¿Qué te trae por aquí? 🐚',
-    ];
-    var noche = [
-      '¡Buenas noches, peregrino! 🌙',
-      'El Camino descansa, pero tú planificas. 🌟',
-      'Noche de peregrino. ¿Mañana salimos? ⭐',
-      '¡Buenas noches! El alba trae nuevo Camino. 🌙',
-      'Hora de descansar las piernas... o de planificar. 🗺️',
-      finde ? '¡Buenas noches! El finde es sagrado en el Camino. 🌙' : '¡Buenas noches, caminante! 🌙',
-    ];
+    var mañana = (_t.asistSaludoM)||['¡Buenos días, peregrino! 🌅','¡Ultreia! El Camino te espera. 🌄','¡Arriba, caminante! El alba es tuya. ☀️','Un nuevo día en el Camino. ¡Buen paso! 🥾','¡Que la jornada te sea leve, peregrino! 🌤️'];
+    var tarde = (_t.asistSaludoT)||['¡Buenas tardes, peregrino! ☀️','¿Cómo lleva el Camino la tarde de hoy? 🛤️','¡Tarde de Camino! ¿Cuántos kilómetros hoy? 🥾','La tarde es buena hora para planificar. 🗺️','¡Ultreia et suseia, peregrino! ⛰️'];
+    var noche = (_t.asistSaludoN)||['¡Buenas noches, peregrino! 🌙','El Camino descansa, pero tú planificas. 🌟','Noche de peregrino. ¿Mañana salimos? ⭐','¡Buenas noches! El alba trae nuevo Camino. 🌙','Hora de descansar las piernas... o de planificar. 🗺️'];
 
     var pool = hora < 13 ? mañana : hora < 20 ? tarde : noche;
     return pool[Math.floor(Math.random() * pool.length)];
@@ -4545,27 +4531,23 @@ function abrirHeroModal() {
   function _subtituloContextual() {
     var n = _numCromosActuales();
     var ruta = (typeof rutaPuntos !== 'undefined') ? rutaPuntos.length : 0;
-    // Mensajes según estado del usuario
     if (n === 0 && ruta === 0) {
-      var frases = [
-        'Parece que es tu primera vez por aquí. ¡Bienvenido al Camino!',
-        'Todo está listo para tu peregrinación. ¿Por dónde empezamos?',
-        'El Camino empieza con el primer paso. ¿Damos el tuyo?'
-      ];
+      var frases = _t.asistSubPrimera || ['Parece que es tu primera vez por aquí. ¡Bienvenido al Camino!','Todo está listo para tu peregrinación. ¿Por dónde empezamos?','El Camino empieza con el primer paso. ¿Damos el tuyo?'];
       return frases[Math.floor(Math.random() * frases.length)];
     }
     if (n > 0 && ruta === 0) {
       var rango = (window._getRango) ? window._getRango(n) : null;
-      var rangoTxt = rango ? ' Eres ' + rango.emoji + ' ' + rango.label + '.' : '';
-      return 'Llevas ' + n + ' cromo' + (n !== 1 ? 's' : '') + ' en tu álbum.' + rangoTxt + ' ¡Sigue así!';
+      var rangoTxt = rango ? (_t.asistSubEres||' Eres ') + rango.emoji + ' ' + rango.label + '.' : '';
+      var base = (n !== 1 ? (_t.asistSubCromosP||'Llevas {n} cromos en tu álbum.') : (_t.asistSubCromos||'Llevas {n} cromo en tu álbum.')).replace('{n}',n);
+      return base + rangoTxt + (_t.asistSubSigue||' ¡Sigue así!');
     }
     if (ruta > 0 && n === 0) {
-      return 'Tienes ' + ruta + ' lugar' + (ruta !== 1 ? 'es' : '') + ' en ruta. ¿Salimos?';
+      return (ruta !== 1 ? (_t.asistSubRutaP||'Tienes {n} lugares en ruta. ¿Salimos?') : (_t.asistSubRuta||'Tienes {n} lugar en ruta. ¿Salimos?')).replace('{n}',ruta);
     }
     if (ruta > 0 && n > 0) {
-      return 'Llevas ' + n + ' cromo' + (n !== 1 ? 's' : '') + ' y una ruta con ' + ruta + ' parada' + (ruta !== 1 ? 's' : '') + '. ¡El Camino te espera!';
+      return (n !== 1 ? (_t.asistSubAmbosP||'Llevas {n} cromos y una ruta con {r} paradas. ¡El Camino te espera!') : (_t.asistSubAmbos||'Llevas {n} cromo y una ruta con {r} parada. ¡El Camino te espera!')).replace('{n}',n).replace('{r}',ruta);
     }
-    return 'El Camino te espera. ¿En qué puedo ayudarte?';
+    return _t.asistSubDefault||'El Camino te espera. ¿En qué puedo ayudarte?';
   }
 
   // Inserta un bloque de curiosidad con estilo discreto
@@ -4573,13 +4555,13 @@ function abrirHeroModal() {
     // Solo mostrar ~60% de las veces para que no sea predecible
     if (Math.random() > 0.6) return;
     var wrap = document.createElement('div');
-    wrap.style.cssText = 'background:rgba(255,255,255,0.08);border-left:3px solid rgba(255,255,255,0.3);border-radius:0 8px 8px 0;padding:10px 12px;margin-bottom:16px';
+    wrap.style.cssText = 'background:rgba(0,0,0,0.15);border-left:3px solid #7a5010;border-radius:0 8px 8px 0;padding:10px 12px;margin-bottom:16px';
     var label = document.createElement('div');
-    label.style.cssText = 'font-size:10px;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:600';
-    label.textContent = '📜 Sabías que…';
+    label.style.cssText = 'font-size:10px;color:#fff0c0;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:600;font-family:IM Fell English,serif';
+    label.textContent = _t.asistSabias||'📜 Sabías que…';
     var txt = document.createElement('p');
-    txt.style.cssText = 'font-size:12px;color:rgba(255,255,255,0.7);line-height:1.6;margin:0';
-    txt.innerHTML = _curiosidadAleatoria();
+    txt.style.cssText = 'font-size:12px;color:#fff8e8;line-height:1.6;margin:0';
+    txt.innerHTML = _capitalAll(_curiosidadAleatoria());
     wrap.appendChild(label);
     wrap.appendChild(txt);
     container.appendChild(wrap);
@@ -4591,32 +4573,32 @@ function abrirHeroModal() {
 
     // Saludo contextual con subtítulo dinámico — casco circular delante
     var h1 = document.createElement('div');
-    h1.style.cssText = 'font-family:Playfair Display,serif;font-size:22px;font-weight:600;color:#fff;line-height:1.2;margin-bottom:6px;display:flex;align-items:center';
+    h1.style.cssText = 'font-family:IM Fell English,serif;font-size:22px;font-weight:400;color:#1a0800;line-height:1.2;margin-bottom:6px;display:flex;align-items:center';
     h1.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">' + _saludoConContexto();
     inner.appendChild(h1);
     var subCtx = document.createElement('p');
-    subCtx.style.cssText = 'font-size:13px;color:rgba(255,255,255,0.75);margin-bottom:12px;line-height:1.5';
-    subCtx.textContent = _subtituloContextual();
+    subCtx.style.cssText = 'font-size:13px;color:#1a0800;margin-bottom:12px;line-height:1.5';
+    subCtx.innerHTML = _capital(_subtituloContextual());
     inner.appendChild(subCtx);
 
     // ¿Hay ruta activa?
     if (typeof rutaPuntos !== 'undefined' && rutaPuntos.length > 0) {
       var sub = document.createElement('p');
-      sub.style.cssText = 'font-size:14px;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:20px';
-      sub.textContent = 'Tienes una ruta seleccionada con ' + rutaPuntos.length + ' lugar' + (rutaPuntos.length !== 1 ? 'es' : '') + '. ¿Quieres revisarla o modificarla?';
+      sub.style.cssText = 'font-size:14px;color:#1a0800;line-height:1.6;margin-bottom:20px';
+      sub.textContent = (_t.asistTieneRuta||'Tienes una ruta seleccionada con ') + rutaPuntos.length + (rutaPuntos.length !== 1 ? (_t.asistTieneRutaSufP||' lugares. ¿Quieres revisarla o modificarla?') : (_t.asistTieneRutaSuf||' lugar. ¿Quieres revisarla o modificarla?'));
       inner.appendChild(sub);
 
       var btnRow = document.createElement('div');
       btnRow.style.cssText = 'display:flex;gap:10px';
 
       var btnSi = document.createElement('button');
-      btnSi.textContent = 'Sí, ver ruta';
-      btnSi.style.cssText = 'flex:1;background:#fff;color:#0F6E56;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif';
+      btnSi.textContent = _t.asistSiVerRuta||'Sí, ver ruta';
+      btnSi.style.cssText = 'flex:1;background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:Playfair Display,serif;box-shadow:0 2px 8px rgba(45,74,30,0.4)';
       btnSi.addEventListener('click', function(){ _renderRevision(); });
 
       var btnNo = document.createElement('button');
-      btnNo.textContent = 'No, volver al mapa';
-      btnNo.style.cssText = 'flex:1;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
+      btnNo.textContent = _t.asistNoVolver||'No, volver al mapa';
+      btnNo.style.cssText = 'flex:1;background:rgba(80,40,0,0.18);color:#fff8e8;border:1.5px solid #7a5010;border-radius:8px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
       btnNo.addEventListener('click', function(){ _renderDespedida(); });
 
       btnRow.appendChild(btnSi);
@@ -4642,10 +4624,10 @@ function abrirHeroModal() {
     if (cercanos.length === 0) {
       var noGps = document.createElement('p');
       noGps.style.cssText = 'font-size:14px;color:rgba(255,255,255,0.8);line-height:1.6;margin-bottom:20px';
-      noGps.textContent = 'Activa el GPS para ver los lugares del Camino más cercanos a ti.';
+      noGps.innerHTML = _capital(_t.asistSinGps||'Activa el GPS para ver los lugares del Camino más cercanos a ti.');
       inner.appendChild(noGps);
       var btnCerrar = document.createElement('button');
-      btnCerrar.textContent = 'Cerrar';
+      btnCerrar.textContent = _t.asistCerrar||'Cerrar';
       btnCerrar.style.cssText = 'width:100%;background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
       btnCerrar.addEventListener('click', function(){ _renderDespedida(); });
       inner.appendChild(btnCerrar);
@@ -4661,8 +4643,8 @@ function abrirHeroModal() {
     inner.appendChild(sub);
 
     var sub2 = document.createElement('p');
-    sub2.style.cssText = 'font-size:13px;color:rgba(255,255,255,0.7);line-height:1.5;margin-bottom:12px';
-    sub2.textContent = '¿Te gustaría visitar alguno?';
+    sub2.style.cssText = 'font-size:13px;color:#1a0800;line-height:1.5;margin-bottom:12px';
+    sub2.textContent = _t.asistPreguntaVisitar||'¿Te gustaría visitar alguno?';
     inner.appendChild(sub2);
 
     _appendCuriosidad(inner);
@@ -4671,14 +4653,14 @@ function abrirHeroModal() {
     btnRow.style.cssText = 'display:flex;gap:10px';
 
     var btnSi = document.createElement('button');
-    btnSi.textContent = 'Sí, ver lugares';
+    btnSi.textContent = _t.asistSiVerLugares||'Sí, ver lugares';
     btnSi.style.cssText = 'flex:1;background:#fff;color:#0F6E56;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif';
     btnSi.addEventListener('click', function(){ _renderPaso2(cercanos); });
 
     var btnNo = document.createElement('button');
-    btnNo.textContent = 'Ahora no';
+    btnNo.textContent = _t.asistAhoraNno||'Ahora no';
     btnNo.style.cssText = 'flex:1;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
-    btnNo.addEventListener('click', function(){ _renderSugerencias(); });
+    btnNo.addEventListener('click', function(){ _renderMenuPrincipal(); });
 
     btnRow.appendChild(btnSi);
     btnRow.appendChild(btnNo);
@@ -4690,8 +4672,8 @@ function abrirHeroModal() {
   var _opcionesCatalogo = [
     {
       emoji: '🔍',
-      titulo: '¿Necesitas buscar algo próximo a ti en el mapa?',
-      desc: 'Busca cualquier lugar o servicio en un radio de 1 km.',
+      titulo: _t.asistOp1Tit||'¿Necesitas buscar algo próximo a ti en el mapa?',
+      desc: _t.asistOp1Desc||'Busca cualquier lugar o servicio en un radio de 1 km.',
       directo: true,
       detalle: [
         'Escribe lo que necesitas — un albergue, una farmacia, un restaurante, una fuente, una iglesia — y lo localizaremos en el mapa en un radio de 1 km alrededor de tu posición actual.',
@@ -4704,8 +4686,8 @@ function abrirHeroModal() {
     },
     {
       emoji: '🐚',
-      titulo: 'Historia Compostelana',
-      desc: 'El Camino, los templarios, las rutas históricas…',
+      titulo: _t.asistOp2Tit||'Historia Compostelana',
+      desc: _t.asistOp2Desc||'El Camino, los templarios, las rutas históricas…',
       detalle: [
         'Aquí encontrarás los textos históricos que dan vida al Camino: desde los orígenes del culto jacobeo hasta la presencia templaria en Galicia, pasando por las rutas medievales y sus etapas más emblemáticas.',
         'Cada sección está escrita con rigor histórico y pensada para el peregrino curioso. Puedes leerla tranquilamente antes de salir o consultarla en cualquier momento del Camino.',
@@ -4718,8 +4700,8 @@ function abrirHeroModal() {
     },
     {
       emoji: '🎲',
-      titulo: 'Juego del Tablero de la Oca',
-      desc: '63 casillas jacobeas. Desbloquéalas visitando lugares reales.',
+      titulo: _t.asistOp3Tit||'Juego del Tablero de la Oca',
+      desc: _t.asistOp3Desc||'63 casillas jacobeas. Desbloquéalas visitando lugares reales.',
       detalle: [
         'Una versión jacobea del clásico juego de la oca con 63 casillas inspiradas en el Camino. Cada casilla tiene su nombre en latín, su mecánica especial y su simbolismo peregrino.',
         'Las casillas se desbloquean automáticamente cuando visitas los lugares reales del Camino con el GPS activado. Casillas especiales como la Muerte, el Laberinto o la Cárcel tienen mecánicas únicas que condicionan tu avance.',
@@ -4732,8 +4714,8 @@ function abrirHeroModal() {
     },
     {
       emoji: '🏅',
-      titulo: 'Álbum del Peregrino',
-      desc: 'Tu colección de cromos desbloqueados en el Camino.',
+      titulo: _t.asistOp4Tit||'Álbum del Peregrino',
+      desc: _t.asistOp4Desc||'Tu colección de cromos desbloqueados en el Camino.',
       detalle: [
         'El Álbum registra cada lugar que visitas a lo largo del Camino. Cuando te acercas a menos de 25 metros de un punto de interés con el GPS activo, desbloqueas automáticamente su cromo coleccionable.',
         'Cada cromo tiene diseño de postal barroca con iconografía jacobea, el nombre del lugar, su descripción histórica y tu fecha de visita. Cuantos más reúnas, mayor será tu rango de peregrino: desde Aspirante hasta Ultreia 🏆.',
@@ -4746,8 +4728,8 @@ function abrirHeroModal() {
     },
     {
       emoji: '🆘',
-      titulo: 'Emergencias y seguridad',
-      desc: 'Teléfonos útiles y recursos para el Camino.',
+      titulo: _t.asistOp5Tit||'Emergencias y seguridad',
+      desc: _t.asistOp5Desc||'Teléfonos útiles y recursos para el Camino.',
       detalle: [
         'Un panel de recursos esenciales pensado para cuando el Camino se complica: teléfonos de emergencia, contactos de la Guardia Civil, Cruz Roja y servicios sanitarios en las principales etapas.',
         'También encontrarás consejos básicos de seguridad para peregrinos: qué hacer si te pierdes, cómo gestionar una lesión en ruta y cómo activar tu localización de emergencia desde el móvil.',
@@ -4770,7 +4752,7 @@ function abrirHeroModal() {
     overlay.style.cssText = 'position:fixed;inset:0;z-index:999999;background:rgba(0,0,0,0.72);display:flex;align-items:flex-end;justify-content:center;font-family:DM Sans,sans-serif';
 
     var box = document.createElement('div');
-    box.style.cssText = 'background:linear-gradient(160deg,#0F4033 0%,#0d2d1e 100%);border-radius:20px 20px 0 0;padding:20px 20px 44px;width:100%;max-width:480px;box-sizing:border-box;position:relative;transform:translateY(100%);transition:transform 0.3s cubic-bezier(0.32,0.72,0,1)';
+    box.style.cssText = 'background:radial-gradient(ellipse at 15% 20%, rgba(90,50,0,0.18) 0%, transparent 55%),radial-gradient(ellipse at 85% 75%, rgba(60,30,0,0.20) 0%, transparent 50%),radial-gradient(ellipse at 55% 40%, rgba(180,130,40,0.10) 0%, transparent 40%),linear-gradient(180deg,#c9933a 0%,#b87d28 40%,#a86d18 100%);border-radius:20px 20px 0 0;padding:20px 20px 44px;width:100%;max-width:480px;box-sizing:border-box;position:relative;transform:translateY(100%);transition:transform 0.3s cubic-bezier(0.32,0.72,0,1);border-top:3px solid #5a3008;box-shadow:0 -4px 32px rgba(0,0,0,0.5),inset 0 0 60px rgba(60,25,0,0.25),inset 0 0 15px rgba(40,15,0,0.3),inset 0 1px 0 rgba(255,220,120,0.15)';
 
     function cerrarModal() {
       box.style.transform = 'translateY(100%)';
@@ -4779,25 +4761,25 @@ function abrirHeroModal() {
 
     // Handle
     var handle = document.createElement('div');
-    handle.style.cssText = 'width:40px;height:4px;background:rgba(255,255,255,0.3);border-radius:2px;margin:0 auto 16px';
+    handle.style.cssText = 'width:40px;height:4px;background:rgba(139,105,20,0.4);border-radius:2px;margin:0 auto 16px';
     box.appendChild(handle);
 
     // Botón X
     var btnX = document.createElement('button');
     btnX.textContent = '✕';
-    btnX.style.cssText = 'position:absolute;top:12px;right:12px;width:32px;height:32px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.2);border-radius:50%;color:#fff;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-appearance:none;z-index:10';
+    btnX.style.cssText = 'position:absolute;top:12px;right:12px;width:32px;height:32px;background:rgba(0,0,0,0.2);border:1.5px solid #7a5010;border-radius:50%;color:#fff8e8;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-appearance:none;z-index:10';
     btnX.addEventListener('click', cerrarModal);
     box.appendChild(btnX);
 
     // Título
     var tit = document.createElement('div');
-    tit.style.cssText = 'font-family:Playfair Display,serif;font-size:17px;font-weight:600;color:#fff;margin-bottom:6px;padding-right:36px;line-height:1.3';
-    tit.innerHTML = '🔍 Buscar algo próximo a ti';
+    tit.style.cssText = 'font-family:IM Fell English,serif;font-size:17px;font-weight:400;color:#1a0800;margin-bottom:6px;padding-right:36px;line-height:1.3';
+    tit.innerHTML = _t.asistBuscarTit||'🔍 Buscar algo próximo a ti';
     box.appendChild(tit);
 
     var sub = document.createElement('p');
-    sub.style.cssText = 'font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:14px;line-height:1.5';
-    sub.textContent = 'Escribe lo que necesitas. Los resultados aparecerán en el mapa en un radio de 1 km.';
+    sub.style.cssText = 'font-size:12px;color:#1a0800;margin-bottom:14px;line-height:1.5';
+    sub.innerHTML = _capital(_t.asistBuscarSub||'Escribe lo que necesitas. Los resultados aparecerán en el mapa en un radio de 1 km.');
     box.appendChild(sub);
 
     // Campo de búsqueda
@@ -4805,12 +4787,12 @@ function abrirHeroModal() {
     inputWrap.style.cssText = 'display:flex;gap:8px;margin-bottom:12px';
     var input = document.createElement('input');
     input.type = 'text';
-    input.placeholder = 'albergue, farmacia, fuente, café…';
-    input.style.cssText = 'flex:1;background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.25);border-radius:12px;padding:10px 14px;font-size:14px;color:#fff;font-family:DM Sans,sans-serif;outline:none;-webkit-appearance:none';
+    input.placeholder = _t.asistBuscarPh||'albergue, farmacia, fuente, café…';
+    input.style.cssText = 'flex:1;background:rgba(255,240,200,0.6);border:1.5px solid #7a5010;border-radius:8px;padding:10px 14px;font-size:14px;color:#1a0e00;font-family:DM Sans,sans-serif;outline:none;-webkit-appearance:none';
     input.setAttribute('autocomplete','off');
     var btnBuscar = document.createElement('button');
-    btnBuscar.textContent = 'Buscar';
-    btnBuscar.style.cssText = 'background:#1D9E75;color:#fff;border:none;border-radius:12px;padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap;flex-shrink:0';
+    btnBuscar.textContent = _t.asistBuscarBtn||'Buscar';
+    btnBuscar.style.cssText = 'background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer;font-family:Playfair Display,serif;white-space:nowrap;flex-shrink:0';
     inputWrap.appendChild(input);
     inputWrap.appendChild(btnBuscar);
     box.appendChild(inputWrap);
@@ -4822,7 +4804,7 @@ function abrirHeroModal() {
     sugs.forEach(function(s) {
       var chip = document.createElement('button');
       chip.textContent = s;
-      chip.style.cssText = 'background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;-webkit-appearance:none';
+      chip.style.cssText = 'background:rgba(255,220,140,0.35);color:#1a0e00;border:1px solid #7a5010;border-radius:20px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;-webkit-appearance:none';
       chip.addEventListener('click', function(){ input.value = s; ejecutarBusqueda(s); });
       sugWrap.appendChild(chip);
     });
@@ -4830,7 +4812,7 @@ function abrirHeroModal() {
 
     // Estado (spinner / mensaje)
     var estado = document.createElement('div');
-    estado.style.cssText = 'font-size:12px;color:rgba(255,255,255,0.5);text-align:center;padding:8px 0;display:none';
+    estado.style.cssText = 'font-size:12px;color:#1a0800;text-align:center;padding:8px 0;display:none';
     box.appendChild(estado);
 
     // Área de resultados
@@ -4854,7 +4836,7 @@ function abrirHeroModal() {
       var refLat = (typeof userLat !== 'undefined' && userLat) ? userLat : (typeof mapa !== 'undefined' ? mapa.getCenter().lat : null);
       var refLng = (typeof userLng !== 'undefined' && userLng) ? userLng : (typeof mapa !== 'undefined' ? mapa.getCenter().lng : null);
       if (!refLat || !refLng) {
-        estado.textContent = '📍 Activa el GPS para buscar cerca de ti.';
+        estado.textContent = _t.asistBuscandoGps||'📍 Activa el GPS para buscar cerca de ti.';
         return;
       }
 
@@ -4880,7 +4862,7 @@ function abrirHeroModal() {
         items.forEach(function(it) {
           var lat = it.lat, lng = it.lng, nombre = it.nombre, dist = it.dist;
           var mk = L.marker([lat, lng], { icon: iconoBusc }).addTo(mapa);
-          mk.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>' + nombre + '</strong><br><span style="font-size:11px;color:#6b7280">📍 ' + (typeof formatDist==='function'?formatDist(dist):Math.round(dist)+'m') + '</span>' + (it.tel ? '<br>📞 ' + it.tel : '') + '<br><div style="display:flex;gap:6px;margin-top:8px"><button onclick="irACoordenadasNav(' + lat + ',' + lng + ')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">🗺️ Cómo llegar</button></div></div>');
+          mk.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>' + nombre + '</strong><br><span style="font-size:11px;color:#6b7280">📍 ' + (typeof formatDist==='function'?formatDist(dist):Math.round(dist)+'m') + '</span>' + (it.tel ? '<br>📞 ' + it.tel : '') + '<br><div style="display:flex;gap:6px;margin-top:8px"><button onclick="irACoordenadasNav(' + lat + ',' + lng + ')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">🗺️ ' + (_t.asistComoLlegar||'Cómo llegar') + '</button></div></div>');
           window._wizSearchMarkers.push(mk);
           bounds.push([lat, lng]);
 
@@ -4931,8 +4913,8 @@ function abrirHeroModal() {
               }).filter(function(x){ return x.lat&&x.lng&&x.dist<=radio; });
               items.sort(function(a,b){ return a.dist-b.dist; });
               _mostrarResultados(items.slice(0,12));
-            } catch(e){ estado.style.display='block'; estado.textContent='⚠️ Error al buscar. Inténtalo de nuevo.'; }
-          } else { estado.style.display='block'; estado.textContent='⚠️ Error de red.'; }
+            } catch(e){ estado.style.display='block'; estado.textContent=_t.asistErrorBuscar||'⚠️ Error al buscar. Inténtalo de nuevo.'; }
+          } else { estado.style.display='block'; estado.textContent=_t.asistErrorRed||'⚠️ Error de red.'; }
         };
         xhr.send();
       } else {
@@ -4961,17 +4943,113 @@ function abrirHeroModal() {
     input.addEventListener('keydown', function(e){ if (e.key === 'Enter') ejecutarBusqueda(input.value); });
   }
 
+  function _renderBrujulaModal() {
+    inner.innerHTML = '';
+
+    var tit = document.createElement('div');
+    tit.style.cssText = 'font-family:IM Fell English,serif;font-size:20px;color:#1a0800;margin-bottom:14px;line-height:1.3;text-align:center';
+    tit.textContent = _t.asistBrujulaTit || '🧭 La Brújula del Peregrino';
+    inner.appendChild(tit);
+
+    var p1 = document.createElement('p');
+    p1.style.cssText = 'font-size:13px;color:#1a0800;line-height:1.7;margin-bottom:10px';
+    p1.innerHTML = _capitalAll(_t.asistBrujulaP1 || 'La brújula te ayuda a orientarte en el Camino. Muestra el norte magnético y la dirección hacia Santiago de Compostela desde tu posición actual.');
+    inner.appendChild(p1);
+
+    var p2 = document.createElement('p');
+    p2.style.cssText = 'font-size:13px;color:#1a0800;line-height:1.7;margin-bottom:16px';
+    p2.innerHTML = _capitalAll(_t.asistBrujulaP2 || 'Para que funcione con precisión, mantén el móvil en posición horizontal y alejado de objetos metálicos o superficies que puedan interferir con el sensor.');
+    inner.appendChild(p2);
+
+    var sep = document.createElement('div');
+    sep.style.cssText = 'text-align:center;color:#8b6914;letter-spacing:6px;margin-bottom:14px;font-size:14px';
+    sep.textContent = '✦ ✦ ✦';
+    inner.appendChild(sep);
+
+    var btnAbrir = document.createElement('button');
+    btnAbrir.textContent = _t.asistBrujulaBtn || 'Abrir la brújula →';
+    btnAbrir.style.cssText = 'width:100%;background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:IM Fell English,serif;box-shadow:0 2px 8px rgba(45,74,30,0.4);margin-bottom:8px';
+    btnAbrir.addEventListener('click', function() {
+      cerrar();
+      setTimeout(function(){ _irAlMapa(); setTimeout(abrirBrujulaDrawer, 400); }, 340);
+    });
+    inner.appendChild(btnAbrir);
+
+    var btnAtras = document.createElement('button');
+    btnAtras.textContent = _t.asistAtras || '← Volver';
+    btnAtras.style.cssText = 'width:100%;background:transparent;color:rgba(26,8,0,0.5);border:none;padding:8px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnAtras.addEventListener('click', function(){ _renderPaso1(); });
+    inner.appendChild(btnAtras);
+  }
+
+  function _renderMenuPrincipal() {
+    inner.innerHTML = '';
+
+    var tit = document.createElement('div');
+    tit.style.cssText = 'font-family:IM Fell English,serif;font-size:20px;color:#1a0800;margin-bottom:4px;display:flex;align-items:center;gap:8px';
+    tit.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:36px;height:36px;object-fit:contain;flex-shrink:0">¿Qué te apetece explorar?';
+    inner.appendChild(tit);
+
+    var orn = document.createElement('div');
+    orn.style.cssText = 'text-align:center;color:#8b6914;letter-spacing:6px;margin:8px 0 14px;font-size:13px';
+    orn.textContent = '✦ ✦ ✦';
+    inner.appendChild(orn);
+
+    var opciones = [
+      { emoji:'🔍', tit:_t.asistBtnBuscar||'🔍 Buscar algo próximo',          desc:_t.asistBuscarSub||'Busca cualquier lugar o servicio en un radio de 1 km.',       accion:function(){ _abrirBusquedaProxima(); } },
+      { emoji:'📍', tit:_t.asistBtnAnadirPunto||'📍 Añadir punto o alerta',    desc:_t.asistBtnAnadirDesc||'Recomienda un lugar, añade una alerta o un punto de interés', accion:function(){ cerrar(); setTimeout(function(){ _irAlMapa(); setTimeout(abrirFormPOI, 400); }, 340); } },
+      { emoji:'🧭', tit:_t.asistBtnBrujula||'🧭 Usar la brújula',              desc:_t.asistBtnBrujulaDesc||'Oriéntate con la brújula digital del Camino',               accion:function(){ _renderBrujulaModal(); } },
+      { emoji:'✨', tit:_t.asistBtnMasOpc||'✨ Más opciones interesantes',      desc:_t.asistBtnMasOpcDesc||'Historia, álbum, juego de la oca, emergencias…',             accion:function(){ _renderSugerencias(); } }
+    ];
+
+    opciones.forEach(function(op) {
+      var fila = document.createElement('button');
+      fila.style.cssText = 'display:flex;align-items:center;gap:12px;background:rgba(0,0,0,0.2);border:1.5px solid #7a5010;border-radius:10px;padding:13px 14px;cursor:pointer;transition:background 0.15s;margin-bottom:8px;width:100%;box-sizing:border-box;text-align:left';
+      fila.addEventListener('click', op.accion);
+
+      var em = document.createElement('div');
+      em.style.cssText = 'font-size:26px;flex-shrink:0;width:34px;text-align:center';
+      em.textContent = op.emoji;
+      fila.appendChild(em);
+
+      var info = document.createElement('div');
+      info.style.cssText = 'flex:1;min-width:0';
+      var titEl = document.createElement('div');
+      titEl.style.cssText = 'font-family:IM Fell English,serif;font-size:15px;color:#1a0800;margin-bottom:2px;line-height:1.3';
+      titEl.textContent = op.tit.replace(/^[\u{1F000}-\u{1FFFF}\u{2600}-\u{27FF}\uFE0F\s]+/u, '').trim();
+      var descEl = document.createElement('div');
+      descEl.style.cssText = 'font-size:11px;color:#3d1f00;line-height:1.3;opacity:0.85';
+      descEl.textContent = op.desc;
+      info.appendChild(titEl);
+      info.appendChild(descEl);
+      fila.appendChild(info);
+
+      var arr = document.createElement('div');
+      arr.style.cssText = 'color:#7a5010;font-size:20px;flex-shrink:0';
+      arr.textContent = '›';
+      fila.appendChild(arr);
+
+      inner.appendChild(fila);
+    });
+
+    var btnCerrar = document.createElement('button');
+    btnCerrar.textContent = _t.asistQuizas||'Quizás más tarde';
+    btnCerrar.style.cssText = 'width:100%;background:transparent;color:rgba(26,8,0,0.4);border:none;padding:8px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;margin-top:4px';
+    btnCerrar.addEventListener('click', function(){ _renderDespedida(); });
+    inner.appendChild(btnCerrar);
+  }
+
   function _renderSugerencias() {
     inner.innerHTML = '';
 
     var titulo = document.createElement('div');
-    titulo.style.cssText = 'font-family:Playfair Display,serif;font-size:19px;font-weight:600;color:#fff;line-height:1.3;margin-bottom:6px';
+    titulo.style.cssText = 'font-family:IM Fell English,serif;font-size:19px;font-weight:400;color:#fff;line-height:1.3;margin-bottom:6px';
     titulo.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">¿Qué te apetece explorar?';
     inner.appendChild(titulo);
 
     var sub = document.createElement('p');
-    sub.style.cssText = 'font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:12px;line-height:1.5';
-    sub.textContent = 'Hay mucho más en la guía. Elige algo que te llame la atención:';
+    sub.style.cssText = 'font-size:13px;color:#1a0800;margin-bottom:12px;line-height:1.5';
+    sub.innerHTML = _capital(_t.asistMasCosa||'Hay mucho más en la guía. Elige algo que te llame la atención:');
     inner.appendChild(sub);
 
     var lista = document.createElement('div');
@@ -4979,7 +5057,7 @@ function abrirHeroModal() {
 
     _opcionesCatalogo.forEach(function(op) {
       var fila = document.createElement('div');
-      fila.style.cssText = 'display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:12px;padding:11px 14px;cursor:pointer;transition:background 0.15s';
+      fila.style.cssText = 'display:flex;align-items:center;gap:12px;background:rgba(0,0,0,0.15);border:1.5px solid #7a5010;border-radius:10px;padding:11px 14px;cursor:pointer;transition:background 0.15s';
       fila.addEventListener('click', function(){ if (op.directo) { op.abrir(); } else { _renderDetalle(op); } });
 
       var em = document.createElement('div');
@@ -4989,12 +5067,12 @@ function abrirHeroModal() {
 
       var info = document.createElement('div');
       info.style.cssText = 'flex:1;min-width:0';
-      info.innerHTML = '<div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:2px">' + op.titulo + '</div>'
-        + '<div style="font-size:11px;color:rgba(255,255,255,0.6);line-height:1.4">' + op.desc + '</div>';
+      info.innerHTML = '<div style="font-family:IM Fell English,serif;font-size:14px;color:#1a0800;margin-bottom:2px">' + op.titulo + '</div>'
+        + '<div style="font-size:11px;color:#3d1f00;line-height:1.4;opacity:0.85">' + op.desc + '</div>';
       fila.appendChild(info);
 
       var arr = document.createElement('div');
-      arr.style.cssText = 'color:rgba(255,255,255,0.4);font-size:18px;flex-shrink:0';
+      arr.style.cssText = 'color:#7a5010;font-size:18px;flex-shrink:0';
       arr.textContent = '›';
       fila.appendChild(arr);
 
@@ -5003,13 +5081,13 @@ function abrirHeroModal() {
     inner.appendChild(lista);
 
     var btnAtras = document.createElement('button');
-    btnAtras.textContent = '← Volver';
-    btnAtras.style.cssText = 'width:100%;background:transparent;color:rgba(255,255,255,0.55);border:none;padding:8px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:2px';
+    btnAtras.textContent = _t.asistAtras||'← Volver';
+    btnAtras.style.cssText = 'width:100%;background:transparent;color:rgba(255,248,232,0.6);border:none;padding:8px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:2px';
     btnAtras.addEventListener('click', function(){ _renderPaso1(); });
     inner.appendChild(btnAtras);
 
     var btnCerrar = document.createElement('button');
-    btnCerrar.textContent = 'Quizás más tarde';
+    btnCerrar.textContent = _t.asistQuizas||'Quizás más tarde';
     btnCerrar.style.cssText = 'width:100%;background:transparent;color:rgba(255,255,255,0.35);border:none;padding:4px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif';
     btnCerrar.addEventListener('click', function(){ _renderDespedida(); });
     inner.appendChild(btnCerrar);
@@ -5024,7 +5102,7 @@ function abrirHeroModal() {
     cab.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:12px';
     cab.innerHTML = '<div style="font-size:32px">' + op.emoji + '</div>'
       + '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">'
-      + '<div style="font-family:Playfair Display,serif;font-size:18px;font-weight:600;color:#fff;line-height:1.2">' + op.titulo + '</div>';
+      + '<div style="font-family:IM Fell English,serif;font-size:18px;color:#1a0800;line-height:1.2">' + op.titulo + '</div>';
     inner.appendChild(cab);
 
     // Párrafos descriptivos
@@ -5032,7 +5110,7 @@ function abrirHeroModal() {
     textos.style.cssText = 'max-height:38vh;overflow-y:auto;margin-bottom:14px;padding-right:4px';
     op.detalle.forEach(function(parrafo, i) {
       var p = document.createElement('p');
-      p.style.cssText = 'font-size:13px;color:rgba(255,255,255,' + (i === op.detalle.length - 1 ? '0.55' : '0.82') + ');line-height:1.7;margin-bottom:8px';
+      p.style.cssText = 'font-size:13px;color:' + (i === op.detalle.length - 1 ? 'rgba(26,8,0,0.55)' : '#1a0800') + ';line-height:1.7;margin-bottom:8px';
       p.textContent = parrafo;
       textos.appendChild(p);
     });
@@ -5040,19 +5118,19 @@ function abrirHeroModal() {
 
     // Botón abrir panel
     var btnAbrir = document.createElement('button');
-    btnAbrir.textContent = 'Abrir ' + op.titulo + ' →';
-    btnAbrir.style.cssText = 'width:100%;background:#fff;color:#0F6E56;border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:10px';
+    btnAbrir.textContent = (_t.asistAbrir||'Abrir ') + op.titulo + ' →';
+    btnAbrir.style.cssText = 'width:100%;background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:IM Fell English,serif;margin-bottom:10px;box-shadow:0 2px 8px rgba(45,74,30,0.4)';
     btnAbrir.addEventListener('click', op.abrir);
     inner.appendChild(btnAbrir);
 
     // Separador
     var sep = document.createElement('div');
-    sep.style.cssText = 'border-top:1px solid rgba(255,255,255,0.15);margin-bottom:10px';
+    sep.style.cssText = 'border-top:1px solid rgba(122,80,16,0.3);margin-bottom:10px';
     inner.appendChild(sep);
 
     // ¿Ver otra opción?
     var pregunta = document.createElement('p');
-    pregunta.style.cssText = 'font-size:13px;color:rgba(255,255,255,0.7);text-align:center;margin-bottom:10px';
+    pregunta.style.cssText = 'font-size:13px;color:#1a0800;text-align:center;margin-bottom:10px';
     pregunta.textContent = '¿Quieres ver otra opción?';
     inner.appendChild(pregunta);
 
@@ -5060,13 +5138,13 @@ function abrirHeroModal() {
     btnRow.style.cssText = 'display:flex;gap:8px';
 
     var btnSi = document.createElement('button');
-    btnSi.textContent = 'Sí, ver más';
-    btnSi.style.cssText = 'flex:1;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:10px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnSi.textContent = _t.asistVerMas||'Sí, ver más';
+    btnSi.style.cssText = 'flex:1;background:rgba(0,0,0,0.15);color:#1a0800;border:1.5px solid #7a5010;border-radius:8px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
     btnSi.addEventListener('click', function(){ _renderSugerencias(); });
 
     var btnNo = document.createElement('button');
-    btnNo.textContent = 'No, cerrar';
-    btnNo.style.cssText = 'flex:1;background:transparent;color:rgba(255,255,255,0.45);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:10px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnNo.textContent = _t.asistNoCerrar||'No, cerrar';
+    btnNo.style.cssText = 'flex:1;background:transparent;color:rgba(26,8,0,0.45);border:1px solid rgba(122,80,16,0.3);border-radius:8px;padding:10px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif';
     btnNo.addEventListener('click', function(){ _renderDespedida(); });
 
     btnRow.appendChild(btnSi);
@@ -5079,7 +5157,7 @@ function abrirHeroModal() {
     inner.innerHTML = '';
 
     var titulo = document.createElement('div');
-    titulo.style.cssText = 'font-family:Playfair Display,serif;font-size:18px;font-weight:600;color:#fff;margin-bottom:6px';
+    titulo.style.cssText = 'font-family:IM Fell English,serif;font-size:18px;font-weight:400;color:#fff;margin-bottom:6px';
     titulo.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">Tu ruta actual';
     inner.appendChild(titulo);
 
@@ -5094,8 +5172,8 @@ function abrirHeroModal() {
     }
 
     var hint = document.createElement('p');
-    hint.style.cssText = 'font-size:12px;color:rgba(255,255,255,0.65);margin-bottom:14px';
-    hint.textContent = 'Pulsa la ✕ para quitar un lugar de la ruta.';
+    hint.style.cssText = 'font-size:12px;color:#fff0c0;margin-bottom:14px';
+    hint.textContent = _t.asistPulsaX||'Pulsa la ✕ para quitar un lugar de la ruta.';
     inner.appendChild(hint);
 
     var lista = document.createElement('div');
@@ -5140,8 +5218,8 @@ function abrirHeroModal() {
     inner.appendChild(lista);
 
     var btnVolver = document.createElement('button');
-    btnVolver.textContent = '← Regresar al mapa';
-    btnVolver.style.cssText = 'width:100%;background:#fff;color:#0F6E56;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnVolver.textContent = _t.asistRegresarMapa||'← Regresar al mapa';
+    btnVolver.style.cssText = 'width:100%;background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:Playfair Display,serif;box-shadow:0 2px 8px rgba(45,74,30,0.4)';
     btnVolver.addEventListener('click', function(){ _renderDespedida(); });
     inner.appendChild(btnVolver);
   }
@@ -5152,18 +5230,18 @@ function abrirHeroModal() {
     var seleccionados = {};
 
     var titulo = document.createElement('div');
-    titulo.style.cssText = 'font-family:Playfair Display,serif;font-size:18px;font-weight:600;color:#fff;margin-bottom:6px;line-height:1.3';
+    titulo.style.cssText = 'font-family:IM Fell English,serif;font-size:18px;font-weight:400;color:#1a0800;margin-bottom:6px;line-height:1.3';
     titulo.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">Selecciona qué te gustaría visitar';
     inner.appendChild(titulo);
 
     var hint = document.createElement('p');
-    hint.style.cssText = 'font-size:12px;color:rgba(255,255,255,0.65);margin-bottom:14px';
-    hint.textContent = 'Puedes elegir uno o varios lugares.';
+    hint.style.cssText = 'font-size:12px;color:#8b6914;margin-bottom:14px;font-style:italic';
+    hint.textContent = _t.asistEligeUno||'Puedes elegir uno o varios lugares.';
     inner.appendChild(hint);
 
     // Lista de POIs
     var lista = document.createElement('div');
-    lista.style.cssText = 'display:flex;flex-direction:column;gap:8px;margin-bottom:18px;max-height:40vh;overflow-y:auto';
+    lista.style.cssText = 'display:flex;flex-direction:column;gap:8px;margin-bottom:18px;max-height:40vh;overflow-y:auto;padding:4px 2px';
 
     cercanos.forEach(function(item) {
       var p = item.poi;
@@ -5171,11 +5249,11 @@ function abrirHeroModal() {
       var fila = document.createElement('div');
       fila.className = 'wizard-poi-fila';
       fila.dataset.poiId = p.id;
-      fila.style.cssText = 'display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:10px 12px;cursor:pointer;transition:background 0.15s';
+      fila.style.cssText = 'display:flex;align-items:center;gap:10px;background:rgba(0,0,0,0.12);border:1.5px solid #b8935a;border-radius:10px;padding:10px 12px;cursor:pointer;transition:all 0.15s';
 
       var check = document.createElement('div');
       check.className = 'wizard-poi-check';
-      check.style.cssText = 'width:22px;height:22px;border-radius:6px;border:2px solid rgba(255,255,255,0.5);background:transparent;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;transition:all 0.15s';
+      check.style.cssText = 'width:22px;height:22px;border-radius:6px;border:2px solid #7a5010;background:rgba(255,255,255,0.15);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:#1a0800;transition:all 0.15s';
       fila.appendChild(check);
 
       var emoji = document.createElement('span');
@@ -5187,10 +5265,10 @@ function abrirHeroModal() {
       info.style.cssText = 'flex:1;min-width:0';
       var _visitadoWiz = window._albumVisitasSet && window._albumVisitasSet[p.id];
       var _visitBadge = _visitadoWiz
-        ? '<span style="display:inline-flex;align-items:center;gap:3px;background:rgba(110,231,183,0.25);color:#6ee7b7;border:1px solid rgba(110,231,183,0.4);border-radius:10px;font-size:10px;font-weight:600;padding:1px 7px;margin-left:6px">✓ Visitado</span>'
-        : '<span style="display:inline-flex;align-items:center;gap:3px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.45);border:1px solid rgba(255,255,255,0.15);border-radius:10px;font-size:10px;font-weight:500;padding:1px 7px;margin-left:6px">🔒 Sin visitar</span>';
-      info.innerHTML = '<div style="font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + p.nombre + '</div>'
-        + '<div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:2px;display:flex;align-items:center;flex-wrap:wrap;gap:2px">📍 ' + distTexto + _visitBadge + '</div>';
+        ? '<span style="display:inline-flex;align-items:center;gap:3px;background:rgba(45,74,30,0.85);color:#d4f0b0;border:1px solid #2d4a1e;border-radius:10px;font-size:10px;font-weight:600;padding:1px 7px;margin-left:6px;font-family:DM Sans,sans-serif">✓ Visitado</span>'
+        : '<span style="display:inline-flex;align-items:center;gap:3px;background:rgba(122,31,31,0.75);color:#ffd0d0;border:1px solid #7a1f1f;border-radius:10px;font-size:10px;font-weight:500;padding:1px 7px;margin-left:6px;font-family:DM Sans,sans-serif">🔒 Sin visitar</span>';
+      info.innerHTML = '<div style="font-family:IM Fell English,serif;font-size:14px;color:#1a0800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + p.nombre + '</div>'
+        + '<div style="font-size:11px;color:#5c3d1e;margin-top:2px;display:flex;align-items:center;flex-wrap:wrap;gap:2px">📍 ' + distTexto + _visitBadge + '</div>';
       fila.appendChild(info);
 
       // Botón ⓘ info ampliada del POI
@@ -5198,7 +5276,7 @@ function abrirHeroModal() {
         var btnInfo = document.createElement('button');
         btnInfo.textContent = 'ⓘ';
         btnInfo.title = 'Más información';
-        btnInfo.style.cssText = 'width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);color:#fff;font-size:14px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;-webkit-appearance:none;font-family:DM Sans,sans-serif;line-height:1';
+        btnInfo.style.cssText = 'width:28px;height:28px;border-radius:50%;background:rgba(139,105,20,0.2);border:1.5px solid #7a5010;color:#1a0800;font-size:14px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;-webkit-appearance:none;font-family:DM Sans,sans-serif;line-height:1';
         btnInfo.addEventListener('click', function(e) {
           e.stopPropagation();
           // Modal de información del POI
@@ -5282,14 +5360,14 @@ function abrirHeroModal() {
                 var listaFilas = document.querySelectorAll('.wizard-poi-fila');
                 listaFilas.forEach(function(fila) {
                   if (fila.dataset.poiId === poi.id) {
-                    fila.style.background = 'rgba(255,255,255,0.25)';
-                    fila.style.borderColor = 'rgba(255,255,255,0.6)';
+                    fila.style.background = 'rgba(45,74,30,0.35)';
+                    fila.style.borderColor = '#2d4a1e';
                     var chk = fila.querySelector('.wizard-poi-check');
                     if (chk) {
-                      chk.style.background = '#fff';
-                      chk.style.borderColor = '#fff';
+                      chk.style.background = '#2d4a1e';
+                      chk.style.borderColor = '#2d4a1e';
                       chk.textContent = '✓';
-                      chk.style.color = '#0F6E56';
+                      chk.style.color = '#d4f0b0';
                     }
                   }
                 });
@@ -5319,19 +5397,19 @@ function abrirHeroModal() {
       function toggle() {
         if (seleccionados[p.id]) {
           delete seleccionados[p.id];
-          fila.style.background = 'rgba(255,255,255,0.12)';
-          fila.style.borderColor = 'rgba(255,255,255,0.15)';
-          check.style.background = 'transparent';
-          check.style.borderColor = 'rgba(255,255,255,0.5)';
+          fila.style.background = 'rgba(0,0,0,0.12)';
+          fila.style.borderColor = '#b8935a';
+          check.style.background = 'rgba(255,255,255,0.15)';
+          check.style.borderColor = '#7a5010';
           check.textContent = '';
         } else {
           seleccionados[p.id] = p;
-          fila.style.background = 'rgba(255,255,255,0.25)';
-          fila.style.borderColor = 'rgba(255,255,255,0.6)';
-          check.style.background = '#fff';
-          check.style.borderColor = '#fff';
+          fila.style.background = 'rgba(45,74,30,0.35)';
+          fila.style.borderColor = '#2d4a1e';
+          check.style.background = '#2d4a1e';
+          check.style.borderColor = '#2d4a1e';
           check.textContent = '✓';
-          check.style.color = '#0F6E56';
+          check.style.color = '#d4f0b0';
         }
         btnConfirmar.disabled = Object.keys(seleccionados).length === 0;
         btnConfirmar.style.opacity = btnConfirmar.disabled ? '0.4' : '1';
@@ -5344,9 +5422,9 @@ function abrirHeroModal() {
 
     // Botón confirmar
     var btnConfirmar = document.createElement('button');
-    btnConfirmar.textContent = 'Confirmar selección';
+    btnConfirmar.textContent = _t.asistConfirmar||'Confirmar selección';
     btnConfirmar.disabled = true;
-    btnConfirmar.style.cssText = 'width:100%;background:#fff;color:#0F6E56;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;opacity:0.4;margin-bottom:8px;transition:opacity 0.2s';
+    btnConfirmar.style.cssText = 'width:100%;background:linear-gradient(135deg,#7a1f1f,#5c1414);color:#f5e6c8;border:none;border-radius:8px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:Playfair Display,serif;opacity:0.4;margin-bottom:8px;transition:opacity 0.2s;box-shadow:0 2px 8px rgba(122,31,31,0.4)';
     btnConfirmar.addEventListener('click', function() {
       var ids = Object.keys(seleccionados);
       if (ids.length === 0) return;
@@ -5364,8 +5442,8 @@ function abrirHeroModal() {
     inner.appendChild(btnConfirmar);
 
     var btnVolver = document.createElement('button');
-    btnVolver.textContent = '← Volver';
-    btnVolver.style.cssText = 'width:100%;background:transparent;color:rgba(255,255,255,0.65);border:none;padding:8px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnVolver.textContent = _t.asistAtras||'← Volver';
+    btnVolver.style.cssText = 'width:100%;background:transparent;color:rgba(26,8,0,0.5);border:none;padding:8px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif';
     btnVolver.addEventListener('click', function(){ _renderPaso1(); });
     inner.appendChild(btnVolver);
   }
@@ -5380,8 +5458,8 @@ function abrirHeroModal() {
     inner.appendChild(icono);
 
     var titulo = document.createElement('div');
-    titulo.style.cssText = 'font-family:Playfair Display,serif;font-size:19px;font-weight:600;color:#fff;text-align:center;margin-bottom:10px;line-height:1.3';
-    titulo.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">' + (num === 1 ? '¡Lugar añadido a tu ruta!' : '¡' + num + ' lugares añadidos a tu ruta!');
+    titulo.style.cssText = 'font-family:IM Fell English,serif;font-size:19px;font-weight:400;color:#1a0800;text-align:center;margin-bottom:10px;line-height:1.3';
+    titulo.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">' + (num === 1 ? (_t.asistPaso3Uno||'¡Lugar añadido a tu ruta!') : (_t.asistPaso3Multi||'¡{n} lugares añadidos a tu ruta!').replace('{n}',num));
     inner.appendChild(titulo);
 
     // ── Resumen de la ruta ───────────────────────────────────────
@@ -5401,11 +5479,11 @@ function abrirHeroModal() {
 
       // Bloque resumen visual
       var resumen = document.createElement('div');
-      resumen.style.cssText = 'background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:12px;padding:12px 14px;margin-bottom:12px';
+      resumen.style.cssText = 'background:rgba(0,0,0,0.15);border:1.5px solid #7a5010;border-radius:8px;padding:12px 14px;margin-bottom:12px';
 
       // Línea de distancia
       var distLine = document.createElement('div');
-      distLine.style.cssText = 'font-size:12px;color:rgba(255,255,255,0.55);margin-bottom:8px;display:flex;align-items:center;gap:6px';
+      distLine.style.cssText = 'font-size:12px;color:#fff8e8;margin-bottom:8px;display:flex;align-items:center;gap:6px';
       distLine.innerHTML = '📍 Distancia estimada: <strong style="color:#fff">' + distTxt + '</strong>';
       resumen.appendChild(distLine);
 
@@ -5440,15 +5518,15 @@ function abrirHeroModal() {
     }
 
     var sub = document.createElement('p');
-    sub.style.cssText = 'font-size:13px;color:rgba(255,255,255,0.75);text-align:center;line-height:1.6;margin-bottom:14px';
-    sub.textContent = '¿Quieres comenzar la navegación ahora?';
+    sub.style.cssText = 'font-size:13px;color:#1a0800;text-align:center;line-height:1.6;margin-bottom:14px';
+    sub.textContent = _t.asistNavegacionPregunta||'¿Quieres comenzar la navegación ahora?';
     inner.appendChild(sub);
 
     var btnRow = document.createElement('div');
     btnRow.style.cssText = 'display:flex;gap:10px;margin-bottom:10px';
 
     var btnSi = document.createElement('button');
-    btnSi.textContent = '🧭 Sí, navegar';
+    btnSi.textContent = _t.asistNavSi||'🧭 Sí, navegar';
     btnSi.style.cssText = 'flex:1;background:#fff;color:#0F6E56;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif';
     btnSi.addEventListener('click', function() {
       cerrar();
@@ -5471,7 +5549,7 @@ function abrirHeroModal() {
     });
 
     var btnNo = document.createElement('button');
-    btnNo.textContent = 'No, ver en mapa';
+    btnNo.textContent = _t.asistNavNo||'No, ver en mapa';
     btnNo.style.cssText = 'flex:1;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
     btnNo.addEventListener('click', function() {
       cerrar();
@@ -5482,7 +5560,7 @@ function abrirHeroModal() {
         try {
           if (typeof dibujarLineaEstática === 'function') dibujarLineaEstática();
         } catch(e){}
-        mostrarToast('🗺️ Tu ruta queda guardada en el mapa');
+        mostrarToast(_t.asistToastRuta||'🗺️ Tu ruta queda guardada en el mapa');
       }, 340);
     });
 
@@ -9103,6 +9181,78 @@ var T={
     chipRankingDrawer:'🏅 Ranking',
     chipRutaDrawer:'🗺️ Ruta',
     btnVolver:'← Volver',
+    asistBienCamino:'¡Buen Camino, peregrino!',
+    asistGratisMsg:'Esta guía es <strong style="color:#fff">gratuita, sin publicidad y sin cookies</strong>. Solo el apoyo de peregrinos como tú hace posible que siga creciendo y libre para todos. 🙏',
+    asistApoyo:'💚 Apoyar la guía',
+    asistSinApoyo:'Continuar sin apoyar',
+    asistSabias:'📜 Sabías que…',
+    asistSinGps:'Activa el GPS para ver los lugares del Camino más cercanos a ti.',
+    asistCerrar:'Cerrar',
+    asistTieneRuta:'Tienes una ruta seleccionada con ',
+    asistTieneRutaSuf:' lugar. ¿Quieres revisarla o modificarla?',
+    asistTieneRutaSufP:' lugares. ¿Quieres revisarla o modificarla?',
+    asistSiVerRuta:'Sí, ver ruta',
+    asistNoVolver:'No, volver al mapa',
+    asistPreguntaVisitar:'¿Te gustaría visitar alguno?',
+    asistSiVerLugares:'Sí, ver lugares',
+    asistAhoraNno:'Ahora no',
+    asistMasCosa:'Hay mucho más en la guía. Elige algo que te llame la atención:',
+    asistBuscarTit:'🔍 Buscar algo próximo a ti',
+    asistBuscarSub:'Escribe lo que necesitas. Los resultados aparecerán en el mapa en un radio de 1 km.',
+    asistBuscarPh:'albergue, farmacia, fuente, café…',
+    asistBuscarBtn:'Buscar',
+    asistBuscandoGps:'📍 Activa el GPS para buscar cerca de ti.',
+    asistErrorBuscar:'⚠️ Error al buscar. Inténtalo de nuevo.',
+    asistErrorRed:'⚠️ Error de red.',
+    asistComoLlegar:'Cómo llegar →',
+    asistAtras:'← Volver',
+    asistQuizas:'Quizás más tarde',
+    asistVerMas:'Sí, ver más',
+    asistNoCerrar:'No, cerrar',
+    asistNavegacionPregunta:'¿Quieres comenzar la navegación ahora?',
+    asistNavSi:'🧭 Sí, navegar',
+    asistNavNo:'No, ver en mapa',
+    asistToastRuta:'🗺️ Tu ruta queda guardada en el mapa',
+    asistRegresarMapa:'← Regresar al mapa',
+    asistEligeUno:'Puedes elegir uno o varios lugares.',
+    asistConfirmar:'Confirmar selección',
+    asistPulsaX:'Pulsa la ✕ para quitar un lugar de la ruta.',
+    asistOp1Tit:'¿Necesitas buscar algo próximo a ti en el mapa?',
+    asistOp1Desc:'Busca cualquier lugar o servicio en un radio de 1 km.',
+    asistOp2Tit:'Historia Compostelana',
+    asistOp2Desc:'El Camino, los templarios, las rutas históricas…',
+    asistOp3Tit:'Juego del Tablero de la Oca',
+    asistOp3Desc:'63 casillas jacobeas. Desbloquéalas visitando lugares reales.',
+    asistOp4Tit:'Álbum del Peregrino',
+    asistOp4Desc:'Tu colección de cromos desbloqueados en el Camino.',
+    asistOp5Tit:'Emergencias y seguridad',
+    asistOp5Desc:'Teléfonos útiles y recursos para el Camino.',
+    asistVerDetalle:'Ver detalle →',
+    asistAbrir:'Abrir ',
+    asistCuriosidades:[
+      'El nombre \"Compostela\" probablemente deriva del latín <em>campus stellae</em>, \"campo de la estrella\". Aunque también hay quien lo vincula a <em>compositum</em>, lugar donde se depositan los muertos.',
+      'Los templarios custodiaron el Camino durante casi dos siglos. En Galicia, su bailía de Vigo controlaba las rutas costeras y varios puntos estratégicos que hoy son paradas del Camino Portugués.',
+      'La vieira, símbolo universal del peregrino, tiene un origen incierto. Una leyenda dice que un caballero salió del mar cubierto de conchas tras seguir el cuerpo de Santiago flotando desde Jaffa.',
+      'El Camino Francés mide oficialmente 778 km desde Saint-Jean-Pied-de-Port. Pero la distancia real varía según la fuente: el terreno gallego suma más metros de los que aparecen en el plano.',
+      'La Catedral de Santiago guarda un secreto arquitectónico: el Pórtico de la Gloria fue policromado en colores vivos durante siglos. Lo que hoy ves en piedra desnuda fue una vez una explosión de color.',
+      'El Botafumeiro de la Catedral pesa 53 kg y puede alcanzar los 68 km/h cuando ocho tiraboleiros lo hacen oscilar. Nació, según la tradición, para purificar el aire cargado de peregrinos.',
+      'Existen más de 30 rutas jacobeas reconocidas en Europa. La más larga parte de Riga, en Letonia, y suma más de 3.000 km hasta Compostela.',
+      'La Puerta Santa de la Catedral solo se abre en los Años Santos Jacobeos, cuando el 25 de julio cae en domingo. El próximo es 2027.',
+      'El rey Alfonso II \"el Casto\" fue el primer peregrino documentado a Compostela, hacia el año 830. Mandó construir la primera iglesia sobre el sepulcro del Apóstol.',
+      'Los peregrinos medievales no caminaban solos por elección: viajar en grupo era una necesidad. Los caminos estaban llenos de bandidos, y la peregrinación era también un seguro de vida colectivo.'
+    ],
+    asistSubPrimera:['Parece que es tu primera vez por aquí. ¡Bienvenido al Camino!','Todo está listo para tu peregrinación. ¿Por dónde empezamos?','El Camino empieza con el primer paso. ¿Damos el tuyo?'],
+    asistSubCromos:'Llevas {n} cromo en tu álbum.',
+    asistSubCromosP:'Llevas {n} cromos en tu álbum.',
+    asistSubEres:' Eres ',
+    asistSubSigue:' ¡Sigue así!',
+    asistSubRuta:'Tienes {n} lugar en ruta. ¿Salimos?',
+    asistSubRutaP:'Tienes {n} lugares en ruta. ¿Salimos?',
+    asistSubAmbos:'Llevas {n} cromo y una ruta con {r} parada. ¡El Camino te espera!',
+    asistSubAmbosP:'Llevas {n} cromos y una ruta con {r} paradas. ¡El Camino te espera!',
+    asistSubDefault:'El Camino te espera. ¿En qué puedo ayudarte?',
+    asistPaso3Uno:'¡Lugar añadido a tu ruta!',
+    asistPaso3Multi:'¡{n} lugares añadidos a tu ruta!',
     albumVacio:'Tu álbum está vacío',
     albumVacioSub:'Activa el seguimiento GPS y acércate a los puntos del Camino. Cada visita desbloquea el cromo.',
     albumContador:'Visita lugares para desbloquear cromos',
@@ -9388,6 +9538,78 @@ var T={
     chipRankingDrawer:'🏅 Ranking',
     chipRutaDrawer:'🗺️ Ruta',
     btnVolver:'← Volver',
+    asistBienCamino:'¡Bo Camiño, peregrino!',
+    asistGratisMsg:'Esta guía é <strong style="color:#fff">gratuíta, sen publicidade e sen cookies</strong>. Só o apoio de peregrinos coma ti fai posible que siga crecendo e libre para todos. 🙏',
+    asistApoyo:'💚 Apoiar a guía',
+    asistSinApoyo:'Continuar sen apoiar',
+    asistSabias:'📜 Sabías que…',
+    asistSinGps:'Activa o GPS para ver os lugares do Camiño máis próximos a ti.',
+    asistCerrar:'Pechar',
+    asistTieneRuta:'Tes unha ruta seleccionada con ',
+    asistTieneRutaSuf:' lugar. ¿Queres revisala ou modificala?',
+    asistTieneRutaSufP:' lugares. ¿Queres revisala ou modificala?',
+    asistSiVerRuta:'Si, ver ruta',
+    asistNoVolver:'Non, volver ao mapa',
+    asistPreguntaVisitar:'¿Che gustaría visitar algún?',
+    asistSiVerLugares:'Si, ver lugares',
+    asistAhoraNno:'Agora non',
+    asistMasCosa:'Hai moito máis na guía. Escolle algo que che chame a atención:',
+    asistBuscarTit:'🔍 Buscar algo próximo a ti',
+    asistBuscarSub:'Escribe o que necesitas. Os resultados aparecerán no mapa nun radio de 1 km.',
+    asistBuscarPh:'albergue, farmacia, fonte, café…',
+    asistBuscarBtn:'Buscar',
+    asistBuscandoGps:'📍 Activa o GPS para buscar preto de ti.',
+    asistErrorBuscar:'⚠️ Erro ao buscar. Téntao de novo.',
+    asistErrorRed:'⚠️ Erro de rede.',
+    asistComoLlegar:'Como chegar →',
+    asistAtras:'← Volver',
+    asistQuizas:'Quizais máis tarde',
+    asistVerMas:'Si, ver máis',
+    asistNoCerrar:'Non, pechar',
+    asistNavegacionPregunta:'¿Queres comezar a navegación agora?',
+    asistNavSi:'🧭 Si, navegar',
+    asistNavNo:'Non, ver no mapa',
+    asistToastRuta:'🗺️ A túa ruta queda gardada no mapa',
+    asistRegresarMapa:'← Regresar ao mapa',
+    asistEligeUno:'Podes escoller un ou varios lugares.',
+    asistConfirmar:'Confirmar selección',
+    asistPulsaX:'Preme a ✕ para quitar un lugar da ruta.',
+    asistOp1Tit:'¿Necesitas buscar algo próximo a ti no mapa?',
+    asistOp1Desc:'Busca calquera lugar ou servizo nun radio de 1 km.',
+    asistOp2Tit:'Historia Compostelá',
+    asistOp2Desc:'O Camiño, os templarios, as rutas históricas…',
+    asistOp3Tit:'Xogo do Taboleiro da Oca',
+    asistOp3Desc:'63 casillas jacobeas. Desbloquéaas visitando lugares reais.',
+    asistOp4Tit:'Álbum do Peregrino',
+    asistOp4Desc:'A túa colección de cromos desbloqueados no Camiño.',
+    asistOp5Tit:'Emerxencias e seguridade',
+    asistOp5Desc:'Teléfonos útiles e recursos para o Camiño.',
+    asistVerDetalle:'Ver detalle →',
+    asistAbrir:'Abrir ',
+    asistCuriosidades:[
+      'O nome \"Compostela\" probablemente deriva do latín <em>campus stellae</em>, \"campo da estrela\". Aínda que tamén hai quen o vincula a <em>compositum</em>, lugar onde se depositan os mortos.',
+      'Os templarios custodiaron o Camiño durante case dous séculos. En Galicia, a súa bailía de Vigo controlaba as rutas costeiras e varios puntos estratéxicos que hoxe son paradas do Camiño Portugués.',
+      'A vieira, símbolo universal do peregrino, ten unha orixe incerta. Unha lenda di que un cabaleiro saíu do mar cuberto de cunchas tras seguir o corpo de Santiago flotando desde Jaffa.',
+      'O Camiño Francés mide oficialmente 778 km desde Saint-Jean-Pied-de-Port. Pero a distancia real varía segundo a fonte: o terreo galego suma máis metros dos que aparecen no plano.',
+      'A Catedral de Santiago garda un segredo arquitectónico: o Pórtico da Gloria foi policromado en cores vivas durante séculos. O que hoxe ves en pedra núa foi unha vez unha explosión de cor.',
+      'O Botafumeiro da Catedral pesa 53 kg e pode alcanzar os 68 km/h cando oito tiraboleiros o fan oscilar. Naceu, segundo a tradición, para purificar o aire cargado de peregrinos.',
+      'Existen máis de 30 rutas xacobeas recoñecidas en Europa. A máis longa parte de Riga, en Letonia, e suma máis de 3.000 km ata Compostela.',
+      'A Porta Santa da Catedral só se abre nos Anos Santos Xacobeos, cando o 25 de xullo cae en domingo. O próximo é 2027.',
+      'O rei Afonso II \"o Casto\" foi o primeiro peregrino documentado a Compostela, cara ao ano 830. Mandou construír a primeira igrexa sobre o sepulcro do Apóstolo.',
+      'Os peregrinos medievais non camiñaban sos por elección: viaxar en grupo era unha necesidade. Os camiños estaban cheos de bandidos, e a peregrinación era tamén un seguro de vida colectivo.'
+    ],
+    asistSubPrimera:['Parece que é a túa primeira vez por aquí. ¡Benvido ao Camiño!','Todo está listo para a túa peregrinación. ¿Por onde empezamos?','O Camiño empieza co primeiro paso. ¿Dámolo?'],
+    asistSubCromos:'Levas {n} cromo no teu álbum.',
+    asistSubCromosP:'Levas {n} cromos no teu álbum.',
+    asistSubEres:' Es ',
+    asistSubSigue:' ¡Segue así!',
+    asistSubRuta:'Tes {n} lugar en ruta. ¿Saímos?',
+    asistSubRutaP:'Tes {n} lugares en ruta. ¿Saímos?',
+    asistSubAmbos:'Levas {n} cromo e unha ruta con {r} parada. ¡O Camiño agárdache!',
+    asistSubAmbosP:'Levas {n} cromos e unha ruta con {r} paradas. ¡O Camiño agárdache!',
+    asistSubDefault:'O Camiño agárdache. ¿En que podo axudarte?',
+    asistPaso3Uno:'¡Lugar engadido á túa ruta!',
+    asistPaso3Multi:'¡{n} lugares engadidos á túa ruta!',
     albumVacio:'O teu álbum está baleiro',
     albumVacioSub:'Activa o seguimento GPS e achégate aos puntos do Camiño. Cada visita desbloquea o cromo.',
     albumContador:'Visita lugares para desbloquear cromos',
@@ -9848,6 +10070,78 @@ var T={
     statHistoricos:'Historical',
     statReligiosos:'Religious',
     btnVolver:'← Back',
+    asistBienCamino:'Buen Camino, pilgrim!',
+    asistGratisMsg:'This guide is <strong style="color:#fff">free, ad-free and cookie-free</strong>. Only the support of pilgrims like you keeps it growing and free for everyone. 🙏',
+    asistApoyo:'💚 Support the guide',
+    asistSinApoyo:'Continue without supporting',
+    asistSabias:'📜 Did you know…',
+    asistSinGps:'Enable GPS to see the nearest Camino places.',
+    asistCerrar:'Close',
+    asistTieneRuta:'You have a route with ',
+    asistTieneRutaSuf:' stop. Would you like to review or change it?',
+    asistTieneRutaSufP:' stops. Would you like to review or change it?',
+    asistSiVerRuta:'Yes, view route',
+    asistNoVolver:'No, back to map',
+    asistPreguntaVisitar:'Would you like to visit one?',
+    asistSiVerLugares:'Yes, see places',
+    asistAhoraNno:'Not now',
+    asistMasCosa:'There is much more in the guide. Pick something that interests you:',
+    asistBuscarTit:'🔍 Search nearby',
+    asistBuscarSub:'Type what you need. Results will appear on the map within 1 km.',
+    asistBuscarPh:'hostel, pharmacy, fountain, café…',
+    asistBuscarBtn:'Search',
+    asistBuscandoGps:'📍 Enable GPS to search nearby.',
+    asistErrorBuscar:'⚠️ Search error. Please try again.',
+    asistErrorRed:'⚠️ Network error.',
+    asistComoLlegar:'How to get there →',
+    asistAtras:'← Back',
+    asistQuizas:'Maybe later',
+    asistVerMas:'Yes, see more',
+    asistNoCerrar:'No, close',
+    asistNavegacionPregunta:'Would you like to start navigation now?',
+    asistNavSi:'🧭 Yes, navigate',
+    asistNavNo:'No, view on map',
+    asistToastRuta:'🗺️ Your route is saved on the map',
+    asistRegresarMapa:'← Back to map',
+    asistEligeUno:'You can choose one or more places.',
+    asistConfirmar:'Confirm selection',
+    asistPulsaX:'Tap ✕ to remove a place from the route.',
+    asistOp1Tit:'Need to search for something nearby?',
+    asistOp1Desc:'Search any place or service within 1 km.',
+    asistOp2Tit:'Compostelan History',
+    asistOp2Desc:'The Way, the Templars, the historic routes…',
+    asistOp3Tit:'The Jacobean Board Game',
+    asistOp3Desc:'63 Camino squares. Unlock them by visiting real places.',
+    asistOp4Tit:"Pilgrim’s Album",
+    asistOp4Desc:"Your collection of stamps unlocked on the Way.",
+    asistOp5Tit:'Emergencies and safety',
+    asistOp5Desc:'Useful numbers and resources for the Way.',
+    asistVerDetalle:'See details →',
+    asistAbrir:'Open ',
+    asistCuriosidades:[
+      'The name \"Compostela\" probably derives from the Latin <em>campus stellae</em>, \"field of the star\". Though some link it to <em>compositum</em>, a burial ground.',
+      'The Knights Templar guarded the Way for nearly two centuries. In Galicia, their bailiwick of Vigo controlled the coastal routes and several strategic points now on the Portuguese Way.',
+      'The scallop shell, the universal symbol of the pilgrim, has uncertain origins. One legend says a knight emerged from the sea covered in shells after following the body of Saint James from Jaffa.',
+      'The French Way officially measures 778 km from Saint-Jean-Pied-de-Port. But the real distance varies: the Galician terrain adds more metres than appear on the map.',
+      'Santiago Cathedral holds an architectural secret: the Pórtico de la Gloria was painted in vivid colours for centuries. What you see today in bare stone was once an explosion of colour.',
+      'The Cathedral Botafumeiro weighs 53 kg and can reach 68 km/h when eight tiraboleiros swing it. It was created, according to tradition, to purify the air thick with pilgrims.',
+      'There are more than 30 recognised Jacobean routes in Europe. The longest starts in Riga, Latvia, and covers more than 3,000 km to Compostela.',
+      'The Holy Door opens only in Holy Compostelan Years, when 25 July falls on a Sunday. The next one is 2027.',
+      'King Alfonso II the Chaste was the first documented pilgrim to Compostela, around 830 AD. He ordered the first church to be built over the tomb of the Apostle.',
+      'Medieval pilgrims did not walk alone by choice: travelling in groups was a necessity. Roads were full of bandits, and the pilgrimage was also a form of collective life insurance.'
+    ],
+    asistSubPrimera:['Looks like your first time here. Welcome to the Way!','Everything is ready for your pilgrimage. Where shall we start?','The Way begins with the first step. Shall we take yours?'],
+    asistSubCromos:'You have {n} stamp in your album.',
+    asistSubCromosP:'You have {n} stamps in your album.',
+    asistSubEres:' You are ',
+    asistSubSigue:' Keep it up!',
+    asistSubRuta:'You have {n} place on your route. Shall we go?',
+    asistSubRutaP:'You have {n} places on your route. Shall we go?',
+    asistSubAmbos:'You have {n} stamp and a route with {r} stop. The Way awaits!',
+    asistSubAmbosP:'You have {n} stamps and a route with {r} stops. The Way awaits!',
+    asistSubDefault:'The Way awaits. How can I help you?',
+    asistPaso3Uno:'Place added to your route!',
+    asistPaso3Multi:'{n} places added to your route!',
     btnAlbumRec:'Album',
     btnColeccion:'Collection',
     btnPorVer:'To visit',
@@ -10543,7 +10837,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v996";
+var _APP_VERSION = "v1011";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -11021,7 +11315,7 @@ if ('serviceWorker' in navigator) {
 
   function _renderRankingCard(grid, n, rango, nextRango) {
     var card = document.createElement('div');
-    card.style.cssText = 'grid-column:span 3;border-radius:12px;background:linear-gradient(135deg,rgba(29,158,117,0.25),rgba(29,158,117,0.1));border:1px solid rgba(29,158,117,0.4);padding:0.85rem 1rem;margin-bottom:4px';
+    card.style.cssText = 'grid-column:span 3;border-radius:8px;background:rgba(0,0,0,0.15);border:1.5px solid #7a5010;padding:0.85rem 1rem;margin-bottom:4px';
     var pct = nextRango ? Math.min(Math.round((n - rango.min) / (nextRango.min - rango.min) * 100), 99) : 100;
     var siguienteTexto = nextRango
       ? (nextRango.min - n) + ' visita' + (nextRango.min - n !== 1 ? 's' : '') + ' para ' + nextRango.emoji + ' ' + nextRango.label
@@ -12256,7 +12550,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v996</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1011</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
