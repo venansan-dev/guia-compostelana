@@ -377,9 +377,12 @@
     <button onclick='limpiarRuta()' id='ruta-bar-btn-clear' style='display:none;width:36px;height:36px;background:#dc2626;border:2px solid rgba(255,255,255,0.3);color:#fff;padding:0;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;text-align:center' title='Limpiar'>🗑</button>
   </div>
 
-  <!-- Botón toggle alertas -->
+  <!-- Botón toggle alertas — subido para hacer sitio al botón asistente -->
   <button id='btn-alertas-toggle' onclick='abrirModalNotificaciones()' title='Notificaciones'
-    style='display:flex;position:absolute;bottom:36px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0;font-size:18px;line-height:1'>🔔</button>
+    style='display:flex;position:absolute;bottom:80px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0;font-size:18px;line-height:1'>🔔</button>
+  <!-- Botón asistente (casco) — debajo de campana -->
+  <button id='btn-asistente-mapa' onclick='abrirHeroModal()' title='Asistente'
+    style='display:flex;position:absolute;bottom:36px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0;font-size:20px;line-height:1'>⛑️</button>
   <!-- btn-go oculto para compatibilidad con JS existente -->
   <span id='ruta-bar-btn-go' style='display:none'></span>
   <!-- IDs ocultos para compatibilidad con JS existente -->
@@ -419,19 +422,19 @@
   </div>
   <!-- Botón buscador derecha bottom:70px -->
   <button id='btn-buscar-mapa' onclick='toggleBuscadorMapa()' title='Buscar'
-    style='display:flex;position:absolute;bottom:80px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:17px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>&#128269;</button>
+    style='display:flex;position:absolute;bottom:124px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:17px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>&#128269;</button>
   <!-- Botón meteorología (izquierda, segundo) -->
   <button id='btn-meteo-mapa' onclick='abrirMeteoDrawer()' title='Previsión meteorológica'
     style='display:flex;position:absolute;top:54px;left:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>&#9925;</button>
 
   <!-- Botón expandir mapa (derecha, entre radio y medalla) -->
   <button id='btn-expandir-mapa' onclick='_toggleMapaExpandido()' title='Pantalla completa'
-    style='display:none;position:absolute;bottom:168px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:16px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>⛶</button>
+    style='display:none;position:absolute;bottom:212px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:16px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>⛶</button>
   <!-- Botón POI (derecha, sobre Buscar) -->
   <button id='btn-poi-drawer-mapa' onclick='abrirAlbumPanel()' title='Ranking'
-    style='display:flex;position:absolute;bottom:124px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>🏅</button>
+    style='display:flex;position:absolute;bottom:168px;right:10px;z-index:400;width:36px;height:36px;background:#fff;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:0'>🏅</button>
   <!-- Tira de búsqueda flotante alineada con lupa -->
-  <div id='mapa-search-strip' style='display:none;position:absolute;bottom:80px;right:10px;z-index:401;background:rgba(255,255,255,0.97);border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.18);border:1.5px solid rgba(29,158,117,0.3);overflow:hidden;backdrop-filter:blur(4px);min-width:180px;max-width:calc(100% - 70px)'>
+  <div id='mapa-search-strip' style='display:none;position:absolute;bottom:124px;right:10px;z-index:401;background:rgba(255,255,255,0.97);border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.18);border:1.5px solid rgba(29,158,117,0.3);overflow:hidden;backdrop-filter:blur(4px);min-width:180px;max-width:calc(100% - 70px)'>
     <div style='display:flex;align-items:center;gap:0'>
       <input id='buscar-mapa-strip-input' type='text' placeholder='Buscar cerca del mapa: albergue, farmacia...' autocomplete='off'
         style='flex:1;border:none;background:none;font-size:13px;color:#1a1a1a;font-family:DM Sans,sans-serif;outline:none;padding:9px 12px;min-width:0'
@@ -4457,7 +4460,7 @@ function abrirHeroModal() {
 
     var titulo = document.createElement('div');
     titulo.style.cssText = 'font-family:Playfair Display,serif;font-size:18px;font-weight:600;color:#fff;text-align:center;margin-bottom:10px;line-height:1.3';
-    titulo.textContent = '¡Buen Camino, peregrino!';
+    titulo.innerHTML = '<img src="https://i.postimg.cc/Gt0FZFyj/casco.png" style="width:28px;height:28px;object-fit:cover;border-radius:50%;border:2px solid rgba(255,255,255,0.4);flex-shrink:0;vertical-align:middle;margin-right:8px">¡Buen Camino, peregrino!';
     inner.appendChild(titulo);
 
     var msg = document.createElement('p');
@@ -4507,8 +4510,36 @@ function abrirHeroModal() {
 
   function _saludoConContexto() {
     var hora = new Date().getHours();
-    var base = hora < 13 ? '¡Buenos días, peregrino! 🌅' : hora < 20 ? '¡Buenas tardes, peregrino! ☀️' : '¡Buenas noches, peregrino! 🌙';
-    return base;
+    var dia = new Date().getDay(); // 0=dom, 6=sab
+    var finde = (dia === 0 || dia === 6);
+
+    var mañana = [
+      '¡Buenos días, peregrino! 🌅',
+      '¡Ultreia! El Camino te espera. 🌄',
+      '¡Arriba, caminante! El alba es tuya. ☀️',
+      'Un nuevo día en el Camino. ¡Buen paso! 🥾',
+      finde ? '¡Buenos días! ¿Fin de semana de Camino? 🐚' : '¡Buenos días! Cada paso cuenta. 🌿',
+      '¡Que la jornada te sea leve, peregrino! 🌤️',
+    ];
+    var tarde = [
+      '¡Buenas tardes, peregrino! ☀️',
+      '¿Cómo lleva el Camino la tarde de hoy? 🛤️',
+      '¡Tarde de Camino! ¿Cuántos kilómetros hoy? 🥾',
+      'La tarde es buena hora para planificar. 🗺️',
+      '¡Ultreia et suseia, peregrino! ⛰️',
+      finde ? '¡Buenas tardes! Buen momento para salir. 🌿' : '¡Buenas tardes! ¿Qué te trae por aquí? 🐚',
+    ];
+    var noche = [
+      '¡Buenas noches, peregrino! 🌙',
+      'El Camino descansa, pero tú planificas. 🌟',
+      'Noche de peregrino. ¿Mañana salimos? ⭐',
+      '¡Buenas noches! El alba trae nuevo Camino. 🌙',
+      'Hora de descansar las piernas... o de planificar. 🗺️',
+      finde ? '¡Buenas noches! El finde es sagrado en el Camino. 🌙' : '¡Buenas noches, caminante! 🌙',
+    ];
+
+    var pool = hora < 13 ? mañana : hora < 20 ? tarde : noche;
+    return pool[Math.floor(Math.random() * pool.length)];
   }
 
   function _subtituloContextual() {
@@ -4558,10 +4589,10 @@ function abrirHeroModal() {
   function _renderPaso1() {
     inner.innerHTML = '';
 
-    // Saludo contextual con subtítulo dinámico
+    // Saludo contextual con subtítulo dinámico — casco circular delante
     var h1 = document.createElement('div');
-    h1.style.cssText = 'font-family:Playfair Display,serif;font-size:22px;font-weight:600;color:#fff;line-height:1.2;margin-bottom:6px';
-    h1.textContent = _saludoConContexto();
+    h1.style.cssText = 'font-family:Playfair Display,serif;font-size:22px;font-weight:600;color:#fff;line-height:1.2;margin-bottom:6px;display:flex;align-items:center';
+    h1.innerHTML = '<img src="https://i.postimg.cc/Gt0FZFyj/casco.png" style="width:28px;height:28px;object-fit:cover;border-radius:50%;border:2px solid rgba(255,255,255,0.4);flex-shrink:0;vertical-align:middle;margin-right:8px">' + _saludoConContexto();
     inner.appendChild(h1);
     var subCtx = document.createElement('p');
     subCtx.style.cssText = 'font-size:13px;color:rgba(255,255,255,0.75);margin-bottom:12px;line-height:1.5';
@@ -4720,7 +4751,7 @@ function abrirHeroModal() {
 
     var titulo = document.createElement('div');
     titulo.style.cssText = 'font-family:Playfair Display,serif;font-size:19px;font-weight:600;color:#fff;line-height:1.3;margin-bottom:6px';
-    titulo.textContent = '¿Qué te apetece explorar?';
+    titulo.innerHTML = '<img src="https://i.postimg.cc/Gt0FZFyj/casco.png" style="width:28px;height:28px;object-fit:cover;border-radius:50%;border:2px solid rgba(255,255,255,0.4);flex-shrink:0;vertical-align:middle;margin-right:8px">¿Qué te apetece explorar?';
     inner.appendChild(titulo);
 
     var sub = document.createElement('p');
@@ -4729,7 +4760,7 @@ function abrirHeroModal() {
     inner.appendChild(sub);
 
     var lista = document.createElement('div');
-    lista.style.cssText = 'display:flex;flex-direction:column;gap:8px;margin-bottom:16px';
+    lista.style.cssText = 'display:flex;flex-direction:column;gap:8px;margin-bottom:16px;max-height:42vh;overflow-y:auto;overscroll-behavior:contain;padding-right:2px';
 
     _opcionesCatalogo.forEach(function(op) {
       var fila = document.createElement('div');
@@ -4777,6 +4808,7 @@ function abrirHeroModal() {
     var cab = document.createElement('div');
     cab.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:12px';
     cab.innerHTML = '<div style="font-size:32px">' + op.emoji + '</div>'
+      + '<img src="https://i.postimg.cc/Gt0FZFyj/casco.png" style="width:28px;height:28px;object-fit:cover;border-radius:50%;border:2px solid rgba(255,255,255,0.4);flex-shrink:0;vertical-align:middle;margin-right:8px">'
       + '<div style="font-family:Playfair Display,serif;font-size:18px;font-weight:600;color:#fff;line-height:1.2">' + op.titulo + '</div>';
     inner.appendChild(cab);
 
@@ -4833,7 +4865,7 @@ function abrirHeroModal() {
 
     var titulo = document.createElement('div');
     titulo.style.cssText = 'font-family:Playfair Display,serif;font-size:18px;font-weight:600;color:#fff;margin-bottom:6px';
-    titulo.textContent = 'Tu ruta actual';
+    titulo.innerHTML = '<img src="https://i.postimg.cc/Gt0FZFyj/casco.png" style="width:28px;height:28px;object-fit:cover;border-radius:50%;border:2px solid rgba(255,255,255,0.4);flex-shrink:0;vertical-align:middle;margin-right:8px">Tu ruta actual';
     inner.appendChild(titulo);
 
     // Aviso de cromos si tiene alguno
@@ -4906,7 +4938,7 @@ function abrirHeroModal() {
 
     var titulo = document.createElement('div');
     titulo.style.cssText = 'font-family:Playfair Display,serif;font-size:18px;font-weight:600;color:#fff;margin-bottom:6px;line-height:1.3';
-    titulo.textContent = 'Selecciona qué te gustaría visitar';
+    titulo.innerHTML = '<img src="https://i.postimg.cc/Gt0FZFyj/casco.png" style="width:28px;height:28px;object-fit:cover;border-radius:50%;border:2px solid rgba(255,255,255,0.4);flex-shrink:0;vertical-align:middle;margin-right:8px">Selecciona qué te gustaría visitar';
     inner.appendChild(titulo);
 
     var hint = document.createElement('p');
@@ -4922,9 +4954,12 @@ function abrirHeroModal() {
       var p = item.poi;
       var distTexto = item.dist < 1000 ? Math.round(item.dist) + ' m' : (item.dist/1000).toFixed(1) + ' km';
       var fila = document.createElement('div');
+      fila.className = 'wizard-poi-fila';
+      fila.dataset.poiId = p.id;
       fila.style.cssText = 'display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:10px 12px;cursor:pointer;transition:background 0.15s';
 
       var check = document.createElement('div');
+      check.className = 'wizard-poi-check';
       check.style.cssText = 'width:22px;height:22px;border-radius:6px;border:2px solid rgba(255,255,255,0.5);background:transparent;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;transition:all 0.15s';
       fila.appendChild(check);
 
@@ -4938,6 +4973,129 @@ function abrirHeroModal() {
       info.innerHTML = '<div style="font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + p.nombre + '</div>'
         + '<div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:1px">📍 ' + distTexto + '</div>';
       fila.appendChild(info);
+
+      // Botón ⓘ info ampliada del POI
+      (function(poi) {
+        var btnInfo = document.createElement('button');
+        btnInfo.textContent = 'ⓘ';
+        btnInfo.title = 'Más información';
+        btnInfo.style.cssText = 'width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);color:#fff;font-size:14px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;-webkit-appearance:none;font-family:DM Sans,sans-serif;line-height:1';
+        btnInfo.addEventListener('click', function(e) {
+          e.stopPropagation();
+          // Modal de información del POI
+          var oldM = document.getElementById('wizard-poi-info-modal');
+          if (oldM) oldM.remove();
+          var mOverlay = document.createElement('div');
+          mOverlay.id = 'wizard-poi-info-modal';
+          mOverlay.style.cssText = 'position:fixed;inset:0;z-index:999999;background:rgba(0,0,0,0.7);display:flex;align-items:flex-end;justify-content:center;font-family:DM Sans,sans-serif';
+          var mBox = document.createElement('div');
+          mBox.style.cssText = 'background:linear-gradient(160deg,#0F4033 0%,#0d2d1e 100%);border-radius:20px 20px 0 0;padding:20px 20px 40px;width:100%;max-width:480px;box-sizing:border-box;max-height:85vh;overflow-y:auto;position:relative;transform:translateY(100%);transition:transform 0.3s cubic-bezier(0.32,0.72,0,1)';
+          function cerrarModal() { mBox.style.transform='translateY(100%)'; setTimeout(function(){ mOverlay.remove(); }, 300); }
+          // Handle bar
+          var mBar = document.createElement('div');
+          mBar.style.cssText = 'width:40px;height:4px;background:rgba(255,255,255,0.3);border-radius:2px;margin:0 auto 16px';
+          mBox.appendChild(mBar);
+          // Cerrar — posición absoluta respecto al mBox, z-index alto
+          var mBtnX = document.createElement('button');
+          mBtnX.textContent = '✕';
+          mBtnX.style.cssText = 'position:absolute;top:12px;right:12px;width:32px;height:32px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.25);border-radius:50%;color:#fff;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-appearance:none;z-index:10;backdrop-filter:blur(4px)';
+          mBtnX.addEventListener('click', cerrarModal);
+          mBox.appendChild(mBtnX);
+          // Emoji + nombre
+          var mHead = document.createElement('div');
+          mHead.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:8px';
+          mHead.innerHTML = '<span style="font-size:28px">' + (poi.emoji||'📍') + '</span>'
+            + '<div style="font-family:Playfair Display,serif;font-size:18px;font-weight:600;color:#fff;line-height:1.2">' + poi.nombre + '</div>';
+          mBox.appendChild(mHead);
+          // Categoría
+          if (poi.categoria) {
+            var mCat = document.createElement('div');
+            mCat.style.cssText = 'font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,0.45);margin-bottom:10px;font-weight:600';
+            mCat.textContent = poi.categoria;
+            mBox.appendChild(mCat);
+          }
+          // Subtítulo
+          var _t2 = (typeof T !== 'undefined' && typeof idiomaActual !== 'undefined') ? null : null;
+          var _lang = (typeof idiomaActual !== 'undefined') ? idiomaActual : 'es';
+          var subTxt = poi['subtitulo_'+_lang] || poi.subtitulo;
+          if (subTxt) {
+            var mSub = document.createElement('p');
+            mSub.style.cssText = 'font-size:13px;color:rgba(255,255,255,0.6);font-style:italic;margin-bottom:10px;line-height:1.5';
+            mSub.textContent = subTxt;
+            mBox.appendChild(mSub);
+          }
+          // Descripción completa
+          var descTxt = poi['descripcion_'+_lang] || poi.descripcion;
+          if (descTxt) {
+            var sep = document.createElement('div');
+            sep.style.cssText = 'width:40px;height:2px;background:rgba(255,255,255,0.25);border-radius:2px;margin-bottom:12px';
+            mBox.appendChild(sep);
+            var mDesc = document.createElement('p');
+            mDesc.style.cssText = 'font-size:13px;color:rgba(255,255,255,0.82);line-height:1.75;margin-bottom:16px';
+            mDesc.textContent = descTxt;
+            mBox.appendChild(mDesc);
+          }
+          // Botones inferiores: volver + añadir a ruta
+          var mBtnRow = document.createElement('div');
+          mBtnRow.style.cssText = 'display:flex;gap:8px;margin-top:4px';
+          var mBtnClose = document.createElement('button');
+          mBtnClose.textContent = '← Volver';
+          mBtnClose.style.cssText = 'flex:1;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.25);border-radius:12px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
+          mBtnClose.addEventListener('click', cerrarModal);
+          mBtnRow.appendChild(mBtnClose);
+          var mBtnAdd = document.createElement('button');
+          var _yaEnRuta = (typeof rutaPuntos !== 'undefined') && rutaPuntos.some(function(x){ return x.id === poi.id; });
+          mBtnAdd.textContent = _yaEnRuta ? '✓ En ruta' : '+ Añadir a ruta';
+          mBtnAdd.style.cssText = 'flex:1;background:' + (_yaEnRuta ? 'rgba(29,158,117,0.6)' : '#fff') + ';color:' + (_yaEnRuta ? '#fff' : '#0F6E56') + ';border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.15s';
+          mBtnAdd.addEventListener('click', function() {
+            if (typeof rutaPuntos === 'undefined') return;
+            var yaEsta = rutaPuntos.some(function(x){ return x.id === poi.id; });
+            if (!yaEsta) {
+              rutaPuntos.push({id: poi.id, nombre: poi.nombre, lat: poi.lat, lng: poi.lng});
+              try { actualizarRuta(); } catch(e){}
+              // Marcar el check en la fila de la lista de selección
+              if (typeof seleccionados !== 'undefined') {
+                seleccionados[poi.id] = poi;
+                // Buscar la fila correspondiente en la lista por data-poi-id o por el nombre
+                var filas = document.querySelectorAll('#wizard-poi-info-modal') ;
+                // La fila está en el panel madre (overlay padre del modal actual)
+                // Buscamos por el DOM: el overlay padre tiene z-index menor
+                var listaFilas = document.querySelectorAll('.wizard-poi-fila');
+                listaFilas.forEach(function(fila) {
+                  if (fila.dataset.poiId === poi.id) {
+                    fila.style.background = 'rgba(255,255,255,0.25)';
+                    fila.style.borderColor = 'rgba(255,255,255,0.6)';
+                    var chk = fila.querySelector('.wizard-poi-check');
+                    if (chk) {
+                      chk.style.background = '#fff';
+                      chk.style.borderColor = '#fff';
+                      chk.textContent = '✓';
+                      chk.style.color = '#0F6E56';
+                    }
+                  }
+                });
+                // Actualizar botón confirmar
+                if (typeof btnConfirmar !== 'undefined') {
+                  btnConfirmar.disabled = Object.keys(seleccionados).length === 0;
+                  btnConfirmar.style.opacity = btnConfirmar.disabled ? '0.4' : '1';
+                }
+              }
+              // Cerrar modal y volver al panel de lista automáticamente
+              cerrarModal();
+            } else {
+              // Ya estaba — también cerrar y volver
+              cerrarModal();
+            }
+          });
+          mBtnRow.appendChild(mBtnAdd);
+          mBox.appendChild(mBtnRow);
+          mOverlay.appendChild(mBox);
+          document.body.appendChild(mOverlay);
+          mOverlay.addEventListener('click', function(ev){ if(ev.target===mOverlay) cerrarModal(); });
+          requestAnimationFrame(function(){ requestAnimationFrame(function(){ mBox.style.transform='translateY(0)'; }); });
+        });
+        fila.appendChild(btnInfo);
+      })(p);
 
       function toggle() {
         if (seleccionados[p.id]) {
@@ -5004,7 +5162,7 @@ function abrirHeroModal() {
 
     var titulo = document.createElement('div');
     titulo.style.cssText = 'font-family:Playfair Display,serif;font-size:19px;font-weight:600;color:#fff;text-align:center;margin-bottom:10px;line-height:1.3';
-    titulo.textContent = num === 1 ? '¡Lugar añadido a tu ruta!' : '¡' + num + ' lugares añadidos a tu ruta!';
+    titulo.innerHTML = '<img src="https://i.postimg.cc/Gt0FZFyj/casco.png" style="width:28px;height:28px;object-fit:cover;border-radius:50%;border:2px solid rgba(255,255,255,0.4);flex-shrink:0;vertical-align:middle;margin-right:8px">' + (num === 1 ? '¡Lugar añadido a tu ruta!' : '¡' + num + ' lugares añadidos a tu ruta!');
     inner.appendChild(titulo);
 
     // ── Resumen de la ruta ───────────────────────────────────────
@@ -5076,12 +5234,20 @@ function abrirHeroModal() {
     btnSi.addEventListener('click', function() {
       cerrar();
       setTimeout(function() {
-        // Scroll al mapa y arrancar navegación
+        // Ir al mapa interno y arrancar modo navegación
+        try { _irAlMapa(); } catch(e){}
         var mapBlock = document.getElementById('map-block');
         if (mapBlock) mapBlock.scrollIntoView({behavior:'smooth', block:'start'});
         setTimeout(function() {
-          try { iniciarNavegacionVoz(); } catch(e) { try { iniciarRuta(); } catch(e2){} }
-        }, 400);
+          // Activar modo navegación interno de la app
+          try { activarNavegacionVoz(); } catch(e1) {
+            try { iniciarRuta(); } catch(e2) {
+              // Fallback: pulsar el botón IR del panel de ruta
+              var btnIr = document.getElementById('ruta-nav-btn');
+              if (btnIr) btnIr.click();
+            }
+          }
+        }, 500);
       }, 340);
     });
 
@@ -10133,7 +10299,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v970";
+var _APP_VERSION = "v986";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -11846,7 +12012,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v970</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v986</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
