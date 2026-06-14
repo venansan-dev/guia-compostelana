@@ -5003,7 +5003,7 @@ function abrirHeroModal() {
 
     var btnAtras = document.createElement('button');
     btnAtras.textContent = _t.asistAtras || '← Volver';
-    btnAtras.style.cssText = 'width:100%;background:transparent;color:rgba(26,8,0,0.5);border:none;padding:8px;font-size:15px;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnAtras.style.cssText = 'width:100%;background:rgba(0,0,0,0.2);color:#fff8e8;border:1px solid #7a5010;border-radius:8px;padding:11px;font-size:15px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:8px;flex-shrink:0';
     btnAtras.addEventListener('click', function(){ _renderPaso1(); });
     inner.appendChild(btnAtras);
   }
@@ -5017,7 +5017,7 @@ function abrirHeroModal() {
 
     var tit = document.createElement('div');
     tit.style.cssText = 'font-family:IM Fell English,serif;font-size:20px;color:#1a0800;margin-bottom:4px;display:flex;align-items:center;gap:8px';
-    tit.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:36px;height:36px;object-fit:contain;flex-shrink:0">Aquí tienes otras funciones que quizás te gustarán';
+    tit.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:36px;height:36px;object-fit:contain;flex-shrink:0">¿Qué te apetece explorar?';
     header.appendChild(tit);
 
     var orn = document.createElement('div');
@@ -5097,7 +5097,7 @@ function abrirHeroModal() {
 
     var titulo = document.createElement('div');
     titulo.style.cssText = 'font-family:IM Fell English,serif;font-size:20px;font-weight:400;color:#1a0800;margin-bottom:6px;line-height:1.3';
-    titulo.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">¿Qué te apetece explorar?';
+    titulo.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">Aquí tienes otras funciones que quizás te gustarán';
     inner.appendChild(titulo);
 
     var hint = document.createElement('p');
@@ -5136,13 +5136,13 @@ function abrirHeroModal() {
 
     var btnAtras = document.createElement('button');
     btnAtras.textContent = _t.asistAtras||'← Volver';
-    btnAtras.style.cssText = 'width:100%;background:rgba(0,0,0,0.2);color:#fff8e8;border:1px solid #7a5010;border-radius:8px;padding:11px;font-size:15px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:8px';
+    btnAtras.style.cssText = 'width:100%;background:rgba(0,0,0,0.2);color:#fff8e8;border:1px solid #7a5010;border-radius:8px;padding:11px;font-size:15px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:8px;flex-shrink:0';
     btnAtras.addEventListener('click', function(){ _renderPaso1(); });
     inner.appendChild(btnAtras);
 
     var btnCerrar = document.createElement('button');
     btnCerrar.textContent = _t.asistQuizas||'Quizás más tarde';
-    btnCerrar.style.cssText = 'width:100%;background:transparent;color:rgba(255,255,255,0.35);border:none;padding:4px;font-size:14px;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnCerrar.style.cssText = 'width:100%;background:transparent;color:rgba(26,8,0,0.4);border:none;padding:8px;font-size:14px;cursor:pointer;font-family:DM Sans,sans-serif;flex-shrink:0';
     btnCerrar.addEventListener('click', function(){ _renderDespedida(); });
     inner.appendChild(btnCerrar);
   }
@@ -5501,7 +5501,7 @@ function abrirHeroModal() {
 
     var btnVolver = document.createElement('button');
     btnVolver.textContent = _t.asistAtras||'← Volver';
-    btnVolver.style.cssText = 'width:100%;background:transparent;color:rgba(26,8,0,0.5);border:none;padding:8px;font-size:15px;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnVolver.style.cssText = 'width:100%;background:rgba(0,0,0,0.2);color:#fff8e8;border:1px solid #7a5010;border-radius:8px;padding:11px;font-size:15px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:8px;flex-shrink:0';
     btnVolver.addEventListener('click', function(){ _renderPaso1(); });
     inner.appendChild(btnVolver);
   }
@@ -10896,7 +10896,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1041";
+var _APP_VERSION = "v1044";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -12610,7 +12610,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1041</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1044</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
