@@ -4492,6 +4492,8 @@ function abrirHeroModal() {
 
   // ── DESPEDIDA: mensaje de apoyo al cerrar ───────────────────────
   function _renderDespedida(fnDespues) {
+    if (panel._sugerenciasWrap) { panel._sugerenciasWrap.remove(); panel._sugerenciasWrap = null; }
+    inner.style.cssText = 'position:relative;z-index:1;flex:1;min-height:0;display:flex;flex-direction:column;padding:0 20px 40px;box-sizing:border-box';
     inner.innerHTML = '';
 
     var icono = document.createElement('div');
@@ -4591,6 +4593,8 @@ function abrirHeroModal() {
 
   // ── PASO 1: Saludo + bifurcación según estado de ruta ───────────
   function _renderPaso1() {
+    if (panel._sugerenciasWrap) { panel._sugerenciasWrap.remove(); panel._sugerenciasWrap = null; }
+    inner.style.cssText = 'position:relative;z-index:1;flex:1;min-height:0;display:flex;flex-direction:column;padding:0 20px 40px;box-sizing:border-box';
     inner.innerHTML = '';
 
     // Saludo contextual con subtítulo dinámico — casco circular delante
@@ -5007,15 +5011,25 @@ function abrirHeroModal() {
   function _renderMenuPrincipal() {
     inner.innerHTML = '';
 
+    // ── Header fijo (título + adorno) ──────────────────────────────
+    var header = document.createElement('div');
+    header.style.cssText = 'flex-shrink:0';
+
     var tit = document.createElement('div');
     tit.style.cssText = 'font-family:IM Fell English,serif;font-size:20px;color:#1a0800;margin-bottom:4px;display:flex;align-items:center;gap:8px';
     tit.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:36px;height:36px;object-fit:contain;flex-shrink:0">¿Qué te apetece explorar?';
-    inner.appendChild(tit);
+    header.appendChild(tit);
 
     var orn = document.createElement('div');
     orn.style.cssText = 'text-align:center;color:#8b6914;letter-spacing:6px;margin:8px 0 14px;font-size:15px';
     orn.textContent = '✦ ✦ ✦';
-    inner.appendChild(orn);
+    header.appendChild(orn);
+
+    inner.appendChild(header);
+
+    // ── Zona scrollable con las opciones ───────────────────────────
+    var lista = document.createElement('div');
+    lista.style.cssText = 'display:flex;flex-direction:column;gap:8px;margin-bottom:14px;flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:4px 2px;overscroll-behavior:contain';
 
     var opciones = [
       { emoji:'🔍', tit:_t.asistBtnBuscar||'🔍 Buscar algo próximo',          desc:_t.asistBuscarSub||'Busca cualquier lugar o servicio en un radio de 1 km.',       accion:function(){ _abrirBusquedaProxima(); } },
@@ -5026,7 +5040,7 @@ function abrirHeroModal() {
 
     opciones.forEach(function(op) {
       var fila = document.createElement('button');
-      fila.style.cssText = 'display:flex;align-items:center;gap:12px;background:rgba(0,0,0,0.2);border:1.5px solid #7a5010;border-radius:10px;padding:13px 14px;cursor:pointer;transition:background 0.15s;margin-bottom:8px;width:100%;box-sizing:border-box;text-align:left';
+      fila.style.cssText = 'display:flex;align-items:center;gap:12px;background:rgba(0,0,0,0.2);border:1.5px solid #7a5010;border-radius:10px;padding:13px 14px;cursor:pointer;transition:background 0.15s;width:100%;box-sizing:border-box;text-align:left;flex-shrink:0';
       fila.addEventListener('click', op.accion);
 
       var em = document.createElement('div');
@@ -5051,47 +5065,47 @@ function abrirHeroModal() {
       arr.textContent = '›';
       fila.appendChild(arr);
 
-      inner.appendChild(fila);
+      lista.appendChild(fila);
     });
 
+    inner.appendChild(lista);
+
+    // ── Pie fijo ──────────────────────────────────────────────────
     var btnCerrar = document.createElement('button');
     btnCerrar.textContent = _t.asistQuizas||'Quizás más tarde';
-    btnCerrar.style.cssText = 'width:100%;background:transparent;color:rgba(26,8,0,0.4);border:none;padding:8px;font-size:14px;cursor:pointer;font-family:DM Sans,sans-serif;margin-top:4px';
+    btnCerrar.style.cssText = 'width:100%;background:transparent;color:rgba(26,8,0,0.4);border:none;padding:8px;font-size:14px;cursor:pointer;font-family:DM Sans,sans-serif;flex-shrink:0';
     btnCerrar.addEventListener('click', function(){ _renderDespedida(); });
     inner.appendChild(btnCerrar);
   }
 
   function _renderSugerencias() {
+    // Limpiar wrap de versiones anteriores si existe
+    if (panel._sugerenciasWrap) { panel._sugerenciasWrap.remove(); panel._sugerenciasWrap = null; }
+    inner.style.cssText = 'position:relative;z-index:1;flex:1;min-height:0;display:flex;flex-direction:column;padding:0 20px 40px;box-sizing:border-box';
     inner.innerHTML = '';
-    inner.style.overflow = 'hidden';
-
-    // Cabecera fija
-    var cabecera = document.createElement('div');
-    cabecera.style.cssText = 'flex-shrink:0';
 
     var adorno = document.createElement('div');
     adorno.style.cssText = 'text-align:center;color:rgba(90,48,0,0.45);font-size:13px;letter-spacing:4px;margin-bottom:8px';
     adorno.textContent = '✦ ✦ ✦';
-    cabecera.appendChild(adorno);
+    inner.appendChild(adorno);
 
     var titulo = document.createElement('div');
-    titulo.style.cssText = 'font-family:IM Fell English,serif;font-size:19px;font-weight:400;color:#fff;line-height:1.3;margin-bottom:6px';
+    titulo.style.cssText = 'font-family:IM Fell English,serif;font-size:20px;font-weight:400;color:#1a0800;margin-bottom:6px;line-height:1.3';
     titulo.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">¿Qué te apetece explorar?';
-    cabecera.appendChild(titulo);
+    inner.appendChild(titulo);
 
-    var sub = document.createElement('p');
-    sub.style.cssText = 'font-size:15px;color:#1a0800;margin-bottom:10px;line-height:1.5';
-    sub.innerHTML = _capital(_t.asistMasCosa||'Hay mucho más en la guía. Elige algo que te llame la atención:');
-    cabecera.appendChild(sub);
-    inner.appendChild(cabecera);
+    var hint = document.createElement('p');
+    hint.style.cssText = 'font-size:14px;color:#8b6914;margin-bottom:14px;font-style:italic';
+    hint.innerHTML = _capital(_t.asistMasCosa||'Hay mucho más en la guía. Elige algo que te llame la atención:');
+    inner.appendChild(hint);
 
-    // Lista scrolleable
+    // Lista con max-height fijo y scroll — igual que _renderPaso2
     var lista = document.createElement('div');
-    lista.style.cssText = 'display:flex;flex-direction:column;gap:8px;overflow-y:auto;overscroll-behavior:contain;flex:1;min-height:0;padding-right:2px;margin-bottom:12px';
+    lista.style.cssText = 'display:flex;flex-direction:column;gap:8px;margin-bottom:18px;max-height:40vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:4px 2px';
 
     _opcionesCatalogo.forEach(function(op) {
       var fila = document.createElement('div');
-      fila.style.cssText = 'display:flex;align-items:center;gap:12px;background:rgba(0,0,0,0.15);border:1.5px solid #7a5010;border-radius:10px;padding:11px 14px;cursor:pointer;transition:background 0.15s';
+      fila.style.cssText = 'display:flex;align-items:center;gap:12px;background:rgba(0,0,0,0.12);border:1.5px solid #b8935a;border-radius:10px;padding:10px 12px;cursor:pointer;transition:all 0.15s';
       fila.addEventListener('click', function(){ if (op.directo) { op.abrir(); } else { _renderDetalle(op); } });
 
       var em = document.createElement('div');
@@ -5102,7 +5116,7 @@ function abrirHeroModal() {
       var info = document.createElement('div');
       info.style.cssText = 'flex:1;min-width:0';
       info.innerHTML = '<div style="font-family:IM Fell English,serif;font-size:16px;color:#1a0800;margin-bottom:2px">' + op.titulo + '</div>'
-        + '<div style="font-size:13px;color:#3d1f00;line-height:1.4;opacity:0.85">' + op.desc + '</div>';
+        + '<div style="font-size:13px;color:#5c3d1e;line-height:1.4;opacity:0.85">' + op.desc + '</div>';
       fila.appendChild(info);
 
       var arr = document.createElement('div');
@@ -5114,25 +5128,18 @@ function abrirHeroModal() {
     });
     inner.appendChild(lista);
 
-    // Botones fijos abajo
-    var pies = document.createElement('div');
-    pies.style.cssText = 'flex-shrink:0';
-
     var btnAtras = document.createElement('button');
     btnAtras.textContent = _t.asistAtras||'← Volver';
     btnAtras.style.cssText = 'width:100%;background:rgba(0,0,0,0.2);color:#fff8e8;border:1px solid #7a5010;border-radius:8px;padding:11px;font-size:15px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:8px';
     btnAtras.addEventListener('click', function(){ _renderPaso1(); });
-    pies.appendChild(btnAtras);
+    inner.appendChild(btnAtras);
 
     var btnCerrar = document.createElement('button');
     btnCerrar.textContent = _t.asistQuizas||'Quizás más tarde';
     btnCerrar.style.cssText = 'width:100%;background:transparent;color:rgba(255,255,255,0.35);border:none;padding:4px;font-size:14px;cursor:pointer;font-family:DM Sans,sans-serif';
     btnCerrar.addEventListener('click', function(){ _renderDespedida(); });
-    pies.appendChild(btnCerrar);
-
-    inner.appendChild(pies);
+    inner.appendChild(btnCerrar);
   }
-
   // ── DETALLE de opción + pregunta ¿ver otra? ──────────────────────
   function _renderDetalle(op) {
     inner.innerHTML = '';
@@ -10878,7 +10885,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1034";
+var _APP_VERSION = "v1038";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -12592,7 +12599,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1034</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1038</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
