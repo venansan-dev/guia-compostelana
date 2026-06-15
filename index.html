@@ -8382,16 +8382,20 @@ function limpiarRuta() {
       '<span><span style="display:block;font-weight:700;color:#1a1a1a">Limpiar solo el mapa</span>' +
       '<span style="font-size:11px;color:#6b7280;font-weight:400">Ruta guardada permanece disponible</span></span></button>'
     : '';
+  var optMemoria = '<button id="limpiar-opt-memoria" style="width:100%;background:#fefce8;border:1.5px solid #fde047;border-radius:10px;padding:11px 14px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;text-align:left;display:flex;align-items:center;gap:10px">' +
+    '<span style="font-size:20px">🧹</span>' +
+    '<span><span style="display:block;font-weight:700;color:#854d0e">Borrar solo la memoria</span>' +
+    '<span style="font-size:11px;color:#a16207;font-weight:400">El mapa y la ruta activa no cambian</span></span></button>';
   var optTodo = '<button id="limpiar-opt-todo" style="width:100%;background:#fff0f0;border:1.5px solid #fca5a5;border-radius:10px;padding:11px 14px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;text-align:left;display:flex;align-items:center;gap:10px">' +
     '<span style="font-size:20px">🗑️</span>' +
-    '<span><span style="display:block;font-weight:700;color:#dc2626">Limpiar memoria</span>' +
-    '<span style="font-size:11px;color:#ef4444;font-weight:400">Se limpia también el mapa</span></span></button>';
+    '<span><span style="display:block;font-weight:700;color:#dc2626">Limpiar memoria y mapa</span>' +
+    '<span style="font-size:11px;color:#ef4444;font-weight:400">Borra todo — mapa y memoria guardada</span></span></button>';
   overlay.innerHTML =
     '<div style="background:#fff;border-radius:16px;padding:1.5rem;max-width:300px;width:88%;box-shadow:0 8px 32px rgba(0,0,0,0.22);font-family:DM Sans,sans-serif">' +
     '<div style="font-size:30px;text-align:center;margin-bottom:8px">🗑️</div>' +
     '<p style="font-size:15px;font-weight:700;color:#1a1a1a;text-align:center;margin:0 0 16px">¿Qué deseas limpiar?</p>' +
     '<div style="display:flex;flex-direction:column;gap:8px">' +
-    optMapa + optTodo +
+    optMapa + optMemoria + optTodo +
     '<button id="limpiar-opt-cancel" style="width:100%;background:none;border:none;padding:10px 0;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;color:#9ca3af;text-align:center">Cancelar</button>' +
     '</div></div>';
   document.body.appendChild(overlay);
@@ -8403,10 +8407,19 @@ function limpiarRuta() {
       _ejecutarLimpiarRutaSoloMapa();
     });
   }
+  document.getElementById('limpiar-opt-memoria').addEventListener('click', function(){
+    overlay.remove();
+    _borrarSoloMemoria();
+  });
   document.getElementById('limpiar-opt-todo').addEventListener('click', function(){
     overlay.remove();
     _ejecutarLimpiarRuta();
   });
+}
+function _borrarSoloMemoria() {
+  try { localStorage.removeItem('rutaGuardadaV2'); } catch(e) {}
+  _actualizarBtnGuardarRestaurar();
+  mostrarToast('🧹 Memoria borrada — ruta activa conservada');
 }
 function _ejecutarLimpiarRuta() {
   _verRutaMapa = false;
@@ -11328,7 +11341,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1129";
+var _APP_VERSION = "v1130";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -13042,7 +13055,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1129</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1130</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
