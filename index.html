@@ -4218,9 +4218,7 @@ function ejecutarBusquedaMapa() {
             if (searchMarkers.length > 0) searchMarkers[0].openPopup();
             var clearBtn = document.getElementById('buscar-clear');
             if (clearBtn) clearBtn.style.display = 'flex';
-            if (bounds.length > 1) { mapa.fitBounds(bounds, {padding:[50,50]}); }
-            else if (bounds.length === 1) { mapa.setView(bounds[0], 16); }
-            document.activeElement && document.activeElement.blur(); setTimeout(function(){ var el=document.getElementById('map'); if(el){ var rect=el.getBoundingClientRect(); var center=window.pageYOffset+rect.top-(window.innerHeight/2)+(rect.height/2); window.scrollTo({top:Math.max(0,center),behavior:'smooth'}); } },600);
+            document.activeElement && document.activeElement.blur();
             mostrarToast('📍 '+searchMarkers.length+' '+q+' encontrado'+(searchMarkers.length!==1?'s':'')+' cerca');
           } else {
             mostrarToast('🔍 No hay '+q+' en 3km');
@@ -4258,9 +4256,8 @@ function ejecutarBusquedaMapa() {
             if (searchMarkers.length > 0) searchMarkers[0].openPopup();
             var clearBtn = document.getElementById('buscar-clear');
             if (clearBtn) clearBtn.style.display = 'flex';
-            if (bounds2.length > 1) { mapa.fitBounds(bounds2, {padding:[40,40]}); }
-            else { mapa.setView(bounds2[0], 17); }
-            document.activeElement && document.activeElement.blur(); setTimeout(function(){ var el=document.getElementById('map'); if(el){ var rect=el.getBoundingClientRect(); var center=window.pageYOffset+rect.top-(window.innerHeight/2)+(rect.height/2); window.scrollTo({top:Math.max(0,center),behavior:'smooth'}); } },600);
+            // sin zoom automático
+            document.activeElement && document.activeElement.blur();
           } else {
             mostrarToast('🔍 Sin resultados para "' + q + '" cerca');
           }
@@ -7625,6 +7622,12 @@ function limpiarBusquedaMapa() {
   searchMarkers = [];
   // Limpiar marcadores del asistente
   if (window._wizSearchMarkers) { window._wizSearchMarkers.forEach(function(m){ try{ mapa.removeLayer(m); }catch(e){} }); window._wizSearchMarkers = []; }
+  // Quitar puntos de búsqueda de la ruta y de PUNTOS
+  rutaPuntos = rutaPuntos.filter(function(p){ return p.categoria !== 'busqueda'; });
+  PUNTOS = PUNTOS.filter(function(p){ return p.categoria !== 'busqueda'; });
+  // Limpiar línea de ruta si quedó huérfana
+  if (typeof actualizarRuta === 'function') { try { actualizarRuta(); } catch(e){} }
+  if (_rutaLinea && rutaPuntos.length === 0) { try { mapa.removeLayer(_rutaLinea); _rutaLinea = null; } catch(e){} }
   var input = document.getElementById('buscar-mapa-strip-input');
   if (input) input.value = '';
   // Actualizar posición sin zoom ni fitBounds
@@ -11006,7 +11009,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1086";
+var _APP_VERSION = "v1088";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -12720,7 +12723,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='display:none'>v1086</div>
+<div id='version-badge' style='display:none'>v1088</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
