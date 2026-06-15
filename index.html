@@ -7308,8 +7308,8 @@ function initMapa() {
     _mapBtns.forEach(function(id){
       var b=document.getElementById(id); if(b) b.style.display='none';
     });
-
     var bm=document.getElementById('btn-meteo-mapa'); if(bm) bm.style.display='none';
+    var bc=document.getElementById('btn-asistente-mapa'); if(bc) bc.style.display='none';
   });
   mapa.on('popupclose', function() {
     _popupAbierto = false;
@@ -7321,6 +7321,7 @@ function initMapa() {
     b=document.getElementById('btn-buscar-mapa'); if(b&&!_navActiva) b.style.display='flex';
     b=document.getElementById('btn-meteo-mapa'); if(b) b.style.display='flex';
     b=document.getElementById('btn-poi-drawer-mapa'); if(b) b.style.display='flex';
+    b=document.getElementById('btn-asistente-mapa'); if(b&&!_navActiva) b.style.display='flex';
     // Restaurar panel ruta siempre visible
     b=document.getElementById('map-ruta-panel'); if(b){b.style.display='flex';b.style.flexDirection='column';}
     b=document.getElementById('map-radio-control'); if(b){b.style.display='flex';}
@@ -8189,7 +8190,7 @@ function _addBusquedaRuta(nombreEnc, lat, lng) {
   // Restaurar botones del mapa siempre, independientemente del estado del popup
   setTimeout(function(){
     var ids = ['btn-add-poi-map','btn-alertas-toggle','btn-brujula-mapa','btn-sos-mapa',
-               'btn-buscar-mapa','btn-meteo-mapa','btn-poi-drawer-mapa'];
+               'btn-buscar-mapa','btn-meteo-mapa','btn-poi-drawer-mapa','btn-asistente-mapa'];
     ids.forEach(function(id){
       var b = document.getElementById(id);
       if (b && !_navActiva) b.style.display = 'flex';
@@ -11327,7 +11328,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1128";
+var _APP_VERSION = "v1129";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -13041,7 +13042,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1128</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1129</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
