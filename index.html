@@ -4065,9 +4065,10 @@ function toggleBuscadorMapa() {
     strip.style.transition = 'transform 0.22s cubic-bezier(0.4,0,0.2,1),opacity 0.18s';
     requestAnimationFrame(function(){ strip.style.transform='translateX(-50%) translateY(0)'; strip.style.opacity='1'; });
     if (btn) { btn.innerHTML = '✕'; btn.style.fontSize='18px'; }
-    if (panel) { panel.style.display = 'none'; }
     // Limpiar solo el mapa al abrir el buscador (no borrar ruta guardada)
     _ejecutarLimpiarRutaSoloMapa();
+    // Ocultar panel DESPUÉS de limpiar (que lo restaura internamente)
+    if (panel) { panel.style.display = 'none'; }
     searchMarkers.forEach(function(m){try{mapa.removeLayer(m);}catch(e){}});
     searchMarkers=[];
     if (window._wizSearchMarkers) { window._wizSearchMarkers.forEach(function(m){try{mapa.removeLayer(m);}catch(e){};}); window._wizSearchMarkers=[]; }
@@ -4219,10 +4220,10 @@ function ejecutarBusquedaMapa() {
               var sm = L.marker([el._lat, el._lng], {icon:iconoBusqueda}).addTo(mapa);
               var addr = el.tags ? (el.tags['addr:street'] ? el.tags['addr:street'] + (el.tags['addr:housenumber'] ? ' '+el.tags['addr:housenumber'] : '') : '') : '';
               var tel = el.tags && el.tags.phone ? '<br>📞 '+el.tags.phone : '';
-              sm.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>'+nombre+'</strong><br><span style="font-size:11px;color:#6b7280">📍 '+dist+(addr?' · '+addr:'')+'</span>'+tel+'<br><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="_addBusquedaRuta(encodeURIComponent(\''+nombre+'\'),'+el._lat+','+el._lng+');this.textContent=\'✓ En ruta\';this.style.background=\'#1D9E75\';this.style.color=\'#fff\';" style="background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">➕ Añadir a ruta</button><button onclick="irACoordenadasNav('+el._lat+','+el._lng+')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">&#128506; Cómo llegar</button></div></div>', {autopan: false});
+              sm.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>'+nombre+'</strong><br><span style="font-size:11px;color:#6b7280">📍 '+dist+(addr?' · '+addr:'')+'</span>'+tel+'<br><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="_addBusquedaRuta(encodeURIComponent(\''+nombre+'\'),'+el._lat+','+el._lng+');this.textContent=\'✓ En ruta\';this.style.background=\'#1D9E75\';this.style.color=\'#fff\';" style="background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">➕ Añadir a ruta</button><button onclick="irACoordenadasNav('+el._lat+','+el._lng+')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">&#128506; Cómo llegar</button></div></div>');
               searchMarkers.push(sm); bounds.push([el._lat, el._lng]);
             });
-            if (searchMarkers.length > 0) { /* sin openPopup automático — evita autopan */ }
+            if (searchMarkers.length > 0) searchMarkers[0].openPopup();
             var clearBtn = document.getElementById('buscar-clear');
             if (clearBtn) clearBtn.style.display = 'flex';
             document.activeElement && document.activeElement.blur();
@@ -4257,10 +4258,10 @@ function ejecutarBusquedaMapa() {
               var nombre = r.display_name.split(',')[0].trim();
               var dist = userLat ? ' · ' + formatDist(haversine(refLat,refLng,lat,lng)) : '';
               var sm = L.marker([lat,lng], {icon:iconoBusqueda}).addTo(mapa);
-              sm.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>'+nombre+dist+'</strong><br><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="_addBusquedaRuta(encodeURIComponent(\''+nombre+'\'),'+lat+','+lng+');this.textContent=\'✓ En ruta\';this.style.background=\'#1D9E75\';this.style.color=\'#fff\';" style="background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">➕ Añadir a ruta</button><button onclick="irACoordenadasNav('+lat+','+lng+')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">&#128506; Cómo llegar</button></div></div>', {autopan: false});
+              sm.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>'+nombre+dist+'</strong><br><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="_addBusquedaRuta(encodeURIComponent(\''+nombre+'\'),'+lat+','+lng+');this.textContent=\'✓ En ruta\';this.style.background=\'#1D9E75\';this.style.color=\'#fff\';" style="background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">➕ Añadir a ruta</button><button onclick="irACoordenadasNav('+lat+','+lng+')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">&#128506; Cómo llegar</button></div></div>');
               searchMarkers.push(sm); bounds2.push([lat,lng]);
             });
-            /* sin openPopup automático — evita autopan */
+            if (searchMarkers.length > 0) searchMarkers[0].openPopup();
             var clearBtn = document.getElementById('buscar-clear');
             if (clearBtn) clearBtn.style.display = 'flex';
             // sin zoom automático
@@ -4930,7 +4931,10 @@ function abrirHeroModal() {
           resultados.appendChild(fila);
         });
 
-        // Sin zoom automático ni scroll de pantalla al buscar
+        if (bounds.length === 1) mapa.setView(bounds[0], 17);
+        else if (bounds.length > 1) mapa.fitBounds(bounds, { padding:[50,50] });
+
+        setTimeout(function(){ var el=document.getElementById('map'); if(el){ var rect=el.getBoundingClientRect(); window.scrollTo({top:Math.max(0,window.pageYOffset+rect.top-(window.innerHeight/2)+(rect.height/2)),behavior:'smooth'}); } }, 600);
       }
 
       if (osmTag) {
@@ -7152,8 +7156,9 @@ function initMapa() {
     b=document.getElementById('btn-buscar-mapa'); if(b) b.style.display='flex';
     b=document.getElementById('btn-meteo-mapa'); if(b) b.style.display='flex';
     b=document.getElementById('btn-poi-drawer-mapa'); if(b) b.style.display='flex';
-    // Restaurar panel ruta siempre visible
-    b=document.getElementById('map-ruta-panel'); if(b){b.style.display='flex';b.style.flexDirection='column';}
+    // Restaurar panel ruta solo si el buscador no está abierto
+    var _strip=document.getElementById('mapa-search-strip');
+    b=document.getElementById('map-ruta-panel'); if(b&&(!_strip||_strip.style.display==='none')){b.style.display='flex';b.style.flexDirection='column';}
     b=document.getElementById('map-radio-control'); if(b){b.style.display='flex';}
   });
   // Cerrar popup al arrastrar o hacer scroll en el mapa
@@ -7686,13 +7691,15 @@ function ejecutarBusqueda() {
             var nombre=r.display_name.split(',')[0].trim();
             var dist=userLat?' - '+formatDist(haversine(userLat,userLng,lat,lng)):'';
             var sm=L.marker([lat,lng],{icon:iconoBusqueda}).addTo(mapa);
-            sm.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>'+nombre+dist+'</strong><br><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="_addBusquedaRuta(encodeURIComponent(\''+nombre+'\'),'+lat+','+lng+');this.textContent=\'✓ En ruta\';this.style.background=\'#1D9E75\';this.style.color=\'#fff\';" style="background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">➕ Añadir a ruta</button><button onclick="irACoordenadasNav('+lat+','+lng+')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:14px;cursor:pointer;font-family:DM Sans,sans-serif">&#128506; Cómo llegar</button></div></div>', {autopan: false});
+            sm.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>'+nombre+dist+'</strong><br><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="_addBusquedaRuta(encodeURIComponent(\''+nombre+'\'),'+lat+','+lng+');this.textContent=\'✓ En ruta\';this.style.background=\'#1D9E75\';this.style.color=\'#fff\';" style="background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">➕ Añadir a ruta</button><button onclick="irACoordenadasNav('+lat+','+lng+')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:14px;cursor:pointer;font-family:DM Sans,sans-serif">&#128506; Cómo llegar</button></div></div>');
             searchMarkers.push(sm); bounds.push([lat,lng]);
           });
-          /* sin openPopup automático ni zoom/scroll de pantalla */
+          if (searchMarkers.length>0) searchMarkers[0].openPopup();
           var clearBtn = document.getElementById('buscar-clear');
           if (clearBtn) clearBtn.style.display = 'flex';
-          document.activeElement && document.activeElement.blur();
+          if (bounds.length>1){mapa.fitBounds(bounds,{padding:[40,40]});}
+          else{mapa.setView(bounds[0],17);}
+          document.activeElement && document.activeElement.blur(); setTimeout(function(){ var el=document.getElementById('map'); if(el){ var rect=el.getBoundingClientRect(); var center=window.pageYOffset+rect.top-(window.innerHeight/2)+(rect.height/2); window.scrollTo({top:Math.max(0,center),behavior:'smooth'}); } },600);
         } else {
           mostrarToast('🔍 Sin resultados para "'+q+'"');
         }
@@ -8163,29 +8170,8 @@ function limpiarRuta() {
   var hayGuardada = false;
   try { hayGuardada = !!localStorage.getItem('rutaGuardadaV2'); } catch(e) {}
   if (!hayActiva && !hayGuardada) return;
-  // Sin ruta guardada: pedir confirmación antes de limpiar el mapa
-  if (!hayGuardada) {
-    var existConf = document.getElementById('modal-confirm-limpiar-simple');
-    if (existConf) existConf.remove();
-    var tl = T[idiomaActual] || T.es;
-    var overlaySimple = document.createElement('div');
-    overlaySimple.id = 'modal-confirm-limpiar-simple';
-    overlaySimple.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:19999;display:flex;align-items:center;justify-content:center';
-    overlaySimple.innerHTML =
-      '<div style="background:#fff;border-radius:16px;padding:1.5rem;max-width:300px;width:88%;box-shadow:0 8px 32px rgba(0,0,0,0.22);font-family:DM Sans,sans-serif">' +
-      '<div style="font-size:30px;text-align:center;margin-bottom:8px">🗑️</div>' +
-      '<p style="font-size:15px;font-weight:700;color:#1a1a1a;text-align:center;margin:0 0 6px">' + (tl.confirmLimpiar || '¿Eliminar la ruta? Este cambio no puede deshacerse.') + '</p>' +
-      '<p style="font-size:12px;color:#6b7280;text-align:center;margin:0 0 18px">La ruta no está guardada en memoria</p>' +
-      '<div style="display:flex;gap:10px">' +
-      '<button id="limpiar-simple-cancel" style="flex:1;background:#f3f4f6;border:none;border-radius:10px;padding:11px 0;font-size:15px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;color:#374151">Cancelar</button>' +
-      '<button id="limpiar-simple-ok" style="flex:1;background:#dc2626;border:none;border-radius:10px;padding:11px 0;font-size:15px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;color:#fff">🗑 Eliminar</button>' +
-      '</div></div>';
-    document.body.appendChild(overlaySimple);
-    overlaySimple.addEventListener('click', function(e){ if(e.target===overlaySimple) overlaySimple.remove(); });
-    document.getElementById('limpiar-simple-cancel').addEventListener('click', function(){ overlaySimple.remove(); });
-    document.getElementById('limpiar-simple-ok').addEventListener('click', function(){ overlaySimple.remove(); _ejecutarLimpiarRutaSoloMapa(); });
-    return;
-  }
+  // Sin ruta guardada: limpiar mapa directamente sin modal
+  if (!hayGuardada) { _ejecutarLimpiarRutaSoloMapa(); return; }
   var existing = document.getElementById('modal-confirm-limpiar');
   if (existing) existing.remove();
   var overlay = document.createElement('div');
@@ -8700,7 +8686,6 @@ function _sincronizarBtnGuardar()     { _actualizarBtnGuardarRestaurar(); }
 function _actualizarBtnGuardarRestaurar() {
   var btn = document.getElementById('btn-guardar-restaurar');
   if (!btn) return;
-  if (_navActiva) { btn.style.display = 'none'; return; }
   var hayActiva = (typeof rutaPuntos !== 'undefined') && rutaPuntos.length > 0;
   var hayGuardada = false;
   try { hayGuardada = !!localStorage.getItem('rutaGuardadaV2'); } catch(e) {}
@@ -8856,7 +8841,6 @@ function activarNavegacionVoz() {
     var btnVoz = document.getElementById('ruta-nav-voz');
     if (btnVoz) { _navVozActiva = false; btnVoz.style.display = 'block'; btnVoz.style.background = '#444'; btnVoz.innerHTML = (T[idiomaActual]||T.es).navVozOff||'🔇 Voz'; }
     if (btnClr)  btnClr.style.display  = 'none';
-    var btnGR = document.getElementById('btn-guardar-restaurar'); if (btnGR) btnGR.style.display = 'none';
 
     // Agrandar mapa sin cambiar position (no destruye Leaflet)
     var mapEl = document.getElementById('map');
