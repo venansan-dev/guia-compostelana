@@ -8168,8 +8168,29 @@ function limpiarRuta() {
   var hayGuardada = false;
   try { hayGuardada = !!localStorage.getItem('rutaGuardadaV2'); } catch(e) {}
   if (!hayActiva && !hayGuardada) return;
-  // Sin ruta guardada: limpiar mapa directamente sin modal
-  if (!hayGuardada) { _ejecutarLimpiarRutaSoloMapa(); return; }
+  // Sin ruta guardada: pedir confirmación antes de limpiar el mapa
+  if (!hayGuardada) {
+    var existConf = document.getElementById('modal-confirm-limpiar-simple');
+    if (existConf) existConf.remove();
+    var tl = T[idiomaActual] || T.es;
+    var overlaySimple = document.createElement('div');
+    overlaySimple.id = 'modal-confirm-limpiar-simple';
+    overlaySimple.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:19999;display:flex;align-items:center;justify-content:center';
+    overlaySimple.innerHTML =
+      '<div style="background:#fff;border-radius:16px;padding:1.5rem;max-width:300px;width:88%;box-shadow:0 8px 32px rgba(0,0,0,0.22);font-family:DM Sans,sans-serif">' +
+      '<div style="font-size:30px;text-align:center;margin-bottom:8px">🗑️</div>' +
+      '<p style="font-size:15px;font-weight:700;color:#1a1a1a;text-align:center;margin:0 0 6px">' + (tl.confirmLimpiar || '¿Eliminar la ruta? Este cambio no puede deshacerse.') + '</p>' +
+      '<p style="font-size:12px;color:#6b7280;text-align:center;margin:0 0 18px">La ruta no está guardada en memoria</p>' +
+      '<div style="display:flex;gap:10px">' +
+      '<button id="limpiar-simple-cancel" style="flex:1;background:#f3f4f6;border:none;border-radius:10px;padding:11px 0;font-size:15px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;color:#374151">Cancelar</button>' +
+      '<button id="limpiar-simple-ok" style="flex:1;background:#dc2626;border:none;border-radius:10px;padding:11px 0;font-size:15px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;color:#fff">🗑 Eliminar</button>' +
+      '</div></div>';
+    document.body.appendChild(overlaySimple);
+    overlaySimple.addEventListener('click', function(e){ if(e.target===overlaySimple) overlaySimple.remove(); });
+    document.getElementById('limpiar-simple-cancel').addEventListener('click', function(){ overlaySimple.remove(); });
+    document.getElementById('limpiar-simple-ok').addEventListener('click', function(){ overlaySimple.remove(); _ejecutarLimpiarRutaSoloMapa(); });
+    return;
+  }
   var existing = document.getElementById('modal-confirm-limpiar');
   if (existing) existing.remove();
   var overlay = document.createElement('div');
@@ -8684,6 +8705,7 @@ function _sincronizarBtnGuardar()     { _actualizarBtnGuardarRestaurar(); }
 function _actualizarBtnGuardarRestaurar() {
   var btn = document.getElementById('btn-guardar-restaurar');
   if (!btn) return;
+  if (_navActiva) { btn.style.display = 'none'; return; }
   var hayActiva = (typeof rutaPuntos !== 'undefined') && rutaPuntos.length > 0;
   var hayGuardada = false;
   try { hayGuardada = !!localStorage.getItem('rutaGuardadaV2'); } catch(e) {}
@@ -8839,6 +8861,7 @@ function activarNavegacionVoz() {
     var btnVoz = document.getElementById('ruta-nav-voz');
     if (btnVoz) { _navVozActiva = false; btnVoz.style.display = 'block'; btnVoz.style.background = '#444'; btnVoz.innerHTML = (T[idiomaActual]||T.es).navVozOff||'🔇 Voz'; }
     if (btnClr)  btnClr.style.display  = 'none';
+    var btnGR = document.getElementById('btn-guardar-restaurar'); if (btnGR) btnGR.style.display = 'none';
 
     // Agrandar mapa sin cambiar position (no destruye Leaflet)
     var mapEl = document.getElementById('map');
@@ -11109,7 +11132,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1118";
+var _APP_VERSION = "v1120";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -12823,7 +12846,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1118</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1120</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
