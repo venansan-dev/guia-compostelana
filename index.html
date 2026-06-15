@@ -4062,14 +4062,11 @@ function toggleBuscadorMapa() {
     strip.style.display = 'block';
     if (btn) { btn.innerHTML = '✕'; btn.style.fontSize='18px'; }
     if (panel) { panel.style.display = 'none'; }
-    // Borrar marcadores del asistente al abrir buscador del mapa
-    if (window._wizSearchMarkers) { window._wizSearchMarkers.forEach(function(m){ try{ mapa.removeLayer(m); }catch(e){} }); window._wizSearchMarkers = []; }
-    // Limpiar ruta al abrir el buscador
-    rutaPuntos = rutaPuntos.filter(function(p){ return p.categoria !== 'busqueda'; });
-    PUNTOS = PUNTOS.filter(function(p){ return p.categoria !== 'busqueda'; });
-    if (typeof _rutaLinea !== 'undefined' && _rutaLinea) { try { mapa.removeLayer(_rutaLinea); } catch(e){} _rutaLinea = null; }
-    if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ try{mapa.removeLayer(m);}catch(e){}; }); window._rutaFlechas = []; }
-    if (typeof actualizarRuta === 'function') { try { actualizarRuta(); } catch(e){} }
+    // Borrar todo al abrir el buscador (igual que el botón ↺)
+    _ejecutarLimpiarRuta();
+    searchMarkers.forEach(function(m){try{mapa.removeLayer(m);}catch(e){}});
+    searchMarkers=[];
+    if (window._wizSearchMarkers) { window._wizSearchMarkers.forEach(function(m){try{mapa.removeLayer(m);}catch(e){};}); window._wizSearchMarkers=[]; }
     if (input) { setTimeout(function(){ input.focus(); }, 100); }
   }
 }
@@ -11016,7 +11013,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1094";
+var _APP_VERSION = "v1095";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -12730,7 +12727,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1094</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1095</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
