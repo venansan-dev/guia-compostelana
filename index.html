@@ -450,7 +450,7 @@
   <button id='btn-poi-drawer-mapa' onclick='abrirAlbumPanel()' title='Ranking'
     style='display:flex;position:absolute;bottom:168px;right:10px;z-index:400;width:36px;height:36px;background:rgba(255,245,210,0.92);border:1.5px solid #a07828;border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 4px 14px rgba(0,0,0,0.28),0 1px 3px rgba(0,0,0,0.18);padding:0'>🏅</button>
   <!-- Tira de búsqueda flotante alineada con lupa -->
-  <div id='mapa-search-strip' style='display:none;position:absolute;bottom:124px;right:10px;z-index:401;background:rgba(255,255,255,0.97);border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.3),0 2px 6px rgba(0,0,0,0.15);border:1.5px solid rgba(29,158,117,0.3);overflow:hidden;backdrop-filter:blur(4px);min-width:180px;max-width:calc(100% - 70px)'>
+  <div id='mapa-search-strip' style='display:none;position:absolute;bottom:124px;right:10px;z-index:401;background:rgba(255,245,210,0.97);border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.3),0 2px 6px rgba(0,0,0,0.15);border:1.5px solid #a07828;overflow:hidden;backdrop-filter:blur(4px);min-width:180px;max-width:calc(100% - 70px)'>
     <div style='display:flex;align-items:center;gap:0'>
       <input id='buscar-mapa-strip-input' type='text' placeholder='Buscar cerca del mapa: albergue, farmacia...' autocomplete='off'
         style='flex:1;border:none;background:none;font-size:16px;color:#1a1a1a;font-family:DM Sans,sans-serif;outline:none;padding:9px 12px;min-width:0'
@@ -4062,6 +4062,7 @@ function toggleBuscadorMapa() {
     strip.style.display = 'block';
     if (btn) { btn.innerHTML = '✕'; btn.style.fontSize='18px'; }
     if (panel) { panel.style.display = 'none'; }
+    var btnCasco = document.getElementById('btn-asistente-mapa'); if (btnCasco) btnCasco.style.display = 'none';
     if (input) { setTimeout(function(){ input.focus(); }, 100); }
   }
 }
@@ -4073,6 +4074,7 @@ function cerrarBuscadorMapa() {
   if (strip) strip.style.display = 'none';
   if (btn)   { btn.style.display = 'flex'; btn.style.background='rgba(255,245,210,0.92)'; btn.style.borderColor='#a07828'; btn.style.color=''; btn.innerHTML='&#128269;'; btn.style.fontSize='17px'; }
   if (panel) { panel.style.display = 'flex'; panel.style.flexDirection = 'column'; }
+  var btnCasco = document.getElementById('btn-asistente-mapa'); if (btnCasco && !_navActiva) btnCasco.style.display = 'flex';
 }
 
 // Tags OSM para búsqueda por Overpass
@@ -8708,6 +8710,7 @@ function activarNavegacionVoz() {
   mostrarToast('🗺️ Iniciando navegación...');
   if (window._navRestoreTimeout) { clearTimeout(window._navRestoreTimeout); window._navRestoreTimeout = null; }
   _navActiva = true; // bloquear dibujarLineaEstática desde ya
+  var _btnCascoNav = document.getElementById('btn-asistente-mapa'); if (_btnCascoNav) _btnCascoNav.style.display = 'none';
 
 
   // Función interna que activa la navegación con los pasos dados
@@ -8969,6 +8972,7 @@ function toggleVozNav() {
 
 function detenerNavegacionVoz() {
   _navActiva = false;
+  var _btnCascoStop = document.getElementById('btn-asistente-mapa'); if (_btnCascoStop) _btnCascoStop.style.display = 'flex';
 
   // Guardar estado brújula antes de detener
   var brujulaEstaba = !!window._orientacionActiva;
@@ -10995,7 +10999,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1082";
+var _APP_VERSION = "v1083";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -12709,7 +12713,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='display:none'>v1082</div>
+<div id='version-badge' style='display:none'>v1083</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
