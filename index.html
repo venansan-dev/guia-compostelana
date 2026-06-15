@@ -4705,31 +4705,27 @@ function abrirHeroModal() {
   // Catálogo de opciones con descripción extendida
   var _opcionesCatalogo = [
     {
-      emoji: '🔍',
-      titulo: _t.asistOp1Tit||'¿Necesitas buscar algo próximo a ti en el mapa?',
-      desc: _t.asistOp1Desc||'Busca cualquier lugar o servicio en un radio de 1 km.',
-      directo: true,
+      emoji: '🆘',
+      titulo: _t.asistOp5Tit||'Emergencias y seguridad',
+      desc: _t.asistOp5Desc||'Teléfonos útiles y recursos para el Camino.',
       detalle: [
-        'Escribe lo que necesitas — un albergue, una farmacia, un restaurante, una fuente, una iglesia — y lo localizaremos en el mapa en un radio de 1 km alrededor de tu posición actual.',
-        'Los resultados aparecen directamente sobre el mapa con su distancia y un acceso directo para cómo llegar.',
-        '📍 Radio 1 km · 🏠 Albergues · 💊 Farmacias · 🍽️ Restaurantes · ⛲ Fuentes · ⛪ Iglesias'
-      ],
-      abrir: function() {
-        _abrirBusquedaProxima();
-      }
-    },
-    {
-      emoji: '🐚',
-      titulo: _t.asistOp2Tit||'Historia Compostelana',
-      desc: _t.asistOp2Desc||'El Camino, los templarios, las rutas históricas…',
-      detalle: [
-        'Aquí encontrarás los textos históricos que dan vida al Camino: desde los orígenes del culto jacobeo hasta la presencia templaria en Galicia, pasando por las rutas medievales y sus etapas más emblemáticas.',
-        'Cada sección está escrita con rigor histórico y pensada para el peregrino curioso. Puedes leerla tranquilamente antes de salir o consultarla en cualquier momento del Camino.',
-        '📜 Textos históricos · ⚔️ Legado Templario · 🗺️ Rutas y etapas · 🏛️ Arte y arquitectura jacobea'
+        'Un panel de recursos esenciales pensado para cuando el Camino se complica: teléfonos de emergencia, contactos de la Guardia Civil, Cruz Roja y servicios sanitarios en las principales etapas.',
+        'También encontrarás consejos básicos de seguridad para peregrinos: qué hacer si te pierdes, cómo gestionar una lesión en ruta y cómo activar tu localización de emergencia desde el móvil.',
+        '📞 Teléfonos de emergencia · 🏥 Servicios sanitarios · 🧭 Protocolos de seguridad · 🆘 Localización GPS'
       ],
       abrir: function() {
         cerrar();
-        setTimeout(function(){ _irAlMapa(); setTimeout(abrirHistoriaDrawer, 400); }, 340);
+        setTimeout(function(){ _irAlMapa(); setTimeout(abrirSOSDrawer, 400); }, 340);
+      }
+    },
+    {
+      emoji: '🧭',
+      titulo: _t.asistBtnBrujula||'Usar la brújula',
+      desc: _t.asistBtnBrujulaDesc||'Oriéntate con la brújula digital del Camino',
+      directo: true,
+      detalle: [],
+      abrir: function() {
+        _renderBrujulaModal();
       }
     },
     {
@@ -4758,20 +4754,6 @@ function abrirHeroModal() {
       abrir: function() {
         cerrar();
         setTimeout(function(){ _irAlMapa(); setTimeout(abrirAlbumPanel, 400); }, 340);
-      }
-    },
-    {
-      emoji: '🆘',
-      titulo: _t.asistOp5Tit||'Emergencias y seguridad',
-      desc: _t.asistOp5Desc||'Teléfonos útiles y recursos para el Camino.',
-      detalle: [
-        'Un panel de recursos esenciales pensado para cuando el Camino se complica: teléfonos de emergencia, contactos de la Guardia Civil, Cruz Roja y servicios sanitarios en las principales etapas.',
-        'También encontrarás consejos básicos de seguridad para peregrinos: qué hacer si te pierdes, cómo gestionar una lesión en ruta y cómo activar tu localización de emergencia desde el móvil.',
-        '📞 Teléfonos de emergencia · 🏥 Servicios sanitarios · 🧭 Protocolos de seguridad · 🆘 Localización GPS'
-      ],
-      abrir: function() {
-        cerrar();
-        setTimeout(function(){ _irAlMapa(); setTimeout(abrirSOSDrawer, 400); }, 340);
       }
     }
   ];
@@ -5041,8 +5023,8 @@ function abrirHeroModal() {
 
     var opciones = [
       { emoji:'🔍', tit:_t.asistBtnBuscar||'🔍 Buscar algo próximo',          desc:_t.asistBuscarSub||'Busca cualquier lugar o servicio en un radio de 1 km.',       accion:function(){ _abrirBusquedaProxima(); } },
+      { emoji:'🐚', tit:_t.asistOp2Tit||'Historia Compostelana',               desc:_t.asistOp2Desc||'El Camino, los templarios, las rutas históricas…',              accion:function(){ cerrar(); setTimeout(function(){ _irAlMapa(); setTimeout(abrirHistoriaDrawer, 400); }, 340); } },
       { emoji:'📍', tit:_t.asistBtnAnadirPunto||'📍 Añadir punto o alerta',    desc:_t.asistBtnAnadirDesc||'Recomienda un lugar, añade una alerta o un punto de interés', accion:function(){ cerrar(); setTimeout(function(){ _irAlMapa(); setTimeout(abrirFormPOI, 400); }, 340); } },
-      { emoji:'🧭', tit:_t.asistBtnBrujula||'🧭 Usar la brújula',              desc:_t.asistBtnBrujulaDesc||'Oriéntate con la brújula digital del Camino',               accion:function(){ _renderBrujulaModal(); } },
       { emoji:'✨', tit:_t.asistBtnMasOpc||'✨ Más opciones interesantes',      desc:_t.asistBtnMasOpcDesc||'Historia, álbum, juego de la oca, emergencias…',             accion:function(){ _renderSugerencias(); } }
     ];
 
@@ -5292,7 +5274,7 @@ function abrirHeroModal() {
 
     var titulo = document.createElement('div');
     titulo.style.cssText = 'font-family:IM Fell English,serif;font-size:20px;font-weight:400;color:#1a0800;margin-bottom:6px;line-height:1.3';
-    titulo.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">Selecciona qué te gustaría visitar';
+    titulo.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">' + (_t.asistPaso2Tit||'Selecciona qué te gustaría visitar');
     inner.appendChild(titulo);
 
     var adornoPaso2 = document.createElement('div');
@@ -9276,6 +9258,7 @@ var T={
     asistNoVolver:'No, volver al mapa',
     asistPreguntaVisitar:'¿Te gustaría visitar alguno?',
     asistSiVerLugares:'Sí, ver lugares',
+    asistPaso2Tit:'Selecciona qué te gustaría visitar',
     asistAhoraNno:'Ahora no',
     asistMasCosa:'Hay mucho más en la guía. Elige algo que te llame la atención:',
     asistBuscarTit:'🔍 Buscar algo próximo a ti',
@@ -9656,6 +9639,7 @@ var T={
     asistNoVolver:'Non, volver ao mapa',
     asistPreguntaVisitar:'¿Che gustaría visitar algún?',
     asistSiVerLugares:'Si, ver lugares',
+    asistPaso2Tit:'Selecciona o que che gustaría visitar',
     asistAhoraNno:'Agora non',
     asistMasCosa:'Hai moito máis na guía. Escolle algo que che chame a atención:',
     asistBuscarTit:'🔍 Buscar algo próximo a ti',
@@ -10211,6 +10195,7 @@ var T={
     asistNoVolver:'No, back to map',
     asistPreguntaVisitar:'Would you like to visit one?',
     asistSiVerLugares:'Yes, see places',
+    asistPaso2Tit:'Select what you would like to visit',
     asistAhoraNno:'Not now',
     asistMasCosa:'There is much more in the guide. Pick something that interests you:',
     asistBuscarTit:'🔍 Search nearby',
@@ -10987,7 +10972,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1056";
+var _APP_VERSION = "v1061";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -12701,7 +12686,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1056</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1061</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
