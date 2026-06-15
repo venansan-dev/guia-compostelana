@@ -3302,12 +3302,12 @@ function _abrirSlide(panelId) {
   var _panelTitles = {
     "poi-drawer": "📍 "+(_t.navPuntos||'Ranking'),
     "album-panel": "🏅 "+(_t.rankingTitulo||'Ranking del Peregrino'),
-    "tablero-drawer": "🐚 "+(_t.coleccionTitulo||'Colección del Peregrino'),
+    "tablero-drawer": (_t.coleccionTitulo||'🐚 Colección del Peregrino'),
     "album-recuerdos-drawer": "📷 "+(_t.btnAlbumRec||'Álbum'),
     "brujula-drawer": "🧭 "+(_t.navBrujula||'Brújula'),
     "meteo-drawer": "🌤️ "+(_t.meteoTitulo||'Previsión meteorológica'),
     "sos-drawer": "🆘 "+(_t.navEmergencias||'Emergencias').replace(/^🆘\s*/,''),
-    "historia-drawer": "🐚 "+(_t.navHistoria||'Historia Compostelana'),
+    "historia-drawer": (_t.navHistoria||'🐚 Historia Compostelana'),
     "donaciones-drawer": "❤️ "+(_t.navDonaciones||'Donaciones'),
     "comousar-drawer": "ℹ️ "+(_t.navComoUsar||'Cómo usar'),
     "contacto-drawer": "✉️ "+(_t.navContacto||'Contacto'),
@@ -9343,7 +9343,7 @@ var T={
     albumVacio:'Tu álbum está vacío',
     albumVacioSub:'Activa el seguimiento GPS y acércate a los puntos del Camino. Cada visita desbloquea el cromo.',
     albumContador:'Visita lugares para desbloquear cromos',
-    rankingTitulo:'🏅 Ranking del Peregrino',
+    rankingTitulo:'Ranking del Peregrino',
     rankingContador:'Visita lugares del Camino para avanzar en el ranking',
     rankingPrimer:'Visita tu primer lugar para comenzar',
     rankingLogros:'Logros',
@@ -9366,7 +9366,7 @@ var T={
     coleccionVacio:'Visita lugares del Camino para obtener cromos',
     coleccionContador:'de 63 casillas',
     coleccionAbierto:'abierto',coleccionAbiertos:'abiertos',coleccionMazo:'en mazo',
-    mazoTitulo:'Mazo sin abrir',mazoPendiente:'cromo pendiente',mazoPendientes:'cromos pendientes',mazoTap:'Pulsa para abrir el siguiente',
+    mazoTitulo:'Mazo sin abrir',mazoPendiente:'cromo pendiente',mazoPendientes:'cromos pendientes',mazoTap:'Pulsa para abrir el siguiente',mazoAbrir:'Abrir cromo',
     visitaDesbloquear:'Visita el lugar para desbloquear y añadir tu imagen',
     rankingTitulo:'Mi ranking',
     rankingVacio:'You haven\'t visited any place yet',
@@ -9728,7 +9728,7 @@ var T={
     albumVacioSub:'Activa o seguimento GPS e achégate aos puntos do Camiño. Cada visita desbloquea o cromo.',
     albumContador:'Visita lugares para desbloquear cromos',
     visitaDesbloquear:'Visita o lugar para desbloquear e engadir a túa imaxe',
-    rankingTitulo:'🏅 Ranking do Peregrino',
+    rankingTitulo:'Ranking do Peregrino',
     rankingContador:'Visita lugares do Camiño para avanzar no ranking',
     rankingPrimer:'Visita o teu primeiro lugar para comezar',
     rankingLogros:'Logros',
@@ -9744,7 +9744,7 @@ var T={
     coleccionSuper:'Xogo da Oca Xacobeo',coleccionTitulo:'🐚 Colección do Peregrino',
     coleccionVacio:'Visita lugares do Camiño para obter cromos',coleccionContador:'de 63 cadros',
     coleccionAbierto:'aberto',coleccionAbiertos:'abertos',coleccionMazo:'no mazo',
-    mazoTitulo:'Mazo sen abrir',mazoPendiente:'cromo pendente',mazoPendientes:'cromos pendentes',mazoTap:'Preme para abrir o seguinte',
+    mazoTitulo:'Mazo sen abrir',mazoPendiente:'cromo pendente',mazoPendientes:'cromos pendentes',mazoTap:'Preme para abrir o seguinte',mazoAbrir:'Abrir cromo',
     rankingVacio:'Aínda non visitaches ningún punto',
     dificultadLabel:'Dificultade',
     ascenso:'Ascenso',
@@ -10169,7 +10169,7 @@ var T={
     mazoTitulo:'Unopened deck',
     mazoPendiente:'card pending',
     mazoPendientes:'cards pending',
-    mazoTap:'Tap to open the next one',
+    mazoTap:'Tap to open the next one',mazoAbrir:'Open card',
     coleccionAbierto:'opened',
     coleccionContador:'of 63 squares',
     donacionesH2:'Donations',
@@ -10479,7 +10479,7 @@ function cambiarIdioma(lang){
   el=document.getElementById('chip-etapa-primitivo-btn');if(el)el.textContent=t.chipPrimitivo||'🟣 Primitivo';
   el=document.getElementById('chip-etapa-ingles-btn');if(el)el.textContent=t.chipIngles||'🟡 Inglés';
   // Panel Ranking
-  el=document.getElementById('album-panel-titulo');if(el)el.textContent=t.rankingTitulo||'🏅 Ranking del Peregrino';
+  el=document.getElementById('album-panel-titulo');if(el)el.textContent=t.rankingTitulo||'Ranking del Peregrino';
   if(el&&!el.textContent.match(/\d/)){el=document.getElementById('album-panel-contador');if(el)el.textContent=t.rankingContador||'Visita lugares del Camino para avanzar en el ranking';}
   el=document.getElementById('ranking-logros-label');if(el)el.textContent=t.rankingLogros||'Logros';
   el=document.getElementById('ranking-stats-label');if(el)el.textContent=t.rankingEstadisticas||'Estadísticas';
@@ -10539,7 +10539,7 @@ function cambiarIdioma(lang){
     if(txt.includes('Por ver')||txt.includes('To visit')||txt.includes('ver')) b.textContent='🔒 '+(t.btnPorVer||'Por ver');
   });
   // Panel ranking título y contador
-  el=document.getElementById('album-panel-titulo');if(el)el.textContent=t.rankingTitulo||'🏅 Ranking del Peregrino';
+  el=document.getElementById('album-panel-titulo');if(el)el.textContent=t.rankingTitulo||'Ranking del Peregrino';
   el=document.getElementById('album-panel-contador');if(el&&!el.textContent.match(/\d/))el.textContent=t.rankingContador||'Visita lugares del Camino para avanzar en el ranking';
   el=document.getElementById('ranking-stats-label');if(el)el.textContent=t.rankingEstadisticas||'Estadísticas';
   el=document.getElementById('tablero-hard-reset-btn');if(el)el.textContent=t.rankingHardReset||'🗑️ Borrar cromos y visitas';
@@ -10978,7 +10978,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1062";
+var _APP_VERSION = "v1065";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -11938,7 +11938,7 @@ function _renderTableroOca() {
           +'<div style="font-size:14px;color:rgba(26,8,0,0.65)">'+(mazo.length>1?'×'+mazo.length+' '+(_tTab.mazoPendientes||'cromos pendientes'):'1 '+(_tTab.mazoPendiente||'cromo pendiente'))+'</div>'
           +'<div style="font-size:13px;color:rgba(26,8,0,0.45);margin-top:2px">'+(_tTab.mazoTap||'Pulsa para abrir el siguiente')+'</div>'
           +'</div>'
-          +'<div style="font-size:20px">▶️</div>';
+          +'<div style="background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:1.5px solid #4a7a2e;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;font-family:IM Fell English,serif;white-space:nowrap;flex-shrink:0">'+(_tTab.mazoAbrir||'Abrir')+'</div>';
         mazoEl.addEventListener('mouseenter',function(){this.style.background='rgba(0,0,0,0.25)';});
         mazoEl.addEventListener('mouseleave',function(){this.style.background='rgba(0,0,0,0.15)';});
         mazoEl.addEventListener('click',function(){_abrirCromoDelMazo(mazo[0]);});
@@ -12692,7 +12692,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1062</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1065</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
