@@ -456,7 +456,7 @@
         style='flex:1;border:none;background:none;font-size:16px;color:#1a1a1a;font-family:DM Sans,sans-serif;outline:none;padding:9px 12px;min-width:0'
         onkeydown='if(event.key==="Enter")ejecutarBusquedaMapa()'/>
       <button onclick='ejecutarBusquedaMapa()' style='background:#1a4a9e;color:#f5e6c8;border:none;padding:9px 13px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;font-weight:600;white-space:nowrap;flex-shrink:0'>🔍</button>
-      <button id='buscar-clear-strip' onclick='_ejecutarLimpiarRuta()' title='Limpiar ruta' style='display:block;background:none;color:#6b7280;border:none;border-left:1px solid #e5e7eb;padding:9px 10px;font-size:15px;cursor:pointer;line-height:1;flex-shrink:0'>↺</button>
+      <button id='buscar-clear-strip' onclick='_ejecutarLimpiarRuta();searchMarkers.forEach(function(m){try{mapa.removeLayer(m);}catch(e){}});searchMarkers=[];var _si=document.getElementById("buscar-mapa-strip-input");if(_si)_si.value="";' title='Limpiar' style='display:block;background:none;color:#6b7280;border:none;border-left:1px solid #e5e7eb;padding:9px 10px;font-size:15px;cursor:pointer;line-height:1;flex-shrink:0'>↺</button>
       <button onclick='cerrarBuscadorMapa()' style='background:none;color:#9ca3af;border:none;border-left:1px solid #e5e7eb;padding:9px 10px;font-size:16px;cursor:pointer;line-height:1;flex-shrink:0'>✕</button>
     </div>
   </div>
@@ -11016,7 +11016,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1092";
+var _APP_VERSION = "v1093";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -12730,7 +12730,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1092</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1093</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
