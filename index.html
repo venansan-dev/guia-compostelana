@@ -4673,7 +4673,7 @@ function abrirHeroModal() {
 
     var sub = document.createElement('p');
     sub.style.cssText = 'font-size:16px;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:6px';
-    sub.textContent = 'Tienes ' + cercanos.length + ' lugar' + (cercanos.length !== 1 ? 'es' : '') + ' del Camino cerca de ti. El más próximo es ' + primero.poi.nombre + ', a ' + distTexto + '.';
+    sub.textContent = (_t.asistCercanosPre||'Tienes') + ' ' + cercanos.length + ' ' + (cercanos.length !== 1 ? (_t.asistCercanosLugares||'lugares') : (_t.asistCercanosLugar||'lugar')) + ' ' + (_t.asistCercanosDe||'del Camino cerca de ti. El más próximo es') + ' ' + primero.poi.nombre + ', ' + (_t.asistCercanosA||'a') + ' ' + distTexto + '.';
     inner.appendChild(sub);
 
     var sub2 = document.createElement('p');
@@ -5025,7 +5025,7 @@ function abrirHeroModal() {
 
     var tit = document.createElement('div');
     tit.style.cssText = 'font-family:IM Fell English,serif;font-size:20px;color:#1a0800;margin-bottom:4px;display:flex;align-items:center;gap:8px';
-    tit.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:36px;height:36px;object-fit:contain;flex-shrink:0">¿Qué te apetece explorar?';
+    tit.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:36px;height:36px;object-fit:contain;flex-shrink:0">' + (_t.asistMenuTit||'¿Qué te apetece explorar?');
     header.appendChild(tit);
 
     var orn = document.createElement('div');
@@ -5105,7 +5105,7 @@ function abrirHeroModal() {
 
     var titulo = document.createElement('div');
     titulo.style.cssText = 'font-family:IM Fell English,serif;font-size:20px;font-weight:400;color:#1a0800;margin-bottom:6px;line-height:1.3';
-    titulo.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">Aquí tienes otras funciones que quizás te gustarán';
+    titulo.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">' + (_t.asistSugTit||'Aquí tienes otras funciones que quizás te gustarán');
     inner.appendChild(titulo);
 
     var hint = document.createElement('p');
@@ -5192,7 +5192,7 @@ function abrirHeroModal() {
     // ¿Ver otra opción?
     var pregunta = document.createElement('p');
     pregunta.style.cssText = 'font-size:15px;color:#1a0800;text-align:center;margin-bottom:10px';
-    pregunta.textContent = '¿Quieres ver otra opción?';
+    pregunta.textContent = _t.asistDetallePreg||'¿Quieres ver otra opción?';
     inner.appendChild(pregunta);
 
     var btnRow = document.createElement('div');
@@ -5219,7 +5219,7 @@ function abrirHeroModal() {
 
     var titulo = document.createElement('div');
     titulo.style.cssText = 'font-family:IM Fell English,serif;font-size:20px;font-weight:400;color:#fff;margin-bottom:6px';
-    titulo.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">Tu ruta actual';
+    titulo.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">' + (_t.asistRevTit||'Tu ruta actual');
     inner.appendChild(titulo);
 
     // Aviso de cromos si tiene alguno
@@ -5228,7 +5228,7 @@ function abrirHeroModal() {
       var _rng = window._getRango(_nCromos);
       var cromoBanner = document.createElement('div');
       cromoBanner.style.cssText = 'background:rgba(245,200,0,0.12);border:1px solid rgba(245,200,0,0.3);border-radius:10px;padding:8px 12px;margin-bottom:10px;font-size:14px;color:rgba(255,255,255,0.8);line-height:1.5';
-      cromoBanner.innerHTML = _rng.emoji + ' <strong style="color:#F5C800">' + _rng.label + '</strong> · ' + _nCromos + ' cromo' + (_nCromos !== 1 ? 's' : '') + ' desbloqueado' + (_nCromos !== 1 ? 's' : '') + '. Sigue visitando para subir de rango.';
+      cromoBanner.innerHTML = _rng.emoji + ' <strong style="color:#F5C800">' + _rng.label + '</strong> · ' + _nCromos + ' ' + (_nCromos !== 1 ? (_t.asistRevCromosP||'cromos desbloqueados') : (_t.asistRevCromos||'cromo desbloqueado')) + '. ' + (_t.asistRevSigue||'Sigue visitando para subir de rango.');
       inner.appendChild(cromoBanner);
     }
 
@@ -9308,6 +9308,14 @@ var T={
     asistOp4Desc:'Tu colección de cromos desbloqueados en el Camino.',
     asistOp5Tit:'Emergencias y seguridad',
     asistOp5Desc:'Teléfonos útiles y recursos para el Camino.',
+    asistBtnBuscar:'Buscar algo próximo',
+    asistBuscarTit:'🔍 Buscar algo próximo a ti',
+    asistBtnAnadirPunto:'Añadir punto o alerta',
+    asistBtnAnadirDesc:'Recomienda un lugar, añade una alerta o un punto de interés',
+    asistBtnBrujula:'Usar la brújula',
+    asistBtnBrujulaDesc:'Oriéntate con la brújula digital del Camino',
+    asistBtnMasOpc:'Más opciones interesantes',
+    asistBtnMasOpcDesc:'Historia, álbum, juego de la oca, emergencias…',
     asistVerDetalle:'Ver detalle →',
     asistAbrir:'Abrir ',
     asistCuriosidades:[
@@ -9331,6 +9339,21 @@ var T={
     asistSubRutaP:'Tienes {n} lugares en ruta. ¿Salimos?',
     asistSubAmbos:'Llevas {n} cromo y una ruta con {r} parada. ¡El Camino te espera!',
     asistSubAmbosP:'Llevas {n} cromos y una ruta con {r} paradas. ¡El Camino te espera!',
+    asistMenuTit:'¿Qué te apetece explorar?',
+    asistSugTit:'Aquí tienes otras funciones que quizás te gustarán',
+    asistDetallePreg:'¿Quieres ver otra opción?',
+    asistRevTit:'Tu ruta actual',
+    asistRevCromos:'cromo desbloqueado',
+    asistRevCromosP:'cromos desbloqueados',
+    asistRevSigue:'Sigue visitando para subir de rango.',
+        asistCercanosPre:'Tienes',
+    asistCercanosLugar:'lugar',
+    asistCercanosLugares:'lugares',
+    asistCercanosDe:'del Camino cerca de ti. El más próximo es',
+    asistCercanosA:'a',
+    asistSaludoM:['¡Buenos días, peregrino! 🌅','¡Ultreia! El Camino te espera. 🌄','¡Arriba, caminante! El alba es tuya. ☀️','Un nuevo día en el Camino. ¡Buen paso! 🥾','¡Que la jornada te sea leve, peregrino! 🌤️'],
+    asistSaludoT:['¡Buenas tardes, peregrino! ☀️','¿Cómo lleva el Camino la tarde de hoy? 🛤️','¡Tarde de Camino! ¿Cuántos kilómetros hoy? 🥾','La tarde es buena hora para planificar. 🗺️','¡Ultreia et suseia, peregrino! ⛰️'],
+    asistSaludoN:['¡Buenas noches, peregrino! 🌙','El Camino descansa, pero tú planificas. 🌟','Noche de peregrino. ¿Mañana salimos? ⭐','¡Buenas noches! El alba trae nuevo Camino. 🌙','Hora de descansar las piernas... o de planificar. 🗺️'],
     asistSubDefault:'El Camino te espera. ¿En qué puedo ayudarte?',
     asistPaso3Uno:'¡Lugar añadido a tu ruta!',
     asistPaso3Multi:'¡{n} lugares añadidos a tu ruta!',
@@ -9665,6 +9688,14 @@ var T={
     asistOp4Desc:'A túa colección de cromos desbloqueados no Camiño.',
     asistOp5Tit:'Emerxencias e seguridade',
     asistOp5Desc:'Teléfonos útiles e recursos para o Camiño.',
+    asistBtnBuscar:'Buscar algo próximo',
+    asistBuscarTit:'🔍 Buscar algo próximo a ti',
+    asistBtnAnadirPunto:'Engadir punto ou alerta',
+    asistBtnAnadirDesc:'Recomenda un lugar, engade unha alerta ou un punto de interese',
+    asistBtnBrujula:'Usar a brúxula',
+    asistBtnBrujulaDesc:'Oriéntate coa brúxula dixital do Camiño',
+    asistBtnMasOpc:'Máis opcións interesantes',
+    asistBtnMasOpcDesc:'Historia, álbum, xogo da oca, emerxencias…',
     asistVerDetalle:'Ver detalle →',
     asistAbrir:'Abrir ',
     asistCuriosidades:[
@@ -9688,6 +9719,21 @@ var T={
     asistSubRutaP:'Tes {n} lugares en ruta. ¿Saímos?',
     asistSubAmbos:'Levas {n} cromo e unha ruta con {r} parada. ¡O Camiño agárdache!',
     asistSubAmbosP:'Levas {n} cromos e unha ruta con {r} paradas. ¡O Camiño agárdache!',
+    asistMenuTit:'¿Que che apetece explorar?',
+    asistSugTit:'Aquí tes outras funcións que quizais che gustarán',
+    asistDetallePreg:'¿Queres ver outra opción?',
+    asistRevTit:'A túa ruta actual',
+    asistRevCromos:'cromo desbloqueado',
+    asistRevCromosP:'cromos desbloqueados',
+    asistRevSigue:'Segue visitando para subir de rango.',
+        asistCercanosPre:'Tes',
+    asistCercanosLugar:'lugar',
+    asistCercanosLugares:'lugares',
+    asistCercanosDe:'do Camiño cerca de ti. O máis próximo é',
+    asistCercanosA:'a',
+    asistSaludoM:['¡Bos días, peregrino! 🌅','¡Ultreia! O Camiño agárdache. 🌄','¡Arriba, camiñante! A alba é túa. ☀️','Un novo día no Camiño. ¡Bo paso! 🥾','¡Que a xornada che sexa leve, peregrino! 🌤️'],
+    asistSaludoT:['¡Boas tardes, peregrino! ☀️','¿Como leva o Camiño a tarde de hoxe? 🛤️','¡Tarde de Camiño! ¿Cantos quilómetros hoxe? 🥾','A tarde é boa hora para planificar. 🗺️','¡Ultreia et suseia, peregrino! ⛰️'],
+    asistSaludoN:['¡Boas noites, peregrino! 🌙','O Camiño descansa, pero ti planificas. 🌟','Noite de peregrino. ¿Mañá saímos? ⭐','¡Boas noites! A alba trae novo Camiño. 🌙','Hora de descansar as pernas... ou de planificar. 🗺️'],
     asistSubDefault:'O Camiño agárdache. ¿En que podo axudarte?',
     asistPaso3Uno:'¡Lugar engadido á túa ruta!',
     asistPaso3Multi:'¡{n} lugares engadidos á túa ruta!',
@@ -10197,6 +10243,14 @@ var T={
     asistOp4Desc:"Your collection of stamps unlocked on the Way.",
     asistOp5Tit:'Emergencies and safety',
     asistOp5Desc:'Useful numbers and resources for the Way.',
+    asistBtnBuscar:'Search nearby',
+    asistBuscarTit:'🔍 Search something near you',
+    asistBtnAnadirPunto:'Add a point or alert',
+    asistBtnAnadirDesc:'Recommend a place, add an alert or a point of interest',
+    asistBtnBrujula:'Use the compass',
+    asistBtnBrujulaDesc:'Get your bearings with the digital Camino compass',
+    asistBtnMasOpc:'More interesting options',
+    asistBtnMasOpcDesc:'History, album, board game, emergencies…',
     asistVerDetalle:'See details →',
     asistAbrir:'Open ',
     asistCuriosidades:[
@@ -10220,6 +10274,21 @@ var T={
     asistSubRutaP:'You have {n} places on your route. Shall we go?',
     asistSubAmbos:'You have {n} stamp and a route with {r} stop. The Way awaits!',
     asistSubAmbosP:'You have {n} stamps and a route with {r} stops. The Way awaits!',
+    asistMenuTit:'What would you like to explore?',
+    asistSugTit:'Here are some other features you might enjoy',
+    asistDetallePreg:'Would you like to see another option?',
+    asistRevTit:'Your current route',
+    asistRevCromos:'stamp unlocked',
+    asistRevCromosP:'stamps unlocked',
+    asistRevSigue:'Keep visiting to move up the ranks.',
+        asistCercanosPre:'You have',
+    asistCercanosLugar:'place',
+    asistCercanosLugares:'places',
+    asistCercanosDe:'on the Camino nearby. The closest is',
+    asistCercanosA:'at',
+    asistSaludoM:['Good morning, pilgrim! 🌅','Ultreia! The Way awaits you. 🌄','Rise, wanderer! The dawn is yours. ☀️','A new day on the Camino. Safe travels! 🥾','May the journey be light today, pilgrim! 🌤️'],
+    asistSaludoT:['Good afternoon, pilgrim! ☀️','How is the Camino treating you this afternoon? 🛤️','Afternoon on the Way! How many kilometres today? 🥾','The afternoon is a great time to plan. 🗺️','Ultreia et suseia, pilgrim! ⛰️'],
+    asistSaludoN:['Good night, pilgrim! 🌙','The Camino rests, but you plan ahead. 🌟','A pilgrim night. Shall we set off tomorrow? ⭐','Good night! Dawn brings a new Camino. 🌙','Time to rest those legs... or plan the next stage. 🗺️'],
     asistSubDefault:'The Way awaits. How can I help you?',
     asistPaso3Uno:'Place added to your route!',
     asistPaso3Multi:'{n} places added to your route!',
@@ -10918,7 +10987,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1052";
+var _APP_VERSION = "v1056";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -12632,7 +12701,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1052</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1056</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
