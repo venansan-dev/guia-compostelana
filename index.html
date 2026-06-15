@@ -4062,7 +4062,6 @@ function toggleBuscadorMapa() {
     strip.style.display = 'block';
     if (btn) { btn.innerHTML = '✕'; btn.style.fontSize='18px'; }
     if (panel) { panel.style.display = 'none'; }
-    var btnCasco = document.getElementById('btn-asistente-mapa'); if (btnCasco) btnCasco.style.display = 'none';
     if (input) { setTimeout(function(){ input.focus(); }, 100); }
   }
 }
@@ -4074,7 +4073,7 @@ function cerrarBuscadorMapa() {
   if (strip) strip.style.display = 'none';
   if (btn)   { btn.style.display = 'flex'; btn.style.background='rgba(255,245,210,0.92)'; btn.style.borderColor='#a07828'; btn.style.color=''; btn.innerHTML='&#128269;'; btn.style.fontSize='17px'; }
   if (panel) { panel.style.display = 'flex'; panel.style.flexDirection = 'column'; }
-  var btnCasco = document.getElementById('btn-asistente-mapa'); if (btnCasco && !_navActiva) btnCasco.style.display = 'flex';
+
 }
 
 // Tags OSM para búsqueda por Overpass
@@ -10999,7 +10998,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1083";
+var _APP_VERSION = "v1084";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -12713,7 +12712,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='display:none'>v1083</div>
+<div id='version-badge' style='display:none'>v1084</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
