@@ -4708,7 +4708,7 @@ function abrirHeroModal() {
       emoji: '🆘',
       titulo: _t.asistOp5Tit||'Emergencias y seguridad',
       desc: _t.asistOp5Desc||'Teléfonos útiles y recursos para el Camino.',
-      detalle: [
+      detalle: _t.asistOp5Det||[
         'Un panel de recursos esenciales pensado para cuando el Camino se complica: teléfonos de emergencia, contactos de la Guardia Civil, Cruz Roja y servicios sanitarios en las principales etapas.',
         'También encontrarás consejos básicos de seguridad para peregrinos: qué hacer si te pierdes, cómo gestionar una lesión en ruta y cómo activar tu localización de emergencia desde el móvil.',
         '📞 Teléfonos de emergencia · 🏥 Servicios sanitarios · 🧭 Protocolos de seguridad · 🆘 Localización GPS'
@@ -4732,7 +4732,7 @@ function abrirHeroModal() {
       emoji: '🎲',
       titulo: _t.asistOp3Tit||'Juego del Tablero de la Oca',
       desc: _t.asistOp3Desc||'63 casillas jacobeas. Desbloquéalas visitando lugares reales.',
-      detalle: [
+      detalle: _t.asistOp3Det||[
         'Una versión jacobea del clásico juego de la oca con 63 casillas inspiradas en el Camino. Cada casilla tiene su nombre en latín, su mecánica especial y su simbolismo peregrino.',
         'Las casillas se desbloquean automáticamente cuando visitas los lugares reales del Camino con el GPS activado. Casillas especiales como la Muerte, el Laberinto o la Cárcel tienen mecánicas únicas que condicionan tu avance.',
         '🎲 63 casillas · 📍 Desbloqueo por GPS · ⚔️ Casillas especiales · 🏆 Progresión real en el Camino'
@@ -4746,7 +4746,7 @@ function abrirHeroModal() {
       emoji: '🏅',
       titulo: _t.asistOp4Tit||'Álbum del Peregrino',
       desc: _t.asistOp4Desc||'Tu colección de cromos desbloqueados en el Camino.',
-      detalle: [
+      detalle: _t.asistOp4Det||[
         'El Álbum registra cada lugar que visitas a lo largo del Camino. Cuando te acercas a menos de 25 metros de un punto de interés con el GPS activo, desbloqueas automáticamente su cromo coleccionable.',
         'Cada cromo tiene diseño de postal barroca con iconografía jacobea, el nombre del lugar, su descripción histórica y tu fecha de visita. Cuantos más reúnas, mayor será tu rango de peregrino: desde Aspirante hasta Ultreia 🏆.',
         '🐚 Cromos coleccionables · 📍 GPS automático · 🏆 Sistema de rangos · 📅 Historial de visitas'
@@ -9672,6 +9672,9 @@ var T={
     asistOp4Desc:'A túa colección de cromos desbloqueados no Camiño.',
     asistOp5Tit:'Emerxencias e seguridade',
     asistOp5Desc:'Teléfonos útiles e recursos para o Camiño.',
+    asistOp3Det:['Unha versión xacobea do clásico xogo da oca con 63 casillas inspiradas no Camiño. Cada casilla ten o seu nome en latín, a súa mecánica especial e o seu simbolismo peregrino.','As casillas desbloquéanse automaticamente cando visitas os lugares reais do Camiño co GPS activado. Casillas especiais como a Morte, o Labirinto ou a Cadea teñen mecánicas únicas que condicionan o teu avance.','🎲 63 casillas · 📍 Desbloqueo por GPS · ⚔️ Casillas especiais · 🏆 Progresión real no Camiño'],
+    asistOp4Det:['O Álbum rexistra cada lugar que visitas ao longo do Camiño. Cando te achegues a menos de 25 metros dun punto de interese co GPS activo, desbloqueas automaticamente o seu cromo coleccionable.','Cada cromo ten deseño de postal barroca con iconografía xacobea, o nome do lugar, a súa descrición histórica e a túa data de visita. Canto máis reúnas, maior será o teu rango de peregrino: desde Aspirante ata Ultreia 🏆.','🐚 Cromos coleccionables · 📍 GPS automático · 🏆 Sistema de rangos · 📅 Historial de visitas'],
+    asistOp5Det:['Un panel de recursos esenciais pensado para cando o Camiño se complica: teléfonos de emerxencia, contactos da Garda Civil, Cruz Vermella e servizos sanitarios nas principais etapas.','Tamén atoparás consellos básicos de seguridade para peregrinos: que facer se te perdes, como xestionar unha lesión en ruta e como activar a túa localización de emerxencia desde o móbil.','📞 Teléfonos de emerxencia · 🏥 Servizos sanitarios · 🧭 Protocolos de seguridade · 🆘 Localización GPS'],
     asistBtnBuscar:'Buscar algo próximo',
     asistBuscarTit:'🔍 Buscar algo próximo a ti',
     asistBtnAnadirPunto:'Engadir punto ou alerta',
@@ -10228,6 +10231,9 @@ var T={
     asistOp4Desc:"Your collection of stamps unlocked on the Way.",
     asistOp5Tit:'Emergencies and safety',
     asistOp5Desc:'Useful numbers and resources for the Way.',
+    asistOp3Det:['A Jacobean take on the classic board game with 63 squares inspired by the Camino. Each square has its own Latin name, special mechanic, and pilgrim symbolism.','Squares unlock automatically when you visit real Camino locations with GPS active. Special squares like Death, the Labyrinth, and the Prison have unique mechanics that affect your progress.','🎲 63 squares · 📍 GPS unlock · ⚔️ Special squares · 🏆 Real Camino progression'],
+    asistOp4Det:['The Album records every place you visit along the Way. When you get within 25 metres of a point of interest with GPS active, you automatically unlock its collectible stamp.','Each stamp has a Baroque postcard design with Jacobean iconography, the place name, its historical description, and your visit date. The more you collect, the higher your pilgrim rank: from Aspirante to Ultreia 🏆.','🐚 Collectible stamps · 📍 Automatic GPS · 🏆 Ranking system · 📅 Visit history'],
+    asistOp5Det:['An essential resource panel for when the Way gets difficult: emergency numbers, Civil Guard contacts, Red Cross, and medical services at the main stages.','You will also find basic safety tips for pilgrims: what to do if you get lost, how to manage an injury on the route, and how to activate your emergency location from your phone.','📞 Emergency numbers · 🏥 Medical services · 🧭 Safety protocols · 🆘 GPS location'],
     asistBtnBuscar:'Search nearby',
     asistBuscarTit:'🔍 Search something near you',
     asistBtnAnadirPunto:'Add a point or alert',
@@ -10972,7 +10978,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1061";
+var _APP_VERSION = "v1062";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -12686,7 +12692,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1061</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1062</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
