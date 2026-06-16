@@ -4520,6 +4520,24 @@ function abrirHeroModal() {
   inner.className = 'pergamino-body';
   panel.appendChild(inner);
 
+  // Helper: casco + typewriter reutilizable para todos los _render
+  function _cascoTypewriter(container, texto, extraCss, speed) {
+    var wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:10px' + (extraCss ? ';' + extraCss : '');
+    var img = document.createElement('img');
+    img.src = 'https://i.postimg.cc/m2TbCRTs/casc4.png';
+    img.style.cssText = 'width:36px;height:36px;object-fit:contain;flex-shrink:0;animation:_casc-pulse 2.4s ease-in-out infinite';
+    var txt = document.createElement('div');
+    txt.style.cssText = 'font-family:IM Fell English,serif;font-size:19px;font-weight:400;color:#1a0800;line-height:1.3;flex:1';
+    wrap.appendChild(img);
+    wrap.appendChild(txt);
+    container.appendChild(wrap);
+    _typewriter(txt, texto, speed || 28, function() {
+      img.style.animation = 'none';
+    });
+    return wrap;
+  }
+
   // ── DESPEDIDA: mensaje de apoyo al cerrar ───────────────────────
   function _renderDespedida(fnDespues) {
     if (panel._sugerenciasWrap) { panel._sugerenciasWrap.remove(); panel._sugerenciasWrap = null; }
@@ -4531,10 +4549,7 @@ function abrirHeroModal() {
     icono.textContent = '🐚';
     inner.appendChild(icono);
 
-    var titulo = document.createElement('div');
-    titulo.style.cssText = 'font-family:IM Fell English,serif;font-size:20px;font-weight:400;color:#1a0800;text-align:center;margin-bottom:10px;line-height:1.3';
-    titulo.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">'+(_t.asistBienCamino||'¡Buen Camino, peregrino!');
-    inner.appendChild(titulo);
+    _cascoTypewriter(inner, _t.asistBienCamino||'¡Buen Camino, peregrino!', 'justify-content:center');
 
     var msg = document.createElement('p');
     msg.style.cssText = 'font-size:15px;color:#1a0800;text-align:center;line-height:1.7;margin-bottom:16px';
@@ -4621,21 +4636,68 @@ function abrirHeroModal() {
     container.appendChild(wrap);
   }
 
+  // Typewriter helper
+  function _typewriter(el, html, speed, onDone) {
+    // Extrae texto plano para el efecto; el HTML lo ponemos al final
+    var text = html.replace(/<[^>]+>/g, '');
+    var i = 0;
+    el.textContent = '';
+    el.style.borderRight = '2px solid #5a3008';
+    el.style.animation = 'none';
+    var cursor = setInterval(function() {
+      if (i <= text.length) {
+        el.textContent = text.slice(0, i);
+        i++;
+      } else {
+        clearInterval(cursor);
+        el.innerHTML = html; // restaurar HTML completo al acabar
+        el.style.borderRight = 'none';
+        if (onDone) onDone();
+      }
+    }, speed || 28);
+    return cursor;
+  }
+
   // ── PASO 1: Saludo + bifurcación según estado de ruta ───────────
   function _renderPaso1() {
     if (panel._sugerenciasWrap) { panel._sugerenciasWrap.remove(); panel._sugerenciasWrap = null; }
     inner.style.cssText = 'position:relative;z-index:1;flex:1;min-height:0;display:flex;flex-direction:column;padding:0 20px 40px;box-sizing:border-box';
     inner.innerHTML = '';
 
-    // Saludo contextual con subtítulo dinámico — casco circular delante
-    var h1 = document.createElement('div');
-    h1.style.cssText = 'font-family:IM Fell English,serif;font-size:24px;font-weight:400;color:#1a0800;line-height:1.2;margin-bottom:6px;display:flex;align-items:center';
-    h1.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">' + _saludoConContexto();
-    inner.appendChild(h1);
+    // Casco solo, centrado, con pulso suave
+    var cascoWrap = document.createElement('div');
+    cascoWrap.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:10px';
+    var cascoImg = document.createElement('img');
+    cascoImg.src = 'https://i.postimg.cc/m2TbCRTs/casc4.png';
+    cascoImg.style.cssText = 'width:38px;height:38px;object-fit:contain;flex-shrink:0;animation:_casc-pulse 2.4s ease-in-out infinite';
+    if (!document.getElementById('_casc-pulse-style')) {
+      var st = document.createElement('style');
+      st.id = '_casc-pulse-style';
+      st.textContent = '@keyframes _casc-pulse{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.08) rotate(3deg)}}';
+      document.head.appendChild(st);
+    }
+    cascoWrap.appendChild(cascoImg);
+
+    // Texto del saludo con typewriter
+    var saludoEl = document.createElement('div');
+    saludoEl.style.cssText = 'font-family:IM Fell English,serif;font-size:20px;font-weight:400;color:#1a0800;line-height:1.3;flex:1';
+    cascoWrap.appendChild(saludoEl);
+    inner.appendChild(cascoWrap);
+
+    // Subtítulo (aparece tras el saludo)
     var subCtx = document.createElement('p');
-    subCtx.style.cssText = 'font-size:15px;color:#1a0800;margin-bottom:12px;line-height:1.5';
-    subCtx.innerHTML = _capital(_subtituloContextual());
+    subCtx.style.cssText = 'font-size:15px;color:#1a0800;margin-bottom:12px;line-height:1.5;min-height:1.2em';
     inner.appendChild(subCtx);
+
+    var saludoTexto = _saludoConContexto();
+    var subTexto = _subtituloContextual();
+
+    // Typewriter saludo → luego subtítulo
+    _typewriter(saludoEl, saludoTexto, 30, function() {
+      _typewriter(subCtx, subTexto, 18, function() {
+        cascoImg.style.animation = 'none';
+      });
+    });
 
     // ¿Hay ruta activa?
     if (typeof rutaPuntos !== 'undefined' && rutaPuntos.length > 0) {
@@ -5054,10 +5116,7 @@ function abrirHeroModal() {
     var header = document.createElement('div');
     header.style.cssText = 'flex-shrink:0';
 
-    var tit = document.createElement('div');
-    tit.style.cssText = 'font-family:IM Fell English,serif;font-size:20px;color:#1a0800;margin-bottom:4px;display:flex;align-items:center;gap:8px';
-    tit.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:36px;height:36px;object-fit:contain;flex-shrink:0">' + (_t.asistMenuTit||'¿Qué te apetece explorar?');
-    header.appendChild(tit);
+    _cascoTypewriter(header, _t.asistMenuTit||'¿Qué te apetece explorar?');
 
     var orn = document.createElement('div');
     orn.style.cssText = 'text-align:center;color:#8b6914;letter-spacing:6px;margin:8px 0 14px;font-size:15px';
@@ -5134,10 +5193,7 @@ function abrirHeroModal() {
     adorno.textContent = '✦ ✦ ✦';
     inner.appendChild(adorno);
 
-    var titulo = document.createElement('div');
-    titulo.style.cssText = 'font-family:IM Fell English,serif;font-size:20px;font-weight:400;color:#1a0800;margin-bottom:6px;line-height:1.3';
-    titulo.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">' + (_t.asistSugTit||'Aquí tienes otras funciones que quizás te gustarán');
-    inner.appendChild(titulo);
+    _cascoTypewriter(inner, _t.asistSugTit||'Aquí tienes otras funciones que quizás te gustarán');
 
     var hint = document.createElement('p');
     hint.style.cssText = 'font-size:14px;color:#8b6914;margin-bottom:14px;font-style:italic';
@@ -5191,11 +5247,13 @@ function abrirHeroModal() {
 
     // Cabecera
     var cab = document.createElement('div');
-    cab.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:12px';
-    cab.innerHTML = '<div style="font-size:32px">' + op.emoji + '</div>'
-      + '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">'
-      + '<div style="font-family:IM Fell English,serif;font-size:20px;color:#1a0800;line-height:1.2">' + op.titulo + '</div>';
+    cab.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:12px';
+    var cabEmoji = document.createElement('div');
+    cabEmoji.style.cssText = 'font-size:32px;flex-shrink:0';
+    cabEmoji.textContent = op.emoji;
+    cab.appendChild(cabEmoji);
     inner.appendChild(cab);
+    _cascoTypewriter(cab, op.titulo);
 
     // Párrafos descriptivos
     var textos = document.createElement('div');
@@ -5248,10 +5306,7 @@ function abrirHeroModal() {
   function _renderRevision() {
     inner.innerHTML = '';
 
-    var titulo = document.createElement('div');
-    titulo.style.cssText = 'font-family:IM Fell English,serif;font-size:20px;font-weight:400;color:#fff;margin-bottom:6px';
-    titulo.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">' + (_t.asistRevTit||'Tu ruta actual');
-    inner.appendChild(titulo);
+    _cascoTypewriter(inner, _t.asistRevTit||'Tu ruta actual');
 
     // Aviso de cromos si tiene alguno
     var _nCromos = _numCromosActuales();
@@ -5321,10 +5376,7 @@ function abrirHeroModal() {
     inner.innerHTML = '';
     var seleccionados = {};
 
-    var titulo = document.createElement('div');
-    titulo.style.cssText = 'font-family:IM Fell English,serif;font-size:20px;font-weight:400;color:#1a0800;margin-bottom:6px;line-height:1.3';
-    titulo.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">' + (_t.asistPaso2Tit||'Selecciona qué te gustaría visitar');
-    inner.appendChild(titulo);
+    _cascoTypewriter(inner, _t.asistPaso2Tit||'Selecciona qué te gustaría visitar');
 
     var adornoPaso2 = document.createElement('div');
     adornoPaso2.style.cssText = 'text-align:center;color:#8b6914;letter-spacing:6px;margin:4px 0 10px;font-size:15px;flex-shrink:0';
@@ -5554,10 +5606,7 @@ function abrirHeroModal() {
     icono.textContent = '🗺️';
     inner.appendChild(icono);
 
-    var titulo = document.createElement('div');
-    titulo.style.cssText = 'font-family:IM Fell English,serif;font-size:19px;font-weight:400;color:#1a0800;text-align:center;margin-bottom:10px;line-height:1.3';
-    titulo.innerHTML = '<img src="https://i.postimg.cc/m2TbCRTs/casc4.png" style="width:42px;height:42px;object-fit:contain;flex-shrink:0;vertical-align:middle;margin-right:8px">' + (num === 1 ? (_t.asistPaso3Uno||'¡Lugar añadido a tu ruta!') : (_t.asistPaso3Multi||'¡{n} lugares añadidos a tu ruta!').replace('{n}',num));
-    inner.appendChild(titulo);
+    _cascoTypewriter(inner, num === 1 ? (_t.asistPaso3Uno||'¡Lugar añadido a tu ruta!') : (_t.asistPaso3Multi||'¡{n} lugares añadidos a tu ruta!').replace('{n}',num), 'justify-content:center');
 
     // ── Resumen de la ruta ───────────────────────────────────────
     if (seleccionados && Object.keys(seleccionados).length > 0) {
@@ -11465,7 +11514,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1136";
+var _APP_VERSION = "v1139";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -13179,7 +13228,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1136</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1139</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
