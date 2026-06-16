@@ -227,9 +227,9 @@
     body > *:not(#desktop-landing) { display:none !important; }
     #desktop-landing { display:block !important; }
     body {
-      background:#0a0f1e !important;
+      background:#f5f5f7 !important;
       font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif !important;
-      color:#e8eaf0 !important;
+      color:#1d1d1f !important;
       line-height:1.6 !important;
     }
   }
@@ -268,23 +268,27 @@
 
   /* ─── HERO ─── */
   .dl-hero {
-    background:linear-gradient(135deg,#0d1428 0%,#111827 50%,#0a0f1e 100%);
+    background:#fff;
     padding:2.5rem 2rem 3rem;
     display:flex; align-items:center; justify-content:center;
     gap:6rem;
     max-width:1100px; margin:0 auto;
   }
   .dl-hero-text { flex:1; max-width:480px; }
-  .dl-hero-eyebrow-placeholder { /* base movida al bloque de efectos */ }
+  .dl-hero-eyebrow {
+    font-size:12px; font-weight:600; letter-spacing:2px;
+    text-transform:uppercase; color:#1a3a6e;
+    margin-bottom:1rem;
+  }
   .dl-hero-title {
     font-family:'Playfair Display',serif;
     font-size:52px; font-weight:700; line-height:1.1;
-    color:#f0f2f8; margin-bottom:1.25rem;
+    color:#1d1d1f; margin-bottom:1.25rem;
     letter-spacing:-1px;
   }
   .dl-hero-title em { font-style:normal; color:#1a3a6e; }
   .dl-hero-desc {
-    font-size:17px; color:#94a3b8; line-height:1.7;
+    font-size:17px; color:#6e6e73; line-height:1.7;
     margin-bottom:2rem;
   }
   .dl-hero-actions { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
@@ -319,9 +323,9 @@
   }
   .dl-hero-meta-item {
     display:flex; align-items:center; gap:6px;
-    font-size:13px; color:#94a3b8;
+    font-size:13px; color:#6e6e73;
   }
-  .dl-hero-meta-item strong { color:#f0f2f8; }
+  .dl-hero-meta-item strong { color:#1d1d1f; }
 
   /* ─── PHONE MOCKUP ─── */
   .dl-phone-wrap {
@@ -440,9 +444,9 @@
 
   /* ─── STATS BAR ─── */
   .dl-stats {
-    background:linear-gradient(90deg,#0d1428 0%,#111827 50%,#0d1428 100%);
-    border-top:1px solid rgba(255,255,255,0.06);
-    border-bottom:1px solid rgba(255,255,255,0.06);
+    background:#fff;
+    border-top:1px solid rgba(0,0,0,0.06);
+    border-bottom:1px solid rgba(0,0,0,0.06);
     padding:2rem;
     display:flex; justify-content:center;
     gap:0;
@@ -455,30 +459,30 @@
   }
   .dl-stat:last-child { border-right:none; }
   .dl-stat-num {
-    font-size:36px; font-weight:700; color:#f0f2f8;
+    font-size:36px; font-weight:700; color:#1d1d1f;
     font-family:'Playfair Display',serif;
     letter-spacing:-1px;
   }
   .dl-stat-num span { color:#1a3a6e; }
   .dl-stat-label {
-    font-size:13px; color:#94a3b8; margin-top:2px;
+    font-size:13px; color:#6e6e73; margin-top:2px;
   }
 
   /* ─── FEATURES ─── */
   .dl-features-wrap {
-    background:linear-gradient(180deg,#0f1729 0%,#111827 100%);
+    background:#f5f5f7;
     padding:5rem 2rem;
   }
   .dl-section-title {
     text-align:center;
     font-family:'Playfair Display',serif;
     font-size:36px; font-weight:700;
-    color:#f0f2f8; margin-bottom:0.5rem;
+    color:#1d1d1f; margin-bottom:0.5rem;
     letter-spacing:-0.5px;
   }
   .dl-section-sub {
     text-align:center;
-    font-size:17px; color:#94a3b8;
+    font-size:17px; color:#6e6e73;
     margin-bottom:3.5rem;
   }
   .dl-features {
@@ -493,16 +497,16 @@
   }
   .dl-features::-webkit-scrollbar { display:none; }
   .dl-feature {
-    background:linear-gradient(145deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02));
+    background:#fff;
     border-radius:18px;
     padding:2rem;
-    border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(10px);
+    border:1px solid rgba(0,0,0,0.06);
     transition:box-shadow .25s, transform .25s;
     flex:0 0 260px;
     scroll-snap-align:start;
   }
   .dl-feature:hover {
-    box-shadow:0 8px 32px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.1);
+    box-shadow:0 8px 32px rgba(0,0,0,0.1);
     transform:translateY(-3px);
   }
   .dl-features-nav {
@@ -511,29 +515,29 @@
   }
   .dl-features-arrow {
     width:36px; height:36px; border-radius:50%;
-    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12);
+    background:#fff; border:1px solid rgba(0,0,0,0.1);
     display:flex; align-items:center; justify-content:center;
     cursor:pointer; font-size:16px;
     transition:all .2s; box-shadow:0 2px 8px rgba(0,0,0,0.08);
   }
   .dl-features-arrow:hover {
-    background:#1a3a6e; color:#fff; border-color:rgba(255,255,255,0.2);
+    background:#1a3a6e; color:#fff; border-color:#1a3a6e;
   }
   .dl-feature-icon {
     font-size:36px; margin-bottom:1rem;
     display:block;
   }
   .dl-feature-title {
-    font-size:17px; font-weight:700; color:#f0f2f8;
+    font-size:17px; font-weight:700; color:#1d1d1f;
     margin-bottom:0.5rem;
   }
   .dl-feature-desc {
-    font-size:14px; color:#94a3b8; line-height:1.65;
+    font-size:14px; color:#6e6e73; line-height:1.65;
   }
 
   /* ─── SCREENSHOTS / GALERÍA ─── */
   .dl-gallery-wrap {
-    background:linear-gradient(180deg,#111827 0%,#0d1428 100%);
+    background:#fff;
     padding:5rem 2rem;
     overflow:hidden;
   }
@@ -545,7 +549,7 @@
   .dl-gallery-item {
     border-radius:18px; overflow:hidden;
     border:1px solid rgba(0,0,0,0.08);
-    box-shadow:0 8px 32px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.1);
+    box-shadow:0 8px 32px rgba(0,0,0,0.1);
     flex:0 0 auto;
     width:180px;
     transition:transform .3s, box-shadow .3s;
@@ -560,8 +564,8 @@
   }
   .dl-gallery-label {
     padding:10px 12px;
-    font-size:12px; font-weight:600; color:#94a3b8;
-    text-align:center; background:rgba(255,255,255,0.05);
+    font-size:12px; font-weight:600; color:#6e6e73;
+    text-align:center; background:#f5f5f7;
     border-top:1px solid rgba(0,0,0,0.06);
   }
   /* Placeholder de pantalla cuando no hay imagen real */
@@ -582,7 +586,7 @@
 
   /* ─── RUTAS ─── */
   .dl-routes-wrap {
-    background:linear-gradient(180deg,#0a0f1e 0%,#0d1428 100%);
+    background:#f5f5f7;
     padding:5rem 2rem;
   }
   .dl-routes {
@@ -591,9 +595,9 @@
   }
   .dl-route-pill {
     display:inline-flex; align-items:center; gap:8px;
-    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12);
+    background:#fff; border:1px solid rgba(0,0,0,0.08);
     border-radius:980px; padding:10px 20px;
-    font-size:14px; font-weight:600; color:#e8eaf0;
+    font-size:14px; font-weight:600; color:#1d1d1f;
     box-shadow:0 2px 8px rgba(0,0,0,0.06);
     transition:all .2s;
   }
@@ -604,7 +608,7 @@
 
   /* ─── QR SECTION ─── */
   .dl-qr-wrap {
-    background:linear-gradient(135deg,#0d1428 0%,#111827 100%);
+    background:#fff;
     padding:5rem 2rem;
     display:flex; align-items:center; justify-content:center;
     gap:5rem;
@@ -619,11 +623,11 @@
   .dl-qr-title {
     font-family:'Playfair Display',serif;
     font-size:36px; font-weight:700;
-    color:#f0f2f8; line-height:1.15;
+    color:#1d1d1f; line-height:1.15;
     margin-bottom:1rem; letter-spacing:-0.5px;
   }
   .dl-qr-desc {
-    font-size:16px; color:#94a3b8; line-height:1.7;
+    font-size:16px; color:#6e6e73; line-height:1.7;
     margin-bottom:1.5rem;
   }
   .dl-qr-steps {
@@ -631,7 +635,7 @@
   }
   .dl-qr-step {
     display:flex; align-items:center; gap:12px;
-    font-size:14px; color:#e8eaf0;
+    font-size:14px; color:#1d1d1f;
   }
   .dl-qr-step-num {
     width:28px; height:28px; border-radius:50%;
@@ -641,11 +645,11 @@
   }
   .dl-qr-box {
     flex-shrink:0;
-    background:rgba(255,255,255,0.04);
-    border:1px solid rgba(255,255,255,0.12);
+    background:#fff;
+    border:2px solid rgba(0,0,0,0.08);
     border-radius:24px;
     padding:2rem;
-    box-shadow:0 8px 32px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.1);
+    box-shadow:0 8px 32px rgba(0,0,0,0.1);
     display:flex; flex-direction:column; align-items:center;
     gap:1rem;
   }
@@ -653,305 +657,27 @@
     width:180px; height:180px;
   }
   .dl-qr-url {
-    font-size:13px; color:#94a3b8; font-weight:600;
+    font-size:13px; color:#6e6e73; font-weight:600;
     letter-spacing:0.5px;
   }
 
   /* ─── FOOTER ─── */
   .dl-footer {
-    background:#070b14;
-    border-top:1px solid rgba(255,255,255,0.06);
+    background:#f5f5f7;
+    border-top:1px solid rgba(0,0,0,0.08);
     padding:2.5rem 2rem;
     text-align:center;
   }
   .dl-footer p {
-    font-size:13px; color:#94a3b8; line-height:1.8;
+    font-size:13px; color:#6e6e73; line-height:1.8;
   }
   .dl-footer a { color:#1a3a6e; text-decoration:none; }
   .dl-footer-logo {
     font-family:'Playfair Display',serif;
-    font-size:22px; font-weight:700; color:#f0f2f8;
+    font-size:22px; font-weight:700; color:#1d1d1f;
     margin-bottom:0.75rem;
   }
-  .dl-footer-logo span { color:#7EB8E8; }
-
-  /* ══════════════════════════════════════════
-     EFECTOS PREMIUM — brillos, animaciones, cristal
-  ══════════════════════════════════════════ */
-
-  /* Fondo animado con orbes de luz */
-  #desktop-landing { position:relative; overflow:hidden; }
-  .dl-orb {
-    position:fixed; border-radius:50%;
-    pointer-events:none; z-index:0;
-    filter:blur(80px); opacity:0.18;
-  }
-  .dl-orb-1 {
-    width:600px; height:600px;
-    background:radial-gradient(circle,#3b82f6,transparent 70%);
-    top:-150px; left:-100px;
-    animation:orbFloat1 18s ease-in-out infinite;
-  }
-  .dl-orb-2 {
-    width:500px; height:500px;
-    background:radial-gradient(circle,#1a3a6e,transparent 70%);
-    top:30%; right:-120px;
-    animation:orbFloat2 22s ease-in-out infinite;
-  }
-  .dl-orb-3 {
-    width:400px; height:400px;
-    background:radial-gradient(circle,#0ea5e9,transparent 70%);
-    bottom:10%; left:20%;
-    animation:orbFloat3 16s ease-in-out infinite;
-  }
-  @keyframes orbFloat1 {
-    0%,100%{transform:translate(0,0) scale(1)}
-    33%{transform:translate(60px,40px) scale(1.1)}
-    66%{transform:translate(-30px,60px) scale(0.95)}
-  }
-  @keyframes orbFloat2 {
-    0%,100%{transform:translate(0,0) scale(1)}
-    40%{transform:translate(-50px,-40px) scale(1.08)}
-    70%{transform:translate(30px,50px) scale(0.92)}
-  }
-  @keyframes orbFloat3 {
-    0%,100%{transform:translate(0,0) scale(1)}
-    50%{transform:translate(40px,-60px) scale(1.12)}
-  }
-
-  /* Asegurar que el contenido queda por encima de los orbes */
-  .dl-header,.dl-hero,.dl-stats,.dl-features-wrap,
-  .dl-gallery-wrap,.dl-routes-wrap,.dl-footer,
-  #dl-qr { position:relative; z-index:1; }
-
-  /* Header con borde inferior brillante */
-  .dl-header {
-    border-bottom:1px solid rgba(255,255,255,0.08) !important;
-    box-shadow:0 1px 0 rgba(99,179,237,0.15), 0 4px 24px rgba(0,0,0,0.4) !important;
-  }
-
-  /* Hero: degradado de texto animado en el título */
-  .dl-hero-title em {
-    background:linear-gradient(90deg,#7EB8E8,#a78bfa,#38bdf8,#7EB8E8);
-    background-size:300% 100%;
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    background-clip:text;
-    animation:shimmerText 6s linear infinite;
-  }
-  @keyframes shimmerText {
-    0%{background-position:0% 50%}
-    100%{background-position:300% 50%}
-  }
-
-  /* Eyebrow con marco y shimmer solo en el texto */
-  .dl-hero-eyebrow {
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-    border:1.5px solid rgba(99,179,237,0.5);
-    border-radius:8px;
-    padding:5px 14px;
-    margin-bottom:1rem;
-    background:rgba(99,179,237,0.05);
-    box-shadow:0 0 16px rgba(99,179,237,0.1), inset 0 1px 0 rgba(255,255,255,0.05);
-  }
-  .dl-hero-eyebrow .ey-emoji {
-    font-size:14px;
-    -webkit-text-fill-color:initial;
-    color:initial;
-  }
-  .dl-hero-eyebrow .ey-text {
-    font-size:11px; font-weight:700; letter-spacing:2px;
-    text-transform:uppercase;
-    background:linear-gradient(90deg,#7EB8E8,#a78bfa,#38bdf8,#7EB8E8);
-    background-size:300% 100%;
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    background-clip:text;
-    animation:shimmerText 4s linear infinite;
-  }
-
-  /* Botón primario con brillo animado */
-  .dl-btn-primary {
-    position:relative; overflow:hidden;
-    background:linear-gradient(135deg,#1a3a6e,#2563eb,#1a3a6e) !important;
-    background-size:200% 100% !important;
-    animation:btnShimmer 4s ease-in-out infinite;
-    box-shadow:0 4px 20px rgba(37,99,235,0.5),0 0 0 1px rgba(99,179,237,0.2) !important;
-  }
-  .dl-btn-primary::before {
-    content:'';
-    position:absolute; top:0; left:-100%; width:60%; height:100%;
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,0.18),transparent);
-    animation:btnSweep 3s ease-in-out infinite;
-  }
-  @keyframes btnShimmer {
-    0%,100%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-  }
-  @keyframes btnSweep {
-    0%{left:-100%} 60%,100%{left:200%}
-  }
-  .dl-btn-primary:hover {
-    box-shadow:0 8px 32px rgba(37,99,235,0.7),0 0 0 1px rgba(99,179,237,0.4) !important;
-    transform:translateY(-2px) !important;
-  }
-
-  /* Botón secundario con borde brillante */
-  .dl-btn-secondary {
-    border:1px solid rgba(99,179,237,0.4) !important;
-    box-shadow:0 0 20px rgba(99,179,237,0.1),inset 0 0 20px rgba(99,179,237,0.03) !important;
-    transition:all .3s !important;
-  }
-  .dl-btn-secondary:hover {
-    border-color:rgba(99,179,237,0.8) !important;
-    box-shadow:0 0 30px rgba(99,179,237,0.25),inset 0 0 20px rgba(99,179,237,0.08) !important;
-    background:rgba(99,179,237,0.08) !important;
-  }
-
-  /* Stats: números con glow */
-  .dl-stat-num { text-shadow:0 0 30px rgba(99,179,237,0.3); }
-  .dl-stat-num span { color:#7EB8E8; text-shadow:0 0 20px rgba(126,184,232,0.6); }
-  .dl-stats { border-top:1px solid rgba(255,255,255,0.05) !important; border-bottom:1px solid rgba(255,255,255,0.05) !important; }
-
-  /* Separador luminoso entre secciones */
-  .dl-stats::before, .dl-features-wrap::before,
-  .dl-gallery-wrap::before, .dl-routes-wrap::before {
-    content:'';
-    display:block; height:1px;
-    background:linear-gradient(90deg,transparent,rgba(99,179,237,0.3),rgba(167,139,250,0.3),transparent);
-    margin-bottom:0;
-  }
-
-  /* Feature cards: glassmorphism premium */
-  .dl-feature {
-    background:linear-gradient(145deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02)) !important;
-    border:1px solid rgba(255,255,255,0.08) !important;
-    backdrop-filter:blur(16px) !important;
-    transition:all .3s cubic-bezier(0.4,0,0.2,1) !important;
-    position:relative; overflow:hidden;
-  }
-  .dl-feature::before {
-    content:'';
-    position:absolute; top:0; left:0; right:0; height:1px;
-    background:linear-gradient(90deg,transparent,rgba(99,179,237,0.4),rgba(167,139,250,0.4),transparent);
-    opacity:0; transition:opacity .3s;
-  }
-  .dl-feature:hover {
-    background:linear-gradient(145deg,rgba(99,179,237,0.1),rgba(167,139,250,0.06)) !important;
-    border-color:rgba(99,179,237,0.25) !important;
-    box-shadow:0 8px 32px rgba(0,0,0,0.4),0 0 0 1px rgba(99,179,237,0.15),0 0 40px rgba(99,179,237,0.08) !important;
-    transform:translateY(-4px) !important;
-  }
-  .dl-feature:hover::before { opacity:1; }
-
-  /* Feature icon glow */
-  .dl-feature-icon { filter:drop-shadow(0 0 8px rgba(99,179,237,0.4)); transition:filter .3s; }
-  .dl-feature:hover .dl-feature-icon { filter:drop-shadow(0 0 16px rgba(99,179,237,0.8)); }
-
-  /* Gallery items: borde luminoso en hover */
-  .dl-gallery-item {
-    border:1px solid rgba(255,255,255,0.08) !important;
-    box-shadow:0 8px 32px rgba(0,0,0,0.3) !important;
-    transition:all .35s cubic-bezier(0.4,0,0.2,1) !important;
-    position:relative;
-  }
-  .dl-gallery-item::after {
-    content:'';
-    position:absolute; inset:0;
-    border-radius:18px;
-    background:linear-gradient(135deg,rgba(99,179,237,0.12),transparent 60%);
-    opacity:0; transition:opacity .35s; pointer-events:none;
-  }
-  .dl-gallery-item:hover {
-    transform:scale(1.05) translateY(-6px) !important;
-    box-shadow:0 24px 60px rgba(0,0,0,0.5),0 0 0 1px rgba(99,179,237,0.3),0 0 40px rgba(99,179,237,0.12) !important;
-  }
-  .dl-gallery-item:hover::after { opacity:1; }
-
-  /* Route pills: borde animado */
-  .dl-route-pill {
-    background:rgba(255,255,255,0.04) !important;
-    border:1px solid rgba(255,255,255,0.1) !important;
-    transition:all .25s !important;
-    color:#c8d4e8 !important;
-  }
-  .dl-route-pill:hover {
-    background:rgba(99,179,237,0.1) !important;
-    border-color:rgba(99,179,237,0.4) !important;
-    box-shadow:0 0 20px rgba(99,179,237,0.15) !important;
-    color:#e8f4ff !important;
-    transform:translateY(-3px) !important;
-  }
-
-  /* QR box premium */
-  .dl-qr-box {
-    background:linear-gradient(145deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02)) !important;
-    border:1px solid rgba(99,179,237,0.2) !important;
-    box-shadow:0 0 0 1px rgba(99,179,237,0.1),0 24px 60px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.08) !important;
-    backdrop-filter:blur(20px) !important;
-  }
-
-  /* QR step numbers con glow */
-  .dl-qr-step-num {
-    background:linear-gradient(135deg,#1a3a6e,#2563eb) !important;
-    box-shadow:0 0 12px rgba(37,99,235,0.5) !important;
-  }
-
-  /* Section titles con gradiente sutil */
-  .dl-section-title {
-    background:linear-gradient(90deg,#e8eaf0,#7EB8E8,#a78bfa,#e8eaf0);
-    background-size:300% 100%;
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    background-clip:text;
-    animation:shimmerText 8s linear infinite;
-  }
-
-  /* Footer link color */
-  .dl-footer a { color:#7EB8E8 !important; }
-
-  /* Meta items con iconos brillantes */
-  .dl-hero-meta-item { transition:all .2s; }
-  .dl-hero-meta-item:hover { color:#c8d4e8; }
-
-  /* Línea decorativa divisoria brillante */
-  #dl-features, #dl-gallery, #dl-rutas, #dl-qr {
-    scroll-margin-top:60px;
-  }
-
-  /* Phone mockup: borde con glow */
-  .dl-phone {
-    box-shadow:
-      0 0 0 10px #0d1428,
-      0 0 0 11px rgba(99,179,237,0.2),
-      0 40px 80px rgba(0,0,0,0.6),
-      0 0 60px rgba(37,99,235,0.15) !important;
-  }
-
-  /* Animación entrada suave al cargar */
-  @keyframes fadeUp {
-    from { opacity:0; transform:translateY(24px); }
-    to   { opacity:1; transform:translateY(0); }
-  }
-  .dl-hero-text > * { animation:fadeUp .7s ease both; }
-  .dl-hero-text > *:nth-child(1){animation-delay:.1s}
-  .dl-hero-text > *:nth-child(2){animation-delay:.2s}
-  .dl-hero-text > *:nth-child(3){animation-delay:.3s}
-  .dl-hero-text > *:nth-child(4){animation-delay:.4s}
-  .dl-hero-text > *:nth-child(5){animation-delay:.5s}
-  .dl-hero-text > *:nth-child(6){animation-delay:.6s}
-  .dl-phone-wrap { animation:fadeUp .9s ease .3s both; }
-
-  /* Noise texture overlay sutil sobre toda la landing */
-  #desktop-landing::after {
-    content:'';
-    position:fixed; inset:0; z-index:0; pointer-events:none;
-    opacity:0.025;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
+  .dl-footer-logo span { color:#1a3a6e; }
   </style>
 </head>
 <body>
@@ -961,10 +687,6 @@
      La app móvil real permanece intacta debajo
 ═══════════════════════════════════════════════════════ -->
 <div id="desktop-landing">
-  <!-- Orbes de luz de fondo -->
-  <div class="dl-orb dl-orb-1"></div>
-  <div class="dl-orb dl-orb-2"></div>
-  <div class="dl-orb dl-orb-3"></div>
 
   <!-- HEADER -->
   <header class="dl-header">
@@ -979,31 +701,24 @@
   </header>
 
   <!-- HERO -->
-  <section style="background:linear-gradient(135deg,#0d1428 0%,#111827 50%,#0a0f1e 100%);position:relative">
-    <!-- Banderas idioma esquina superior derecha -->
-    <div style="position:absolute;top:1.25rem;right:2rem;display:flex;gap:8px;align-items:center;z-index:10">
-      <button class='lang-btn activo' onclick='cambiarIdioma("gl")' title='Galego' style="filter:drop-shadow(0 0 6px rgba(99,179,237,0.5))"><svg viewBox='0 0 36 36' xmlns='http://www.w3.org/2000/svg'><clipPath id='c-gl-dl'><circle cx='18' cy='18' r='18'></circle></clipPath><g clip-path='url(#c-gl-dl)'><rect fill='#ffffff' height='36' width='36'></rect><polygon fill='#003DA5' points='36,7 29,0 0,29 7,36'></polygon></g></svg></button>
-      <button class='lang-btn' onclick='cambiarIdioma("en")' title='English'><svg viewBox='0 0 36 36' xmlns='http://www.w3.org/2000/svg'><clipPath id='c-en-dl'><circle cx='18' cy='18' r='18'></circle></clipPath><g clip-path='url(#c-en-dl)'><rect fill='#012169' height='36' width='36'></rect><line stroke='#fff' stroke-width='7' x1='0' x2='36' y1='0' y2='36'></line><line stroke='#fff' stroke-width='7' x1='36' x2='0' y1='0' y2='36'></line><line stroke='#CF142B' stroke-width='4' x1='0' x2='36' y1='0' y2='36'></line><line stroke='#CF142B' stroke-width='4' x1='36' x2='0' y1='0' y2='36'></line><rect fill='#fff' height='36' width='8' x='14' y='0'></rect><rect fill='#fff' height='8' width='36' y='14'></rect><rect fill='#CF142B' height='36' width='5' x='15.5' y='0'></rect><rect fill='#CF142B' height='5' width='36' y='15.5'></rect></g></svg></button>
-      <button class='lang-btn' onclick='cambiarIdioma("es")' title='Español'><svg viewBox='0 0 36 36' xmlns='http://www.w3.org/2000/svg'><clipPath id='c-es-dl'><circle cx='18' cy='18' r='18'></circle></clipPath><g clip-path='url(#c-es-dl)'><rect fill='#c60b1e' height='9' width='36'></rect><rect fill='#ffc300' height='18' width='36' y='9'></rect><rect fill='#c60b1e' height='9' width='36' y='27'></rect></g></svg></button>
-    </div>
+  <section style="background:#fff">
     <div class="dl-hero">
       <div class="dl-hero-text">
-        <p class="dl-hero-eyebrow" id="dl-eyebrow"><span class="ey-emoji">🐚</span><span class="ey-text">Guía Xacobea Interactiva</span></p>
+        <p class="dl-hero-eyebrow">🐚 Guía Xacobea Interactiva</p>
         <img src="https://i.postimg.cc/k5yzbjd9/logohead.png" alt="Xacobeapp" style="height:48px;width:auto;display:block;object-fit:contain;margin-bottom:1.25rem;opacity:0.92"/>
-        <h1 class="dl-hero-title" id="dl-hero-title">Tu compañera en el <em>Camino</em></h1>
-        <img src="https://i.postimg.cc/tRWLFtGh/vieira.png" alt="Vieira del Camino" style="height:64px;width:auto;display:block;object-fit:contain;margin-bottom:1.25rem"/>
-        <p class="dl-hero-desc" id="dl-hero-desc">
+        <h1 class="dl-hero-title">Tu compañera en el <em>Camino</em></h1>
+        <p class="dl-hero-desc">
           Xacobeapp es una guía gratuita para el Camino de Santiago, intuitiva y de muy fácil manejo, que te mostrará todo el patrimonio jacobeo a tu alrededor. Mapas interactivos, creador de rutas, etapas, avisos rápidos de emergencia, POIs exclusivos especializados en el patrimonio xacobeo, navegación GPS, brújula… y otras muchas utilidades pensadas para el peregrino, pero también para todos los que disfrutan conociendo y explorando nuevos espacios. Toda una navaja suiza del peregrino en tu bolsillo, a tu servicio.
         </p>
         <div class="dl-hero-actions">
-          <a href="#dl-qr" class="dl-btn-primary" id="dl-btn-movil">
+          <a href="#dl-qr" class="dl-btn-primary">
             📱 Abrir en tu móvil
           </a>
         </div>
         <div class="dl-hero-meta">
-          <div class="dl-hero-meta-item">⭐ <strong id="dl-meta-gratis">Gratuita</strong> <span id="dl-meta-gratis2"> y sin anuncios</span></div>
-          <div class="dl-hero-meta-item" id="dl-meta-rutas">📍 Los principales caminos jacobeos, con sus etapas y POIs exclusivos</div>
-          <div class="dl-hero-meta-item">🔒 <strong>Offline</strong> · <span id="dl-meta-offline">funciona sin red</span></div>
+          <div class="dl-hero-meta-item">⭐ <strong>Gratuita</strong> y sin anuncios</div>
+          <div class="dl-hero-meta-item">📍 Los principales caminos jacobeos, con sus etapas y POIs exclusivos</div>
+          <div class="dl-hero-meta-item">🔒 <strong>Offline</strong> · funciona sin red</div>
         </div>
       </div>
 
@@ -1011,7 +726,45 @@
       <div class="dl-phone-wrap">
         <div class="dl-phone">
           <div class="dl-phone-notch"></div>
-          <img src="https://i.postimg.cc/HxLqpmqn/Captura1.png" alt="Xacobeapp screenshot" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:34px"/>
+          <div class="dl-phone-screen">
+            <div class="dl-phone-topbar">
+              <div class="dl-phone-topbar-dot"></div>
+              <div class="dl-phone-topbar-dot"></div>
+              <div class="dl-phone-topbar-title">XACOBEAPP · MAPA</div>
+              <div class="dl-phone-topbar-dot"></div>
+              <div class="dl-phone-topbar-dot"></div>
+            </div>
+            <div class="dl-phone-chips">
+              <div class="dl-phone-chip active">📍 Todos</div>
+              <div class="dl-phone-chip">🔵 Costa</div>
+              <div class="dl-phone-chip">🔴 Francés</div>
+              <div class="dl-phone-chip">⛪ Iglesias</div>
+            </div>
+            <div class="dl-phone-map">
+              <div class="dl-phone-poi dl-phone-poi-1">⛪</div>
+              <div class="dl-phone-poi dl-phone-poi-2">🏠</div>
+              <div class="dl-phone-poi dl-phone-poi-3">🏛️</div>
+              <div class="dl-phone-poi dl-phone-poi-4">🌿</div>
+            </div>
+            <div class="dl-phone-bottombar">
+              <div class="dl-phone-bottombar-item active">
+                <div class="dl-phone-bottombar-icon">🗺️</div>
+                Mapa
+              </div>
+              <div class="dl-phone-bottombar-item">
+                <div class="dl-phone-bottombar-icon">🐚</div>
+                Historia
+              </div>
+              <div class="dl-phone-bottombar-item">
+                <div class="dl-phone-bottombar-icon">🧭</div>
+                GPS
+              </div>
+              <div class="dl-phone-bottombar-item">
+                <div class="dl-phone-bottombar-icon">🎖️</div>
+                Juego
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1021,81 +774,77 @@
   <div class="dl-stats">
     <div class="dl-stat">
       <div class="dl-stat-num">200<span>+</span></div>
-      <div class="dl-stat-label" id="dl-stat-poi">Puntos de interés, en aumento</div>
+      <div class="dl-stat-label">Puntos de interés, en aumento</div>
     </div>
     <div class="dl-stat">
       <div class="dl-stat-num">34</div>
-      <div class="dl-stat-label" id="dl-stat-etapas">Etapas documentadas de los 5 caminos principales</div>
+      <div class="dl-stat-label">Etapas documentadas</div>
     </div>
     <div class="dl-stat">
       <div class="dl-stat-num">0<span>€</span></div>
-      <div class="dl-stat-label" id="dl-stat-coste">Coste para el peregrino</div>
-    </div>
-    <div class="dl-stat">
-      <div class="dl-stat-num">0</div>
-      <div class="dl-stat-label" id="dl-stat-pub">Publicidad y cookies</div>
+      <div class="dl-stat-label">Coste para el peregrino</div>
     </div>
   </div>
 
   <!-- FEATURES -->
   <section id="dl-features" class="dl-features-wrap">
-    <h2 class="dl-section-title" id="dl-feat-title">Todo lo que necesitas en el Camino</h2>
-    <p class="dl-section-sub" id="dl-feat-sub">Diseñada para usarse en el móvil mientras caminas</p>
+    <h2 class="dl-section-title">Todo lo que necesitas en el Camino</h2>
+    <p class="dl-section-sub">Diseñada para usarse en el móvil mientras caminas</p>
     <div class="dl-features" id="dl-features-track">
       <div class="dl-feature">
         <span class="dl-feature-icon">🗺️</span>
-        <div class="dl-feature-title" id="dl-f1-t">Mapa interactivo offline</div>
-        <p class="dl-feature-desc" id="dl-f1-d">Tiles de OpenStreetMap cacheadas. Navega sin conexión a lo largo de toda la ruta, con tu posición GPS en tiempo real.</p>
+        <div class="dl-feature-title">Mapa interactivo offline</div>
+        <p class="dl-feature-desc">Tiles de OpenStreetMap cacheadas. Navega sin conexión a lo largo de toda la ruta, con tu posición GPS en tiempo real.</p>
       </div>
       <div class="dl-feature">
         <span class="dl-feature-icon">🧭</span>
-        <div class="dl-feature-title" id="dl-f2-t">Navegación por voz</div>
-        <p class="dl-feature-desc" id="dl-f2-d">Indicaciones habladas en gallego, español e inglés. El móvil te avisa de cada giro sin tener que mirar la pantalla.</p>
+        <div class="dl-feature-title">Navegación por voz</div>
+        <p class="dl-feature-desc">Indicaciones habladas en gallego, español e inglés. El móvil te avisa de cada giro sin tener que mirar la pantalla.</p>
       </div>
       <div class="dl-feature">
         <span class="dl-feature-icon">⛪</span>
-        <div class="dl-feature-title" id="dl-f3-t">Patrimonio jacobeo</div>
-        <p class="dl-feature-desc" id="dl-f3-d">Iglesias, monasterios, castros y vestigios arqueológicos documentados con textos históricos y POIs exclusivos especializados en el patrimonio xacobeo.</p>
+        <div class="dl-feature-title">Patrimonio jacobeo</div>
+        <p class="dl-feature-desc">Iglesias, monasterios, castros y vestigios arqueológicos documentados con textos históricos y POIs exclusivos especializados en el patrimonio xacobeo.</p>
       </div>
       <div class="dl-feature">
         <span class="dl-feature-icon">🎖️</span>
-        <div class="dl-feature-title" id="dl-f4-t">Juego de la Oca Jacobeo</div>
-        <p class="dl-feature-desc" id="dl-f4-d">63 casillas, cromos coleccionables que se desbloquean por GPS al pasar cerca de los puntos. Tu peregrinación tiene ahora una dimensión lúdica.</p>
+        <div class="dl-feature-title">Juego de la Oca Jacobeo</div>
+        <p class="dl-feature-desc">63 casillas, cromos coleccionables que se desbloquean por GPS al pasar cerca de los puntos. Tu peregrinación tiene ahora una dimensión lúdica.</p>
       </div>
       <div class="dl-feature">
         <span class="dl-feature-icon">🏠</span>
-        <div class="dl-feature-title" id="dl-f5-t">Albergues y servicios</div>
-        <p class="dl-feature-desc" id="dl-f5-d">Albergues, fuentes, farmacias y puntos de servicio geolocalizados. Búsqueda en tiempo real con radio expandible.</p>
+        <div class="dl-feature-title">Albergues y servicios</div>
+        <p class="dl-feature-desc">Albergues, fuentes, farmacias y puntos de servicio geolocalizados. Búsqueda en tiempo real con radio expandible.</p>
       </div>
       <div class="dl-feature">
         <span class="dl-feature-icon">🌐</span>
-        <div class="dl-feature-title" id="dl-f6-t">Trilingüe</div>
-        <p class="dl-feature-desc" id="dl-f6-d">Interfaz completa en gallego, castellano e inglés. Cambia el idioma en cualquier momento sin reiniciar.</p>
+        <div class="dl-feature-title">Trilingüe</div>
+        <p class="dl-feature-desc">Interfaz completa en gallego, castellano e inglés. Cambia el idioma en cualquier momento sin reiniciar.</p>
       </div>
       <div class="dl-feature">
         <span class="dl-feature-icon">🆘</span>
-        <div class="dl-feature-title" id="dl-f7-t">Emergencias de acceso rápido</div>
-        <p class="dl-feature-desc" id="dl-f7-d">Sección de emergencias siempre a un toque, con números útiles y recursos para cualquier inconveniente que pueda surgir en el Camino.</p>
+        <div class="dl-feature-title">Emergencias de acceso rápido</div>
+        <p class="dl-feature-desc">Sección de emergencias siempre a un toque, con números útiles y recursos para cualquier inconveniente que pueda surgir en el Camino.</p>
       </div>
       <div class="dl-feature">
         <span class="dl-feature-icon">🏹</span>
-        <div class="dl-feature-title" id="dl-f8-t">Guía por flechas de color</div>
-        <p class="dl-feature-desc" id="dl-f8-d">Sistema de navegación visual mediante flechas de color que te orientan en cada momento, sin perderte ni un giro del Camino.</p>
+        <div class="dl-feature-title">Guía por flechas de color</div>
+        <p class="dl-feature-desc">Sistema de navegación visual mediante flechas de color que te orientan en cada momento, sin perderte ni un giro del Camino.</p>
       </div>
       <div class="dl-feature">
         <span class="dl-feature-icon">📌</span>
-        <div class="dl-feature-title" id="dl-f9-t">Crea y guarda tu ruta</div>
-        <p class="dl-feature-desc" id="dl-f9-d">Selecciona los puntos que quieres visitar, construye tu ruta personalizada y guárdala para consultarla cuando la necesites.</p>
+        <div class="dl-feature-title">Crea y guarda tu ruta</div>
+        <p class="dl-feature-desc">Selecciona los puntos que quieres visitar, construye tu ruta personalizada y guárdala para consultarla cuando la necesites.</p>
       </div>
       <div class="dl-feature">
         <span class="dl-feature-icon">📍</span>
-        <div class="dl-feature-title" id="dl-f10-t">Tus propios puntos en el mapa</div>
-        <p class="dl-feature-desc" id="dl-f10-d">Crea puntos de interés personalizados y añádelos directamente a tu ruta. Tu Camino, a tu manera.</p>
+        <div class="dl-feature-title">Tus propios puntos en el mapa</div>
+        <p class="dl-feature-desc">Crea puntos de interés personalizados y añádelos directamente a tu ruta. Tu Camino, a tu manera.</p>
       </div>
       <div class="dl-feature">
         <span class="dl-feature-icon">✨</span>
-        <div class="dl-feature-title" id="dl-f11-t">Y mucho más…</div>
-        <p class="dl-feature-desc" id="dl-f11-d">Otras muchas y sorprendentes utilidades para que tu Camino pueda ser más atractivo y seguro. Descúbrelas tú mismo.</p>
+        <div class="dl-feature-title">Y mucho más…</div>
+        <p class="dl-feature-desc">Otras muchas y sorprendentes utilidades para que tu Camino pueda ser más atractivo y seguro. Descúbrelas tú mismo.</p>
       </div>
     </div>
     <div class="dl-features-nav">
@@ -1106,202 +855,220 @@
 
   <!-- GALLERY -->
   <section id="dl-gallery" class="dl-gallery-wrap">
-    <h2 class="dl-section-title" id="dl-gal-title">La app en acción</h2>
-    <p class="dl-section-sub" id="dl-gal-sub">Capturas reales desde el móvil</p>
+    <h2 class="dl-section-title">La app en acción</h2>
+    <p class="dl-section-sub">Capturas reales desde el móvil</p>
     <div class="dl-gallery">
+
       <div class="dl-gallery-item">
         <div style="background:linear-gradient(160deg,#0d1e3a,#1a2d52);aspect-ratio:9/19.5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
           <span style="font-size:40px">🗺️</span>
-          <p style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px" id="dl-gal1-inner">Mapa interactivo</p>
+          <p style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px">Mapa interactivo</p>
         </div>
-        <div class="dl-gallery-label" id="dl-gal1">Mapa GPS</div>
+        <div class="dl-gallery-label">Mapa GPS</div>
       </div>
+
       <div class="dl-gallery-item">
         <div style="background:linear-gradient(160deg,#2d1a00,#5a3600);aspect-ratio:9/19.5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
           <span style="font-size:40px">📜</span>
-          <p style="font-size:10px;font-weight:700;color:rgba(255,220,120,0.7);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px" id="dl-gal2-inner">Historia y patrimonio</p>
+          <p style="font-size:10px;font-weight:700;color:rgba(255,220,120,0.7);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px">Historia y patrimonio</p>
         </div>
-        <div class="dl-gallery-label" id="dl-gal2">Patrimonio</div>
+        <div class="dl-gallery-label">Patrimonio</div>
       </div>
+
       <div class="dl-gallery-item">
         <div style="background:linear-gradient(160deg,#0d3326,#1a3a6e);aspect-ratio:9/19.5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
           <span style="font-size:40px">🎖️</span>
-          <p style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px" id="dl-gal3-inner">Juego de la Oca</p>
+          <p style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px">Juego de la Oca</p>
         </div>
-        <div class="dl-gallery-label" id="dl-gal3">Gamificación</div>
+        <div class="dl-gallery-label">Gamificación</div>
       </div>
+
       <div class="dl-gallery-item">
         <div style="background:linear-gradient(160deg,#1a0d3a,#3a1a6e);aspect-ratio:9/19.5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
           <span style="font-size:40px">🧭</span>
-          <p style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px" id="dl-gal4-inner">Brújula y navegación</p>
+          <p style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px">Brújula y navegación</p>
         </div>
-        <div class="dl-gallery-label" id="dl-gal4">Navegación</div>
+        <div class="dl-gallery-label">Navegación</div>
       </div>
+
       <div class="dl-gallery-item">
         <div style="background:linear-gradient(160deg,#1a2d0d,#3a5a1a);aspect-ratio:9/19.5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
           <span style="font-size:40px">🏠</span>
-          <p style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px" id="dl-gal5-inner">Albergues y servicios</p>
+          <p style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px">Albergues y servicios</p>
         </div>
-        <div class="dl-gallery-label" id="dl-gal5">Servicios</div>
+        <div class="dl-gallery-label">Servicios</div>
       </div>
+
     </div>
-    <p style="text-align:center;margin-top:2rem;font-size:13px;color:#94a3b8" id="dl-gal-hint">
+    <p style="text-align:center;margin-top:2rem;font-size:13px;color:#6e6e73">
       ✨ Escanea el QR para ver la app real en tu móvil
     </p>
   </section>
 
   <!-- RUTAS -->
   <section id="dl-rutas" class="dl-routes-wrap">
-    <h2 class="dl-section-title" id="dl-rut-title">Rutas cubiertas</h2>
-    <p class="dl-section-sub" id="dl-rut-sub">Cinco caminos jacobeos con etapas, POIs y navegación GPS</p>
+    <h2 class="dl-section-title">Rutas cubiertas</h2>
+    <p class="dl-section-sub">Cinco caminos jacobeos con etapas, POIs y navegación GPS</p>
     <div class="dl-routes">
-      <div class="dl-route-pill">🔵 <span id="dl-rut1">Camino Portugués de la Costa</span></div>
-      <div class="dl-route-pill">🔴 <span id="dl-rut2">Camino Francés</span></div>
-      <div class="dl-route-pill">🟠 <span id="dl-rut3">Camino del Norte</span></div>
-      <div class="dl-route-pill">🟣 <span id="dl-rut4">Camino Primitivo</span></div>
-      <div class="dl-route-pill">🟡 <span id="dl-rut5">Camino Inglés</span></div>
+      <div class="dl-route-pill">🔵 Camino Portugués de la Costa</div>
+      <div class="dl-route-pill">🔴 Camino Francés</div>
+      <div class="dl-route-pill">🟠 Camino del Norte</div>
+      <div class="dl-route-pill">🟣 Camino Primitivo</div>
+      <div class="dl-route-pill">🟡 Camino Inglés</div>
     </div>
   </section>
 
   <!-- QR -->
-  <section id="dl-qr" style="background:linear-gradient(135deg,#0d1428 0%,#111827 100%)">
+  <section id="dl-qr" style="background:#fff">
     <div class="dl-qr-wrap">
       <div class="dl-qr-text">
-        <p class="dl-qr-eyebrow" id="dl-qr-eyebrow">📱 Versión móvil</p>
-        <h2 class="dl-qr-title" id="dl-qr-title">La app está diseñada para tu móvil</h2>
-        <p class="dl-qr-desc" id="dl-qr-desc">
+        <p class="dl-qr-eyebrow">📱 Versión móvil</p>
+        <h2 class="dl-qr-title">La app está diseñada para tu móvil</h2>
+        <p class="dl-qr-desc">
           Xacobeapp es una Progressive Web App optimizada para pantallas de móvil. Escanea el QR con la cámara de tu teléfono para abrirla directamente, sin descargas.
         </p>
         <div class="dl-qr-steps">
-          <div class="dl-qr-step"><div class="dl-qr-step-num">1</div><span id="dl-qr-s1">Abre la cámara de tu móvil</span></div>
-          <div class="dl-qr-step"><div class="dl-qr-step-num">2</div><span id="dl-qr-s2">Apunta al código QR de la derecha</span></div>
-          <div class="dl-qr-step"><div class="dl-qr-step-num">3</div><span id="dl-qr-s3">Toca el enlace que aparece → xacobeapp.com</span></div>
-          <div class="dl-qr-step"><div class="dl-qr-step-num">4</div><span id="dl-qr-s4">Instálala como app desde el navegador</span></div>
+          <div class="dl-qr-step">
+            <div class="dl-qr-step-num">1</div>
+            Abre la cámara de tu móvil
+          </div>
+          <div class="dl-qr-step">
+            <div class="dl-qr-step-num">2</div>
+            Apunta al código QR de la derecha
+          </div>
+          <div class="dl-qr-step">
+            <div class="dl-qr-step-num">3</div>
+            Toca el enlace que aparece → xacobeapp.com
+          </div>
+          <div class="dl-qr-step">
+            <div class="dl-qr-step-num">4</div>
+            Instálala como app desde el navegador
+          </div>
         </div>
       </div>
       <div class="dl-qr-box">
         <!-- QR code SVG generado para https://xacobeapp.com -->
         <svg viewBox="0 0 37 37" xmlns="http://www.w3.org/2000/svg" style="width:180px;height:180px;image-rendering:pixelated">
-          <rect width="37" height="37" fill="#1a2340"/>
+          <rect width="37" height="37" fill="white"/>
           <!-- QR para xacobeapp.com — patrón visual representativo con esquinas correctas -->
           <!-- Finder top-left -->
-          <rect x="1" y="1" width="7" height="7" fill="#c8d0e8"/>
-          <rect x="2" y="2" width="5" height="5" fill="#1a2340"/>
-          <rect x="3" y="3" width="3" height="3" fill="#c8d0e8"/>
+          <rect x="1" y="1" width="7" height="7" fill="#1d1d1f"/>
+          <rect x="2" y="2" width="5" height="5" fill="white"/>
+          <rect x="3" y="3" width="3" height="3" fill="#1d1d1f"/>
           <!-- Finder top-right -->
-          <rect x="29" y="1" width="7" height="7" fill="#c8d0e8"/>
-          <rect x="30" y="2" width="5" height="5" fill="#1a2340"/>
-          <rect x="31" y="3" width="3" height="3" fill="#c8d0e8"/>
+          <rect x="29" y="1" width="7" height="7" fill="#1d1d1f"/>
+          <rect x="30" y="2" width="5" height="5" fill="white"/>
+          <rect x="31" y="3" width="3" height="3" fill="#1d1d1f"/>
           <!-- Finder bottom-left -->
-          <rect x="1" y="29" width="7" height="7" fill="#c8d0e8"/>
-          <rect x="2" y="30" width="5" height="5" fill="#1a2340"/>
-          <rect x="3" y="31" width="3" height="3" fill="#c8d0e8"/>
+          <rect x="1" y="29" width="7" height="7" fill="#1d1d1f"/>
+          <rect x="2" y="30" width="5" height="5" fill="white"/>
+          <rect x="3" y="31" width="3" height="3" fill="#1d1d1f"/>
           <!-- Data modules pattern — representativo -->
-          <rect x="9" y="1" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="11" y="1" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="14" y="1" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="16" y="1" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="19" y="1" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="21" y="1" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="24" y="1" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="26" y="1" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="9" y="3" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="13" y="3" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="15" y="3" width="3" height="1" fill="#c8d0e8"/>
-          <rect x="20" y="3" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="23" y="3" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="27" y="3" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="9" y="5" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="12" y="5" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="16" y="5" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="19" y="5" width="3" height="1" fill="#c8d0e8"/>
-          <rect x="24" y="5" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="26" y="5" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="9" y="7" width="3" height="1" fill="#c8d0e8"/>
-          <rect x="14" y="7" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="17" y="7" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="21" y="7" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="24" y="7" width="3" height="1" fill="#c8d0e8"/>
+          <rect x="9" y="1" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="11" y="1" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="14" y="1" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="16" y="1" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="19" y="1" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="21" y="1" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="24" y="1" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="26" y="1" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="9" y="3" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="13" y="3" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="15" y="3" width="3" height="1" fill="#1d1d1f"/>
+          <rect x="20" y="3" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="23" y="3" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="27" y="3" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="9" y="5" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="12" y="5" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="16" y="5" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="19" y="5" width="3" height="1" fill="#1d1d1f"/>
+          <rect x="24" y="5" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="26" y="5" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="9" y="7" width="3" height="1" fill="#1d1d1f"/>
+          <rect x="14" y="7" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="17" y="7" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="21" y="7" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="24" y="7" width="3" height="1" fill="#1d1d1f"/>
           <!-- Timing pattern H -->
-          <rect x="8" y="6" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="10" y="6" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="12" y="6" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="14" y="6" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="16" y="6" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="18" y="6" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="20" y="6" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="22" y="6" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="24" y="6" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="26" y="6" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="28" y="6" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="8" y="6" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="10" y="6" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="12" y="6" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="14" y="6" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="16" y="6" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="18" y="6" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="20" y="6" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="22" y="6" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="24" y="6" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="26" y="6" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="28" y="6" width="1" height="1" fill="#1d1d1f"/>
           <!-- Timing pattern V -->
-          <rect x="6" y="8" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="6" y="10" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="6" y="12" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="6" y="14" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="6" y="16" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="6" y="18" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="6" y="20" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="6" y="22" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="6" y="24" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="6" y="26" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="6" y="28" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="6" y="8" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="6" y="10" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="6" y="12" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="6" y="14" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="6" y="16" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="6" y="18" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="6" y="20" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="6" y="22" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="6" y="24" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="6" y="26" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="6" y="28" width="1" height="1" fill="#1d1d1f"/>
           <!-- Data area — patrón central -->
-          <rect x="9" y="9" width="2" height="2" fill="#c8d0e8"/>
-          <rect x="13" y="9" width="3" height="1" fill="#c8d0e8"/>
-          <rect x="18" y="9" width="2" height="2" fill="#c8d0e8"/>
-          <rect x="22" y="9" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="25" y="9" width="3" height="1" fill="#c8d0e8"/>
-          <rect x="9" y="11" width="1" height="2" fill="#c8d0e8"/>
-          <rect x="12" y="11" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="16" y="11" width="4" height="1" fill="#c8d0e8"/>
-          <rect x="22" y="11" width="3" height="1" fill="#c8d0e8"/>
-          <rect x="27" y="11" width="1" height="2" fill="#c8d0e8"/>
-          <rect x="9" y="13" width="3" height="1" fill="#c8d0e8"/>
-          <rect x="14" y="13" width="1" height="2" fill="#c8d0e8"/>
-          <rect x="17" y="13" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="21" y="13" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="24" y="13" width="2" height="2" fill="#c8d0e8"/>
+          <rect x="9" y="9" width="2" height="2" fill="#1d1d1f"/>
+          <rect x="13" y="9" width="3" height="1" fill="#1d1d1f"/>
+          <rect x="18" y="9" width="2" height="2" fill="#1d1d1f"/>
+          <rect x="22" y="9" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="25" y="9" width="3" height="1" fill="#1d1d1f"/>
+          <rect x="9" y="11" width="1" height="2" fill="#1d1d1f"/>
+          <rect x="12" y="11" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="16" y="11" width="4" height="1" fill="#1d1d1f"/>
+          <rect x="22" y="11" width="3" height="1" fill="#1d1d1f"/>
+          <rect x="27" y="11" width="1" height="2" fill="#1d1d1f"/>
+          <rect x="9" y="13" width="3" height="1" fill="#1d1d1f"/>
+          <rect x="14" y="13" width="1" height="2" fill="#1d1d1f"/>
+          <rect x="17" y="13" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="21" y="13" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="24" y="13" width="2" height="2" fill="#1d1d1f"/>
           <!-- Logo center -->
           <rect x="15" y="15" width="7" height="7" rx="1" fill="#1a3a6e"/>
-          <rect x="17" y="16" width="3" height="1" fill="#1a2340"/>
-          <rect x="17" y="18" width="3" height="1" fill="#1a2340"/>
-          <rect x="17" y="20" width="3" height="1" fill="#1a2340"/>
+          <rect x="17" y="16" width="3" height="1" fill="white"/>
+          <rect x="17" y="18" width="3" height="1" fill="white"/>
+          <rect x="17" y="20" width="3" height="1" fill="white"/>
           <!-- More data -->
-          <rect x="9" y="22" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="13" y="22" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="16" y="22" width="3" height="1" fill="#c8d0e8"/>
-          <rect x="21" y="22" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="25" y="22" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="9" y="24" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="11" y="24" width="3" height="1" fill="#c8d0e8"/>
-          <rect x="16" y="24" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="20" y="24" width="3" height="1" fill="#c8d0e8"/>
-          <rect x="25" y="24" width="1" height="2" fill="#c8d0e8"/>
-          <rect x="27" y="24" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="9" y="22" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="13" y="22" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="16" y="22" width="3" height="1" fill="#1d1d1f"/>
+          <rect x="21" y="22" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="25" y="22" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="9" y="24" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="11" y="24" width="3" height="1" fill="#1d1d1f"/>
+          <rect x="16" y="24" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="20" y="24" width="3" height="1" fill="#1d1d1f"/>
+          <rect x="25" y="24" width="1" height="2" fill="#1d1d1f"/>
+          <rect x="27" y="24" width="1" height="1" fill="#1d1d1f"/>
           <!-- Bottom data -->
-          <rect x="9" y="29" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="13" y="29" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="15" y="29" width="3" height="1" fill="#c8d0e8"/>
-          <rect x="20" y="29" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="24" y="29" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="26" y="29" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="9" y="31" width="3" height="1" fill="#c8d0e8"/>
-          <rect x="14" y="31" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="18" y="31" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="21" y="31" width="3" height="1" fill="#c8d0e8"/>
-          <rect x="26" y="31" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="9" y="33" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="12" y="33" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="16" y="33" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="19" y="33" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="23" y="33" width="1" height="1" fill="#c8d0e8"/>
-          <rect x="25" y="33" width="3" height="1" fill="#c8d0e8"/>
-          <rect x="9" y="35" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="13" y="35" width="3" height="1" fill="#c8d0e8"/>
-          <rect x="18" y="35" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="22" y="35" width="2" height="1" fill="#c8d0e8"/>
-          <rect x="26" y="35" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="9" y="29" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="13" y="29" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="15" y="29" width="3" height="1" fill="#1d1d1f"/>
+          <rect x="20" y="29" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="24" y="29" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="26" y="29" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="9" y="31" width="3" height="1" fill="#1d1d1f"/>
+          <rect x="14" y="31" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="18" y="31" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="21" y="31" width="3" height="1" fill="#1d1d1f"/>
+          <rect x="26" y="31" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="9" y="33" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="12" y="33" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="16" y="33" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="19" y="33" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="23" y="33" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="25" y="33" width="3" height="1" fill="#1d1d1f"/>
+          <rect x="9" y="35" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="13" y="35" width="3" height="1" fill="#1d1d1f"/>
+          <rect x="18" y="35" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="22" y="35" width="2" height="1" fill="#1d1d1f"/>
+          <rect x="26" y="35" width="1" height="1" fill="#1d1d1f"/>
         </svg>
         <div class="dl-qr-url">xacobeapp.com</div>
       </div>
@@ -1311,12 +1078,12 @@
   <!-- FOOTER -->
   <footer class="dl-footer">
     <div class="dl-footer-logo">Xacobe<span>app</span></div>
-    <p id="dl-foot-sub">Guía gratuita del Camino de Santiago · Hecha con ❤️ en Vigo, Galicia</p>
+    <p>Guía gratuita del Camino de Santiago · Hecha con ❤️ en Vigo, Galicia</p>
     <p style="margin-top:4px">
       <a href="https://xacobeapp.com">xacobeapp.com</a>
     </p>
-    <p style="margin-top:12px;font-size:12px;color:#aaa" id="dl-foot-version">
-      App gratuita, sin publicidad. Versión v1186 · Disponible como PWA en iOS y Android
+    <p style="margin-top:12px;font-size:12px;color:#aaa">
+      App gratuita, sin publicidad. Versión v1166 · Disponible como PWA en iOS y Android
     </p>
   </footer>
 
@@ -12196,118 +11963,6 @@ var T={
     rankingVisitas:'visits',
   }
 };
-// ── TRADUCCIONES LANDING DESKTOP ────────────────────────────
-window._dlT = {
-  es:{
-    eyebrow:'Guía Xacobea Interactiva',
-    heroTitle:'Tu compañera en el <em>Camino</em>',
-    heroDesc:'Xacobeapp es una guía gratuita para el Camino de Santiago, intuitiva y de muy fácil manejo, que te mostrará todo el patrimonio jacobeo a tu alrededor. Mapas interactivos, creador de rutas, etapas, avisos rápidos de emergencia, POIs exclusivos especializados en el patrimonio xacobeo, navegación GPS, brújula… y otras muchas utilidades pensadas para el peregrino, pero también para todos los que disfrutan conociendo y explorando nuevos espacios. Toda una navaja suiza del peregrino en tu bolsillo, a tu servicio.',
-    btnMovil:'📱 Abrir en tu móvil',
-    metaGratis:'Gratuita', metaGratis2:' y sin anuncios',
-    metaRutas:'📍 Los principales caminos jacobeos, con sus etapas y POIs exclusivos',
-    metaOffline:'funciona sin red',
-    statPoi:'Puntos de interés, en aumento', statEtapas:'Etapas documentadas de los 5 caminos principales', statCoste:'Coste para el peregrino', statPub:'Publicidad y cookies',
-    featTitle:'Todo lo que necesitas en el Camino', featSub:'Diseñada para usarse en el móvil mientras caminas',
-    f1t:'Mapa interactivo offline',f1d:'Tiles de OpenStreetMap cacheadas. Navega sin conexión a lo largo de toda la ruta, con tu posición GPS en tiempo real.',
-    f2t:'Navegación por voz',f2d:'Indicaciones habladas en gallego, español e inglés. El móvil te avisa de cada giro sin tener que mirar la pantalla.',
-    f3t:'Patrimonio jacobeo',f3d:'Iglesias, monasterios, castros y vestigios arqueológicos documentados con textos históricos y POIs exclusivos especializados en el patrimonio xacobeo.',
-    f4t:'Juego de la Oca Jacobeo',f4d:'63 casillas, cromos coleccionables que se desbloquean por GPS al pasar cerca de los puntos. Tu peregrinación tiene ahora una dimensión lúdica.',
-    f5t:'Albergues y servicios',f5d:'Albergues, fuentes, farmacias y puntos de servicio geolocalizados. Búsqueda en tiempo real con radio expandible.',
-    f6t:'Trilingüe',f6d:'Interfaz completa en gallego, castellano e inglés. Cambia el idioma en cualquier momento sin reiniciar.',
-    f7t:'Emergencias de acceso rápido',f7d:'Sección de emergencias siempre a un toque, con números útiles y recursos para cualquier inconveniente que pueda surgir en el Camino.',
-    f8t:'Guía por flechas de color',f8d:'Sistema de navegación visual mediante flechas de color que te orientan en cada momento, sin perderte ni un giro del Camino.',
-    f9t:'Crea y guarda tu ruta',f9d:'Selecciona los puntos que quieres visitar, construye tu ruta personalizada y guárdala para consultarla cuando la necesites.',
-    f10t:'Tus propios puntos en el mapa',f10d:'Crea puntos de interés personalizados y añádelos directamente a tu ruta. Tu Camino, a tu manera.',
-    f11t:'Y mucho más…',f11d:'Otras muchas y sorprendentes utilidades para que tu Camino pueda ser más atractivo y seguro. Descúbrelas tú mismo.',
-    galTitle:'La app en acción', galSub:'Capturas reales desde el móvil',
-    gal1:'Mapa GPS',gal1i:'Mapa interactivo',gal2:'Patrimonio',gal2i:'Historia y patrimonio',
-    gal3:'Gamificación',gal3i:'Juego de la Oca',gal4:'Navegación',gal4i:'Brújula y navegación',
-    gal5:'Servicios',gal5i:'Albergues y servicios',
-    galHint:'✨ Escanea el QR para ver la app real en tu móvil',
-    rutTitle:'Rutas cubiertas', rutSub:'Cinco caminos jacobeos con etapas, POIs y navegación GPS',
-    rut1:'Camino Portugués de la Costa',rut2:'Camino Francés',rut3:'Camino del Norte',rut4:'Camino Primitivo',rut5:'Camino Inglés',
-    qrEyebrow:'📱 Versión móvil', qrTitle:'La app está diseñada para tu móvil',
-    qrDesc:'Xacobeapp es una Progressive Web App optimizada para pantallas de móvil. Escanea el QR con la cámara de tu teléfono para abrirla directamente, sin descargas.',
-    qrS1:'Abre la cámara de tu móvil',qrS2:'Apunta al código QR de la derecha',qrS3:'Toca el enlace que aparece → xacobeapp.com',qrS4:'Instálala como app desde el navegador',
-    footSub:'Guía gratuita del Camino de Santiago · Hecha con ❤️ en Vigo, Galicia',
-    footVersion:'App gratuita, sin publicidad. Versión v1187 · Disponible como PWA en iOS y Android',
-    navFunciones:'Funciones',navCapturas:'Capturas',navRutas:'Rutas',navQr:'Ver en móvil →',
-    badge:'🐚 Gratuita · Sin publicidad'
-  },
-  gl:{
-    eyebrow:'Guía Xacobea Interactiva',
-    heroTitle:'A túa compañeira no <em>Camiño</em>',
-    heroDesc:'Xacobeapp é unha guía gratuíta para o Camiño de Santiago, intuitiva e moi fácil de usar, que che mostrará todo o patrimonio xacobeo ao teu redor. Mapas interactivos, creador de rutas, etapas, avisos rápidos de emerxencia, POIs exclusivos especializados no patrimonio xacobeo, navegación GPS, brúxula… e moitas outras utilidades pensadas para o peregrino, pero tamén para todos os que gozan coñecendo e explorando novos espazos. Toda unha navalla suíza do peregrino no teu peto, ao teu servizo.',
-    btnMovil:'📱 Abrir no teu móbil',
-    metaGratis:'Gratuíta', metaGratis2:' e sen anuncios',
-    metaRutas:'📍 Os principais camiños xacobeos, coas súas etapas e POIs exclusivos',
-    metaOffline:'funciona sen rede',
-    statPoi:'Puntos de interese, en aumento', statEtapas:'Etapas documentadas dos 5 camiños principais', statCoste:'Custo para o peregrino', statPub:'Publicidade e cookies',
-    featTitle:'Todo o que precisas no Camiño', featSub:'Deseñada para usarse no móbil mentres camiñas',
-    f1t:'Mapa interactivo sen conexión',f1d:'Tiles de OpenStreetMap en caché. Navega sen conexión ao longo de toda a ruta, coa túa posición GPS en tempo real.',
-    f2t:'Navegación por voz',f2d:'Indicacións faladas en galego, español e inglés. O móbil avísate de cada xiro sen ter que mirar a pantalla.',
-    f3t:'Patrimonio xacobeo',f3d:'Igrexas, mosteiros, castros e vestixios arqueolóxicos documentados con textos históricos e POIs exclusivos especializados no patrimonio xacobeo.',
-    f4t:'Xogo da Oca Xacobeo',f4d:'63 casillas, cromos coleccionables que se desbloquean por GPS ao pasar preto dos puntos. A túa peregrinación ten agora unha dimensión lúdica.',
-    f5t:'Albergues e servizos',f5d:'Albergues, fontes, farmacias e puntos de servizo xeolocalizados. Busca en tempo real con radio expandible.',
-    f6t:'Trilingüe',f6d:'Interface completa en galego, castelán e inglés. Cambia o idioma en calquera momento sen reiniciar.',
-    f7t:'Emerxencias de acceso rápido',f7d:'Sección de emerxencias sempre a un toque, con números útiles e recursos para calquera imprevisto que poida xurdir no Camiño.',
-    f8t:'Guía por frechas de cor',f8d:'Sistema de navegación visual mediante frechas de cor que te orientan en cada momento, sen perderte nin un xiro do Camiño.',
-    f9t:'Crea e garda a túa ruta',f9d:'Selecciona os puntos que queres visitar, constrúe a túa ruta personalizada e gárdaa para consultala cando a necesites.',
-    f10t:'Os teus propios puntos no mapa',f10d:'Crea puntos de interese personalizados e engádeos directamente á túa ruta. O teu Camiño, ao teu xeito.',
-    f11t:'E moito máis…',f11d:'Moitas outras e sorprendentes utilidades para que o teu Camiño sexa máis atractivo e seguro. Descúbrenas ti mesmo.',
-    galTitle:'A app en acción', galSub:'Capturas reais desde o móbil',
-    gal1:'Mapa GPS',gal1i:'Mapa interactivo',gal2:'Patrimonio',gal2i:'Historia e patrimonio',
-    gal3:'Gamificación',gal3i:'Xogo da Oca',gal4:'Navegación',gal4i:'Brúxula e navegación',
-    gal5:'Servizos',gal5i:'Albergues e servizos',
-    galHint:'✨ Escanea o QR para ver a app real no teu móbil',
-    rutTitle:'Rutas cubertas', rutSub:'Cinco camiños xacobeos con etapas, POIs e navegación GPS',
-    rut1:'Camiño Portugués da Costa',rut2:'Camiño Francés',rut3:'Camiño do Norte',rut4:'Camiño Primitivo',rut5:'Camiño Inglés',
-    qrEyebrow:'📱 Versión móbil', qrTitle:'A app está deseñada para o teu móbil',
-    qrDesc:'Xacobeapp é unha Progressive Web App optimizada para pantallas de móbil. Escanea o QR coa cámara do teu teléfono para abrila directamente, sen descargas.',
-    qrS1:'Abre a cámara do teu móbil',qrS2:'Apunta ao código QR da dereita',qrS3:'Toca a ligazón que aparece → xacobeapp.com',qrS4:'Instálaa como app desde o navegador',
-    footSub:'Guía gratuíta do Camiño de Santiago · Feita con ❤️ en Vigo, Galicia',
-    footVersion:'App gratuíta, sen publicidade. Versión v1187 · Dispoñible como PWA en iOS e Android',
-    navFunciones:'Funcións',navCapturas:'Capturas',navRutas:'Rutas',navQr:'Ver no móbil →',
-    badge:'🐚 Gratuíta · Sen publicidade'
-  },
-  en:{
-    eyebrow:'Interactive Jacobean Guide',
-    heroTitle:'Your companion on the <em>Camino</em>',
-    heroDesc:'Xacobeapp is a free guide to the Camino de Santiago — intuitive and easy to use — showing you all the Jacobean heritage around you. Interactive maps, route builder, stages, quick emergency alerts, exclusive POIs specialising in Jacobean heritage, GPS navigation, compass… and many more utilities designed for pilgrims and for everyone who enjoys discovering and exploring new places. A true Swiss army knife for the pilgrim, right in your pocket.',
-    btnMovil:'📱 Open on your phone',
-    metaGratis:'Free', metaGratis2:' and ad-free',
-    metaRutas:'📍 The main Jacobean routes, with their stages and exclusive POIs',
-    metaOffline:'works offline',
-    statPoi:'Points of interest, growing', statEtapas:'Documented stages across the 5 main routes', statCoste:'Cost for the pilgrim', statPub:'Ads and cookies',
-    featTitle:'Everything you need on the Camino', featSub:'Designed to be used on your phone while you walk',
-    f1t:'Offline interactive map',f1d:'Cached OpenStreetMap tiles. Navigate without a connection along the entire route, with your GPS position in real time.',
-    f2t:'Voice navigation',f2d:'Spoken directions in Galician, Spanish and English. Your phone alerts you to every turn without needing to look at the screen.',
-    f3t:'Jacobean heritage',f3d:'Churches, monasteries, hillforts and archaeological remains documented with historical texts and exclusive POIs specialising in Jacobean heritage.',
-    f4t:'Jacobean Goose Game',f4d:'63 squares, collectible stickers unlocked by GPS when you pass near points of interest. Your pilgrimage now has a playful dimension.',
-    f5t:'Hostels and services',f5d:'Geolocated hostels, fountains, pharmacies and service points. Real-time search with expandable radius.',
-    f6t:'Trilingual',f6d:'Full interface in Galician, Spanish and English. Change language at any time without restarting.',
-    f7t:'Quick-access emergencies',f7d:'Emergency section always one tap away, with useful numbers and resources for any incident that may arise on the Camino.',
-    f8t:'Colour-arrow guide',f8d:'Visual navigation system using colour arrows to guide you at every moment, so you never miss a turn on the Camino.',
-    f9t:'Create and save your route',f9d:'Select the points you want to visit, build your personalised route and save it to consult whenever you need it.',
-    f10t:'Your own points on the map',f10d:'Create personalised points of interest and add them directly to your route. Your Camino, your way.',
-    f11t:'And much more…',f11d:'Many more surprising features to make your Camino more enjoyable and safer. Discover them for yourself.',
-    galTitle:'The app in action', galSub:'Real screenshots from the phone',
-    gal1:'GPS Map',gal1i:'Interactive map',gal2:'Heritage',gal2i:'History and heritage',
-    gal3:'Gamification',gal3i:'Goose Game',gal4:'Navigation',gal4i:'Compass and navigation',
-    gal5:'Services',gal5i:'Hostels and services',
-    galHint:'✨ Scan the QR to see the real app on your phone',
-    rutTitle:'Routes covered', rutSub:'Five Jacobean routes with stages, POIs and GPS navigation',
-    rut1:'Portuguese Coastal Way',rut2:'French Way',rut3:'Northern Way',rut4:'Primitive Way',rut5:'English Way',
-    qrEyebrow:'📱 Mobile version', qrTitle:'The app is designed for your phone',
-    qrDesc:'Xacobeapp is a Progressive Web App optimised for mobile screens. Scan the QR with your phone camera to open it directly, no download needed.',
-    qrS1:'Open your phone camera',qrS2:'Point it at the QR code on the right',qrS3:'Tap the link that appears → xacobeapp.com',qrS4:'Install it as an app from your browser',
-    footSub:'Free guide to the Camino de Santiago · Made with ❤️ in Vigo, Galicia',
-    footVersion:'Free app, no ads. Version v1187 · Available as PWA on iOS and Android',
-    navFunciones:'Features',navCapturas:'Screenshots',navRutas:'Routes',navQr:'Open on phone →',
-    badge:'🐚 Free · No ads'
-  }
-};
-
 function cambiarIdioma(lang){
   idiomaActual=lang;fraseIdx=0;
   try{localStorage.setItem('idiomaActual',lang);}catch(e){}
@@ -12615,71 +12270,6 @@ function cambiarIdioma(lang){
   el=document.getElementById('sos-cruzroja-label');if(el)el.textContent=t.cruzRojaLabel||'Cruz Roja · Camino de Santiago';
   // Panel Cómo usar
   el=document.getElementById('comousar-h2-panel');if(el)el.textContent=t.comoUsarPanelTitulo||t.comoUsarH2;
-
-  // ── LANDING DESKTOP ──────────────────────────────────────
-  var dl = window._dlT && window._dlT[lang] ? window._dlT[lang] : window._dlT && window._dlT.es;
-  if(dl){
-    var _s=function(id,txt){var e=document.getElementById(id);if(e)e.textContent=txt;};
-    var _h=function(id,txt){var e=document.getElementById(id);if(e)e.innerHTML=txt;};
-    var _dlEy=document.getElementById('dl-eyebrow');
-    if(_dlEy){var _et=_dlEy.querySelector('.ey-text');if(_et)_et.textContent=dl.eyebrow;}
-    // _s('dl-eyebrow', dl.eyebrow); — gestionado por spans internos
-    _h('dl-hero-title',    dl.heroTitle);
-    _s('dl-hero-desc',     dl.heroDesc);
-    _s('dl-btn-movil',     dl.btnMovil);
-    _s('dl-meta-gratis',   dl.metaGratis);
-    _s('dl-meta-gratis2',  dl.metaGratis2);
-    _s('dl-meta-rutas',    dl.metaRutas);
-    _s('dl-meta-offline',  dl.metaOffline);
-    _s('dl-stat-poi',      dl.statPoi);
-    _s('dl-stat-etapas',   dl.statEtapas);
-    _s('dl-stat-coste',    dl.statCoste);
-    _s('dl-stat-pub',      dl.statPub);
-    _s('dl-feat-title',    dl.featTitle);
-    _s('dl-feat-sub',      dl.featSub);
-    _s('dl-f1-t',dl.f1t);_s('dl-f1-d',dl.f1d);
-    _s('dl-f2-t',dl.f2t);_s('dl-f2-d',dl.f2d);
-    _s('dl-f3-t',dl.f3t);_s('dl-f3-d',dl.f3d);
-    _s('dl-f4-t',dl.f4t);_s('dl-f4-d',dl.f4d);
-    _s('dl-f5-t',dl.f5t);_s('dl-f5-d',dl.f5d);
-    _s('dl-f6-t',dl.f6t);_s('dl-f6-d',dl.f6d);
-    _s('dl-f7-t',dl.f7t);_s('dl-f7-d',dl.f7d);
-    _s('dl-f8-t',dl.f8t);_s('dl-f8-d',dl.f8d);
-    _s('dl-f9-t',dl.f9t);_s('dl-f9-d',dl.f9d);
-    _s('dl-f10-t',dl.f10t);_s('dl-f10-d',dl.f10d);
-    _s('dl-f11-t',dl.f11t);_s('dl-f11-d',dl.f11d);
-    _s('dl-gal-title',   dl.galTitle);
-    _s('dl-gal-sub',     dl.galSub);
-    _s('dl-gal1',dl.gal1);_s('dl-gal1-inner',dl.gal1i);
-    _s('dl-gal2',dl.gal2);_s('dl-gal2-inner',dl.gal2i);
-    _s('dl-gal3',dl.gal3);_s('dl-gal3-inner',dl.gal3i);
-    _s('dl-gal4',dl.gal4);_s('dl-gal4-inner',dl.gal4i);
-    _s('dl-gal5',dl.gal5);_s('dl-gal5-inner',dl.gal5i);
-    _s('dl-gal-hint',    dl.galHint);
-    _s('dl-rut-title',   dl.rutTitle);
-    _s('dl-rut-sub',     dl.rutSub);
-    _s('dl-rut1',dl.rut1);_s('dl-rut2',dl.rut2);_s('dl-rut3',dl.rut3);
-    _s('dl-rut4',dl.rut4);_s('dl-rut5',dl.rut5);
-    _s('dl-qr-eyebrow',  dl.qrEyebrow);
-    _s('dl-qr-title',    dl.qrTitle);
-    _s('dl-qr-desc',     dl.qrDesc);
-    _s('dl-qr-s1',dl.qrS1);_s('dl-qr-s2',dl.qrS2);
-    _s('dl-qr-s3',dl.qrS3);_s('dl-qr-s4',dl.qrS4);
-    _s('dl-foot-sub',    dl.footSub);
-    _s('dl-foot-version',dl.footVersion);
-    // Nav header desktop landing
-    var _dlNav=document.querySelector('.dl-header-nav');
-    if(_dlNav){
-      var _na=_dlNav.querySelectorAll('a');
-      if(_na[0])_na[0].textContent=dl.navFunciones;
-      if(_na[1])_na[1].textContent=dl.navCapturas;
-      if(_na[2])_na[2].textContent=dl.navRutas;
-      if(_na[3])_na[3].textContent=dl.navQr;
-    }
-    // Badge header
-    var _badge=document.querySelector('.dl-header-badge');
-    if(_badge)_badge.textContent=dl.badge;
-  }
 }
 
 // ============================================================
@@ -13052,7 +12642,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1196";
+var _APP_VERSION = "v1181";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -13742,12 +13332,12 @@ if ('serviceWorker' in navigator) {
   // ---- Detección de proximidad durante el seguimiento GPS ----
   // Se engancha al watchPosition existente comprobando cada posición
   var _albumYaNotificado = {};
-  var RADIO_VISITA_M = 2000; // metros para registrar visita (PRUEBAS — producción: 25)
+  var RADIO_VISITA_M = 25; // metros para registrar visita
 
   window._albumCheckProximidad = function(lat, lng, accuracy) {
     if (typeof PUNTOS === 'undefined') return;
-    // Ignorar posiciones con GPS muy poco fiable (>200 m de error) durante pruebas
-    if (accuracy && accuracy > 200) return;
+    // Ignorar posiciones con GPS poco fiable (>50 m de error)
+    if (accuracy && accuracy > 50) return;
     PUNTOS.forEach(function(poi) {
       if (_albumYaNotificado[poi.id]) return;
       // Puntos de usuario, alertas y búsquedas no entran en el juego
@@ -14766,7 +14356,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1196</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1181</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
