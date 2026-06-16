@@ -7830,17 +7830,38 @@ function _ocaMostrarSelectorPerder(n) {
 }
 
 function mostrarToast(msg) {
+  if (!document.getElementById('_casc-pulse-style-global')) {
+    var st = document.createElement('style');
+    st.id = '_casc-pulse-style-global';
+    st.textContent = '@keyframes _casc-pulse{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.08) rotate(3deg)}}';
+    document.head.appendChild(st);
+  }
   var t = document.getElementById('map-toast');
   if (!t) {
     t = document.createElement('div');
     t.id = 'map-toast';
-    t.style.cssText = 'position:absolute;bottom:60px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.75);color:#fff;padding:7px 16px;border-radius:20px;font-size:15px;font-family:DM Sans,sans-serif;z-index:500;pointer-events:none;white-space:nowrap;transition:opacity 0.3s';
-    document.querySelector('.map-section').appendChild(t);
+    t.style.cssText = 'position:fixed;bottom:72px;left:50%;transform:translateX(-50%);z-index:99999;pointer-events:none;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 10px;border-radius:20px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:500;white-space:nowrap;transition:opacity 0.35s;max-width:88vw;box-sizing:border-box;background:linear-gradient(135deg,#c9933a,#a86d18);border:1.5px solid #7a5010;box-shadow:0 4px 18px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,220,120,0.2)';
+    var cascoEl = document.createElement('img');
+    cascoEl.src = 'https://i.postimg.cc/m2TbCRTs/casc4.png';
+    cascoEl.style.cssText = 'width:22px;height:22px;object-fit:contain;flex-shrink:0';
+    cascoEl.id = 'map-toast-casco';
+    var txtEl = document.createElement('span');
+    txtEl.id = 'map-toast-txt';
+    txtEl.style.cssText = 'color:#1a0800;font-weight:600;overflow:hidden;text-overflow:ellipsis';
+    t.appendChild(cascoEl);
+    t.appendChild(txtEl);
+    document.body.appendChild(t);
   }
-  t.textContent = msg;
+  var casco = document.getElementById('map-toast-casco');
+  var txtSpan = document.getElementById('map-toast-txt');
+  if (txtSpan) txtSpan.textContent = msg;
+  if (casco) casco.style.animation = '_casc-pulse 2s ease-in-out infinite';
   t.style.opacity = '1';
   clearTimeout(t._timer);
-  t._timer = setTimeout(function(){ t.style.opacity = '0'; }, 2000);
+  t._timer = setTimeout(function(){
+    t.style.opacity = '0';
+    if (casco) casco.style.animation = 'none';
+  }, 2400);
 }
 
 function desactivarSeguimientoYBrujula() {
@@ -8508,78 +8529,162 @@ function quitarDeRuta(id) {
   actualizarRuta();
   actualizarBtnMapa(id, false);
 }
+// ── MODAL PERGAMINO REUTILIZABLE ────────────────────────────────────────────
+// config: { id, titulo, subtitulo?, opciones:[{emoji,tit,sub?,accion,estilo?}], cancelTxt? }
+function _modalPergamino(config) {
+  var old = document.getElementById(config.id);
+  if (old) old.remove();
+
+  // Inyectar keyframe si no existe
+  if (!document.getElementById('_casc-pulse-style-global')) {
+    var st = document.createElement('style');
+    st.id = '_casc-pulse-style-global';
+    st.textContent = '@keyframes _casc-pulse{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.08) rotate(3deg)}}';
+    document.head.appendChild(st);
+  }
+
+  var overlay = document.createElement('div');
+  overlay.id = config.id;
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:19999;background:rgba(0,0,0,0.72);display:flex;align-items:center;justify-content:center;font-family:DM Sans,sans-serif';
+
+  var box = document.createElement('div');
+  box.style.cssText = 'background:radial-gradient(ellipse at 15% 20%,rgba(90,50,0,0.18) 0%,transparent 55%),radial-gradient(ellipse at 85% 75%,rgba(60,30,0,0.20) 0%,transparent 50%),linear-gradient(180deg,#c9933a 0%,#b87d28 40%,#a86d18 100%);border-radius:20px;padding:22px 20px 20px;width:min(320px,90vw);box-sizing:border-box;position:relative;border:2.5px solid #5a3008;box-shadow:0 8px 40px rgba(0,0,0,0.55),inset 0 0 40px rgba(60,25,0,0.2),inset 0 1px 0 rgba(255,220,120,0.15)';
+
+  // Grid líneas
+  var grid = document.createElement('div');
+  grid.style.cssText = 'position:absolute;inset:0;border-radius:18px;background-image:repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(139,105,20,0.07) 28px,rgba(139,105,20,0.07) 29px);pointer-events:none;opacity:0.7';
+  box.appendChild(grid);
+
+  // Handle decorativo
+  var handle = document.createElement('div');
+  handle.style.cssText = 'width:36px;height:3px;background:rgba(139,105,20,0.4);border-radius:2px;margin:0 auto 16px';
+  box.appendChild(handle);
+
+  // Casco + título dictado
+  var cascoWrap = document.createElement('div');
+  cascoWrap.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:10px;position:relative;z-index:1';
+  var cascoImg = document.createElement('img');
+  cascoImg.src = 'https://i.postimg.cc/m2TbCRTs/casc4.png';
+  cascoImg.style.cssText = 'width:34px;height:34px;object-fit:contain;flex-shrink:0;animation:_casc-pulse 2.4s ease-in-out infinite';
+  var titEl = document.createElement('div');
+  titEl.style.cssText = 'font-family:IM Fell English,serif;font-size:18px;font-weight:400;color:#1a0800;line-height:1.3;flex:1';
+  cascoWrap.appendChild(cascoImg);
+  cascoWrap.appendChild(titEl);
+  box.appendChild(cascoWrap);
+
+  // Subtítulo (opcional)
+  var subEl = null;
+  if (config.subtitulo) {
+    subEl = document.createElement('p');
+    subEl.style.cssText = 'font-size:12px;color:rgba(26,8,0,0.55);text-align:center;margin:0 0 14px;position:relative;z-index:1;font-style:italic';
+    box.appendChild(subEl);
+  }
+
+  // Separador ornamental
+  var orn = document.createElement('div');
+  orn.style.cssText = 'text-align:center;color:#8b6914;letter-spacing:5px;font-size:12px;margin-bottom:12px;position:relative;z-index:1';
+  orn.textContent = '✦ ✦ ✦';
+  box.appendChild(orn);
+
+  // Opciones (se insertan después del typewriter)
+  var optsWrap = document.createElement('div');
+  optsWrap.style.cssText = 'display:flex;flex-direction:column;gap:8px;position:relative;z-index:1';
+
+  config.opciones.forEach(function(op) {
+    var btn = document.createElement('button');
+    var baseStyle = 'width:100%;border-radius:10px;padding:11px 14px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;text-align:left;display:flex;align-items:center;gap:10px;border:none;';
+    btn.style.cssText = baseStyle + (op.estilo || 'background:rgba(255,255,255,0.18);border:1.5px solid #7a5010;');
+    btn.innerHTML = '<span style="font-size:20px;flex-shrink:0">' + op.emoji + '</span>'
+      + '<span><span style="display:block;font-weight:700;color:' + (op.colorTit||'#1a0800') + ';font-size:13px">' + op.tit + '</span>'
+      + (op.sub ? '<span style="font-size:11px;color:' + (op.colorSub||'rgba(26,8,0,0.6)') + ';font-weight:400">' + op.sub + '</span>' : '')
+      + '</span>';
+    btn.addEventListener('click', function() { overlay.remove(); op.accion(); });
+    optsWrap.appendChild(btn);
+  });
+
+  // Cancelar
+  var cancelBtn = document.createElement('button');
+  cancelBtn.style.cssText = 'width:100%;background:none;border:none;padding:9px 0;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;color:rgba(26,8,0,0.38);text-align:center;position:relative;z-index:1;margin-top:2px';
+  cancelBtn.textContent = config.cancelTxt || 'Cancelar';
+  cancelBtn.addEventListener('click', function(){ overlay.remove(); });
+
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', function(e){ if(e.target===overlay) overlay.remove(); });
+
+  // Typewriter en casco: título → subtítulo → opciones
+  function _twGlobal(el, html, speed, onDone) {
+    var text = html.replace(/<[^>]+>/g, '');
+    var i = 0; el.textContent = '';
+    el.style.borderRight = '2px solid #5a3008';
+    var t = setInterval(function() {
+      if (i <= text.length) { el.textContent = text.slice(0, i); i++; }
+      else { clearInterval(t); el.innerHTML = html; el.style.borderRight = 'none'; if (onDone) onDone(); }
+    }, speed || 26);
+  }
+
+  cascoImg.style.animation = '_casc-pulse 2.4s ease-in-out infinite';
+  _twGlobal(titEl, config.titulo, 28, function() {
+    cascoImg.style.animation = 'none';
+    if (subEl && config.subtitulo) {
+      setTimeout(function() {
+        cascoImg.style.animation = '_casc-pulse 2.4s ease-in-out infinite';
+        _twGlobal(subEl, config.subtitulo, 18, function() {
+          cascoImg.style.animation = 'none';
+          setTimeout(function() { box.appendChild(optsWrap); box.appendChild(cancelBtn); }, 80);
+        });
+      }, 100);
+    } else {
+      setTimeout(function() { box.appendChild(optsWrap); box.appendChild(cancelBtn); }, 80);
+    }
+  });
+}
+
 function limpiarRuta() {
   if (_navActiva) detenerNavegacionVoz();
   var hayActiva = rutaPuntos.length > 0;
   var hayGuardada = false;
   try { hayGuardada = !!localStorage.getItem('rutaGuardadaV2'); } catch(e) {}
   if (!hayActiva && !hayGuardada) return;
+  var tl = T[idiomaActual] || T.es;
   // Sin ruta guardada: pedir confirmación antes de limpiar el mapa
   if (!hayGuardada) {
-    var existConf = document.getElementById('modal-confirm-limpiar-simple');
-    if (existConf) existConf.remove();
-    var tl = T[idiomaActual] || T.es;
-    var overlaySimple = document.createElement('div');
-    overlaySimple.id = 'modal-confirm-limpiar-simple';
-    overlaySimple.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:19999;display:flex;align-items:center;justify-content:center';
-    overlaySimple.innerHTML =
-      '<div style="background:#fff;border-radius:16px;padding:1.5rem;max-width:300px;width:88%;box-shadow:0 8px 32px rgba(0,0,0,0.22);font-family:DM Sans,sans-serif">' +
-      '<div style="font-size:30px;text-align:center;margin-bottom:8px">🗑️</div>' +
-      '<p style="font-size:15px;font-weight:700;color:#1a1a1a;text-align:center;margin:0 0 6px">' + (tl.confirmLimpiar || '¿Eliminar la ruta? Este cambio no puede deshacerse.') + '</p>' +
-      '<p style="font-size:12px;color:#6b7280;text-align:center;margin:0 0 18px">La ruta no está guardada en memoria</p>' +
-      '<div style="display:flex;gap:10px">' +
-      '<button id="limpiar-simple-cancel" style="flex:1;background:#f3f4f6;border:none;border-radius:10px;padding:11px 0;font-size:15px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;color:#374151">Cancelar</button>' +
-      '<button id="limpiar-simple-ok" style="flex:1;background:#dc2626;border:none;border-radius:10px;padding:11px 0;font-size:15px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;color:#fff">🗑 Eliminar</button>' +
-      '</div></div>';
-    document.body.appendChild(overlaySimple);
-    overlaySimple.addEventListener('click', function(e){ if(e.target===overlaySimple) overlaySimple.remove(); });
-    document.getElementById('limpiar-simple-cancel').addEventListener('click', function(){ overlaySimple.remove(); });
-    document.getElementById('limpiar-simple-ok').addEventListener('click', function(){ overlaySimple.remove(); _ejecutarLimpiarRutaSoloMapa(true); });
+    _modalPergamino({
+      id: 'modal-confirm-limpiar-simple',
+      titulo: tl.confirmLimpiar || '¿Eliminar la ruta?',
+      subtitulo: tl.confirmLimpiarSub || 'La ruta no está guardada en memoria. Este cambio no puede deshacerse.',
+      cancelTxt: tl.cancelar || 'Cancelar',
+      opciones: [
+        { emoji:'🗑️', tit: tl.confirmLimpiarOk || 'Sí, eliminar la ruta',
+          colorTit:'#dc2626', estilo:'background:rgba(220,38,38,0.12);border:1.5px solid #fca5a5;',
+          accion: function(){ _ejecutarLimpiarRutaSoloMapa(true); } }
+      ]
+    });
     return;
   }
-  var existing = document.getElementById('modal-confirm-limpiar');
-  if (existing) existing.remove();
-  var overlay = document.createElement('div');
-  overlay.id = 'modal-confirm-limpiar';
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:19999;display:flex;align-items:center;justify-content:center';
-  var optMapa = hayActiva
-    ? '<button id="limpiar-opt-mapa" style="width:100%;background:#f8fafc;border:1.5px solid #e5e7eb;border-radius:10px;padding:11px 14px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;text-align:left;display:flex;align-items:center;gap:10px">' +
-      '<span style="font-size:20px">🗺️</span>' +
-      '<span><span style="display:block;font-weight:700;color:#1a1a1a">' + (tl.limpiarOptMapaTit||'Limpiar solo el mapa') + '</span>' +
-      '<span style="font-size:11px;color:#6b7280;font-weight:400">' + (tl.limpiarOptMapaSub||'Ruta guardada permanece disponible') + '</span></span></button>'
-    : '';
-  var optMemoria = '<button id="limpiar-opt-memoria" style="width:100%;background:#fefce8;border:1.5px solid #fde047;border-radius:10px;padding:11px 14px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;text-align:left;display:flex;align-items:center;gap:10px">' +
-    '<span style="font-size:20px">🧹</span>' +
-    '<span><span style="display:block;font-weight:700;color:#854d0e">' + (tl.limpiarOptMemoriaTit||'Borrar solo la memoria') + '</span>' +
-    '<span style="font-size:11px;color:#a16207;font-weight:400">' + (tl.limpiarOptMemoriaSub||'El mapa y la ruta activa no cambian') + '</span></span></button>';
-  var optTodo = '<button id="limpiar-opt-todo" style="width:100%;background:#fff0f0;border:1.5px solid #fca5a5;border-radius:10px;padding:11px 14px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;text-align:left;display:flex;align-items:center;gap:10px">' +
-    '<span style="font-size:20px">🗑️</span>' +
-    '<span><span style="display:block;font-weight:700;color:#dc2626">' + (tl.limpiarOptTodoTit||'Limpiar memoria y mapa') + '</span>' +
-    '<span style="font-size:11px;color:#ef4444;font-weight:400">' + (tl.limpiarOptTodoSub||'Borra todo — mapa y memoria guardada') + '</span></span></button>';
-  overlay.innerHTML =
-    '<div style="background:#fff;border-radius:16px;padding:1.5rem;max-width:300px;width:88%;box-shadow:0 8px 32px rgba(0,0,0,0.22);font-family:DM Sans,sans-serif">' +
-    '<div style="font-size:30px;text-align:center;margin-bottom:8px">🗑️</div>' +
-    '<p style="font-size:15px;font-weight:700;color:#1a1a1a;text-align:center;margin:0 0 16px">' + (tl.limpiarTitulo||'¿Qué deseas limpiar?') + '</p>' +
-    '<div style="display:flex;flex-direction:column;gap:8px">' +
-    optMapa + optMemoria + optTodo +
-    '<button id="limpiar-opt-cancel" style="width:100%;background:none;border:none;padding:10px 0;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;color:#9ca3af;text-align:center">' + (tl.cancelar||'Cancelar') + '</button>' +
-    '</div></div>';
-  document.body.appendChild(overlay);
-  overlay.addEventListener('click', function(e){ if(e.target===overlay) overlay.remove(); });
-  document.getElementById('limpiar-opt-cancel').addEventListener('click', function(){ overlay.remove(); });
+  var opciones = [];
   if (hayActiva) {
-    document.getElementById('limpiar-opt-mapa').addEventListener('click', function(){
-      overlay.remove();
-      _ejecutarLimpiarRutaSoloMapa();
-    });
+    opciones.push({ emoji:'🗺️', tit: tl.limpiarOptMapaTit||'Limpiar solo el mapa',
+      sub: tl.limpiarOptMapaSub||'Ruta guardada permanece disponible',
+      colorTit:'#1a0800', colorSub:'rgba(26,8,0,0.55)',
+      estilo:'background:rgba(255,255,255,0.18);border:1.5px solid #7a5010;',
+      accion: function(){ _ejecutarLimpiarRutaSoloMapa(); } });
   }
-  document.getElementById('limpiar-opt-memoria').addEventListener('click', function(){
-    overlay.remove();
-    _borrarSoloMemoria();
-  });
-  document.getElementById('limpiar-opt-todo').addEventListener('click', function(){
-    overlay.remove();
-    _ejecutarLimpiarRuta();
+  opciones.push({ emoji:'🧹', tit: tl.limpiarOptMemoriaTit||'Borrar solo la memoria',
+    sub: tl.limpiarOptMemoriaSub||'El mapa y la ruta activa no cambian',
+    colorTit:'#854d0e', colorSub:'#a16207',
+    estilo:'background:rgba(254,252,232,0.35);border:1.5px solid #b8860b;',
+    accion: function(){ _borrarSoloMemoria(); } });
+  opciones.push({ emoji:'🗑️', tit: tl.limpiarOptTodoTit||'Limpiar memoria y mapa',
+    sub: tl.limpiarOptTodoSub||'Borra todo — mapa y memoria guardada',
+    colorTit:'#dc2626', colorSub:'#ef4444',
+    estilo:'background:rgba(220,38,38,0.12);border:1.5px solid #fca5a5;',
+    accion: function(){ _ejecutarLimpiarRuta(); } });
+  _modalPergamino({
+    id: 'modal-confirm-limpiar',
+    titulo: tl.limpiarTitulo || '¿Qué deseas limpiar?',
+    cancelTxt: tl.cancelar || 'Cancelar',
+    opciones: opciones
   });
 }
 function _borrarSoloMemoria() {
@@ -9025,20 +9130,20 @@ function guardarRuta() {
     var btn = document.getElementById('btn-guardar-restaurar');
     if (btn) { btn.style.background='#4f46e5'; btn.textContent='✅'; }
     setTimeout(function() { _actualizarBtnGuardarRestaurar(); }, 2000);
-    // Globo emergente
-    var cartel = document.getElementById('guardar-ruta-cartel');
-    if (!cartel) {
-      cartel = document.createElement('div');
-      cartel.id = 'guardar-ruta-cartel';
-      cartel.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:99999;pointer-events:none;background:rgba(0,0,0,0.82);color:#fff;padding:16px 22px;border-radius:16px;font-family:DM Sans,sans-serif;font-size:15px;font-weight:500;text-align:center;max-width:280px;line-height:1.5;box-shadow:0 4px 20px rgba(0,0,0,0.3);backdrop-filter:blur(8px);transition:opacity 0.5s;';
-      document.body.appendChild(cartel);
-    }
     var tC = T[idiomaActual] || T.es;
-    cartel.innerHTML = '💾 <strong>' + (tC.guardandoRuta||'Ruta guardada ✓') + '</strong><br><span style="font-size:14px;color:rgba(255,255,255,0.85)">' + (tC.guardandoRutaSub||'') + '</span>';
-    cartel.style.opacity = '1';
-    clearTimeout(cartel._t);
-    cartel._t = setTimeout(function(){ cartel.style.opacity = '0'; }, 3500);
-  } catch(e) { mostrarToast('⚠️ No se pudo guardar'); }
+    _modalPergamino({
+      id: 'modal-ruta-guardada',
+      titulo: tC.guardandoRuta || 'Ruta guardada ✓',
+      subtitulo: tC.guardandoRutaSub || 'Esta guía es gratuita y sin publicidad. Solo el apoyo de peregrinos como tú hace posible que siga creciendo. 🙏',
+      cancelTxt: tC.asistSinApoyo || 'Continuar sin apoyar',
+      opciones: [
+        { emoji:'💚', tit: tC.asistApoyo || 'Apoyar la guía',
+          colorTit:'#1a3d12',
+          estilo:'background:linear-gradient(135deg,rgba(45,74,30,0.35),rgba(30,50,18,0.35));border:1.5px solid #5a8040;',
+          accion: function(){ abrirDonacionesDrawer(); } }
+      ]
+    });
+  } catch(e) { mostrarToast('\u26a0\ufe0f No se pudo guardar'); }
 }
 
 function cargarRutaGuardada() {
@@ -9723,7 +9828,9 @@ var T={
     poiRutaDrawerLabel:'Ruta',
     rutaVacio:'Añade puntos desde el mapa o las tarjetas',
     poiVerMapa:'🗺️ Ver en mapa',
-    confirmLimpiar:'¿Eliminar la ruta? Este cambio no puede deshacerse.',
+    confirmLimpiar:'¿Eliminar la ruta?',
+    confirmLimpiarSub:'La ruta no está guardada en memoria. Este cambio no puede deshacerse.',
+    confirmLimpiarOk:'Sí, eliminar la ruta',
     limpiarTitulo:'¿Qué deseas limpiar?',
     cancelar:'Cancelar',
     limpiarOptMapaTit:'Limpiar solo el mapa',
@@ -10436,7 +10543,9 @@ var T={
     panelInstalarTitulo:'Engade a guía á túa pantalla de inicio',notifModalTitulo:'🔔 Notificacións',notifAlertasCamino:'🚨 Alertas do Camiño',notifAlertasSub:'Incidencias en tempo real',notifCromos:'🐚 Cromos e desbloqueos',notifCromosSub:'Avisos de xogo',notifApp:'🔔 Notificacións app',notifAppActiva:'Activas — avisando de POIs próximos',notifAppBloqueada:'Permiso bloqueado — actívao nos axustes',notifAppPermiso:'Require permiso do navegador',notifCerrar:'Pechar',
     coleccionContador:'de 63 cadros',
     coleccionTitulo:'🐚 Colección do Peregrino',
-    confirmLimpiar:'¿Eliminar a ruta? Este cambio non pode desfacerse',
+    confirmLimpiar:'¿Eliminar a ruta?',
+    confirmLimpiarSub:'A ruta non está gardada en memoria. Este cambio non pode desfacerse.',
+    confirmLimpiarOk:'Si, eliminar a ruta',
     limpiarTitulo:'¿Que desexas limpar?',
     cancelar:'Cancelar',
     limpiarOptMapaTit:'Limpar só o mapa',
@@ -10522,7 +10631,9 @@ var T={
     chipEtapa:'Stages',
     chipUsuario:'My points',
     poiVerMapa:'🗺️ View on map',
-    confirmLimpiar:'Delete route? This cannot be undone.',
+    confirmLimpiar:'Delete route?',
+    confirmLimpiarSub:'The route is not saved in memory. This cannot be undone.',
+    confirmLimpiarOk:'Yes, delete the route',
     limpiarTitulo:'What do you want to clear?',
     cancelar:'Cancel',
     limpiarOptMapaTit:'Clear map only',
@@ -11531,7 +11642,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1141";
+var _APP_VERSION = "v1145";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -13245,7 +13356,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1141</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1145</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
