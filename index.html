@@ -4145,6 +4145,40 @@ function ejecutarBusquedaMapa() {
   var refLng = userLng || mapa.getCenter().lng;
   var osmTag = _OVERPASS_TAGS[q];
 
+  // Función Nominatim compartida para ejecutarBusquedaMapa
+  function _buscarNominatimMapa(termino) {
+    var d2 = 0.03;
+    var url2n = 'https://nominatim.openstreetmap.org/search?format=json&limit=8&q=' +
+      encodeURIComponent(termino) + '&accept-language=es' +
+      '&viewbox='+(refLng-d2)+','+(refLat+d2)+','+(refLng+d2)+','+(refLat-d2)+'&bounded=1';
+    var xhr2n = new XMLHttpRequest();
+    xhr2n.open('GET', url2n, true);
+    xhr2n.onreadystatechange = function() {
+      if (xhr2n.readyState !== 4) return;
+      if (xhr2n.status === 200) {
+        try {
+          var res2n = JSON.parse(xhr2n.responseText);
+          if (res2n && res2n.length > 0) {
+            var bounds2n = [];
+            res2n.forEach(function(r) {
+              var lat = parseFloat(r.lat), lng = parseFloat(r.lon);
+              var nombre = r.display_name.split(',')[0].trim();
+              var dist = userLat ? ' · ' + formatDist(haversine(refLat,refLng,lat,lng)) : '';
+              var sm = L.marker([lat,lng], {icon:iconoBusqueda}).addTo(mapa);
+              sm.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>'+nombre+dist+'</strong><br><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="_addBusquedaRuta(encodeURIComponent(\''+nombre+'\'),'+lat+','+lng+');this.textContent=\'✓ En ruta\';this.style.background=\'#1D9E75\';this.style.color=\'#fff\';" style="background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">➕ Añadir a ruta</button><button onclick="irACoordenadasNav('+lat+','+lng+')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">🗺️ Cómo llegar</button></div></div>');
+              searchMarkers.push(sm); bounds2n.push([lat,lng]);
+            });
+            if (searchMarkers.length > 0) searchMarkers[0].openPopup();
+            var clearBtn2n = document.getElementById('buscar-clear'); if (clearBtn2n) clearBtn2n.style.display = 'flex';
+            document.activeElement && document.activeElement.blur();
+            mostrarToast('📍 '+searchMarkers.length+' resultado'+(searchMarkers.length!==1?'s':'')+' cerca');
+          } else { mostrarToast('🔍 Sin resultados para "' + termino + '" cerca'); }
+        } catch(e) { mostrarToast('⚠️ Error al buscar. Inténtalo de nuevo.'); }
+      } else { mostrarToast('⚠️ Error de red.'); }
+    };
+    xhr2n.send();
+  }
+
   if (osmTag) {
     // Búsqueda Overpass para servicios OSM — radio 3km
     var r = 3000;
@@ -4185,13 +4219,21 @@ function ejecutarBusquedaMapa() {
             document.activeElement && document.activeElement.blur();
             mostrarToast('📍 '+searchMarkers.length+' '+q+' encontrado'+(searchMarkers.length!==1?'s':'')+' cerca');
           } else {
-            mostrarToast('🔍 No hay '+q+' en 3km');
+            // Overpass sin resultados → fallback Nominatim
+            mostrarToast('🔍 Sin resultados Overpass, buscando en Nominatim…');
+            _buscarNominatimMapa(q);
           }
-        } catch(e) { mostrarToast('⚠️ Error al buscar. Inténtalo de nuevo.'); }
+        } catch(e) {
+          // Error de parse → fallback Nominatim
+          _buscarNominatimMapa(q);
+        }
       } else {
-        mostrarToast('⚠️ Error al buscar. Inténtalo de nuevo.');
+        // Error HTTP o timeout → fallback Nominatim
+        mostrarToast('⚠️ Overpass no disponible, intentando alternativa…');
+        _buscarNominatimMapa(q);
       }
     };
+    xhr.ontimeout = function() { mostrarToast('⚠️ Overpass tardó demasiado, intentando alternativa…'); _buscarNominatimMapa(q); };
     xhr.send();
 
   } else {
@@ -4898,6 +4940,27 @@ function abrirHeroModal() {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', 'https://overpass-api.de/api/interpreter?data=' + encodeURIComponent(query), true);
         xhr.timeout = 12000;
+        function _fallbackNominatim() {
+          estado.textContent = '⏳ Buscando en fuente alternativa…';
+          var d = 0.009;
+          var xhr2 = new XMLHttpRequest();
+          xhr2.open('GET', 'https://nominatim.openstreetmap.org/search?format=json&limit=10&q=' + encodeURIComponent(q) + '&accept-language=es&viewbox=' + (refLng-d) + ',' + (refLat+d) + ',' + (refLng+d) + ',' + (refLat-d) + '&bounded=1', true);
+          xhr2.onreadystatechange = function() {
+            if (xhr2.readyState !== 4) return;
+            if (xhr2.status === 200) {
+              try {
+                var res2 = JSON.parse(xhr2.responseText);
+                var items2 = (res2||[]).map(function(r){
+                  var la=parseFloat(r.lat), lo=parseFloat(r.lon);
+                  return { lat:la, lng:lo, nombre:r.display_name.split(',')[0].trim(), dist:haversine(refLat,refLng,la,lo), tel:'' };
+                }).filter(function(x){ return x.dist<=radio; });
+                items2.sort(function(a,b){ return a.dist-b.dist; });
+                _mostrarResultados(items2.slice(0,12));
+              } catch(e){ estado.style.display='block'; estado.textContent='⚠️ Error al buscar. Inténtalo de nuevo.'; }
+            } else { estado.style.display='block'; estado.textContent='⚠️ Error de red.'; }
+          };
+          xhr2.send();
+        }
         xhr.onreadystatechange = function() {
           if (xhr.readyState !== 4) return;
           if (xhr.status === 200) {
@@ -4908,10 +4971,16 @@ function abrirHeroModal() {
                 return { lat:la, lng:lo, nombre:(el.tags&&(el.tags.name||el.tags.brand))||q, dist:haversine(refLat,refLng,la,lo), tel:(el.tags&&el.tags.phone)||'' };
               }).filter(function(x){ return x.lat&&x.lng&&x.dist<=radio; });
               items.sort(function(a,b){ return a.dist-b.dist; });
-              _mostrarResultados(items.slice(0,12));
-            } catch(e){ estado.style.display='block'; estado.textContent=_t.asistErrorBuscar||'⚠️ Error al buscar. Inténtalo de nuevo.'; }
-          } else { estado.style.display='block'; estado.textContent=_t.asistErrorRed||'⚠️ Error de red.'; }
+              if (items.length > 0) {
+                _mostrarResultados(items.slice(0,12));
+              } else {
+                // Sin resultados en Overpass → fallback Nominatim
+                _fallbackNominatim();
+              }
+            } catch(e){ _fallbackNominatim(); }
+          } else { _fallbackNominatim(); }
         };
+        xhr.ontimeout = function() { _fallbackNominatim(); };
         xhr.send();
       } else {
         var d = 0.009;
@@ -5779,6 +5848,27 @@ function abrirBuscadorAsistente() {
       var xhr = new XMLHttpRequest();
       xhr.open('GET', 'https://overpass-api.de/api/interpreter?data=' + encodeURIComponent(query), true);
       xhr.timeout = 12000;
+      function _fallbackNominatimLupa() {
+        estado.textContent = '⏳ Buscando en fuente alternativa…';
+        var d = 0.009;
+        var xhr2 = new XMLHttpRequest();
+        xhr2.open('GET', 'https://nominatim.openstreetmap.org/search?format=json&limit=10&q=' + encodeURIComponent(q) + '&accept-language=es&viewbox=' + (refLng-d) + ',' + (refLat+d) + ',' + (refLng+d) + ',' + (refLat-d) + '&bounded=1', true);
+        xhr2.onreadystatechange = function() {
+          if (xhr2.readyState !== 4) return;
+          if (xhr2.status === 200) {
+            try {
+              var res2 = JSON.parse(xhr2.responseText);
+              var items2 = (res2||[]).map(function(r){
+                var la = parseFloat(r.lat), lo = parseFloat(r.lon);
+                return { lat:la, lng:lo, nombre:r.display_name.split(',')[0].trim(), dist:haversine(refLat,refLng,la,lo), tel:'' };
+              }).filter(function(x){ return x.dist<=radio; });
+              items2.sort(function(a,b){ return a.dist-b.dist; });
+              _mostrarResultados(items2.slice(0,12));
+            } catch(e){ estado.style.display='block'; estado.textContent='⚠️ Error al buscar. Inténtalo de nuevo.'; }
+          } else { estado.style.display='block'; estado.textContent='⚠️ Error de red.'; }
+        };
+        xhr2.send();
+      }
       xhr.onreadystatechange = function() {
         if (xhr.readyState !== 4) return;
         if (xhr.status === 200) {
@@ -5789,10 +5879,15 @@ function abrirBuscadorAsistente() {
               return { lat:la, lng:lo, nombre:(el.tags&&(el.tags.name||el.tags.brand))||q, dist:haversine(refLat,refLng,la,lo), tel:(el.tags&&el.tags.phone)||'' };
             }).filter(function(x){ return x.lat&&x.lng&&x.dist<=radio; });
             items.sort(function(a,b){ return a.dist-b.dist; });
-            _mostrarResultados(items.slice(0,12));
-          } catch(e){ estado.style.display='block'; estado.textContent=_t.asistErrorBuscar||'⚠️ Error al buscar. Inténtalo de nuevo.'; }
-        } else { estado.style.display='block'; estado.textContent=_t.asistErrorRed||'⚠️ Error de red.'; }
+            if (items.length > 0) {
+              _mostrarResultados(items.slice(0,12));
+            } else {
+              _fallbackNominatimLupa();
+            }
+          } catch(e){ _fallbackNominatimLupa(); }
+        } else { _fallbackNominatimLupa(); }
       };
+      xhr.ontimeout = function() { _fallbackNominatimLupa(); };
       xhr.send();
     } else {
       var d = 0.009;
@@ -8177,7 +8272,7 @@ function irDesdeCarrusel(id) {
   }, 600);
 }
 function verEnMapa(lat,lng) {
-  mapa.setView([lat,lng],16);
+  mapa.setView([lat,lng],14);
   document.activeElement && document.activeElement.blur(); setTimeout(function(){ var el=document.getElementById('map'); if(el){ var rect=el.getBoundingClientRect(); var center=window.pageYOffset+rect.top-(window.innerHeight/2)+(rect.height/2); window.scrollTo({top:Math.max(0,center),behavior:'smooth'}); } },600);
 }
 function _addBusquedaRuta(nombreEnc, lat, lng) {
@@ -8209,7 +8304,12 @@ function _mostrarEnMapaConRuta(lat, lng) {
   var tmp = { id:tmpId, nombre:'Destino', lat:lat, lng:lng, categoria:'busqueda', emoji:'📍' };
   PUNTOS.push(tmp);
   addToRoute(tmpId);
-  verEnMapa(lat, lng);
+  // Vista radio 1km igual que el botón del mapa
+  mapa.setView([lat, lng], 15);
+  radioKm = 1;
+  _aplicarEstadoRadioBtns(1);
+  if (userLat) aplicarRadio(1);
+  document.activeElement && document.activeElement.blur();
   // Trazar ruta con flechas sin activar navegación por voz
   setTimeout(function() {
     if (typeof dibujarLineaEstática === 'function') dibujarLineaEstática();
@@ -8368,7 +8468,7 @@ function limpiarRuta() {
     document.body.appendChild(overlaySimple);
     overlaySimple.addEventListener('click', function(e){ if(e.target===overlaySimple) overlaySimple.remove(); });
     document.getElementById('limpiar-simple-cancel').addEventListener('click', function(){ overlaySimple.remove(); });
-    document.getElementById('limpiar-simple-ok').addEventListener('click', function(){ overlaySimple.remove(); _ejecutarLimpiarRutaSoloMapa(); });
+    document.getElementById('limpiar-simple-ok').addEventListener('click', function(){ overlaySimple.remove(); _ejecutarLimpiarRutaSoloMapa(true); });
     return;
   }
   var existing = document.getElementById('modal-confirm-limpiar');
@@ -8953,7 +9053,7 @@ function _restaurarRutaGuardada() {
   cargarRutaGuardada();
   _actualizarBtnRestauraRuta();
 }
-function _ejecutarLimpiarRutaSoloMapa() {
+function _ejecutarLimpiarRutaSoloMapa(silencioso) {
   _verRutaMapa = false;
   try { if (_rutaLinea && mapa) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; } } catch(e) { _rutaLinea = null; }
   try { if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ try{mapa.removeLayer(m);}catch(e){}; }); window._rutaFlechas = []; } } catch(e) {}
@@ -8974,7 +9074,7 @@ function _ejecutarLimpiarRutaSoloMapa() {
   try { actualizarRuta(); } catch(e) {}
   try { actualizarBotonesRuta(); } catch(e) {}
   _actualizarBtnRestauraRuta();
-  mostrarToast('🗺️ Mapa limpiado — ruta guardada disponible');
+  if (!silencioso) mostrarToast('🗺️ Mapa limpiado — ruta guardada disponible');
 }
 // ═══════════════════════════════════════════════
 //  NAVEGACIÓN POR VOZ CON OSRM
@@ -11341,7 +11441,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1130";
+var _APP_VERSION = "v1135";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -13055,7 +13155,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1130</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1135</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
