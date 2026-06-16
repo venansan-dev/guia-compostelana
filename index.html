@@ -4521,7 +4521,7 @@ function abrirHeroModal() {
   panel.appendChild(inner);
 
   // Helper: casco + typewriter reutilizable para todos los _render
-  function _cascoTypewriter(container, texto, extraCss, speed) {
+  function _cascoTypewriter(container, texto, extraCss, speed, onDone) {
     var wrap = document.createElement('div');
     wrap.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:10px' + (extraCss ? ';' + extraCss : '');
     var img = document.createElement('img');
@@ -4534,8 +4534,9 @@ function abrirHeroModal() {
     container.appendChild(wrap);
     _typewriter(txt, texto, speed || 28, function() {
       img.style.animation = 'none';
+      if (onDone) onDone(img);
     });
-    return wrap;
+    return { img: img, txt: txt, wrap: wrap };
   }
 
   // ── DESPEDIDA: mensaje de apoyo al cerrar ───────────────────────
@@ -4549,12 +4550,11 @@ function abrirHeroModal() {
     icono.textContent = '🐚';
     inner.appendChild(icono);
 
-    _cascoTypewriter(inner, _t.asistBienCamino||'¡Buen Camino, peregrino!', 'justify-content:center');
-
     var msg = document.createElement('p');
     msg.style.cssText = 'font-size:15px;color:#1a0800;text-align:center;line-height:1.7;margin-bottom:16px';
-    msg.innerHTML = _capital(_t.asistGratisMsg||'Esta guía es <strong style="color:#fff">gratuita, sin publicidad y sin cookies</strong>. Solo el apoyo de peregrinos como tú hace posible que siga creciendo y libre para todos. 🙏');
-    inner.appendChild(msg);
+    _cascoTypewriter(inner, _t.asistBienCamino||'¡Buen Camino, peregrino!', 'justify-content:center', 28, function(cascoImg) {
+      _twSeq([[msg, _capital(_t.asistGratisMsg||'Esta guía es <strong style="color:#fff">gratuita, sin publicidad y sin cookies</strong>. Solo el apoyo de peregrinos como tú hace posible que siga creciendo y libre para todos. 🙏'), 14, inner]], cascoImg);
+    });
 
     var btnApoyo = document.createElement('button');
     btnApoyo.textContent = _t.asistApoyo||'💚 Apoyar la guía';
@@ -4638,24 +4638,47 @@ function abrirHeroModal() {
 
   // Typewriter helper
   function _typewriter(el, html, speed, onDone) {
-    // Extrae texto plano para el efecto; el HTML lo ponemos al final
     var text = html.replace(/<[^>]+>/g, '');
     var i = 0;
     el.textContent = '';
     el.style.borderRight = '2px solid #5a3008';
-    el.style.animation = 'none';
     var cursor = setInterval(function() {
       if (i <= text.length) {
         el.textContent = text.slice(0, i);
         i++;
       } else {
         clearInterval(cursor);
-        el.innerHTML = html; // restaurar HTML completo al acabar
+        el.innerHTML = html;
         el.style.borderRight = 'none';
         if (onDone) onDone();
       }
     }, speed || 28);
     return cursor;
+  }
+
+  // Encadena typewriters activando/parando el casco en cada párrafo.
+  // pares: [[el, texto, speed?, contenedor?], ...]
+  // cascoImg: la imagen del casco a animar (opcional)
+  // onDone: callback al terminar todos
+  function _twSeq(pares, cascoImg, onDone) {
+    if (!pares || pares.length === 0) {
+      if (cascoImg) cascoImg.style.animation = 'none';
+      if (onDone) onDone();
+      return;
+    }
+    var par = pares[0];
+    var rest = pares.slice(1);
+    var el = par[0], html = par[1], speed = par[2] || 18, cont = par[3];
+    // Insertar el elemento justo antes de escribirlo
+    if (cont && el.parentNode !== cont) cont.appendChild(el);
+    // Activar casco
+    if (cascoImg) cascoImg.style.animation = '_casc-pulse 2.4s ease-in-out infinite';
+    _typewriter(el, html, speed, function() {
+      // Parar casco al terminar este párrafo
+      if (cascoImg) cascoImg.style.animation = 'none';
+      // Pequeña pausa antes del siguiente
+      setTimeout(function() { _twSeq(rest, cascoImg, onDone); }, 120);
+    });
   }
 
   // ── PASO 1: Saludo + bifurcación según estado de ruta ───────────
@@ -4689,45 +4712,12 @@ function abrirHeroModal() {
     subCtx.style.cssText = 'font-size:15px;color:#1a0800;margin-bottom:12px;line-height:1.5;min-height:1.2em';
     inner.appendChild(subCtx);
 
-    var saludoTexto = _saludoConContexto();
-    var subTexto = _subtituloContextual();
+    // Preparar elementos y botones de las tres ramas (sin insertar aún los párrafos)
+    var _hayRuta = typeof rutaPuntos !== 'undefined' && rutaPuntos.length > 0;
 
-    // Typewriter saludo → luego subtítulo
-    _typewriter(saludoEl, saludoTexto, 30, function() {
-      _typewriter(subCtx, subTexto, 18, function() {
-        cascoImg.style.animation = 'none';
-      });
-    });
-
-    // ¿Hay ruta activa?
-    if (typeof rutaPuntos !== 'undefined' && rutaPuntos.length > 0) {
-      var sub = document.createElement('p');
-      sub.style.cssText = 'font-size:16px;color:#1a0800;line-height:1.6;margin-bottom:20px';
-      sub.textContent = (_t.asistTieneRuta||'Tienes una ruta seleccionada con ') + rutaPuntos.length + (rutaPuntos.length !== 1 ? (_t.asistTieneRutaSufP||' lugares. ¿Quieres revisarla o modificarla?') : (_t.asistTieneRutaSuf||' lugar. ¿Quieres revisarla o modificarla?'));
-      inner.appendChild(sub);
-
-      var btnRow = document.createElement('div');
-      btnRow.style.cssText = 'display:flex;gap:10px';
-
-      var btnSi = document.createElement('button');
-      btnSi.textContent = _t.asistSiVerRuta||'Sí, ver ruta';
-      btnSi.style.cssText = 'flex:1;background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:13px;font-size:16px;font-weight:700;cursor:pointer;font-family:Playfair Display,serif;box-shadow:0 2px 8px rgba(45,74,30,0.4)';
-      btnSi.addEventListener('click', function(){ _renderRevision(); });
-
-      var btnNo = document.createElement('button');
-      btnNo.textContent = _t.asistNoVolver||'No, volver al mapa';
-      btnNo.style.cssText = 'flex:1;background:rgba(80,40,0,0.18);color:#fff8e8;border:1.5px solid #7a5010;border-radius:8px;padding:13px;font-size:16px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
-      btnNo.addEventListener('click', function(){ _renderDespedida(); });
-
-      btnRow.appendChild(btnSi);
-      btnRow.appendChild(btnNo);
-      inner.appendChild(btnRow);
-      return;
-    }
-
-    // Sin ruta activa — flujo original con POIs cercanos
+    // Calcular cercanos
     var cercanos = [];
-    if (typeof PUNTOS !== 'undefined' && typeof userLat !== 'undefined' && userLat) {
+    if (!_hayRuta && typeof PUNTOS !== 'undefined' && typeof userLat !== 'undefined' && userLat) {
       var todos = PUNTOS.filter(function(p) {
         return !p.esUsuario && !p.esAlerta && p.categoria !== 'etapa' && p.categoria !== 'busqueda' && !(p.id && p.id.indexOf('u_') === 0);
       });
@@ -4739,50 +4729,80 @@ function abrirHeroModal() {
       cercanos = cercanos.slice(0, 5);
     }
 
-    if (cercanos.length === 0) {
-      var noGps = document.createElement('p');
-      noGps.style.cssText = 'font-size:16px;color:rgba(255,255,255,0.8);line-height:1.6;margin-bottom:20px';
-      noGps.innerHTML = _capital(_t.asistSinGps||'Activa el GPS para ver los lugares del Camino más cercanos a ti.');
-      inner.appendChild(noGps);
-      var btnCerrar = document.createElement('button');
-      btnCerrar.textContent = _t.asistCerrar||'Cerrar';
-      btnCerrar.style.cssText = 'width:100%;background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:12px;font-size:16px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
-      btnCerrar.addEventListener('click', function(){ _renderDespedida(); });
-      inner.appendChild(btnCerrar);
-      return;
-    }
+    var saludoTexto = _saludoConContexto();
+    var subTexto = _subtituloContextual();
 
-    var primero = cercanos[0];
-    var distTexto = primero.dist < 1000 ? Math.round(primero.dist) + ' m' : (primero.dist/1000).toFixed(1) + ' km';
+    // Typewriter saludo → subtítulo → párrafos de contexto
+    _typewriter(saludoEl, saludoTexto, 30, function() {
+      cascoImg.style.animation = 'none';
+      setTimeout(function() {
+        cascoImg.style.animation = '_casc-pulse 2.4s ease-in-out infinite';
+        _typewriter(subCtx, subTexto, 18, function() {
+          cascoImg.style.animation = 'none';
 
-    var sub = document.createElement('p');
-    sub.style.cssText = 'font-size:16px;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:6px';
-    sub.textContent = (_t.asistCercanosPre||'Tienes') + ' ' + cercanos.length + ' ' + (cercanos.length !== 1 ? (_t.asistCercanosLugares||'lugares') : (_t.asistCercanosLugar||'lugar')) + ' ' + (_t.asistCercanosDe||'del Camino cerca de ti. El más próximo es') + ' ' + primero.poi.nombre + ', ' + (_t.asistCercanosA||'a') + ' ' + distTexto + '.';
-    inner.appendChild(sub);
+          if (_hayRuta) {
+            // Rama ruta activa
+            var sub = document.createElement('p');
+            sub.style.cssText = 'font-size:16px;color:#1a0800;line-height:1.6;margin-bottom:20px';
+            var btnRow = document.createElement('div');
+            btnRow.style.cssText = 'display:flex;gap:10px';
+            var btnSi = document.createElement('button');
+            btnSi.textContent = _t.asistSiVerRuta||'Sí, ver ruta';
+            btnSi.style.cssText = 'flex:1;background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:13px;font-size:16px;font-weight:700;cursor:pointer;font-family:Playfair Display,serif;box-shadow:0 2px 8px rgba(45,74,30,0.4)';
+            btnSi.addEventListener('click', function(){ _renderRevision(); });
+            var btnNo = document.createElement('button');
+            btnNo.textContent = _t.asistNoVolver||'No, volver al mapa';
+            btnNo.style.cssText = 'flex:1;background:rgba(80,40,0,0.18);color:#fff8e8;border:1.5px solid #7a5010;border-radius:8px;padding:13px;font-size:16px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
+            btnNo.addEventListener('click', function(){ _renderDespedida(); });
+            btnRow.appendChild(btnSi);
+            btnRow.appendChild(btnNo);
+            _twSeq([[sub, (_t.asistTieneRuta||'Tienes una ruta seleccionada con ') + rutaPuntos.length + (rutaPuntos.length !== 1 ? (_t.asistTieneRutaSufP||' lugares. ¿Quieres revisarla o modificarla?') : (_t.asistTieneRutaSuf||' lugar. ¿Quieres revisarla o modificarla?')), 16, inner]], cascoImg, function() {
+              inner.appendChild(btnRow);
+            });
 
-    var sub2 = document.createElement('p');
-    sub2.style.cssText = 'font-size:15px;color:#1a0800;line-height:1.5;margin-bottom:12px';
-    sub2.textContent = _t.asistPreguntaVisitar||'¿Te gustaría visitar alguno?';
-    inner.appendChild(sub2);
+          } else if (cercanos.length === 0) {
+            // Rama sin GPS
+            var noGps = document.createElement('p');
+            noGps.style.cssText = 'font-size:16px;color:rgba(255,255,255,0.8);line-height:1.6;margin-bottom:20px';
+            var btnCerrar = document.createElement('button');
+            btnCerrar.textContent = _t.asistCerrar||'Cerrar';
+            btnCerrar.style.cssText = 'width:100%;background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:12px;font-size:16px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
+            btnCerrar.addEventListener('click', function(){ _renderDespedida(); });
+            _twSeq([[noGps, _capital(_t.asistSinGps||'Activa el GPS para ver los lugares del Camino más cercanos a ti.'), 16, inner]], cascoImg, function() {
+              inner.appendChild(btnCerrar);
+            });
 
-    _appendCuriosidad(inner);
-
-    var btnRow = document.createElement('div');
-    btnRow.style.cssText = 'display:flex;gap:10px';
-
-    var btnSi = document.createElement('button');
-    btnSi.textContent = _t.asistSiVerLugares||'Sí, ver lugares';
-    btnSi.style.cssText = 'flex:1;background:#fff;color:#0F6E56;border:none;border-radius:12px;padding:13px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif';
-    btnSi.addEventListener('click', function(){ _renderPaso2(cercanos); });
-
-    var btnNo = document.createElement('button');
-    btnNo.textContent = _t.asistAhoraNno||'Ahora no';
-    btnNo.style.cssText = 'flex:1;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:13px;font-size:16px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
-    btnNo.addEventListener('click', function(){ _renderMenuPrincipal(); });
-
-    btnRow.appendChild(btnSi);
-    btnRow.appendChild(btnNo);
-    inner.appendChild(btnRow);
+          } else {
+            // Rama cercanos
+            var primero = cercanos[0];
+            var distTexto = primero.dist < 1000 ? Math.round(primero.dist) + ' m' : (primero.dist/1000).toFixed(1) + ' km';
+            var sub = document.createElement('p');
+            sub.style.cssText = 'font-size:16px;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:6px';
+            var sub2 = document.createElement('p');
+            sub2.style.cssText = 'font-size:15px;color:#1a0800;line-height:1.5;margin-bottom:12px';
+            var btnRow = document.createElement('div');
+            btnRow.style.cssText = 'display:flex;gap:10px';
+            var btnSi = document.createElement('button');
+            btnSi.textContent = _t.asistSiVerLugares||'Sí, ver lugares';
+            btnSi.style.cssText = 'flex:1;background:#fff;color:#0F6E56;border:none;border-radius:12px;padding:13px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif';
+            btnSi.addEventListener('click', function(){ _renderPaso2(cercanos); });
+            var btnNo = document.createElement('button');
+            btnNo.textContent = _t.asistAhoraNno||'Ahora no';
+            btnNo.style.cssText = 'flex:1;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:13px;font-size:16px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
+            btnNo.addEventListener('click', function(){ _renderMenuPrincipal(); });
+            btnRow.appendChild(btnSi);
+            btnRow.appendChild(btnNo);
+            _twSeq([
+              [sub, (_t.asistCercanosPre||'Tienes') + ' ' + cercanos.length + ' ' + (cercanos.length !== 1 ? (_t.asistCercanosLugares||'lugares') : (_t.asistCercanosLugar||'lugar')) + ' ' + (_t.asistCercanosDe||'del Camino cerca de ti. El más próximo es') + ' ' + primero.poi.nombre + ', ' + (_t.asistCercanosA||'a') + ' ' + distTexto + '.', 14, inner],
+              [sub2, _t.asistPreguntaVisitar||'¿Te gustaría visitar alguno?', 18, inner]
+            ], cascoImg, function() {
+              _appendCuriosidad(inner);
+              inner.appendChild(btnRow);
+            });
+          }
+        });
+      }, 120);
+    });
   }
 
   // ── SUGERENCIAS: cuando el usuario dice "ahora no" ───────────────
@@ -5193,12 +5213,11 @@ function abrirHeroModal() {
     adorno.textContent = '✦ ✦ ✦';
     inner.appendChild(adorno);
 
-    _cascoTypewriter(inner, _t.asistSugTit||'Aquí tienes otras funciones que quizás te gustarán');
-
     var hint = document.createElement('p');
     hint.style.cssText = 'font-size:14px;color:#8b6914;margin-bottom:14px;font-style:italic';
-    hint.innerHTML = _capital(_t.asistMasCosa||'Hay mucho más en la guía. Elige algo que te llame la atención:');
-    inner.appendChild(hint);
+    _cascoTypewriter(inner, _t.asistSugTit||'Aquí tienes otras funciones que quizás te gustarán', null, 28, function(cascoImg) {
+      _twSeq([[hint, _capital(_t.asistMasCosa||'Hay mucho más en la guía. Elige algo que te llame la atención:'), 16, inner]], cascoImg);
+    });
 
     // Lista con max-height fijo y scroll — igual que _renderPaso2
     var lista = document.createElement('div');
@@ -5253,53 +5272,53 @@ function abrirHeroModal() {
     cabEmoji.textContent = op.emoji;
     cab.appendChild(cabEmoji);
     inner.appendChild(cab);
-    _cascoTypewriter(cab, op.titulo);
+    _cascoTypewriter(cab, op.titulo, null, 28, function(cascoImg) {
+      // Párrafos descriptivos con typewriter encadenado
+      var textos = document.createElement('div');
+      textos.style.cssText = 'max-height:38vh;overflow-y:auto;margin-bottom:14px;padding-right:4px';
+      inner.appendChild(textos);
+      var _detPairs = [];
+      op.detalle.forEach(function(parrafo, i) {
+        var p = document.createElement('p');
+        p.style.cssText = 'font-size:15px;color:' + (i === op.detalle.length - 1 ? 'rgba(26,8,0,0.55)' : '#1a0800') + ';line-height:1.7;margin-bottom:8px';
+        _detPairs.push([p, parrafo, 12, textos]);
+      });
 
-    // Párrafos descriptivos
-    var textos = document.createElement('div');
-    textos.style.cssText = 'max-height:38vh;overflow-y:auto;margin-bottom:14px;padding-right:4px';
-    op.detalle.forEach(function(parrafo, i) {
-      var p = document.createElement('p');
-      p.style.cssText = 'font-size:15px;color:' + (i === op.detalle.length - 1 ? 'rgba(26,8,0,0.55)' : '#1a0800') + ';line-height:1.7;margin-bottom:8px';
-      p.textContent = parrafo;
-      textos.appendChild(p);
+      // Botón abrir panel
+      var btnAbrir = document.createElement('button');
+      btnAbrir.textContent = (_t.asistAbrir||'Abrir ') + op.titulo + ' →';
+      btnAbrir.style.cssText = 'width:100%;background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:IM Fell English,serif;margin-bottom:10px;box-shadow:0 2px 8px rgba(45,74,30,0.4)';
+      btnAbrir.addEventListener('click', op.abrir);
+
+      // Separador
+      var sep = document.createElement('div');
+      sep.style.cssText = 'border-top:1px solid rgba(122,80,16,0.3);margin-bottom:10px';
+
+      // ¿Ver otra opción?
+      var pregunta = document.createElement('p');
+      pregunta.style.cssText = 'font-size:15px;color:#1a0800;text-align:center;margin-bottom:10px';
+
+      var btnRow = document.createElement('div');
+      btnRow.style.cssText = 'display:flex;gap:8px';
+      var btnSi = document.createElement('button');
+      btnSi.textContent = _t.asistVerMas||'Sí, ver más';
+      btnSi.style.cssText = 'flex:1;background:rgba(0,0,0,0.15);color:#1a0800;border:1.5px solid #7a5010;border-radius:8px;padding:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
+      btnSi.addEventListener('click', function(){ _renderSugerencias(); });
+      var btnNo = document.createElement('button');
+      btnNo.textContent = _t.asistNoCerrar||'No, cerrar';
+      btnNo.style.cssText = 'flex:1;background:transparent;color:rgba(26,8,0,0.45);border:1px solid rgba(122,80,16,0.3);border-radius:8px;padding:10px;font-size:15px;cursor:pointer;font-family:DM Sans,sans-serif';
+      btnNo.addEventListener('click', function(){ _renderDespedida(); });
+      btnRow.appendChild(btnSi);
+      btnRow.appendChild(btnNo);
+
+      _twSeq(_detPairs, cascoImg, function() {
+        inner.appendChild(btnAbrir);
+        inner.appendChild(sep);
+        _twSeq([[pregunta, _t.asistDetallePreg||'¿Quieres ver otra opción?', 20, inner]], cascoImg, function() {
+          inner.appendChild(btnRow);
+        });
+      });
     });
-    inner.appendChild(textos);
-
-    // Botón abrir panel
-    var btnAbrir = document.createElement('button');
-    btnAbrir.textContent = (_t.asistAbrir||'Abrir ') + op.titulo + ' →';
-    btnAbrir.style.cssText = 'width:100%;background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:IM Fell English,serif;margin-bottom:10px;box-shadow:0 2px 8px rgba(45,74,30,0.4)';
-    btnAbrir.addEventListener('click', op.abrir);
-    inner.appendChild(btnAbrir);
-
-    // Separador
-    var sep = document.createElement('div');
-    sep.style.cssText = 'border-top:1px solid rgba(122,80,16,0.3);margin-bottom:10px';
-    inner.appendChild(sep);
-
-    // ¿Ver otra opción?
-    var pregunta = document.createElement('p');
-    pregunta.style.cssText = 'font-size:15px;color:#1a0800;text-align:center;margin-bottom:10px';
-    pregunta.textContent = _t.asistDetallePreg||'¿Quieres ver otra opción?';
-    inner.appendChild(pregunta);
-
-    var btnRow = document.createElement('div');
-    btnRow.style.cssText = 'display:flex;gap:8px';
-
-    var btnSi = document.createElement('button');
-    btnSi.textContent = _t.asistVerMas||'Sí, ver más';
-    btnSi.style.cssText = 'flex:1;background:rgba(0,0,0,0.15);color:#1a0800;border:1.5px solid #7a5010;border-radius:8px;padding:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
-    btnSi.addEventListener('click', function(){ _renderSugerencias(); });
-
-    var btnNo = document.createElement('button');
-    btnNo.textContent = _t.asistNoCerrar||'No, cerrar';
-    btnNo.style.cssText = 'flex:1;background:transparent;color:rgba(26,8,0,0.45);border:1px solid rgba(122,80,16,0.3);border-radius:8px;padding:10px;font-size:15px;cursor:pointer;font-family:DM Sans,sans-serif';
-    btnNo.addEventListener('click', function(){ _renderDespedida(); });
-
-    btnRow.appendChild(btnSi);
-    btnRow.appendChild(btnNo);
-    inner.appendChild(btnRow);
   }
 
   // ── REVISIÓN: lista de POIs en ruta con opción a quitar ─────────
@@ -5376,17 +5395,15 @@ function abrirHeroModal() {
     inner.innerHTML = '';
     var seleccionados = {};
 
-    _cascoTypewriter(inner, _t.asistPaso2Tit||'Selecciona qué te gustaría visitar');
-
     var adornoPaso2 = document.createElement('div');
     adornoPaso2.style.cssText = 'text-align:center;color:#8b6914;letter-spacing:6px;margin:4px 0 10px;font-size:15px;flex-shrink:0';
     adornoPaso2.textContent = '✦ ✦ ✦';
     inner.appendChild(adornoPaso2);
-
     var hint = document.createElement('p');
     hint.style.cssText = 'font-size:15px;color:#1a0800;margin-bottom:14px;font-style:italic';
-    hint.textContent = _t.asistEligeUno||'Puedes elegir uno o varios lugares.';
-    inner.appendChild(hint);
+    _cascoTypewriter(inner, _t.asistPaso2Tit||'Selecciona qué te gustaría visitar', null, 28, function(cascoImg) {
+      _twSeq([[hint, _t.asistEligeUno||'Puedes elegir uno o varios lugares.', 18, inner]], cascoImg);
+    });
 
     // Lista de POIs
     var lista = document.createElement('div');
@@ -11514,7 +11531,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1139";
+var _APP_VERSION = "v1141";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -13228,7 +13245,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1139</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1141</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
