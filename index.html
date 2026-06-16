@@ -4165,7 +4165,7 @@ function ejecutarBusquedaMapa() {
               var nombre = r.display_name.split(',')[0].trim();
               var dist = userLat ? ' · ' + formatDist(haversine(refLat,refLng,lat,lng)) : '';
               var sm = L.marker([lat,lng], {icon:iconoBusqueda}).addTo(mapa);
-              sm.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>'+nombre+dist+'</strong><br><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="_addBusquedaRuta(encodeURIComponent(\''+nombre+'\'),'+lat+','+lng+');this.textContent=\'✓ En ruta\';this.style.background=\'#1D9E75\';this.style.color=\'#fff\';" style="background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">➕ Añadir a ruta</button><button onclick="irACoordenadasNav('+lat+','+lng+')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">🗺️ Cómo llegar</button></div></div>');
+              sm.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>'+nombre+dist+'</strong><br><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="_toggleBusquedaRuta(this,encodeURIComponent(\''+nombre+'\'),'+lat+','+lng+');" style="background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">➕ Añadir a ruta</button><button onclick="irACoordenadasNav('+lat+','+lng+')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">🗺️ Cómo llegar</button></div></div>');
               searchMarkers.push(sm); bounds2n.push([lat,lng]);
             });
             if (searchMarkers.length > 0) searchMarkers[0].openPopup();
@@ -4210,7 +4210,7 @@ function ejecutarBusquedaMapa() {
               var sm = L.marker([el._lat, el._lng], {icon:iconoBusqueda}).addTo(mapa);
               var addr = el.tags ? (el.tags['addr:street'] ? el.tags['addr:street'] + (el.tags['addr:housenumber'] ? ' '+el.tags['addr:housenumber'] : '') : '') : '';
               var tel = el.tags && el.tags.phone ? '<br>📞 '+el.tags.phone : '';
-              sm.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>'+nombre+'</strong><br><span style="font-size:11px;color:#6b7280">📍 '+dist+(addr?' · '+addr:'')+'</span>'+tel+'<br><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="_addBusquedaRuta(encodeURIComponent(\''+nombre+'\'),'+el._lat+','+el._lng+');this.textContent=\'✓ En ruta\';this.style.background=\'#1D9E75\';this.style.color=\'#fff\';" style="background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">➕ Añadir a ruta</button><button onclick="irACoordenadasNav('+el._lat+','+el._lng+')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">&#128506; Cómo llegar</button></div></div>');
+              sm.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>'+nombre+'</strong><br><span style="font-size:11px;color:#6b7280">📍 '+dist+(addr?' · '+addr:'')+'</span>'+tel+'<br><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="_toggleBusquedaRuta(this,encodeURIComponent(\''+nombre+'\'),'+el._lat+','+el._lng+');" style="background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">➕ Añadir a ruta</button><button onclick="irACoordenadasNav('+el._lat+','+el._lng+')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">&#128506; Cómo llegar</button></div></div>');
               searchMarkers.push(sm); bounds.push([el._lat, el._lng]);
             });
             if (searchMarkers.length > 0) searchMarkers[0].openPopup();
@@ -4256,7 +4256,7 @@ function ejecutarBusquedaMapa() {
               var nombre = r.display_name.split(',')[0].trim();
               var dist = userLat ? ' · ' + formatDist(haversine(refLat,refLng,lat,lng)) : '';
               var sm = L.marker([lat,lng], {icon:iconoBusqueda}).addTo(mapa);
-              sm.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>'+nombre+dist+'</strong><br><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="_addBusquedaRuta(encodeURIComponent(\''+nombre+'\'),'+lat+','+lng+');this.textContent=\'✓ En ruta\';this.style.background=\'#1D9E75\';this.style.color=\'#fff\';" style="background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">➕ Añadir a ruta</button><button onclick="irACoordenadasNav('+lat+','+lng+')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">&#128506; Cómo llegar</button></div></div>');
+              sm.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>'+nombre+dist+'</strong><br><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="_toggleBusquedaRuta(this,encodeURIComponent(\''+nombre+'\'),'+lat+','+lng+');" style="background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">➕ Añadir a ruta</button><button onclick="irACoordenadasNav('+lat+','+lng+')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">&#128506; Cómo llegar</button></div></div>');
               searchMarkers.push(sm); bounds2.push([lat,lng]);
             });
             if (searchMarkers.length > 0) searchMarkers[0].openPopup();
@@ -4696,7 +4696,7 @@ function abrirHeroModal() {
     if (!document.getElementById('_casc-pulse-style')) {
       var st = document.createElement('style');
       st.id = '_casc-pulse-style';
-      st.textContent = '@keyframes _casc-pulse{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.08) rotate(3deg)}}';
+      st.textContent = '@keyframes _casc-pulse{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.08) rotate(3deg)}} @keyframes _spin-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.85)}}';
       document.head.appendChild(st);
     }
     cascoWrap.appendChild(cascoImg);
@@ -4905,15 +4905,23 @@ function abrirHeroModal() {
     // Campo de búsqueda
     var inputWrap = document.createElement('div');
     inputWrap.style.cssText = 'display:flex;gap:8px;margin-bottom:12px';
+    var inputCont = document.createElement('div');
+    inputCont.style.cssText = 'flex:1;position:relative;display:flex;align-items:center';
     var input = document.createElement('input');
     input.type = 'text';
     input.placeholder = _t.asistBuscarPh||'albergue, farmacia, fuente, café…';
-    input.style.cssText = 'flex:1;background:rgba(255,240,200,0.6);border:1.5px solid #7a5010;border-radius:8px;padding:10px 14px;font-size:16px;color:#1a0e00;font-family:DM Sans,sans-serif;outline:none;-webkit-appearance:none';
+    input.style.cssText = 'width:100%;background:rgba(255,240,200,0.6);border:1.5px solid #7a5010;border-radius:8px;padding:10px 36px 10px 14px;font-size:16px;color:#1a0e00;font-family:DM Sans,sans-serif;outline:none;-webkit-appearance:none;box-sizing:border-box';
     input.setAttribute('autocomplete','off');
+    var spinnerEl = document.createElement('span');
+    spinnerEl.id = 'lupa-search-spinner';
+    spinnerEl.textContent = '⏳';
+    spinnerEl.style.cssText = 'position:absolute;right:10px;font-size:16px;display:none;pointer-events:none';
+    inputCont.appendChild(input);
+    inputCont.appendChild(spinnerEl);
     var btnBuscar = document.createElement('button');
     btnBuscar.textContent = _t.asistBuscarBtn||'Buscar';
     btnBuscar.style.cssText = 'background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:10px 16px;font-size:16px;font-weight:700;cursor:pointer;font-family:Playfair Display,serif;white-space:nowrap;flex-shrink:0';
-    inputWrap.appendChild(input);
+    inputWrap.appendChild(inputCont);
     inputWrap.appendChild(btnBuscar);
     box.appendChild(inputWrap);
 
@@ -4950,12 +4958,21 @@ function abrirHeroModal() {
       if (!q || !q.trim()) return;
       q = q.trim();
       resultados.innerHTML = '';
-      estado.style.display = 'block';
-      estado.textContent = '⏳ Buscando ' + q + ' cerca de ti…';
+      estado.style.display = 'none';
+      spinnerEl.style.animation = '_spin-pulse 0.8s ease-in-out infinite';
+      spinnerEl.style.display = 'block';
+      input.style.borderColor = '#a07828';
+      input.setAttribute('placeholder', '⏳ Buscando ' + q + '…');
+      input.value = '';
+      input.disabled = true;
 
       var refLat = (typeof userLat !== 'undefined' && userLat) ? userLat : (typeof mapa !== 'undefined' ? mapa.getCenter().lat : null);
       var refLng = (typeof userLng !== 'undefined' && userLng) ? userLng : (typeof mapa !== 'undefined' ? mapa.getCenter().lng : null);
       if (!refLat || !refLng) {
+        spinnerEl.style.display = 'none'; spinnerEl.style.animation = '';
+        input.style.borderColor = '#7a5010'; input.disabled = false;
+        input.setAttribute('placeholder', _t.asistBuscarPh||'albergue, farmacia, fuente, café…');
+        estado.style.display = 'block';
         estado.textContent = _t.asistBuscandoGps||'📍 Activa el GPS para buscar cerca de ti.';
         return;
       }
@@ -4967,13 +4984,22 @@ function abrirHeroModal() {
         estado.style.display = 'none';
         resultados.innerHTML = '';
         if (!items || items.length === 0) {
+          spinnerEl.style.display = 'none'; spinnerEl.style.animation = ''; input.style.borderColor = '#7a5010'; input.disabled = false; input.setAttribute('placeholder', _t.asistBuscarPh||'albergue, farmacia, fuente, café…');
           estado.style.display = 'block';
           estado.textContent = '🔍 Sin resultados para "' + q + '" en 1 km.';
           return;
         }
         if (!window._wizSearchMarkers) window._wizSearchMarkers = [];
+        // Limpiar marcadores anteriores y sus puntos de la ruta
+        var _busqIds = window._wizSearchMarkers.map(function(m){ return m._busqId; }).filter(Boolean);
         window._wizSearchMarkers.forEach(function(m){ try{ mapa.removeLayer(m); }catch(e){} });
         window._wizSearchMarkers = [];
+        if (_busqIds.length > 0) {
+          var _teniaRutaBusq = rutaPuntos.some(function(p){ return _busqIds.indexOf(p.id) !== -1; });
+          rutaPuntos = rutaPuntos.filter(function(p){ return _busqIds.indexOf(p.id) === -1; });
+          PUNTOS = PUNTOS.filter(function(p){ return _busqIds.indexOf(p.id) === -1; });
+          if (_teniaRutaBusq) actualizarRuta();
+        }
 
         var iconoBusc = (typeof iconoBusqueda !== 'undefined') ? iconoBusqueda
           : L.divIcon({ html:'<div style="background:#DC2626;color:#fff;width:32px;height:32px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25)"><span style="transform:rotate(45deg);font-size:16px">🔍</span></div>', className:'', iconSize:[32,32], iconAnchor:[16,32], popupAnchor:[0,-32] });
@@ -4981,37 +5007,35 @@ function abrirHeroModal() {
         var bounds = [];
         items.forEach(function(it) {
           var lat = it.lat, lng = it.lng, nombre = it.nombre, dist = it.dist;
+          var tmpId_mk = '_busq_' + lat.toString().replace('.','') + '_' + lng.toString().replace('.','');
           var mk = L.marker([lat, lng], { icon: iconoBusc }).addTo(mapa);
-          mk.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>' + nombre + '</strong><br><span style="font-size:11px;color:#6b7280">📍 ' + (typeof formatDist==='function'?formatDist(dist):Math.round(dist)+'m') + '</span>' + (it.tel ? '<br>📞 ' + it.tel : '') + '<br><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="_addBusquedaRuta(encodeURIComponent(\'' + nombre.replace(/\'/g,"\\'") + '\'),' + lat + ',' + lng + ');this.textContent=\'✓ En ruta\';this.style.background=\'#1D9E75\';this.style.color=\'#fff\';" style="background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">➕ Añadir a ruta</button><button onclick="irACoordenadasNav(' + lat + ',' + lng + ')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">🗺️ Cómo llegar</button></div></div>');
+          mk._busqId = tmpId_mk;
+          var popupEl = document.createElement('div');
+          popupEl.style.cssText = 'font-family:DM Sans,sans-serif;min-width:160px';
+          popupEl.innerHTML = '<strong>' + nombre + '</strong><br><span style="font-size:11px;color:#6b7280">📍 ' + (typeof formatDist==='function'?formatDist(dist):Math.round(dist)+'m') + '</span>' + (it.tel ? '<br>📞 ' + it.tel : '');
+          var btnDiv = document.createElement('div');
+          btnDiv.style.cssText = 'display:flex;gap:6px;margin-top:8px;flex-wrap:wrap';
+          var btnAdd = document.createElement('button');
+          btnAdd.textContent = '➕ Añadir a ruta';
+          btnAdd.style.cssText = 'background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
+          (function(la,lo,no,b){ b.addEventListener('click', function(){ _toggleBusquedaRuta(b,encodeURIComponent(no),la,lo); }); })(lat,lng,nombre,btnAdd);
+          var btnNav = document.createElement('button');
+          btnNav.textContent = '🗺️ Cómo llegar';
+          btnNav.style.cssText = 'background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif';
+          (function(la,lo){ btnNav.addEventListener('click', function(){ irACoordenadasNav(la,lo); }); })(lat,lng);
+          btnDiv.appendChild(btnAdd); btnDiv.appendChild(btnNav);
+          popupEl.appendChild(btnDiv);
+          mk.bindPopup(popupEl);
           window._wizSearchMarkers.push(mk);
           bounds.push([lat, lng]);
-
-          var fila = document.createElement('div');
-          fila.style.cssText = 'background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:9px 12px';
-          fila.innerHTML = '<div style="font-size:15px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px">' + nombre + '</div>'
-            + '<div style="font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:8px">📍 ' + (typeof formatDist==='function'?formatDist(dist):Math.round(dist)+'m') + (it.tel ? ' · 📞 ' + it.tel : '') + '</div>'
-            + '<div style="display:flex;gap:6px">'
-            + '<button class="wiz-mapa-btn" style="flex:1;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.25);border-radius:8px;padding:7px 8px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap">🗺️ Mostrar en mapa</button>'
-            + '<button class="wiz-ir-btn" style="flex:1;background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:7px 8px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap">▶ Ir (navegación)</button>'
-            + '</div>';
-          (function(la, lo, mk2){
-            fila.querySelector('.wiz-mapa-btn').addEventListener('click', function(e){
-              e.stopPropagation();
-              cerrarModal();
-              cerrar();
-              _mostrarEnMapaConRuta(la, lo);
-            });
-            fila.querySelector('.wiz-ir-btn').addEventListener('click', function(e){
-              e.stopPropagation();
-              cerrarModal();
-              cerrar();
-              irACoordenadasNav(la, lo);
-            });
-          })(lat, lng, mk);
-          resultados.appendChild(fila);
         });
 
-        if (bounds.length === 1) mapa.setView(bounds[0], 17);
+        // Cerrar cajón y mostrar resultados en el mapa
+        spinnerEl.style.display = 'none'; spinnerEl.style.animation = ''; input.style.borderColor = '#7a5010'; input.disabled = false;
+        _actualizarBtnLimpiar();
+        cerrarModal();
+
+                if (bounds.length === 1) mapa.setView(bounds[0], 17);
         else if (bounds.length > 1) mapa.fitBounds(bounds, { padding:[50,50] });
 
         setTimeout(function(){ var el=document.getElementById('map'); if(el){ var rect=el.getBoundingClientRect(); window.scrollTo({top:Math.max(0,window.pageYOffset+rect.top-(window.innerHeight/2)+(rect.height/2)),behavior:'smooth'}); } }, 600);
@@ -5792,15 +5816,22 @@ function abrirBuscadorAsistente() {
   // Input + botón buscar
   var inputWrap = document.createElement('div');
   inputWrap.style.cssText = 'display:flex;gap:8px;margin-bottom:12px';
+  var inputCont = document.createElement('div');
+  inputCont.style.cssText = 'flex:1;position:relative;display:flex;align-items:center';
   var input = document.createElement('input');
   input.type = 'text';
   input.placeholder = _t.asistBuscarPh || 'albergue, farmacia, fuente, café…';
-  input.style.cssText = 'flex:1;background:rgba(255,240,200,0.6);border:1.5px solid #7a5010;border-radius:8px;padding:10px 14px;font-size:16px;color:#1a0e00;font-family:DM Sans,sans-serif;outline:none;-webkit-appearance:none';
+  input.style.cssText = 'width:100%;background:rgba(255,240,200,0.6);border:1.5px solid #7a5010;border-radius:8px;padding:10px 36px 10px 14px;font-size:16px;color:#1a0e00;font-family:DM Sans,sans-serif;outline:none;-webkit-appearance:none;box-sizing:border-box';
   input.setAttribute('autocomplete', 'off');
+  var spinnerEl = document.createElement('span');
+  spinnerEl.textContent = '⏳';
+  spinnerEl.style.cssText = 'position:absolute;right:10px;font-size:16px;display:none;pointer-events:none';
+  inputCont.appendChild(input);
+  inputCont.appendChild(spinnerEl);
   var btnBuscar = document.createElement('button');
   btnBuscar.textContent = _t.asistBuscarBtn || 'Buscar';
   btnBuscar.style.cssText = 'background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:10px 16px;font-size:16px;font-weight:700;cursor:pointer;font-family:Playfair Display,serif;white-space:nowrap;flex-shrink:0';
-  inputWrap.appendChild(input);
+  inputWrap.appendChild(inputCont);
   inputWrap.appendChild(btnBuscar);
   box.appendChild(inputWrap);
 
@@ -5837,8 +5868,13 @@ function abrirBuscadorAsistente() {
     if (!q || !q.trim()) return;
     q = q.trim();
     resultados.innerHTML = '';
-    estado.style.display = 'block';
-    estado.textContent = '⏳ Buscando ' + q + ' cerca de ti…';
+    estado.style.display = 'none';
+    spinnerEl.style.animation = '_spin-pulse 0.8s ease-in-out infinite';
+    spinnerEl.style.display = 'block';
+    input.style.borderColor = '#a07828';
+    input.setAttribute('placeholder', '⏳ Buscando ' + q + '…');
+    input.value = '';
+    input.disabled = true;
 
     var refLat = (typeof userLat !== 'undefined' && userLat) ? userLat : (typeof mapa !== 'undefined' ? mapa.getCenter().lat : null);
     var refLng = (typeof userLng !== 'undefined' && userLng) ? userLng : (typeof mapa !== 'undefined' ? mapa.getCenter().lng : null);
@@ -5850,8 +5886,11 @@ function abrirBuscadorAsistente() {
     var radio = 1000;
     var osmTag = (typeof _OVERPASS_TAGS !== 'undefined') ? _OVERPASS_TAGS[q.toLowerCase()] : null;
 
+
     function _mostrarResultados(items) {
-      estado.style.display = 'none';
+      spinnerEl.style.display = 'none'; spinnerEl.style.animation = '';
+      input.style.borderColor = '#7a5010'; input.disabled = false;
+      input.setAttribute('placeholder', _t.asistBuscarPh||'albergue, farmacia, fuente, café…');
       resultados.innerHTML = '';
       if (!items || items.length === 0) {
         estado.style.display = 'block';
@@ -5859,43 +5898,49 @@ function abrirBuscadorAsistente() {
         return;
       }
       if (!window._wizSearchMarkers) window._wizSearchMarkers = [];
+      // Limpiar marcadores anteriores y sus puntos de la ruta
+      var _busqIds = window._wizSearchMarkers.map(function(m){ return m._busqId; }).filter(Boolean);
       window._wizSearchMarkers.forEach(function(m){ try{ mapa.removeLayer(m); }catch(e){} });
       window._wizSearchMarkers = [];
+      if (_busqIds.length > 0) {
+        var _teniaRutaBusq = rutaPuntos.some(function(p){ return _busqIds.indexOf(p.id) !== -1; });
+        rutaPuntos = rutaPuntos.filter(function(p){ return _busqIds.indexOf(p.id) === -1; });
+        PUNTOS = PUNTOS.filter(function(p){ return _busqIds.indexOf(p.id) === -1; });
+        if (_teniaRutaBusq) actualizarRuta();
+      }
 
       var iconoBusc = (typeof iconoBusqueda !== 'undefined') ? iconoBusqueda
-        : L.divIcon({ html:'<div style="background:#DC2626;color:#fff;width:32px;height:32px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25)"><span style="transform:rotate(45deg);font-size:16px">🔍</span></div>', className:'', iconSize:[32,32], iconAnchor:[16,32], popupAnchor:[0,-32] });
+        : L.divIcon({ html:'<div style="background:#DC2626;color:#fff;width:32px;height:32px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;border:2px solid #fff"><span style="transform:rotate(45deg);font-size:16px">🔍</span></div>', className:'', iconSize:[32,32], iconAnchor:[16,32], popupAnchor:[0,-32] });
 
       var bounds = [];
       items.forEach(function(it) {
         var lat = it.lat, lng = it.lng, nombre = it.nombre, dist = it.dist;
+        var tmpId_mk = '_busq_' + lat.toString().replace('.','') + '_' + lng.toString().replace('.','');
         var mk = L.marker([lat, lng], { icon: iconoBusc }).addTo(mapa);
-        mk.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>' + nombre + '</strong><br><span style="font-size:11px;color:#6b7280">📍 ' + (typeof formatDist==='function'?formatDist(dist):Math.round(dist)+'m') + '</span>' + (it.tel ? '<br>📞 ' + it.tel : '') + '<br><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="_addBusquedaRuta(encodeURIComponent(\'' + nombre.replace(/\'/g, "\\'") + '\'),' + lat + ',' + lng + ');this.textContent=\'✓ En ruta\';this.style.background=\'#1D9E75\';this.style.color=\'#fff\';" style="background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">➕ Añadir a ruta</button><button onclick="irACoordenadasNav(' + lat + ',' + lng + ')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">🗺️ Cómo llegar</button></div></div>');
+        mk._busqId = tmpId_mk;
+        var popupEl = document.createElement('div');
+        popupEl.style.cssText = 'font-family:DM Sans,sans-serif;min-width:160px';
+        popupEl.innerHTML = '<strong>' + nombre + '</strong><br><span style="font-size:11px;color:#6b7280">📍 ' + (typeof formatDist==='function'?formatDist(dist):Math.round(dist)+'m') + '</span>' + (it.tel ? '<br>📞 ' + it.tel : '');
+        var btnDiv = document.createElement('div');
+        btnDiv.style.cssText = 'display:flex;gap:6px;margin-top:8px;flex-wrap:wrap';
+        var btnAdd = document.createElement('button');
+        btnAdd.textContent = '➕ Añadir a ruta';
+        btnAdd.style.cssText = 'background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
+        (function(la,lo,no,b){ b.addEventListener('click', function(){ _toggleBusquedaRuta(b,encodeURIComponent(no),la,lo); }); })(lat,lng,nombre,btnAdd);
+        var btnNav = document.createElement('button');
+        btnNav.textContent = '🗺️ Cómo llegar';
+        btnNav.style.cssText = 'background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif';
+        (function(la,lo){ btnNav.addEventListener('click', function(){ irACoordenadasNav(la,lo); }); })(lat,lng);
+        btnDiv.appendChild(btnAdd); btnDiv.appendChild(btnNav);
+        popupEl.appendChild(btnDiv);
+        mk.bindPopup(popupEl);
         window._wizSearchMarkers.push(mk);
         bounds.push([lat, lng]);
-
-        var fila = document.createElement('div');
-        fila.style.cssText = 'background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:9px 12px';
-        fila.innerHTML = '<div style="font-size:15px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px">' + nombre + '</div>'
-          + '<div style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:8px">📍 ' + (typeof formatDist==='function'?formatDist(dist):Math.round(dist)+'m') + (it.tel ? ' · 📞 ' + it.tel : '') + '</div>'
-          + '<div style="display:flex;gap:6px">'
-          + '<button class="lupa-mapa-btn" style="flex:1;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.25);border-radius:8px;padding:7px 8px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap">🗺️ Mostrar en mapa</button>'
-          + '<button class="lupa-ir-btn" style="flex:1;background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:7px 8px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap">▶ Ir (navegación)</button>'
-          + '</div>';
-        (function(la, lo){
-          fila.querySelector('.lupa-mapa-btn').addEventListener('click', function(e){
-            e.stopPropagation();
-            cerrarModal();
-            if (typeof _mostrarEnMapaConRuta === 'function') _mostrarEnMapaConRuta(la, lo);
-            else mapa.setView([la, lo], 17);
-          });
-          fila.querySelector('.lupa-ir-btn').addEventListener('click', function(e){
-            e.stopPropagation();
-            cerrarModal();
-            if (typeof irACoordenadasNav === 'function') irACoordenadasNav(la, lo);
-          });
-        })(lat, lng);
-        resultados.appendChild(fila);
       });
+
+      // Cerrar cajetin y mostrar resultados en el mapa
+      _actualizarBtnLimpiar();
+      cerrarModal();
 
       if (bounds.length === 1) mapa.setView(bounds[0], 17);
       else if (bounds.length > 1) mapa.fitBounds(bounds, { padding:[50,50] });
@@ -7464,6 +7509,30 @@ function initMapa() {
   var _popupAbierto = false;
 
   var _mapBtns = ['btn-add-poi-map','btn-poi-drawer-mapa','btn-alertas-toggle','btn-brujula-mapa','btn-sos-mapa','btn-buscar-mapa','map-ruta-panel','map-radio-control'];
+  // Actualizar botón añadir/quitar en popups de resultados de búsqueda al abrirlos
+  mapa.on('popupopen', function(e) {
+    var container = e.popup.getElement();
+    if (!container) return;
+    var btn = container.querySelector('button[onclick*="_toggleBusquedaRuta"]');
+    if (!btn) return;
+    var onc = btn.getAttribute('onclick') || '';
+    var m = onc.match(/_toggleBusquedaRuta\(this,([^,]+),([^,]+),([^)]+)\)/);
+    if (!m) return;
+    try {
+      var lat = parseFloat(m[2]);
+      var lng = parseFloat(m[3]);
+      var tmpId = '_busq_' + lat.toString().replace('.','') + '_' + lng.toString().replace('.','');
+      var enR = rutaPuntos.some(function(p){ return p.id === tmpId; });
+      if (enR) {
+        btn.textContent = '✓ En ruta';
+        btn.style.cssText = btn.style.cssText.replace(/background:[^;]+/, 'background:#1D9E75').replace(/color:[^;]+/, 'color:#fff').replace(/border:[^;]+/, 'border:none');
+      } else {
+        btn.textContent = '➕ Añadir a ruta';
+        btn.style.cssText = btn.style.cssText.replace(/background:[^;]+/, 'background:#E1F5EE').replace(/color:[^;]+/, 'color:#0F6E56').replace(/border:[^;]+/, 'border:1px solid rgba(29,158,117,0.4)');
+      }
+    } catch(e2) {}
+  });
+
   mapa.on('popupopen', function() {
     _popupAbierto = true;
     _mapBtns.forEach(function(id){
@@ -7979,6 +8048,7 @@ function limpiarBusquedaMapa() {
   searchMarkers = [];
   // Limpiar marcadores del asistente
   if (window._wizSearchMarkers) { window._wizSearchMarkers.forEach(function(m){ try{ mapa.removeLayer(m); }catch(e){} }); window._wizSearchMarkers = []; }
+  _actualizarBtnLimpiar();
   // Quitar puntos de búsqueda de la ruta y de PUNTOS
   rutaPuntos = rutaPuntos.filter(function(p){ return p.categoria !== 'busqueda'; });
   PUNTOS = PUNTOS.filter(function(p){ return p.categoria !== 'busqueda'; });
@@ -8038,7 +8108,7 @@ function ejecutarBusqueda() {
             var nombre=r.display_name.split(',')[0].trim();
             var dist=userLat?' - '+formatDist(haversine(userLat,userLng,lat,lng)):'';
             var sm=L.marker([lat,lng],{icon:iconoBusqueda}).addTo(mapa);
-            sm.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>'+nombre+dist+'</strong><br><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="_addBusquedaRuta(encodeURIComponent(\''+nombre+'\'),'+lat+','+lng+');this.textContent=\'✓ En ruta\';this.style.background=\'#1D9E75\';this.style.color=\'#fff\';" style="background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">➕ Añadir a ruta</button><button onclick="irACoordenadasNav('+lat+','+lng+')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:14px;cursor:pointer;font-family:DM Sans,sans-serif">&#128506; Cómo llegar</button></div></div>');
+            sm.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>'+nombre+dist+'</strong><br><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="_toggleBusquedaRuta(this,encodeURIComponent(\''+nombre+'\'),'+lat+','+lng+');" style="background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">➕ Añadir a ruta</button><button onclick="irACoordenadasNav('+lat+','+lng+')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:14px;cursor:pointer;font-family:DM Sans,sans-serif">&#128506; Cómo llegar</button></div></div>');
             searchMarkers.push(sm); bounds.push([lat,lng]);
           });
           if (searchMarkers.length>0) searchMarkers[0].openPopup();
@@ -8362,6 +8432,46 @@ function verEnMapa(lat,lng) {
   mapa.setView([lat,lng],14);
   document.activeElement && document.activeElement.blur(); setTimeout(function(){ var el=document.getElementById('map'); if(el){ var rect=el.getBoundingClientRect(); var center=window.pageYOffset+rect.top-(window.innerHeight/2)+(rect.height/2); window.scrollTo({top:Math.max(0,center),behavior:'smooth'}); } },600);
 }
+function _busqBtnEstado(lat, lng) {
+  var tmpId = '_busq_' + lat.toString().replace('.','') + '_' + lng.toString().replace('.','');
+  return rutaPuntos.some(function(p){ return p.id === tmpId; });
+}
+function _busqBtnHtml(lat, lng) {
+  var enR = _busqBtnEstado(lat, lng);
+  return enR
+    ? 'background:#1D9E75;color:#fff;border:none'
+    : 'background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4)';
+}
+function _busqBtnTxt(lat, lng) {
+  return _busqBtnEstado(lat, lng) ? '✓ En ruta' : '➕ Añadir a ruta';
+}
+function _toggleBusquedaRuta(btn, nombreEnc, lat, lng) {
+  var nombre = decodeURIComponent(nombreEnc);
+  var tmpId = '_busq_' + lat.toString().replace('.','') + '_' + lng.toString().replace('.','');
+  var enRuta = rutaPuntos.some(function(p){ return p.id === tmpId; });
+  mapa.closePopup();
+  if (enRuta) {
+    // Quitar de la ruta (mantener en PUNTOS para que el marcador siga visible)
+    rutaPuntos = rutaPuntos.filter(function(p){ return p.id !== tmpId; });
+    actualizarRuta();
+    mostrarToast('🗑️ ' + nombre + ' eliminado de la ruta');
+    if (btn) { btn.textContent = '➕ Añadir a ruta'; btn.style.background = '#E1F5EE'; btn.style.color = '#0F6E56'; btn.style.borderColor = 'rgba(29,158,117,0.4)'; }
+  } else {
+    // Añadir a la ruta
+    PUNTOS = PUNTOS.filter(function(p){ return p.id !== tmpId; });
+    PUNTOS.push({ id:tmpId, nombre:nombre, lat:lat, lng:lng, categoria:'busqueda', emoji:'📍' });
+    addToRoute(tmpId);
+    mostrarToast('📍 ' + nombre + ' añadido a la ruta');
+    if (btn) { btn.textContent = '✓ En ruta'; btn.style.background = '#1D9E75'; btn.style.color = '#fff'; btn.style.borderColor = 'transparent'; }
+    setTimeout(function(){
+      var ids = ['btn-add-poi-map','btn-alertas-toggle','btn-brujula-mapa','btn-sos-mapa',
+                 'btn-buscar-mapa','btn-meteo-mapa','btn-poi-drawer-mapa','btn-asistente-mapa'];
+      ids.forEach(function(id){ var b=document.getElementById(id); if(b&&!_navActiva) b.style.display='flex'; });
+      var b2=document.getElementById('map-ruta-panel'); if(b2){b2.style.display='flex';b2.style.flexDirection='column';}
+      var b3=document.getElementById('map-radio-control'); if(b3) b3.style.display='flex';
+    }, 350);
+  }
+}
 function _addBusquedaRuta(nombreEnc, lat, lng) {
   var nombre = decodeURIComponent(nombreEnc);
   var tmpId = '_busq_' + lat.toString().replace('.','') + '_' + lng.toString().replace('.','');
@@ -8383,21 +8493,26 @@ function _addBusquedaRuta(nombreEnc, lat, lng) {
     if (b3) b3.style.display = 'flex';
   }, 350);
 }
-function _mostrarEnMapaConRuta(lat, lng) {
+function _mostrarEnMapaConRuta(lat, lng, nombre) {
   mapa.closePopup();
-  var tmpId = '_busqueda_tmp';
+  var tmpId = '_busq_' + lat.toString().replace('.','') + '_' + lng.toString().replace('.','');
+  var nombreFinal = nombre || 'Destino';
   PUNTOS = PUNTOS.filter(function(p){ return p.id !== tmpId; });
   rutaPuntos = rutaPuntos.filter(function(p){ return p.id !== tmpId; });
-  var tmp = { id:tmpId, nombre:'Destino', lat:lat, lng:lng, categoria:'busqueda', emoji:'📍' };
+  var tmp = { id:tmpId, nombre:nombreFinal, lat:lat, lng:lng, categoria:'busqueda', emoji:'📍' };
   PUNTOS.push(tmp);
   addToRoute(tmpId);
+  // Marcador en el mapa con popup toggle
+  if (!window._wizSearchMarkers) window._wizSearchMarkers = [];
+  var mk = L.marker([lat, lng], { icon: iconoBusqueda }).addTo(mapa);
+  mk.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>' + nombreFinal + '</strong><br><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="_toggleBusquedaRuta(this,encodeURIComponent(\'' + nombreFinal.replace(/'/g,"\\'") + '\'),' + lat + ',' + lng + ');" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">✓ En ruta</button><button onclick="irACoordenadasNav(' + lat + ',' + lng + ')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">🗺️ Cómo llegar</button></div></div>');
+  window._wizSearchMarkers.push(mk);
   // Vista radio 1km igual que el botón del mapa
   mapa.setView([lat, lng], 15);
   radioKm = 1;
   _aplicarEstadoRadioBtns(1);
   if (userLat) aplicarRadio(1);
   document.activeElement && document.activeElement.blur();
-  // Trazar ruta con flechas sin activar navegación por voz
   setTimeout(function() {
     if (typeof dibujarLineaEstática === 'function') dibujarLineaEstática();
   }, 500);
@@ -8696,6 +8811,18 @@ function limpiarRuta() {
     opciones: opciones
   });
 }
+function _actualizarBtnLimpiar() {
+  var btnClr = document.getElementById('ruta-bar-btn-clear');
+  if (!btnClr) return;
+  var hayRuta = rutaPuntos.length > 0;
+  var hayBusqueda = window._wizSearchMarkers && window._wizSearchMarkers.length > 0;
+  if (hayRuta || hayBusqueda) {
+    btnClr.style.display = 'block';
+    btnClr.disabled = false;
+  } else {
+    btnClr.style.display = 'none';
+  }
+}
 function _borrarSoloMemoria() {
   try { localStorage.removeItem('rutaGuardadaV2'); } catch(e) {}
   _actualizarBtnGuardarRestaurar();
@@ -8714,6 +8841,7 @@ function _ejecutarLimpiarRuta() {
   try {
     if (window._wizSearchMarkers) { window._wizSearchMarkers.forEach(function(m){ try{mapa.removeLayer(m);}catch(e){} }); window._wizSearchMarkers = []; }
   } catch(e) { window._wizSearchMarkers = []; }
+  _actualizarBtnLimpiar();
   var btnVer=document.getElementById('ruta-bar-btn-ver');
   if(btnVer) btnVer.style.background='#185FA5';
   var panel=document.getElementById('map-ruta-panel');
@@ -8948,7 +9076,10 @@ function dibujarLineaEstática() {
 
 function actualizarLineaRuta() {
   if (_rutaLinea) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; }
-  if (!_modoSeguimiento || rutaPuntos.length < 1) return;
+  if (!_modoSeguimiento || rutaPuntos.length < 1) {
+    if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ mapa.removeLayer(m); }); window._rutaFlechas = []; }
+    return;
+  }
   // Ordenar puntos por proximidad desde posición usuario
   var origen2 = (userLat && userLng) ? {lat:userLat, lng:userLng} : {lat:rutaPuntos[0].lat, lng:rutaPuntos[0].lng};
   var puntosOrd2 = ordenarRutaPorCercania(origen2);
@@ -9180,7 +9311,7 @@ function cargarRutaGuardada() {
     rutaPuntos.forEach(function(p) {
       if (p.categoria !== 'busqueda' || !p.lat || !p.lng) return;
       var mk = L.marker([p.lat, p.lng], { icon: iconoBusc }).addTo(mapa);
-      mk.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>' + p.nombre + '</strong><br><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="_addBusquedaRuta(encodeURIComponent(\'' + p.nombre.replace(/'/g,"\\'") + '\'),' + p.lat + ',' + p.lng + ');this.textContent=\'✓ En ruta\';this.style.background=\'#1D9E75\';this.style.color=\'#fff\';" style="background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">➕ Añadir a ruta</button><button onclick="irACoordenadasNav(' + p.lat + ',' + p.lng + ')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">🗺️ Cómo llegar</button></div></div>');
+      mk.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>' + p.nombre + '</strong><br><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="_toggleBusquedaRuta(this,encodeURIComponent(\'' + p.nombre.replace(/'/g,"\\'") + '\'),' + p.lat + ',' + p.lng + ');" style="background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">➕ Añadir a ruta</button><button onclick="irACoordenadasNav(' + p.lat + ',' + p.lng + ')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">🗺️ Cómo llegar</button></div></div>');
       window._wizSearchMarkers.push(mk);
     });
     mostrarToast('📍 Ruta restaurada (' + rutaPuntos.length + ' puntos)');
@@ -9238,6 +9369,7 @@ function _ejecutarLimpiarRutaSoloMapa(silencioso) {
   try { if (_rutaLinea && mapa) { mapa.removeLayer(_rutaLinea); _rutaLinea = null; } } catch(e) { _rutaLinea = null; }
   try { if (window._rutaFlechas) { window._rutaFlechas.forEach(function(m){ try{mapa.removeLayer(m);}catch(e){}; }); window._rutaFlechas = []; } } catch(e) {}
   try { if (window._wizSearchMarkers) { window._wizSearchMarkers.forEach(function(m){ try{mapa.removeLayer(m);}catch(e){}; }); window._wizSearchMarkers = []; } } catch(e) {}
+  _actualizarBtnLimpiar();
   rutaPuntos = [];
   var btnClrBar = document.getElementById('ruta-bar-btn-clear'); if(btnClrBar){ btnClrBar.style.display='none'; btnClrBar.disabled=false; }
   var btnNavBar = document.getElementById('ruta-nav-btn'); if(btnNavBar) btnNavBar.style.display='none';
@@ -11651,7 +11783,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1149";
+var _APP_VERSION = "v1161";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -13365,7 +13497,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1149</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1161</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
