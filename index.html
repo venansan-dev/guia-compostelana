@@ -4696,7 +4696,7 @@ function abrirHeroModal() {
     if (!document.getElementById('_casc-pulse-style')) {
       var st = document.createElement('style');
       st.id = '_casc-pulse-style';
-      st.textContent = '@keyframes _casc-pulse{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.08) rotate(3deg)}} @keyframes _spin-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.85)}}';
+      st.textContent = '@keyframes _casc-pulse{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.08) rotate(3deg)}} @keyframes _spin-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.85)}} @keyframes _input-blink{0%,100%{opacity:1}50%{opacity:0.4}}';
       document.head.appendChild(st);
     }
     cascoWrap.appendChild(cascoImg);
@@ -4912,13 +4912,7 @@ function abrirHeroModal() {
     input.placeholder = _t.asistBuscarPh||'albergue, farmacia, fuente, café…';
     input.style.cssText = 'width:100%;background:rgba(255,240,200,0.6);border:1.5px solid #7a5010;border-radius:8px;padding:10px 36px 10px 14px;font-size:16px;color:#1a0e00;font-family:DM Sans,sans-serif;outline:none;-webkit-appearance:none;box-sizing:border-box';
     input.setAttribute('autocomplete','off');
-    var spinnerEl = document.createElement('span');
-    spinnerEl.id = 'lupa-search-spinner';
-    spinnerEl.textContent = '⏳';
-    spinnerEl.style.cssText = 'position:absolute;right:10px;font-size:16px;display:none;pointer-events:none';
     inputCont.appendChild(input);
-    inputCont.appendChild(spinnerEl);
-    var btnBuscar = document.createElement('button');
     btnBuscar.textContent = _t.asistBuscarBtn||'Buscar';
     btnBuscar.style.cssText = 'background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:10px 16px;font-size:16px;font-weight:700;cursor:pointer;font-family:Playfair Display,serif;white-space:nowrap;flex-shrink:0';
     inputWrap.appendChild(inputCont);
@@ -4959,9 +4953,8 @@ function abrirHeroModal() {
       q = q.trim();
       resultados.innerHTML = '';
       estado.style.display = 'none';
-      spinnerEl.style.animation = '_spin-pulse 0.8s ease-in-out infinite';
-      spinnerEl.style.display = 'block';
       input.style.borderColor = '#a07828';
+      input.style.animation = '_input-blink 0.9s ease-in-out infinite';
       input.setAttribute('placeholder', '⏳ Buscando ' + q + '…');
       input.value = '';
       input.disabled = true;
@@ -4969,8 +4962,7 @@ function abrirHeroModal() {
       var refLat = (typeof userLat !== 'undefined' && userLat) ? userLat : (typeof mapa !== 'undefined' ? mapa.getCenter().lat : null);
       var refLng = (typeof userLng !== 'undefined' && userLng) ? userLng : (typeof mapa !== 'undefined' ? mapa.getCenter().lng : null);
       if (!refLat || !refLng) {
-        spinnerEl.style.display = 'none'; spinnerEl.style.animation = '';
-        input.style.borderColor = '#7a5010'; input.disabled = false;
+        input.style.borderColor = '#7a5010'; input.style.animation = ''; input.disabled = false;
         input.setAttribute('placeholder', _t.asistBuscarPh||'albergue, farmacia, fuente, café…');
         estado.style.display = 'block';
         estado.textContent = _t.asistBuscandoGps||'📍 Activa el GPS para buscar cerca de ti.';
@@ -4984,7 +4976,7 @@ function abrirHeroModal() {
         estado.style.display = 'none';
         resultados.innerHTML = '';
         if (!items || items.length === 0) {
-          spinnerEl.style.display = 'none'; spinnerEl.style.animation = ''; input.style.borderColor = '#7a5010'; input.disabled = false; input.setAttribute('placeholder', _t.asistBuscarPh||'albergue, farmacia, fuente, café…');
+          input.style.borderColor = '#7a5010'; input.style.animation = ''; input.disabled = false; input.setAttribute('placeholder', _t.asistBuscarPh||'albergue, farmacia, fuente, café…');
           estado.style.display = 'block';
           estado.textContent = '🔍 Sin resultados para "' + q + '" en 1 km.';
           return;
@@ -5031,7 +5023,7 @@ function abrirHeroModal() {
         });
 
         // Cerrar cajón y mostrar resultados en el mapa
-        spinnerEl.style.display = 'none'; spinnerEl.style.animation = ''; input.style.borderColor = '#7a5010'; input.disabled = false;
+        input.style.borderColor = '#7a5010'; input.style.animation = ''; input.disabled = false;
         _actualizarBtnLimpiar();
         cerrarModal();
 
@@ -5823,11 +5815,6 @@ function abrirBuscadorAsistente() {
   input.placeholder = _t.asistBuscarPh || 'albergue, farmacia, fuente, café…';
   input.style.cssText = 'width:100%;background:rgba(255,240,200,0.6);border:1.5px solid #7a5010;border-radius:8px;padding:10px 36px 10px 14px;font-size:16px;color:#1a0e00;font-family:DM Sans,sans-serif;outline:none;-webkit-appearance:none;box-sizing:border-box';
   input.setAttribute('autocomplete', 'off');
-  var spinnerEl = document.createElement('span');
-  spinnerEl.textContent = '⏳';
-  spinnerEl.style.cssText = 'position:absolute;right:10px;font-size:16px;display:none;pointer-events:none';
-  inputCont.appendChild(input);
-  inputCont.appendChild(spinnerEl);
   var btnBuscar = document.createElement('button');
   btnBuscar.textContent = _t.asistBuscarBtn || 'Buscar';
   btnBuscar.style.cssText = 'background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:10px 16px;font-size:16px;font-weight:700;cursor:pointer;font-family:Playfair Display,serif;white-space:nowrap;flex-shrink:0';
@@ -5869,9 +5856,8 @@ function abrirBuscadorAsistente() {
     q = q.trim();
     resultados.innerHTML = '';
     estado.style.display = 'none';
-    spinnerEl.style.animation = '_spin-pulse 0.8s ease-in-out infinite';
-    spinnerEl.style.display = 'block';
     input.style.borderColor = '#a07828';
+    input.style.animation = '_input-blink 0.9s ease-in-out infinite';
     input.setAttribute('placeholder', '⏳ Buscando ' + q + '…');
     input.value = '';
     input.disabled = true;
@@ -5888,8 +5874,7 @@ function abrirBuscadorAsistente() {
 
 
     function _mostrarResultados(items) {
-      spinnerEl.style.display = 'none'; spinnerEl.style.animation = '';
-      input.style.borderColor = '#7a5010'; input.disabled = false;
+      input.style.borderColor = '#7a5010'; input.style.animation = ''; input.disabled = false;
       input.setAttribute('placeholder', _t.asistBuscarPh||'albergue, farmacia, fuente, café…');
       resultados.innerHTML = '';
       if (!items || items.length === 0) {
@@ -11783,7 +11768,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1161";
+var _APP_VERSION = "v1162";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -13497,7 +13482,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1161</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1162</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
