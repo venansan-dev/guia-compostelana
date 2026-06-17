@@ -5829,12 +5829,12 @@ function abrirHeroModal() {
   // Helper: casco + typewriter reutilizable para todos los _render
   function _cascoTypewriter(container, texto, extraCss, speed, onDone) {
     var wrap = document.createElement('div');
-    wrap.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:10px' + (extraCss ? ';' + extraCss : '');
+    wrap.style.cssText = 'display:flex;align-items:flex-end;gap:10px;margin-bottom:10px' + (extraCss ? ';' + extraCss : '');
     var img = document.createElement('img');
     img.src = 'https://i.postimg.cc/m2TbCRTs/casc4.png';
     img.style.cssText = 'width:36px;height:36px;object-fit:contain;flex-shrink:0;animation:_casc-pulse 2.4s ease-in-out infinite';
     var txt = document.createElement('div');
-    txt.style.cssText = 'font-family:DM Sans,sans-serif;font-size:19px;font-weight:400;color:#1a0800;line-height:1.3;flex:1';
+    txt.style.cssText = 'font-family:DM Sans,sans-serif;font-size:15px;font-weight:500;color:#1a0800;line-height:1;flex:1;margin-bottom:0';
     wrap.appendChild(img);
     wrap.appendChild(txt);
     container.appendChild(wrap);
@@ -6078,7 +6078,7 @@ function abrirHeroModal() {
 
     // Casco solo, centrado, con pulso suave
     var cascoWrap = document.createElement('div');
-    cascoWrap.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:10px';
+    cascoWrap.style.cssText = 'display:flex;align-items:flex-end;gap:10px;margin-bottom:10px';
     var cascoImg = document.createElement('img');
     cascoImg.src = 'https://i.postimg.cc/m2TbCRTs/casc4.png';
     cascoImg.style.cssText = 'width:38px;height:38px;object-fit:contain;flex-shrink:0;animation:_casc-pulse 2.4s ease-in-out infinite';
@@ -6092,7 +6092,7 @@ function abrirHeroModal() {
 
     // Texto del saludo con typewriter — sin icono, fuente conversacional
     var saludoEl = document.createElement('div');
-    saludoEl.style.cssText = 'font-family:DM Sans,sans-serif;font-size:15px;font-weight:500;color:#1a0800;line-height:1.4;flex:1';
+    saludoEl.style.cssText = 'font-family:DM Sans,sans-serif;font-size:15px;font-weight:500;color:#1a0800;line-height:1;flex:1;margin-bottom:0';
     cascoWrap.appendChild(saludoEl);
     inner.appendChild(cascoWrap);
 
@@ -6135,7 +6135,7 @@ function abrirHeroModal() {
           if (_hayRuta) {
             // Rama ruta activa
             var sub = document.createElement('p');
-            sub.style.cssText = 'font-size:16px;color:#1a0800;line-height:1.6;margin-bottom:20px';
+            sub.style.cssText = 'font-size:15px;color:#1a0800;line-height:1.6;margin-bottom:20px';
             var btnRow = document.createElement('div');
             btnRow.style.cssText = 'display:flex;gap:10px';
             var btnSi = document.createElement('button');
@@ -6156,7 +6156,7 @@ function abrirHeroModal() {
           } else if (cercanos.length === 0) {
             // Rama sin GPS
             var noGps = document.createElement('p');
-            noGps.style.cssText = 'font-size:16px;color:rgba(255,255,255,0.8);line-height:1.6;margin-bottom:20px';
+            noGps.style.cssText = 'font-size:15px;color:rgba(255,255,255,0.8);line-height:1.6;margin-bottom:20px';
             var btnCerrar = document.createElement('button');
             btnCerrar.textContent = _t.asistCerrar||'Cerrar';
             btnCerrar.style.cssText = 'width:100%;background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:12px;font-size:16px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
@@ -6170,7 +6170,7 @@ function abrirHeroModal() {
             var primero = cercanos[0];
             var distTexto = primero.dist < 1000 ? Math.round(primero.dist) + ' m' : (primero.dist/1000).toFixed(1) + ' km';
             var sub = document.createElement('p');
-            sub.style.cssText = 'font-size:16px;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:6px';
+            sub.style.cssText = 'font-size:15px;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:6px';
             var sub2 = document.createElement('p');
             sub2.style.cssText = 'font-size:15px;color:#1a0800;line-height:1.5;margin-bottom:12px';
             var btnRow = document.createElement('div');
@@ -11515,9 +11515,9 @@ var T={
     asistCercanosLugares:'lugares',
     asistCercanosDe:'del Camino cerca de ti. El más próximo es',
     asistCercanosA:'a',
-    asistSaludoM:['¡Buenos días, peregrino! 🌅','¡Ultreia! El Camino te espera. 🌄','¡Arriba, caminante! El alba es tuya. ☀️','Un nuevo día en el Camino. ¡Buen paso! 🥾','¡Que la jornada te sea leve, peregrino! 🌤️'],
-    asistSaludoT:['¡Buenas tardes, peregrino! ☀️','¿Cómo lleva el Camino la tarde de hoy? 🛤️','¡Tarde de Camino! ¿Cuántos kilómetros hoy? 🥾','La tarde es buena hora para planificar. 🗺️','¡Ultreia et suseia, peregrino! ⛰️'],
-    asistSaludoN:['¡Buenas noches, peregrino! 🌙','El Camino descansa, pero tú planificas. 🌟','Noche de peregrino. ¿Mañana salimos? ⭐','¡Buenas noches! El alba trae nuevo Camino. 🌙','Hora de descansar las piernas... o de planificar. 🗺️'],
+    asistSaludoM:['¡Buenos días, peregrino!','¡Ultreia! El Camino te espera.','¡Arriba, caminante! El alba es tuya.','Un nuevo día en el Camino. ¡Buen paso!','¡Que la jornada te sea leve, peregrino!'],
+    asistSaludoT:['¡Buenas tardes, peregrino!','¿Cómo lleva el Camino la tarde de hoy?','¡Tarde de Camino! ¿Cuántos kilómetros hoy?','La tarde es buena hora para planificar.','¡Ultreia et suseia, peregrino!'],
+    asistSaludoN:['¡Buenas noches, peregrino!','El Camino descansa, pero tú planificas.','Noche de peregrino. ¿Mañana salimos?','¡Buenas noches! El alba trae nuevo Camino.','Hora de descansar las piernas... o de planificar.'],
     asistSubDefault:'El Camino te espera. ¿En qué puedo ayudarte?',
     asistPaso3Uno:'¡Lugar añadido a tu ruta!',
     asistPaso3Multi:'¡{n} lugares añadidos a tu ruta!',
@@ -11899,9 +11899,9 @@ var T={
     asistCercanosLugares:'lugares',
     asistCercanosDe:'do Camiño cerca de ti. O máis próximo é',
     asistCercanosA:'a',
-    asistSaludoM:['¡Bos días, peregrino! 🌅','¡Ultreia! O Camiño agárdache. 🌄','¡Arriba, camiñante! A alba é túa. ☀️','Un novo día no Camiño. ¡Bo paso! 🥾','¡Que a xornada che sexa leve, peregrino! 🌤️'],
-    asistSaludoT:['¡Boas tardes, peregrino! ☀️','¿Como leva o Camiño a tarde de hoxe? 🛤️','¡Tarde de Camiño! ¿Cantos quilómetros hoxe? 🥾','A tarde é boa hora para planificar. 🗺️','¡Ultreia et suseia, peregrino! ⛰️'],
-    asistSaludoN:['¡Boas noites, peregrino! 🌙','O Camiño descansa, pero ti planificas. 🌟','Noite de peregrino. ¿Mañá saímos? ⭐','¡Boas noites! A alba trae novo Camiño. 🌙','Hora de descansar as pernas... ou de planificar. 🗺️'],
+    asistSaludoM:['¡Bos días, peregrino!','¡Ultreia! O Camiño agárdache.','¡Arriba, camiñante! A alba é túa.','Un novo día no Camiño. ¡Bo paso!','¡Que a xornada che sexa leve, peregrino!'],
+    asistSaludoT:['¡Boas tardes, peregrino!','¿Como leva o Camiño a tarde de hoxe?','¡Tarde de Camiño! ¿Cantos quilómetros hoxe?','A tarde é boa hora para planificar.','¡Ultreia et suseia, peregrino!'],
+    asistSaludoN:['¡Boas noites, peregrino!','O Camiño descansa, pero ti planificas.','Noite de peregrino. ¿Mañá saímos?','¡Boas noites! A alba trae novo Camiño.','Hora de descansar as pernas... ou de planificar.'],
     asistSubDefault:'O Camiño agárdache. ¿En que podo axudarte?',
     asistPaso3Uno:'¡Lugar engadido á túa ruta!',
     asistPaso3Multi:'¡{n} lugares engadidos á túa ruta!',
@@ -12478,9 +12478,9 @@ var T={
     asistCercanosLugares:'places',
     asistCercanosDe:'on the Camino nearby. The closest is',
     asistCercanosA:'at',
-    asistSaludoM:['Good morning, pilgrim! 🌅','Ultreia! The Way awaits you. 🌄','Rise, wanderer! The dawn is yours. ☀️','A new day on the Camino. Safe travels! 🥾','May the journey be light today, pilgrim! 🌤️'],
-    asistSaludoT:['Good afternoon, pilgrim! ☀️','How is the Camino treating you this afternoon? 🛤️','Afternoon on the Way! How many kilometres today? 🥾','The afternoon is a great time to plan. 🗺️','Ultreia et suseia, pilgrim! ⛰️'],
-    asistSaludoN:['Good night, pilgrim! 🌙','The Camino rests, but you plan ahead. 🌟','A pilgrim night. Shall we set off tomorrow? ⭐','Good night! Dawn brings a new Camino. 🌙','Time to rest those legs... or plan the next stage. 🗺️'],
+    asistSaludoM:['Good morning, pilgrim!','Ultreia! The Way awaits you.','Rise, wanderer! The dawn is yours.','A new day on the Camino. Safe travels!','May the journey be light today, pilgrim!'],
+    asistSaludoT:['Good afternoon, pilgrim!','How is the Camino treating you this afternoon?','Afternoon on the Way! How many kilometres today?','The afternoon is a great time to plan.','Ultreia et suseia, pilgrim!'],
+    asistSaludoN:['Good night, pilgrim!','The Camino rests, but you plan ahead.','A pilgrim night. Shall we set off tomorrow?','Good night! Dawn brings a new Camino.','Time to rest those legs... or plan the next stage.'],
     asistSubDefault:'The Way awaits. How can I help you?',
     asistPaso3Uno:'Place added to your route!',
     asistPaso3Multi:'{n} places added to your route!',
@@ -13356,7 +13356,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1225";
+var _APP_VERSION = "v1235";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -15070,7 +15070,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1225</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1235</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
