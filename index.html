@@ -65,7 +65,7 @@
   <link href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" rel="stylesheet"/>
   <link href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" rel="stylesheet"/>
   <style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}html,body{touch-action:pan-x pan-y;-webkit-text-size-adjust:100%;text-size-adjust:100%}input,textarea,select,button{font-size:max(16px,1em)}#map{touch-action:none}html{scroll-behavior:smooth}body{font-family:'DM Sans',sans-serif;background:radial-gradient(ellipse at 15% 10%, rgba(90,50,0,0.10) 0%, transparent 50%),radial-gradient(ellipse at 85% 90%, rgba(60,30,0,0.12) 0%, transparent 50%),radial-gradient(ellipse at 70% 30%, rgba(180,130,40,0.07) 0%, transparent 40%),radial-gradient(ellipse at 20% 75%, rgba(80,40,0,0.09) 0%, transparent 45%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),linear-gradient(180deg,#e8d5a0 0%,#dfc888 50%,#d4b85a 100%);color:#1a1a1a;line-height:1.6}a{text-decoration:none;color:inherit}:root{--verde:#1D9E75;--verde-oscuro:#0F6E56;--verde-claro:#E1F5EE;--blanco:#ffffff;--fondo:#e8d5a0;--texto:#1a1a1a;--texto-suave:#6b7280;--borde:rgba(0,0,0,0.08);--radio:12px;--radio-sm:8px;--fondo-alt:#dfc888}.navbar-iframe,#navbar-iframe{display:none !important}.widget,#sidebar,.blog-pager,.post-feeds,#comments{display:none !important}.header{background:var(--blanco);border-bottom:1px solid var(--borde);box-shadow:0 1px 4px rgba(0,0,0,0.06);padding:0 1rem;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1100}#nav-desktop{display:flex;align-items:center;gap:2px;flex-wrap:nowrap}@media(max-width:768px){#nav-desktop{display:none}}#nav-desktop a{font-size:12px;padding:0 6px;white-space:nowrap;color:var(--texto-suave);text-decoration:none;transition:color 0.2s}#nav-desktop a:hover{color:var(--verde)}.logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:600}.logo span{color:var(--verde)}nav{display:flex;gap:2rem;align-items:center}nav a{font-size:14px;color:var(--texto-suave);transition:color 0.2s}nav a:hover{color:var(--texto)}.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none}.hamburger span{display:block;width:24px;height:2px;background:var(--texto);border-radius:2px;transition:all 0.25s}.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}.hamburger.open span:nth-child(2){opacity:0}.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}.nav-mobile{display:none;position:fixed;top:64px;left:0;right:0;background:var(--blanco);border-bottom:1px solid var(--borde);z-index:1090;box-shadow:0 8px 24px rgba(0,0,0,0.1);max-height:calc(100vh - 64px);overflow-y:auto}.nav-mobile.open{display:grid;grid-template-columns:1fr 1fr}.nav-mobile.open{display:flex}.nav-mobile a{padding:0 1rem;font-size:13px;color:var(--texto-suave);border-bottom:0.5px solid var(--borde);border-right:0.5px solid var(--borde);transition:background 0.15s;line-height:1.3;display:flex;align-items:center;height:48px;box-sizing:border-box;-webkit-tap-highlight-color:rgba(29,158,117,0.1)}.nav-mobile a:hover{background:var(--fondo);color:var(--texto)}.hero{background:url('https://i.postimg.cc/MHq8dzB5/hero8.png') center/cover no-repeat,linear-gradient(150deg,#0d1e3a 0%,#1a2d52 55%,#1e3a6e 100%);padding:1.5rem 2rem 1rem;position:relative;overflow:hidden;isolation:isolate;z-index:1}.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.07) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}.hero-inner{position:relative;z-index:2;max-width:960px;margin:0 auto}.hero-layout{display:grid;grid-template-columns:1fr 280px;gap:2rem;align-items:start}.hero-tag-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}.hero-tag{display:inline-flex;align-items:center;background:rgba(255,255,255,0.18);color:#fff;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,0.25);flex-shrink:0}.hero-share-inline{display:flex;gap:6px;align-items:center}.hero-share-btn{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background 0.2s;text-decoration:none}.hero-share-btn:hover{background:rgba(255,255,255,0.32)}.hero-share-btn svg{width:13px;height:13px;fill:#fff}.hero h1{font-family:'Playfair Display',serif;font-size:38px;color:#fff;line-height:1.15;margin-bottom:4px}.hero-sub{color:rgba(255,255,255,0.8);font-size:15px;margin-bottom:1.5rem}.hero-search-wrap{position:relative}.hero-search-bar{background:var(--blanco);border-radius:var(--radio);padding:0.9rem 1rem;display:flex;gap:8px;align-items:center;box-shadow:0 4px 24px rgba(0,0,0,0.15)}.hero-search-bar input{flex:1;border:none;background:none;font-size:16px;color:var(--texto);font-family:'DM Sans',sans-serif;outline:none}.hero-search-btn{background:var(--verde);color:var(--blanco);border:none;padding:9px 18px;border-radius:var(--radio-sm);font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:background 0.2s;flex-shrink:0}.hero-search-btn:hover{background:var(--verde-oscuro)}.hero-search-btn:disabled{background:#9ca3af;cursor:default}.hero-search-hint{font-size:11px;color:rgba(255,255,255,0.6);margin-top:6px}.donate-hero{display:none;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:var(--radio);padding:1.25rem}.donate-hero-title{font-size:13px;font-weight:600;color:#fff;margin-bottom:4px}.donate-hero-sub{font-size:11px;color:rgba(255,255,255,0.7);margin-bottom:12px;line-height:1.5}.donate-btns{display:flex;flex-direction:column;gap:8px}.donate-btn{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:8px;padding:9px 12px;cursor:pointer;transition:background 0.2s;text-decoration:none;color:#fff;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500}.donate-btn:hover{background:rgba(255,255,255,0.28);color:#fff}.donate-btn-icon{font-size:18px;flex-shrink:0}.donate-btn-info{display:flex;flex-direction:column}.donate-btn-label{font-size:13px;font-weight:500;line-height:1.2}.donate-btn-detail{font-size:11px;color:rgba(255,255,255,0.65)}.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center}.modal-bg.visible{display:flex}.modal-box{background:#fff;border-radius:var(--radio);padding:2rem;max-width:340px;width:90%;position:relative}.modal-close{position:absolute;top:12px;right:14px;font-size:20px;cursor:pointer;color:var(--texto-suave);background:none;border:none}.modal-box h3{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px}.modal-box p{font-size:13px;color:var(--texto-suave);margin-bottom:12px;line-height:1.6}.bizum-number{background:var(--verde-claro);border:2px solid var(--verde);border-radius:8px;padding:12px;font-size:22px;font-weight:700;color:var(--verde-oscuro);letter-spacing:2px;margin-bottom:12px;text-align:center}.bizum-copy-btn{background:var(--verde);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:14px;cursor:pointer;font-family:'DM Sans',sans-serif;width:100%;margin-bottom:6px}.bizum-copied{font-size:12px;color:var(--verde);text-align:center;height:16px}.cripto-row{margin-bottom:12px}.cripto-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--texto-suave);margin-bottom:4px;font-weight:500}.cripto-addr{background:var(--fondo);border:1px solid var(--borde);border-radius:6px;padding:8px 10px;font-size:11px;color:var(--texto);word-break:break-all;cursor:pointer;transition:background 0.15s}.cripto-addr:hover{background:var(--verde-claro)}.map-section{padding:0 2.5rem;position:relative;background:var(--fondo);z-index:0}#map{width:100%;height:420px;display:block}.map-block #map{height:100%}.map-status{position:absolute;top:50px;left:50%;transform:translateX(-50%);background:var(--blanco);border-radius:24px;padding:8px 18px;font-size:13px;color:var(--verde-oscuro);box-shadow:0 2px 12px rgba(0,0,0,0.12);z-index:500;display:none;border:1px solid var(--borde)}.map-status.visible{display:block}.map-radio-control{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blanco);border-radius:24px;padding:8px 16px;font-size:12px;color:var(--texto-suave);box-shadow:0 2px 12px rgba(0,0,0,0.12);z-index:500;border:1px solid var(--borde);display:flex;gap:8px;align-items:center}.map-radio-btn{padding:4px 12px;border-radius:12px;cursor:pointer;font-size:12px;font-weight:500;border:1px solid var(--borde);background:var(--fondo);color:var(--texto-suave);transition:all 0.15s}.map-radio-btn.active{background:var(--verde);color:#fff;border-color:var(--verde)}.footer-donate{background:var(--verde-claro);border-top:1px solid rgba(29,158,117,0.2);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}.footer-donate-text h4{font-size:15px;font-weight:600;color:var(--verde-oscuro);margin-bottom:3px}.footer-donate-text p{font-size:13px;color:var(--texto-suave)}.footer-donate-btns{display:flex;gap:8px;flex-wrap:wrap}.footer-donate-btn{display:flex;align-items:center;gap:6px;background:var(--blanco);border:1px solid rgba(29,158,117,0.3);border-radius:20px;padding:7px 14px;font-size:13px;font-weight:500;cursor:pointer;color:var(--verde-oscuro);transition:all 0.15s;text-decoration:none;font-family:'DM Sans',sans-serif}.footer-donate-btn:hover{background:var(--verde);color:#fff;border-color:var(--verde)}.section{padding:3rem 2rem;position:relative;z-index:500}.section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:0.5rem}.section-header h2{font-family:'Playfair Display',serif;font-size:26px;font-weight:600}.section-subtitle{font-size:14px;color:var(--texto-suave);margin-bottom:0.25rem}.section-subtitle2{font-size:13px;color:var(--texto-suave);font-style:italic;margin-bottom:1.5rem}.categories{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;margin-bottom:1.5rem;scrollbar-width:none}.categories::-webkit-scrollbar{display:none}.cat-chip{padding:8px 18px;border-radius:24px;font-size:13px;cursor:pointer;white-space:nowrap;border:1px solid var(--borde);background:var(--blanco);color:var(--texto-suave);transition:all 0.15s}.cat-chip:hover{border-color:var(--verde);color:var(--verde)}.cat-chip.active{background:var(--verde);color:var(--blanco);border-color:var(--verde)}.carousel-wrap{position:relative;z-index:510;isolation:isolate}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}html,body{touch-action:pan-x pan-y;-webkit-text-size-adjust:100%;text-size-adjust:100%}input,textarea,select,button{font-size:max(16px,1em)}#map{touch-action:none}html{scroll-behavior:smooth}body{font-family:'DM Sans',sans-serif;background:radial-gradient(ellipse at 15% 10%, rgba(90,50,0,0.10) 0%, transparent 50%),radial-gradient(ellipse at 85% 90%, rgba(60,30,0,0.12) 0%, transparent 50%),radial-gradient(ellipse at 70% 30%, rgba(180,130,40,0.07) 0%, transparent 40%),radial-gradient(ellipse at 20% 75%, rgba(80,40,0,0.09) 0%, transparent 45%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),linear-gradient(180deg,#e8d5a0 0%,#dfc888 50%,#d4b85a 100%);color:#1a1a1a;line-height:1.6}a{text-decoration:none;color:inherit}:root{--verde:#1D9E75;--verde-oscuro:#0F6E56;--verde-claro:#E1F5EE;--blanco:#ffffff;--fondo:#e8d5a0;--texto:#1a1a1a;--texto-suave:#6b7280;--borde:rgba(0,0,0,0.08);--radio:12px;--radio-sm:8px;--fondo-alt:#dfc888}.navbar-iframe,#navbar-iframe{display:none !important}.widget,#sidebar,.blog-pager,.post-feeds,#comments{display:none !important}.header{background:var(--blanco);border-bottom:1px solid var(--borde);box-shadow:0 1px 4px rgba(0,0,0,0.06);padding:0 1rem;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1100}#nav-desktop{display:flex;align-items:center;gap:2px;flex-wrap:nowrap}@media(max-width:768px){#nav-desktop{display:none}}#nav-desktop a{font-size:12px;padding:0 6px;white-space:nowrap;color:var(--texto-suave);text-decoration:none;transition:color 0.2s}#nav-desktop a:hover{color:var(--verde)}.logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:600}.logo span{color:var(--verde)}nav{display:flex;gap:2rem;align-items:center}nav a{font-size:14px;color:var(--texto-suave);transition:color 0.2s}nav a:hover{color:var(--texto)}.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none}.hamburger span{display:block;width:24px;height:2px;background:var(--texto);border-radius:2px;transition:all 0.25s}.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}.hamburger.open span:nth-child(2){opacity:0}.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}.nav-mobile{display:none;position:fixed;top:64px;left:0;right:0;background:var(--blanco);border-bottom:1px solid var(--borde);z-index:1090;box-shadow:0 8px 24px rgba(0,0,0,0.1);max-height:calc(100vh - 64px);overflow-y:auto}.nav-mobile.open{display:grid;grid-template-columns:1fr 1fr}.nav-mobile.open{display:flex}.nav-mobile a{padding:0 1rem;font-size:13px;color:var(--texto-suave);border-bottom:0.5px solid var(--borde);border-right:0.5px solid var(--borde);transition:background 0.15s;line-height:1.3;display:flex;align-items:center;height:48px;box-sizing:border-box;-webkit-tap-highlight-color:rgba(29,158,117,0.1)}.nav-mobile a:hover{background:var(--fondo);color:var(--texto)}.hero{background:url('https://i.postimg.cc/MHq8dzB5/hero8.png') center/cover no-repeat,linear-gradient(150deg,#0d1e3a 0%,#1a2d52 55%,#1e3a6e 100%);padding:1.5rem 2rem 1rem;position:relative;overflow:hidden;isolation:isolate;z-index:1}.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.07) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}.hero-inner{position:relative;z-index:2;max-width:960px;margin:0 auto}.hero-layout{display:grid;grid-template-columns:1fr 280px;gap:2rem;align-items:start}.hero-tag-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}.hero-tag{display:inline-flex;align-items:center;background:rgba(255,255,255,0.18);color:#fff;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,0.25);flex-shrink:0}.hero-share-inline{display:flex;gap:6px;align-items:center}.hero-share-btn{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background 0.2s;text-decoration:none}.hero-share-btn:hover{background:rgba(255,255,255,0.32)}.hero-share-btn svg{width:13px;height:13px;fill:#fff}.hero h1{font-family:'Playfair Display',serif;font-size:38px;color:#fff;line-height:1.15;margin-bottom:4px}.hero-sub{color:rgba(255,255,255,0.8);font-size:15px;margin-bottom:1.5rem}.hero-search-wrap{position:relative}.hero-search-bar{background:var(--blanco);border-radius:var(--radio);padding:0.9rem 1rem;display:flex;gap:8px;align-items:center;box-shadow:0 4px 24px rgba(0,0,0,0.15)}.hero-search-bar input{flex:1;border:none;background:none;font-size:16px;color:var(--texto);font-family:'DM Sans',sans-serif;outline:none}.hero-search-btn{background:var(--verde);color:var(--blanco);border:none;padding:9px 18px;border-radius:var(--radio-sm);font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:background 0.2s;flex-shrink:0}.hero-search-btn:hover{background:var(--verde-oscuro)}.hero-search-btn:disabled{background:#9ca3af;cursor:default}.hero-search-hint{font-size:11px;color:rgba(255,255,255,0.6);margin-top:6px}.donate-hero{display:none;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:var(--radio);padding:1.25rem}.donate-hero-title{font-size:13px;font-weight:600;color:#fff;margin-bottom:4px}.donate-hero-sub{font-size:11px;color:rgba(255,255,255,0.7);margin-bottom:12px;line-height:1.5}.donate-btns{display:flex;flex-direction:column;gap:8px}.donate-btn{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:8px;padding:9px 12px;cursor:pointer;transition:background 0.2s;text-decoration:none;color:#fff;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500}.donate-btn:hover{background:rgba(255,255,255,0.28);color:#fff}.donate-btn-icon{font-size:18px;flex-shrink:0}.donate-btn-info{display:flex;flex-direction:column}.donate-btn-label{font-size:13px;font-weight:500;line-height:1.2}.donate-btn-detail{font-size:11px;color:rgba(255,255,255,0.65)}.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center}.modal-bg.visible{display:flex;animation:_modalFadeIn 0.25s ease both}.modal-box{background:#fff;border-radius:var(--radio);padding:2rem;max-width:340px;width:90%;position:relative;animation:_modalSlideUp 0.28s cubic-bezier(0.34,1.56,0.64,1) both}@keyframes _modalFadeIn{from{opacity:0}to{opacity:1}}@keyframes _modalSlideUp{from{opacity:0;transform:translateY(18px) scale(0.97)}to{opacity:1;transform:translateY(0) scale(1)}}.modal-close{position:absolute;top:12px;right:14px;font-size:20px;cursor:pointer;color:var(--texto-suave);background:none;border:none}.modal-box h3{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px}.modal-box p{font-size:13px;color:var(--texto-suave);margin-bottom:12px;line-height:1.6}.bizum-number{background:var(--verde-claro);border:2px solid var(--verde);border-radius:8px;padding:12px;font-size:22px;font-weight:700;color:var(--verde-oscuro);letter-spacing:2px;margin-bottom:12px;text-align:center}.bizum-copy-btn{background:var(--verde);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:14px;cursor:pointer;font-family:'DM Sans',sans-serif;width:100%;margin-bottom:6px}.bizum-copied{font-size:12px;color:var(--verde);text-align:center;height:16px}.cripto-row{margin-bottom:12px}.cripto-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--texto-suave);margin-bottom:4px;font-weight:500}.cripto-addr{background:var(--fondo);border:1px solid var(--borde);border-radius:6px;padding:8px 10px;font-size:11px;color:var(--texto);word-break:break-all;cursor:pointer;transition:background 0.15s}.cripto-addr:hover{background:var(--verde-claro)}.map-section{padding:0 2.5rem;position:relative;background:var(--fondo);z-index:0}#map{width:100%;height:420px;display:block}.map-block #map{height:100%}.map-status{position:absolute;top:50px;left:50%;transform:translateX(-50%);background:var(--blanco);border-radius:24px;padding:8px 18px;font-size:13px;color:var(--verde-oscuro);box-shadow:0 2px 12px rgba(0,0,0,0.12);z-index:500;display:none;border:1px solid var(--borde)}.map-status.visible{display:block}.map-radio-control{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blanco);border-radius:24px;padding:8px 16px;font-size:12px;color:var(--texto-suave);box-shadow:0 2px 12px rgba(0,0,0,0.12);z-index:500;border:1px solid var(--borde);display:flex;gap:8px;align-items:center}.map-radio-btn{padding:4px 12px;border-radius:12px;cursor:pointer;font-size:12px;font-weight:500;border:1px solid var(--borde);background:var(--fondo);color:var(--texto-suave);transition:all 0.15s}.map-radio-btn.active{background:var(--verde);color:#fff;border-color:var(--verde)}.footer-donate{background:var(--verde-claro);border-top:1px solid rgba(29,158,117,0.2);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}.footer-donate-text h4{font-size:15px;font-weight:600;color:var(--verde-oscuro);margin-bottom:3px}.footer-donate-text p{font-size:13px;color:var(--texto-suave)}.footer-donate-btns{display:flex;gap:8px;flex-wrap:wrap}.footer-donate-btn{display:flex;align-items:center;gap:6px;background:var(--blanco);border:1px solid rgba(29,158,117,0.3);border-radius:20px;padding:7px 14px;font-size:13px;font-weight:500;cursor:pointer;color:var(--verde-oscuro);transition:all 0.15s;text-decoration:none;font-family:'DM Sans',sans-serif}.footer-donate-btn:hover{background:var(--verde);color:#fff;border-color:var(--verde)}.section{padding:3rem 2rem;position:relative;z-index:500}.section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:0.5rem}.section-header h2{font-family:'Playfair Display',serif;font-size:26px;font-weight:600}.section-subtitle{font-size:14px;color:var(--texto-suave);margin-bottom:0.25rem}.section-subtitle2{font-size:13px;color:var(--texto-suave);font-style:italic;margin-bottom:1.5rem}.categories{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;margin-bottom:1.5rem;scrollbar-width:none}.categories::-webkit-scrollbar{display:none}.cat-chip{padding:8px 18px;border-radius:24px;font-size:13px;cursor:pointer;white-space:nowrap;border:1px solid var(--borde);background:var(--blanco);color:var(--texto-suave);transition:all 0.15s}.cat-chip:hover{border-color:var(--verde);color:var(--verde)}.cat-chip.active{background:var(--verde);color:var(--blanco);border-color:var(--verde)}.carousel-wrap{position:relative;z-index:510;isolation:isolate}
 #rotate-overlay{display:none;position:fixed;inset:0;z-index:999999;background:linear-gradient(160deg,#0F6E56 0%,#1D9E75 100%);flex-direction:column;align-items:center;justify-content:center;font-family:DM Sans,sans-serif;color:#fff;text-align:center;padding:2rem}
 #rotate-overlay .rotate-icon{font-size:64px;margin-bottom:20px;animation:rotatePulse 2s ease-in-out infinite}
 #rotate-overlay .rotate-title{font-size:20px;font-weight:700;font-family:Playfair Display,serif;margin-bottom:8px}
@@ -88,9 +88,99 @@
 #rotate-overlay .rotate-sub{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.5}
 @media (orientation:landscape) and (max-width:1024px){#rotate-overlay{display:flex}}
 
+/* ═══════════════════════════════════════════════════
+   TABLET — 769px a 1024px portrait
+   App móvil centrada en columna de 480px
+   Sin tocar móvil (<768px) ni desktop (>1024px)
+═══════════════════════════════════════════════════ */
+@media (min-width:769px) and (max-width:1024px) and (orientation:portrait) {
 
+  /* Fondo oscuro lateral — rellena el espacio fuera de la columna */
+  body { background:#111827 !important; overflow-x:hidden; }
 
-.carousel{display:flex;gap:1.25rem;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;padding-bottom:1rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}.carousel::-webkit-scrollbar{display:none}.poi-card{background:#fffffe;border-radius:var(--radio);border:1px solid var(--borde);overflow:hidden;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;flex:0 0 280px;scroll-snap-align:start;isolation:isolate;box-shadow:0 2px 8px rgba(0,0,0,0.07)}@media(hover:hover){.poi-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.13)}}.carousel-nav{display:flex;justify-content:center;gap:12px;margin-top:1rem}.carousel-arrow{width:36px;height:36px;border-radius:50%;background:var(--blanco);border:1px solid var(--borde);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all 0.15s}.carousel-arrow:hover{background:var(--verde);color:#fff;border-color:var(--verde)}.poi-ruta-btn{display:flex;align-items:center;gap:5px;background:var(--verde-claro);color:var(--verde-oscuro);border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;white-space:nowrap}.poi-ruta-btn:hover{background:var(--verde);color:#fff;border-color:var(--verde)}.poi-ruta-btn.en-ruta{background:var(--verde);color:#fff;border-color:var(--verde)}.ruta-section{padding:3rem 2rem;background:var(--fondo)}.ruta-inner{max-width:860px;margin:0 auto}.ruta-header h2{font-family:'Playfair Display',serif;font-size:26px;font-weight:600;margin-bottom:0.5rem}.ruta-subtitle{font-size:14px;color:var(--texto-suave);margin-bottom:1.5rem}.ruta-lista{background:var(--blanco);border-radius:var(--radio);border:1px solid var(--borde);min-height:80px;margin-bottom:1rem;overflow:hidden}.ruta-lista-vacia{display:flex;align-items:center;justify-content:center;padding:2rem;color:var(--texto-suave);font-size:14px;font-style:italic;gap:8px}.ruta-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--borde);font-size:14px;background:var(--blanco)}.ruta-item:last-child{border-bottom:none}.ruta-item-num{width:24px;height:24px;border-radius:50%;background:var(--verde);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}.ruta-item-nombre{flex:1;font-weight:500}.ruta-item-del{background:none;border:none;cursor:pointer;color:#dc2626;font-size:16px;padding:2px 6px;border-radius:4px;flex-shrink:0}.ruta-item-del:hover{background:#fee2e2}.ruta-conector{display:flex;align-items:center;gap:6px;padding:4px 14px;font-size:11px;color:var(--texto-suave);background:var(--fondo);border-bottom:1px solid var(--borde)}.ruta-resumen{display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}.ruta-stat{background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);padding:0.75rem 1.25rem;display:flex;align-items:center;gap:8px;flex:1;min-width:120px}.ruta-stat-icon{font-size:22px}.ruta-stat-label{font-size:11px;color:var(--texto-suave);text-transform:uppercase;letter-spacing:0.8px}.ruta-stat-val{font-size:18px;font-weight:700;color:var(--verde-oscuro);line-height:1.1}.ruta-acciones{display:flex;gap:10px;flex-wrap:wrap}.ruta-btn-iniciar{background:var(--verde);color:#fff;border:none;padding:12px 28px;border-radius:24px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s;display:flex;align-items:center;gap:8px}.ruta-btn-iniciar:hover{background:var(--verde-oscuro)}.ruta-btn-iniciar:disabled{background:#9ca3af;cursor:default}.ruta-btn-limpiar{background:var(--blanco);color:#dc2626;border:1px solid #fca5a5;padding:12px 20px;border-radius:24px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}.ruta-btn-limpiar:hover{background:#fee2e2;border-color:#dc2626}.ruta-btn-limpiar:disabled{opacity:0.4;cursor:default}@media (max-width:768px){.ruta-section{padding:2rem 1rem}.ruta-btn-iniciar,.ruta-btn-limpiar{width:100%;justify-content:center}}.hero-gallery{display:none}@media (min-width:769px){.hero-gallery{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:1rem}.hero-gallery-slot{position:relative;height:90px;border-radius:var(--radio-sm);overflow:hidden;background:rgba(255,255,255,0.1)}.hero-gallery-img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1s ease;position:absolute;top:0;left:0}.hero-gallery-img.visible{opacity:1}}.hero-sub-wrap{min-height:20px;margin-bottom:0.25rem}.hero-sub{color:rgba(255,255,255,0.85);font-size:15px;transition:opacity 0.5s ease}.hero-sub.oculto{opacity:0}.hero-share-mobile{display:none;align-items:center;gap:8px;margin-top:0.75rem;margin-bottom:0.5rem;flex-wrap:wrap}.hero-share-mobile-label{font-size:12px;color:rgba(255,255,255,0.75);font-weight:500}@media (max-width:768px){.hero-share-inline{display:none}.hero-share-mobile{display:flex}}.weather-widget{display:flex;align-items:center;gap:2px;margin-left:auto;flex-shrink:0;font-family:'DM Sans',sans-serif}.weather-hora{display:flex;flex-direction:column;align-items:center;gap:1px;padding:3px 7px;border-radius:10px;background:var(--blanco);border:1px solid var(--borde);min-width:44px}.weather-hora:first-child{background:var(--verde-claro);border-color:rgba(29,158,117,0.3)}.weather-hora-label{font-size:9px;color:var(--texto-suave);font-weight:600;text-transform:uppercase;letter-spacing:0.3px}.weather-hora:first-child .weather-hora-label{color:var(--verde-oscuro)}.weather-hora-icon{font-size:14px;line-height:1}.weather-hora-temp{font-size:11px;font-weight:700;color:var(--texto)}.weather-hora-lluvia{font-size:9px;color:#2563eb;font-weight:600}.weather-row-mobile{display:none;padding:6px 1rem;background:var(--fondo);border-bottom:1px solid var(--borde)}.search-radio-weather-row{display:none;width:100%;padding:6px 1rem 0;background:linear-gradient(180deg,#dfc888 0%,#c9a84c 100%);border-bottom:1px solid #a07828}@media (max-width:768px){.weather-widget{display:none}.search-radio-weather-row{display:flex}.search-radio-weather-row .weather-widget{display:flex;margin-left:0;width:100%;justify-content:space-between;gap:4px}.search-radio-weather-row .weather-hora{flex:1;min-width:0;padding:4px 2px;border-radius:8px}.search-radio-weather-row .weather-hora-icon{font-size:15px}.search-radio-weather-row .weather-hora-temp{font-size:11px}.search-radio-weather-row .weather-hora-label{font-size:9px}}.weather-loading{font-size:11px;color:var(--texto-suave)}.ruta-bar{display:flex;align-items:center;gap:8px;padding:0.6rem 1rem;background:linear-gradient(180deg,#dfc888 0%,#c9a84c 100%);border-bottom:1.5px solid #a07828;border-top:1px solid rgba(255,240,180,0.5);flex-wrap:nowrap;min-height:40px;box-shadow:inset 0 1px 0 rgba(255,240,180,0.4),inset 0 -1px 0 rgba(80,40,0,0.12)}.ruta-bar-empty{font-size:12px;color:var(--texto-suave);font-style:italic;flex:1}.ruta-bar-info{display:flex;align-items:center;gap:6px;flex:1;flex-wrap:wrap}.ruta-bar-label{font-size:11px;font-weight:600;color:var(--texto-suave);text-transform:uppercase;letter-spacing:0.8px;flex-shrink:0}.ruta-bar-stat{font-size:12px;font-weight:600;color:var(--verde-oscuro);background:var(--verde-claro);padding:2px 8px;border-radius:10px;border:1px solid rgba(29,158,117,0.25);white-space:nowrap}.ruta-bar-puntos{display:flex;gap:4px;flex-wrap:wrap;flex:1}.ruta-bar-punto{font-size:11px;color:var(--texto-suave);background:var(--blanco);border:1px solid var(--borde);border-radius:8px;padding:2px 8px;display:flex;align-items:center;gap:4px}.ruta-bar-punto button{background:none;border:none;cursor:pointer;color:#dc2626;font-size:11px;padding:0;line-height:1}.ruta-bar-actions{display:flex;gap:6px;flex-shrink:0}.ruta-bar-btn-go{background:var(--verde);color:#fff;border:none;padding:5px 14px;border-radius:16px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s;white-space:nowrap}.ruta-bar-btn-go:hover{background:var(--verde-oscuro)}.ruta-bar-btn-go:disabled{background:#9ca3af;cursor:default}.ruta-bar-btn-clear{background:none;border:1px solid #fca5a5;color:#dc2626;padding:5px 10px;border-radius:16px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s}.ruta-bar-btn-clear:hover{background:#fee2e2}.ruta-bar-btn-clear:disabled{opacity:0.4;cursor:default}@media (max-width:768px){.ruta-bar{padding:0.5rem 0.75rem;flex-direction:column;align-items:stretch;gap:4px}.ruta-bar-empty{display:none}.ruta-bar-puntos{display:none}.ruta-bar-top-row{display:flex;align-items:center;justify-content:space-between;gap:8px}.ruta-bar-label{font-size:11px;font-weight:600}.ruta-bar-actions{flex-shrink:0}.ruta-bar-btn-go{padding:4px 12px;font-size:11px}.ruta-bar-btn-clear{padding:4px 9px;font-size:11px}.ruta-bar-info{flex-wrap:nowrap;gap:6px}.ruta-bar-stat{font-size:11px;padding:2px 8px}}#poi-drawer .poi-card{flex:0 0 calc(72vw);max-width:240px;height:calc(100% - 8px);overflow:hidden;background:#0d2d1e;border-color:rgba(255,255,255,0.1);display:flex;flex-direction:column;position:relative}#poi-drawer .poi-img{flex:1;min-height:0;height:auto}#poi-drawer .poi-img[data-cromo-id]{flex:none;height:150px!important}#poi-drawer .poi-img img{width:100%;height:100%;object-fit:cover;display:block}#poi-drawer .poi-body{position:absolute;bottom:0;left:0;right:0;padding:0.5rem 0.75rem;background:linear-gradient(transparent,rgba(0,0,0,0.78));color:#fff}#poi-drawer .poi-nombre{font-size:13px;color:#fff;font-weight:700}#poi-drawer .poi-category{font-size:9px;color:rgba(255,255,255,0.7)}#poi-drawer .poi-desc{display:none}#poi-drawer .poi-subtitulo{display:none}#poi-drawer .poi-leer-mas{display:none}#poi-drawer .poi-stars{display:none}#poi-drawer .poi-share{display:none}#poi-drawer .poi-opiniones{display:none}#poi-drawer .cat-chip{padding:5px 12px;font-size:11px;background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.2);color:rgba(255,255,255,0.85)}#poi-drawer .cat-chip.active{background:#1D9E75;color:#fff;border-color:#1D9E75;font-weight:700}.mapa-cat-chip.activo{background:linear-gradient(135deg,#2d4a1e,#1e3212)!important;color:#f5e6c8!important;border-color:#1a2e0f!important;box-shadow:0 1px 4px rgba(0,0,0,0.3)!important}.mapa-cat-chip{white-space:nowrap;line-height:1;flex-shrink:0}#chip-alerta-drawer{display:none}.map-block{max-width:860px;margin:0 auto;border-radius:var(--radio);overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);border:1px solid var(--borde);position:relative;z-index:0;height:420px}.mapa-fullscreen-wrap{position:fixed;left:0;right:0;bottom:0;z-index:1050;display:flex;flex-direction:column}.mapa-fullscreen-wrap #mapa-cat-bar{flex-shrink:0;border-radius:0;margin:0}.mapa-fullscreen-wrap #map-block{flex:1;max-width:100%;margin:0;border-radius:0;border:none;box-shadow:none;height:auto;min-height:0}.map-block .map-section{padding:0;background:none;transition:transform 0.38s cubic-bezier(0.4,0,0.2,1);will-change:transform;position:relative;z-index:1;height:100%}.map-block .map-section.slide-out{transform:translateX(-100%)}.map-slide-panel{position:absolute;top:0;left:0;right:0;bottom:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;z-index:450;transform:translateX(100%);transition:transform 0.38s cubic-bezier(0.4,0,0.2,1);will-change:transform;display:block}.map-slide-panel.slide-in{transform:translateX(0)}@media(max-width:768px){.map-block{height:420px}}.map-block .map-section{padding:0;background:none}.map-block .search-under-map{padding:0;background:var(--blanco)}.map-block .search-radio-bar{border-radius:0;box-shadow:none}.map-block .weather-row-mobile{border-radius:0}@media (max-width:768px){.map-block{max-width:100%;margin:0 1.5rem}}.ruta-bar-top-row{display:contents}.poi-ranking{position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.55);color:#F5C800;border-radius:20px;padding:3px 8px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:3px;backdrop-filter:blur(2px);z-index:10}.poi-img-cover{width:100%;height:100%;object-fit:cover;display:block}@media(max-width:768px){#emergencias{padding:2rem 1rem}}.poi-subtitulo{font-size:12px;color:var(--texto-suave);font-style:italic;margin:0 0 6px;line-height:1.4}.poi-desc{font-size:13px;color:#444;margin:6px 0;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.poi-desc.expanded{display:block;-webkit-line-clamp:unset;overflow:visible}[id$='-drawer']{overscroll-behavior:contain}.poi-desc-full{display:none}.poi-leer-mas{background:none;border:none;color:var(--verde);font-size:12px;font-weight:600;cursor:pointer;padding:0;font-family:'DM Sans',sans-serif;text-decoration:underline;margin-bottom:4px}.poi-popup .leaflet-popup-content-wrapper{border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15)}.poi-popup .leaflet-popup-content{margin:12px 14px;font-family:'DM Sans',sans-serif;width:220px!important}.poi-popup .leaflet-popup-content-wrapper{max-height:55vh;display:flex;flex-direction:column}.poi-popup .leaflet-popup-content{overflow-y:auto;max-height:calc(55vh - 24px)}
+  /* ── Columna central 480px ── */
+  .header,
+  .nav-mobile,
+  .mapa-fullscreen-wrap,
+  #mapa-cat-bar,
+  .ruta-bar,
+  .search-radio-weather-row {
+    max-width:480px !important;
+    width:480px !important;
+    position:fixed !important;
+    left:50% !important;
+    right:auto !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  /* Offsets verticales */
+  .header           { top:0; transform:translateX(-50%) !important; z-index:1100 !important; }
+  .nav-mobile       { top:64px; transform:translateX(-50%) !important; z-index:1090 !important; }
+  #mapa-cat-bar     { transform:translateX(-50%) !important; z-index:610 !important; }
+  .ruta-bar         { transform:translateX(-50%) !important; z-index:560 !important; }
+  .search-radio-weather-row { transform:translateX(-50%) !important; }
+
+  /* Fullscreen wrap del mapa */
+  .mapa-fullscreen-wrap {
+    top:0 !important; bottom:0 !important;
+    transform:translateX(-50%) !important;
+    z-index:1050 !important;
+  }
+
+  /* Paneles deslizantes dentro del wrap */
+  .map-slide-panel {
+    max-width:480px !important;
+    width:480px !important;
+    left:auto !important;
+    right:auto !important;
+    transform:translateX(100%) !important;
+    overflow-y:auto !important;
+  }
+  .map-slide-panel.slide-in {
+    transform:translateX(0) !important;
+  }
+
+  /* Mapa en modo no-fullscreen */
+  #map-block {
+    max-width:480px !important;
+    margin:0 auto !important;
+  }
+
+  /* Header móvil visible en tablet */
+  .header-mobile-brand { display:flex !important; }
+  .header-lang-mobile  { display:flex !important; }
+  .hamburger           { display:flex !important; }
+  .hamburger span      { background:#fff !important; }
+  #nav-desktop         { display:none !important; }
+  .lang-switcher-header-desktop { display:none !important; }
+  .header {
+    background:url('https://i.postimg.cc/HnGvFWjJ/headr4.png') center/cover no-repeat !important;
+    border-bottom:1px solid rgba(0,0,0,0.15) !important;
+  }
+
+  /* Drawers y modales acotados */
+  #subcats-drawer {
+    max-width:480px !important;
+    left:50% !important;
+    transform:translateX(-50%) !important;
+    width:100% !important;
+  }
+
+  /* Secciones de scroll (hero, historia, etc.) */
+  #inicio, .hero, .historia-section, .section, .ruta-section {
+    max-width:480px !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+  }
+
+  /* Modales pergamino/asistente — tamaño fijo en tablet */
+  .pergamino-modal-box {
+    width:320px !important;
+    max-width:320px !important;
+  }
+}.carousel{display:flex;gap:1.25rem;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;padding-bottom:1rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}.carousel::-webkit-scrollbar{display:none}.poi-card{background:#fffffe;border-radius:var(--radio);border:1px solid var(--borde);overflow:hidden;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;flex:0 0 280px;scroll-snap-align:start;isolation:isolate;box-shadow:0 2px 8px rgba(0,0,0,0.07)}@media(hover:hover){.poi-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.13)}}.carousel-nav{display:flex;justify-content:center;gap:12px;margin-top:1rem}.carousel-arrow{width:36px;height:36px;border-radius:50%;background:var(--blanco);border:1px solid var(--borde);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all 0.15s}.carousel-arrow:hover{background:var(--verde);color:#fff;border-color:var(--verde)}.poi-ruta-btn{display:flex;align-items:center;gap:5px;background:var(--verde-claro);color:var(--verde-oscuro);border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;white-space:nowrap}.poi-ruta-btn:hover{background:var(--verde);color:#fff;border-color:var(--verde)}.poi-ruta-btn.en-ruta{background:var(--verde);color:#fff;border-color:var(--verde)}.ruta-section{padding:3rem 2rem;background:var(--fondo)}.ruta-inner{max-width:860px;margin:0 auto}.ruta-header h2{font-family:'Playfair Display',serif;font-size:26px;font-weight:600;margin-bottom:0.5rem}.ruta-subtitle{font-size:14px;color:var(--texto-suave);margin-bottom:1.5rem}.ruta-lista{background:var(--blanco);border-radius:var(--radio);border:1px solid var(--borde);min-height:80px;margin-bottom:1rem;overflow:hidden}.ruta-lista-vacia{display:flex;align-items:center;justify-content:center;padding:2rem;color:var(--texto-suave);font-size:14px;font-style:italic;gap:8px}.ruta-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--borde);font-size:14px;background:var(--blanco)}.ruta-item:last-child{border-bottom:none}.ruta-item-num{width:24px;height:24px;border-radius:50%;background:var(--verde);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}.ruta-item-nombre{flex:1;font-weight:500}.ruta-item-del{background:none;border:none;cursor:pointer;color:#dc2626;font-size:16px;padding:2px 6px;border-radius:4px;flex-shrink:0}.ruta-item-del:hover{background:#fee2e2}.ruta-conector{display:flex;align-items:center;gap:6px;padding:4px 14px;font-size:11px;color:var(--texto-suave);background:var(--fondo);border-bottom:1px solid var(--borde)}.ruta-resumen{display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}.ruta-stat{background:var(--blanco);border:1px solid var(--borde);border-radius:var(--radio);padding:0.75rem 1.25rem;display:flex;align-items:center;gap:8px;flex:1;min-width:120px}.ruta-stat-icon{font-size:22px}.ruta-stat-label{font-size:11px;color:var(--texto-suave);text-transform:uppercase;letter-spacing:0.8px}.ruta-stat-val{font-size:18px;font-weight:700;color:var(--verde-oscuro);line-height:1.1}.ruta-acciones{display:flex;gap:10px;flex-wrap:wrap}.ruta-btn-iniciar{background:var(--verde);color:#fff;border:none;padding:12px 28px;border-radius:24px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s;display:flex;align-items:center;gap:8px}.ruta-btn-iniciar:hover{background:var(--verde-oscuro)}.ruta-btn-iniciar:disabled{background:#9ca3af;cursor:default}.ruta-btn-limpiar{background:var(--blanco);color:#dc2626;border:1px solid #fca5a5;padding:12px 20px;border-radius:24px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}.ruta-btn-limpiar:hover{background:#fee2e2;border-color:#dc2626}.ruta-btn-limpiar:disabled{opacity:0.4;cursor:default}@media (max-width:768px){.ruta-section{padding:2rem 1rem}.ruta-btn-iniciar,.ruta-btn-limpiar{width:100%;justify-content:center}}.hero-gallery{display:none}@media (min-width:769px){.hero-gallery{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:1rem}.hero-gallery-slot{position:relative;height:90px;border-radius:var(--radio-sm);overflow:hidden;background:rgba(255,255,255,0.1)}.hero-gallery-img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1s ease;position:absolute;top:0;left:0}.hero-gallery-img.visible{opacity:1}}.hero-sub-wrap{min-height:20px;margin-bottom:0.25rem}.hero-sub{color:rgba(255,255,255,0.85);font-size:15px;transition:opacity 0.5s ease}.hero-sub.oculto{opacity:0}.hero-share-mobile{display:none;align-items:center;gap:8px;margin-top:0.75rem;margin-bottom:0.5rem;flex-wrap:wrap}.hero-share-mobile-label{font-size:12px;color:rgba(255,255,255,0.75);font-weight:500}@media (max-width:768px){.hero-share-inline{display:none}.hero-share-mobile{display:flex}}.weather-widget{display:flex;align-items:center;gap:2px;margin-left:auto;flex-shrink:0;font-family:'DM Sans',sans-serif}.weather-hora{display:flex;flex-direction:column;align-items:center;gap:1px;padding:3px 7px;border-radius:10px;background:var(--blanco);border:1px solid var(--borde);min-width:44px}.weather-hora:first-child{background:var(--verde-claro);border-color:rgba(29,158,117,0.3)}.weather-hora-label{font-size:9px;color:var(--texto-suave);font-weight:600;text-transform:uppercase;letter-spacing:0.3px}.weather-hora:first-child .weather-hora-label{color:var(--verde-oscuro)}.weather-hora-icon{font-size:14px;line-height:1}.weather-hora-temp{font-size:11px;font-weight:700;color:var(--texto)}.weather-hora-lluvia{font-size:9px;color:#2563eb;font-weight:600}.weather-row-mobile{display:none;padding:6px 1rem;background:var(--fondo);border-bottom:1px solid var(--borde)}.search-radio-weather-row{display:none;width:100%;padding:6px 1rem 0;background:linear-gradient(180deg,#dfc888 0%,#c9a84c 100%);border-bottom:1px solid #a07828}@media (max-width:768px){.weather-widget{display:none}.search-radio-weather-row{display:flex}.search-radio-weather-row .weather-widget{display:flex;margin-left:0;width:100%;justify-content:space-between;gap:4px}.search-radio-weather-row .weather-hora{flex:1;min-width:0;padding:4px 2px;border-radius:8px}.search-radio-weather-row .weather-hora-icon{font-size:15px}.search-radio-weather-row .weather-hora-temp{font-size:11px}.search-radio-weather-row .weather-hora-label{font-size:9px}}.weather-loading{font-size:11px;color:var(--texto-suave)}.ruta-bar{display:flex;align-items:center;gap:8px;padding:0.6rem 1rem;background:linear-gradient(180deg,#dfc888 0%,#c9a84c 100%);border-bottom:1.5px solid #a07828;border-top:1px solid rgba(255,240,180,0.5);flex-wrap:nowrap;min-height:40px;box-shadow:inset 0 1px 0 rgba(255,240,180,0.4),inset 0 -1px 0 rgba(80,40,0,0.12)}.ruta-bar-empty{font-size:12px;color:var(--texto-suave);font-style:italic;flex:1}.ruta-bar-info{display:flex;align-items:center;gap:6px;flex:1;flex-wrap:wrap}.ruta-bar-label{font-size:11px;font-weight:600;color:var(--texto-suave);text-transform:uppercase;letter-spacing:0.8px;flex-shrink:0}.ruta-bar-stat{font-size:12px;font-weight:600;color:var(--verde-oscuro);background:var(--verde-claro);padding:2px 8px;border-radius:10px;border:1px solid rgba(29,158,117,0.25);white-space:nowrap}.ruta-bar-puntos{display:flex;gap:4px;flex-wrap:wrap;flex:1}.ruta-bar-punto{font-size:11px;color:var(--texto-suave);background:var(--blanco);border:1px solid var(--borde);border-radius:8px;padding:2px 8px;display:flex;align-items:center;gap:4px}.ruta-bar-punto button{background:none;border:none;cursor:pointer;color:#dc2626;font-size:11px;padding:0;line-height:1}.ruta-bar-actions{display:flex;gap:6px;flex-shrink:0}.ruta-bar-btn-go{background:var(--verde);color:#fff;border:none;padding:5px 14px;border-radius:16px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s;white-space:nowrap}.ruta-bar-btn-go:hover{background:var(--verde-oscuro)}.ruta-bar-btn-go:disabled{background:#9ca3af;cursor:default}.ruta-bar-btn-clear{background:none;border:1px solid #fca5a5;color:#dc2626;padding:5px 10px;border-radius:16px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s}.ruta-bar-btn-clear:hover{background:#fee2e2}.ruta-bar-btn-clear:disabled{opacity:0.4;cursor:default}@media (max-width:768px){.ruta-bar{padding:0.5rem 0.75rem;flex-direction:column;align-items:stretch;gap:4px}.ruta-bar-empty{display:none}.ruta-bar-puntos{display:none}.ruta-bar-top-row{display:flex;align-items:center;justify-content:space-between;gap:8px}.ruta-bar-label{font-size:11px;font-weight:600}.ruta-bar-actions{flex-shrink:0}.ruta-bar-btn-go{padding:4px 12px;font-size:11px}.ruta-bar-btn-clear{padding:4px 9px;font-size:11px}.ruta-bar-info{flex-wrap:nowrap;gap:6px}.ruta-bar-stat{font-size:11px;padding:2px 8px}}#poi-drawer .poi-card{flex:0 0 calc(72vw);max-width:240px;height:calc(100% - 8px);overflow:hidden;background:#0d2d1e;border-color:rgba(255,255,255,0.1);display:flex;flex-direction:column;position:relative}#poi-drawer .poi-img{flex:1;min-height:0;height:auto}#poi-drawer .poi-img[data-cromo-id]{flex:none;height:150px!important}#poi-drawer .poi-img img{width:100%;height:100%;object-fit:cover;display:block}#poi-drawer .poi-body{position:absolute;bottom:0;left:0;right:0;padding:0.5rem 0.75rem;background:linear-gradient(transparent,rgba(0,0,0,0.78));color:#fff}#poi-drawer .poi-nombre{font-size:13px;color:#fff;font-weight:700}#poi-drawer .poi-category{font-size:9px;color:rgba(255,255,255,0.7)}#poi-drawer .poi-desc{display:none}#poi-drawer .poi-subtitulo{display:none}#poi-drawer .poi-leer-mas{display:none}#poi-drawer .poi-stars{display:none}#poi-drawer .poi-share{display:none}#poi-drawer .poi-opiniones{display:none}#poi-drawer .cat-chip{padding:5px 12px;font-size:11px;background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.2);color:rgba(255,255,255,0.85)}#poi-drawer .cat-chip.active{background:#1D9E75;color:#fff;border-color:#1D9E75;font-weight:700}.mapa-cat-chip.activo{background:linear-gradient(135deg,#2d4a1e,#1e3212)!important;color:#f5e6c8!important;border-color:#1a2e0f!important;box-shadow:0 1px 4px rgba(0,0,0,0.3)!important}.mapa-cat-chip{white-space:nowrap;line-height:1;flex-shrink:0}#chip-alerta-drawer{display:none}.map-block{max-width:860px;margin:0 auto;border-radius:var(--radio);overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);border:1px solid var(--borde);position:relative;z-index:0;height:420px}.mapa-fullscreen-wrap{position:fixed;left:0;right:0;bottom:0;z-index:1050;display:flex;flex-direction:column}.mapa-fullscreen-wrap #mapa-cat-bar{flex-shrink:0;border-radius:0;margin:0}.mapa-fullscreen-wrap #map-block{flex:1;max-width:100%;margin:0;border-radius:0;border:none;box-shadow:none;height:auto;min-height:0}.map-block .map-section{padding:0;background:none;transition:transform 0.38s cubic-bezier(0.4,0,0.2,1);will-change:transform;position:relative;z-index:1;height:100%}.map-block .map-section.slide-out{transform:translateX(-100%)}.map-slide-panel{position:absolute;top:0;left:0;right:0;bottom:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;z-index:450;transform:translateX(100%);transition:transform 0.38s cubic-bezier(0.4,0,0.2,1);will-change:transform;display:block}.map-slide-panel.slide-in{transform:translateX(0)}@media(max-width:768px){.map-block{height:420px}}.map-block .map-section{padding:0;background:none}.map-block .search-under-map{padding:0;background:var(--blanco)}.map-block .search-radio-bar{border-radius:0;box-shadow:none}.map-block .weather-row-mobile{border-radius:0}@media (max-width:768px){.map-block{max-width:100%;margin:0 1.5rem}}.ruta-bar-top-row{display:contents}.poi-ranking{position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.55);color:#F5C800;border-radius:20px;padding:3px 8px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:3px;backdrop-filter:blur(2px);z-index:10}.poi-img-cover{width:100%;height:100%;object-fit:cover;display:block}@media(max-width:768px){#emergencias{padding:2rem 1rem}}.poi-subtitulo{font-size:12px;color:var(--texto-suave);font-style:italic;margin:0 0 6px;line-height:1.4}.poi-desc{font-size:13px;color:#444;margin:6px 0;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.poi-desc.expanded{display:block;-webkit-line-clamp:unset;overflow:visible}[id$='-drawer']{overscroll-behavior:contain}.poi-desc-full{display:none}.poi-leer-mas{background:none;border:none;color:var(--verde);font-size:12px;font-weight:600;cursor:pointer;padding:0;font-family:'DM Sans',sans-serif;text-decoration:underline;margin-bottom:4px}.poi-popup .leaflet-popup-content-wrapper{border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15)}.poi-popup .leaflet-popup-content{margin:12px 14px;font-family:'DM Sans',sans-serif;width:220px!important}.poi-popup .leaflet-popup-content-wrapper{max-height:55vh;display:flex;flex-direction:column}.poi-popup .leaflet-popup-content{overflow-y:auto;max-height:calc(55vh - 24px)}
 @keyframes rankingColeccionPulse{0%,100%{box-shadow:0 0 5px rgba(245,200,0,0.12);border-color:rgba(245,200,0,0.45)}50%{box-shadow:0 0 14px rgba(245,200,0,0.7),0 0 5px rgba(245,200,0,0.4);border-color:rgba(245,200,0,0.9)}}
 
 .leaflet-popup-pane{z-index:700!important}
@@ -227,9 +317,9 @@
     body > *:not(#desktop-landing) { display:none !important; }
     #desktop-landing { display:block !important; }
     body {
-      background:#f5f5f7 !important;
+      background:#0a0f1e !important;
       font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif !important;
-      color:#1d1d1f !important;
+      color:#e8eaf0 !important;
       line-height:1.6 !important;
     }
   }
@@ -268,27 +358,23 @@
 
   /* ─── HERO ─── */
   .dl-hero {
-    background:#fff;
+    background:linear-gradient(135deg,#0d1428 0%,#111827 50%,#0a0f1e 100%);
     padding:2.5rem 2rem 3rem;
     display:flex; align-items:center; justify-content:center;
     gap:6rem;
     max-width:1100px; margin:0 auto;
   }
   .dl-hero-text { flex:1; max-width:480px; }
-  .dl-hero-eyebrow {
-    font-size:12px; font-weight:600; letter-spacing:2px;
-    text-transform:uppercase; color:#1a3a6e;
-    margin-bottom:1rem;
-  }
+  .dl-hero-eyebrow-placeholder { /* base movida al bloque de efectos */ }
   .dl-hero-title {
     font-family:'Playfair Display',serif;
     font-size:52px; font-weight:700; line-height:1.1;
-    color:#1d1d1f; margin-bottom:1.25rem;
+    color:#f0f2f8; margin-bottom:1.25rem;
     letter-spacing:-1px;
   }
   .dl-hero-title em { font-style:normal; color:#1a3a6e; }
   .dl-hero-desc {
-    font-size:17px; color:#6e6e73; line-height:1.7;
+    font-size:17px; color:#94a3b8; line-height:1.7;
     margin-bottom:2rem;
   }
   .dl-hero-actions { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
@@ -323,9 +409,9 @@
   }
   .dl-hero-meta-item {
     display:flex; align-items:center; gap:6px;
-    font-size:13px; color:#6e6e73;
+    font-size:13px; color:#94a3b8;
   }
-  .dl-hero-meta-item strong { color:#1d1d1f; }
+  .dl-hero-meta-item strong { color:#f0f2f8; }
 
   /* ─── PHONE MOCKUP ─── */
   .dl-phone-wrap {
@@ -444,9 +530,9 @@
 
   /* ─── STATS BAR ─── */
   .dl-stats {
-    background:#fff;
-    border-top:1px solid rgba(0,0,0,0.06);
-    border-bottom:1px solid rgba(0,0,0,0.06);
+    background:linear-gradient(90deg,#0d1428 0%,#111827 50%,#0d1428 100%);
+    border-top:1px solid rgba(255,255,255,0.06);
+    border-bottom:1px solid rgba(255,255,255,0.06);
     padding:2rem;
     display:flex; justify-content:center;
     gap:0;
@@ -459,30 +545,30 @@
   }
   .dl-stat:last-child { border-right:none; }
   .dl-stat-num {
-    font-size:36px; font-weight:700; color:#1d1d1f;
+    font-size:36px; font-weight:700; color:#f0f2f8;
     font-family:'Playfair Display',serif;
     letter-spacing:-1px;
   }
   .dl-stat-num span { color:#1a3a6e; }
   .dl-stat-label {
-    font-size:13px; color:#6e6e73; margin-top:2px;
+    font-size:13px; color:#94a3b8; margin-top:2px;
   }
 
   /* ─── FEATURES ─── */
   .dl-features-wrap {
-    background:#f5f5f7;
+    background:linear-gradient(180deg,#0f1729 0%,#111827 100%);
     padding:5rem 2rem;
   }
   .dl-section-title {
     text-align:center;
     font-family:'Playfair Display',serif;
     font-size:36px; font-weight:700;
-    color:#1d1d1f; margin-bottom:0.5rem;
+    color:#f0f2f8; margin-bottom:0.5rem;
     letter-spacing:-0.5px;
   }
   .dl-section-sub {
     text-align:center;
-    font-size:17px; color:#6e6e73;
+    font-size:17px; color:#94a3b8;
     margin-bottom:3.5rem;
   }
   .dl-features {
@@ -497,16 +583,16 @@
   }
   .dl-features::-webkit-scrollbar { display:none; }
   .dl-feature {
-    background:#fff;
+    background:linear-gradient(145deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02));
     border-radius:18px;
     padding:2rem;
-    border:1px solid rgba(0,0,0,0.06);
+    border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(10px);
     transition:box-shadow .25s, transform .25s;
     flex:0 0 260px;
     scroll-snap-align:start;
   }
   .dl-feature:hover {
-    box-shadow:0 8px 32px rgba(0,0,0,0.1);
+    box-shadow:0 8px 32px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.1);
     transform:translateY(-3px);
   }
   .dl-features-nav {
@@ -515,29 +601,29 @@
   }
   .dl-features-arrow {
     width:36px; height:36px; border-radius:50%;
-    background:#fff; border:1px solid rgba(0,0,0,0.1);
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12);
     display:flex; align-items:center; justify-content:center;
     cursor:pointer; font-size:16px;
     transition:all .2s; box-shadow:0 2px 8px rgba(0,0,0,0.08);
   }
   .dl-features-arrow:hover {
-    background:#1a3a6e; color:#fff; border-color:#1a3a6e;
+    background:#1a3a6e; color:#fff; border-color:rgba(255,255,255,0.2);
   }
   .dl-feature-icon {
     font-size:36px; margin-bottom:1rem;
     display:block;
   }
   .dl-feature-title {
-    font-size:17px; font-weight:700; color:#1d1d1f;
+    font-size:17px; font-weight:700; color:#f0f2f8;
     margin-bottom:0.5rem;
   }
   .dl-feature-desc {
-    font-size:14px; color:#6e6e73; line-height:1.65;
+    font-size:14px; color:#94a3b8; line-height:1.65;
   }
 
   /* ─── SCREENSHOTS / GALERÍA ─── */
   .dl-gallery-wrap {
-    background:#fff;
+    background:linear-gradient(180deg,#111827 0%,#0d1428 100%);
     padding:5rem 2rem;
     overflow:hidden;
   }
@@ -549,7 +635,7 @@
   .dl-gallery-item {
     border-radius:18px; overflow:hidden;
     border:1px solid rgba(0,0,0,0.08);
-    box-shadow:0 8px 32px rgba(0,0,0,0.1);
+    box-shadow:0 8px 32px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.1);
     flex:0 0 auto;
     width:180px;
     transition:transform .3s, box-shadow .3s;
@@ -564,8 +650,8 @@
   }
   .dl-gallery-label {
     padding:10px 12px;
-    font-size:12px; font-weight:600; color:#6e6e73;
-    text-align:center; background:#f5f5f7;
+    font-size:12px; font-weight:600; color:#94a3b8;
+    text-align:center; background:rgba(255,255,255,0.05);
     border-top:1px solid rgba(0,0,0,0.06);
   }
   /* Placeholder de pantalla cuando no hay imagen real */
@@ -586,7 +672,7 @@
 
   /* ─── RUTAS ─── */
   .dl-routes-wrap {
-    background:#f5f5f7;
+    background:linear-gradient(180deg,#0a0f1e 0%,#0d1428 100%);
     padding:5rem 2rem;
   }
   .dl-routes {
@@ -595,9 +681,9 @@
   }
   .dl-route-pill {
     display:inline-flex; align-items:center; gap:8px;
-    background:#fff; border:1px solid rgba(0,0,0,0.08);
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12);
     border-radius:980px; padding:10px 20px;
-    font-size:14px; font-weight:600; color:#1d1d1f;
+    font-size:14px; font-weight:600; color:#e8eaf0;
     box-shadow:0 2px 8px rgba(0,0,0,0.06);
     transition:all .2s;
   }
@@ -608,7 +694,7 @@
 
   /* ─── QR SECTION ─── */
   .dl-qr-wrap {
-    background:#fff;
+    background:linear-gradient(135deg,#0d1428 0%,#111827 100%);
     padding:5rem 2rem;
     display:flex; align-items:center; justify-content:center;
     gap:5rem;
@@ -623,11 +709,11 @@
   .dl-qr-title {
     font-family:'Playfair Display',serif;
     font-size:36px; font-weight:700;
-    color:#1d1d1f; line-height:1.15;
+    color:#f0f2f8; line-height:1.15;
     margin-bottom:1rem; letter-spacing:-0.5px;
   }
   .dl-qr-desc {
-    font-size:16px; color:#6e6e73; line-height:1.7;
+    font-size:16px; color:#94a3b8; line-height:1.7;
     margin-bottom:1.5rem;
   }
   .dl-qr-steps {
@@ -635,7 +721,7 @@
   }
   .dl-qr-step {
     display:flex; align-items:center; gap:12px;
-    font-size:14px; color:#1d1d1f;
+    font-size:14px; color:#e8eaf0;
   }
   .dl-qr-step-num {
     width:28px; height:28px; border-radius:50%;
@@ -645,11 +731,11 @@
   }
   .dl-qr-box {
     flex-shrink:0;
-    background:#fff;
-    border:2px solid rgba(0,0,0,0.08);
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.12);
     border-radius:24px;
     padding:2rem;
-    box-shadow:0 8px 32px rgba(0,0,0,0.1);
+    box-shadow:0 8px 32px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.1);
     display:flex; flex-direction:column; align-items:center;
     gap:1rem;
   }
@@ -657,27 +743,305 @@
     width:180px; height:180px;
   }
   .dl-qr-url {
-    font-size:13px; color:#6e6e73; font-weight:600;
+    font-size:13px; color:#94a3b8; font-weight:600;
     letter-spacing:0.5px;
   }
 
   /* ─── FOOTER ─── */
   .dl-footer {
-    background:#f5f5f7;
-    border-top:1px solid rgba(0,0,0,0.08);
+    background:#070b14;
+    border-top:1px solid rgba(255,255,255,0.06);
     padding:2.5rem 2rem;
     text-align:center;
   }
   .dl-footer p {
-    font-size:13px; color:#6e6e73; line-height:1.8;
+    font-size:13px; color:#94a3b8; line-height:1.8;
   }
   .dl-footer a { color:#1a3a6e; text-decoration:none; }
   .dl-footer-logo {
     font-family:'Playfair Display',serif;
-    font-size:22px; font-weight:700; color:#1d1d1f;
+    font-size:22px; font-weight:700; color:#f0f2f8;
     margin-bottom:0.75rem;
   }
-  .dl-footer-logo span { color:#1a3a6e; }
+  .dl-footer-logo span { color:#7EB8E8; }
+
+  /* ══════════════════════════════════════════
+     EFECTOS PREMIUM — brillos, animaciones, cristal
+  ══════════════════════════════════════════ */
+
+  /* Fondo animado con orbes de luz */
+  #desktop-landing { position:relative; overflow:hidden; }
+  .dl-orb {
+    position:fixed; border-radius:50%;
+    pointer-events:none; z-index:0;
+    filter:blur(80px); opacity:0.18;
+  }
+  .dl-orb-1 {
+    width:600px; height:600px;
+    background:radial-gradient(circle,#3b82f6,transparent 70%);
+    top:-150px; left:-100px;
+    animation:orbFloat1 18s ease-in-out infinite;
+  }
+  .dl-orb-2 {
+    width:500px; height:500px;
+    background:radial-gradient(circle,#1a3a6e,transparent 70%);
+    top:30%; right:-120px;
+    animation:orbFloat2 22s ease-in-out infinite;
+  }
+  .dl-orb-3 {
+    width:400px; height:400px;
+    background:radial-gradient(circle,#0ea5e9,transparent 70%);
+    bottom:10%; left:20%;
+    animation:orbFloat3 16s ease-in-out infinite;
+  }
+  @keyframes orbFloat1 {
+    0%,100%{transform:translate(0,0) scale(1)}
+    33%{transform:translate(60px,40px) scale(1.1)}
+    66%{transform:translate(-30px,60px) scale(0.95)}
+  }
+  @keyframes orbFloat2 {
+    0%,100%{transform:translate(0,0) scale(1)}
+    40%{transform:translate(-50px,-40px) scale(1.08)}
+    70%{transform:translate(30px,50px) scale(0.92)}
+  }
+  @keyframes orbFloat3 {
+    0%,100%{transform:translate(0,0) scale(1)}
+    50%{transform:translate(40px,-60px) scale(1.12)}
+  }
+
+  /* Asegurar que el contenido queda por encima de los orbes */
+  .dl-header,.dl-hero,.dl-stats,.dl-features-wrap,
+  .dl-gallery-wrap,.dl-routes-wrap,.dl-footer,
+  #dl-qr { position:relative; z-index:1; }
+
+  /* Header con borde inferior brillante */
+  .dl-header {
+    border-bottom:1px solid rgba(255,255,255,0.08) !important;
+    box-shadow:0 1px 0 rgba(99,179,237,0.15), 0 4px 24px rgba(0,0,0,0.4) !important;
+  }
+
+  /* Hero: degradado de texto animado en el título */
+  .dl-hero-title em {
+    background:linear-gradient(90deg,#7EB8E8,#a78bfa,#38bdf8,#7EB8E8);
+    background-size:300% 100%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+    animation:shimmerText 6s linear infinite;
+  }
+  @keyframes shimmerText {
+    0%{background-position:0% 50%}
+    100%{background-position:300% 50%}
+  }
+
+  /* Eyebrow con marco y shimmer solo en el texto */
+  .dl-hero-eyebrow {
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    border:1.5px solid rgba(99,179,237,0.5);
+    border-radius:8px;
+    padding:5px 14px;
+    margin-bottom:1rem;
+    background:rgba(99,179,237,0.05);
+    box-shadow:0 0 16px rgba(99,179,237,0.1), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  .dl-hero-eyebrow .ey-emoji {
+    font-size:14px;
+    -webkit-text-fill-color:initial;
+    color:initial;
+  }
+  .dl-hero-eyebrow .ey-text {
+    font-size:11px; font-weight:700; letter-spacing:2px;
+    text-transform:uppercase;
+    background:linear-gradient(90deg,#7EB8E8,#a78bfa,#38bdf8,#7EB8E8);
+    background-size:300% 100%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+    animation:shimmerText 4s linear infinite;
+  }
+
+  /* Botón primario con brillo animado */
+  .dl-btn-primary {
+    position:relative; overflow:hidden;
+    background:linear-gradient(135deg,#1a3a6e,#2563eb,#1a3a6e) !important;
+    background-size:200% 100% !important;
+    animation:btnShimmer 4s ease-in-out infinite;
+    box-shadow:0 4px 20px rgba(37,99,235,0.5),0 0 0 1px rgba(99,179,237,0.2) !important;
+  }
+  .dl-btn-primary::before {
+    content:'';
+    position:absolute; top:0; left:-100%; width:60%; height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,0.18),transparent);
+    animation:btnSweep 3s ease-in-out infinite;
+  }
+  @keyframes btnShimmer {
+    0%,100%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+  }
+  @keyframes btnSweep {
+    0%{left:-100%} 60%,100%{left:200%}
+  }
+  .dl-btn-primary:hover {
+    box-shadow:0 8px 32px rgba(37,99,235,0.7),0 0 0 1px rgba(99,179,237,0.4) !important;
+    transform:translateY(-2px) !important;
+  }
+
+  /* Botón secundario con borde brillante */
+  .dl-btn-secondary {
+    border:1px solid rgba(99,179,237,0.4) !important;
+    box-shadow:0 0 20px rgba(99,179,237,0.1),inset 0 0 20px rgba(99,179,237,0.03) !important;
+    transition:all .3s !important;
+  }
+  .dl-btn-secondary:hover {
+    border-color:rgba(99,179,237,0.8) !important;
+    box-shadow:0 0 30px rgba(99,179,237,0.25),inset 0 0 20px rgba(99,179,237,0.08) !important;
+    background:rgba(99,179,237,0.08) !important;
+  }
+
+  /* Stats: números con glow */
+  .dl-stat-num { text-shadow:0 0 30px rgba(99,179,237,0.3); }
+  .dl-stat-num span { color:#7EB8E8; text-shadow:0 0 20px rgba(126,184,232,0.6); }
+  .dl-stats { border-top:1px solid rgba(255,255,255,0.05) !important; border-bottom:1px solid rgba(255,255,255,0.05) !important; }
+
+  /* Separador luminoso entre secciones */
+  .dl-stats::before, .dl-features-wrap::before,
+  .dl-gallery-wrap::before, .dl-routes-wrap::before {
+    content:'';
+    display:block; height:1px;
+    background:linear-gradient(90deg,transparent,rgba(99,179,237,0.3),rgba(167,139,250,0.3),transparent);
+    margin-bottom:0;
+  }
+
+  /* Feature cards: glassmorphism premium */
+  .dl-feature {
+    background:linear-gradient(145deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02)) !important;
+    border:1px solid rgba(255,255,255,0.08) !important;
+    backdrop-filter:blur(16px) !important;
+    transition:all .3s cubic-bezier(0.4,0,0.2,1) !important;
+    position:relative; overflow:hidden;
+  }
+  .dl-feature::before {
+    content:'';
+    position:absolute; top:0; left:0; right:0; height:1px;
+    background:linear-gradient(90deg,transparent,rgba(99,179,237,0.4),rgba(167,139,250,0.4),transparent);
+    opacity:0; transition:opacity .3s;
+  }
+  .dl-feature:hover {
+    background:linear-gradient(145deg,rgba(99,179,237,0.1),rgba(167,139,250,0.06)) !important;
+    border-color:rgba(99,179,237,0.25) !important;
+    box-shadow:0 8px 32px rgba(0,0,0,0.4),0 0 0 1px rgba(99,179,237,0.15),0 0 40px rgba(99,179,237,0.08) !important;
+    transform:translateY(-4px) !important;
+  }
+  .dl-feature:hover::before { opacity:1; }
+
+  /* Feature icon glow */
+  .dl-feature-icon { filter:drop-shadow(0 0 8px rgba(99,179,237,0.4)); transition:filter .3s; }
+  .dl-feature:hover .dl-feature-icon { filter:drop-shadow(0 0 16px rgba(99,179,237,0.8)); }
+
+  /* Gallery items: borde luminoso en hover */
+  .dl-gallery-item {
+    border:1px solid rgba(255,255,255,0.08) !important;
+    box-shadow:0 8px 32px rgba(0,0,0,0.3) !important;
+    transition:all .35s cubic-bezier(0.4,0,0.2,1) !important;
+    position:relative;
+  }
+  .dl-gallery-item::after {
+    content:'';
+    position:absolute; inset:0;
+    border-radius:18px;
+    background:linear-gradient(135deg,rgba(99,179,237,0.12),transparent 60%);
+    opacity:0; transition:opacity .35s; pointer-events:none;
+  }
+  .dl-gallery-item:hover {
+    transform:scale(1.05) translateY(-6px) !important;
+    box-shadow:0 24px 60px rgba(0,0,0,0.5),0 0 0 1px rgba(99,179,237,0.3),0 0 40px rgba(99,179,237,0.12) !important;
+  }
+  .dl-gallery-item:hover::after { opacity:1; }
+
+  /* Route pills: borde animado */
+  .dl-route-pill {
+    background:rgba(255,255,255,0.04) !important;
+    border:1px solid rgba(255,255,255,0.1) !important;
+    transition:all .25s !important;
+    color:#c8d4e8 !important;
+  }
+  .dl-route-pill:hover {
+    background:rgba(99,179,237,0.1) !important;
+    border-color:rgba(99,179,237,0.4) !important;
+    box-shadow:0 0 20px rgba(99,179,237,0.15) !important;
+    color:#e8f4ff !important;
+    transform:translateY(-3px) !important;
+  }
+
+  /* QR box premium */
+  .dl-qr-box {
+    background:linear-gradient(145deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02)) !important;
+    border:1px solid rgba(99,179,237,0.2) !important;
+    box-shadow:0 0 0 1px rgba(99,179,237,0.1),0 24px 60px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.08) !important;
+    backdrop-filter:blur(20px) !important;
+  }
+
+  /* QR step numbers con glow */
+  .dl-qr-step-num {
+    background:linear-gradient(135deg,#1a3a6e,#2563eb) !important;
+    box-shadow:0 0 12px rgba(37,99,235,0.5) !important;
+  }
+
+  /* Section titles con gradiente sutil */
+  .dl-section-title {
+    background:linear-gradient(90deg,#e8eaf0,#7EB8E8,#a78bfa,#e8eaf0);
+    background-size:300% 100%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+    animation:shimmerText 8s linear infinite;
+  }
+
+  /* Footer link color */
+  .dl-footer a { color:#7EB8E8 !important; }
+
+  /* Meta items con iconos brillantes */
+  .dl-hero-meta-item { transition:all .2s; }
+  .dl-hero-meta-item:hover { color:#c8d4e8; }
+
+  /* Línea decorativa divisoria brillante */
+  #dl-features, #dl-gallery, #dl-rutas, #dl-qr {
+    scroll-margin-top:60px;
+  }
+
+  /* Phone mockup: borde con glow */
+  .dl-phone {
+    box-shadow:
+      0 0 0 10px #0d1428,
+      0 0 0 11px rgba(99,179,237,0.2),
+      0 40px 80px rgba(0,0,0,0.6),
+      0 0 60px rgba(37,99,235,0.15) !important;
+  }
+
+  /* Animación entrada suave al cargar */
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(24px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .dl-hero-text > * { animation:fadeUp .7s ease both; }
+  .dl-hero-text > *:nth-child(1){animation-delay:.1s}
+  .dl-hero-text > *:nth-child(2){animation-delay:.2s}
+  .dl-hero-text > *:nth-child(3){animation-delay:.3s}
+  .dl-hero-text > *:nth-child(4){animation-delay:.4s}
+  .dl-hero-text > *:nth-child(5){animation-delay:.5s}
+  .dl-hero-text > *:nth-child(6){animation-delay:.6s}
+  .dl-phone-wrap { animation:fadeUp .9s ease .3s both; }
+
+  /* Noise texture overlay sutil sobre toda la landing */
+  #desktop-landing::after {
+    content:'';
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    opacity:0.025;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
   </style>
 </head>
 <body>
@@ -687,6 +1051,10 @@
      La app móvil real permanece intacta debajo
 ═══════════════════════════════════════════════════════ -->
 <div id="desktop-landing">
+  <!-- Orbes de luz de fondo -->
+  <div class="dl-orb dl-orb-1"></div>
+  <div class="dl-orb dl-orb-2"></div>
+  <div class="dl-orb dl-orb-3"></div>
 
   <!-- HEADER -->
   <header class="dl-header">
@@ -701,24 +1069,31 @@
   </header>
 
   <!-- HERO -->
-  <section style="background:#fff">
+  <section style="background:linear-gradient(135deg,#0d1428 0%,#111827 50%,#0a0f1e 100%);position:relative">
+    <!-- Banderas idioma esquina superior derecha -->
+    <div style="position:absolute;top:1.25rem;right:2rem;display:flex;gap:8px;align-items:center;z-index:10">
+      <button class='lang-btn activo' onclick='cambiarIdioma("gl")' title='Galego' style="filter:drop-shadow(0 0 6px rgba(99,179,237,0.5))"><svg viewBox='0 0 36 36' xmlns='http://www.w3.org/2000/svg'><clipPath id='c-gl-dl'><circle cx='18' cy='18' r='18'></circle></clipPath><g clip-path='url(#c-gl-dl)'><rect fill='#ffffff' height='36' width='36'></rect><polygon fill='#003DA5' points='36,7 29,0 0,29 7,36'></polygon></g></svg></button>
+      <button class='lang-btn' onclick='cambiarIdioma("en")' title='English'><svg viewBox='0 0 36 36' xmlns='http://www.w3.org/2000/svg'><clipPath id='c-en-dl'><circle cx='18' cy='18' r='18'></circle></clipPath><g clip-path='url(#c-en-dl)'><rect fill='#012169' height='36' width='36'></rect><line stroke='#fff' stroke-width='7' x1='0' x2='36' y1='0' y2='36'></line><line stroke='#fff' stroke-width='7' x1='36' x2='0' y1='0' y2='36'></line><line stroke='#CF142B' stroke-width='4' x1='0' x2='36' y1='0' y2='36'></line><line stroke='#CF142B' stroke-width='4' x1='36' x2='0' y1='0' y2='36'></line><rect fill='#fff' height='36' width='8' x='14' y='0'></rect><rect fill='#fff' height='8' width='36' y='14'></rect><rect fill='#CF142B' height='36' width='5' x='15.5' y='0'></rect><rect fill='#CF142B' height='5' width='36' y='15.5'></rect></g></svg></button>
+      <button class='lang-btn' onclick='cambiarIdioma("es")' title='Español'><svg viewBox='0 0 36 36' xmlns='http://www.w3.org/2000/svg'><clipPath id='c-es-dl'><circle cx='18' cy='18' r='18'></circle></clipPath><g clip-path='url(#c-es-dl)'><rect fill='#c60b1e' height='9' width='36'></rect><rect fill='#ffc300' height='18' width='36' y='9'></rect><rect fill='#c60b1e' height='9' width='36' y='27'></rect></g></svg></button>
+    </div>
     <div class="dl-hero">
       <div class="dl-hero-text">
-        <p class="dl-hero-eyebrow">🐚 Guía Xacobea Interactiva</p>
+        <p class="dl-hero-eyebrow" id="dl-eyebrow"><span class="ey-emoji">🐚</span><span class="ey-text">Guía Xacobea Interactiva</span></p>
         <img src="https://i.postimg.cc/k5yzbjd9/logohead.png" alt="Xacobeapp" style="height:48px;width:auto;display:block;object-fit:contain;margin-bottom:1.25rem;opacity:0.92"/>
-        <h1 class="dl-hero-title">Tu compañera en el <em>Camino</em></h1>
-        <p class="dl-hero-desc">
+        <h1 class="dl-hero-title" id="dl-hero-title">Tu compañera en el <em>Camino</em></h1>
+        <img src="https://i.postimg.cc/tRWLFtGh/vieira.png" alt="Vieira del Camino" style="height:64px;width:auto;display:block;object-fit:contain;margin-bottom:1.25rem"/>
+        <p class="dl-hero-desc" id="dl-hero-desc">
           Xacobeapp es una guía gratuita para el Camino de Santiago, intuitiva y de muy fácil manejo, que te mostrará todo el patrimonio jacobeo a tu alrededor. Mapas interactivos, creador de rutas, etapas, avisos rápidos de emergencia, POIs exclusivos especializados en el patrimonio xacobeo, navegación GPS, brújula… y otras muchas utilidades pensadas para el peregrino, pero también para todos los que disfrutan conociendo y explorando nuevos espacios. Toda una navaja suiza del peregrino en tu bolsillo, a tu servicio.
         </p>
         <div class="dl-hero-actions">
-          <a href="#dl-qr" class="dl-btn-primary">
+          <a href="#dl-qr" class="dl-btn-primary" id="dl-btn-movil">
             📱 Abrir en tu móvil
           </a>
         </div>
         <div class="dl-hero-meta">
-          <div class="dl-hero-meta-item">⭐ <strong>Gratuita</strong> y sin anuncios</div>
-          <div class="dl-hero-meta-item">📍 Los principales caminos jacobeos, con sus etapas y POIs exclusivos</div>
-          <div class="dl-hero-meta-item">🔒 <strong>Offline</strong> · funciona sin red</div>
+          <div class="dl-hero-meta-item">⭐ <strong id="dl-meta-gratis">Gratuita</strong> <span id="dl-meta-gratis2"> y sin anuncios</span></div>
+          <div class="dl-hero-meta-item" id="dl-meta-rutas">📍 Los principales caminos jacobeos, con sus etapas y POIs exclusivos</div>
+          <div class="dl-hero-meta-item">🔒 <strong>Offline</strong> · <span id="dl-meta-offline">funciona sin red</span></div>
         </div>
       </div>
 
@@ -726,45 +1101,7 @@
       <div class="dl-phone-wrap">
         <div class="dl-phone">
           <div class="dl-phone-notch"></div>
-          <div class="dl-phone-screen">
-            <div class="dl-phone-topbar">
-              <div class="dl-phone-topbar-dot"></div>
-              <div class="dl-phone-topbar-dot"></div>
-              <div class="dl-phone-topbar-title">XACOBEAPP · MAPA</div>
-              <div class="dl-phone-topbar-dot"></div>
-              <div class="dl-phone-topbar-dot"></div>
-            </div>
-            <div class="dl-phone-chips">
-              <div class="dl-phone-chip active">📍 Todos</div>
-              <div class="dl-phone-chip">🔵 Costa</div>
-              <div class="dl-phone-chip">🔴 Francés</div>
-              <div class="dl-phone-chip">⛪ Iglesias</div>
-            </div>
-            <div class="dl-phone-map">
-              <div class="dl-phone-poi dl-phone-poi-1">⛪</div>
-              <div class="dl-phone-poi dl-phone-poi-2">🏠</div>
-              <div class="dl-phone-poi dl-phone-poi-3">🏛️</div>
-              <div class="dl-phone-poi dl-phone-poi-4">🌿</div>
-            </div>
-            <div class="dl-phone-bottombar">
-              <div class="dl-phone-bottombar-item active">
-                <div class="dl-phone-bottombar-icon">🗺️</div>
-                Mapa
-              </div>
-              <div class="dl-phone-bottombar-item">
-                <div class="dl-phone-bottombar-icon">🐚</div>
-                Historia
-              </div>
-              <div class="dl-phone-bottombar-item">
-                <div class="dl-phone-bottombar-icon">🧭</div>
-                GPS
-              </div>
-              <div class="dl-phone-bottombar-item">
-                <div class="dl-phone-bottombar-icon">🎖️</div>
-                Juego
-              </div>
-            </div>
-          </div>
+          <img src="https://i.postimg.cc/HxLqpmqn/Captura1.png" alt="Xacobeapp screenshot" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:34px"/>
         </div>
       </div>
     </div>
@@ -774,77 +1111,81 @@
   <div class="dl-stats">
     <div class="dl-stat">
       <div class="dl-stat-num">200<span>+</span></div>
-      <div class="dl-stat-label">Puntos de interés, en aumento</div>
+      <div class="dl-stat-label" id="dl-stat-poi">Puntos de interés, en aumento</div>
     </div>
     <div class="dl-stat">
       <div class="dl-stat-num">34</div>
-      <div class="dl-stat-label">Etapas documentadas</div>
+      <div class="dl-stat-label" id="dl-stat-etapas">Etapas documentadas de los 5 caminos principales</div>
     </div>
     <div class="dl-stat">
       <div class="dl-stat-num">0<span>€</span></div>
-      <div class="dl-stat-label">Coste para el peregrino</div>
+      <div class="dl-stat-label" id="dl-stat-coste">Coste para el peregrino</div>
+    </div>
+    <div class="dl-stat">
+      <div class="dl-stat-num">0</div>
+      <div class="dl-stat-label" id="dl-stat-pub">Publicidad y cookies</div>
     </div>
   </div>
 
   <!-- FEATURES -->
   <section id="dl-features" class="dl-features-wrap">
-    <h2 class="dl-section-title">Todo lo que necesitas en el Camino</h2>
-    <p class="dl-section-sub">Diseñada para usarse en el móvil mientras caminas</p>
+    <h2 class="dl-section-title" id="dl-feat-title">Todo lo que necesitas en el Camino</h2>
+    <p class="dl-section-sub" id="dl-feat-sub">Diseñada para usarse en el móvil mientras caminas</p>
     <div class="dl-features" id="dl-features-track">
       <div class="dl-feature">
         <span class="dl-feature-icon">🗺️</span>
-        <div class="dl-feature-title">Mapa interactivo offline</div>
-        <p class="dl-feature-desc">Tiles de OpenStreetMap cacheadas. Navega sin conexión a lo largo de toda la ruta, con tu posición GPS en tiempo real.</p>
+        <div class="dl-feature-title" id="dl-f1-t">Mapa interactivo offline</div>
+        <p class="dl-feature-desc" id="dl-f1-d">Tiles de OpenStreetMap cacheadas. Navega sin conexión a lo largo de toda la ruta, con tu posición GPS en tiempo real.</p>
       </div>
       <div class="dl-feature">
         <span class="dl-feature-icon">🧭</span>
-        <div class="dl-feature-title">Navegación por voz</div>
-        <p class="dl-feature-desc">Indicaciones habladas en gallego, español e inglés. El móvil te avisa de cada giro sin tener que mirar la pantalla.</p>
+        <div class="dl-feature-title" id="dl-f2-t">Navegación por voz</div>
+        <p class="dl-feature-desc" id="dl-f2-d">Indicaciones habladas en gallego, español e inglés. El móvil te avisa de cada giro sin tener que mirar la pantalla.</p>
       </div>
       <div class="dl-feature">
         <span class="dl-feature-icon">⛪</span>
-        <div class="dl-feature-title">Patrimonio jacobeo</div>
-        <p class="dl-feature-desc">Iglesias, monasterios, castros y vestigios arqueológicos documentados con textos históricos y POIs exclusivos especializados en el patrimonio xacobeo.</p>
+        <div class="dl-feature-title" id="dl-f3-t">Patrimonio jacobeo</div>
+        <p class="dl-feature-desc" id="dl-f3-d">Iglesias, monasterios, castros y vestigios arqueológicos documentados con textos históricos y POIs exclusivos especializados en el patrimonio xacobeo.</p>
       </div>
       <div class="dl-feature">
         <span class="dl-feature-icon">🎖️</span>
-        <div class="dl-feature-title">Juego de la Oca Jacobeo</div>
-        <p class="dl-feature-desc">63 casillas, cromos coleccionables que se desbloquean por GPS al pasar cerca de los puntos. Tu peregrinación tiene ahora una dimensión lúdica.</p>
+        <div class="dl-feature-title" id="dl-f4-t">Juego de la Oca Jacobeo</div>
+        <p class="dl-feature-desc" id="dl-f4-d">63 casillas, cromos coleccionables que se desbloquean por GPS al pasar cerca de los puntos. Tu peregrinación tiene ahora una dimensión lúdica.</p>
       </div>
       <div class="dl-feature">
         <span class="dl-feature-icon">🏠</span>
-        <div class="dl-feature-title">Albergues y servicios</div>
-        <p class="dl-feature-desc">Albergues, fuentes, farmacias y puntos de servicio geolocalizados. Búsqueda en tiempo real con radio expandible.</p>
+        <div class="dl-feature-title" id="dl-f5-t">Albergues y servicios</div>
+        <p class="dl-feature-desc" id="dl-f5-d">Albergues, fuentes, farmacias y puntos de servicio geolocalizados. Búsqueda en tiempo real con radio expandible.</p>
       </div>
       <div class="dl-feature">
         <span class="dl-feature-icon">🌐</span>
-        <div class="dl-feature-title">Trilingüe</div>
-        <p class="dl-feature-desc">Interfaz completa en gallego, castellano e inglés. Cambia el idioma en cualquier momento sin reiniciar.</p>
+        <div class="dl-feature-title" id="dl-f6-t">Trilingüe</div>
+        <p class="dl-feature-desc" id="dl-f6-d">Interfaz completa en gallego, castellano e inglés. Cambia el idioma en cualquier momento sin reiniciar.</p>
       </div>
       <div class="dl-feature">
         <span class="dl-feature-icon">🆘</span>
-        <div class="dl-feature-title">Emergencias de acceso rápido</div>
-        <p class="dl-feature-desc">Sección de emergencias siempre a un toque, con números útiles y recursos para cualquier inconveniente que pueda surgir en el Camino.</p>
+        <div class="dl-feature-title" id="dl-f7-t">Emergencias de acceso rápido</div>
+        <p class="dl-feature-desc" id="dl-f7-d">Sección de emergencias siempre a un toque, con números útiles y recursos para cualquier inconveniente que pueda surgir en el Camino.</p>
       </div>
       <div class="dl-feature">
         <span class="dl-feature-icon">🏹</span>
-        <div class="dl-feature-title">Guía por flechas de color</div>
-        <p class="dl-feature-desc">Sistema de navegación visual mediante flechas de color que te orientan en cada momento, sin perderte ni un giro del Camino.</p>
+        <div class="dl-feature-title" id="dl-f8-t">Guía por flechas de color</div>
+        <p class="dl-feature-desc" id="dl-f8-d">Sistema de navegación visual mediante flechas de color que te orientan en cada momento, sin perderte ni un giro del Camino.</p>
       </div>
       <div class="dl-feature">
         <span class="dl-feature-icon">📌</span>
-        <div class="dl-feature-title">Crea y guarda tu ruta</div>
-        <p class="dl-feature-desc">Selecciona los puntos que quieres visitar, construye tu ruta personalizada y guárdala para consultarla cuando la necesites.</p>
+        <div class="dl-feature-title" id="dl-f9-t">Crea y guarda tu ruta</div>
+        <p class="dl-feature-desc" id="dl-f9-d">Selecciona los puntos que quieres visitar, construye tu ruta personalizada y guárdala para consultarla cuando la necesites.</p>
       </div>
       <div class="dl-feature">
         <span class="dl-feature-icon">📍</span>
-        <div class="dl-feature-title">Tus propios puntos en el mapa</div>
-        <p class="dl-feature-desc">Crea puntos de interés personalizados y añádelos directamente a tu ruta. Tu Camino, a tu manera.</p>
+        <div class="dl-feature-title" id="dl-f10-t">Tus propios puntos en el mapa</div>
+        <p class="dl-feature-desc" id="dl-f10-d">Crea puntos de interés personalizados y añádelos directamente a tu ruta. Tu Camino, a tu manera.</p>
       </div>
       <div class="dl-feature">
         <span class="dl-feature-icon">✨</span>
-        <div class="dl-feature-title">Y mucho más…</div>
-        <p class="dl-feature-desc">Otras muchas y sorprendentes utilidades para que tu Camino pueda ser más atractivo y seguro. Descúbrelas tú mismo.</p>
+        <div class="dl-feature-title" id="dl-f11-t">Y mucho más…</div>
+        <p class="dl-feature-desc" id="dl-f11-d">Otras muchas y sorprendentes utilidades para que tu Camino pueda ser más atractivo y seguro. Descúbrelas tú mismo.</p>
       </div>
     </div>
     <div class="dl-features-nav">
@@ -855,220 +1196,202 @@
 
   <!-- GALLERY -->
   <section id="dl-gallery" class="dl-gallery-wrap">
-    <h2 class="dl-section-title">La app en acción</h2>
-    <p class="dl-section-sub">Capturas reales desde el móvil</p>
+    <h2 class="dl-section-title" id="dl-gal-title">La app en acción</h2>
+    <p class="dl-section-sub" id="dl-gal-sub">Capturas reales desde el móvil</p>
     <div class="dl-gallery">
-
       <div class="dl-gallery-item">
         <div style="background:linear-gradient(160deg,#0d1e3a,#1a2d52);aspect-ratio:9/19.5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
           <span style="font-size:40px">🗺️</span>
-          <p style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px">Mapa interactivo</p>
+          <p style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px" id="dl-gal1-inner">Mapa interactivo</p>
         </div>
-        <div class="dl-gallery-label">Mapa GPS</div>
+        <div class="dl-gallery-label" id="dl-gal1">Mapa GPS</div>
       </div>
-
       <div class="dl-gallery-item">
         <div style="background:linear-gradient(160deg,#2d1a00,#5a3600);aspect-ratio:9/19.5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
           <span style="font-size:40px">📜</span>
-          <p style="font-size:10px;font-weight:700;color:rgba(255,220,120,0.7);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px">Historia y patrimonio</p>
+          <p style="font-size:10px;font-weight:700;color:rgba(255,220,120,0.7);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px" id="dl-gal2-inner">Historia y patrimonio</p>
         </div>
-        <div class="dl-gallery-label">Patrimonio</div>
+        <div class="dl-gallery-label" id="dl-gal2">Patrimonio</div>
       </div>
-
       <div class="dl-gallery-item">
         <div style="background:linear-gradient(160deg,#0d3326,#1a3a6e);aspect-ratio:9/19.5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
           <span style="font-size:40px">🎖️</span>
-          <p style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px">Juego de la Oca</p>
+          <p style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px" id="dl-gal3-inner">Juego de la Oca</p>
         </div>
-        <div class="dl-gallery-label">Gamificación</div>
+        <div class="dl-gallery-label" id="dl-gal3">Gamificación</div>
       </div>
-
       <div class="dl-gallery-item">
         <div style="background:linear-gradient(160deg,#1a0d3a,#3a1a6e);aspect-ratio:9/19.5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
           <span style="font-size:40px">🧭</span>
-          <p style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px">Brújula y navegación</p>
+          <p style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px" id="dl-gal4-inner">Brújula y navegación</p>
         </div>
-        <div class="dl-gallery-label">Navegación</div>
+        <div class="dl-gallery-label" id="dl-gal4">Navegación</div>
       </div>
-
       <div class="dl-gallery-item">
         <div style="background:linear-gradient(160deg,#1a2d0d,#3a5a1a);aspect-ratio:9/19.5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
           <span style="font-size:40px">🏠</span>
-          <p style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px">Albergues y servicios</p>
+          <p style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px" id="dl-gal5-inner">Albergues y servicios</p>
         </div>
-        <div class="dl-gallery-label">Servicios</div>
+        <div class="dl-gallery-label" id="dl-gal5">Servicios</div>
       </div>
-
     </div>
-    <p style="text-align:center;margin-top:2rem;font-size:13px;color:#6e6e73">
+    <p style="text-align:center;margin-top:2rem;font-size:13px;color:#94a3b8" id="dl-gal-hint">
       ✨ Escanea el QR para ver la app real en tu móvil
     </p>
   </section>
 
   <!-- RUTAS -->
   <section id="dl-rutas" class="dl-routes-wrap">
-    <h2 class="dl-section-title">Rutas cubiertas</h2>
-    <p class="dl-section-sub">Cinco caminos jacobeos con etapas, POIs y navegación GPS</p>
+    <h2 class="dl-section-title" id="dl-rut-title">Rutas cubiertas</h2>
+    <p class="dl-section-sub" id="dl-rut-sub">Cinco caminos jacobeos con etapas, POIs y navegación GPS</p>
     <div class="dl-routes">
-      <div class="dl-route-pill">🔵 Camino Portugués de la Costa</div>
-      <div class="dl-route-pill">🔴 Camino Francés</div>
-      <div class="dl-route-pill">🟠 Camino del Norte</div>
-      <div class="dl-route-pill">🟣 Camino Primitivo</div>
-      <div class="dl-route-pill">🟡 Camino Inglés</div>
+      <div class="dl-route-pill">🔵 <span id="dl-rut1">Camino Portugués de la Costa</span></div>
+      <div class="dl-route-pill">🔴 <span id="dl-rut2">Camino Francés</span></div>
+      <div class="dl-route-pill">🟠 <span id="dl-rut3">Camino del Norte</span></div>
+      <div class="dl-route-pill">🟣 <span id="dl-rut4">Camino Primitivo</span></div>
+      <div class="dl-route-pill">🟡 <span id="dl-rut5">Camino Inglés</span></div>
     </div>
   </section>
 
   <!-- QR -->
-  <section id="dl-qr" style="background:#fff">
+  <section id="dl-qr" style="background:linear-gradient(135deg,#0d1428 0%,#111827 100%)">
     <div class="dl-qr-wrap">
       <div class="dl-qr-text">
-        <p class="dl-qr-eyebrow">📱 Versión móvil</p>
-        <h2 class="dl-qr-title">La app está diseñada para tu móvil</h2>
-        <p class="dl-qr-desc">
+        <p class="dl-qr-eyebrow" id="dl-qr-eyebrow">📱 Versión móvil</p>
+        <h2 class="dl-qr-title" id="dl-qr-title">La app está diseñada para tu móvil</h2>
+        <p class="dl-qr-desc" id="dl-qr-desc">
           Xacobeapp es una Progressive Web App optimizada para pantallas de móvil. Escanea el QR con la cámara de tu teléfono para abrirla directamente, sin descargas.
         </p>
         <div class="dl-qr-steps">
-          <div class="dl-qr-step">
-            <div class="dl-qr-step-num">1</div>
-            Abre la cámara de tu móvil
-          </div>
-          <div class="dl-qr-step">
-            <div class="dl-qr-step-num">2</div>
-            Apunta al código QR de la derecha
-          </div>
-          <div class="dl-qr-step">
-            <div class="dl-qr-step-num">3</div>
-            Toca el enlace que aparece → xacobeapp.com
-          </div>
-          <div class="dl-qr-step">
-            <div class="dl-qr-step-num">4</div>
-            Instálala como app desde el navegador
-          </div>
+          <div class="dl-qr-step"><div class="dl-qr-step-num">1</div><span id="dl-qr-s1">Abre la cámara de tu móvil</span></div>
+          <div class="dl-qr-step"><div class="dl-qr-step-num">2</div><span id="dl-qr-s2">Apunta al código QR de la derecha</span></div>
+          <div class="dl-qr-step"><div class="dl-qr-step-num">3</div><span id="dl-qr-s3">Toca el enlace que aparece → xacobeapp.com</span></div>
+          <div class="dl-qr-step"><div class="dl-qr-step-num">4</div><span id="dl-qr-s4">Instálala como app desde el navegador</span></div>
         </div>
       </div>
       <div class="dl-qr-box">
         <!-- QR code SVG generado para https://xacobeapp.com -->
         <svg viewBox="0 0 37 37" xmlns="http://www.w3.org/2000/svg" style="width:180px;height:180px;image-rendering:pixelated">
-          <rect width="37" height="37" fill="white"/>
+          <rect width="37" height="37" fill="#1a2340"/>
           <!-- QR para xacobeapp.com — patrón visual representativo con esquinas correctas -->
           <!-- Finder top-left -->
-          <rect x="1" y="1" width="7" height="7" fill="#1d1d1f"/>
-          <rect x="2" y="2" width="5" height="5" fill="white"/>
-          <rect x="3" y="3" width="3" height="3" fill="#1d1d1f"/>
+          <rect x="1" y="1" width="7" height="7" fill="#c8d0e8"/>
+          <rect x="2" y="2" width="5" height="5" fill="#1a2340"/>
+          <rect x="3" y="3" width="3" height="3" fill="#c8d0e8"/>
           <!-- Finder top-right -->
-          <rect x="29" y="1" width="7" height="7" fill="#1d1d1f"/>
-          <rect x="30" y="2" width="5" height="5" fill="white"/>
-          <rect x="31" y="3" width="3" height="3" fill="#1d1d1f"/>
+          <rect x="29" y="1" width="7" height="7" fill="#c8d0e8"/>
+          <rect x="30" y="2" width="5" height="5" fill="#1a2340"/>
+          <rect x="31" y="3" width="3" height="3" fill="#c8d0e8"/>
           <!-- Finder bottom-left -->
-          <rect x="1" y="29" width="7" height="7" fill="#1d1d1f"/>
-          <rect x="2" y="30" width="5" height="5" fill="white"/>
-          <rect x="3" y="31" width="3" height="3" fill="#1d1d1f"/>
+          <rect x="1" y="29" width="7" height="7" fill="#c8d0e8"/>
+          <rect x="2" y="30" width="5" height="5" fill="#1a2340"/>
+          <rect x="3" y="31" width="3" height="3" fill="#c8d0e8"/>
           <!-- Data modules pattern — representativo -->
-          <rect x="9" y="1" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="11" y="1" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="14" y="1" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="16" y="1" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="19" y="1" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="21" y="1" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="24" y="1" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="26" y="1" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="9" y="3" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="13" y="3" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="15" y="3" width="3" height="1" fill="#1d1d1f"/>
-          <rect x="20" y="3" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="23" y="3" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="27" y="3" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="9" y="5" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="12" y="5" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="16" y="5" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="19" y="5" width="3" height="1" fill="#1d1d1f"/>
-          <rect x="24" y="5" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="26" y="5" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="9" y="7" width="3" height="1" fill="#1d1d1f"/>
-          <rect x="14" y="7" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="17" y="7" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="21" y="7" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="24" y="7" width="3" height="1" fill="#1d1d1f"/>
+          <rect x="9" y="1" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="11" y="1" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="14" y="1" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="16" y="1" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="19" y="1" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="21" y="1" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="24" y="1" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="26" y="1" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="9" y="3" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="13" y="3" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="15" y="3" width="3" height="1" fill="#c8d0e8"/>
+          <rect x="20" y="3" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="23" y="3" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="27" y="3" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="9" y="5" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="12" y="5" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="16" y="5" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="19" y="5" width="3" height="1" fill="#c8d0e8"/>
+          <rect x="24" y="5" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="26" y="5" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="9" y="7" width="3" height="1" fill="#c8d0e8"/>
+          <rect x="14" y="7" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="17" y="7" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="21" y="7" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="24" y="7" width="3" height="1" fill="#c8d0e8"/>
           <!-- Timing pattern H -->
-          <rect x="8" y="6" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="10" y="6" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="12" y="6" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="14" y="6" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="16" y="6" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="18" y="6" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="20" y="6" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="22" y="6" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="24" y="6" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="26" y="6" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="28" y="6" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="8" y="6" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="10" y="6" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="12" y="6" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="14" y="6" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="16" y="6" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="18" y="6" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="20" y="6" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="22" y="6" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="24" y="6" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="26" y="6" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="28" y="6" width="1" height="1" fill="#c8d0e8"/>
           <!-- Timing pattern V -->
-          <rect x="6" y="8" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="6" y="10" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="6" y="12" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="6" y="14" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="6" y="16" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="6" y="18" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="6" y="20" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="6" y="22" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="6" y="24" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="6" y="26" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="6" y="28" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="6" y="8" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="6" y="10" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="6" y="12" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="6" y="14" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="6" y="16" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="6" y="18" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="6" y="20" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="6" y="22" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="6" y="24" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="6" y="26" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="6" y="28" width="1" height="1" fill="#c8d0e8"/>
           <!-- Data area — patrón central -->
-          <rect x="9" y="9" width="2" height="2" fill="#1d1d1f"/>
-          <rect x="13" y="9" width="3" height="1" fill="#1d1d1f"/>
-          <rect x="18" y="9" width="2" height="2" fill="#1d1d1f"/>
-          <rect x="22" y="9" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="25" y="9" width="3" height="1" fill="#1d1d1f"/>
-          <rect x="9" y="11" width="1" height="2" fill="#1d1d1f"/>
-          <rect x="12" y="11" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="16" y="11" width="4" height="1" fill="#1d1d1f"/>
-          <rect x="22" y="11" width="3" height="1" fill="#1d1d1f"/>
-          <rect x="27" y="11" width="1" height="2" fill="#1d1d1f"/>
-          <rect x="9" y="13" width="3" height="1" fill="#1d1d1f"/>
-          <rect x="14" y="13" width="1" height="2" fill="#1d1d1f"/>
-          <rect x="17" y="13" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="21" y="13" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="24" y="13" width="2" height="2" fill="#1d1d1f"/>
+          <rect x="9" y="9" width="2" height="2" fill="#c8d0e8"/>
+          <rect x="13" y="9" width="3" height="1" fill="#c8d0e8"/>
+          <rect x="18" y="9" width="2" height="2" fill="#c8d0e8"/>
+          <rect x="22" y="9" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="25" y="9" width="3" height="1" fill="#c8d0e8"/>
+          <rect x="9" y="11" width="1" height="2" fill="#c8d0e8"/>
+          <rect x="12" y="11" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="16" y="11" width="4" height="1" fill="#c8d0e8"/>
+          <rect x="22" y="11" width="3" height="1" fill="#c8d0e8"/>
+          <rect x="27" y="11" width="1" height="2" fill="#c8d0e8"/>
+          <rect x="9" y="13" width="3" height="1" fill="#c8d0e8"/>
+          <rect x="14" y="13" width="1" height="2" fill="#c8d0e8"/>
+          <rect x="17" y="13" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="21" y="13" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="24" y="13" width="2" height="2" fill="#c8d0e8"/>
           <!-- Logo center -->
           <rect x="15" y="15" width="7" height="7" rx="1" fill="#1a3a6e"/>
-          <rect x="17" y="16" width="3" height="1" fill="white"/>
-          <rect x="17" y="18" width="3" height="1" fill="white"/>
-          <rect x="17" y="20" width="3" height="1" fill="white"/>
+          <rect x="17" y="16" width="3" height="1" fill="#1a2340"/>
+          <rect x="17" y="18" width="3" height="1" fill="#1a2340"/>
+          <rect x="17" y="20" width="3" height="1" fill="#1a2340"/>
           <!-- More data -->
-          <rect x="9" y="22" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="13" y="22" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="16" y="22" width="3" height="1" fill="#1d1d1f"/>
-          <rect x="21" y="22" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="25" y="22" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="9" y="24" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="11" y="24" width="3" height="1" fill="#1d1d1f"/>
-          <rect x="16" y="24" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="20" y="24" width="3" height="1" fill="#1d1d1f"/>
-          <rect x="25" y="24" width="1" height="2" fill="#1d1d1f"/>
-          <rect x="27" y="24" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="9" y="22" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="13" y="22" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="16" y="22" width="3" height="1" fill="#c8d0e8"/>
+          <rect x="21" y="22" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="25" y="22" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="9" y="24" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="11" y="24" width="3" height="1" fill="#c8d0e8"/>
+          <rect x="16" y="24" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="20" y="24" width="3" height="1" fill="#c8d0e8"/>
+          <rect x="25" y="24" width="1" height="2" fill="#c8d0e8"/>
+          <rect x="27" y="24" width="1" height="1" fill="#c8d0e8"/>
           <!-- Bottom data -->
-          <rect x="9" y="29" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="13" y="29" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="15" y="29" width="3" height="1" fill="#1d1d1f"/>
-          <rect x="20" y="29" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="24" y="29" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="26" y="29" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="9" y="31" width="3" height="1" fill="#1d1d1f"/>
-          <rect x="14" y="31" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="18" y="31" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="21" y="31" width="3" height="1" fill="#1d1d1f"/>
-          <rect x="26" y="31" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="9" y="33" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="12" y="33" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="16" y="33" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="19" y="33" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="23" y="33" width="1" height="1" fill="#1d1d1f"/>
-          <rect x="25" y="33" width="3" height="1" fill="#1d1d1f"/>
-          <rect x="9" y="35" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="13" y="35" width="3" height="1" fill="#1d1d1f"/>
-          <rect x="18" y="35" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="22" y="35" width="2" height="1" fill="#1d1d1f"/>
-          <rect x="26" y="35" width="1" height="1" fill="#1d1d1f"/>
+          <rect x="9" y="29" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="13" y="29" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="15" y="29" width="3" height="1" fill="#c8d0e8"/>
+          <rect x="20" y="29" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="24" y="29" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="26" y="29" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="9" y="31" width="3" height="1" fill="#c8d0e8"/>
+          <rect x="14" y="31" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="18" y="31" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="21" y="31" width="3" height="1" fill="#c8d0e8"/>
+          <rect x="26" y="31" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="9" y="33" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="12" y="33" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="16" y="33" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="19" y="33" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="23" y="33" width="1" height="1" fill="#c8d0e8"/>
+          <rect x="25" y="33" width="3" height="1" fill="#c8d0e8"/>
+          <rect x="9" y="35" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="13" y="35" width="3" height="1" fill="#c8d0e8"/>
+          <rect x="18" y="35" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="22" y="35" width="2" height="1" fill="#c8d0e8"/>
+          <rect x="26" y="35" width="1" height="1" fill="#c8d0e8"/>
         </svg>
         <div class="dl-qr-url">xacobeapp.com</div>
       </div>
@@ -1078,12 +1401,12 @@
   <!-- FOOTER -->
   <footer class="dl-footer">
     <div class="dl-footer-logo">Xacobe<span>app</span></div>
-    <p>Guía gratuita del Camino de Santiago · Hecha con ❤️ en Vigo, Galicia</p>
+    <p id="dl-foot-sub">Guía gratuita del Camino de Santiago · Hecha con ❤️ en Vigo, Galicia</p>
     <p style="margin-top:4px">
       <a href="https://xacobeapp.com">xacobeapp.com</a>
     </p>
-    <p style="margin-top:12px;font-size:12px;color:#aaa">
-      App gratuita, sin publicidad. Versión v1166 · Disponible como PWA en iOS y Android
+    <p style="margin-top:12px;font-size:12px;color:#aaa" id="dl-foot-version">
+      App gratuita, sin publicidad. Versión v1186 · Disponible como PWA en iOS y Android
     </p>
   </footer>
 
@@ -1456,13 +1779,13 @@
     <!-- Título ornamental -->
     <div style='text-align:center;margin-bottom:0.6rem'>
       <div style='font-size:11px;color:rgba(26,8,0,0.4);letter-spacing:3px'>✦ ✦ ✦</div>
-      <div style='font-size:10px;color:rgba(26,8,0,0.45);letter-spacing:2px;text-transform:uppercase;font-style:italic;margin-top:2px'>Condiciones del Camino</div>
+      <div style='font-size:10px;color:rgba(26,8,0,0.72);letter-spacing:2px;text-transform:uppercase;font-style:italic;margin-top:2px'>Condiciones del Camino</div>
     </div>
     <div id='meteo-drawer-horas' style='display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;margin-bottom:1rem'>
-      <div style='color:rgba(26,8,0,0.45);font-size:13px;font-style:italic'>Obteniendo datos...</div>
+      <div style='color:rgba(26,8,0,0.72);font-size:13px;font-style:italic'>Obteniendo datos...</div>
     </div>
     <div id='meteo-drawer-resumen' style='background:rgba(0,0,0,0.15);border:1px solid #7a5010;border-radius:12px;padding:0.9rem 1rem;display:none;box-shadow:inset 0 1px 0 rgba(255,220,120,0.1)'>
-      <div id='meteo-resumen-dia-label' style='font-size:11px;font-weight:600;color:rgba(26,8,0,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px'>Resumen del día</div>
+      <div id='meteo-resumen-dia-label' style='font-size:11px;font-weight:600;color:rgba(26,8,0,0.75);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px'>Resumen del día</div>
       <div id='meteo-drawer-resumen-content' style='display:flex;gap:16px;flex-wrap:wrap'></div>
     </div>
     <div style='text-align:center;color:rgba(90,48,0,0.3);font-size:13px;letter-spacing:4px;margin-top:0.75rem'>✦ ✦ ✦</div>
@@ -1909,10 +2232,9 @@
     <div id='album-panel-titulo' style='display:none'></div>
     <div id='album-panel-contador' style='display:none'></div>
     <!-- Botones -->
-    <div style='flex-shrink:0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px'>
-      <button id='btn-porver-ranking' onclick='cerrarAlbumPanel();abrirPoiDrawer()' style='display:flex;align-items:center;justify-content:center;gap:3px;background:rgba(122,31,31,0.25);border:1px solid rgba(180,60,60,0.5);border-radius:8px;padding:6px 4px;color:#ffd0d0;font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>Por ver</button>
+    <div style='flex-shrink:0;display:grid;grid-template-columns:1fr 1fr;gap:5px'>
       <button id='btn-album-ranking' onclick='abrirAlbumDrawer()' style='display:flex;align-items:center;justify-content:center;gap:3px;background:rgba(0,0,0,0.18);border:1px solid #7a5010;border-radius:8px;padding:6px 4px;color:#fff8e8;font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif'>Álbum</button>
-      <button id='btn-ranking-coleccion' onclick='_abrirColeccionDesdeRanking()' style='display:flex;align-items:center;justify-content:center;gap:3px;background:rgba(80,50,0,0.3);border:1px solid rgba(200,160,0,0.55);border-radius:8px;padding:6px 4px;color:#ffe58a;font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;box-shadow:0 0 5px rgba(200,160,0,0.15)'>Colección</button>
+      <button id='btn-ranking-coleccion' onclick='_abrirColeccionDesdeRanking()' style='display:flex;align-items:center;justify-content:center;gap:3px;background:rgba(80,50,0,0.3);border:1px solid rgba(200,160,0,0.55);border-radius:8px;padding:6px 4px;color:#ffe58a;font-size:11px;font-weight:500;cursor:pointer;font-family:DM Sans,sans-serif;box-shadow:0 0 5px rgba(200,160,0,0.15)'>Tablero de juego</button>
     </div>
     <!-- Tarjeta ranking -->
     <div style='flex-shrink:0;background:rgba(0,0,0,0.18);border:1px solid #7a5010;border-radius:14px;padding:1rem;box-shadow:inset 0 1px 0 rgba(255,220,120,0.1)'>
@@ -4253,6 +4575,42 @@ function abrirAlbumPanel(origen) {
   function _intentarRender() {
     if (window._albumGetVisitas && window._getRango) {
       _renderAlbumPanel();
+      // ── Modal resumen ranking si hay cromos pendientes ──
+      setTimeout(function() {
+        try {
+          if (typeof _modalPergamino !== 'function') return;
+          if (!window._ocaGetCromosConKeys || !window._albumGetVisitas) return;
+          // Primero obtenemos el número de cromos abiertos para el rango
+          window._albumGetVisitas(function(visitas) {
+            var n = visitas ? visitas.filter(function(v){ return v && typeof v.num === 'number'; }).length : 0;
+            // Luego comprobamos si hay cromos en el mazo
+            window._ocaGetCromosConKeys(function(entries) {
+              try {
+                var mazo = entries.filter(function(e){ return e && e.item && !e.item.resuelto; });
+                var abiertos = entries.filter(function(e){ return e && e.item && e.item.resuelto; });
+                var numAb = {};
+                abiertos.forEach(function(e){ numAb[e.item.num] = (numAb[e.item.num]||0)+1; });
+                var casillas = Object.keys(numAb).length;
+                if (mazo.length === 0) return;
+                var t = (typeof T !== 'undefined' && T[idiomaActual]) ? T[idiomaActual] : {};
+                var rango = window._getRango ? window._getRango(casillas) : null;
+                var rangoTxt = rango ? ' ' + rango.emoji + ' <strong>' + rango.label + '</strong>.' : '';
+                var nCromos = 'Tienes ' + casillas + ' casillas en tu tablero.' + rangoTxt;
+                var mazoTxt = mazo.length === 1
+                  ? '🎴 Tienes <strong>1 cromo sin abrir</strong> en tu mazo. ¡Ábrelo desde la sección Tablero de Juego!'
+                  : '🎴 Tienes <strong>' + mazo.length + ' cromos sin abrir</strong> en tu mazo. ¡Ábrelos desde la sección Tablero de Juego!';
+                _modalPergamino({
+                  id: 'modal-ranking-aviso',
+                  titulo: nCromos,
+                  opciones: [{ emoji:'🎲', tit: 'Juego Oca — Abrir cromos del mazo', sub: 'Tablero de Juego', accion: function(){ _abrirColeccionDesdeRanking(); } }],
+                  cancelTxt: t.cerrar || 'Cerrar',
+                  extraHtml: '<div style="background:rgba(0,0,0,0.15);border-left:3px solid #c9a84c;border-radius:0 8px 8px 0;padding:10px 12px;font-size:13px;color:#1a0800;line-height:1.6">' + mazoTxt + '</div>'
+                });
+              } catch(e) { console.warn('modal-ranking inner:', e); }
+            });
+          });
+        } catch(e) { console.warn('modal-ranking-aviso:', e); }
+      }, 650);
     } else if (intentos++ < 20) {
       setTimeout(_intentarRender, 100);
     }
@@ -4868,6 +5226,15 @@ function _cargarMeteoDrawer(lat,lng) {
       var now=new Date(); var ha=now.getHours();
       var times=data.hourly.time; var ci=0;
       for(var i=0;i<times.length;i++){if(parseInt(times[i].split('T')[1])===ha){ci=i;break;}}
+      // Guardar datos clave para el asistente
+      window._meteoActual = {
+        temp: Math.round(data.hourly.temperature_2m[ci]),
+        code: data.hourly.weathercode[ci],
+        prob: data.hourly.precipitation_probability[ci],
+        maxT: data.daily ? Math.round(data.daily.temperature_2m_max[0]) : null,
+        minT: data.daily ? Math.round(data.daily.temperature_2m_min[0]) : null,
+        icon: (typeof WMO_ICONS!=='undefined'&&WMO_ICONS[data.hourly.weathercode[ci]]) ? WMO_ICONS[data.hourly.weathercode[ci]] : '🌡️'
+      };
       var horasEl=document.getElementById('meteo-drawer-horas');
       if(horasEl){
         var html='';
@@ -5423,7 +5790,7 @@ function abrirHeroModal() {
     inner.appendChild(icono);
 
     var msg = document.createElement('p');
-    msg.style.cssText = 'font-size:15px;color:#1a0800;text-align:center;line-height:1.7;margin-bottom:16px';
+    msg.style.cssText = 'font-size:15px;color:#1a0800;text-align:left;line-height:1.7;margin-bottom:16px';
     _cascoTypewriter(inner, _t.asistBienCamino||'¡Buen Camino, peregrino!', 'justify-content:center', 42, function(cascoImg) {
       _twSeq([[msg, _capital(_t.asistGratisMsg||'Esta guía es <strong style="color:#fff">gratuita, sin publicidad y sin cookies</strong>. Solo el apoyo de peregrinos como tú hace posible que siga creciendo y libre para todos. 🙏'), 28, inner]], cascoImg);
     });
@@ -5470,25 +5837,53 @@ function abrirHeroModal() {
   }
 
   function _subtituloContextual() {
-    var n = _numCromosActuales();
-    var ruta = (typeof rutaPuntos !== 'undefined') ? rutaPuntos.length : 0;
-    if (n === 0 && ruta === 0) {
-      var frases = _t.asistSubPrimera || ['Parece que es tu primera vez por aquí. ¡Bienvenido al Camino!','Todo está listo para tu peregrinación. ¿Por dónde empezamos?','El Camino empieza con el primer paso. ¿Damos el tuyo?'];
-      return frases[Math.floor(Math.random() * frases.length)];
+    var _t = T[idiomaActual] || T.es;
+    var now = new Date();
+    var dias = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+    var diasGL = ['domingo','luns','martes','mércores','xoves','venres','sábado'];
+    var diasEN = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    var diaIdx = now.getDay();
+    var diaNom = idiomaActual==='gl' ? diasGL[diaIdx] : idiomaActual==='en' ? diasEN[diaIdx] : dias[diaIdx];
+    var m = window._meteoActual;
+
+    // Frases aleatorias según tiempo y día
+    var mensajes;
+    if (!m) {
+      // Sin datos meteorológicos
+      var sinMeteo = {
+        es: ['¡Buen '+diaNom+', peregrino! El Camino te espera.','Feliz '+diaNom+'. ¿Damos el primer paso hoy?','¡Hoy es '+diaNom+'! Un buen día para explorar.'],
+        gl: ['¡Bo '+diaNom+', peregrino! O Camiño agárdache.','Bo '+diaNom+'. ¿Damos o primeiro paso hoxe?','¡Hoxe é '+diaNom+'! Un bo día para explorar.'],
+        en: ['Happy '+diaNom+', pilgrim! The Way awaits.','Good '+diaNom+'. Shall we take the first step today?','Today is '+diaNom+'! A good day to explore.']
+      };
+      var arr = sinMeteo[idiomaActual] || sinMeteo.es;
+      return arr[Math.floor(Math.random()*arr.length)];
     }
-    if (n > 0 && ruta === 0) {
-      var rango = (window._getRango) ? window._getRango(n) : null;
-      var rangoTxt = rango ? (_t.asistSubEres||' Eres ') + rango.emoji + ' ' + rango.label + '.' : '';
-      var base = (n !== 1 ? (_t.asistSubCromosP||'Llevas {n} cromos en tu álbum.') : (_t.asistSubCromos||'Llevas {n} cromo en tu álbum.')).replace('{n}',n);
-      return base + rangoTxt + (_t.asistSubSigue||' ¡Sigue así!');
+
+    var icon = m.icon || '🌡️';
+    var temp = m.temp + '°';
+    var lluvia = m.prob > 50;
+    var frio = m.temp < 10;
+    var calor = m.temp > 26;
+    var viento = false; // no tenemos viento actual sin más datos
+
+    var frases;
+    if (idiomaActual === 'en') {
+      if (lluvia)   frases = ['Happy '+diaNom+'! '+icon+' '+temp+' and '+m.prob+'% chance of rain — bring your cape, pilgrim.','It\'s '+diaNom+', '+icon+' '+temp+'. Looks like rain — watch those stone paths!',''+icon+' '+temp+' this '+diaNom+' with rain likely. A wet Camino is still a Camino!'];
+      else if (frio) frases = ['Good '+diaNom+'! '+icon+' '+temp+' — wrap up warm, pilgrim.',''+icon+' '+temp+' this '+diaNom+'. Cold but clear — perfect light for the route.','It\'s a fresh '+diaNom+' at '+icon+' '+temp+'. Bundle up and walk on!'];
+      else if (calor) frases = ['Happy '+diaNom+'! '+icon+' '+temp+' — stay hydrated on the Camino.',''+icon+' Hot '+diaNom+' at '+temp+'! Early start recommended.','It\'s '+icon+' '+temp+' this '+diaNom+'. Shade and water are your best friends today.'];
+      else           frases = ['Good '+diaNom+'! '+icon+' '+temp+' — ideal Camino weather.',''+icon+' '+temp+' this '+diaNom+'. A great day to discover new places.','Happy '+diaNom+'! '+icon+' '+temp+' — the Way is calling.'];
+    } else if (idiomaActual === 'gl') {
+      if (lluvia)   frases = ['Bo '+diaNom+'! '+icon+' '+temp+' e '+m.prob+'% de choiva — non esquezas o chuvasqueiro, peregrino.','Hoxe é '+diaNom+', '+icon+' '+temp+'. Parece que vai chover — ollo cos camiños de pedra!',''+icon+' '+temp+' este '+diaNom+' con choiva probable. Un Camiño mollado tamén é Camiño!'];
+      else if (frio) frases = ['Bo '+diaNom+'! '+icon+' '+temp+' — abrígate ben, peregrino.',''+icon+' '+temp+' este '+diaNom+'. Frío pero despexado — luz perfecta para a ruta.','Fresco '+diaNom+' a '+icon+' '+temp+'. Abrígate e segue camiñando!'];
+      else if (calor) frases = ['Bo '+diaNom+'! '+icon+' '+temp+' — bebe auga e descansa á sombra.',''+icon+' '+diaNom+' quente a '+temp+'! Recoméndase saír cedo.','Fai '+icon+' '+temp+' este '+diaNom+'. A sombra e a auga son os teus mellores amigos hoxe.'];
+      else           frases = ['Bo '+diaNom+'! '+icon+' '+temp+' — tempo ideal para o Camiño.',''+icon+' '+temp+' este '+diaNom+'. Un bo día para descubrir novos lugares.','Bo '+diaNom+'! '+icon+' '+temp+' — o Camiño chámache.'];
+    } else {
+      if (lluvia)   frases = ['¡Feliz '+diaNom+'! '+icon+' '+temp+' y '+m.prob+'% de probabilidad de lluvia — no olvides el chubasquero, peregrino.','Hoy es '+diaNom+', '+icon+' '+temp+'. Parece que lloverá — ¡ojo con los caminos de piedra!',''+icon+' '+temp+' este '+diaNom+' con lluvia probable. ¡Un Camino mojado también es Camino!'];
+      else if (frio) frases = ['¡Buen '+diaNom+'! '+icon+' '+temp+' — abrígate bien, peregrino.',''+icon+' '+temp+' este '+diaNom+'. Frío pero despejado — luz perfecta para la ruta.','¡'+diaNom+' fresquito a '+icon+' '+temp+'! Abrígate y sigue caminando.'];
+      else if (calor) frases = ['¡Feliz '+diaNom+'! '+icon+' '+temp+' — hidrátate bien en el Camino.',''+icon+' '+diaNom+' caluroso a '+temp+'! Se recomienda salir temprano.','Hace '+icon+' '+temp+' este '+diaNom+'. La sombra y el agua son tus mejores aliados hoy.'];
+      else           frases = ['¡Buen '+diaNom+'! '+icon+' '+temp+' — tiempo ideal para el Camino.',''+icon+' '+temp+' este '+diaNom+'. Un gran día para descubrir nuevos lugares.','¡Feliz '+diaNom+'! '+icon+' '+temp+' — el Camino te llama.'];
     }
-    if (ruta > 0 && n === 0) {
-      return (ruta !== 1 ? (_t.asistSubRutaP||'Tienes {n} lugares en ruta. ¿Salimos?') : (_t.asistSubRuta||'Tienes {n} lugar en ruta. ¿Salimos?')).replace('{n}',ruta);
-    }
-    if (ruta > 0 && n > 0) {
-      return (n !== 1 ? (_t.asistSubAmbosP||'Llevas {n} cromos y una ruta con {r} paradas. ¡El Camino te espera!') : (_t.asistSubAmbos||'Llevas {n} cromo y una ruta con {r} parada. ¡El Camino te espera!')).replace('{n}',n).replace('{r}',ruta);
-    }
-    return _t.asistSubDefault||'El Camino te espera. ¿En qué puedo ayudarte?';
+    return frases[Math.floor(Math.random()*frases.length)];
   }
 
   // Inserta un bloque de curiosidad con estilo discreto
@@ -6169,7 +6564,7 @@ function abrirHeroModal() {
       var _detPairs = [];
       op.detalle.forEach(function(parrafo, i) {
         var p = document.createElement('p');
-        p.style.cssText = 'font-size:15px;color:' + (i === op.detalle.length - 1 ? 'rgba(26,8,0,0.55)' : '#1a0800') + ';line-height:1.7;margin-bottom:8px';
+        p.style.cssText = 'font-size:15px;color:' + (i === op.detalle.length - 1 ? 'rgba(26,8,0,0.78)' : '#1a0800') + ';line-height:1.7;margin-bottom:8px';
         _detPairs.push([p, parrafo, 26, textos]);
       });
 
@@ -8769,9 +9164,9 @@ function mostrarToast(msg) {
     t = document.createElement('div');
     t.id = 'map-toast';
     t.style.cssText = 'position:fixed;bottom:72px;left:50%;transform:translateX(-50%);z-index:99999;pointer-events:none;display:flex;align-items:center;gap:10px;padding:9px 16px 9px 10px;border-radius:24px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:500;white-space:nowrap;transition:opacity 0.35s;max-width:88vw;box-sizing:border-box;background:rgba(0,0,0,0.75);color:#fff;box-shadow:0 4px 18px rgba(0,0,0,0.35);backdrop-filter:blur(8px)';
-    var cascoEl = document.createElement('img');
-    cascoEl.src = 'https://i.postimg.cc/m2TbCRTs/casc4.png';
-    cascoEl.style.cssText = 'width:30px;height:30px;object-fit:contain;flex-shrink:0';
+    var cascoEl = document.createElement('span');
+    cascoEl.style.cssText = 'font-size:22px;flex-shrink:0;line-height:1;display:inline-block';
+    cascoEl.textContent = '⚔️';
     cascoEl.id = 'map-toast-casco';
     var txtEl = document.createElement('span');
     txtEl.id = 'map-toast-txt';
@@ -9519,9 +9914,10 @@ function _modalPergamino(config) {
 
   var overlay = document.createElement('div');
   overlay.id = config.id;
-  overlay.style.cssText = 'position:fixed;inset:0;z-index:19999;background:rgba(0,0,0,0.72);display:flex;align-items:center;justify-content:center;font-family:DM Sans,sans-serif';
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.72);display:flex;align-items:center;justify-content:center;font-family:DM Sans,sans-serif';
 
   var box = document.createElement('div');
+  box.className = 'pergamino-modal-box';
   box.style.cssText = 'background:radial-gradient(ellipse at 15% 20%,rgba(90,50,0,0.18) 0%,transparent 55%),radial-gradient(ellipse at 85% 75%,rgba(60,30,0,0.20) 0%,transparent 50%),linear-gradient(180deg,#c9933a 0%,#b87d28 40%,#a86d18 100%);border-radius:20px;padding:22px 20px 20px;width:min(320px,90vw);box-sizing:border-box;position:relative;border:2.5px solid #5a3008;box-shadow:0 8px 40px rgba(0,0,0,0.55),inset 0 0 40px rgba(60,25,0,0.2),inset 0 1px 0 rgba(255,220,120,0.15)';
 
   // Grid líneas
@@ -9550,8 +9946,16 @@ function _modalPergamino(config) {
   var subEl = null;
   if (config.subtitulo) {
     subEl = document.createElement('p');
-    subEl.style.cssText = 'font-size:12px;color:rgba(26,8,0,0.55);text-align:center;margin:0 0 14px;position:relative;z-index:1;font-style:italic';
+    subEl.style.cssText = 'font-size:12px;color:rgba(26,8,0,0.78);text-align:left;margin:0 0 14px;position:relative;z-index:1;font-style:italic';
     box.appendChild(subEl);
+  }
+
+  // extraHtml opcional (bloque entre subtítulo y separador)
+  if (config.extraHtml) {
+    var extraEl = document.createElement('div');
+    extraEl.style.cssText = 'position:relative;z-index:1;margin-bottom:12px';
+    extraEl.innerHTML = config.extraHtml;
+    box.appendChild(extraEl);
   }
 
   // Separador ornamental
@@ -9612,7 +10016,9 @@ function _modalPergamino(config) {
     if (subEl && config.subtitulo) {
       setTimeout(function() {
         cascoImg.style.animation = '_casc-pulse 2.4s ease-in-out infinite';
-        _twGlobal(subEl, config.subtitulo, 28, function() {
+        // Velocidad adaptativa: textos largos van más rápido para no cansar
+        var subSpeed = config.subtitulo.length > 80 ? 18 : 28;
+        _twGlobal(subEl, config.subtitulo, subSpeed, function() {
           cascoImg.style.animation = 'none';
           setTimeout(function() { box.appendChild(optsWrap); if (cancelBtn) box.appendChild(cancelBtn); }, 80);
         });
@@ -9639,7 +10045,7 @@ function limpiarRuta() {
       cancelTxt: tl.cancelar || 'Cancelar',
       opciones: [
         { emoji:'🗑️', tit: tl.confirmLimpiarOk || 'Sí, eliminar la ruta',
-          colorTit:'#dc2626', estilo:'background:rgba(220,38,38,0.12);border:1.5px solid #fca5a5;',
+          colorTit:'#7a1a1a', estilo:'background:rgba(120,30,30,0.18);border:1.5px solid rgba(160,60,60,0.6);',
           accion: function(){ _ejecutarLimpiarRutaSoloMapa(true); } }
       ]
     });
@@ -9649,7 +10055,7 @@ function limpiarRuta() {
   if (hayActiva) {
     opciones.push({ emoji:'🗺️', tit: tl.limpiarOptMapaTit||'Limpiar solo el mapa',
       sub: tl.limpiarOptMapaSub||'Ruta guardada permanece disponible',
-      colorTit:'#1a0800', colorSub:'rgba(26,8,0,0.55)',
+      colorTit:'#1a0800', colorSub:'rgba(26,8,0,0.75)',
       estilo:'background:rgba(255,255,255,0.18);border:1.5px solid #7a5010;',
       accion: function(){ _ejecutarLimpiarRutaSoloMapa(); } });
   }
@@ -9660,8 +10066,8 @@ function limpiarRuta() {
     accion: function(){ _borrarSoloMemoria(); } });
   opciones.push({ emoji:'🗑️', tit: tl.limpiarOptTodoTit||'Limpiar memoria y mapa',
     sub: tl.limpiarOptTodoSub||'Borra todo — mapa y memoria guardada',
-    colorTit:'#dc2626', colorSub:'#ef4444',
-    estilo:'background:rgba(220,38,38,0.12);border:1.5px solid #fca5a5;',
+    colorTit:'#7a1a1a', colorSub:'rgba(140,50,50,0.85)',
+    estilo:'background:rgba(120,30,30,0.18);border:1.5px solid rgba(160,60,60,0.6);',
     accion: function(){ _ejecutarLimpiarRuta(); } });
   _modalPergamino({
     id: 'modal-confirm-limpiar',
@@ -11963,6 +12369,118 @@ var T={
     rankingVisitas:'visits',
   }
 };
+// ── TRADUCCIONES LANDING DESKTOP ────────────────────────────
+window._dlT = {
+  es:{
+    eyebrow:'Guía Xacobea Interactiva',
+    heroTitle:'Tu compañera en el <em>Camino</em>',
+    heroDesc:'Xacobeapp es una guía gratuita para el Camino de Santiago, intuitiva y de muy fácil manejo, que te mostrará todo el patrimonio jacobeo a tu alrededor. Mapas interactivos, creador de rutas, etapas, avisos rápidos de emergencia, POIs exclusivos especializados en el patrimonio xacobeo, navegación GPS, brújula… y otras muchas utilidades pensadas para el peregrino, pero también para todos los que disfrutan conociendo y explorando nuevos espacios. Toda una navaja suiza del peregrino en tu bolsillo, a tu servicio.',
+    btnMovil:'📱 Abrir en tu móvil',
+    metaGratis:'Gratuita', metaGratis2:' y sin anuncios',
+    metaRutas:'📍 Los principales caminos jacobeos, con sus etapas y POIs exclusivos',
+    metaOffline:'funciona sin red',
+    statPoi:'Puntos de interés, en aumento', statEtapas:'Etapas documentadas de los 5 caminos principales', statCoste:'Coste para el peregrino', statPub:'Publicidad y cookies',
+    featTitle:'Todo lo que necesitas en el Camino', featSub:'Diseñada para usarse en el móvil mientras caminas',
+    f1t:'Mapa interactivo offline',f1d:'Tiles de OpenStreetMap cacheadas. Navega sin conexión a lo largo de toda la ruta, con tu posición GPS en tiempo real.',
+    f2t:'Navegación por voz',f2d:'Indicaciones habladas en gallego, español e inglés. El móvil te avisa de cada giro sin tener que mirar la pantalla.',
+    f3t:'Patrimonio jacobeo',f3d:'Iglesias, monasterios, castros y vestigios arqueológicos documentados con textos históricos y POIs exclusivos especializados en el patrimonio xacobeo.',
+    f4t:'Juego de la Oca Jacobeo',f4d:'63 casillas, cromos coleccionables que se desbloquean por GPS al pasar cerca de los puntos. Tu peregrinación tiene ahora una dimensión lúdica.',
+    f5t:'Albergues y servicios',f5d:'Albergues, fuentes, farmacias y puntos de servicio geolocalizados. Búsqueda en tiempo real con radio expandible.',
+    f6t:'Trilingüe',f6d:'Interfaz completa en gallego, castellano e inglés. Cambia el idioma en cualquier momento sin reiniciar.',
+    f7t:'Emergencias de acceso rápido',f7d:'Sección de emergencias siempre a un toque, con números útiles y recursos para cualquier inconveniente que pueda surgir en el Camino.',
+    f8t:'Guía por flechas de color',f8d:'Sistema de navegación visual mediante flechas de color que te orientan en cada momento, sin perderte ni un giro del Camino.',
+    f9t:'Crea y guarda tu ruta',f9d:'Selecciona los puntos que quieres visitar, construye tu ruta personalizada y guárdala para consultarla cuando la necesites.',
+    f10t:'Tus propios puntos en el mapa',f10d:'Crea puntos de interés personalizados y añádelos directamente a tu ruta. Tu Camino, a tu manera.',
+    f11t:'Y mucho más…',f11d:'Otras muchas y sorprendentes utilidades para que tu Camino pueda ser más atractivo y seguro. Descúbrelas tú mismo.',
+    galTitle:'La app en acción', galSub:'Capturas reales desde el móvil',
+    gal1:'Mapa GPS',gal1i:'Mapa interactivo',gal2:'Patrimonio',gal2i:'Historia y patrimonio',
+    gal3:'Gamificación',gal3i:'Juego de la Oca',gal4:'Navegación',gal4i:'Brújula y navegación',
+    gal5:'Servicios',gal5i:'Albergues y servicios',
+    galHint:'✨ Escanea el QR para ver la app real en tu móvil',
+    rutTitle:'Rutas cubiertas', rutSub:'Cinco caminos jacobeos con etapas, POIs y navegación GPS',
+    rut1:'Camino Portugués de la Costa',rut2:'Camino Francés',rut3:'Camino del Norte',rut4:'Camino Primitivo',rut5:'Camino Inglés',
+    qrEyebrow:'📱 Versión móvil', qrTitle:'La app está diseñada para tu móvil',
+    qrDesc:'Xacobeapp es una Progressive Web App optimizada para pantallas de móvil. Escanea el QR con la cámara de tu teléfono para abrirla directamente, sin descargas.',
+    qrS1:'Abre la cámara de tu móvil',qrS2:'Apunta al código QR de la derecha',qrS3:'Toca el enlace que aparece → xacobeapp.com',qrS4:'Instálala como app desde el navegador',
+    footSub:'Guía gratuita del Camino de Santiago · Hecha con ❤️ en Vigo, Galicia',
+    footVersion:'App gratuita, sin publicidad. Versión v1187 · Disponible como PWA en iOS y Android',
+    navFunciones:'Funciones',navCapturas:'Capturas',navRutas:'Rutas',navQr:'Ver en móvil →',
+    badge:'🐚 Gratuita · Sin publicidad'
+  },
+  gl:{
+    eyebrow:'Guía Xacobea Interactiva',
+    heroTitle:'A túa compañeira no <em>Camiño</em>',
+    heroDesc:'Xacobeapp é unha guía gratuíta para o Camiño de Santiago, intuitiva e moi fácil de usar, que che mostrará todo o patrimonio xacobeo ao teu redor. Mapas interactivos, creador de rutas, etapas, avisos rápidos de emerxencia, POIs exclusivos especializados no patrimonio xacobeo, navegación GPS, brúxula… e moitas outras utilidades pensadas para o peregrino, pero tamén para todos os que gozan coñecendo e explorando novos espazos. Toda unha navalla suíza do peregrino no teu peto, ao teu servizo.',
+    btnMovil:'📱 Abrir no teu móbil',
+    metaGratis:'Gratuíta', metaGratis2:' e sen anuncios',
+    metaRutas:'📍 Os principais camiños xacobeos, coas súas etapas e POIs exclusivos',
+    metaOffline:'funciona sen rede',
+    statPoi:'Puntos de interese, en aumento', statEtapas:'Etapas documentadas dos 5 camiños principais', statCoste:'Custo para o peregrino', statPub:'Publicidade e cookies',
+    featTitle:'Todo o que precisas no Camiño', featSub:'Deseñada para usarse no móbil mentres camiñas',
+    f1t:'Mapa interactivo sen conexión',f1d:'Tiles de OpenStreetMap en caché. Navega sen conexión ao longo de toda a ruta, coa túa posición GPS en tempo real.',
+    f2t:'Navegación por voz',f2d:'Indicacións faladas en galego, español e inglés. O móbil avísate de cada xiro sen ter que mirar a pantalla.',
+    f3t:'Patrimonio xacobeo',f3d:'Igrexas, mosteiros, castros e vestixios arqueolóxicos documentados con textos históricos e POIs exclusivos especializados no patrimonio xacobeo.',
+    f4t:'Xogo da Oca Xacobeo',f4d:'63 casillas, cromos coleccionables que se desbloquean por GPS ao pasar preto dos puntos. A túa peregrinación ten agora unha dimensión lúdica.',
+    f5t:'Albergues e servizos',f5d:'Albergues, fontes, farmacias e puntos de servizo xeolocalizados. Busca en tempo real con radio expandible.',
+    f6t:'Trilingüe',f6d:'Interface completa en galego, castelán e inglés. Cambia o idioma en calquera momento sen reiniciar.',
+    f7t:'Emerxencias de acceso rápido',f7d:'Sección de emerxencias sempre a un toque, con números útiles e recursos para calquera imprevisto que poida xurdir no Camiño.',
+    f8t:'Guía por frechas de cor',f8d:'Sistema de navegación visual mediante frechas de cor que te orientan en cada momento, sen perderte nin un xiro do Camiño.',
+    f9t:'Crea e garda a túa ruta',f9d:'Selecciona os puntos que queres visitar, constrúe a túa ruta personalizada e gárdaa para consultala cando a necesites.',
+    f10t:'Os teus propios puntos no mapa',f10d:'Crea puntos de interese personalizados e engádeos directamente á túa ruta. O teu Camiño, ao teu xeito.',
+    f11t:'E moito máis…',f11d:'Moitas outras e sorprendentes utilidades para que o teu Camiño sexa máis atractivo e seguro. Descúbrenas ti mesmo.',
+    galTitle:'A app en acción', galSub:'Capturas reais desde o móbil',
+    gal1:'Mapa GPS',gal1i:'Mapa interactivo',gal2:'Patrimonio',gal2i:'Historia e patrimonio',
+    gal3:'Gamificación',gal3i:'Xogo da Oca',gal4:'Navegación',gal4i:'Brúxula e navegación',
+    gal5:'Servizos',gal5i:'Albergues e servizos',
+    galHint:'✨ Escanea o QR para ver a app real no teu móbil',
+    rutTitle:'Rutas cubertas', rutSub:'Cinco camiños xacobeos con etapas, POIs e navegación GPS',
+    rut1:'Camiño Portugués da Costa',rut2:'Camiño Francés',rut3:'Camiño do Norte',rut4:'Camiño Primitivo',rut5:'Camiño Inglés',
+    qrEyebrow:'📱 Versión móbil', qrTitle:'A app está deseñada para o teu móbil',
+    qrDesc:'Xacobeapp é unha Progressive Web App optimizada para pantallas de móbil. Escanea o QR coa cámara do teu teléfono para abrila directamente, sen descargas.',
+    qrS1:'Abre a cámara do teu móbil',qrS2:'Apunta ao código QR da dereita',qrS3:'Toca a ligazón que aparece → xacobeapp.com',qrS4:'Instálaa como app desde o navegador',
+    footSub:'Guía gratuíta do Camiño de Santiago · Feita con ❤️ en Vigo, Galicia',
+    footVersion:'App gratuíta, sen publicidade. Versión v1187 · Dispoñible como PWA en iOS e Android',
+    navFunciones:'Funcións',navCapturas:'Capturas',navRutas:'Rutas',navQr:'Ver no móbil →',
+    badge:'🐚 Gratuíta · Sen publicidade'
+  },
+  en:{
+    eyebrow:'Interactive Jacobean Guide',
+    heroTitle:'Your companion on the <em>Camino</em>',
+    heroDesc:'Xacobeapp is a free guide to the Camino de Santiago — intuitive and easy to use — showing you all the Jacobean heritage around you. Interactive maps, route builder, stages, quick emergency alerts, exclusive POIs specialising in Jacobean heritage, GPS navigation, compass… and many more utilities designed for pilgrims and for everyone who enjoys discovering and exploring new places. A true Swiss army knife for the pilgrim, right in your pocket.',
+    btnMovil:'📱 Open on your phone',
+    metaGratis:'Free', metaGratis2:' and ad-free',
+    metaRutas:'📍 The main Jacobean routes, with their stages and exclusive POIs',
+    metaOffline:'works offline',
+    statPoi:'Points of interest, growing', statEtapas:'Documented stages across the 5 main routes', statCoste:'Cost for the pilgrim', statPub:'Ads and cookies',
+    featTitle:'Everything you need on the Camino', featSub:'Designed to be used on your phone while you walk',
+    f1t:'Offline interactive map',f1d:'Cached OpenStreetMap tiles. Navigate without a connection along the entire route, with your GPS position in real time.',
+    f2t:'Voice navigation',f2d:'Spoken directions in Galician, Spanish and English. Your phone alerts you to every turn without needing to look at the screen.',
+    f3t:'Jacobean heritage',f3d:'Churches, monasteries, hillforts and archaeological remains documented with historical texts and exclusive POIs specialising in Jacobean heritage.',
+    f4t:'Jacobean Goose Game',f4d:'63 squares, collectible stickers unlocked by GPS when you pass near points of interest. Your pilgrimage now has a playful dimension.',
+    f5t:'Hostels and services',f5d:'Geolocated hostels, fountains, pharmacies and service points. Real-time search with expandable radius.',
+    f6t:'Trilingual',f6d:'Full interface in Galician, Spanish and English. Change language at any time without restarting.',
+    f7t:'Quick-access emergencies',f7d:'Emergency section always one tap away, with useful numbers and resources for any incident that may arise on the Camino.',
+    f8t:'Colour-arrow guide',f8d:'Visual navigation system using colour arrows to guide you at every moment, so you never miss a turn on the Camino.',
+    f9t:'Create and save your route',f9d:'Select the points you want to visit, build your personalised route and save it to consult whenever you need it.',
+    f10t:'Your own points on the map',f10d:'Create personalised points of interest and add them directly to your route. Your Camino, your way.',
+    f11t:'And much more…',f11d:'Many more surprising features to make your Camino more enjoyable and safer. Discover them for yourself.',
+    galTitle:'The app in action', galSub:'Real screenshots from the phone',
+    gal1:'GPS Map',gal1i:'Interactive map',gal2:'Heritage',gal2i:'History and heritage',
+    gal3:'Gamification',gal3i:'Goose Game',gal4:'Navigation',gal4i:'Compass and navigation',
+    gal5:'Services',gal5i:'Hostels and services',
+    galHint:'✨ Scan the QR to see the real app on your phone',
+    rutTitle:'Routes covered', rutSub:'Five Jacobean routes with stages, POIs and GPS navigation',
+    rut1:'Portuguese Coastal Way',rut2:'French Way',rut3:'Northern Way',rut4:'Primitive Way',rut5:'English Way',
+    qrEyebrow:'📱 Mobile version', qrTitle:'The app is designed for your phone',
+    qrDesc:'Xacobeapp is a Progressive Web App optimised for mobile screens. Scan the QR with your phone camera to open it directly, no download needed.',
+    qrS1:'Open your phone camera',qrS2:'Point it at the QR code on the right',qrS3:'Tap the link that appears → xacobeapp.com',qrS4:'Install it as an app from your browser',
+    footSub:'Free guide to the Camino de Santiago · Made with ❤️ in Vigo, Galicia',
+    footVersion:'Free app, no ads. Version v1187 · Available as PWA on iOS and Android',
+    navFunciones:'Features',navCapturas:'Screenshots',navRutas:'Routes',navQr:'Open on phone →',
+    badge:'🐚 Free · No ads'
+  }
+};
+
 function cambiarIdioma(lang){
   idiomaActual=lang;fraseIdx=0;
   try{localStorage.setItem('idiomaActual',lang);}catch(e){}
@@ -12270,6 +12788,71 @@ function cambiarIdioma(lang){
   el=document.getElementById('sos-cruzroja-label');if(el)el.textContent=t.cruzRojaLabel||'Cruz Roja · Camino de Santiago';
   // Panel Cómo usar
   el=document.getElementById('comousar-h2-panel');if(el)el.textContent=t.comoUsarPanelTitulo||t.comoUsarH2;
+
+  // ── LANDING DESKTOP ──────────────────────────────────────
+  var dl = window._dlT && window._dlT[lang] ? window._dlT[lang] : window._dlT && window._dlT.es;
+  if(dl){
+    var _s=function(id,txt){var e=document.getElementById(id);if(e)e.textContent=txt;};
+    var _h=function(id,txt){var e=document.getElementById(id);if(e)e.innerHTML=txt;};
+    var _dlEy=document.getElementById('dl-eyebrow');
+    if(_dlEy){var _et=_dlEy.querySelector('.ey-text');if(_et)_et.textContent=dl.eyebrow;}
+    // _s('dl-eyebrow', dl.eyebrow); — gestionado por spans internos
+    _h('dl-hero-title',    dl.heroTitle);
+    _s('dl-hero-desc',     dl.heroDesc);
+    _s('dl-btn-movil',     dl.btnMovil);
+    _s('dl-meta-gratis',   dl.metaGratis);
+    _s('dl-meta-gratis2',  dl.metaGratis2);
+    _s('dl-meta-rutas',    dl.metaRutas);
+    _s('dl-meta-offline',  dl.metaOffline);
+    _s('dl-stat-poi',      dl.statPoi);
+    _s('dl-stat-etapas',   dl.statEtapas);
+    _s('dl-stat-coste',    dl.statCoste);
+    _s('dl-stat-pub',      dl.statPub);
+    _s('dl-feat-title',    dl.featTitle);
+    _s('dl-feat-sub',      dl.featSub);
+    _s('dl-f1-t',dl.f1t);_s('dl-f1-d',dl.f1d);
+    _s('dl-f2-t',dl.f2t);_s('dl-f2-d',dl.f2d);
+    _s('dl-f3-t',dl.f3t);_s('dl-f3-d',dl.f3d);
+    _s('dl-f4-t',dl.f4t);_s('dl-f4-d',dl.f4d);
+    _s('dl-f5-t',dl.f5t);_s('dl-f5-d',dl.f5d);
+    _s('dl-f6-t',dl.f6t);_s('dl-f6-d',dl.f6d);
+    _s('dl-f7-t',dl.f7t);_s('dl-f7-d',dl.f7d);
+    _s('dl-f8-t',dl.f8t);_s('dl-f8-d',dl.f8d);
+    _s('dl-f9-t',dl.f9t);_s('dl-f9-d',dl.f9d);
+    _s('dl-f10-t',dl.f10t);_s('dl-f10-d',dl.f10d);
+    _s('dl-f11-t',dl.f11t);_s('dl-f11-d',dl.f11d);
+    _s('dl-gal-title',   dl.galTitle);
+    _s('dl-gal-sub',     dl.galSub);
+    _s('dl-gal1',dl.gal1);_s('dl-gal1-inner',dl.gal1i);
+    _s('dl-gal2',dl.gal2);_s('dl-gal2-inner',dl.gal2i);
+    _s('dl-gal3',dl.gal3);_s('dl-gal3-inner',dl.gal3i);
+    _s('dl-gal4',dl.gal4);_s('dl-gal4-inner',dl.gal4i);
+    _s('dl-gal5',dl.gal5);_s('dl-gal5-inner',dl.gal5i);
+    _s('dl-gal-hint',    dl.galHint);
+    _s('dl-rut-title',   dl.rutTitle);
+    _s('dl-rut-sub',     dl.rutSub);
+    _s('dl-rut1',dl.rut1);_s('dl-rut2',dl.rut2);_s('dl-rut3',dl.rut3);
+    _s('dl-rut4',dl.rut4);_s('dl-rut5',dl.rut5);
+    _s('dl-qr-eyebrow',  dl.qrEyebrow);
+    _s('dl-qr-title',    dl.qrTitle);
+    _s('dl-qr-desc',     dl.qrDesc);
+    _s('dl-qr-s1',dl.qrS1);_s('dl-qr-s2',dl.qrS2);
+    _s('dl-qr-s3',dl.qrS3);_s('dl-qr-s4',dl.qrS4);
+    _s('dl-foot-sub',    dl.footSub);
+    _s('dl-foot-version',dl.footVersion);
+    // Nav header desktop landing
+    var _dlNav=document.querySelector('.dl-header-nav');
+    if(_dlNav){
+      var _na=_dlNav.querySelectorAll('a');
+      if(_na[0])_na[0].textContent=dl.navFunciones;
+      if(_na[1])_na[1].textContent=dl.navCapturas;
+      if(_na[2])_na[2].textContent=dl.navRutas;
+      if(_na[3])_na[3].textContent=dl.navQr;
+    }
+    // Badge header
+    var _badge=document.querySelector('.dl-header-badge');
+    if(_badge)_badge.textContent=dl.badge;
+  }
 }
 
 // ============================================================
@@ -12642,7 +13225,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1181";
+var _APP_VERSION = "v1216";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -13600,7 +14183,7 @@ function _renderTableroOca() {
           +'<div style="flex:1">'
           +'<div style="font-size:15px;font-weight:700;color:#F5C800;margin-bottom:3px">'+(_tTab.mazoTitulo||'Mazo sin abrir')+'</div>'
           +'<div style="font-size:14px;color:rgba(26,8,0,0.65)">'+(mazo.length>1?'×'+mazo.length+' '+(_tTab.mazoPendientes||'cromos pendientes'):'1 '+(_tTab.mazoPendiente||'cromo pendiente'))+'</div>'
-          +'<div style="font-size:13px;color:rgba(26,8,0,0.45);margin-top:2px">'+(_tTab.mazoTap||'Pulsa para abrir el siguiente')+'</div>'
+          +'<div style="font-size:13px;color:rgba(26,8,0,0.75);margin-top:2px">'+(_tTab.mazoTap||'Pulsa para abrir el siguiente')+'</div>'
           +'</div>'
           +'<div style="background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:1.5px solid #4a7a2e;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;font-family:IM Fell English,serif;white-space:nowrap;flex-shrink:0">'+(_tTab.mazoAbrir||'Abrir')+'</div>';
         mazoEl.addEventListener('mouseenter',function(){this.style.background='rgba(0,0,0,0.25)';});
@@ -14356,7 +14939,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1181</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1216</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
