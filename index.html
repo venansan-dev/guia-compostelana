@@ -5223,14 +5223,15 @@ function _cargarMeteoDrawer(lat,lng) {
     if(xhr.readyState!==4||xhr.status!==200) return;
     try {
       var data=JSON.parse(xhr.responseText);
-      var now=new Date(); var ha=now.getHours();
+      var now=new Date(); var ha=now.getHours(); var haF=Math.min(ha+2,23);
       var times=data.hourly.time; var ci=0;
-      for(var i=0;i<times.length;i++){if(parseInt(times[i].split('T')[1])===ha){ci=i;break;}}
+      for(var i=0;i<times.length;i++){if(parseInt(times[i].split('T')[1])===haF){ci=i;break;}}
       // Guardar datos clave para el asistente
       window._meteoActual = {
         temp: Math.round(data.hourly.temperature_2m[ci]),
         code: data.hourly.weathercode[ci],
         prob: data.hourly.precipitation_probability[ci],
+        hora: haF,
         maxT: data.daily ? Math.round(data.daily.temperature_2m_max[0]) : null,
         minT: data.daily ? Math.round(data.daily.temperature_2m_min[0]) : null,
         icon: (typeof WMO_ICONS!=='undefined'&&WMO_ICONS[data.hourly.weathercode[ci]]) ? WMO_ICONS[data.hourly.weathercode[ci]] : '🌡️'
@@ -5927,7 +5928,7 @@ function abrirHeroModal() {
       var lluvia = m && m.prob > 50;
       var frio = m && m.temp < 10;
       var calor = m && m.temp > 26;
-      var frases;
+      var horaStr = m && m.hora !== undefined ? m.hora + ':00h' : null;
       if (!m) {
         var sinMeteo = {
           es: ['¡Buen '+fechaTxt+'! El Camino te espera.','Feliz '+fechaTxt+'. ¿Damos el primer paso hoy?','¡Hoy es '+fechaTxt+'! Un buen día para explorar.'],
@@ -5937,23 +5938,25 @@ function abrirHeroModal() {
         var arr = sinMeteo[idiomaActual] || sinMeteo.es;
         return arr[Math.floor(Math.random()*arr.length)];
       }
+      var h = horaStr ? 'a las '+horaStr : 'en las próximas horas';
+      var hEN = horaStr ? 'at '+horaStr : 'in the next few hours';
+      var hGL = horaStr ? 'ás '+horaStr : 'nas próximas horas';
       if (idiomaActual === 'en') {
-        if (lluvia)   frases = ['Happy '+fechaTxt+'! '+icon+' '+temp+' and '+m.prob+'% chance of rain — bring your cape, pilgrim.','It\'s '+fechaTxt+', '+icon+' '+temp+'. Looks like rain — watch those stone paths!',''+icon+' '+temp+' this '+fechaTxt+' with rain likely. A wet Camino is still a Camino!'];
-        else if (frio) frases = ['Good '+fechaTxt+'! '+icon+' '+temp+' — wrap up warm, pilgrim.',''+icon+' '+temp+' on '+fechaTxt+'. Cold but clear — perfect light for the route.','A fresh '+fechaTxt+' at '+icon+' '+temp+'. Bundle up and walk on!'];
-        else if (calor) frases = ['Happy '+fechaTxt+'! '+icon+' '+temp+' — stay hydrated on the Camino.',''+icon+' Hot '+fechaTxt+' at '+temp+'! Early start recommended.','It\'s '+icon+' '+temp+' on '+fechaTxt+'. Shade and water are your best friends today.'];
-        else           frases = ['Good '+fechaTxt+'! '+icon+' '+temp+' — ideal Camino weather.',''+icon+' '+temp+' on '+fechaTxt+'. A great day to discover new places.','Happy '+fechaTxt+'! '+icon+' '+temp+' — the Way is calling.'];
+        if (lluvia)   return icon+' Forecast for '+hEN+': '+temp+' with '+m.prob+'% chance of rain. Pack your waterproof cape and watch your step on wet stone paths.';
+        else if (frio) return icon+' '+temp+' expected '+hEN+'. Dress in layers and bring a windproof jacket — it will make a real difference on the route.';
+        else if (calor) return icon+' '+temp+' forecast '+hEN+'. Keep water close, cover your head and plan your rest stops in the shade.';
+        else           return icon+' '+temp+' forecast '+hEN+' — ideal walking weather. Enjoy the Camino, pilgrim!';
       } else if (idiomaActual === 'gl') {
-        if (lluvia)   frases = ['Bo '+fechaTxt+'! '+icon+' '+temp+' e '+m.prob+'% de choiva — non esquezas o chuvasqueiro, peregrino.','Hoxe é '+fechaTxt+', '+icon+' '+temp+'. Parece que vai chover — ollo cos camiños de pedra!',''+icon+' '+temp+' este '+fechaTxt+' con choiva probable. Un Camiño mollado tamén é Camiño!'];
-        else if (frio) frases = ['Bo '+fechaTxt+'! '+icon+' '+temp+' — abrígate ben, peregrino.',''+icon+' '+temp+' este '+fechaTxt+'. Frío pero despexado — luz perfecta para a ruta.','Fresco '+fechaTxt+' a '+icon+' '+temp+'. Abrígate e segue camiñando!'];
-        else if (calor) frases = ['Bo '+fechaTxt+'! '+icon+' '+temp+' — bebe auga e descansa á sombra.',''+icon+' '+fechaTxt+' quente a '+temp+'! Recoméndase saír cedo.','Fai '+icon+' '+temp+' este '+fechaTxt+'. A sombra e a auga son os teus mellores amigos hoxe.'];
-        else           frases = ['Bo '+fechaTxt+'! '+icon+' '+temp+' — tempo ideal para o Camiño.',''+icon+' '+temp+' este '+fechaTxt+'. Un bo día para descubrir novos lugares.','Bo '+fechaTxt+'! '+icon+' '+temp+' — o Camiño chámache.'];
+        if (lluvia)   return icon+' Previsión '+hGL+': '+temp+' con '+m.prob+'% de choiva. Leva o chuvasqueiro e coidado cos camiños de pedra mollados.';
+        else if (frio) return icon+' '+temp+' previstos '+hGL+'. Vai en capas e leva un cortalventos — notarase moito na ruta.';
+        else if (calor) return icon+' '+temp+' previstos '+hGL+'. Leva auga, tapa a cabeza e para á sombra cando poidas.';
+        else           return icon+' '+temp+' previstos '+hGL+' — tempo ideal para camiñar. ¡Bo Camiño, peregrino!';
       } else {
-        if (lluvia)   frases = ['¡Feliz '+fechaTxt+'! '+icon+' '+temp+' y '+m.prob+'% de lluvia — no olvides el chubasquero, peregrino.','Hoy es '+fechaTxt+', '+icon+' '+temp+'. Parece que lloverá — ¡ojo con los caminos de piedra!',''+icon+' '+temp+' este '+fechaTxt+' con lluvia probable. ¡Un Camino mojado también es Camino!'];
-        else if (frio) frases = ['¡Buen '+fechaTxt+'! '+icon+' '+temp+' — abrígate bien, peregrino.',''+icon+' '+temp+' este '+fechaTxt+'. Frío pero despejado — luz perfecta para la ruta.','¡'+fechaTxt+' fresquito a '+icon+' '+temp+'! Abrígate y sigue caminando.'];
-        else if (calor) frases = ['¡Feliz '+fechaTxt+'! '+icon+' '+temp+' — hidrátate bien en el Camino.',''+icon+' '+fechaTxt+' caluroso a '+temp+'! Se recomienda salir temprano.','Hace '+icon+' '+temp+' este '+fechaTxt+'. La sombra y el agua son tus mejores aliados hoy.'];
-        else           frases = ['¡Buen '+fechaTxt+'! '+icon+' '+temp+' — tiempo ideal para el Camino.',''+icon+' '+temp+' este '+fechaTxt+'. Un gran día para descubrir nuevos lugares.','¡Feliz '+fechaTxt+'! '+icon+' '+temp+' — el Camino te llama.'];
+        if (lluvia)   return icon+' Previsión '+h+': '+temp+' con '+m.prob+'% de lluvia. Lleva el chubasquero y cuidado con los caminos de piedra mojados.';
+        else if (frio) return icon+' '+temp+' previstos '+h+'. Abrígate en capas y lleva un cortavientos — lo notarás en el camino.';
+        else if (calor) return icon+' '+temp+' previstos '+h+'. Lleva agua, cúbrete la cabeza y busca sombra en las paradas.';
+        else           return icon+' '+temp+' previstos '+h+' — tiempo ideal para caminar. ¡Buen Camino, peregrino!';
       }
-      return frases[Math.floor(Math.random()*frases.length)];
     }
 
     // Si ya tenemos datos meteo, devolvemos directo
@@ -5974,12 +5977,13 @@ function abrirHeroModal() {
         if (xhr.status === 200) {
           try {
             var data = JSON.parse(xhr.responseText);
-            var ha = new Date().getHours(); var ci = 0;
-            for (var i=0; i<data.hourly.time.length; i++) { if (parseInt(data.hourly.time[i].split('T')[1])===ha){ci=i;break;} }
+            var ha = new Date().getHours(); var haF = Math.min(ha + 2, 23); var ci = 0;
+            for (var i=0; i<data.hourly.time.length; i++) { if (parseInt(data.hourly.time[i].split('T')[1])===haF){ci=i;break;} }
             window._meteoActual = {
               temp: Math.round(data.hourly.temperature_2m[ci]),
               code: data.hourly.weathercode[ci],
               prob: data.hourly.precipitation_probability[ci],
+              hora: haF,
               icon: (typeof WMO_ICONS!=='undefined'&&WMO_ICONS[data.hourly.weathercode[ci]])?WMO_ICONS[data.hourly.weathercode[ci]]:'🌡️'
             };
           } catch(e) {}
@@ -13356,7 +13360,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1239";
+var _APP_VERSION = "v1241";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -15070,7 +15074,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1239</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1241</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
