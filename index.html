@@ -240,7 +240,7 @@
 .poi-card:hover::before{opacity:1}
 .modal-box h3{font-family:'Playfair Display',serif}
 @keyframes bounceDownArrow{0%,100%{transform:translateY(0);}45%{transform:translateY(8px);}65%{transform:translateY(3px);}}
-.pergamino-body{font-family:'IM Fell English',serif;font-size:14px;line-height:1.7}.pergamino-body::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");border-radius:inherit;opacity:1}.pergamino-body .num,.pergamino-body strong{font-size:1.15em;font-variant-numeric:oldstyle-nums}.pergamino-body span[style*='float:left']{font-family:'Cinzel',serif}</style>
+.pergamino-body{font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.7}.pergamino-body::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");border-radius:inherit;opacity:1}.pergamino-body .num,.pergamino-body strong{font-size:1.15em;font-variant-numeric:oldstyle-nums}.pergamino-body span[style*='float:left']{font-family:'Cinzel',serif}</style>
 
 
   <!-- Schema.org Structured Data -->
@@ -5703,6 +5703,10 @@ function toggleAlertasFirebase(){
 
 
 function abrirHeroModal() {
+  // Desbloquear AudioContext en iOS (requiere gesto del usuario)
+  if (window._cascoAudioCtx && window._cascoAudioCtx.state === 'suspended') {
+    window._cascoAudioCtx.resume();
+  }
   var _t = (typeof T !== 'undefined' && T[idiomaActual]) ? T[idiomaActual] : T['es'];
   function _capital(txt) {
     if (!txt || typeof txt !== 'string') return txt;
@@ -5759,6 +5763,69 @@ function abrirHeroModal() {
   inner.className = 'pergamino-body';
   panel.appendChild(inner);
 
+  // ── Sonido carga de casete (Web Audio API) ──────────────────
+  var _cascoAudioCtx = null;
+  var _cascoSoundNode = null;
+  function _cascoSonido(duracion) {
+    try {
+      // Respetar preferencias de silencio del sistema
+      if (window._casc_mute) return;
+      if (!_cascoAudioCtx) _cascoAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      var ctx = _cascoAudioCtx;
+      if (ctx.state === 'suspended') ctx.resume();
+      // Detener sonido anterior si sigue activo
+      if (_cascoSoundNode) { try { _cascoSoundNode.stop(); } catch(e){} }
+
+      var dur = duracion || 2.5;
+      var buf = ctx.createBuffer(1, ctx.sampleRate * dur, ctx.sampleRate);
+      var data = buf.getChannelData(0);
+
+      // Generar ruido estilo casete: ruido blanco modulado con frecuencias variables
+      for (var i = 0; i < data.length; i++) {
+        var t = i / ctx.sampleRate;
+        // Ruido base
+        var noise = (Math.random() * 2 - 1) * 0.3;
+        // Tono chirriante que sube y baja (efecto carga)
+        var freq1 = 800 + 600 * Math.sin(t * 8.5);
+        var freq2 = 1200 + 400 * Math.cos(t * 13.7);
+        var tone1 = Math.sin(2 * Math.PI * freq1 * t) * 0.12;
+        var tone2 = Math.sin(2 * Math.PI * freq2 * t) * 0.08;
+        // Modulación en amplitud (el "chrrr" característico)
+        var mod = 0.5 + 0.5 * Math.sin(2 * Math.PI * 22 * t);
+        data[i] = (noise + tone1 + tone2) * mod;
+      }
+
+      var src = ctx.createBufferSource();
+      src.buffer = buf;
+
+      // Filtro paso-banda para ese sonido metálico de casete
+      var filter = ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.value = 1100;
+      filter.Q.value = 0.8;
+
+      // Ganancia con fade-in y fade-out suaves
+      var gain = ctx.createGain();
+      gain.gain.setValueAtTime(0, ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.18, ctx.currentTime + 0.08);
+      gain.gain.setValueAtTime(0.18, ctx.currentTime + dur - 0.12);
+      gain.gain.linearRampToValueAtTime(0, ctx.currentTime + dur);
+
+      src.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+      src.start(ctx.currentTime);
+      src.stop(ctx.currentTime + dur);
+      _cascoSoundNode = src;
+    } catch(e) { /* Web Audio no disponible, sin sonido */ }
+  }
+  function _cascoSonidoStop() {
+    if (_cascoSoundNode) { try { _cascoSoundNode.stop(); } catch(e){} _cascoSoundNode = null; }
+  }
+
+  window._cascoSonido = _cascoSonido;
+  window._cascoSonidoStop = _cascoSonidoStop;
+
   // Helper: casco + typewriter reutilizable para todos los _render
   function _cascoTypewriter(container, texto, extraCss, speed, onDone) {
     var wrap = document.createElement('div');
@@ -5767,12 +5834,13 @@ function abrirHeroModal() {
     img.src = 'https://i.postimg.cc/m2TbCRTs/casc4.png';
     img.style.cssText = 'width:36px;height:36px;object-fit:contain;flex-shrink:0;animation:_casc-pulse 2.4s ease-in-out infinite';
     var txt = document.createElement('div');
-    txt.style.cssText = 'font-family:IM Fell English,serif;font-size:19px;font-weight:400;color:#1a0800;line-height:1.3;flex:1';
+    txt.style.cssText = 'font-family:DM Sans,sans-serif;font-size:19px;font-weight:400;color:#1a0800;line-height:1.3;flex:1';
     wrap.appendChild(img);
     wrap.appendChild(txt);
     container.appendChild(wrap);
     _typewriter(txt, texto, speed || 42, function() {
       img.style.animation = 'none';
+      _cascoSonidoStop();
       if (onDone) onDone(img);
     });
     return { img: img, txt: txt, wrap: wrap };
@@ -5797,7 +5865,7 @@ function abrirHeroModal() {
 
     var btnApoyo = document.createElement('button');
     btnApoyo.textContent = _t.asistApoyo||'💚 Apoyar la guía';
-    btnApoyo.style.cssText = 'width:100%;background:linear-gradient(135deg,#7a1f1f,#5c1414);color:#f5e6c8;border:none;border-radius:8px;padding:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:Playfair Display,serif;margin-bottom:8px;box-shadow:0 2px 8px rgba(122,31,31,0.4);letter-spacing:0.3px';
+    btnApoyo.style.cssText = 'width:100%;background:linear-gradient(135deg,#7a1f1f,#5c1414);color:#f5e6c8;border:none;border-radius:8px;padding:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:8px;box-shadow:0 2px 8px rgba(122,31,31,0.4);letter-spacing:0.3px';
     btnApoyo.addEventListener('click', function() {
       cerrar();
       setTimeout(function(){ abrirDonacionesDrawer(); }, 340);
@@ -5828,72 +5896,123 @@ function abrirHeroModal() {
     var dia = new Date().getDay(); // 0=dom, 6=sab
     var finde = (dia === 0 || dia === 6);
 
-    var mañana = (_t.asistSaludoM)||['¡Buenos días, peregrino! 🌅','¡Ultreia! El Camino te espera. 🌄','¡Arriba, caminante! El alba es tuya. ☀️','Un nuevo día en el Camino. ¡Buen paso! 🥾','¡Que la jornada te sea leve, peregrino! 🌤️'];
-    var tarde = (_t.asistSaludoT)||['¡Buenas tardes, peregrino! ☀️','¿Cómo lleva el Camino la tarde de hoy? 🛤️','¡Tarde de Camino! ¿Cuántos kilómetros hoy? 🥾','La tarde es buena hora para planificar. 🗺️','¡Ultreia et suseia, peregrino! ⛰️'];
-    var noche = (_t.asistSaludoN)||['¡Buenas noches, peregrino! 🌙','El Camino descansa, pero tú planificas. 🌟','Noche de peregrino. ¿Mañana salimos? ⭐','¡Buenas noches! El alba trae nuevo Camino. 🌙','Hora de descansar las piernas... o de planificar. 🗺️'];
+    var mañana = (_t.asistSaludoM)||['¡Buenos días, peregrino!','¡Ultreia! El Camino te espera.','¡Arriba, caminante! El alba es tuya.','Un nuevo día en el Camino. ¡Buen paso!','¡Que la jornada te sea leve, peregrino!'];
+    var tarde = (_t.asistSaludoT)||['¡Buenas tardes, peregrino!','¿Cómo lleva el Camino la tarde de hoy?','¡Tarde de Camino! ¿Cuántos kilómetros hoy?','La tarde es buena hora para planificar.','¡Ultreia et suseia, peregrino!'];
+    var noche = (_t.asistSaludoN)||['¡Buenas noches, peregrino!','El Camino descansa, pero tú planificas.','Noche de peregrino. ¿Mañana salimos?','¡Buenas noches! El alba trae nuevo Camino.','Hora de descansar las piernas... o de planificar.'];
 
     var pool = hora < 13 ? mañana : hora < 20 ? tarde : noche;
     return pool[Math.floor(Math.random() * pool.length)];
   }
 
-  function _subtituloContextual() {
-    var _t = T[idiomaActual] || T.es;
+  function _subtituloContextual(cb) {
     var now = new Date();
     var dias = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
     var diasGL = ['domingo','luns','martes','mércores','xoves','venres','sábado'];
     var diasEN = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    var meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    var mesesGL = ['xaneiro','febreiro','marzo','abril','maio','xuño','xullo','agosto','setembro','outubro','novembro','decembro'];
+    var mesesEN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
     var diaIdx = now.getDay();
+    var diaMes = now.getDate();
+    var mesIdx = now.getMonth();
     var diaNom = idiomaActual==='gl' ? diasGL[diaIdx] : idiomaActual==='en' ? diasEN[diaIdx] : dias[diaIdx];
-    var m = window._meteoActual;
+    var mesNom = idiomaActual==='gl' ? mesesGL[mesIdx] : idiomaActual==='en' ? mesesEN[mesIdx] : meses[mesIdx];
+    var fechaTxt = idiomaActual==='en'
+      ? diaNom + ', ' + mesNom + ' ' + diaMes
+      : diaNom + ' ' + diaMes + ' de ' + mesNom;
 
-    // Frases aleatorias según tiempo y día
-    var mensajes;
-    if (!m) {
-      // Sin datos meteorológicos
-      var sinMeteo = {
-        es: ['¡Buen '+diaNom+', peregrino! El Camino te espera.','Feliz '+diaNom+'. ¿Damos el primer paso hoy?','¡Hoy es '+diaNom+'! Un buen día para explorar.'],
-        gl: ['¡Bo '+diaNom+', peregrino! O Camiño agárdache.','Bo '+diaNom+'. ¿Damos o primeiro paso hoxe?','¡Hoxe é '+diaNom+'! Un bo día para explorar.'],
-        en: ['Happy '+diaNom+', pilgrim! The Way awaits.','Good '+diaNom+'. Shall we take the first step today?','Today is '+diaNom+'! A good day to explore.']
+    function _construir(m) {
+      var icon = m ? (m.icon || '🌡️') : null;
+      var temp = m ? (m.temp + '°') : null;
+      var lluvia = m && m.prob > 50;
+      var frio = m && m.temp < 10;
+      var calor = m && m.temp > 26;
+      var frases;
+      if (!m) {
+        var sinMeteo = {
+          es: ['¡Buen '+fechaTxt+'! El Camino te espera.','Feliz '+fechaTxt+'. ¿Damos el primer paso hoy?','¡Hoy es '+fechaTxt+'! Un buen día para explorar.'],
+          gl: ['¡Bo '+fechaTxt+'! O Camiño agárdache.','Bo '+fechaTxt+'. ¿Damos o primeiro paso hoxe?','¡Hoxe é '+fechaTxt+'! Un bo día para explorar.'],
+          en: ['Happy '+fechaTxt+'! The Way awaits.','Good '+fechaTxt+'. Shall we take the first step today?','Today is '+fechaTxt+'! A good day to explore.']
+        };
+        var arr = sinMeteo[idiomaActual] || sinMeteo.es;
+        return arr[Math.floor(Math.random()*arr.length)];
+      }
+      if (idiomaActual === 'en') {
+        if (lluvia)   frases = ['Happy '+fechaTxt+'! '+icon+' '+temp+' and '+m.prob+'% chance of rain — bring your cape, pilgrim.','It\'s '+fechaTxt+', '+icon+' '+temp+'. Looks like rain — watch those stone paths!',''+icon+' '+temp+' this '+fechaTxt+' with rain likely. A wet Camino is still a Camino!'];
+        else if (frio) frases = ['Good '+fechaTxt+'! '+icon+' '+temp+' — wrap up warm, pilgrim.',''+icon+' '+temp+' on '+fechaTxt+'. Cold but clear — perfect light for the route.','A fresh '+fechaTxt+' at '+icon+' '+temp+'. Bundle up and walk on!'];
+        else if (calor) frases = ['Happy '+fechaTxt+'! '+icon+' '+temp+' — stay hydrated on the Camino.',''+icon+' Hot '+fechaTxt+' at '+temp+'! Early start recommended.','It\'s '+icon+' '+temp+' on '+fechaTxt+'. Shade and water are your best friends today.'];
+        else           frases = ['Good '+fechaTxt+'! '+icon+' '+temp+' — ideal Camino weather.',''+icon+' '+temp+' on '+fechaTxt+'. A great day to discover new places.','Happy '+fechaTxt+'! '+icon+' '+temp+' — the Way is calling.'];
+      } else if (idiomaActual === 'gl') {
+        if (lluvia)   frases = ['Bo '+fechaTxt+'! '+icon+' '+temp+' e '+m.prob+'% de choiva — non esquezas o chuvasqueiro, peregrino.','Hoxe é '+fechaTxt+', '+icon+' '+temp+'. Parece que vai chover — ollo cos camiños de pedra!',''+icon+' '+temp+' este '+fechaTxt+' con choiva probable. Un Camiño mollado tamén é Camiño!'];
+        else if (frio) frases = ['Bo '+fechaTxt+'! '+icon+' '+temp+' — abrígate ben, peregrino.',''+icon+' '+temp+' este '+fechaTxt+'. Frío pero despexado — luz perfecta para a ruta.','Fresco '+fechaTxt+' a '+icon+' '+temp+'. Abrígate e segue camiñando!'];
+        else if (calor) frases = ['Bo '+fechaTxt+'! '+icon+' '+temp+' — bebe auga e descansa á sombra.',''+icon+' '+fechaTxt+' quente a '+temp+'! Recoméndase saír cedo.','Fai '+icon+' '+temp+' este '+fechaTxt+'. A sombra e a auga son os teus mellores amigos hoxe.'];
+        else           frases = ['Bo '+fechaTxt+'! '+icon+' '+temp+' — tempo ideal para o Camiño.',''+icon+' '+temp+' este '+fechaTxt+'. Un bo día para descubrir novos lugares.','Bo '+fechaTxt+'! '+icon+' '+temp+' — o Camiño chámache.'];
+      } else {
+        if (lluvia)   frases = ['¡Feliz '+fechaTxt+'! '+icon+' '+temp+' y '+m.prob+'% de lluvia — no olvides el chubasquero, peregrino.','Hoy es '+fechaTxt+', '+icon+' '+temp+'. Parece que lloverá — ¡ojo con los caminos de piedra!',''+icon+' '+temp+' este '+fechaTxt+' con lluvia probable. ¡Un Camino mojado también es Camino!'];
+        else if (frio) frases = ['¡Buen '+fechaTxt+'! '+icon+' '+temp+' — abrígate bien, peregrino.',''+icon+' '+temp+' este '+fechaTxt+'. Frío pero despejado — luz perfecta para la ruta.','¡'+fechaTxt+' fresquito a '+icon+' '+temp+'! Abrígate y sigue caminando.'];
+        else if (calor) frases = ['¡Feliz '+fechaTxt+'! '+icon+' '+temp+' — hidrátate bien en el Camino.',''+icon+' '+fechaTxt+' caluroso a '+temp+'! Se recomienda salir temprano.','Hace '+icon+' '+temp+' este '+fechaTxt+'. La sombra y el agua son tus mejores aliados hoy.'];
+        else           frases = ['¡Buen '+fechaTxt+'! '+icon+' '+temp+' — tiempo ideal para el Camino.',''+icon+' '+temp+' este '+fechaTxt+'. Un gran día para descubrir nuevos lugares.','¡Feliz '+fechaTxt+'! '+icon+' '+temp+' — el Camino te llama.'];
+      }
+      return frases[Math.floor(Math.random()*frases.length)];
+    }
+
+    // Si ya tenemos datos meteo, devolvemos directo
+    if (window._meteoActual) {
+      var txt = _construir(window._meteoActual);
+      if (cb) { cb(txt); return; }
+      return txt;
+    }
+
+    // Usar coordenadas ya disponibles (GPS ya activo en la app)
+    function _fetchMeteo(lat, lng) {
+      var url = 'https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lng
+        +'&hourly=temperature_2m,weathercode,precipitation_probability&timezone=Europe/Madrid&forecast_days=1';
+      var xhr = new XMLHttpRequest(); xhr.open('GET', url, true);
+      xhr.timeout = 3000;
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState !== 4) return;
+        if (xhr.status === 200) {
+          try {
+            var data = JSON.parse(xhr.responseText);
+            var ha = new Date().getHours(); var ci = 0;
+            for (var i=0; i<data.hourly.time.length; i++) { if (parseInt(data.hourly.time[i].split('T')[1])===ha){ci=i;break;} }
+            window._meteoActual = {
+              temp: Math.round(data.hourly.temperature_2m[ci]),
+              code: data.hourly.weathercode[ci],
+              prob: data.hourly.precipitation_probability[ci],
+              icon: (typeof WMO_ICONS!=='undefined'&&WMO_ICONS[data.hourly.weathercode[ci]])?WMO_ICONS[data.hourly.weathercode[ci]]:'🌡️'
+            };
+          } catch(e) {}
+        }
+        cb(_construir(window._meteoActual || null));
       };
-      var arr = sinMeteo[idiomaActual] || sinMeteo.es;
-      return arr[Math.floor(Math.random()*arr.length)];
+      xhr.ontimeout = function() { cb(_construir(null)); };
+      xhr.send();
     }
 
-    var icon = m.icon || '🌡️';
-    var temp = m.temp + '°';
-    var lluvia = m.prob > 50;
-    var frio = m.temp < 10;
-    var calor = m.temp > 26;
-    var viento = false; // no tenemos viento actual sin más datos
-
-    var frases;
-    if (idiomaActual === 'en') {
-      if (lluvia)   frases = ['Happy '+diaNom+'! '+icon+' '+temp+' and '+m.prob+'% chance of rain — bring your cape, pilgrim.','It\'s '+diaNom+', '+icon+' '+temp+'. Looks like rain — watch those stone paths!',''+icon+' '+temp+' this '+diaNom+' with rain likely. A wet Camino is still a Camino!'];
-      else if (frio) frases = ['Good '+diaNom+'! '+icon+' '+temp+' — wrap up warm, pilgrim.',''+icon+' '+temp+' this '+diaNom+'. Cold but clear — perfect light for the route.','It\'s a fresh '+diaNom+' at '+icon+' '+temp+'. Bundle up and walk on!'];
-      else if (calor) frases = ['Happy '+diaNom+'! '+icon+' '+temp+' — stay hydrated on the Camino.',''+icon+' Hot '+diaNom+' at '+temp+'! Early start recommended.','It\'s '+icon+' '+temp+' this '+diaNom+'. Shade and water are your best friends today.'];
-      else           frases = ['Good '+diaNom+'! '+icon+' '+temp+' — ideal Camino weather.',''+icon+' '+temp+' this '+diaNom+'. A great day to discover new places.','Happy '+diaNom+'! '+icon+' '+temp+' — the Way is calling.'];
-    } else if (idiomaActual === 'gl') {
-      if (lluvia)   frases = ['Bo '+diaNom+'! '+icon+' '+temp+' e '+m.prob+'% de choiva — non esquezas o chuvasqueiro, peregrino.','Hoxe é '+diaNom+', '+icon+' '+temp+'. Parece que vai chover — ollo cos camiños de pedra!',''+icon+' '+temp+' este '+diaNom+' con choiva probable. Un Camiño mollado tamén é Camiño!'];
-      else if (frio) frases = ['Bo '+diaNom+'! '+icon+' '+temp+' — abrígate ben, peregrino.',''+icon+' '+temp+' este '+diaNom+'. Frío pero despexado — luz perfecta para a ruta.','Fresco '+diaNom+' a '+icon+' '+temp+'. Abrígate e segue camiñando!'];
-      else if (calor) frases = ['Bo '+diaNom+'! '+icon+' '+temp+' — bebe auga e descansa á sombra.',''+icon+' '+diaNom+' quente a '+temp+'! Recoméndase saír cedo.','Fai '+icon+' '+temp+' este '+diaNom+'. A sombra e a auga son os teus mellores amigos hoxe.'];
-      else           frases = ['Bo '+diaNom+'! '+icon+' '+temp+' — tempo ideal para o Camiño.',''+icon+' '+temp+' este '+diaNom+'. Un bo día para descubrir novos lugares.','Bo '+diaNom+'! '+icon+' '+temp+' — o Camiño chámache.'];
+    if (typeof userLat !== 'undefined' && userLat) {
+      // Coordenadas GPS ya disponibles — fetch directo sin pedir permiso
+      _fetchMeteo(userLat, userLng);
+    } else if (cb && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        function(pos) { _fetchMeteo(pos.coords.latitude, pos.coords.longitude); },
+        function() { cb(_construir(null)); },
+        {timeout:3000, maximumAge:60000}
+      );
     } else {
-      if (lluvia)   frases = ['¡Feliz '+diaNom+'! '+icon+' '+temp+' y '+m.prob+'% de probabilidad de lluvia — no olvides el chubasquero, peregrino.','Hoy es '+diaNom+', '+icon+' '+temp+'. Parece que lloverá — ¡ojo con los caminos de piedra!',''+icon+' '+temp+' este '+diaNom+' con lluvia probable. ¡Un Camino mojado también es Camino!'];
-      else if (frio) frases = ['¡Buen '+diaNom+'! '+icon+' '+temp+' — abrígate bien, peregrino.',''+icon+' '+temp+' este '+diaNom+'. Frío pero despejado — luz perfecta para la ruta.','¡'+diaNom+' fresquito a '+icon+' '+temp+'! Abrígate y sigue caminando.'];
-      else if (calor) frases = ['¡Feliz '+diaNom+'! '+icon+' '+temp+' — hidrátate bien en el Camino.',''+icon+' '+diaNom+' caluroso a '+temp+'! Se recomienda salir temprano.','Hace '+icon+' '+temp+' este '+diaNom+'. La sombra y el agua son tus mejores aliados hoy.'];
-      else           frases = ['¡Buen '+diaNom+'! '+icon+' '+temp+' — tiempo ideal para el Camino.',''+icon+' '+temp+' este '+diaNom+'. Un gran día para descubrir nuevos lugares.','¡Feliz '+diaNom+'! '+icon+' '+temp+' — el Camino te llama.'];
+      var res = _construir(null);
+      if (cb) { cb(res); return; }
+      return res;
     }
-    return frases[Math.floor(Math.random()*frases.length)];
   }
 
   // Inserta un bloque de curiosidad con estilo discreto
   function _appendCuriosidad(container) {
-    // Solo mostrar ~60% de las veces para que no sea predecible
-    if (Math.random() > 0.6) return;
+    // Siempre mostrar
     var wrap = document.createElement('div');
-    wrap.style.cssText = 'background:rgba(0,0,0,0.15);border-left:3px solid #7a5010;border-radius:0 8px 8px 0;padding:10px 12px;margin-bottom:16px';
+    wrap.style.cssText = 'background:rgba(0,0,0,0.15);border-left:3px solid #7a5010;border-radius:0 8px 8px 0;padding:10px 12px;margin-top:16px;margin-bottom:4px';
     var label = document.createElement('div');
-    label.style.cssText = 'font-size:12px;color:#fff0c0;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:600;font-family:IM Fell English,serif';
+    label.style.cssText = 'font-size:12px;color:#fff0c0;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:600;font-family:DM Sans,sans-serif';
     label.textContent = _t.asistSabias||'📜 Sabías que…';
     var txt = document.createElement('p');
     txt.style.cssText = 'font-size:14px;color:#fff8e8;line-height:1.6;margin:0';
@@ -5930,6 +6049,7 @@ function abrirHeroModal() {
   function _twSeq(pares, cascoImg, onDone) {
     if (!pares || pares.length === 0) {
       if (cascoImg) cascoImg.style.animation = 'none';
+      _cascoSonidoStop();
       if (onDone) onDone();
       return;
     }
@@ -5940,9 +6060,11 @@ function abrirHeroModal() {
     if (cont && el.parentNode !== cont) cont.appendChild(el);
     // Activar casco
     if (cascoImg) cascoImg.style.animation = '_casc-pulse 2.4s ease-in-out infinite';
+    _cascoSonido(2.5);
     _typewriter(el, html, speed, function() {
       // Parar casco al terminar este párrafo
       if (cascoImg) cascoImg.style.animation = 'none';
+      _cascoSonidoStop();
       // Pequeña pausa antes del siguiente
       setTimeout(function() { _twSeq(rest, cascoImg, onDone); }, 120);
     });
@@ -5968,9 +6090,9 @@ function abrirHeroModal() {
     }
     cascoWrap.appendChild(cascoImg);
 
-    // Texto del saludo con typewriter
+    // Texto del saludo con typewriter — sin icono, fuente conversacional
     var saludoEl = document.createElement('div');
-    saludoEl.style.cssText = 'font-family:IM Fell English,serif;font-size:20px;font-weight:400;color:#1a0800;line-height:1.3;flex:1';
+    saludoEl.style.cssText = 'font-family:DM Sans,sans-serif;font-size:15px;font-weight:500;color:#1a0800;line-height:1.4;flex:1';
     cascoWrap.appendChild(saludoEl);
     inner.appendChild(cascoWrap);
 
@@ -5997,15 +6119,18 @@ function abrirHeroModal() {
     }
 
     var saludoTexto = _saludoConContexto();
-    var subTexto = _subtituloContextual();
 
-    // Typewriter saludo → subtítulo → párrafos de contexto
+    // Typewriter saludo → subtítulo (con datos meteo, async) → párrafos de contexto
     _typewriter(saludoEl, saludoTexto, 45, function() {
       cascoImg.style.animation = 'none';
-      setTimeout(function() {
-        cascoImg.style.animation = '_casc-pulse 2.4s ease-in-out infinite';
-        _typewriter(subCtx, subTexto, 35, function() {
-          cascoImg.style.animation = 'none';
+      _cascoSonidoStop();
+      _subtituloContextual(function(subTexto) {
+        setTimeout(function() {
+          cascoImg.style.animation = '_casc-pulse 2.4s ease-in-out infinite';
+          _cascoSonido(2.5);
+          _typewriter(subCtx, subTexto, 35, function() {
+            cascoImg.style.animation = 'none';
+            _cascoSonidoStop();
 
           if (_hayRuta) {
             // Rama ruta activa
@@ -6015,7 +6140,7 @@ function abrirHeroModal() {
             btnRow.style.cssText = 'display:flex;gap:10px';
             var btnSi = document.createElement('button');
             btnSi.textContent = _t.asistSiVerRuta||'Sí, ver ruta';
-            btnSi.style.cssText = 'flex:1;background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:13px;font-size:16px;font-weight:700;cursor:pointer;font-family:Playfair Display,serif;box-shadow:0 2px 8px rgba(45,74,30,0.4)';
+            btnSi.style.cssText = 'flex:1;background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:13px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;box-shadow:0 2px 8px rgba(45,74,30,0.4)';
             btnSi.addEventListener('click', function(){ _renderRevision(); });
             var btnNo = document.createElement('button');
             btnNo.textContent = _t.asistNoVolver||'No, volver al mapa';
@@ -6025,6 +6150,7 @@ function abrirHeroModal() {
             btnRow.appendChild(btnNo);
             _twSeq([[sub, (_t.asistTieneRuta||'Tienes una ruta seleccionada con ') + rutaPuntos.length + (rutaPuntos.length !== 1 ? (_t.asistTieneRutaSufP||' lugares. ¿Quieres revisarla o modificarla?') : (_t.asistTieneRutaSuf||' lugar. ¿Quieres revisarla o modificarla?')), 32, inner]], cascoImg, function() {
               inner.appendChild(btnRow);
+              _appendCuriosidad(inner);
             });
 
           } else if (cercanos.length === 0) {
@@ -6063,13 +6189,14 @@ function abrirHeroModal() {
               [sub, (_t.asistCercanosPre||'Tienes') + ' ' + cercanos.length + ' ' + (cercanos.length !== 1 ? (_t.asistCercanosLugares||'lugares') : (_t.asistCercanosLugar||'lugar')) + ' ' + (_t.asistCercanosDe||'del Camino cerca de ti. El más próximo es') + ' ' + primero.poi.nombre + ', ' + (_t.asistCercanosA||'a') + ' ' + distTexto + '.', 30, inner],
               [sub2, _t.asistPreguntaVisitar||'¿Te gustaría visitar alguno?', 35, inner]
             ], cascoImg, function() {
-              _appendCuriosidad(inner);
               inner.appendChild(btnRow);
+              _appendCuriosidad(inner);
             });
-          }
-        });
-      }, 120);
-    });
+          } // fin else cercanos
+          }); // fin _typewriter subCtx
+        }, 120); // fin setTimeout
+      }); // fin _subtituloContextual callback
+    }); // fin _typewriter saludo
   }
 
   // ── SUGERENCIAS: cuando el usuario dice "ahora no" ───────────────
@@ -6160,7 +6287,7 @@ function abrirHeroModal() {
 
     // Título
     var tit = document.createElement('div');
-    tit.style.cssText = 'font-family:IM Fell English,serif;font-size:17px;font-weight:400;color:#1a0800;margin-bottom:6px;padding-right:36px;line-height:1.3';
+    tit.style.cssText = 'font-family:DM Sans,sans-serif;font-size:17px;font-weight:400;color:#1a0800;margin-bottom:6px;padding-right:36px;line-height:1.3';
     tit.innerHTML = _t.asistBuscarTit||'🔍 Buscar algo próximo a ti';
     box.appendChild(tit);
 
@@ -6182,7 +6309,7 @@ function abrirHeroModal() {
     inputCont.appendChild(input);
     var btnBuscar = document.createElement('button');
     btnBuscar.textContent = _t.asistBuscarBtn||'Buscar';
-    btnBuscar.style.cssText = 'background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:10px 16px;font-size:16px;font-weight:700;cursor:pointer;font-family:Playfair Display,serif;white-space:nowrap;flex-shrink:0';
+    btnBuscar.style.cssText = 'background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:10px 16px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;white-space:nowrap;flex-shrink:0';
     inputWrap.appendChild(inputCont);
     inputWrap.appendChild(btnBuscar);
     box.appendChild(inputWrap);
@@ -6378,7 +6505,7 @@ function abrirHeroModal() {
     inner.innerHTML = '';
 
     var tit = document.createElement('div');
-    tit.style.cssText = 'font-family:IM Fell English,serif;font-size:20px;color:#1a0800;margin-bottom:14px;line-height:1.3;text-align:center';
+    tit.style.cssText = 'font-family:DM Sans,sans-serif;font-size:20px;color:#1a0800;margin-bottom:14px;line-height:1.3;text-align:center';
     tit.textContent = _t.asistBrujulaTit || '🧭 La Brújula del Peregrino';
     inner.appendChild(tit);
 
@@ -6399,7 +6526,7 @@ function abrirHeroModal() {
 
     var btnAbrir = document.createElement('button');
     btnAbrir.textContent = _t.asistBrujulaBtn || 'Abrir la brújula →';
-    btnAbrir.style.cssText = 'width:100%;background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:13px;font-size:16px;font-weight:700;cursor:pointer;font-family:IM Fell English,serif;box-shadow:0 2px 8px rgba(45,74,30,0.4);margin-bottom:8px';
+    btnAbrir.style.cssText = 'width:100%;background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:13px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;box-shadow:0 2px 8px rgba(45,74,30,0.4);margin-bottom:8px';
     btnAbrir.addEventListener('click', function() {
       cerrar();
       setTimeout(function(){ _irAlMapa(); setTimeout(abrirBrujulaDrawer, 400); }, 340);
@@ -6453,7 +6580,7 @@ function abrirHeroModal() {
       var info = document.createElement('div');
       info.style.cssText = 'flex:1;min-width:0';
       var titEl = document.createElement('div');
-      titEl.style.cssText = 'font-family:IM Fell English,serif;font-size:15px;color:#1a0800;margin-bottom:2px;line-height:1.3';
+      titEl.style.cssText = 'font-family:DM Sans,sans-serif;font-size:15px;color:#1a0800;margin-bottom:2px;line-height:1.3';
       titEl.textContent = op.tit.replace(/^[\u{1F000}-\u{1FFFF}\u{2600}-\u{27FF}\uFE0F\s]+/u, '').trim();
       var descEl = document.createElement('div');
       descEl.style.cssText = 'font-size:13px;color:#3d1f00;line-height:1.3;opacity:0.85';
@@ -6519,7 +6646,7 @@ function abrirHeroModal() {
 
       var info = document.createElement('div');
       info.style.cssText = 'flex:1;min-width:0';
-      info.innerHTML = '<div style="font-family:IM Fell English,serif;font-size:16px;color:#1a0800;margin-bottom:2px">' + op.titulo + '</div>'
+      info.innerHTML = '<div style="font-family:DM Sans,sans-serif;font-size:16px;color:#1a0800;margin-bottom:2px">' + op.titulo + '</div>'
         + '<div style="font-size:13px;color:#5c3d1e;line-height:1.4;opacity:0.85">' + op.desc + '</div>';
       fila.appendChild(info);
 
@@ -6571,7 +6698,7 @@ function abrirHeroModal() {
       // Botón abrir panel
       var btnAbrir = document.createElement('button');
       btnAbrir.textContent = (_t.asistAbrir||'Abrir ') + op.titulo + ' →';
-      btnAbrir.style.cssText = 'width:100%;background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:IM Fell English,serif;margin-bottom:10px;box-shadow:0 2px 8px rgba(45,74,30,0.4)';
+      btnAbrir.style.cssText = 'width:100%;background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:10px;box-shadow:0 2px 8px rgba(45,74,30,0.4)';
       btnAbrir.addEventListener('click', op.abrir);
 
       // Separador
@@ -6669,7 +6796,7 @@ function abrirHeroModal() {
 
     var btnVolver = document.createElement('button');
     btnVolver.textContent = _t.asistRegresarMapa||'← Regresar al mapa';
-    btnVolver.style.cssText = 'width:100%;background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:13px;font-size:16px;font-weight:700;cursor:pointer;font-family:Playfair Display,serif;box-shadow:0 2px 8px rgba(45,74,30,0.4)';
+    btnVolver.style.cssText = 'width:100%;background:linear-gradient(135deg,#2d4a1e,#1e3212);color:#f5e6c8;border:none;border-radius:8px;padding:13px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;box-shadow:0 2px 8px rgba(45,74,30,0.4)';
     btnVolver.addEventListener('click', function(){ _renderDespedida(); });
     inner.appendChild(btnVolver);
   }
@@ -9937,7 +10064,7 @@ function _modalPergamino(config) {
   cascoImg.src = 'https://i.postimg.cc/m2TbCRTs/casc4.png';
   cascoImg.style.cssText = 'width:34px;height:34px;object-fit:contain;flex-shrink:0;animation:_casc-pulse 2.4s ease-in-out infinite';
   var titEl = document.createElement('div');
-  titEl.style.cssText = 'font-family:IM Fell English,serif;font-size:18px;font-weight:400;color:#1a0800;line-height:1.3;flex:1';
+  titEl.style.cssText = 'font-family:DM Sans,sans-serif;font-size:18px;font-weight:400;color:#1a0800;line-height:1.3;flex:1';
   cascoWrap.appendChild(cascoImg);
   cascoWrap.appendChild(titEl);
   box.appendChild(cascoWrap);
@@ -10011,15 +10138,19 @@ function _modalPergamino(config) {
   }
 
   cascoImg.style.animation = '_casc-pulse 2.4s ease-in-out infinite';
+  if(window._cascoSonido) _cascoSonido(2.5);
   _twGlobal(titEl, config.titulo, 42, function() {
     cascoImg.style.animation = 'none';
+    if(window._cascoSonidoStop) _cascoSonidoStop();
     if (subEl && config.subtitulo) {
       setTimeout(function() {
         cascoImg.style.animation = '_casc-pulse 2.4s ease-in-out infinite';
+        if(window._cascoSonido) _cascoSonido(2.5);
         // Velocidad adaptativa: textos largos van más rápido para no cansar
         var subSpeed = config.subtitulo.length > 80 ? 18 : 28;
         _twGlobal(subEl, config.subtitulo, subSpeed, function() {
           cascoImg.style.animation = 'none';
+          if(window._cascoSonidoStop) _cascoSonidoStop();
           setTimeout(function() { box.appendChild(optsWrap); if (cancelBtn) box.appendChild(cancelBtn); }, 80);
         });
       }, 100);
@@ -13225,7 +13356,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1216";
+var _APP_VERSION = "v1225";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -14939,7 +15070,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1216</div>
+<div id='version-badge' style='position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1225</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
