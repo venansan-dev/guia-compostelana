@@ -627,17 +627,24 @@
     padding:5rem 2rem;
     overflow:hidden;
   }
-  .dl-gallery {
-    display:flex; gap:1.5rem; justify-content:center;
-    flex-wrap:wrap;
+  .dl-gallery-carousel-wrap {
     max-width:1100px; margin:2.5rem auto 0;
   }
+  .dl-gallery {
+    display:flex; gap:1.5rem;
+    overflow-x:auto; scroll-behavior:smooth;
+    scroll-snap-type:x mandatory;
+    padding:4px 4px 1rem;
+    scrollbar-width:none;
+  }
+  .dl-gallery::-webkit-scrollbar { display:none; }
   .dl-gallery-item {
     border-radius:18px; overflow:hidden;
     border:1px solid rgba(0,0,0,0.08);
     box-shadow:0 8px 32px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.1);
     flex:0 0 auto;
     width:180px;
+    scroll-snap-align:start;
     transition:transform .3s, box-shadow .3s;
   }
   .dl-gallery-item:hover {
@@ -645,14 +652,28 @@
     box-shadow:0 16px 48px rgba(0,0,0,0.18);
   }
   .dl-gallery-item img {
-    width:100%; display:block;
-    aspect-ratio:9/19.5; object-fit:cover;
+    width:180px; height:320px; display:block;
+    object-fit:cover; object-position:top;
   }
   .dl-gallery-label {
     padding:10px 12px;
     font-size:12px; font-weight:600; color:#94a3b8;
     text-align:center; background:rgba(255,255,255,0.05);
     border-top:1px solid rgba(0,0,0,0.06);
+  }
+  .dl-gallery-nav {
+    display:flex; justify-content:center; gap:10px;
+    margin-top:0.25rem;
+  }
+  .dl-gallery-arrow {
+    width:36px; height:36px; border-radius:50%;
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; font-size:16px; color:#fff;
+    transition:all .2s; box-shadow:0 2px 8px rgba(0,0,0,0.08);
+  }
+  .dl-gallery-arrow:hover {
+    background:#1a3a6e; color:#fff; border-color:rgba(255,255,255,0.2);
   }
   /* Placeholder de pantalla cuando no hay imagen real */
   .dl-screen-placeholder {
@@ -1101,7 +1122,7 @@
       <div class="dl-phone-wrap">
         <div class="dl-phone">
           <div class="dl-phone-notch"></div>
-          <img src="https://i.postimg.cc/HxLqpmqn/Captura1.png" alt="Xacobeapp screenshot" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:34px"/>
+          <img src="https://i.postimg.cc/Ls1gcsLL/principal2.png" alt="Xacobeapp screenshot" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:34px"/>
         </div>
       </div>
     </div>
@@ -1198,41 +1219,36 @@
   <section id="dl-gallery" class="dl-gallery-wrap">
     <h2 class="dl-section-title" id="dl-gal-title">La app en acción</h2>
     <p class="dl-section-sub" id="dl-gal-sub">Capturas reales desde el móvil</p>
-    <div class="dl-gallery">
+    <div class="dl-gallery-carousel-wrap">
+      <div class="dl-gallery" id="dl-gallery-track">
       <div class="dl-gallery-item">
-        <div style="background:linear-gradient(160deg,#0d1e3a,#1a2d52);aspect-ratio:9/19.5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
-          <span style="font-size:40px">🗺️</span>
-          <p style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px" id="dl-gal1-inner">Mapa interactivo</p>
-        </div>
-        <div class="dl-gallery-label" id="dl-gal1">Mapa GPS</div>
+        <img src="https://i.postimg.cc/PqwvgqYt/mipunto2.png" alt="Añade tus propios puntos"/>
+        <div class="dl-gallery-label" id="dl-gal1">Añade tus propios puntos</div>
       </div>
       <div class="dl-gallery-item">
-        <div style="background:linear-gradient(160deg,#2d1a00,#5a3600);aspect-ratio:9/19.5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
-          <span style="font-size:40px">📜</span>
-          <p style="font-size:10px;font-weight:700;color:rgba(255,220,120,0.7);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px" id="dl-gal2-inner">Historia y patrimonio</p>
-        </div>
+        <img src="https://i.postimg.cc/0NwKTNDS/historia2.png" alt="Patrimonio"/>
         <div class="dl-gallery-label" id="dl-gal2">Patrimonio</div>
       </div>
       <div class="dl-gallery-item">
-        <div style="background:linear-gradient(160deg,#0d3326,#1a3a6e);aspect-ratio:9/19.5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
-          <span style="font-size:40px">🎖️</span>
-          <p style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px" id="dl-gal3-inner">Juego de la Oca</p>
-        </div>
-        <div class="dl-gallery-label" id="dl-gal3">Gamificación</div>
+        <img src="https://i.postimg.cc/DzX49zLW/etapas2.png" alt="Etapas de los principales caminos"/>
+        <div class="dl-gallery-label" id="dl-gal3">Etapas de los principales caminos</div>
       </div>
       <div class="dl-gallery-item">
-        <div style="background:linear-gradient(160deg,#1a0d3a,#3a1a6e);aspect-ratio:9/19.5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
-          <span style="font-size:40px">🧭</span>
-          <p style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px" id="dl-gal4-inner">Brújula y navegación</p>
-        </div>
-        <div class="dl-gallery-label" id="dl-gal4">Navegación</div>
+        <img src="https://i.postimg.cc/6Qv4kQn8/brujula2.png" alt="Brújula"/>
+        <div class="dl-gallery-label" id="dl-gal4">Brújula</div>
       </div>
       <div class="dl-gallery-item">
-        <div style="background:linear-gradient(160deg,#1a2d0d,#3a5a1a);aspect-ratio:9/19.5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
-          <span style="font-size:40px">🏠</span>
-          <p style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-align:center;letter-spacing:1px;text-transform:uppercase;padding:0 16px" id="dl-gal5-inner">Albergues y servicios</p>
-        </div>
-        <div class="dl-gallery-label" id="dl-gal5">Servicios</div>
+        <img src="https://i.postimg.cc/HLy8qLXc/asistente2.png" alt="Asistente"/>
+        <div class="dl-gallery-label" id="dl-gal5">Asistente</div>
+      </div>
+      <div class="dl-gallery-item">
+        <img src="https://i.postimg.cc/SKMYBKCN/alertas2.png" alt="Crea y recibe alertas en tiempo real"/>
+        <div class="dl-gallery-label" id="dl-gal6">Crea y recibe alertas en tiempo real</div>
+      </div>
+      </div>
+      <div class="dl-gallery-nav">
+        <div class="dl-gallery-arrow" onclick="document.getElementById('dl-gallery-track').scrollBy({left:-200,behavior:'smooth'})">‹</div>
+        <div class="dl-gallery-arrow" onclick="document.getElementById('dl-gallery-track').scrollBy({left:200,behavior:'smooth'})">›</div>
       </div>
     </div>
     <p style="text-align:center;margin-top:2rem;font-size:13px;color:#94a3b8" id="dl-gal-hint">
@@ -12528,9 +12544,9 @@ window._dlT = {
     f10t:'Tus propios puntos en el mapa',f10d:'Crea puntos de interés personalizados y añádelos directamente a tu ruta. Tu Camino, a tu manera.',
     f11t:'Y mucho más…',f11d:'Otras muchas y sorprendentes utilidades para que tu Camino pueda ser más atractivo y seguro. Descúbrelas tú mismo.',
     galTitle:'La app en acción', galSub:'Capturas reales desde el móvil',
-    gal1:'Mapa GPS',gal1i:'Mapa interactivo',gal2:'Patrimonio',gal2i:'Historia y patrimonio',
-    gal3:'Gamificación',gal3i:'Juego de la Oca',gal4:'Navegación',gal4i:'Brújula y navegación',
-    gal5:'Servicios',gal5i:'Albergues y servicios',
+    gal1:'Añade tus propios puntos',gal1i:'Mapa interactivo',gal2:'Patrimonio',gal2i:'Historia y patrimonio',
+    gal3:'Etapas de los principales caminos',gal3i:'Juego de la Oca',gal4:'Brújula',gal4i:'Brújula y navegación',
+    gal5:'Asistente',gal5i:'Asistente virtual',gal6:'Crea y recibe alertas en tiempo real',
     galHint:'✨ Escanea el QR para ver la app real en tu móvil',
     rutTitle:'Rutas cubiertas', rutSub:'Cinco caminos jacobeos con etapas, POIs y navegación GPS',
     rut1:'Camino Portugués de la Costa',rut2:'Camino Francés',rut3:'Camino del Norte',rut4:'Camino Primitivo',rut5:'Camino Inglés',
@@ -12564,9 +12580,9 @@ window._dlT = {
     f10t:'Os teus propios puntos no mapa',f10d:'Crea puntos de interese personalizados e engádeos directamente á túa ruta. O teu Camiño, ao teu xeito.',
     f11t:'E moito máis…',f11d:'Moitas outras e sorprendentes utilidades para que o teu Camiño sexa máis atractivo e seguro. Descúbrenas ti mesmo.',
     galTitle:'A app en acción', galSub:'Capturas reais desde o móbil',
-    gal1:'Mapa GPS',gal1i:'Mapa interactivo',gal2:'Patrimonio',gal2i:'Historia e patrimonio',
-    gal3:'Gamificación',gal3i:'Xogo da Oca',gal4:'Navegación',gal4i:'Brúxula e navegación',
-    gal5:'Servizos',gal5i:'Albergues e servizos',
+    gal1:'Engade os teus propios puntos',gal1i:'Mapa interactivo',gal2:'Patrimonio',gal2i:'Historia e patrimonio',
+    gal3:'Etapas dos principais camiños',gal3i:'Xogo da Oca',gal4:'Brúxula',gal4i:'Brúxula e navegación',
+    gal5:'Asistente',gal5i:'Asistente virtual',gal6:'Crea e recibe alertas en tempo real',
     galHint:'✨ Escanea o QR para ver a app real no teu móbil',
     rutTitle:'Rutas cubertas', rutSub:'Cinco camiños xacobeos con etapas, POIs e navegación GPS',
     rut1:'Camiño Portugués da Costa',rut2:'Camiño Francés',rut3:'Camiño do Norte',rut4:'Camiño Primitivo',rut5:'Camiño Inglés',
@@ -12600,9 +12616,9 @@ window._dlT = {
     f10t:'Your own points on the map',f10d:'Create personalised points of interest and add them directly to your route. Your Camino, your way.',
     f11t:'And much more…',f11d:'Many more surprising features to make your Camino more enjoyable and safer. Discover them for yourself.',
     galTitle:'The app in action', galSub:'Real screenshots from the phone',
-    gal1:'GPS Map',gal1i:'Interactive map',gal2:'Heritage',gal2i:'History and heritage',
-    gal3:'Gamification',gal3i:'Goose Game',gal4:'Navigation',gal4i:'Compass and navigation',
-    gal5:'Services',gal5i:'Hostels and services',
+    gal1:'Add your own points',gal1i:'Interactive map',gal2:'Heritage',gal2i:'History and heritage',
+    gal3:'Stages of the main routes',gal3i:'Goose Game',gal4:'Compass',gal4i:'Compass and navigation',
+    gal5:'Assistant',gal5i:'Virtual assistant',gal6:'Create and receive real-time alerts',
     galHint:'✨ Scan the QR to see the real app on your phone',
     rutTitle:'Routes covered', rutSub:'Five Jacobean routes with stages, POIs and GPS navigation',
     rut1:'Portuguese Coastal Way',rut2:'French Way',rut3:'Northern Way',rut4:'Primitive Way',rut5:'English Way',
@@ -12963,6 +12979,7 @@ function cambiarIdioma(lang){
     _s('dl-gal3',dl.gal3);_s('dl-gal3-inner',dl.gal3i);
     _s('dl-gal4',dl.gal4);_s('dl-gal4-inner',dl.gal4i);
     _s('dl-gal5',dl.gal5);_s('dl-gal5-inner',dl.gal5i);
+    _s('dl-gal6',dl.gal6);
     _s('dl-gal-hint',    dl.galHint);
     _s('dl-rut-title',   dl.rutTitle);
     _s('dl-rut-sub',     dl.rutSub);
@@ -13360,7 +13377,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1242";
+var _APP_VERSION = "v1246";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -15074,7 +15091,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='display:none;position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1242</div>
+<div id='version-badge' style='display:none;position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1246</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
