@@ -6747,7 +6747,7 @@ function abrirHeroModal() {
 
     // Subtítulo (aparece tras el saludo)
     var subCtx = document.createElement('p');
-    subCtx.style.cssText = 'font-size:15px;color:#1a0800;margin-bottom:12px;line-height:1.5;min-height:5em;overflow:hidden';
+    subCtx.style.cssText = 'font-size:15px;color:#1a0800;margin-bottom:12px;line-height:1.6;min-height:5em;word-break:break-word;overflow-wrap:break-word;width:100%;box-sizing:border-box';
     inner.appendChild(subCtx);
 
     // Preparar elementos y botones de las tres ramas (sin insertar aún los párrafos)
@@ -14027,7 +14027,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1275";
+var _APP_VERSION = "v1276";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -15764,7 +15764,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='display:none;position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1275</div>
+<div id='version-badge' style='display:none;position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1276</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
