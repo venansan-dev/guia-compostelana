@@ -6675,18 +6675,22 @@ function abrirHeroModal() {
   function _typewriter(el, html, speed, onDone) {
     var text = html.replace(/<[^>]+>/g, '');
     var i = 0;
-    // Reserve full height: render text as color:transparent, overlay visible text on top
-    el.style.cssText += ';position:relative';
-    el.innerHTML = '<span style="color:transparent;display:block;user-select:none;pointer-events:none;white-space:pre-wrap;word-break:break-word">'+text+'</span>'
-                 + '<span id="_tw_vis" style="position:absolute;top:0;left:0;right:0;white-space:pre-wrap;word-break:break-word"></span>';
-    var vis = el.querySelector('#_tw_vis');
+    // Technique: render full text in-flow from start.
+    // Visible chars = normal color, remaining = transparent.
+    // No position:absolute, no layout shifts, wrapping is always correct.
+    function _render() {
+      var vis  = text.slice(0, i);
+      var hide = text.slice(i);
+      el.innerHTML = (vis ? '<span>' + vis.replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</span>' : '')
+                   + (hide ? '<span style="visibility:hidden">' + hide.replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</span>' : '');
+    }
+    _render();
     var cursor = setInterval(function() {
-      if (i <= text.length) {
-        vis.textContent = text.slice(0, i);
+      if (i < text.length) {
         i++;
+        _render();
       } else {
         clearInterval(cursor);
-        el.style.position = '';
         el.innerHTML = html;
         if (onDone) onDone();
       }
@@ -14030,7 +14034,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1278";
+var _APP_VERSION = "v1280";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -15767,7 +15771,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='display:none;position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1278</div>
+<div id='version-badge' style='display:none;position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1280</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
