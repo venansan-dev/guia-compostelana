@@ -6675,19 +6675,14 @@ function abrirHeroModal() {
   function _typewriter(el, html, speed, onDone) {
     var text = html.replace(/<[^>]+>/g, '');
     var i = 0;
-    // Pre-render full text invisible to reserve height — no layout jump
-    el.style.position = 'relative';
-    var ghost = document.createElement('span');
-    ghost.textContent = text;
-    ghost.style.cssText = 'visibility:hidden;display:block;pointer-events:none';
-    el.innerHTML = '';
-    el.appendChild(ghost);
-    var visible = document.createElement('span');
-    visible.style.cssText = 'position:absolute;top:0;left:0;right:0';
-    el.appendChild(visible);
+    // Reserve full height: render text as color:transparent, overlay visible text on top
+    el.style.cssText += ';position:relative';
+    el.innerHTML = '<span style="color:transparent;display:block;user-select:none;pointer-events:none;white-space:pre-wrap;word-break:break-word">'+text+'</span>'
+                 + '<span id="_tw_vis" style="position:absolute;top:0;left:0;right:0;white-space:pre-wrap;word-break:break-word"></span>';
+    var vis = el.querySelector('#_tw_vis');
     var cursor = setInterval(function() {
       if (i <= text.length) {
-        visible.textContent = text.slice(0, i);
+        vis.textContent = text.slice(0, i);
         i++;
       } else {
         clearInterval(cursor);
@@ -14035,7 +14030,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1277";
+var _APP_VERSION = "v1278";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -15772,7 +15767,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='display:none;position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1277</div>
+<div id='version-badge' style='display:none;position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1278</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
