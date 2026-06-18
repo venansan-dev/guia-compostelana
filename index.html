@@ -5854,17 +5854,22 @@ function _meteoMensajeCasco(m) {
     }
   }
 
-  txtEl.textContent = '';
-  // cursor removed
   imgEl.style.animation = '_casc-pulse 2.4s ease-in-out infinite';
   var i = 0;
+  function _renderMeteo() {
+    var vis  = msg.slice(0, i);
+    var hide = msg.slice(i);
+    txtEl.innerHTML = (vis  ? '<span>' + vis.replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</span>' : '')
+                    + (hide ? '<span style="visibility:hidden">' + hide.replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</span>' : '');
+  }
+  _renderMeteo();
   var iv = setInterval(function() {
-    if (i <= msg.length) {
-      txtEl.textContent = msg.slice(0, i);
+    if (i < msg.length) {
       i++;
+      _renderMeteo();
     } else {
       clearInterval(iv);
-      // cursor removed
+      txtEl.textContent = msg;
       imgEl.style.animation = 'none';
     }
   }, 22);
@@ -10805,10 +10810,16 @@ function _modalPergamino(config) {
   // Typewriter en casco: título → subtítulo → opciones
   function _twGlobal(el, html, speed, onDone) {
     var text = html.replace(/<[^>]+>/g, '');
-    var i = 0; el.textContent = '';
-    // cursor removed
+    var i = 0;
+    function _rg() {
+      var vis  = text.slice(0, i);
+      var hide = text.slice(i);
+      el.innerHTML = (vis  ? '<span>' + vis.replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</span>' : '')
+                   + (hide ? '<span style="visibility:hidden">' + hide.replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</span>' : '');
+    }
+    _rg();
     var t = setInterval(function() {
-      if (i <= text.length) { el.textContent = text.slice(0, i); i++; }
+      if (i < text.length) { i++; _rg(); }
       else { clearInterval(t); el.innerHTML = html; if (onDone) onDone(); }
     }, speed || 26);
   }
@@ -14034,7 +14045,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1280";
+var _APP_VERSION = "v1283";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -15771,7 +15782,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='display:none;position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1280</div>
+<div id='version-badge' style='display:none;position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1283</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
