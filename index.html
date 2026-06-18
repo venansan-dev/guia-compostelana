@@ -1840,7 +1840,7 @@
     <!-- Bloque casco + mensaje contextual -->
     <div id='meteo-casco-bloque' style='display:flex;align-items:flex-start;gap:10px;margin-bottom:0.85rem;background:rgba(0,0,0,0.15);border:1px solid #7a5010;border-radius:12px;padding:0.85rem 1rem;min-height:56px'>
       <img id='meteo-casco-img' src='https://i.postimg.cc/m2TbCRTs/casc4.png' style='width:36px;height:36px;object-fit:contain;flex-shrink:0;align-self:flex-start;animation:_casc-pulse 2.4s ease-in-out infinite' alt=''>
-      <div id='meteo-casco-txt' style='font-size:13px;color:#fff8e8;line-height:1.5;flex:1;border-right:2px solid #7a5010;padding-top:16px'></div>
+      <div id='meteo-casco-txt' style='font-size:13px;color:#fff8e8;line-height:1.5;flex:1;padding-top:16px'></div>
     </div>
     <!-- Título ornamental -->
     <div style='text-align:center;margin-bottom:0.6rem'>
@@ -5855,7 +5855,7 @@ function _meteoMensajeCasco(m) {
   }
 
   txtEl.textContent = '';
-  txtEl.style.borderRight = '2px solid #7a5010';
+  // cursor removed
   imgEl.style.animation = '_casc-pulse 2.4s ease-in-out infinite';
   var i = 0;
   var iv = setInterval(function() {
@@ -5864,7 +5864,7 @@ function _meteoMensajeCasco(m) {
       i++;
     } else {
       clearInterval(iv);
-      txtEl.style.borderRight = 'none';
+      // cursor removed
       imgEl.style.animation = 'none';
     }
   }, 22);
@@ -6676,7 +6676,7 @@ function abrirHeroModal() {
     var text = html.replace(/<[^>]+>/g, '');
     var i = 0;
     el.textContent = '';
-    el.style.borderRight = '2px solid #5a3008';
+    // cursor removed
     var cursor = setInterval(function() {
       if (i <= text.length) {
         el.textContent = text.slice(0, i);
@@ -6684,7 +6684,7 @@ function abrirHeroModal() {
       } else {
         clearInterval(cursor);
         el.innerHTML = html;
-        el.style.borderRight = 'none';
+        // cursor removed
         if (onDone) onDone();
       }
     }, speed || 28);
@@ -10799,10 +10799,10 @@ function _modalPergamino(config) {
   function _twGlobal(el, html, speed, onDone) {
     var text = html.replace(/<[^>]+>/g, '');
     var i = 0; el.textContent = '';
-    el.style.borderRight = '2px solid #5a3008';
+    // cursor removed
     var t = setInterval(function() {
       if (i <= text.length) { el.textContent = text.slice(0, i); i++; }
-      else { clearInterval(t); el.innerHTML = html; el.style.borderRight = 'none'; if (onDone) onDone(); }
+      else { clearInterval(t); el.innerHTML = html; if (onDone) onDone(); }
     }, speed || 26);
   }
 
@@ -14027,7 +14027,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1274";
+var _APP_VERSION = "v1275";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -15764,7 +15764,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='display:none;position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1274</div>
+<div id='version-badge' style='display:none;position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1275</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
