@@ -7840,11 +7840,6 @@ function abrirHeroModal() {
   function _renderPaso3(num, seleccionados) {
     inner.innerHTML = '';
 
-    var icono = document.createElement('div');
-    icono.style.cssText = 'font-size:36px;text-align:center;margin-bottom:8px';
-    icono.textContent = '🗺️';
-    inner.appendChild(icono);
-
     _cascoTypewriter(inner, num === 1 ? (_t.asistPaso3Uno||'¡Lugar añadido a tu ruta!') : (_t.asistPaso3Multi||'¡{n} lugares añadidos a tu ruta!').replace('{n}',num), 'justify-content:center');
 
     // ── Resumen de la ruta ───────────────────────────────────────
@@ -14178,7 +14173,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1287";
+var _APP_VERSION = "v1288";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -15915,7 +15910,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='display:flex;position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1287</div>
+<div id='version-badge' style='display:flex;position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1288</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
