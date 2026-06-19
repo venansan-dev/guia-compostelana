@@ -7911,7 +7911,7 @@ function abrirHeroModal() {
 
     var btnSi = document.createElement('button');
     btnSi.textContent = _t.asistNavSi||'🧭 Sí, navegar';
-    btnSi.style.cssText = 'flex:1;background:#fff;color:#0F6E56;border:none;border-radius:12px;padding:13px;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnSi.style.cssText = 'flex:1;background:#fff;color:#0F6E56;border:none;border-radius:10px;padding:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif';
     btnSi.addEventListener('click', function() {
       cerrar();
       setTimeout(function() {
@@ -7934,7 +7934,7 @@ function abrirHeroModal() {
 
     var btnNo = document.createElement('button');
     btnNo.textContent = _t.asistNavNo||'No, ver en mapa';
-    btnNo.style.cssText = 'flex:1;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:13px;font-size:16px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnNo.style.cssText = 'flex:1;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:10px;padding:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
     btnNo.addEventListener('click', function() {
       cerrar();
       setTimeout(function() {
@@ -7951,6 +7951,12 @@ function abrirHeroModal() {
     btnRow.appendChild(btnSi);
     btnRow.appendChild(btnNo);
     inner.appendChild(btnRow);
+
+    var btnRevisar = document.createElement('button');
+    btnRevisar.textContent = _t.asistRevisarRuta||'📋 Revisar ruta';
+    btnRevisar.style.cssText = 'width:100%;background:rgba(0,0,0,0.12);color:#1a0800;border:1px solid #7a5010;border-radius:10px;padding:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnRevisar.addEventListener('click', function(){ _renderRevision(); });
+    inner.appendChild(btnRevisar);
   }
 
   // Arrancar en paso 1
@@ -14173,7 +14179,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1288";
+var _APP_VERSION = "v1289";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -15910,7 +15916,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='display:flex;position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1288</div>
+<div id='version-badge' style='display:flex;position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1289</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
