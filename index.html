@@ -7872,7 +7872,10 @@ function abrirHeroModal() {
       distLine.innerHTML = '📍 Distancia estimada: <strong style="color:#fff">' + distTxt + '</strong>';
       resumen.appendChild(distLine);
 
-      // Lista de paradas
+      // Carrusel vertical de paradas (scroll si hay muchas)
+      var listaParadas = document.createElement('div');
+      listaParadas.style.cssText = 'display:flex;flex-direction:column;max-height:32vh;overflow-y:auto;padding-right:2px';
+
       pois.forEach(function(p, i) {
         var fila = document.createElement('div');
         fila.style.cssText = 'display:flex;align-items:center;gap:8px;' + (i < pois.length - 1 ? 'margin-bottom:6px' : '');
@@ -7896,9 +7899,10 @@ function abrirHeroModal() {
         info.innerHTML = '<span style="font-size:14px;color:rgba(255,255,255,0.9);font-weight:600">' + emoji + ' ' + p.nombre + '</span>'
           + (p.subtitulo ? '<div style="font-size:13px;color:rgba(255,255,255,0.45);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + p.subtitulo + '</div>' : '');
         fila.appendChild(info);
-        resumen.appendChild(fila);
+        listaParadas.appendChild(fila);
       });
 
+      resumen.appendChild(listaParadas);
       inner.appendChild(resumen);
     }
 
@@ -14174,7 +14178,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1286";
+var _APP_VERSION = "v1287";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -15911,7 +15915,7 @@ function abrirSobreNosotros() {
   <div class='rotate-title'>Gira el móvil</div>
   <div class='rotate-sub'>Esta guía está optimizada<br>para uso en vertical</div>
 </div>
-<div id='version-badge' style='display:flex;position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1286</div>
+<div id='version-badge' style='display:flex;position:fixed;bottom:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-family:monospace;padding:3px 8px;border-radius:10px;pointer-events:none;backdrop-filter:blur(4px)'>v1287</div>
 
 <!-- Modal alertas toggle -->
 <div id='modal-alertas-bg' class='modal-bg' onclick='this.classList.remove("visible")'>
