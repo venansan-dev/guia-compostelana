@@ -1475,7 +1475,7 @@
       <a href="https://xacobeapp.com">xacobeapp.com</a>
     </p>
     <p style="margin-top:12px;font-size:12px;color:#aaa" id="dl-foot-version">
-      App gratuita, sin publicidad. Versión v1311 · Disponible como PWA en iOS y Android
+      App gratuita, sin publicidad. Versión v1312 · Disponible como PWA en iOS y Android
     </p>
   </footer>
 
@@ -11777,7 +11777,28 @@ function actualizarLineaRuta() {
   intentarEndpoint(0);
 }
 
+// Cuando un POI está en la ruta activa, lo sacamos del grupo de clustering
+// para que aparezca siempre como marcador individual, sin fundirse con la
+// burbuja de POIs vecinos cercanos.
+function _sincMarcadoresRuta() {
+  if (!window._cluster || typeof mapa === 'undefined' || !mapa || typeof PUNTOS === 'undefined') return;
+  var idsRuta = {};
+  rutaPuntos.forEach(function(p){ idsRuta[p.id] = true; });
+  PUNTOS.forEach(function(p) {
+    if (!p.marker) return;
+    var enRuta = !!idsRuta[p.id];
+    if (enRuta) {
+      if (window._cluster.hasLayer(p.marker)) window._cluster.removeLayer(p.marker);
+      if (!mapa.hasLayer(p.marker)) p.marker.addTo(mapa);
+    } else {
+      if (mapa.hasLayer(p.marker) && !window._cluster.hasLayer(p.marker)) mapa.removeLayer(p.marker);
+      if (!window._cluster.hasLayer(p.marker)) window._cluster.addLayer(p.marker);
+    }
+  });
+}
+
 function actualizarRuta() {
+  _sincMarcadoresRuta();
   actualizarLineaRuta();
   var panel = document.getElementById('map-ruta-panel');
   var empty  = document.getElementById('ruta-bar-empty');
@@ -13796,7 +13817,7 @@ window._dlT = {
     qrDesc:'Xacobeapp es una Progressive Web App optimizada para pantallas de móvil. Escanea el QR con la cámara de tu teléfono para abrirla directamente, sin descargas.',
     qrS1:'Abre la cámara de tu móvil',qrS2:'Apunta al código QR de la derecha',qrS3:'Toca el enlace que aparece → xacobeapp.com',qrS4:'Instálala como app desde el navegador',
     footSub:'Guía gratuita del Camino de Santiago · Hecha con ❤️ en Galicia',
-    footVersion:'App gratuita, sin publicidad. Versión v1311 · Disponible como PWA en iOS y Android',
+    footVersion:'App gratuita, sin publicidad. Versión v1312 · Disponible como PWA en iOS y Android',
     navFunciones:'Funciones',navCapturas:'Capturas',navRutas:'Rutas',navQr:'Ver en móvil →',
     badge:'🐚 Gratuita · Sin publicidad'
   },
@@ -13832,7 +13853,7 @@ window._dlT = {
     qrDesc:'Xacobeapp é unha Progressive Web App optimizada para pantallas de móbil. Escanea o QR coa cámara do teu teléfono para abrila directamente, sen descargas.',
     qrS1:'Abre a cámara do teu móbil',qrS2:'Apunta ao código QR da dereita',qrS3:'Toca a ligazón que aparece → xacobeapp.com',qrS4:'Instálaa como app desde o navegador',
     footSub:'Guía gratuíta do Camiño de Santiago · Feita con ❤️ en Galicia',
-    footVersion:'App gratuíta, sen publicidade. Versión v1311 · Dispoñible como PWA en iOS e Android',
+    footVersion:'App gratuíta, sen publicidade. Versión v1312 · Dispoñible como PWA en iOS e Android',
     navFunciones:'Funcións',navCapturas:'Capturas',navRutas:'Rutas',navQr:'Ver no móbil →',
     badge:'🐚 Gratuíta · Sen publicidade'
   },
@@ -13868,7 +13889,7 @@ window._dlT = {
     qrDesc:'Xacobeapp is a Progressive Web App optimised for mobile screens. Scan the QR with your phone camera to open it directly, no download needed.',
     qrS1:'Open your phone camera',qrS2:'Point it at the QR code on the right',qrS3:'Tap the link that appears → xacobeapp.com',qrS4:'Install it as an app from your browser',
     footSub:'Free guide to the Camino de Santiago · Made with ❤️ in Galicia',
-    footVersion:'Free app, no ads. Version v1311 · Available as PWA on iOS and Android',
+    footVersion:'Free app, no ads. Version v1312 · Available as PWA on iOS and Android',
     navFunciones:'Features',navCapturas:'Screenshots',navRutas:'Routes',navQr:'Open on phone →',
     badge:'🐚 Free · No ads'
   }
@@ -14614,7 +14635,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1311";
+var _APP_VERSION = "v1312";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -16039,22 +16060,29 @@ function _filtrarMapaCat(chip, cat) {
   });
   if (!window._cluster || typeof PUNTOS === 'undefined') return;
   window._cluster.clearLayers();
+  var idsRuta = {};
+  rutaPuntos.forEach(function(p){ idsRuta[p.id] = true; });
+  function _add(p) {
+    // Los puntos de la ruta activa van directos al mapa, sin agruparse en cluster
+    if (idsRuta[p.id]) { if (!mapa.hasLayer(p.marker)) p.marker.addTo(mapa); }
+    else { if (mapa.hasLayer(p.marker)) mapa.removeLayer(p.marker); window._cluster.addLayer(p.marker); }
+  }
   PUNTOS.forEach(function(p) {
     if (!p.marker) return;
-    if (!cat) { window._cluster.addLayer(p.marker); return; }
+    if (!cat) { _add(p); return; }
     // Etapas
     if (cat.indexOf('etapa-') === 0) {
       var variante = cat.replace('etapa-','');
-      if (p.categoria === 'etapa' && p.variante === variante) window._cluster.addLayer(p.marker);
+      if (p.categoria === 'etapa' && p.variante === variante) _add(p);
       return;
     }
     // Alertas
-    if (cat === 'alerta') { if (p.esAlerta) window._cluster.addLayer(p.marker); return; }
+    if (cat === 'alerta') { if (p.esAlerta) _add(p); return; }
     // Visitados / Sin visitar
-    if (cat === 'visitado') { if (!p.esAlerta && !p.esUsuario && window._albumVisitasSet && window._albumVisitasSet[p.id]) window._cluster.addLayer(p.marker); return; }
-    if (cat === 'no-visitado') { if (!p.esAlerta && !p.esUsuario && !(window._albumVisitasSet && window._albumVisitasSet[p.id])) window._cluster.addLayer(p.marker); return; }
+    if (cat === 'visitado') { if (!p.esAlerta && !p.esUsuario && window._albumVisitasSet && window._albumVisitasSet[p.id]) _add(p); return; }
+    if (cat === 'no-visitado') { if (!p.esAlerta && !p.esUsuario && !(window._albumVisitasSet && window._albumVisitasSet[p.id])) _add(p); return; }
     // Categorías normales
-    if (p.categoria === cat) window._cluster.addLayer(p.marker);
+    if (p.categoria === cat) _add(p);
   });
 }
 
