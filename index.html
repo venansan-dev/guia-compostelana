@@ -1427,7 +1427,7 @@
       <a href="https://xacobeapp.com">xacobeapp.com</a>
     </p>
     <p style="margin-top:12px;font-size:12px;color:#aaa" id="dl-foot-version">
-      App gratuita, sin publicidad. Versión v1387 · Disponible como PWA en iOS y Android
+      App gratuita, sin publicidad. Versión v1388 · Disponible como PWA en iOS y Android
     </p>
   </footer>
 
@@ -10651,7 +10651,11 @@ function initMapa() {
 
   var statusEl = document.getElementById('map-status');
   statusEl.classList.add('visible');
-  if (navigator.geolocation) {
+  // En la landing de escritorio el mapa no es visible (oculto por CSS):
+  // no tiene sentido pedir permiso de localización solo por visitar la web.
+  if (window.matchMedia('(min-width:769px)').matches) {
+    statusEl.classList.remove('visible');
+  } else if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       function(pos) {
         userLat = pos.coords.latitude; userLng = pos.coords.longitude;
@@ -15086,7 +15090,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1387";
+var _APP_VERSION = "v1388";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
