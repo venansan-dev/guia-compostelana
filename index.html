@@ -795,46 +795,22 @@
   .dl-orb {
     position:fixed; border-radius:50%;
     pointer-events:none; z-index:0;
-    filter:blur(80px); opacity:0.18;
-  }
-  body.dl-paused .dl-orb,
-  body.dl-paused [style*="shimmerText"],
-  body.dl-paused [style*="btnShimmer"],
-  body.dl-paused [style*="btnSweep"] { animation-play-state:paused !important; }
-  @media (prefers-reduced-motion: reduce) {
-    .dl-orb { animation:none !important; }
+    filter:blur(45px); opacity:0.18;
   }
   .dl-orb-1 {
     width:600px; height:600px;
     background:radial-gradient(circle,#3b82f6,transparent 70%);
     top:-150px; left:-100px;
-    animation:orbFloat1 18s ease-in-out infinite;
   }
   .dl-orb-2 {
     width:500px; height:500px;
     background:radial-gradient(circle,#1a3a6e,transparent 70%);
     top:30%; right:-120px;
-    animation:orbFloat2 22s ease-in-out infinite;
   }
   .dl-orb-3 {
     width:400px; height:400px;
     background:radial-gradient(circle,#0ea5e9,transparent 70%);
     bottom:10%; left:20%;
-    animation:orbFloat3 16s ease-in-out infinite;
-  }
-  @keyframes orbFloat1 {
-    0%,100%{transform:translate(0,0) scale(1)}
-    33%{transform:translate(60px,40px) scale(1.1)}
-    66%{transform:translate(-30px,60px) scale(0.95)}
-  }
-  @keyframes orbFloat2 {
-    0%,100%{transform:translate(0,0) scale(1)}
-    40%{transform:translate(-50px,-40px) scale(1.08)}
-    70%{transform:translate(30px,50px) scale(0.92)}
-  }
-  @keyframes orbFloat3 {
-    0%,100%{transform:translate(0,0) scale(1)}
-    50%{transform:translate(40px,-60px) scale(1.12)}
   }
 
   /* Asegurar que el contenido queda por encima de los orbes */
@@ -876,26 +852,10 @@
     color:#dfc888;
   }
 
-  /* Botón primario con brillo animado */
+  /* Botón primario: brillo estático, sin animación en bucle */
   .dl-btn-primary {
-    position:relative; overflow:hidden;
-    background:linear-gradient(135deg,#1a3a6e,#2563eb,#1a3a6e) !important;
-    background-size:200% 100% !important;
-    animation:btnShimmer 4s ease-in-out infinite;
+    background:linear-gradient(135deg,#1a3a6e,#2563eb) !important;
     box-shadow:0 4px 20px rgba(37,99,235,0.5),0 0 0 1px rgba(99,179,237,0.2) !important;
-  }
-  .dl-btn-primary::before {
-    content:'';
-    position:absolute; top:0; left:-100%; width:60%; height:100%;
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,0.18),transparent);
-    animation:btnSweep 3s ease-in-out infinite;
-  }
-  @keyframes btnShimmer {
-    0%,100%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-  }
-  @keyframes btnSweep {
-    0%{left:-100%} 60%,100%{left:200%}
   }
   .dl-btn-primary:hover {
     box-shadow:0 8px 32px rgba(37,99,235,0.7),0 0 0 1px rgba(99,179,237,0.4) !important;
@@ -5483,31 +5443,6 @@ function initOndaTitulos() {
 document.addEventListener('DOMContentLoaded', function() {
   setTimeout(initOndaTitulos, 800);
 });
-
-// ── Pausar animaciones decorativas pesadas (orbes con blur) cuando la
-// pestaña está en segundo plano o el hero no está en pantalla. No afecta
-// a la funcionalidad ni a la apariencia mientras se está viendo la página;
-// solo reduce el trabajo de la GPU cuando no aporta nada visible.
-(function() {
-  function _setPaused(paused) {
-    document.body.classList.toggle('dl-paused', paused);
-  }
-  document.addEventListener('visibilitychange', function() {
-    _setPaused(document.hidden);
-  });
-  if (typeof IntersectionObserver !== 'undefined') {
-    document.addEventListener('DOMContentLoaded', function() {
-      var heroEl = document.querySelector('.dl-hero') || document.querySelector('.dl-header');
-      if (!heroEl) return;
-      var io = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (!document.hidden) _setPaused(!entry.isIntersecting);
-        });
-      }, { threshold: 0 });
-      io.observe(heroEl);
-    });
-  }
-})();
 
 // ── OCULTAR BOTÓN MAPA CUANDO TARJETA EXPANDIDA SE SUPERPONE ────────────────
 // Usa IntersectionObserver para detectar si el carrusel está encima del mapa
@@ -15094,7 +15029,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1366";
+var _APP_VERSION = "v1367";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
