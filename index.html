@@ -1419,7 +1419,7 @@
       <a href="https://xacobeapp.com">xacobeapp.com</a>
     </p>
     <p style="margin-top:12px;font-size:12px;color:#aaa" id="dl-foot-version">
-      App gratuita, sin publicidad. Versión v1323 · Disponible como PWA en iOS y Android
+      App gratuita, sin publicidad. Versión v1383 · Disponible como PWA en iOS y Android
     </p>
   </footer>
 
@@ -6373,7 +6373,7 @@ function _renderPoiDrawerCarrusel() {
     }
     card.innerHTML =
       (window._imgCromo ? window._imgCromo(p, enRuta, T, idiomaActual) : '<div class="poi-img '+p.color+'" style="position:relative;overflow:hidden">'+
-        '<img src="'+(p.imagen||'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png')+'" alt="'+p.nombre+'" class="poi-img-cover" decoding="async" fetchpriority="low"/>'+
+        '<img src="'+(p.imagen||'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png')+'" alt="'+p.nombre+'" class="poi-img-cover" loading="lazy" decoding="async" fetchpriority="low"/>'+
 
       '</div>')+
       (!p.esUsuario ? '<div class="poi-ranking" id="rank-'+p.id+'" style="left:8px;right:auto">&#9733; '+(val.votos>0?media:'-')+'</div>' : '')+
@@ -11276,7 +11276,7 @@ function renderCarrusel(categoria) {
     }
     card.innerHTML =
       (window._imgCromo ? window._imgCromo(p, enRuta, T, idiomaActual) : '<div class="poi-img '+p.color+'" style="position:relative;overflow:hidden">' +
-        '<img src="'+(p.imagen||'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png')+'" alt="'+p.nombre+'" class="poi-img-cover" decoding="async" fetchpriority="low"/>' +
+        '<img src="'+(p.imagen||'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png')+'" alt="'+p.nombre+'" class="poi-img-cover" loading="lazy" decoding="async" fetchpriority="low"/>' +
         (mostrarBtnRuta && !p.esAlerta && !p.esUsuario && !(window._albumVisitasSet && window._albumVisitasSet[p.id]) ? '<button id="rbtn-'+p.id+'" class="poi-ruta-btn" data-poi="'+p.id+'" style="position:absolute;top:8px;right:8px;z-index:10;font-size:13px;padding:4px 10px;border-radius:10px;backdrop-filter:blur(4px);background:'+(enRuta?'#1D9E75':'rgba(255,255,255,0.92)')+';color:'+(enRuta?'#fff':'#0F6E56')+';border:1px solid '+(enRuta?'#1D9E75':'rgba(29,158,117,0.4)')+'">'+  (enRuta?'&#10003; '+(T[idiomaActual]||T.es).enRuta.replace('✓ ',''):(T[idiomaActual]||T.es).añadirRuta)+'</button>' : '') +
       '</div>')+
       (!p.esUsuario ? '<div class="poi-ranking" id="rank-'+p.id+'" style="left:8px;right:auto">&#9733; '+(val.votos>0?media:'-')+'</div>' : '')+
@@ -12387,7 +12387,7 @@ function cargarRutaGuardada() {
     });
     mostrarToast('📍 Ruta restaurada (' + rutaPuntos.length + ' puntos)');
     _actualizarBtnRestauraRuta();
-  } catch(e) { console.log('Error cargando ruta:', e); }
+  } catch(e) { console.warn('Error cargando ruta:', e); }
 }
 
 
@@ -14215,7 +14215,7 @@ window._dlT = {
     qrDesc:'Xacobeapp es una Progressive Web App optimizada para pantallas de móvil. Escanea el QR con la cámara de tu teléfono para abrirla directamente, sin descargas.',
     qrS1:'Abre la cámara de tu móvil',qrS2:'Apunta al código QR de la derecha',qrS3:'Toca el enlace que aparece → xacobeapp.com',qrS4:'Instálala como app desde el navegador',
     footSub:'Guía gratuita del Camino de Santiago · Hecha con ❤️ en Galicia',
-    footVersion:'App gratuita, sin publicidad. Versión v1323 · Disponible como PWA en iOS y Android',
+    footVersion:'App gratuita, sin publicidad. Versión {VER} · Disponible como PWA en iOS y Android',
     navFunciones:'Funciones',navCapturas:'Capturas',navRutas:'Rutas',navQr:'Ver en móvil →',
     badge:'🐚 Gratuita · Sin publicidad'
   },
@@ -14251,7 +14251,7 @@ window._dlT = {
     qrDesc:'Xacobeapp é unha Progressive Web App optimizada para pantallas de móbil. Escanea o QR coa cámara do teu teléfono para abrila directamente, sen descargas.',
     qrS1:'Abre a cámara do teu móbil',qrS2:'Apunta ao código QR da dereita',qrS3:'Toca a ligazón que aparece → xacobeapp.com',qrS4:'Instálaa como app desde o navegador',
     footSub:'Guía gratuíta do Camiño de Santiago · Feita con ❤️ en Galicia',
-    footVersion:'App gratuíta, sen publicidade. Versión v1323 · Dispoñible como PWA en iOS e Android',
+    footVersion:'App gratuíta, sen publicidade. Versión {VER} · Dispoñible como PWA en iOS e Android',
     navFunciones:'Funcións',navCapturas:'Capturas',navRutas:'Rutas',navQr:'Ver no móbil →',
     badge:'🐚 Gratuíta · Sen publicidade'
   },
@@ -14287,7 +14287,7 @@ window._dlT = {
     qrDesc:'Xacobeapp is a Progressive Web App optimised for mobile screens. Scan the QR with your phone camera to open it directly, no download needed.',
     qrS1:'Open your phone camera',qrS2:'Point it at the QR code on the right',qrS3:'Tap the link that appears → xacobeapp.com',qrS4:'Install it as an app from your browser',
     footSub:'Free guide to the Camino de Santiago · Made with ❤️ in Galicia',
-    footVersion:'Free app, no ads. Version v1323 · Available as PWA on iOS and Android',
+    footVersion:'Free app, no ads. Version {VER} · Available as PWA on iOS and Android',
     navFunciones:'Features',navCapturas:'Screenshots',navRutas:'Routes',navQr:'Open on phone →',
     badge:'🐚 Free · No ads'
   }
@@ -14652,7 +14652,7 @@ function cambiarIdioma(lang){
     _s('dl-qr-s1',dl.qrS1);_s('dl-qr-s2',dl.qrS2);
     _s('dl-qr-s3',dl.qrS3);_s('dl-qr-s4',dl.qrS4);
     _s('dl-foot-sub',    dl.footSub);
-    _s('dl-foot-version',dl.footVersion);
+    _s('dl-foot-version',dl.footVersion.replace('{VER}', (typeof _APP_VERSION!=='undefined'?_APP_VERSION:'')));
     // Nav header desktop landing
     var _dlNav=document.querySelector('.dl-header-nav');
     if(_dlNav){
@@ -15077,7 +15077,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1382";
+var _APP_VERSION = "v1383";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -15826,7 +15826,7 @@ if ('serviceWorker' in navigator) {
       var _imgSrc = 'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png';
       var _fotoOverlay = '<div style="position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:30px;pointer-events:none"><div style="background:rgba(0,0,0,0.55);backdrop-filter:blur(3px);border-radius:10px;padding:4px 8px;font-size:9px;font-weight:600;color:rgba(255,255,255,0.85);text-align:center;font-family:DM Sans,sans-serif;letter-spacing:0.3px;max-width:90%">📷 Añade una foto para tu álbum de recuerdos</div></div>';
       return '<div class="poi-img '+p.color+'" style="position:relative;overflow:hidden" data-cromo-id="'+p.id+'">' +
-        '<img id="cromo-img-'+p.id+'" src="'+_imgSrc+'" alt="'+p.nombre+'" class="poi-img-cover" decoding="async" fetchpriority="low"/>' +
+        '<img id="cromo-img-'+p.id+'" src="'+_imgSrc+'" alt="'+p.nombre+'" class="poi-img-cover" loading="lazy" decoding="async" fetchpriority="low"/>' +
         _fotoOverlay +
         '<button onclick="event.stopPropagation();_albumPedirFotoCard(\''+p.id+'\')" style="position:absolute;bottom:7px;right:7px;z-index:10;background:rgba(0,0,0,0.52);border:1px solid rgba(255,255,255,0.35);border-radius:20px;padding:3px 9px;color:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;backdrop-filter:blur(4px)" id="foto-btn-'+p.id+'">📷 mi foto</button>' +
       '</div>';
@@ -15856,7 +15856,7 @@ if ('serviceWorker' in navigator) {
           var src = blob ? URL.createObjectURL(blob) : 'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png';
           var noFoto = !blob; // overlay hasta que usuario asigne foto propia
           var ov = noFoto ? '<div style="position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:30px;pointer-events:none"><div style="background:rgba(0,0,0,0.55);backdrop-filter:blur(3px);border-radius:10px;padding:4px 8px;font-size:9px;font-weight:600;color:rgba(255,255,255,0.85);text-align:center;font-family:DM Sans,sans-serif;letter-spacing:0.3px;max-width:90%">📷 Añade una foto para tu álbum de recuerdos</div></div>' : '';
-          d.innerHTML = '<img id="cromo-img-'+poi.id+'" src="'+src+'" alt="'+poi.nombre+'" class="poi-img-cover" decoding="async"/>' + ov +
+          d.innerHTML = '<img id="cromo-img-'+poi.id+'" src="'+src+'" alt="'+poi.nombre+'" class="poi-img-cover" loading="lazy" decoding="async"/>' + ov +
             '<button onclick="event.stopPropagation();_albumPedirFotoCard(\''+poi.id+'\')" style="position:absolute;bottom:7px;right:7px;z-index:10;background:rgba(0,0,0,0.52);border:1px solid rgba(255,255,255,0.35);border-radius:20px;padding:3px 9px;color:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;backdrop-filter:blur(4px)" id="foto-btn-'+poi.id+'">📷 mi foto</button>';
         });
       })(div, p);
