@@ -314,7 +314,7 @@
   <style>
   /* ─── RESET DESKTOP: oculta TODO el body excepto la landing ─── */
   @media (min-width:769px){
-    body > *:not(#desktop-landing) { display:none !important; }
+    body > *:not(#desktop-landing):not(#admin-tap) { display:none !important; }
     #desktop-landing { display:block !important; }
     body {
       background:#0a0f1e !important;
@@ -359,7 +359,7 @@
   /* ─── HERO ─── */
   .dl-hero {
     background:linear-gradient(135deg,#0d1428 0%,#111827 50%,#0a0f1e 100%);
-    padding:2.5rem 2rem 3rem;
+    padding:2.5rem 2rem 1rem;
     display:flex; align-items:center; justify-content:center;
     gap:6rem;
     max-width:1100px; margin:0 auto;
@@ -437,6 +437,27 @@
     background:#1a1a1a; border-radius:0 0 18px 18px;
     z-index:10;
   }
+  .dl-phone-slide {
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover; display:block;
+    border-radius:34px;
+    opacity:0;
+    transition:opacity .8s ease;
+  }
+  .dl-phone-slide.active { opacity:1; z-index:1; }
+  .dl-phone-caption {
+    position:absolute; top:28px; left:0; right:0; z-index:15;
+    text-align:center;
+    padding:9px 14px 12px;
+    background:linear-gradient(180deg,rgba(13,30,58,0.88) 0%,rgba(13,30,58,0.4) 60%,transparent 100%);
+    color:#fff; font-size:11px; font-weight:700;
+    letter-spacing:0.3px;
+    font-family:'DM Sans',sans-serif;
+    opacity:0; transition:opacity .5s ease;
+    pointer-events:none;
+  }
+  .dl-phone-caption.visible { opacity:1; }
   .dl-phone-screen {
     width:100%; height:100%;
     display:flex; flex-direction:column;
@@ -533,7 +554,7 @@
     background:linear-gradient(90deg,#0d1428 0%,#111827 50%,#0d1428 100%);
     border-top:1px solid rgba(255,255,255,0.06);
     border-bottom:1px solid rgba(255,255,255,0.06);
-    padding:2rem;
+    padding:1.5rem 2rem;
     display:flex; justify-content:center;
     gap:0;
   }
@@ -557,7 +578,7 @@
   /* ─── FEATURES ─── */
   .dl-features-wrap {
     background:linear-gradient(180deg,#0f1729 0%,#111827 100%);
-    padding:5rem 2rem 2.5rem;
+    padding:2rem 2rem 1.5rem;
   }
   .dl-section-title {
     text-align:center;
@@ -624,7 +645,7 @@
   /* ─── SCREENSHOTS / GALERÍA ─── */
   .dl-gallery-wrap {
     background:linear-gradient(180deg,#111827 0%,#0d1428 100%);
-    padding:5rem 2rem;
+    padding:2rem 2rem;
     overflow:hidden;
   }
   .dl-gallery-carousel-wrap {
@@ -698,7 +719,7 @@
   /* ─── RUTAS ─── */
   .dl-routes-wrap {
     background:linear-gradient(180deg,#0a0f1e 0%,#0d1428 100%);
-    padding:5rem 2rem;
+    padding:1rem 2rem 2rem;
   }
   .dl-routes {
     display:flex; gap:12px; justify-content:center;
@@ -720,7 +741,7 @@
   /* ─── QR SECTION ─── */
   .dl-qr-wrap {
     background:linear-gradient(135deg,#0d1428 0%,#111827 100%);
-    padding:5rem 2rem;
+    padding:2rem 2rem;
     display:flex; align-items:center; justify-content:center;
     gap:5rem;
     max-width:900px; margin:0 auto;
@@ -776,7 +797,7 @@
   .dl-footer {
     background:#070b14;
     border-top:1px solid rgba(255,255,255,0.06);
-    padding:2.5rem 2rem;
+    padding:2rem 2rem;
     text-align:center;
   }
   .dl-footer p {
@@ -1081,9 +1102,28 @@
       <div class="dl-phone-wrap">
         <div class="dl-phone">
           <div class="dl-phone-notch"></div>
-          <img src="https://i.postimg.cc/Ls1gcsLL/principal2.png" alt="Xacobeapp screenshot" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:34px"/>
+          <div class="dl-phone-caption" id="dl-phone-caption"></div>
+          <img src="https://i.postimg.cc/Ls1gcsLL/principal2.png" alt="Xacobeapp screenshot" class="dl-phone-slide dl-phone-slide-main active" data-cap=""/>
+          <img src="https://i.postimg.cc/P5FqB2wS/mipunto3.png" alt="Añade tus propios puntos" class="dl-phone-slide" data-cap="gal1"/>
+          <img src="https://i.postimg.cc/3xbwPnvL/historia3.png" alt="Patrimonio" class="dl-phone-slide" data-cap="gal2"/>
+          <img src="https://i.postimg.cc/9QNfvJ7G/etapas3.png" alt="Etapas de los principales caminos" class="dl-phone-slide" data-cap="gal3"/>
+          <img src="https://i.postimg.cc/7ZQLpm20/brujula3.png" alt="Brújula" class="dl-phone-slide" data-cap="gal4"/>
+          <img src="https://i.postimg.cc/Cx6KWmq8/asis3.png" alt="Asistente" class="dl-phone-slide" data-cap="gal5"/>
+          <img src="https://i.postimg.cc/rwYpvQrR/alertas3.png" alt="Crea y recibe alertas en tiempo real" class="dl-phone-slide" data-cap="gal6"/>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- RUTAS -->
+  <section id="dl-rutas" class="dl-routes-wrap">
+    <p class="dl-section-sub" id="dl-rut-sub">Cinco caminos jacobeos con etapas, POIs y navegación GPS</p>
+    <div class="dl-routes">
+      <div class="dl-route-pill">🔵 <span id="dl-rut1">Camino Portugués de la Costa</span></div>
+      <div class="dl-route-pill">🔴 <span id="dl-rut2">Camino Francés</span></div>
+      <div class="dl-route-pill">🟠 <span id="dl-rut3">Camino del Norte</span></div>
+      <div class="dl-route-pill">🟣 <span id="dl-rut4">Camino Primitivo</span></div>
+      <div class="dl-route-pill">🟡 <span id="dl-rut5">Camino Inglés</span></div>
     </div>
   </section>
 
@@ -1213,19 +1253,6 @@
     <p style="text-align:center;margin-top:2rem;font-size:13px;color:#94a3b8" id="dl-gal-hint">
       ✨ Escanea el QR para ver la app real en tu móvil
     </p>
-  </section>
-
-  <!-- RUTAS -->
-  <section id="dl-rutas" class="dl-routes-wrap">
-    <h2 class="dl-section-title" id="dl-rut-title">Rutas cubiertas</h2>
-    <p class="dl-section-sub" id="dl-rut-sub">Cinco caminos jacobeos con etapas, POIs y navegación GPS</p>
-    <div class="dl-routes">
-      <div class="dl-route-pill">🔵 <span id="dl-rut1">Camino Portugués de la Costa</span></div>
-      <div class="dl-route-pill">🔴 <span id="dl-rut2">Camino Francés</span></div>
-      <div class="dl-route-pill">🟠 <span id="dl-rut3">Camino del Norte</span></div>
-      <div class="dl-route-pill">🟣 <span id="dl-rut4">Camino Primitivo</span></div>
-      <div class="dl-route-pill">🟡 <span id="dl-rut5">Camino Inglés</span></div>
-    </div>
   </section>
 
   <!-- QR -->
@@ -1427,7 +1454,7 @@
       <a href="https://xacobeapp.com">xacobeapp.com</a>
     </p>
     <p style="margin-top:12px;font-size:12px;color:#aaa" id="dl-foot-version">
-      App gratuita, sin publicidad. Versión v1388 · Disponible como PWA en iOS y Android
+      App gratuita, sin publicidad. Versión v1400 · Disponible como PWA en iOS y Android
     </p>
   </footer>
 
@@ -12962,6 +12989,36 @@ function iniciarGaleria() {
   }, 8000);
 }
 
+// ── CARRUSEL DEL TELÉFONO DEL HERO (landing escritorio) ─────────────
+// Mantiene la primera captura fija y va rotando el resto con su leyenda
+// arriba (las mismas imágenes y textos que la galería "La app en acción").
+var _dlPhoneIniciado = false;
+function iniciarPhoneCarrusel() {
+  if (window.innerWidth < 769) return;
+  if (_dlPhoneIniciado) return;
+  var slides = document.querySelectorAll('.dl-phone-slide');
+  if (slides.length < 2) return;
+  _dlPhoneIniciado = true;
+  var caption = document.getElementById('dl-phone-caption');
+  var idx = 0;
+  setInterval(function() {
+    idx = (idx + 1) % slides.length;
+    for (var i = 0; i < slides.length; i++) {
+      slides[i].classList.toggle('active', i === idx);
+    }
+    if (caption) {
+      var capKey = slides[idx].getAttribute('data-cap');
+      if (capKey) {
+        var dl = (window._dlT && (window._dlT[idiomaActual] || window._dlT.es)) || {};
+        caption.textContent = dl[capKey] || '';
+        caption.classList.add('visible');
+      } else {
+        caption.classList.remove('visible');
+      }
+    }
+  }, 3500);
+}
+
 function cargarEnSlot(slotIdx, imgIdx) {
   var slot = document.getElementById('gallery-slot-' + slotIdx);
   if (!slot) return;
@@ -14951,6 +15008,7 @@ document.addEventListener('DOMContentLoaded', function() {
   cargarPOIsFirebase();
   iniciarTiempo();
   iniciarGaleria();
+  iniciarPhoneCarrusel();
 
   // Relanzar galería al girar pantalla (iPad landscape)
   window.addEventListener('resize', function() {
@@ -15090,7 +15148,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1388";
+var _APP_VERSION = "v1400";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -15912,7 +15970,10 @@ if ('serviceWorker' in navigator) {
   };
 
   // Al cargar, mostrar chip si ya hay visitas guardadas
+  // (solo en móvil/app — en la landing de escritorio esta función no se usa
+  // y abrir IndexedDB sin necesidad puede disparar el aviso de almacenamiento del navegador)
   window.addEventListener('load', function() {
+    if (window.matchMedia('(min-width:769px)').matches) return;
     _refrescarCacheVisitas(function() {
       var v = Object.keys(window._albumVisitasSet);
     });
