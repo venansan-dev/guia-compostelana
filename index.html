@@ -345,9 +345,9 @@
   }
   .dl-header-logo span { color:#1a3a6e; }
   .dl-header-badge {
-    font-size:11px; background:rgba(26,58,110,0.25); color:#7EB8E8;
+    font-size:11px; background:rgba(212,175,55,0.12); color:#dfc888;
     padding:3px 10px; border-radius:20px; font-weight:600;
-    border:1px solid rgba(26,58,110,0.4);
+    border:1px solid rgba(212,175,55,0.45);
   }
   .dl-header-nav { margin-left:auto; display:flex; gap:2rem; }
   .dl-header-nav a {
@@ -848,31 +848,22 @@
     box-shadow:0 1px 0 rgba(99,179,237,0.15), 0 4px 24px rgba(0,0,0,0.4) !important;
   }
 
-  /* Hero: degradado de texto animado en el título */
+  /* Hero: color dorado fijo en la palabra destacada del título, sin animación */
   .dl-hero-title em {
-    background:linear-gradient(90deg,#7EB8E8,#a78bfa,#38bdf8,#7EB8E8);
-    background-size:300% 100%;
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    background-clip:text;
-    animation:shimmerText 6s linear infinite;
-  }
-  @keyframes shimmerText {
-    0%{background-position:0% 50%}
-    100%{background-position:300% 50%}
+    color:#dfc888;
   }
 
-  /* Eyebrow con marco y shimmer solo en el texto */
+  /* Eyebrow con marco y color dorado fijo, igual que el header */
   .dl-hero-eyebrow {
     display:inline-flex;
     align-items:center;
     gap:6px;
-    border:1.5px solid rgba(99,179,237,0.5);
+    border:1.5px solid rgba(212,175,55,0.45);
     border-radius:8px;
     padding:5px 14px;
     margin-bottom:1rem;
-    background:rgba(99,179,237,0.05);
-    box-shadow:0 0 16px rgba(99,179,237,0.1), inset 0 1px 0 rgba(255,255,255,0.05);
+    background:rgba(212,175,55,0.07);
+    box-shadow:0 0 16px rgba(212,175,55,0.12), inset 0 1px 0 rgba(255,255,255,0.05);
   }
   .dl-hero-eyebrow .ey-emoji {
     font-size:14px;
@@ -882,12 +873,7 @@
   .dl-hero-eyebrow .ey-text {
     font-size:11px; font-weight:700; letter-spacing:2px;
     text-transform:uppercase;
-    background:linear-gradient(90deg,#7EB8E8,#a78bfa,#38bdf8,#7EB8E8);
-    background-size:300% 100%;
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    background-clip:text;
-    animation:shimmerText 4s linear infinite;
+    color:#dfc888;
   }
 
   /* Botón primario con brillo animado */
@@ -932,6 +918,18 @@
   .dl-stat-num { text-shadow:0 0 30px rgba(99,179,237,0.3); }
   .dl-stat-num span { color:#7EB8E8; text-shadow:0 0 20px rgba(126,184,232,0.6); }
   .dl-stats { border-top:1px solid rgba(255,255,255,0.05) !important; border-bottom:1px solid rgba(255,255,255,0.05) !important; }
+
+  /* Contador animado de los stats: cifra en dorado fijo, pulso de escala al llegar al final (solo transform, ligero para CPU/GPU) */
+  .dl-stat-num { display:inline-block; }
+  .dl-stat-num-value { color:#dfc888; }
+  .dl-stat-num.dl-pulse-end {
+    animation: dlStatPulseEnd .5s ease-out;
+  }
+  @keyframes dlStatPulseEnd {
+    0%   { transform:scale(1); }
+    45%  { transform:scale(1.3); }
+    100% { transform:scale(1); }
+  }
 
   /* Separador luminoso entre secciones */
   .dl-stats::before, .dl-features-wrap::before,
@@ -1015,16 +1013,6 @@
   .dl-qr-step-num {
     background:linear-gradient(135deg,#1a3a6e,#2563eb) !important;
     box-shadow:0 0 12px rgba(37,99,235,0.5) !important;
-  }
-
-  /* Section titles con gradiente sutil */
-  .dl-section-title {
-    background:linear-gradient(90deg,#e8eaf0,#7EB8E8,#a78bfa,#e8eaf0);
-    background-size:300% 100%;
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    background-clip:text;
-    animation:shimmerText 8s linear infinite;
   }
 
   /* Footer link color */
@@ -1119,7 +1107,7 @@
           </a>
         </div>
         <div class="dl-hero-meta">
-          <div class="dl-hero-meta-item">⭐ <strong id="dl-meta-gratis">Gratuita</strong> <span id="dl-meta-gratis2"> y sin anuncios</span></div>
+          <div class="dl-hero-meta-item">⭐ <strong id="dl-meta-gratis">Gratuita</strong> <span id="dl-meta-gratis2"> y sin anuncios</span><span id="dl-meta-gratis3">, impulsada por la comunidad de peregrinos</span></div>
           <div class="dl-hero-meta-item" id="dl-meta-rutas">📍 Los principales caminos jacobeos, con sus etapas y POIs exclusivos</div>
           <div class="dl-hero-meta-item">🔒 <strong>Offline</strong> · <span id="dl-meta-offline">funciona sin red</span></div>
         </div>
@@ -1138,20 +1126,16 @@
   <!-- STATS -->
   <div class="dl-stats">
     <div class="dl-stat">
-      <div class="dl-stat-num">200<span>+</span></div>
-      <div class="dl-stat-label" id="dl-stat-poi">Puntos de interés, en aumento</div>
+      <div class="dl-stat-num" data-target="300"><span class="dl-stat-num-value">0</span><span>+</span></div>
+      <div class="dl-stat-label" id="dl-stat-poi">Puntos de interés especializados</div>
     </div>
     <div class="dl-stat">
-      <div class="dl-stat-num">107</div>
-      <div class="dl-stat-label" id="dl-stat-etapas">Etapas documentadas de los 5 caminos principales</div>
+      <div class="dl-stat-num" data-target="113"><span class="dl-stat-num-value">0</span></div>
+      <div class="dl-stat-label" id="dl-stat-etapas">Etapas diarias de los 6 principales caminos</div>
     </div>
     <div class="dl-stat">
-      <div class="dl-stat-num">0<span>€</span></div>
+      <div class="dl-stat-num" data-target="0"><span class="dl-stat-num-value">0</span><span>€</span></div>
       <div class="dl-stat-label" id="dl-stat-coste">Coste para el peregrino</div>
-    </div>
-    <div class="dl-stat">
-      <div class="dl-stat-num">0</div>
-      <div class="dl-stat-label" id="dl-stat-pub">Publicidad y cookies</div>
     </div>
   </div>
 
@@ -14221,10 +14205,10 @@ window._dlT = {
     heroTitle:'Tu compañera en el <em>Camino</em>',
     heroDesc:'Xacobeapp es una guía gratuita para el Camino de Santiago, intuitiva y de muy fácil manejo, que te mostrará todo el patrimonio jacobeo a tu alrededor. Mapas interactivos, creador de rutas, etapas, avisos rápidos de emergencia, POIs exclusivos especializados en el patrimonio xacobeo, navegación GPS, brújula… y otras muchas utilidades pensadas para el peregrino, pero también para todos los que disfrutan conociendo y explorando nuevos espacios. Toda una navaja suiza del peregrino en tu bolsillo, a tu servicio.',
     btnMovil:'📱 Abrir en tu móvil',
-    metaGratis:'Gratuita', metaGratis2:' y sin anuncios',
+    metaGratis:'Gratuita', metaGratis2:' y sin anuncios', metaGratis3:', impulsada por la comunidad de peregrinos',
     metaRutas:'📍 Los principales caminos jacobeos, con sus etapas y POIs exclusivos',
     metaOffline:'funciona sin red',
-    statPoi:'Puntos de interés, en aumento', statEtapas:'Etapas documentadas de los 5 caminos principales', statCoste:'Coste para el peregrino', statPub:'Publicidad y cookies',
+    statPoi:'Puntos de interés especializados', statEtapas:'Etapas diarias de los 6 principales caminos', statCoste:'Coste para el peregrino',
     featTitle:'Todo lo que necesitas en el Camino', featSub:'Diseñada para usarse en el móvil mientras caminas',
     f1t:'Mapa interactivo offline',f1d:'Tiles de OpenStreetMap cacheadas. Navega sin conexión a lo largo de toda la ruta, con tu posición GPS en tiempo real.',
     f2t:'Navegación por voz',f2d:'Indicaciones habladas en gallego, español e inglés. El móvil te avisa de cada giro sin tener que mirar la pantalla.',
@@ -14257,10 +14241,10 @@ window._dlT = {
     heroTitle:'A túa compañeira no <em>Camiño</em>',
     heroDesc:'Xacobeapp é unha guía gratuíta para o Camiño de Santiago, intuitiva e moi fácil de usar, que che mostrará todo o patrimonio xacobeo ao teu redor. Mapas interactivos, creador de rutas, etapas, avisos rápidos de emerxencia, POIs exclusivos especializados no patrimonio xacobeo, navegación GPS, brúxula… e moitas outras utilidades pensadas para o peregrino, pero tamén para todos os que gozan coñecendo e explorando novos espazos. Toda unha navalla suíza do peregrino no teu peto, ao teu servizo.',
     btnMovil:'📱 Abrir no teu móbil',
-    metaGratis:'Gratuíta', metaGratis2:' e sen anuncios',
+    metaGratis:'Gratuíta', metaGratis2:' e sen anuncios', metaGratis3:', impulsada pola comunidade de peregrinos',
     metaRutas:'📍 Os principais camiños xacobeos, coas súas etapas e POIs exclusivos',
     metaOffline:'funciona sen rede',
-    statPoi:'Puntos de interese, en aumento', statEtapas:'Etapas documentadas dos 5 camiños principais', statCoste:'Custo para o peregrino', statPub:'Publicidade e cookies',
+    statPoi:'Puntos de interese especializados', statEtapas:'Etapas diarias dos 6 camiños principais', statCoste:'Custo para o peregrino',
     featTitle:'Todo o que precisas no Camiño', featSub:'Deseñada para usarse no móbil mentres camiñas',
     f1t:'Mapa interactivo sen conexión',f1d:'Tiles de OpenStreetMap en caché. Navega sen conexión ao longo de toda a ruta, coa túa posición GPS en tempo real.',
     f2t:'Navegación por voz',f2d:'Indicacións faladas en galego, español e inglés. O móbil avísate de cada xiro sen ter que mirar a pantalla.',
@@ -14293,10 +14277,10 @@ window._dlT = {
     heroTitle:'Your companion on the <em>Camino</em>',
     heroDesc:'Xacobeapp is a free guide to the Camino de Santiago — intuitive and easy to use — showing you all the Jacobean heritage around you. Interactive maps, route builder, stages, quick emergency alerts, exclusive POIs specialising in Jacobean heritage, GPS navigation, compass… and many more utilities designed for pilgrims and for everyone who enjoys discovering and exploring new places. A true Swiss army knife for the pilgrim, right in your pocket.',
     btnMovil:'📱 Open on your phone',
-    metaGratis:'Free', metaGratis2:' and ad-free',
+    metaGratis:'Free', metaGratis2:' and ad-free', metaGratis3:', powered by the pilgrim community',
     metaRutas:'📍 The main Jacobean routes, with their stages and exclusive POIs',
     metaOffline:'works offline',
-    statPoi:'Points of interest, growing', statEtapas:'Documented stages across the 5 main routes', statCoste:'Cost for the pilgrim', statPub:'Ads and cookies',
+    statPoi:'Specialised points of interest', statEtapas:'Daily stages across the 6 main routes', statCoste:'Cost for the pilgrim',
     featTitle:'Everything you need on the Camino', featSub:'Designed to be used on your phone while you walk',
     f1t:'Offline interactive map',f1d:'Cached OpenStreetMap tiles. Navigate without a connection along the entire route, with your GPS position in real time.',
     f2t:'Voice navigation',f2d:'Spoken directions in Galician, Spanish and English. Your phone alerts you to every turn without needing to look at the screen.',
@@ -14647,12 +14631,12 @@ function cambiarIdioma(lang){
     _s('dl-btn-movil',     dl.btnMovil);
     _s('dl-meta-gratis',   dl.metaGratis);
     _s('dl-meta-gratis2',  dl.metaGratis2);
+    _s('dl-meta-gratis3',  dl.metaGratis3);
     _s('dl-meta-rutas',    dl.metaRutas);
     _s('dl-meta-offline',  dl.metaOffline);
     _s('dl-stat-poi',      dl.statPoi);
     _s('dl-stat-etapas',   dl.statEtapas);
     _s('dl-stat-coste',    dl.statCoste);
-    _s('dl-stat-pub',      dl.statPub);
     _s('dl-feat-title',    dl.featTitle);
     _s('dl-feat-sub',      dl.featSub);
     _s('dl-f1-t',dl.f1t);_s('dl-f1-d',dl.f1d);
@@ -14828,6 +14812,50 @@ function iniciarTiempo() {
     cargarTiempo(userLat || 42.2328, userLng || -8.7243);
   }, 1800000);
 }
+
+// ── CONTADOR ANIMADO DE STATS (landing desktop) ─────────────
+function _dlAnimarStat(el) {
+  if (!el || el.dataset.dlDone) return;
+  el.dataset.dlDone = '1';
+  var target = parseInt(el.getAttribute('data-target'), 10) || 0;
+  var valueEl = el.querySelector('.dl-stat-num-value');
+  if (!valueEl) return;
+  var duration = 900; // sube rápido
+  var startTime = null;
+  function _step(ts) {
+    if (!startTime) startTime = ts;
+    var progress = Math.min((ts - startTime) / duration, 1);
+    var eased = 1 - Math.pow(1 - progress, 3); // ease-out
+    valueEl.textContent = Math.floor(eased * target);
+    if (progress < 1) {
+      requestAnimationFrame(_step);
+    } else {
+      valueEl.textContent = target;
+      el.classList.add('dl-pulse-end');
+      setTimeout(function () { el.classList.remove('dl-pulse-end'); }, 600);
+    }
+  }
+  requestAnimationFrame(_step);
+}
+document.addEventListener('DOMContentLoaded', function () {
+  var statsWrap = document.querySelector('.dl-stats');
+  if (!statsWrap) return;
+  var nums = statsWrap.querySelectorAll('.dl-stat-num[data-target]');
+  if (!nums.length) return;
+  if ('IntersectionObserver' in window) {
+    var _dlObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          nums.forEach(function (n) { _dlAnimarStat(n); });
+          _dlObs.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+    _dlObs.observe(statsWrap);
+  } else {
+    nums.forEach(function (n) { _dlAnimarStat(n); });
+  }
+});
 
 // ARRANCAR
 // Siempre comenzar en el hero al cargar o refrescar
@@ -15066,7 +15094,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1361";
+var _APP_VERSION = "v1366";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
