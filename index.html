@@ -557,7 +557,7 @@
   /* ─── FEATURES ─── */
   .dl-features-wrap {
     background:linear-gradient(180deg,#0f1729 0%,#111827 100%);
-    padding:5rem 2rem;
+    padding:5rem 2rem 2.5rem;
   }
   .dl-section-title {
     text-align:center;
@@ -577,7 +577,7 @@
     overflow-x:auto;
     scroll-behavior:smooth;
     scroll-snap-type:x mandatory;
-    padding:0.5rem 0.25rem 1.5rem;
+    padding:0.5rem 0.25rem 1rem;
     scrollbar-width:none;
     max-width:1000px; margin:0 auto;
   }
@@ -597,7 +597,7 @@
   }
   .dl-features-nav {
     display:flex; justify-content:center; gap:10px;
-    margin-top:1.25rem;
+    margin-top:0.5rem;
   }
   .dl-features-arrow {
     width:36px; height:36px; border-radius:50%;
@@ -646,6 +646,7 @@
     width:180px;
     scroll-snap-align:start;
     transition:transform .3s, box-shadow .3s;
+    display:flex; flex-direction:column;
   }
   .dl-gallery-item:hover {
     transform:scale(1.04) translateY(-4px);
@@ -654,12 +655,15 @@
   .dl-gallery-item img {
     width:180px; height:320px; display:block;
     object-fit:cover; object-position:top;
+    flex:0 0 auto;
   }
   .dl-gallery-label {
     padding:10px 12px;
     font-size:12px; font-weight:600; color:#94a3b8;
     text-align:center; background:rgba(255,255,255,0.05);
     border-top:1px solid rgba(0,0,0,0.06);
+    flex:1 1 auto;
+    display:flex; align-items:center; justify-content:center;
   }
   .dl-gallery-nav {
     display:flex; justify-content:center; gap:10px;
@@ -1059,7 +1063,7 @@
         <h1 class="dl-hero-title" id="dl-hero-title">Tu compañera en el <em>Camino</em></h1>
         <img src="https://i.postimg.cc/tRWLFtGh/vieira.png" alt="Vieira del Camino" style="height:64px;width:auto;display:block;object-fit:contain;margin-bottom:1.25rem"/>
         <p class="dl-hero-desc" id="dl-hero-desc">
-          Xacobeapp es una guía gratuita para el Camino de Santiago, intuitiva y de muy fácil manejo, que te mostrará todo el patrimonio jacobeo a tu alrededor. Mapas interactivos, creador de rutas, etapas, avisos rápidos de emergencia, POIs exclusivos especializados en el patrimonio xacobeo, navegación GPS, brújula… y otras muchas utilidades pensadas para el peregrino, pero también para todos los que disfrutan conociendo y explorando nuevos espacios. Toda una navaja suiza del peregrino en tu bolsillo, a tu servicio.
+          Xacobeapp es una guía completamente gratuita para el Camino de Santiago, intuitiva y de muy fácil manejo, que te mostrará todo el patrimonio xacobeo a tu alrededor. Mapas interactivos con navegación GPS incluso sin cobertura, creador de rutas, etapas diarias, avisos de emergencia en tiempo real, POIs exclusivos con descripciones especializadas, brújula… y otras muchas utilidades pensadas para el peregrino, pero también para todos los que disfrutan conociendo y explorando nuevos espacios. Toda una navaja suiza del peregrino en tu bolsillo, a tu servicio. Xacobeapp no mejora el Camino, pero sí lo hará más seguro, completo e inmersivo.
         </p>
         <div class="dl-hero-actions">
           <a href="#dl-qr" class="dl-btn-primary" id="dl-btn-movil">
@@ -1187,6 +1191,10 @@
       <div class="dl-gallery-item">
         <img src="https://i.postimg.cc/6Qv4kQn8/brujula2.png" alt="Brújula"/>
         <div class="dl-gallery-label" id="dl-gal4">Brújula</div>
+      </div>
+      <div class="dl-gallery-item">
+        <img src="https://i.postimg.cc/0NmcSJk6/descrip.png" alt="Descripciones especializadas"/>
+        <div class="dl-gallery-label" id="dl-gal7">Descripciones especializadas</div>
       </div>
       <div class="dl-gallery-item">
         <img src="https://i.postimg.cc/HLy8qLXc/asistente2.png" alt="Asistente"/>
@@ -1419,7 +1427,7 @@
       <a href="https://xacobeapp.com">xacobeapp.com</a>
     </p>
     <p style="margin-top:12px;font-size:12px;color:#aaa" id="dl-foot-version">
-      App gratuita, sin publicidad. Versión v1383 · Disponible como PWA en iOS y Android
+      App gratuita, sin publicidad. Versión v1387 · Disponible como PWA en iOS y Android
     </p>
   </footer>
 
@@ -14186,7 +14194,7 @@ window._dlT = {
   es:{
     eyebrow:'Guía Xacobea Interactiva',
     heroTitle:'Tu compañera en el <em>Camino</em>',
-    heroDesc:'Xacobeapp es una guía gratuita para el Camino de Santiago, intuitiva y de muy fácil manejo, que te mostrará todo el patrimonio jacobeo a tu alrededor. Mapas interactivos, creador de rutas, etapas, avisos rápidos de emergencia, POIs exclusivos especializados en el patrimonio xacobeo, navegación GPS, brújula… y otras muchas utilidades pensadas para el peregrino, pero también para todos los que disfrutan conociendo y explorando nuevos espacios. Toda una navaja suiza del peregrino en tu bolsillo, a tu servicio.',
+    heroDesc:'Xacobeapp es una guía completamente gratuita para el Camino de Santiago, intuitiva y de muy fácil manejo, que te mostrará todo el patrimonio xacobeo a tu alrededor. Mapas interactivos con navegación GPS incluso sin cobertura, creador de rutas, etapas diarias, avisos de emergencia en tiempo real, POIs exclusivos con descripciones especializadas, brújula… y otras muchas utilidades pensadas para el peregrino, pero también para todos los que disfrutan conociendo y explorando nuevos espacios. Toda una navaja suiza del peregrino en tu bolsillo, a tu servicio. Xacobeapp no mejora el Camino, pero sí lo hará más seguro, completo e inmersivo.',
     btnMovil:'📱 Abrir en tu móvil',
     metaGratis:'Gratuita', metaGratis2:' y sin anuncios', metaGratis3:', impulsada por la comunidad de peregrinos',
     metaRutas:'📍 Los principales caminos jacobeos, con sus etapas y POIs exclusivos',
@@ -14207,7 +14215,7 @@ window._dlT = {
     galTitle:'La app en acción', galSub:'Capturas reales desde el móvil',
     gal1:'Añade tus propios puntos',gal1i:'Mapa interactivo',gal2:'Patrimonio',gal2i:'Historia y patrimonio',
     gal3:'Etapas de los principales caminos',gal3i:'Juego de la Oca',gal4:'Brújula',gal4i:'Brújula y navegación',
-    gal5:'Asistente',gal5i:'Asistente virtual',gal6:'Crea y recibe alertas en tiempo real',
+    gal5:'Asistente',gal5i:'Asistente virtual',gal6:'Crea y recibe alertas en tiempo real',gal7:'Descripciones especializadas',
     galHint:'✨ Escanea el QR para ver la app real en tu móvil',
     rutTitle:'Rutas cubiertas', rutSub:'Cinco caminos jacobeos con etapas, POIs y navegación GPS',
     rut1:'Camino Portugués de la Costa',rut2:'Camino Francés',rut3:'Camino del Norte',rut4:'Camino Primitivo',rut5:'Camino Inglés',
@@ -14222,7 +14230,7 @@ window._dlT = {
   gl:{
     eyebrow:'Guía Xacobea Interactiva',
     heroTitle:'A túa compañeira no <em>Camiño</em>',
-    heroDesc:'Xacobeapp é unha guía gratuíta para o Camiño de Santiago, intuitiva e moi fácil de usar, que che mostrará todo o patrimonio xacobeo ao teu redor. Mapas interactivos, creador de rutas, etapas, avisos rápidos de emerxencia, POIs exclusivos especializados no patrimonio xacobeo, navegación GPS, brúxula… e moitas outras utilidades pensadas para o peregrino, pero tamén para todos os que gozan coñecendo e explorando novos espazos. Toda unha navalla suíza do peregrino no teu peto, ao teu servizo.',
+    heroDesc:'Xacobeapp é unha guía completamente gratuíta para o Camiño de Santiago, intuitiva e moi fácil de usar, que che mostrará todo o patrimonio xacobeo ao teu redor. Mapas interactivos con navegación GPS mesmo sen cobertura, creador de rutas, etapas diarias, avisos de emerxencia en tempo real, POIs exclusivos con descricións especializadas, brúxula… e moitas outras utilidades pensadas para o peregrino, pero tamén para todos os que gozan coñecendo e explorando novos espazos. Toda unha navalla suíza do peregrino no teu peto, ao teu servizo. Xacobeapp non mellora o Camiño, pero si o fará máis seguro, completo e inmersivo.',
     btnMovil:'📱 Abrir no teu móbil',
     metaGratis:'Gratuíta', metaGratis2:' e sen anuncios', metaGratis3:', impulsada pola comunidade de peregrinos',
     metaRutas:'📍 Os principais camiños xacobeos, coas súas etapas e POIs exclusivos',
@@ -14243,7 +14251,7 @@ window._dlT = {
     galTitle:'A app en acción', galSub:'Capturas reais desde o móbil',
     gal1:'Engade os teus propios puntos',gal1i:'Mapa interactivo',gal2:'Patrimonio',gal2i:'Historia e patrimonio',
     gal3:'Etapas dos principais camiños',gal3i:'Xogo da Oca',gal4:'Brúxula',gal4i:'Brúxula e navegación',
-    gal5:'Asistente',gal5i:'Asistente virtual',gal6:'Crea e recibe alertas en tempo real',
+    gal5:'Asistente',gal5i:'Asistente virtual',gal6:'Crea e recibe alertas en tempo real',gal7:'Descricións especializadas',
     galHint:'✨ Escanea o QR para ver a app real no teu móbil',
     rutTitle:'Rutas cubertas', rutSub:'Cinco camiños xacobeos con etapas, POIs e navegación GPS',
     rut1:'Camiño Portugués da Costa',rut2:'Camiño Francés',rut3:'Camiño do Norte',rut4:'Camiño Primitivo',rut5:'Camiño Inglés',
@@ -14258,7 +14266,7 @@ window._dlT = {
   en:{
     eyebrow:'Interactive Jacobean Guide',
     heroTitle:'Your companion on the <em>Camino</em>',
-    heroDesc:'Xacobeapp is a free guide to the Camino de Santiago — intuitive and easy to use — showing you all the Jacobean heritage around you. Interactive maps, route builder, stages, quick emergency alerts, exclusive POIs specialising in Jacobean heritage, GPS navigation, compass… and many more utilities designed for pilgrims and for everyone who enjoys discovering and exploring new places. A true Swiss army knife for the pilgrim, right in your pocket.',
+    heroDesc:'Xacobeapp is a completely free guide to the Camino de Santiago — intuitive and easy to use — showing you all the Jacobean heritage around you. Interactive maps with GPS navigation even without signal, route builder, daily stages, real-time emergency alerts, exclusive POIs with specialised descriptions, compass… and many more utilities designed for pilgrims and for everyone who enjoys discovering and exploring new places. A true Swiss army knife for the pilgrim, right in your pocket. Xacobeapp doesn\'t improve the Camino, but it will make it safer, more complete and more immersive.',
     btnMovil:'📱 Open on your phone',
     metaGratis:'Free', metaGratis2:' and ad-free', metaGratis3:', powered by the pilgrim community',
     metaRutas:'📍 The main Jacobean routes, with their stages and exclusive POIs',
@@ -14279,7 +14287,7 @@ window._dlT = {
     galTitle:'The app in action', galSub:'Real screenshots from the phone',
     gal1:'Add your own points',gal1i:'Interactive map',gal2:'Heritage',gal2i:'History and heritage',
     gal3:'Stages of the main routes',gal3i:'Goose Game',gal4:'Compass',gal4i:'Compass and navigation',
-    gal5:'Assistant',gal5i:'Virtual assistant',gal6:'Create and receive real-time alerts',
+    gal5:'Assistant',gal5i:'Virtual assistant',gal6:'Create and receive real-time alerts',gal7:'Specialized descriptions',
     galHint:'✨ Scan the QR to see the real app on your phone',
     rutTitle:'Routes covered', rutSub:'Five Jacobean routes with stages, POIs and GPS navigation',
     rut1:'Portuguese Coastal Way',rut2:'French Way',rut3:'Northern Way',rut4:'Primitive Way',rut5:'English Way',
@@ -14641,6 +14649,7 @@ function cambiarIdioma(lang){
     _s('dl-gal4',dl.gal4);_s('dl-gal4-inner',dl.gal4i);
     _s('dl-gal5',dl.gal5);_s('dl-gal5-inner',dl.gal5i);
     _s('dl-gal6',dl.gal6);
+    _s('dl-gal7',dl.gal7);
     _s('dl-gal-hint',    dl.galHint);
     _s('dl-rut-title',   dl.rutTitle);
     _s('dl-rut-sub',     dl.rutSub);
@@ -15077,7 +15086,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1383";
+var _APP_VERSION = "v1387";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
