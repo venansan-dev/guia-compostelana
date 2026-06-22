@@ -5587,6 +5587,33 @@ firebase.initializeApp({
 var db = firebase.database();
 var auth = firebase.auth();
 
+// ── LOG DE ERRORES (Firebase) ───────────────────────────────────────────────
+var _errorLogCount = 0;
+var _errorLogMax = 8; // tope de envíos por sesión, para no inundar la base si algo falla en bucle
+function _logError(contexto, err) {
+  try {
+    if (typeof db === 'undefined' || _errorLogCount >= _errorLogMax) return;
+    _errorLogCount++;
+    var msg = (err && err.message) ? err.message : String(err == null ? 'error desconocido' : err);
+    var stack = (err && err.stack) ? String(err.stack).slice(0, 500) : '';
+    db.ref('errores_app').push({
+      contexto: String(contexto || '').slice(0, 150),
+      mensaje: msg.slice(0, 300),
+      stack: stack,
+      version: (typeof _APP_VERSION !== 'undefined' ? _APP_VERSION : ''),
+      ua: (navigator.userAgent || '').slice(0, 200),
+      idioma: (typeof idiomaActual !== 'undefined' ? idiomaActual : ''),
+      ts: Date.now()
+    }).catch(function(){});
+  } catch(e) { /* si el propio logger falla, no hacemos nada más */ }
+}
+window.addEventListener('error', function(e) {
+  _logError('window.onerror @ ' + (e.filename || '?') + ':' + (e.lineno || '?'), e.error || e.message);
+});
+window.addEventListener('unhandledrejection', function(e) {
+  _logError('unhandledrejection', e.reason);
+});
+
 // ── EFECTO ONDA EN TÍTULOS DE DONACIONES ────────────────────────────────────
 function aplicarOndaTitulo(elId) {
   var el = document.getElementById(elId);
@@ -10205,6 +10232,13 @@ function _mostrarPanelAdmin() {
       if (n > 0) { badge.textContent = n; badge.style.display = 'inline'; }
       else { badge.style.display = 'none'; }
     });
+    db.ref('errores_app').once('value', function(snap) {
+      var badge = document.getElementById('badge-errores');
+      if (!badge) return;
+      var n = snap.val() ? Object.keys(snap.val()).length : 0;
+      if (n > 0) { badge.textContent = n; badge.style.display = 'inline'; }
+      else { badge.style.display = 'none'; }
+    });
   }
 }
 
@@ -10347,7 +10381,7 @@ document.addEventListener('click', function(e) {
 // ── MODERACIÓN DE POIs DE USUARIO ───────────────────────────────────────────
 
 function cambiarTabAdmin(tab) {
-  var tabs = ['opiniones','pois','alertas'];
+  var tabs = ['opiniones','pois','alertas','errores'];
   tabs.forEach(function(t) {
     var btn = document.getElementById('tab-'+t);
     var panel = document.getElementById('panel-tab-'+t);
@@ -10365,6 +10399,7 @@ function cambiarTabAdmin(tab) {
   });
   if (tab === 'pois') cargarPOIsPendientes();
   if (tab === 'alertas') cargarAlertasAdmin();
+  if (tab === 'errores') cargarErrores();
 }
 
 function cargarAlertasAdmin() {
@@ -10431,6 +10466,62 @@ function cargarAlertasAdmin() {
           if (badge) { badge.textContent = parseInt(badge.textContent||1)-1; if(parseInt(badge.textContent)<=0) badge.style.display='none'; }
         });
       }
+    };
+  });
+}
+
+function cargarErrores() {
+  var lista = document.getElementById('admin-errores-lista');
+  lista.innerHTML = '<p style="color:#6b7280;font-size:15px">Cargando...</p>';
+  db.ref('errores_app').once('value', function(snap) {
+    var data = snap.val();
+    var badge = document.getElementById('badge-errores');
+    if (!data) {
+      lista.innerHTML = '<p style="color:#6b7280;font-size:15px;text-align:center">Sin errores registrados ✓</p>';
+      if (badge) badge.style.display = 'none';
+      return;
+    }
+    var keys = Object.keys(data);
+    // Limpieza automática: si hay más de 200, borrar los más antiguos (las claves push() de Firebase son cronológicas)
+    if (keys.length > 200) {
+      var keysOrdenadas = keys.slice().sort();
+      var aBorrar = keysOrdenadas.slice(0, keysOrdenadas.length - 200);
+      aBorrar.forEach(function(k) { db.ref('errores_app/' + k).remove(); delete data[k]; });
+      keys = Object.keys(data);
+    }
+    if (badge) { badge.textContent = keys.length; badge.style.display = keys.length > 0 ? 'inline' : 'none'; }
+    // Más recientes primero
+    keys.sort().reverse();
+    lista.innerHTML = '';
+    keys.slice(0, 100).forEach(function(key) {
+      var er = data[key];
+      var fechaStr = er.ts ? new Date(er.ts).toLocaleString('es-ES',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) : '';
+      var item = document.createElement('div');
+      item.style.cssText = 'background:#fdf4ff;border:1px solid #e9d5ff;border-radius:10px;padding:12px;margin-bottom:10px';
+      item.innerHTML =
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px">' +
+          '<strong style="font-size:14px;color:#7c3aed;word-break:break-word">🐛 ' + (er.contexto||'(sin contexto)') + '</strong>' +
+          '<span style="font-size:12px;color:#9ca3af;flex-shrink:0;white-space:nowrap">' + fechaStr + '</span>' +
+        '</div>' +
+        '<div style="font-size:14px;color:#374151;margin-bottom:6px;word-break:break-word">' + (er.mensaje||'') + '</div>' +
+        '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">' +
+          '<span style="font-size:11px;background:#f3f4f6;color:#374151;border-radius:8px;padding:2px 8px">v' + (er.version||'?') + '</span>' +
+          (er.idioma ? '<span style="font-size:11px;background:#f3f4f6;color:#374151;border-radius:8px;padding:2px 8px">' + er.idioma + '</span>' : '') +
+        '</div>' +
+        '<button class="error-mod-eliminar" data-key="' + key + '" style="background:none;border:1px solid #fca5a5;color:#dc2626;border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer">🗑 Descartar</button>';
+      lista.appendChild(item);
+    });
+    lista.onclick = function(e) {
+      var btn = e.target.closest('.error-mod-eliminar');
+      if (!btn) return;
+      var k = btn.getAttribute('data-key');
+      var row = btn.closest('div[style]');
+      db.ref('errores_app/' + k).remove().then(function(){
+        if (row && row.parentNode) row.parentNode.removeChild(row);
+        var n = lista.querySelectorAll('div[style]').length;
+        if (!n) lista.innerHTML = '<p style="color:#6b7280;font-size:15px;text-align:center">Sin errores registrados ✓</p>';
+        if (badge) { badge.textContent = parseInt(badge.textContent||1)-1; if(parseInt(badge.textContent)<=0) badge.style.display='none'; }
+      });
     };
   });
 }
@@ -15219,6 +15310,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <button id='tab-opiniones' onclick='cambiarTabAdmin("opiniones")' style='flex:1;background:none;border:none;border-bottom:2px solid #1D9E75;margin-bottom:-2px;padding:8px 4px;font-size:15px;font-weight:600;color:#1D9E75;cursor:pointer;font-family:DM Sans,sans-serif'>💬 Opiniones</button>
       <button id='tab-pois' onclick='cambiarTabAdmin("pois")' style='flex:1;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;padding:8px 4px;font-size:15px;font-weight:500;color:#6b7280;cursor:pointer;font-family:DM Sans,sans-serif'>📍 Puntos <span id='badge-pois-pendientes' style='background:#ef4444;color:#fff;border-radius:10px;padding:1px 6px;font-size:13px;margin-left:4px;display:none'>0</span></button>
       <button id='tab-alertas' onclick='cambiarTabAdmin("alertas")' style='flex:1;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;padding:8px 4px;font-size:15px;font-weight:500;color:#6b7280;cursor:pointer;font-family:DM Sans,sans-serif'>🚨 Alertas <span id='badge-alertas' style='background:#dc2626;color:#fff;border-radius:10px;padding:1px 6px;font-size:13px;margin-left:4px;display:none'>0</span></button>
+      <button id='tab-errores' onclick='cambiarTabAdmin("errores")' style='flex:1;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;padding:8px 4px;font-size:15px;font-weight:500;color:#6b7280;cursor:pointer;font-family:DM Sans,sans-serif'>🐛 Errores <span id='badge-errores' style='background:#7c3aed;color:#fff;border-radius:10px;padding:1px 6px;font-size:13px;margin-left:4px;display:none'>0</span></button>
     </div>
     <!-- Panel opiniones -->
     <div id='panel-tab-opiniones'>
@@ -15234,6 +15326,11 @@ document.addEventListener('DOMContentLoaded', function() {
     <div id='panel-tab-alertas' style='display:none'>
       <button onclick='cargarAlertasAdmin()' style='font-size:14px;color:#1D9E75;background:none;border:none;cursor:pointer;margin-bottom:1rem;padding:0'>↺ Actualizar</button>
       <div id='admin-alertas-lista'></div>
+    </div>
+    <!-- Panel Errores -->
+    <div id='panel-tab-errores' style='display:none'>
+      <button onclick='cargarErrores()' style='font-size:14px;color:#1D9E75;background:none;border:none;cursor:pointer;margin-bottom:1rem;padding:0'>↺ Actualizar</button>
+      <div id='admin-errores-lista'></div>
     </div>
   </div>
 </div>
@@ -15305,7 +15402,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1420";
+var _APP_VERSION = "v1421";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
