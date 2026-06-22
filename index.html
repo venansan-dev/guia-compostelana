@@ -314,7 +314,7 @@
   <style>
   /* ─── RESET DESKTOP: oculta TODO el body excepto la landing ─── */
   @media (min-width:769px){
-    body > *:not(#desktop-landing):not(#admin-tap) { display:none !important; }
+    body > *:not(#desktop-landing):not(#admin-tap):not(#modal-login-admin):not(#panel-admin) { display:none !important; }
     #desktop-landing { display:block !important; }
     body {
       background:#0a0f1e !important;
@@ -2646,6 +2646,7 @@
 <!-- Acceso moderación: toca 5 veces el copyright -->
 <div id='admin-tap' style='position:fixed;bottom:0;right:0;width:44px;height:44px;z-index:100;opacity:0;cursor:default' onclick='(function(){var n=(window._adminTaps=(window._adminTaps||0)+1);if(n>=5){window._adminTaps=0;abrirAdmin();}})()' title=''></div>
 
+
 <div class='footer-bottom'>
   <p>&#169; 2025 Xacobeapp&#8482; &#8212; Todos los derechos reservados</p>
   <p>Hecho con &#10084;&#65039; en Galicia</p>
@@ -2655,6 +2656,7 @@
 
 <script src='https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js'></script>
 <script src='https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js'></script>
+<script src='https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js'></script>
 <script type='text/javascript'>
 
 var PUNTOS = [
@@ -5532,6 +5534,7 @@ firebase.initializeApp({
   appId: "1:454833387853:web:61e784528b2d7b081e1f04"
 });
 var db = firebase.database();
+var auth = firebase.auth();
 
 // ── EFECTO ONDA EN TÍTULOS DE DONACIONES ────────────────────────────────────
 function aplicarOndaTitulo(elId) {
@@ -10092,18 +10095,66 @@ function guardarComentario(id, texto) {
   }
 }
 
-// ── MODERACIÓN ──────────────────────────────────────────────────────────────
-var ADMIN_PASS = 'camino2025'; // cambia esto por tu contraseña
+// ── MODERACIÓN (Firebase Auth) ──────────────────────────────────────────────
 var adminActivo = false;
 
 function abrirAdmin() {
-  var pass = prompt('Contraseña de moderación:');
-  if (pass === ADMIN_PASS) {
-    adminActivo = true;
-    document.getElementById('panel-admin').classList.add('visible');
-    cargarPendientes();
-  } else if (pass !== null) {
-    alert('Contraseña incorrecta');
+  if (auth.currentUser) {
+    _mostrarPanelAdmin();
+    return;
+  }
+  document.getElementById('login-admin-error').style.display = 'none';
+  document.getElementById('login-admin-pass').value = '';
+  document.getElementById('modal-login-admin').classList.add('visible');
+  setTimeout(function(){ var e=document.getElementById('login-admin-email'); if(e) e.focus(); }, 50);
+}
+
+function intentarLoginAdmin() {
+  var email = document.getElementById('login-admin-email').value.trim();
+  var pass = document.getElementById('login-admin-pass').value;
+  var errEl = document.getElementById('login-admin-error');
+  errEl.style.display = 'none';
+  if (!email || !pass) {
+    errEl.textContent = 'Introduce correo y contraseña.';
+    errEl.style.display = 'block';
+    return;
+  }
+  auth.signInWithEmailAndPassword(email, pass).then(function() {
+    document.getElementById('modal-login-admin').classList.remove('visible');
+    _mostrarPanelAdmin();
+  }).catch(function(err) {
+    errEl.textContent = 'Acceso denegado.';
+    errEl.style.display = 'block';
+    console.warn('Login admin fallido:', err.code);
+  });
+}
+
+function cerrarSesionAdmin() {
+  auth.signOut().then(function() {
+    cerrarAdmin();
+  });
+}
+
+function _mostrarPanelAdmin() {
+  adminActivo = true;
+  document.getElementById('panel-admin').classList.add('visible');
+  cargarPendientes();
+  // Badges de pendientes (lecturas públicas, no requieren auth)
+  if (typeof db !== 'undefined') {
+    db.ref('poi_usuarios').orderByChild('estado').equalTo('pendiente').once('value', function(snap) {
+      var badge = document.getElementById('badge-pois-pendientes');
+      if (!badge) return;
+      var n = snap.val() ? Object.keys(snap.val()).length : 0;
+      if (n > 0) { badge.textContent = n; badge.style.display = 'inline'; }
+      else { badge.style.display = 'none'; }
+    });
+    db.ref('alertas').once('value', function(snap) {
+      var badge = document.getElementById('badge-alertas');
+      if (!badge) return;
+      var n = snap.val() ? Object.keys(snap.val()).length : 0;
+      if (n > 0) { badge.textContent = n; badge.style.display = 'inline'; }
+      else { badge.style.display = 'none'; }
+    });
   }
 }
 
@@ -10429,28 +10480,7 @@ function rechazarPOIUsuario(key, el) {
   });
 }
 
-// Mostrar badge al abrir el panel
-var _origAbrirAdmin = abrirAdmin;
-abrirAdmin = function() {
-  _origAbrirAdmin();
-  // Contar POIs pendientes para el badge
-  if (typeof db !== 'undefined') {
-    db.ref('poi_usuarios').orderByChild('estado').equalTo('pendiente').once('value', function(snap) {
-      var badge = document.getElementById('badge-pois-pendientes');
-      if (!badge) return;
-      var n = snap.val() ? Object.keys(snap.val()).length : 0;
-      if (n > 0) { badge.textContent = n; badge.style.display = 'inline'; }
-      else { badge.style.display = 'none'; }
-    });
-    db.ref('alertas').once('value', function(snap) {
-      var badge = document.getElementById('badge-alertas');
-      if (!badge) return;
-      var n = snap.val() ? Object.keys(snap.val()).length : 0;
-      if (n > 0) { badge.textContent = n; badge.style.display = 'inline'; }
-      else { badge.style.display = 'none'; }
-    });
-  }
-};
+// (Badges de moderación ahora se cargan dentro de _mostrarPanelAdmin)
 
 // ────────────────────────────────────────────────────────────────────────────
 
@@ -15131,6 +15161,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- PANEL MODERACIÓN (oculto) -->
 <div id='panel-admin' style='display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;overflow-y:auto' onclick='if(event.target===this)cerrarAdmin()'>
   <div style='max-width:480px;margin:2rem auto;background:#fff;border-radius:16px;padding:1.5rem;position:relative'>
+    <button onclick='cerrarSesionAdmin()' style='position:absolute;top:14px;right:46px;background:none;border:none;font-size:12px;cursor:pointer;color:#6b7280;text-decoration:underline'>Cerrar sesión</button>
     <button onclick='cerrarAdmin()' style='position:absolute;top:12px;right:14px;background:none;border:none;font-size:20px;cursor:pointer;color:#6b7280'>&#10005;</button>
     <h3 style='font-family:Playfair Display,serif;font-size:20px;margin:0 0 12px'>🛡️ Moderación</h3>
     <!-- Pestañas -->
@@ -15161,6 +15192,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+<!-- LOGIN ADMIN (Firebase Auth) -->
+<div id='modal-login-admin' class='modal-bg' onclick='cerrarModal("modal-login-admin",event)'>
+  <div class='modal-box'>
+    <button class='modal-close' onclick='document.getElementById("modal-login-admin").classList.remove("visible")'>×</button>
+    <h3>🔐 Acceso moderación</h3>
+    <p style='margin-bottom:12px'>Inicia sesión con tu cuenta de moderador.</p>
+    <input id='login-admin-email' type='email' placeholder='Correo' autocomplete='username' style='width:100%;padding:10px;border:1px solid var(--borde);border-radius:8px;margin-bottom:8px;font-size:15px;font-family:DM Sans,sans-serif;box-sizing:border-box'/>
+    <input id='login-admin-pass' type='password' placeholder='Contraseña' autocomplete='current-password' style='width:100%;padding:10px;border:1px solid var(--borde);border-radius:8px;margin-bottom:8px;font-size:15px;font-family:DM Sans,sans-serif;box-sizing:border-box' onkeydown='if(event.key==="Enter")intentarLoginAdmin()'/>
+    <p id='login-admin-error' style='color:#dc2626;font-size:13px;margin-bottom:8px;display:none'></p>
+    <button onclick='intentarLoginAdmin()' style='width:100%;background:var(--verde);color:#fff;border:none;border-radius:8px;padding:11px;font-size:15px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'>Entrar</button>
+  </div>
+</div>
 
 <!-- MODAL BIZUM -->
 <div id='modal-bizum' class='modal-bg' onclick='cerrarModal("modal-bizum",event)'>
@@ -15211,7 +15255,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1410";
+var _APP_VERSION = "v1414";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
