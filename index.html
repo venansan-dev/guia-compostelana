@@ -9695,7 +9695,7 @@ function volverARuta(){
     _ponerMarkerVolver(pc.lat, pc.lng);
     _mostrarBtnComenzarNav();
   }, 450);
-  if (typeof hablar==='function'){ try{ hablar('He marcado el punto más cercano de la ruta. Pulsa comenzar para que te guíe.'); }catch(e){} }
+  if (typeof hablar==='function'){ try{ hablar(((typeof T!=='undefined'&&T[idiomaActual])?T[idiomaActual]:(typeof T!=='undefined'?T.es:{})).rofVolverVoz||'He marcado el punto más cercano de la ruta. Pulsa comenzar para que te guíe.'); }catch(e){} }
 }
 
 function _mostrarBtnComenzarNav(){
@@ -13628,6 +13628,7 @@ var T={
     rofDesvCerrar:'Entendido',
     rofDesvVolver:'🧭 Volver a la ruta',
     rofDesvVoz:'Estás fuera de la ruta oficial. Dirígete al trazado amarillo en el mapa.',
+    rofVolverVoz:'He marcado el punto más cercano de la ruta. Pulsa comenzar para que te guíe.',
     rofTutBtn:'Mapa de trazados oficiales',
     rofTutSub:'Cómo ver los Caminos y usar el modo Ruta Oficial',
     rofTutTit:'🗺️ Mapa de trazados oficiales',
@@ -14032,6 +14033,7 @@ var T={
     rofDesvCerrar:'Entendido',
     rofDesvVolver:'🧭 Volver á ruta',
     rofDesvVoz:'Estás fóra da ruta oficial. Diríxete ao trazado amarelo no mapa.',
+    rofVolverVoz:'Marquei o punto máis próximo da ruta. Preme comezar para que te guíe.',
     rofTutBtn:'Mapa de trazados oficiais',
     rofTutSub:'Como ver os Camiños e usar o modo Ruta Oficial',
     rofTutTit:'🗺️ Mapa de trazados oficiais',
@@ -14636,6 +14638,7 @@ var T={
     rofDesvCerrar:'Got it',
     rofDesvVolver:'🧭 Back to route',
     rofDesvVoz:'You are off the official route. Head to the yellow track on the map.',
+    rofVolverVoz:'I have marked the nearest point on the route. Tap start and I will guide you.',
     rofTutBtn:'Official route map',
     rofTutSub:'How to view the Ways and use Official Route mode',
     rofTutTit:'🗺️ Official route map',
