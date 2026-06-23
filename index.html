@@ -1460,7 +1460,7 @@
       <a href="https://xacobeapp.com">xacobeapp.com</a>
     </p>
     <p style="margin-top:12px;font-size:12px;color:#aaa" id="dl-foot-version">
-      App gratuita, sin publicidad. Versión v1453 · Disponible como PWA en iOS y Android
+      App gratuita, sin publicidad. Versión v1456 · Disponible como PWA en iOS y Android
     </p>
   </footer>
 
@@ -9752,10 +9752,26 @@ function _ponerMarkerVolver(lat, lng){
 function _limpiarVolverRuta(){
   _ocultarBtnComenzarNav();
   _quitarMarkerVolver();
+  // Cancelar cualquier redibujo de línea pendiente (evita que un OSRM tardío
+  // repinte la ruta al punto de retorno justo después de limpiarla).
+  if (window._navRestoreTimeout) { clearTimeout(window._navRestoreTimeout); window._navRestoreTimeout = null; }
   if (typeof rutaPuntos !== 'undefined'){
     var antes = rutaPuntos.length;
     rutaPuntos = rutaPuntos.filter(function(p){ return p.id !== '_volver_ruta'; });
-    if (rutaPuntos.length !== antes && typeof actualizarRuta === 'function') actualizarRuta();
+    var cambiado = (rutaPuntos.length !== antes);
+    if (rutaPuntos.length === 0){
+      // No queda ningún punto real: borrar trazado amarillo y flechas del mapa.
+      if (typeof _rutaLinea !== 'undefined' && _rutaLinea && typeof mapa!=='undefined' && mapa){
+        try{ mapa.removeLayer(_rutaLinea); }catch(e){}
+        _rutaLinea = null;
+      }
+      if (window._rutaFlechas && typeof mapa!=='undefined' && mapa){
+        window._rutaFlechas.forEach(function(m){ try{ mapa.removeLayer(m); }catch(e){} });
+        window._rutaFlechas = [];
+      }
+    }
+    // Redibujar/actualizar el panel y, si quedan puntos reales, su trazado.
+    if (cambiado && typeof actualizarRuta === 'function') actualizarRuta();
   }
 }
 
@@ -13236,12 +13252,13 @@ function toggleVozNav() {
 function detenerNavegacionVoz() {
   _navActiva = false;
   if (typeof _ocultarBtnComenzarNav==='function') _ocultarBtnComenzarNav();
-  if (typeof _quitarMarkerVolver==='function') _quitarMarkerVolver();
-  // Reactivar Ruta Oficial si estaba activa antes de entrar en navegación
-  if (window._rutaOficialPausada) {
-    window._rutaOficialPausada = false;
-    setTimeout(function(){ if(window.RutaOficial) window.RutaOficial.activar(); }, 500);
-  }
+  // Limpiar SOLO el punto sintético "volver a la ruta oficial" (chincheta +
+  // su línea/flechas). El resto de puntos de la ruta del usuario se respetan.
+  if (typeof _limpiarVolverRuta==='function') _limpiarVolverRuta();
+  else if (typeof _quitarMarkerVolver==='function') _quitarMarkerVolver();
+  // Al salir de navegación NO se reactiva el Modo Ruta Oficial automáticamente:
+  // queda apagado y será el usuario quien lo vuelva a activar desde el botón.
+  window._rutaOficialPausada = false;
   var _btnCascoStop = document.getElementById('btn-asistente-mapa'); if (_btnCascoStop) _btnCascoStop.style.display = 'flex';
 
   // Guardar estado brújula antes de detener
@@ -15646,7 +15663,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1453";
+var _APP_VERSION = "v1456";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
