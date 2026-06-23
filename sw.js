@@ -1,4 +1,4 @@
-const CACHE_NAME = 'guia-compostelana-v1441';
+const CACHE_NAME = 'guia-compostelana-v1449';
 const TILE_CACHE = 'guia-tiles-v5';
 const IMG_CACHE  = 'guia-imgs-v6';
 const LIB_CACHE  = 'guia-libs-v1';
@@ -119,6 +119,28 @@ self.addEventListener('fetch', function(e) {
             if (res && res.status === 200) c.put(e.request, res.clone());
             return res;
           }).catch(function() { return new Response('null', {status: 404}); });
+        });
+      })
+    );
+    return;
+  }
+
+  // Navegación / HTML → network first que ADEMÁS refresca la caché.
+  // Así, tras subir una versión nueva, la siguiente carga ya trae el HTML
+  // actualizado aunque el Service Worker anterior siguiera en control.
+  if (e.request.mode === 'navigate' ||
+      (e.request.destination === 'document') ||
+      url.endsWith('/') || url.endsWith('/index.html')) {
+    e.respondWith(
+      fetch(e.request).then(function(res) {
+        if (res && res.status === 200) {
+          var copia = res.clone();
+          caches.open(CACHE_NAME).then(function(c){ c.put(e.request, copia); });
+        }
+        return res;
+      }).catch(function() {
+        return caches.match(e.request).then(function(cached) {
+          return cached || caches.match('/index.html') || caches.match('/');
         });
       })
     );

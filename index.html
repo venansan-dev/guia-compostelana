@@ -1148,6 +1148,12 @@
     <h2 class="dl-section-title" id="dl-feat-title">Todo lo que necesitas en el Camino</h2>
     <p class="dl-section-sub" id="dl-feat-sub">Diseñada para usarse en el móvil mientras caminas</p>
     <div class="dl-features" id="dl-features-track">
+      <div class="dl-feature" style="background:linear-gradient(135deg,rgba(194,95,176,0.12),rgba(194,95,176,0.04));border:1.5px solid rgba(194,95,176,0.45);position:relative">
+        <span style="position:absolute;top:10px;right:10px;background:#C25FB0;color:#fff;font-size:9px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:3px 9px;border-radius:20px" id="dl-f0-badge">Nuevo</span>
+        <span class="dl-feature-icon">🗺️</span>
+        <div class="dl-feature-title" id="dl-f0-t">Mapa de trazados oficiales</div>
+        <p class="dl-feature-desc" id="dl-f0-d">Todos los Caminos oficiales (Francés, Norte, Inglés, Primitivo, Portugués…) dibujados sobre el mapa con los trazados certificados del CNIG. Activa el modo Ruta Oficial y la guía vigila por voz que no te salgas de la senda.</p>
+      </div>
       <div class="dl-feature">
         <span class="dl-feature-icon">🗺️</span>
         <div class="dl-feature-title" id="dl-f1-t">Mapa interactivo offline</div>
@@ -1454,7 +1460,7 @@
       <a href="https://xacobeapp.com">xacobeapp.com</a>
     </p>
     <p style="margin-top:12px;font-size:12px;color:#aaa" id="dl-foot-version">
-      App gratuita, sin publicidad. Versión v1441 · Disponible como PWA en iOS y Android
+      App gratuita, sin publicidad. Versión v1449 · Disponible como PWA en iOS y Android
     </p>
   </footer>
 
@@ -1676,9 +1682,9 @@
   <div id='map-radio-control' style='display:flex;position:absolute;top:54px;right:10px;z-index:400;flex-direction:column;align-items:flex-end;gap:4px;font-family:DM Sans,sans-serif'>
   <button id='btn-ruta-oficial' onclick='if(window.RutaOficial)RutaOficial.toggle()' style='background:#C25FB0;border:1px solid #a84f98;border-radius:16px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.12);white-space:nowrap;transition:all 0.15s' title='Vigila que sigas el trazado oficial del Camino'>🗺️ Ruta oficial</button>
     <div style='height:22px'></div>
-    <div class='map-radio-btn active' data-km='1' onclick='cambiarRadio(1,this)' style='background:#1a4a9e;color:#f5e6c8;border:1.5px solid #2a5aae;border-radius:8px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 4px 14px rgba(26,74,158,0.4),0 1px 3px rgba(0,0,0,0.18);min-width:52px'>1 km</div>
-    <div class='map-radio-btn' data-km='2' onclick='cambiarRadio(2,this)' style='background:rgba(255,245,210,0.9);color:#3d2000;border:1.5px solid #a07828;border-radius:8px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.2),0 1px 3px rgba(0,0,0,0.12);min-width:52px'>2 km</div>
-    <div class='map-radio-btn' data-km='3' onclick='cambiarRadio(3,this)' style='background:rgba(255,245,210,0.9);color:#3d2000;border:1.5px solid #a07828;border-radius:8px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.2),0 1px 3px rgba(0,0,0,0.12);min-width:52px'>3 km</div>
+    <div class='map-radio-btn active' data-km='1' onclick='cambiarRadio(1,this)' style='background:#1a4a9e;color:#f5e6c8;border:1.5px solid #2a5aae;border-radius:8px;padding:4px 6px;font-size:11px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 4px 14px rgba(26,74,158,0.4),0 1px 3px rgba(0,0,0,0.18);min-width:40px'>1 km</div>
+    <div class='map-radio-btn' data-km='2' onclick='cambiarRadio(2,this)' style='background:rgba(255,245,210,0.9);color:#3d2000;border:1.5px solid #a07828;border-radius:8px;padding:4px 6px;font-size:11px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.2),0 1px 3px rgba(0,0,0,0.12);min-width:40px'>2 km</div>
+    <div class='map-radio-btn' data-km='3' onclick='cambiarRadio(3,this)' style='background:rgba(255,245,210,0.9);color:#3d2000;border:1.5px solid #a07828;border-radius:8px;padding:4px 6px;font-size:11px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.2),0 1px 3px rgba(0,0,0,0.12);min-width:40px'>3 km</div>
   </div>
 
   <!-- Botón buscador derecha bottom:124px — abre modal búsqueda del asistente -->
@@ -2100,6 +2106,10 @@
       <div style='background:#fff;border:0.5px solid rgba(0,0,0,0.08);border-radius:12px;padding:1rem 1.1rem;display:flex;gap:12px;align-items:flex-start'>
         <div style='width:32px;height:32px;background:#F5F3FF;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0'>🛤️</div>
         <div><div style='font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:2px' id='instr-t4'>Genera tu ruta personalizada</div><div style='font-size:11px;color:#6b7280;line-height:1.6'>Pulsa <strong style='color:#1a1a1a'>+ Añadir a ruta</strong> en cualquier tarjeta. El botón <strong style='color:#1a1a1a'>🛤️ Ruta</strong> muestra tus paradas. Pulsa <strong style='color:#1a1a1a'>▶ Ir</strong> para navegar por voz o <strong style='color:#1a1a1a'>🗺️ Mapa</strong> para ver el trazado.</div></div>
+      </div>
+      <div style='background:#fff;border:0.5px solid rgba(194,95,176,0.4);border-radius:12px;padding:1rem 1.1rem;display:flex;gap:12px;align-items:flex-start'>
+        <div style='width:32px;height:32px;background:rgba(194,95,176,0.14);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0'>🗺️</div>
+        <div><div style='font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:2px' id='instr-t11'>Trazados oficiales y modo Ruta Oficial</div><div style='font-size:11px;color:#6b7280;line-height:1.6'><span id='instr-b11'>Los <strong style='color:#a84f98'>trazados oficiales del CNIG</strong> de todos los Caminos aparecen siempre dibujados en violeta sobre el mapa. Pulsa el botón <strong style='color:#1a1a1a'>🗺️ Ruta oficial</strong> para activar la vigilancia por voz: la guía detecta tu etapa, la resalta en amarillo y te avisa si te alejas de la senda. Vuelve a pulsarlo para desactivarla.</span></div></div>
       </div>
       <div style='background:#fff;border:0.5px solid rgba(0,0,0,0.08);border-radius:12px;padding:1rem 1.1rem;display:flex;gap:12px;align-items:flex-start'>
         <div style='width:32px;height:32px;background:#FEE2E2;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0'>🚨</div>
@@ -8440,6 +8450,7 @@ function abrirHeroModal() {
     var opciones = [
       { emoji:'🔍', tit:_t.asistBtnBuscar||'🔍 Buscar algo próximo',          desc:_t.asistBuscarSub||'Busca cualquier lugar o servicio en un radio de 1 km.',       accion:function(){ _abrirBusquedaProxima(); } },
       { emoji:'🐚', tit:_t.asistOp2Tit||'Historia Compostelana',               desc:_t.asistOp2Desc||'El Camino, los templarios, las rutas históricas…',              accion:function(){ cerrar(); setTimeout(function(){ _irAlMapa(); setTimeout(abrirHistoriaDrawer, 400); }, 340); } },
+      { emoji:'🗺️', tit:_t.rofTutBtn||'Mapa de trazados oficiales',             desc:_t.rofTutSub||'Cómo ver los Caminos y usar el modo Ruta Oficial',          accion:function(){ cerrar(); setTimeout(function(){ _irAlMapa(); setTimeout(function(){ if(window.abrirTutorialRutaOficial) window.abrirTutorialRutaOficial(); }, 400); }, 340); } },
       { emoji:'📍', tit:_t.asistBtnAnadirPunto||'📍 Añadir punto o alerta',    desc:_t.asistBtnAnadirDesc||'Recomienda un lugar, añade una alerta o un punto de interés', accion:function(){ cerrar(); setTimeout(function(){ _irAlMapa(); setTimeout(abrirFormPOI, 400); }, 340); } },
       { emoji:'✨', tit:_t.asistBtnMasOpc||'✨ Más opciones interesantes',      desc:_t.asistBtnMasOpcDesc||'Historia, álbum, juego de la oca, emergencias…',             accion:function(){ _renderSugerencias(); } }
     ];
@@ -9653,6 +9664,101 @@ function añadirMarcadorUsuario(p) {
 
 
 // Abrir/cerrar formulario
+// ============================================================
+// VOLVER A LA RUTA OFICIAL (automático): coloca el punto más cercano del
+// trazado, dibuja la línea con las flechas de color y ofrece "Comenzar".
+// ============================================================
+function volverARuta(){
+  var lat = (typeof userLat!=='undefined' && userLat) ? userLat : null;
+  var lng = (typeof userLng!=='undefined' && userLng) ? userLng : null;
+  if (lat==null || lng==null){
+    if (typeof mostrarToast==='function') mostrarToast('Necesito tu ubicación GPS para guiarte');
+    return;
+  }
+  if (!window.Desvio || !window.Desvio.puntoMasCercano){
+    if (typeof mostrarToast==='function') mostrarToast('No hay trazado oficial cargado todavía');
+    return;
+  }
+  var pc = window.Desvio.puntoMasCercano(lat, lng);
+  if (!pc){
+    if (typeof mostrarToast==='function') mostrarToast('No detecto un trazado oficial cercano');
+    return;
+  }
+  if (window.Desvio.cerrarModal) window.Desvio.cerrarModal();
+  // Insertar el punto de retorno como destino (sin duplicar) al principio.
+  rutaPuntos = rutaPuntos.filter(function(p){ return p.id !== '_volver_ruta'; });
+  rutaPuntos.unshift({ id:'_volver_ruta', nombre:'Volver a la ruta oficial', lat:pc.lat, lng:pc.lng, categoria:'volver' });
+  if (typeof actualizarRuta==='function') actualizarRuta();   // dibuja línea+flechas, muestra ▶ Ir
+  if (typeof _irAlMapa==='function') _irAlMapa();
+  setTimeout(function(){
+    if (typeof dibujarLineaEstática==='function') dibujarLineaEstática();
+    _ponerMarkerVolver(pc.lat, pc.lng);
+    _mostrarBtnComenzarNav();
+  }, 450);
+  if (typeof hablar==='function'){ try{ hablar('He marcado el punto más cercano de la ruta. Pulsa comenzar para que te guíe.'); }catch(e){} }
+}
+
+function _mostrarBtnComenzarNav(){
+  var b = document.getElementById('btn-comenzar-nav');
+  if (!b){
+    b = document.createElement('button');
+    b.id = 'btn-comenzar-nav';
+    b.type = 'button';
+    b.style.cssText =
+      'position:fixed;left:50%;transform:translateX(-50%);bottom:90px;z-index:9997;'+
+      'background:#1D9E75;color:#fff;border:none;border-radius:24px;padding:13px 22px;'+
+      'font-size:15px;font-weight:700;font-family:DM Sans,sans-serif;cursor:pointer;'+
+      'box-shadow:0 6px 22px rgba(0,0,0,0.32);display:flex;align-items:center;gap:8px';
+    b.innerHTML = '<span style="font-size:17px;line-height:1">▶</span> Comenzar navegación';
+    b.addEventListener('click', function(){
+      _ocultarBtnComenzarNav();
+      if (typeof activarNavegacionVoz==='function') activarNavegacionVoz();
+    });
+    document.body.appendChild(b);
+  }
+  b.style.display = 'flex';
+}
+function _ocultarBtnComenzarNav(){
+  var b = document.getElementById('btn-comenzar-nav');
+  if (b) b.style.display = 'none';
+}
+
+function _quitarMarkerVolver(){
+  if (window._volverMarker && typeof mapa!=='undefined' && mapa){
+    try{ mapa.removeLayer(window._volverMarker); }catch(e){}
+  }
+  window._volverMarker = null;
+}
+function _ponerMarkerVolver(lat, lng){
+  _quitarMarkerVolver();
+  if (typeof mapa==='undefined' || !mapa || !window.L) return;
+  var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="42" viewBox="0 0 32 42">'+
+    '<path d="M16 1C8 1 2 7 2 15c0 9 14 26 14 26s14-17 14-26C30 7 24 1 16 1z" fill="#a84f98" stroke="#fffdf7" stroke-width="2"/>'+
+    '<circle cx="16" cy="15" r="5.5" fill="#fffdf7"/></svg>';
+  window._volverMarker = L.marker([lat,lng], {
+    icon: L.divIcon({
+      className:'',
+      html:'<div style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.45))">'+svg+'</div>',
+      iconSize:[32,42], iconAnchor:[16,42], popupAnchor:[0,-38]
+    }),
+    zIndexOffset: 1000
+  }).addTo(mapa);
+  try{ window._volverMarker.bindPopup('Vuelve aquí a la ruta oficial'); }catch(e){}
+}
+
+// Borra el ayudante "volver a la ruta": botón Comenzar, chincheta y, si existe,
+// el punto de retorno sintético (con lo que su línea/flechas dejan de dibujarse).
+// No toca el resto de la ruta del usuario.
+function _limpiarVolverRuta(){
+  _ocultarBtnComenzarNav();
+  _quitarMarkerVolver();
+  if (typeof rutaPuntos !== 'undefined'){
+    var antes = rutaPuntos.length;
+    rutaPuntos = rutaPuntos.filter(function(p){ return p.id !== '_volver_ruta'; });
+    if (rutaPuntos.length !== antes && typeof actualizarRuta === 'function') actualizarRuta();
+  }
+}
+
 function abrirFormPOI() {
   poiFormLat = null; poiFormLng = null;
   document.getElementById('poi-input-nombre').value = '';
@@ -12136,6 +12242,8 @@ function _modalPergamino(config) {
 
 function limpiarRuta() {
   if (_navActiva) detenerNavegacionVoz();
+  if (typeof _ocultarBtnComenzarNav==='function') _ocultarBtnComenzarNav();
+  if (typeof _quitarMarkerVolver==='function') _quitarMarkerVolver();
   var hayActiva = rutaPuntos.length > 0;
   var hayGuardada = false;
   try { hayGuardada = !!localStorage.getItem('rutaGuardadaV2'); } catch(e) {}
@@ -12842,7 +12950,15 @@ function distanciaTexto(m) {
 }
 
 function activarNavegacionVoz() {
+  if (typeof _ocultarBtnComenzarNav==='function') _ocultarBtnComenzarNav();
   if (rutaPuntos.length < 1) { mostrarToast((T[idiomaActual]||T.es).navAnnadePunto||'Añade al menos 1 punto a la ruta'); return; }
+  // Pausar Ruta Oficial mientras dura la navegación
+  if (window.RutaOficial && window.RutaOficial.estaActivo()) {
+    window._rutaOficialPausada = true;
+    window.RutaOficial.desactivar();
+  } else {
+    window._rutaOficialPausada = false;
+  }
 
   // Ordenar puntos por cercanía al usuario
   var origen = (userLat && userLng) ? {lat:userLat, lng:userLng} : {lat:rutaPuntos[0].lat, lng:rutaPuntos[0].lng};
@@ -13119,6 +13235,13 @@ function toggleVozNav() {
 
 function detenerNavegacionVoz() {
   _navActiva = false;
+  if (typeof _ocultarBtnComenzarNav==='function') _ocultarBtnComenzarNav();
+  if (typeof _quitarMarkerVolver==='function') _quitarMarkerVolver();
+  // Reactivar Ruta Oficial si estaba activa antes de entrar en navegación
+  if (window._rutaOficialPausada) {
+    window._rutaOficialPausada = false;
+    setTimeout(function(){ if(window.RutaOficial) window.RutaOficial.activar(); }, 500);
+  }
   var _btnCascoStop = document.getElementById('btn-asistente-mapa'); if (_btnCascoStop) _btnCascoStop.style.display = 'flex';
 
   // Guardar estado brújula antes de detener
@@ -13490,6 +13613,17 @@ var T={
     asistEligeUno:'Puedes elegir uno o varios lugares.',
     asistConfirmar:'Confirmar selección',
     asistPulsaX:'Pulsa la ✕ para quitar un lugar de la ruta.',
+    rofBtn:'Ruta oficial',
+    rofBtnOn:'Ruta oficial: ON',
+    rofTitle:'Vigila que sigas el trazado oficial del Camino',
+    rofCardActTit:'🟡 Modo Ruta Oficial activado',
+    rofCardActBody:'Vigilaremos que sigas el trazado señalizado del Camino. Si te alejas de la senda oficial, te avisaremos por voz.\n\n✓ Ideal si caminas en solitario o por tramos despoblados.\n✓ Sigue la flecha amarilla con seguridad.\n\n⚠️ Muchos de nuestros puntos de interés están fuera de la ruta oficial. Si te desvías para visitarlos, recibirás avisos: para explorarlos sin alertas, usa la navegación normal.',
+    rofCardOffTit:'🟢 Navegación libre',
+    rofCardOffBody:'Vigilancia de ruta desactivada. Tú decides por dónde vas, sin avisos de desvío.\n\nEl Camino oficial sigue dibujado en el mapa.',
+    rofTutBtn:'Mapa de trazados oficiales',
+    rofTutSub:'Cómo ver los Caminos y usar el modo Ruta Oficial',
+    rofTutTit:'🗺️ Mapa de trazados oficiales',
+    rofTutBody:'Todos los Caminos oficiales aparecen siempre dibujados en VIOLETA sobre el mapa, con los trazados certificados del CNIG: Francés, Norte, Inglés, Primitivo y Portugués (Costa e Interior).\n\n— CÓMO SE USA —\n\n1️⃣ Abre el mapa. Los trazados violetas ya están ahí, no hace falta activar nada.\n\n2️⃣ Pulsa el botón 🗺️ Ruta oficial (arriba a la derecha del mapa) para activar el modo de vigilancia.\n\n3️⃣ La guía detecta en qué etapa estás y la resalta en AMARILLO sobre el violeta.\n\n4️⃣ Mientras caminas, si te alejas de la senda oficial, te avisa por voz. Ideal para tramos solitarios o despoblados.\n\n5️⃣ Vuelve a pulsar el botón para volver a la navegación libre. El trazado violeta permanece siempre visible.\n\n⚠️ Muchos puntos de interés están fuera de la ruta oficial. Si te desvías para visitarlos recibirás avisos: para explorarlos sin alertas, usa la navegación normal.',
     asistOp1Tit:'¿Necesitas buscar algo próximo a ti en el mapa?',
     asistOp1Desc:'Busca cualquier lugar o servicio en un radio de 1 km.',
     asistOp2Tit:'Historia Compostelana',
@@ -13633,6 +13767,8 @@ var T={
     instrB9:'El botón <strong style="color:#1a1a1a">↺</strong> en la esquina superior izquierda del mapa recalcula tu posición y reordena los POIs por distancia.',
     instrT10:'Funciona sin conexión',
     instrB10:'La primera vez que abres la guía con WiFi se descarga el mapa de la zona. Después puedes consultarla sin datos, ideal en zonas del camino sin cobertura.',
+    instrT11:'Trazados oficiales y modo Ruta Oficial',
+    instrB11:'Los <strong style="color:#a84f98">trazados oficiales del CNIG</strong> de todos los Caminos aparecen siempre dibujados en violeta sobre el mapa. Pulsa el botón <strong style="color:#1a1a1a">🗺️ Ruta oficial</strong> para activar la vigilancia por voz: la guía detecta tu etapa, la resalta en amarillo y te avisa si te alejas de la senda. Vuelve a pulsarlo para desactivarla.',
     instrMobileTitle:'Añade la guía a tu pantalla de inicio',
     instrIosTitle:'🍎 iPhone / iPad (Safari)',
     instrAndroidTitle:'🤖 Android (Chrome)',
@@ -13873,6 +14009,17 @@ var T={
     asistEligeUno:'Podes escoller un ou varios lugares.',
     asistConfirmar:'Confirmar selección',
     asistPulsaX:'Preme a ✕ para quitar un lugar da ruta.',
+    rofBtn:'Ruta oficial',
+    rofBtnOn:'Ruta oficial: ON',
+    rofTitle:'Vixía que sigas o trazado oficial do Camiño',
+    rofCardActTit:'🟡 Modo Ruta Oficial activado',
+    rofCardActBody:'Vixiaremos que sigas o trazado sinalizado do Camiño. Se te afastas da senda oficial, avisarémoste por voz.\n\n✓ Ideal se camiñas en solitario ou por treitos despoboados.\n✓ Segue a frecha amarela con seguridade.\n\n⚠️ Moitos dos nosos puntos de interese están fóra da ruta oficial. Se te desvías para visitalos, recibirás avisos: para exploralos sen alertas, usa a navegación normal.',
+    rofCardOffTit:'🟢 Navegación libre',
+    rofCardOffBody:'Vixilancia de ruta desactivada. Ti decides por onde vas, sen avisos de desvío.\n\nO Camiño oficial segue debuxado no mapa.',
+    rofTutBtn:'Mapa de trazados oficiais',
+    rofTutSub:'Como ver os Camiños e usar o modo Ruta Oficial',
+    rofTutTit:'🗺️ Mapa de trazados oficiais',
+    rofTutBody:'Todos os Camiños oficiais aparecen sempre debuxados en VIOLETA sobre o mapa, cos trazados certificados do CNIG: Francés, Norte, Inglés, Primitivo e Portugués (Costa e Interior).\n\n— COMO SE USA —\n\n1️⃣ Abre o mapa. Os trazados violetas xa están aí, non fai falta activar nada.\n\n2️⃣ Preme o botón 🗺️ Ruta oficial (arriba á dereita do mapa) para activar o modo de vixilancia.\n\n3️⃣ A guía detecta en que etapa estás e resáltaa en AMARELO sobre o violeta.\n\n4️⃣ Mentres camiñas, se te afastas da senda oficial, avísate por voz. Ideal para treitos solitarios ou despoboados.\n\n5️⃣ Preme de novo o botón para volver á navegación libre. O trazado violeta permanece sempre visible.\n\n⚠️ Moitos puntos de interese están fóra da ruta oficial. Se te desvías para visitalos recibirás avisos: para exploralos sen alertas, usa a navegación normal.',
     asistOp1Tit:'¿Necesitas buscar algo próximo a ti no mapa?',
     asistOp1Desc:'Busca calquera lugar ou servizo nun radio de 1 km.',
     asistOp2Tit:'Historia Compostelá',
@@ -14006,6 +14153,8 @@ var T={
     instrB9:'O botón <strong style=\'color:#1a1a1a\'>↺</strong> na esquina superior esquerda do mapa recalcula a túa posición e reordena os POIs por distancia.',
     instrT10:'Funciona sen conexión',
     instrB10:'A primeira vez que abres a guía con WiFi descárgase o mapa da zona. Despois podes consultala sen datos, ideal en zonas do camiño sen cobertura.',
+    instrT11:'Trazados oficiais e modo Ruta Oficial',
+    instrB11:'Os <strong style="color:#a84f98">trazados oficiais do CNIG</strong> de todos os Camiños aparecen sempre debuxados en violeta sobre o mapa. Preme o botón <strong style="color:#1a1a1a">🗺️ Ruta oficial</strong> para activar a vixilancia por voz: a guía detecta a túa etapa, resáltaa en amarelo e avísate se te afastas da senda. Preme de novo para desactivala.',
     instrB1:'Cando o navegador cho pida, preme <strong style="color:#1a1a1a">Permitir</strong>. Verás os puntos ordenados por distancia e a túa posición no mapa.',
     instrB2:'Toca calquera marcador para ver a ficha. Usa o selector de radio na parte inferior do mapa para filtrar por distancia.',
     instrB3:'Escribe calquera nome — cafetería, praia, rúa — e preme <strong style="color:#1a1a1a">Enter</strong>. Os resultados aparecen como marcadores.',
@@ -14295,6 +14444,8 @@ var T={
     instrB9:'The <strong style=\'color:#1a1a1a\'>↺</strong> button in the top left corner of the map recalculates your position and reorders POIs by distance.',
     instrT10:'Works offline',
     instrB10:'The first time you open the guide on WiFi the map of the area is downloaded. You can then browse it without data — ideal in areas of the way without coverage.',
+    instrT11:'Official tracks and Official Route mode',
+    instrB11:'The <strong style="color:#a84f98">official CNIG tracks</strong> of every Way are always drawn in violet on the map. Tap the <strong style="color:#1a1a1a">🗺️ Official route</strong> button to enable voice monitoring: the guide detects your stage, highlights it in yellow and warns you if you stray from the path. Tap again to turn it off.',
     instrB1:'When the browser asks, tap <strong style="color:#1a1a1a">Allow</strong>. You will see points sorted by distance and your position on the map.',
     instrB2:'Tap any marker to see the details. Use the radius selector at the bottom of the map to filter by distance.',
     instrB3:'Type any name — café, beach, street — and press <strong style="color:#1a1a1a">Enter</strong>. Results appear as markers on the map.',
@@ -14454,6 +14605,17 @@ var T={
     asistEligeUno:'You can choose one or more places.',
     asistConfirmar:'Confirm selection',
     asistPulsaX:'Tap ✕ to remove a place from the route.',
+    rofBtn:'Official route',
+    rofBtnOn:'Official route: ON',
+    rofTitle:'Keeps you on the official Camino track',
+    rofCardActTit:'🟡 Official Route mode on',
+    rofCardActBody:'We will watch that you follow the waymarked Camino track. If you stray from the official path, we will warn you by voice.\n\n✓ Ideal if you walk alone or through remote stretches.\n✓ Follow the yellow arrow safely.\n\n⚠️ Many of our points of interest are off the official route. If you detour to visit them you will get warnings: to explore them without alerts, use normal navigation.',
+    rofCardOffTit:'🟢 Free navigation',
+    rofCardOffBody:'Route monitoring off. You decide where you go, with no off-track warnings.\n\nThe official Camino stays drawn on the map.',
+    rofTutBtn:'Official route map',
+    rofTutSub:'How to view the Ways and use Official Route mode',
+    rofTutTit:'🗺️ Official route map',
+    rofTutBody:'All the official Ways are always drawn in VIOLET on the map, with CNIG-certified tracks: French, Northern, English, Primitive and Portuguese (Coastal and Central).\n\n— HOW TO USE IT —\n\n1️⃣ Open the map. The violet tracks are already there, nothing to enable.\n\n2️⃣ Tap the 🗺️ Official route button (top right of the map) to turn on monitoring mode.\n\n3️⃣ The guide detects which stage you are on and highlights it in YELLOW over the violet.\n\n4️⃣ As you walk, if you stray from the official path it warns you by voice. Ideal for lonely or remote stretches.\n\n5️⃣ Tap the button again to return to free navigation. The violet track stays visible at all times.\n\n⚠️ Many points of interest are off the official route. If you detour to visit them you will get warnings: to explore them without alerts, use normal navigation.',
     asistOp1Tit:'Need to search for something nearby?',
     asistOp1Desc:'Search any place or service within 1 km.',
     asistOp2Tit:'Compostelan History',
@@ -14544,6 +14706,7 @@ window._dlT = {
     metaOffline:'funciona sin red',
     statPoi:'Puntos de interés especializados', statEtapas:'Etapas diarias de los 6 principales caminos', statCoste:'Coste para el peregrino',
     featTitle:'Todo lo que necesitas en el Camino', featSub:'Diseñada para usarse en el móvil mientras caminas',
+    f0badge:'Nuevo',f0t:'Mapa de trazados oficiales',f0d:'Todos los Caminos oficiales (Francés, Norte, Inglés, Primitivo, Portugués…) dibujados sobre el mapa con los trazados certificados del CNIG. Activa el modo Ruta Oficial y la guía vigila por voz que no te salgas de la senda.',
     f1t:'Mapa interactivo offline',f1d:'Tiles de OpenStreetMap cacheadas. Navega sin conexión a lo largo de toda la ruta, con tu posición GPS en tiempo real.',
     f2t:'Navegación por voz',f2d:'Indicaciones habladas en gallego, español e inglés. El móvil te avisa de cada giro sin tener que mirar la pantalla.',
     f3t:'Patrimonio jacobeo',f3d:'Iglesias, monasterios, castros y vestigios arqueológicos documentados con textos históricos y POIs exclusivos especializados en el patrimonio xacobeo.',
@@ -14580,6 +14743,7 @@ window._dlT = {
     metaOffline:'funciona sen rede',
     statPoi:'Puntos de interese especializados', statEtapas:'Etapas diarias dos 6 camiños principais', statCoste:'Custo para o peregrino',
     featTitle:'Todo o que precisas no Camiño', featSub:'Deseñada para usarse no móbil mentres camiñas',
+    f0badge:'Novo',f0t:'Mapa de trazados oficiais',f0d:'Todos os Camiños oficiais (Francés, Norte, Inglés, Primitivo, Portugués…) debuxados sobre o mapa cos trazados certificados do CNIG. Activa o modo Ruta Oficial e a guía vixía por voz que non te saias da senda.',
     f1t:'Mapa interactivo sen conexión',f1d:'Tiles de OpenStreetMap en caché. Navega sen conexión ao longo de toda a ruta, coa túa posición GPS en tempo real.',
     f2t:'Navegación por voz',f2d:'Indicacións faladas en galego, español e inglés. O móbil avísate de cada xiro sen ter que mirar a pantalla.',
     f3t:'Patrimonio xacobeo',f3d:'Igrexas, mosteiros, castros e vestixios arqueolóxicos documentados con textos históricos e POIs exclusivos especializados no patrimonio xacobeo.',
@@ -14616,6 +14780,7 @@ window._dlT = {
     metaOffline:'works offline',
     statPoi:'Specialised points of interest', statEtapas:'Daily stages across the 6 main routes', statCoste:'Cost for the pilgrim',
     featTitle:'Everything you need on the Camino', featSub:'Designed to be used on your phone while you walk',
+    f0badge:'New',f0t:'Official route map',f0d:'All the official Ways (French, Northern, English, Primitive, Portuguese…) drawn on the map with CNIG-certified tracks. Turn on Official Route mode and the guide watches by voice that you stay on the path.',
     f1t:'Offline interactive map',f1d:'Cached OpenStreetMap tiles. Navigate without a connection along the entire route, with your GPS position in real time.',
     f2t:'Voice navigation',f2d:'Spoken directions in Galician, Spanish and English. Your phone alerts you to every turn without needing to look at the screen.',
     f3t:'Jacobean heritage',f3d:'Churches, monasteries, hillforts and archaeological remains documented with historical texts and exclusive POIs specialising in Jacobean heritage.',
@@ -14754,6 +14919,9 @@ function cambiarIdioma(lang){
   el=document.getElementById('instr-b9');if(el)el.innerHTML=t.instrB9;
   el=document.getElementById('instr-t10');if(el)el.textContent=t.instrT10;
   el=document.getElementById('instr-b10');if(el)el.innerHTML=t.instrB10;
+  el=document.getElementById('instr-t11');if(el)el.textContent=t.instrT11;
+  el=document.getElementById('instr-b11');if(el)el.innerHTML=t.instrB11;
+  if(typeof window._actualizarBotonRutaOficial==='function') window._actualizarBotonRutaOficial();
   // Instrucciones - móvil
   el=document.getElementById('instr-mobile-title');if(el)el.textContent=t.instrMobileTitle;
   el=document.getElementById('instr-ios-title');if(el)el.textContent=t.instrIosTitle;
@@ -14973,6 +15141,7 @@ function cambiarIdioma(lang){
     _s('dl-stat-coste',    dl.statCoste);
     _s('dl-feat-title',    dl.featTitle);
     _s('dl-feat-sub',      dl.featSub);
+    _s('dl-f0-t',dl.f0t);_s('dl-f0-d',dl.f0d);_s('dl-f0-badge',dl.f0badge);
     _s('dl-f1-t',dl.f1t);_s('dl-f1-d',dl.f1d);
     _s('dl-f2-t',dl.f2t);_s('dl-f2-d',dl.f2d);
     _s('dl-f3-t',dl.f3t);_s('dl-f3-d',dl.f3d);
@@ -15450,7 +15619,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1441";
+var _APP_VERSION = "v1449";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -17399,6 +17568,22 @@ window._TRACK_VIGO_REDONDELA = {"id":"pt-costa-vigo-redondela","ruta":"Camino Po
     return Math.hypot(px-cx, py-cy);
   }
 
+  // Proyección del punto P sobre el segmento AB → devuelve {lat,lng,d} del
+  // punto más cercano del segmento (no solo la distancia).
+  function proyectarEnSegmento(P, A, B){
+    var latRef = rad(A[0]);
+    var mLat = 111320, mLng = 111320 * Math.cos(latRef);
+    var px = P[1]*mLng, py = P[0]*mLat;
+    var ax = A[1]*mLng, ay = A[0]*mLat;
+    var bx = B[1]*mLng, by = B[0]*mLat;
+    var dx = bx-ax, dy = by-ay;
+    var L2 = dx*dx + dy*dy;
+    var t = (L2 === 0) ? 0 : ((px-ax)*dx + (py-ay)*dy) / L2;
+    t = Math.max(0, Math.min(1, t));
+    var cx = ax + t*dx, cy = ay + t*dy;
+    return { lat: cy/mLat, lng: cx/mLng, d: Math.hypot(px-cx, py-cy) };
+  }
+
   // Distancia mínima del usuario a TODA la senda.
   // Optimización: solo evalúa segmentos cuyo punto A está dentro de una
   // ventana de ~300m, para no recorrer 1000+ puntos en cada tick.
@@ -17449,6 +17634,71 @@ window._TRACK_VIGO_REDONDELA = {"id":"pt-costa-vigo-redondela","ruta":"Camino Po
     }
   }
 
+  // ---- MODAL FLOTANTE DE DESVÍO (sustituye al toast cuando estás FUERA de la ruta) ----
+  var modalDescartado = false;   // el usuario cerró el modal en este episodio "fuera"
+
+  function mostrarModalDesvio(metros){
+    var ov = document.getElementById('desvio-modal-ov');
+    if (!ov){
+      ov = document.createElement('div');
+      ov.id = 'desvio-modal-ov';
+      ov.style.cssText =
+        'position:fixed;inset:0;z-index:10000;display:flex;align-items:center;'+
+        'justify-content:center;padding:20px;background:rgba(10,5,20,0.45);'+
+        '-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);'+
+        'font-family:DM Sans,sans-serif';
+      ov.innerHTML =
+        '<div role="dialog" aria-modal="true" aria-label="Fuera de la ruta oficial" '+
+        'style="background:#fffdf7;border:1.5px solid #a84f98;border-radius:18px;'+
+        'max-width:360px;width:100%;box-shadow:0 14px 44px rgba(0,0,0,0.38);overflow:hidden">'+
+          '<div style="background:linear-gradient(135deg,#C25FB0,#a84f98);color:#fff;'+
+          'padding:14px 18px;display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px">'+
+            '<span style="font-size:20px">🧭</span><span>Fuera de la ruta oficial</span>'+
+          '</div>'+
+          '<div style="padding:18px">'+
+            '<p style="margin:0 0 8px;font-size:14px;line-height:1.55;color:#1a1a1a">'+
+            'Estás fuera de la ruta oficial. Dirígete al <strong style="color:#a84f98">trazado violeta</strong> '+
+            'en el mapa, o añade un punto sobre el <strong style="color:#c9a000">camino amarillo</strong> '+
+            'y te guiaré hasta él.</p>'+
+            '<p id="desvio-modal-metros" style="margin:0;font-size:12px;color:#6b7280"></p>'+
+            '<div style="display:flex;gap:8px;margin-top:16px">'+
+              '<button type="button" id="desvio-modal-cerrar" style="flex:1;background:#fff;'+
+              'color:#6b7280;border:1px solid #e5e7eb;border-radius:12px;padding:10px;font-size:13px;'+
+              'font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">Entendido</button>'+
+              '<button type="button" id="desvio-modal-add" style="flex:1.6;background:#1D9E75;'+
+              'color:#fff;border:none;border-radius:12px;padding:10px;font-size:13px;font-weight:700;'+
+              'cursor:pointer;font-family:DM Sans,sans-serif;display:flex;align-items:center;'+
+              'justify-content:center;gap:5px">🧭 Volver a la ruta</button>'+
+            '</div>'+
+          '</div>'+
+        '</div>';
+      document.body.appendChild(ov);
+
+      // Cerrar con "Entendido"
+      ov.querySelector('#desvio-modal-cerrar').addEventListener('click', function(){
+        modalDescartado = true; cerrarModalDesvio();
+      });
+      // Cerrar tocando el fondo oscuro
+      ov.addEventListener('click', function(ev){
+        if (ev.target === ov){ modalDescartado = true; cerrarModalDesvio(); }
+      });
+      // Añadir punto → cierra el modal y abre el drawer "Nuevo punto"
+      ov.querySelector('#desvio-modal-add').addEventListener('click', function(){
+        modalDescartado = true; cerrarModalDesvio();
+        if (typeof volverARuta === 'function'){ try{ volverARuta(); }catch(e){} }
+      });
+    }
+    var m = ov.querySelector('#desvio-modal-metros');
+    if (m) m.textContent = (metros != null && isFinite(metros))
+      ? ('Estás a unos ' + Math.round(metros) + ' m de la senda señalizada.') : '';
+    ov.style.display = 'flex';
+  }
+
+  function cerrarModalDesvio(){
+    var ov = document.getElementById('desvio-modal-ov');
+    if (ov) ov.style.display = 'none';
+  }
+
   // ---- LÓGICA DE ESTADO (con histéresis anti-falsos-positivos) ----
   function evaluar(P, precision){
     if (!TRACK || !activo) return;
@@ -17462,7 +17712,9 @@ window._TRACK_VIGO_REDONDELA = {"id":"pt-costa-vigo-redondela","ruta":"Camino Po
       if (d > CFG.umbralDesvio){
         estado = 'fuera';
         ultimoAviso = ahora;
-        avisar('Te has salido del Camino. Vuelve hacia la senda señalizada.', 'error');
+        modalDescartado = false;
+        if (typeof hablar === 'function'){ try{ hablar('Estás fuera de la ruta oficial.'); }catch(e){} }
+        mostrarModalDesvio(d);
       } else if (d > CFG.umbralAviso){
         estado = 'alejandose';
         ultimoAviso = ahora;
@@ -17472,7 +17724,9 @@ window._TRACK_VIGO_REDONDELA = {"id":"pt-costa-vigo-redondela","ruta":"Camino Po
       if (d > CFG.umbralDesvio){
         estado = 'fuera';
         ultimoAviso = ahora;
-        avisar('Te has salido del Camino. Vuelve hacia la senda señalizada.', 'error');
+        modalDescartado = false;
+        if (typeof hablar === 'function'){ try{ hablar('Estás fuera de la ruta oficial.'); }catch(e){} }
+        mostrarModalDesvio(d);
       } else if (d < CFG.umbralVuelta){
         estado = 'en-ruta';
         mostrarBanner('De nuevo en el Camino ✓', 'ok');
@@ -17480,11 +17734,13 @@ window._TRACK_VIGO_REDONDELA = {"id":"pt-costa-vigo-redondela","ruta":"Camino Po
     } else if (estado === 'fuera'){
       if (d < CFG.umbralVuelta){
         estado = 'en-ruta';
+        modalDescartado = false;
+        cerrarModalDesvio();
         avisar('Has vuelto al Camino.', 'ok');
       } else if (ahora - ultimoAviso > CFG.repetirCada){
         ultimoAviso = ahora;
-        avisar('Sigues fuera del Camino. Estás a unos ' +
-               Math.round(d) + ' metros de la senda.', 'error');
+        if (typeof hablar === 'function'){ try{ hablar('Sigues fuera de la ruta. A unos ' + Math.round(d) + ' metros de la senda.'); }catch(e){} }
+        if (!modalDescartado) mostrarModalDesvio(d);
       }
     }
   }
@@ -17525,6 +17781,7 @@ window._TRACK_VIGO_REDONDELA = {"id":"pt-costa-vigo-redondela","ruta":"Camino Po
       if (watchId != null){ navigator.geolocation.clearWatch(watchId); watchId = null; }
       var b = document.getElementById('desvio-banner');
       if (b){ b.style.display='none'; }
+      cerrarModalDesvio();
       // Quitar el resaltado amarillo de la etapa (el violeta sigue puesto).
       if (polyDesvio && typeof mapa!=='undefined' && mapa && mapa.hasLayer(polyDesvio)){
         mapa.removeLayer(polyDesvio); polyDesvio = null;
@@ -17554,7 +17811,32 @@ window._TRACK_VIGO_REDONDELA = {"id":"pt-costa-vigo-redondela","ruta":"Camino Po
     },
 
     // Permite ajustar umbrales en caliente.
-    config: function(o){ for (var k in o) if (k in CFG) CFG[k]=o[k]; return CFG; }
+    config: function(o){ for (var k in o) if (k in CFG) CFG[k]=o[k]; return CFG; },
+
+    // ---- Control externo del modal "fuera de ruta" ----
+    // Lo usa Ruta Oficial cuando estás tan lejos que ni se detecta etapa.
+    avisoFueraRuta: function(metros){
+      if (modalDescartado) return;                 // el usuario ya lo cerró en este episodio
+      var ov = document.getElementById('desvio-modal-ov');
+      var yaVisible = ov && ov.style.display !== 'none';
+      if (typeof hablar === 'function' && !yaVisible){ try{ hablar('Estás fuera de la ruta oficial.'); }catch(e){} }
+      mostrarModalDesvio(metros);
+    },
+    resetModal: function(){ modalDescartado = false; },
+    cerrarModal: function(){ cerrarModalDesvio(); },
+
+    // Devuelve el punto más cercano del trazado oficial cargado a una posición:
+    // {lat, lng, distancia} o null si no hay track.
+    puntoMasCercano: function(lat, lng){
+      if (!TRACK || !TRACK.coords || TRACK.coords.length < 2) return null;
+      var P=[lat,lng], best=null, bestD=Infinity, co=TRACK.coords;
+      for (var i=0;i<co.length-1;i++){
+        var pr = proyectarEnSegmento(P, co[i], co[i+1]);
+        if (pr.d < bestD){ bestD = pr.d; best = pr; }
+      }
+      if (!best) return null;
+      return { lat: best.lat, lng: best.lng, distancia: Math.round(bestD) };
+    }
   };
 
 })();
@@ -17715,9 +17997,9 @@ window._INDICE_CAMINOS = [{"id":"es01c_05a","ruta":"Camino Francés","slug":"fra
 (function(){
   'use strict';
   var activo = false;
-  var watchId = null;
+  var _intervalId = null;     // setInterval de 5 min para detección de desvío
   var DIST_MAX_CAMINO = 500; // m: si estás a más de esto de todo Camino, no vigila
-  var yaVistoCartel = false;  // para mostrar cartel completo solo la 1ª vez
+  var INTERVALO_DETECCION = 5 * 60 * 1000; // 5 minutos en ms
 
   // Inicializar selector con el índice embebido
   function initSelector(){
@@ -17729,23 +18011,26 @@ window._INDICE_CAMINOS = [{"id":"es01c_05a","ruta":"Camino Francés","slug":"fra
   }
 
   // --- CARTELES ---
+  function _tRO(){ return (typeof T!=='undefined' && T[idiomaActual]) ? T[idiomaActual] : (typeof T!=='undefined'?T.es:{}); }
   function cartelActivar(){
+    var _t=_tRO();
     return {
-      titulo: '🟡 Modo Ruta Oficial activado',
-      cuerpo: 'Vigilaremos que sigas el trazado señalizado del Camino. '+
+      titulo: _t.rofCardActTit || '🟡 Modo Ruta Oficial activado',
+      cuerpo: _t.rofCardActBody || ('Vigilaremos que sigas el trazado señalizado del Camino. '+
               'Si te alejas de la senda oficial, te avisaremos por voz.\n\n'+
               '✓ Ideal si caminas en solitario o por tramos despoblados.\n'+
               '✓ Sigue la flecha amarilla con seguridad.\n\n'+
               '⚠️ Muchos de nuestros puntos de interés están fuera de la ruta '+
               'oficial. Si te desvías para visitarlos, recibirás avisos: para '+
-              'explorarlos sin alertas, usa la navegación normal.'
+              'explorarlos sin alertas, usa la navegación normal.')
     };
   }
   function cartelDesactivar(){
+    var _t=_tRO();
     return {
-      titulo: '🟢 Navegación libre',
-      cuerpo: 'Vigilancia de ruta desactivada. Tú decides por dónde vas, '+
-              'sin avisos de desvío.\n\nEl Camino oficial sigue dibujado en el mapa.'
+      titulo: _t.rofCardOffTit || '🟢 Navegación libre',
+      cuerpo: _t.rofCardOffBody || ('Vigilancia de ruta desactivada. Tú decides por dónde vas, '+
+              'sin avisos de desvío.\n\nEl Camino oficial sigue dibujado en el mapa.')
     };
   }
 
@@ -17793,32 +18078,33 @@ window._INDICE_CAMINOS = [{"id":"es01c_05a","ruta":"Camino Francés","slug":"fra
     overlay.addEventListener('touchend', function(e){ if(e.target===overlay){ e.preventDefault(); cerrar(); } });
   }
 
-  // --- MAGIA: detectar etapa y arrancar vigilancia ---
-  function alMoverse(pos){
-    var lat=pos.coords.latitude, lng=pos.coords.longitude, acc=pos.coords.accuracy;
-    window.Selector.detectar(lat, lng).then(function(res){
-      if(!res || res.distancia > DIST_MAX_CAMINO){
-        // Lejos de todo Camino: no inventamos ruta
-        if(typeof mostrarToast==='function')
-          mostrarToast('No detecto que estés en un Camino ahora mismo');
-        return;
-      }
-      if(res.nueva){
-        // Cambió de etapa: avisar discretamente (el selector ya cargó el track)
-        if(typeof mostrarToast==='function')
-          mostrarToast('Vigilando: '+res.ruta+' · '+res.etapa);
-      }
-      // El selector ya cargó el track en el motor. Activamos la vigilancia
-      // UNA vez (sin abrir un segundo watch) y la alimentamos con esta misma
-      // posición: un único watchPosition para todo el modo.
-      if(window.Desvio){
-        if(!window._desvioVigilando){
-          window.Desvio.iniciarExterno();
-          window._desvioVigilando = true;
+  // --- DETECCIÓN CADA 5 MINUTOS: pide posición puntual y comprueba desvío ---
+  function _comprobarPosicion(){
+    if(!activo) return;
+    navigator.geolocation.getCurrentPosition(function(pos){
+      if(!activo) return; // pudo desactivarse mientras esperábamos el GPS
+      var lat=pos.coords.latitude, lng=pos.coords.longitude, acc=pos.coords.accuracy;
+      window.Selector.detectar(lat, lng).then(function(res){
+        if(!res || res.distancia > DIST_MAX_CAMINO){
+          // Lejos de todo Camino: mostrar modal de aviso
+          if(window.Desvio && window.Desvio.resetModal) window.Desvio.resetModal();
+          if(window.Desvio && window.Desvio.avisoFueraRuta) window.Desvio.avisoFueraRuta(res ? res.distancia : null);
+          return;
         }
-        window.Desvio.alimentar(lat, lng, acc);
-      }
-    }).catch(function(){});
+        // Estamos cerca de un Camino: cerrar modal si estaba visible y cargar track
+        if(window.Desvio){
+          if(window.Desvio.cerrarModal) window.Desvio.cerrarModal();
+          if(!window._desvioVigilando){
+            window.Desvio.iniciarExterno();
+            window._desvioVigilando = true;
+          }
+          window.Desvio.alimentar(lat, lng, acc);
+        }
+        if(res.nueva && typeof mostrarToast==='function'){
+          mostrarToast('Vigilando: '+res.ruta+' · '+res.etapa);
+        }
+      }).catch(function(){});
+    }, function(){}, {enableHighAccuracy:true, maximumAge:0, timeout:20000});
   }
 
   // --- API del botón ---
@@ -17830,18 +18116,20 @@ window._INDICE_CAMINOS = [{"id":"es01c_05a","ruta":"Camino Francés","slug":"fra
         return false;
       }
       activo = true;
-      mostrar(cartelActivar(), !yaVistoCartel);
-      yaVistoCartel = true;
-      // watchPosition propio del modo (independiente de la navegación normal)
-      watchId = navigator.geolocation.watchPosition(alMoverse, function(){},
-        {enableHighAccuracy:true, maximumAge:5000, timeout:15000});
+      // Mostrar siempre el modal completo al activar
+      _modalRutaOficial(cartelActivar().titulo, cartelActivar().cuerpo);
+      // Lanzar primera comprobación inmediatamente y luego cada 5 minutos
+      _comprobarPosicion();
+      if(_intervalId) clearInterval(_intervalId);
+      _intervalId = setInterval(_comprobarPosicion, INTERVALO_DETECCION);
       actualizarBoton();
       return true;
     },
     desactivar: function(){
       activo = false;
-      if(watchId!=null){ navigator.geolocation.clearWatch(watchId); watchId=null; }
+      if(_intervalId){ clearInterval(_intervalId); _intervalId=null; }
       if(window.Desvio){ window.Desvio.detener(); window._desvioVigilando=false; }
+      if(typeof _limpiarVolverRuta==='function') _limpiarVolverRuta();
       mostrar(cartelDesactivar(), false);
       actualizarBoton();
       return true;
@@ -17853,14 +18141,25 @@ window._INDICE_CAMINOS = [{"id":"es01c_05a","ruta":"Camino Francés","slug":"fra
   function actualizarBoton(){
     var b=document.getElementById('btn-ruta-oficial');
     if(!b) return;
+    var _t=_tRO();
+    if(_t.rofTitle) b.title=_t.rofTitle;
     if(activo){
       b.classList.add('activo');
-      b.innerHTML='🟡 Ruta oficial: ON';
+      b.innerHTML='🟡 '+(_t.rofBtnOn||'Ruta oficial: ON');
     } else {
       b.classList.remove('activo');
-      b.innerHTML='🗺️ Ruta oficial';
+      b.innerHTML='🗺️ '+(_t.rofBtn||'Ruta oficial');
     }
   }
+  // Exponer para que cambiarIdioma pueda refrescar el texto del botón.
+  window._actualizarBotonRutaOficial = actualizarBoton;
+
+  // Tutorial completo del Mapa de trazados oficiales (lo usa el asistente Casco).
+  window.abrirTutorialRutaOficial = function(){
+    var _t=_tRO();
+    _modalRutaOficial(_t.rofTutTit||'🗺️ Mapa de trazados oficiales',
+                      _t.rofTutBody||'Todos los Caminos oficiales aparecen dibujados en violeta sobre el mapa.');
+  };
 
   // Auto-init cuando el DOM esté listo
   if(document.readyState!=='loading') initSelector();
