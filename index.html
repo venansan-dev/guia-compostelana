@@ -5607,6 +5607,29 @@ firebase.initializeApp({
 var db = firebase.database();
 var auth = firebase.auth();
 
+// Autenticación anónima: registra al usuario normal sin pedirle nada,
+// para que pueda comentar/crear alertas cumpliendo las reglas (auth != null).
+// No interfiere con el login de admin (email/contraseña).
+auth.onAuthStateChanged(function(user) {
+  if (!user) {
+    auth.signInAnonymously().catch(function(err) {
+      console.warn('Auth anónima falló:', err && err.code);
+    });
+  }
+});
+
+// ── Sanitización anti-XSS para datos de usuario (comentarios, alertas, POIs) ──
+// Escapa caracteres peligrosos antes de inyectar texto en innerHTML.
+function esc(s){
+  return String(s == null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+// Versión para texto dentro de atributos onclick="..." (contexto JS dentro de HTML).
+function escAttr(s){
+  return esc(s).replace(/\\/g,'&#92;');
+}
+
 // ── LOG DE ERRORES (Firebase) ───────────────────────────────────────────────
 var _errorLogCount = 0;
 var _errorLogMax = 8; // tope de envíos por sesión, para no inundar la base si algo falla en bucle
@@ -6523,7 +6546,7 @@ function _renderPoiDrawerCarrusel() {
     var texto = encodeURIComponent(p.nombre + ' - Guia Compostelana de Vigo');
     var ops = opiniones[p.id];
     var opsList = ops.length
-      ? ops.map(function(o){ return '<div class="opinion-item"><strong>'+o.autor+':</strong> '+o.texto+'</div>'; }).join('')
+      ? ops.map(function(o){ return '<div class="opinion-item"><strong>'+esc(o.autor)+':</strong> '+esc(o.texto)+'</div>'; }).join('')
       : '<div class="opinion-item" style="color:#bbb">'+(T[idiomaActual]||T.es).seElPrimero+'</div>';
     var enRuta = rutaPuntos.find(function(x){ return x.id === p.id; });
     var card = document.createElement('div');
@@ -6756,7 +6779,7 @@ function _abrirPoiDetalle(p) {
   var media = val.votos > 0 ? (val.total/val.votos).toFixed(1) : '-';
   var ops = opiniones[p.id] || [];
   var opsList = ops.length
-    ? ops.map(function(o){ return '<div class="opinion-item"><strong>'+o.autor+':</strong> '+o.texto+'</div>'; }).join('')
+    ? ops.map(function(o){ return '<div class="opinion-item"><strong>'+esc(o.autor)+':</strong> '+esc(o.texto)+'</div>'; }).join('')
     : '<div class="opinion-item" style="color:#bbb">'+(T[idiomaActual]||T.es).seElPrimero+'</div>';
   var t = T[idiomaActual] || T.es;
   var pNombre = idiomaActual==='gl'&&p.nombre_gl ? p.nombre_gl : idiomaActual==='en'&&p.nombre_en ? p.nombre_en : p.nombre;
@@ -9414,8 +9437,8 @@ function buildAlertaPopup(a) {
   return '<div style="font-family:DM Sans,sans-serif;min-width:210px">' +
     '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">' +
     '<span style="font-size:24px">🚨</span>' +
-    '<strong style="font-size:16px;color:#dc2626">' + a.nombre + '</strong></div>' +
-    (a.descripcion ? '<p style="font-size:15px;margin:0 0 6px;color:#374151">' + a.descripcion + '</p>' : '') +
+    '<strong style="font-size:16px;color:#dc2626">' + esc(a.nombre) + '</strong></div>' +
+    (a.descripcion ? '<p style="font-size:15px;margin:0 0 6px;color:#374151">' + esc(a.descripcion) + '</p>' : '') +
     '<div style="font-size:13px;color:#9ca3af;margin-bottom:8px">⏱ Caduca en ~' + tiempoRestante + 'h · ' + (a.reportes||1) + ' reporte(s)</div>' +
     (yaReporte
       ? '<div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;padding:7px;font-size:14px;color:#dc2626;text-align:center;margin-bottom:6px">✓ Ya has confirmado esta alerta</div>'
@@ -9613,10 +9636,10 @@ function añadirMarcadorUsuario(p) {
         ? 'margin-top:8px;width:100%;background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:7px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif'
         : 'margin-top:8px;width:100%;background:#E1F5EE;color:#0F6E56;border:1px solid #1D9E75;border-radius:8px;padding:7px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif';
       var content = '<div style="font-family:DM Sans,sans-serif;min-width:200px;max-width:260px">' +
-        '<strong style="font-size:16px">👤 ' + punto.nombre + '</strong><br>' +
+        '<strong style="font-size:16px">👤 ' + esc(punto.nombre) + '</strong><br>' +
         '<small style="color:#6b7280;font-size:13px">Punto añadido por usuario' +
         '</small>' +
-        (punto.descripcion ? '<p style="font-size:15px;margin:6px 0 4px;color:#374151">' + punto.descripcion + '</p>' : '') +
+        (punto.descripcion ? '<p style="font-size:15px;margin:6px 0 4px;color:#374151">' + esc(punto.descripcion) + '</p>' : '') +
         '<button onclick="addToRoute(\'' + punto.id + '\');mapa.closePopup();" style="' + btnRutaStyle + '">' + btnRutaLabel + '</button>' +
         (esMiPunto ? '<button onclick="eliminarPOIUsuario(\'' + punto.id + '\')" style="margin-top:6px;width:100%;background:#fff2f2;color:#ef4444;border:1.5px solid #ef4444;border-radius:8px;padding:7px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">🗑️ Eliminar este punto</button>' : '') +
         '</div>';
@@ -10159,7 +10182,7 @@ function actualizarListaOpiniones(id) {
   var ops = opiniones[id];
   if (ops && ops.length > 0) {
     lista.innerHTML = ops.map(function(o){
-      return '<div class="opinion-item"><strong>'+o.autor+':</strong> '+o.texto+'</div>';
+      return '<div class="opinion-item"><strong>'+esc(o.autor)+':</strong> '+esc(o.texto)+'</div>';
     }).join('');
   }
 }
@@ -10196,7 +10219,9 @@ function guardarComentario(id, texto) {
 var adminActivo = false;
 
 function abrirAdmin() {
-  if (auth.currentUser) {
+  // Solo saltar el login si hay un admin REAL (email/contraseña).
+  // El usuario anónimo no cuenta como admin.
+  if (auth.currentUser && !auth.currentUser.isAnonymous) {
     _mostrarPanelAdmin();
     return;
   }
@@ -10304,7 +10329,7 @@ function cargarPendientes() {
         item.style.cssText = 'background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:12px;margin-bottom:10px';
         item.innerHTML =
           '<div style="font-size:13px;color:#6b7280;margin-bottom:4px">📍 '+poiNombre+'</div>'+
-          '<div style="font-size:15px;color:#1a1a1a;margin-bottom:8px"><strong>'+op.autor+':</strong> '+op.texto+'</div>'+
+          '<div style="font-size:15px;color:#1a1a1a;margin-bottom:8px"><strong>'+esc(op.autor)+':</strong> '+esc(op.texto)+'</div>'+
           '<div style="display:flex;gap:8px">'+
           '<button class="mod-aprobar" data-poi="'+poiId+'" data-key="'+opKey+'" style="flex:1;background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:8px;font-size:15px;cursor:pointer">✓ Aprobar</button>'+
           '<button class="mod-rechazar" data-poi="'+poiId+'" data-key="'+opKey+'" style="flex:1;background:#EF4444;color:#fff;border:none;border-radius:8px;padding:8px;font-size:15px;cursor:pointer">✗ Rechazar</button>'+
@@ -10454,10 +10479,10 @@ function cargarAlertasAdmin() {
       item.style.cssText = 'background:' + (caducada ? '#f9fafb' : '#fff5f5') + ';border:1px solid ' + (caducada ? '#e5e7eb' : '#fca5a5') + ';border-radius:10px;padding:12px;margin-bottom:10px;opacity:' + (caducada ? '0.65' : '1');
       item.innerHTML =
         '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px">' +
-          '<strong style="font-size:16px;color:#dc2626">🚨 ' + a.nombre + '</strong>' +
+          '<strong style="font-size:16px;color:#dc2626">🚨 ' + esc(a.nombre) + '</strong>' +
           '<span style="font-size:13px;color:#9ca3af;flex-shrink:0">' + fechaStr + '</span>' +
         '</div>' +
-        (a.descripcion ? '<div style="font-size:15px;color:#374151;margin-bottom:6px;line-height:1.4">' + a.descripcion + '</div>' : '') +
+        (a.descripcion ? '<div style="font-size:15px;color:#374151;margin-bottom:6px;line-height:1.4">' + esc(a.descripcion) + '</div>' : '') +
         '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">' +
           '<span style="font-size:13px;background:#fef2f2;color:#dc2626;border-radius:8px;padding:2px 8px">⏱ ' + expiraStr + '</span>' +
           '<span style="font-size:13px;background:#f3f4f6;color:#374151;border-radius:8px;padding:2px 8px">👥 ' + (a.reportes||1) + ' reporte(s)</span>' +
@@ -10580,11 +10605,11 @@ function cargarPOIsPendientes() {
 
       item.innerHTML =
         '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px">' +
-          '<strong style="font-size:16px;color:#1a1a1a">👤 ' + p.nombre + '</strong>' +
+          '<strong style="font-size:16px;color:#1a1a1a">👤 ' + esc(p.nombre) + '</strong>' +
           '<span style="font-size:13px;color:#6b7280;flex-shrink:0">' + fecha + '</span>' +
         '</div>' +
         '<div style="font-size:14px;color:#6b7280;margin-bottom:4px">' + catLabel + '</div>' +
-        (p.descripcion ? '<div style="font-size:15px;color:#374151;margin-bottom:6px;line-height:1.4">' + p.descripcion + '</div>' : '') +
+        (p.descripcion ? '<div style="font-size:15px;color:#374151;margin-bottom:6px;line-height:1.4">' + esc(p.descripcion) + '</div>' : '') +
         '<div style="font-size:13px;color:#9ca3af;margin-bottom:10px">📌 ' + (p.lat||'').toFixed(5) + ', ' + (p.lng||'').toFixed(5) + '</div>' +
         '<div style="display:flex;gap:8px">' +
           '<button class="poi-mod-aprobar" data-key="' + key + '" style="flex:1;background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:9px;font-size:15px;font-weight:600;cursor:pointer">✓ Aprobar</button>' +
@@ -11544,7 +11569,7 @@ function renderCarrusel(categoria) {
     var texto = encodeURIComponent(p.nombre+' - Guia Compostelana Ultreia');
     var ops = opiniones[p.id];
     var opsList = ops.length
-      ? ops.map(function(o){return '<div class="opinion-item"><strong>'+o.autor+':</strong> '+o.texto+'</div>';}).join('')
+      ? ops.map(function(o){return '<div class="opinion-item"><strong>'+esc(o.autor)+':</strong> '+esc(o.texto)+'</div>';}).join('')
       : '<div class="opinion-item" style="color:#bbb">'+(T[idiomaActual]||T.es).seElPrimero+'</div>';
     var enRuta = rutaPuntos.find(function(x){return x.id===p.id;});
     var card = document.createElement('div');
@@ -12675,7 +12700,7 @@ function cargarRutaGuardada() {
     rutaPuntos.forEach(function(p) {
       if (p.categoria !== 'busqueda' || !p.lat || !p.lng) return;
       var mk = L.marker([p.lat, p.lng], { icon: iconoBusc }).addTo(mapa);
-      mk.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>' + p.nombre + '</strong><br><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="_toggleBusquedaRuta(this,encodeURIComponent(\'' + p.nombre.replace(/'/g,"\\'") + '\'),' + p.lat + ',' + p.lng + ');" style="background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">➕ Añadir a ruta</button><button onclick="irACoordenadasNav(' + p.lat + ',' + p.lng + ')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">🗺️ Cómo llegar</button></div></div>');
+      mk.bindPopup('<div style="font-family:DM Sans,sans-serif;min-width:160px"><strong>' + esc(p.nombre) + '</strong><br><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="_toggleBusquedaRuta(this,encodeURIComponent(\'' + escAttr(p.nombre).replace(/'/g,"\\'") + '\'),' + p.lat + ',' + p.lng + ');" style="background:#E1F5EE;color:#0F6E56;border:1px solid rgba(29,158,117,0.4);padding:5px 12px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">➕ Añadir a ruta</button><button onclick="irACoordenadasNav(' + p.lat + ',' + p.lng + ')" style="background:#1D9E75;color:#fff;border:none;padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">🗺️ Cómo llegar</button></div></div>');
       window._wizSearchMarkers.push(mk);
     });
     mostrarToast('📍 Ruta restaurada (' + rutaPuntos.length + ' puntos)');
@@ -15422,7 +15447,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1425";
+var _APP_VERSION = "v1428";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -16909,7 +16934,7 @@ function _popupEnviarOp(poiId) {
   if (!inp || !inp.value.trim()) return;
   var texto = inp.value.trim();
   inp.value = '';
-  if (typeof enviarOpinion === 'function') enviarOpinion(poiId, texto);
+  if (typeof guardarComentario === 'function') guardarComentario(poiId, texto);
   // Añadir localmente
   if (typeof opiniones !== 'undefined') {
     if (!opiniones[poiId]) opiniones[poiId] = [];
@@ -17019,7 +17044,7 @@ function _abrirModalPOI(punto) {
     ops.slice(-4).forEach(function(op){
       footerHTML += '<div style="font-size:12px;color:#374151;padding:3px 0;border-bottom:1px solid #f3f4f6;line-height:1.5">'
         + '<span style="font-size:11px;font-weight:600;color:#9ca3af">'+(op.autor||'Peregrino')+'</span>'
-        + ' <span style="color:#e5e7eb">·</span> '+op.texto+'</div>';
+        + ' <span style="color:#e5e7eb">·</span> '+esc(op.texto)+'</div>';
     });
     footerHTML += '</div>';
   }
