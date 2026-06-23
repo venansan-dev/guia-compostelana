@@ -1,7 +1,8 @@
-const CACHE_NAME = 'guia-compostelana-v1428';
+const CACHE_NAME = 'guia-compostelana-v1441';
 const TILE_CACHE = 'guia-tiles-v5';
 const IMG_CACHE  = 'guia-imgs-v6';
 const LIB_CACHE  = 'guia-libs-v1';
+const TRACK_CACHE = 'guia-tracks-v1';
 
 const STATIC_ASSETS = [
   '/',
@@ -47,7 +48,7 @@ self.addEventListener('activate', function(e) {
   e.waitUntil(
     caches.keys().then(function(keys) {
       return Promise.all(keys.map(function(key) {
-        if (key !== CACHE_NAME && key !== TILE_CACHE && key !== IMG_CACHE && key !== LIB_CACHE) {
+        if (key !== CACHE_NAME && key !== TILE_CACHE && key !== IMG_CACHE && key !== LIB_CACHE && key !== TRACK_CACHE) {
           return caches.delete(key);
         }
       }));
@@ -101,6 +102,23 @@ self.addEventListener('fetch', function(e) {
             if (res && res.status === 200) c.put(e.request, res.clone());
             return res;
           }).catch(function() { return new Response('', {status: 503}); });
+        });
+      })
+    );
+    return;
+  }
+
+  // Tracks de etapas (GPX→JSON) → cache first con auto-cache.
+  // Se descargan bajo demanda al caminar y quedan disponibles offline.
+  if (url.includes('/tracks/') && url.endsWith('.json')) {
+    e.respondWith(
+      caches.open(TRACK_CACHE).then(function(c) {
+        return c.match(e.request).then(function(cached) {
+          if (cached) return cached;
+          return fetch(e.request).then(function(res) {
+            if (res && res.status === 200) c.put(e.request, res.clone());
+            return res;
+          }).catch(function() { return new Response('null', {status: 404}); });
         });
       })
     );

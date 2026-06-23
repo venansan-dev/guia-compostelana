@@ -240,7 +240,7 @@
 .poi-card:hover::before{opacity:1}
 .modal-box h3{font-family:'Playfair Display',serif}
 @keyframes bounceDownArrow{0%,100%{transform:translateY(0);}45%{transform:translateY(8px);}65%{transform:translateY(3px);}}
-.pergamino-body{font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.7}.pergamino-body::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");border-radius:inherit;opacity:1}.pergamino-body .num,.pergamino-body strong{font-size:1.15em;font-variant-numeric:oldstyle-nums}.pergamino-body span[style*='float:left']{font-family:'Cinzel',serif}</style>
+.pergamino-body{font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.7}.pergamino-body::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");border-radius:inherit;opacity:1}.pergamino-body .num,.pergamino-body strong{font-size:1.15em;font-variant-numeric:oldstyle-nums}.pergamino-body span[style*='float:left']{font-family:'Cinzel',serif}#btn-ruta-oficial.activo{background:#F5C800!important;color:#1a1a1a!important;border-color:#d4a800!important}</style>
 
 
   <!-- Schema.org Structured Data -->
@@ -1454,7 +1454,7 @@
       <a href="https://xacobeapp.com">xacobeapp.com</a>
     </p>
     <p style="margin-top:12px;font-size:12px;color:#aaa" id="dl-foot-version">
-      App gratuita, sin publicidad. Versión v1408 · Disponible como PWA en iOS y Android
+      App gratuita, sin publicidad. Versión v1441 · Disponible como PWA en iOS y Android
     </p>
   </footer>
 
@@ -1673,7 +1673,8 @@
   <!-- Botón añadir punto (derecha) -->
   <button id='btn-add-poi-map' onclick='abrirFormPOI()' title='Añadir un punto' style='position:absolute;top:10px;right:10px;z-index:400;height:36px;background:#1a4a9e;color:#fff;border:1.5px solid #2a5aae;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;font-size:13px;font-weight:600;box-shadow:0 4px 14px rgba(26,74,158,0.45),0 1px 4px rgba(0,0,0,0.2);padding:0 12px;font-family:DM Sans,sans-serif;white-space:nowrap'><span style='font-size:16px;font-weight:700;line-height:1;color:#fff'>+</span> <span id='btn-add-poi-map-txt'>Punto</span></button>
   <!-- Panel radio en mapa (columna derecha bajo +punto) -->
-  <div id='map-radio-control' style='display:flex;position:absolute;top:54px;right:10px;z-index:400;flex-direction:column;align-items:stretch;gap:4px;font-family:DM Sans,sans-serif'>
+  <div id='map-radio-control' style='display:flex;position:absolute;top:54px;right:10px;z-index:400;flex-direction:column;align-items:flex-end;gap:4px;font-family:DM Sans,sans-serif'>
+  <button id='btn-ruta-oficial' onclick='if(window.RutaOficial)RutaOficial.toggle()' style='background:#C25FB0;border:1px solid #a84f98;border-radius:16px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.12);white-space:nowrap;transition:all 0.15s' title='Vigila que sigas el trazado oficial del Camino'>🗺️ Ruta oficial</button>
     <div style='height:22px'></div>
     <div class='map-radio-btn active' data-km='1' onclick='cambiarRadio(1,this)' style='background:#1a4a9e;color:#f5e6c8;border:1.5px solid #2a5aae;border-radius:8px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 4px 14px rgba(26,74,158,0.4),0 1px 3px rgba(0,0,0,0.18);min-width:52px'>1 km</div>
     <div class='map-radio-btn' data-km='2' onclick='cambiarRadio(2,this)' style='background:rgba(255,245,210,0.9);color:#3d2000;border:1.5px solid #a07828;border-radius:8px;padding:6px 0;font-size:12px;font-weight:600;cursor:pointer;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.2),0 1px 3px rgba(0,0,0,0.12);min-width:52px'>2 km</div>
@@ -2651,6 +2652,7 @@
   <p>&#169; 2025 Xacobeapp&#8482; &#8212; Todos los derechos reservados</p>
   <p>Hecho con &#10084;&#65039; en Galicia</p>
 </div>
+<div style='background:#ECEAE3;padding:0 2rem 0.75rem;text-align:center'><p style='font-size:10px;color:var(--texto-suave);line-height:1.5'>Trazado de las rutas: &#169; IGN/CNIG &#183; FEAACS &#8212; Licencia <a href='https://creativecommons.org/licenses/by/4.0/' target='_blank' rel='noopener' style='color:var(--verde);text-decoration:underline'>CC&#8209;BY&#160;4.0</a></p></div>
 <script src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'></script>
 <script src='https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js'></script>
 
@@ -3176,7 +3178,7 @@ var PUNTOS = [
 
   { id:'etapa-costa-2', orden:2, nombre:'Etapa 2 · Baiona → Vigo', nombre_gl:'Etapa 2 · Baiona → Vigo', nombre_en:'Stage 2 · Baiona → Vigo',
     categoria:'etapa', variante:'costa', km:25, desnivel_pos:310, desnivel_neg:320, dificultad:'Media',
-    lat:42.1197, lng:-8.8508,
+    lat:42.118241, lng:-8.850196,
     descripcion:'De Baiona a Vigo el Camino recorre uno de los tramos más bellos del litoral atlántico ibérico. Panxón y la Praia de América ofrecen vistas privilegiadas de las Rías Baixas antes de entrar en Nigrán, donde la iglesia de Santiago de Parada lleva sellando credenciales desde época medieval. La ruta desciende a Vigo por el barrio histórico de Bouzas, donde la leyenda cuenta que un caballero emergió del mar cubierto de vieiras al llegar los restos del Apóstol, dando origen al símbolo jacobeo por excelencia.',
     descripcion_gl:'De Baiona a Vigo o Camiño percorre un dos treitos máis fermosos do litoral. Panxón e a Praia de América ofrecen vistas privilexiadas antes de entrar en Vigo por Bouzas, onde a lenda fala dun cabaleiro que emerxeu do mar cuberto de vieiras.',
     descripcion_en:'From Baiona to Vigo the Way follows a beautiful Atlantic coastal stretch past Panxón and América Beach before descending into Vigo through Bouzas, where legend tells of a knight who emerged from the sea covered in scallop shells.',
@@ -3184,7 +3186,7 @@ var PUNTOS = [
 
   { id:'etapa-costa-3', orden:3, nombre:'Etapa 3 · Vigo → Redondela', nombre_gl:'Etapa 3 · Vigo → Redondela', nombre_en:'Stage 3 · Vigo → Redondela',
     categoria:'etapa', variante:'costa', km:18, desnivel_pos:240, desnivel_neg:210, dificultad:'Moderada',
-    lat:42.2406, lng:-8.7207,
+    lat:42.235813, lng:-8.72854,
     descripcion:'Etapa breve pero cargada de historia. El camino asciende desde la ría de Vigo por el Casco Vello —donde la Concatedral de Santa María y el barrio templario de Coia custodian siglos de devoción jacobea— para descender después hacia Redondela. Esta villa, llamada "ciudad de los viaductos", fue en la Edad Media una de las principales encomiendas templarias de Galicia, con una bailía que controlaba el paso del camino hacia Pontevedra.',
     descripcion_gl:'Etapa breve polo Casco Vello de Vigo —barrio templario de Coia— ata Redondela, chamada a cidade dos viaductos e antiga encomienda templaria.',
     descripcion_en:'Short but historically rich stage through Vigo\'s Old Quarter and Templar Coia quarter, descending to Redondela, the "city of viaducts" and major medieval Templar commandery.',
@@ -3192,7 +3194,7 @@ var PUNTOS = [
 
   { id:'etapa-costa-4', orden:4, nombre:'Etapa 4 · Redondela → Pontevedra', nombre_gl:'Etapa 4 · Redondela → Pontevedra', nombre_en:'Stage 4 · Redondela → Pontevedra',
     categoria:'etapa', variante:'costa', km:20, desnivel_pos:180, desnivel_neg:200, dificultad:'Fácil',
-    lat:42.2843, lng:-8.6097,
+    lat:42.278935, lng:-8.61055,
     descripcion:'La etapa más amable del tramo sur. Desde Redondela el camino bordea la ría hasta Arcade, pueblo famoso por sus ostras, donde el puente medieval de Ponte Sampaio fue escenario en 1809 de la victoria gallega frente a las tropas napoleónicas. La ruta entra en Pontevedra, cuya Basílica de Santa María la Mayor fue construida por el gremio de mareantes como ofrenda al Apóstol.',
     descripcion_gl:'Desde Redondela o camiño bordea a ría ata Arcade e o histórico Ponte Sampaio, antes de entrar en Pontevedra, cuxa Basílica de Santa María foi construída polo gremio de mareantes.',
     descripcion_en:'The gentlest stage. From Redondela past Arcade and the historic Ponte Sampaio bridge — scene of a famous 1809 Galician victory over Napoleon — into Pontevedra, whose Basilica of Santa María was built by the fishermen\'s guild.',
@@ -3246,7 +3248,7 @@ var PUNTOS = [
 
   { id:'etapa-tui-2', orden:2, nombre:'Etapa 2 · O Porriño → Redondela', nombre_gl:'Etapa 2 · O Porriño → Redondela', nombre_en:'Stage 2 · O Porriño → Redondela',
     categoria:'etapa', variante:'interior', km:18, desnivel_pos:280, desnivel_neg:300, dificultad:'Media',
-    lat:42.1681, lng:-8.6196,
+    lat:42.162788, lng:-8.621624,
     descripcion:'La etapa más exigente del tramo sur del camino interior. Desde O Porriño el camino asciende por Mos, donde la iglesia de Santa Eulalia conserva una pila bautismal románica y una cruz de término medieval que marcaba el límite de la encomienda templaria de la zona. La ruta atraviesa monte bajo antes de descender a Redondela, donde el Camino Interior converge con el Camino de la Costa.',
     descripcion_gl:'Desde O Porriño o camiño ascende por Mos —igrexa de Santa Eulalia con pila románica e marcas templarias— antes de descender a Redondela, onde converxen o Camiño Interior e o da Costa.',
     descripcion_en:'From O Porriño the Way climbs through Mos, where the church of Santa Eulalia preserves Romanesque stonework and Templar boundary markers, before descending to Redondela where the Interior and Coastal routes converge.',
@@ -3254,7 +3256,7 @@ var PUNTOS = [
 
   { id:'etapa-tui-3', orden:3, nombre:'Etapa 3 · Redondela → Pontevedra', nombre_gl:'Etapa 3 · Redondela → Pontevedra', nombre_en:'Stage 3 · Redondela → Pontevedra',
     categoria:'etapa', variante:'interior', km:20, desnivel_pos:180, desnivel_neg:200, dificultad:'Fácil',
-    lat:42.2843, lng:-8.6097,
+    lat:42.28233, lng:-8.608567,
     descripcion:'Ya fundido con el Camino de la Costa, el trazado bordea la ría hasta Arcade, pueblo famoso por sus ostras, donde el puente medieval de Ponte Sampaio fue escenario en 1809 de la victoria gallega frente a las tropas napoleónicas. La ruta entra en Pontevedra, cuya Basílica de Santa María la Mayor fue construida por el gremio de mareantes como ofrenda al Apóstol.',
     descripcion_gl:'Xa fundido co Camiño da Costa, o trazado bordea a ría ata Arcade e o histórico Ponte Sampaio, antes de entrar en Pontevedra, cuxa Basílica de Santa María foi construída polo gremio de mareantes.',
     descripcion_en:'Now merged with the Coastal Way, the route follows the estuary past Arcade and the historic Ponte Sampaio bridge — scene of a famous 1809 Galician victory over Napoleon — into Pontevedra, whose Basilica of Santa María was built by the fishermen\'s guild.',
@@ -3262,7 +3264,7 @@ var PUNTOS = [
 
   { id:'etapa-tui-4', orden:4, nombre:'Etapa 4 · Pontevedra → Caldas de Reis', nombre_gl:'Etapa 4 · Pontevedra → Caldas de Reis', nombre_en:'Stage 4 · Pontevedra → Caldas de Reis',
     categoria:'etapa', variante:'interior', km:22, desnivel_pos:260, desnivel_neg:240, dificultad:'Media',
-    lat:42.4333, lng:-8.6483,
+    lat:42.419556, lng:-8.63643,
     descripcion:'El camino abandona Pontevedra siguiendo el río Lérez, por un paisaje que conserva varios tramos del antiguo enlosado medieval. La etapa concluye en Caldas de Reis, cuyas aguas termales ya conocían los romanos —la calzada XIX discurría por aquí— y que debe su nombre a los reyes de Galicia que en ella descansaban en su peregrinar. La iglesia de Santa María guarda una pila bautismal románica de singular belleza.',
     descripcion_gl:'O camiño segue o río Lérez por treitos de empedrado medieval ata Caldas de Reis, cuxas termas xa coñecían os romanos e que debe o seu nome aos reis de Galicia que aquí descansaban.',
     descripcion_en:'The Way follows the Lérez river through a landscape preserving medieval paved road sections to Caldas de Reis, whose Roman thermal springs and Romanesque church of Santa María await the pilgrim.',
@@ -3270,7 +3272,7 @@ var PUNTOS = [
 
   { id:'etapa-tui-5', orden:5, nombre:'Etapa 5 · Caldas de Reis → Padrón', nombre_gl:'Etapa 5 · Caldas de Reis → Padrón', nombre_en:'Stage 5 · Caldas de Reis → Padrón',
     categoria:'etapa', variante:'interior', km:19, desnivel_pos:150, desnivel_neg:160, dificultad:'Fácil',
-    lat:42.604, lng:-8.644,
+    lat:42.603687, lng:-8.642976,
     descripcion:'Una etapa suave por el Valle del Ulla. El camino pasa por Catoira, donde las Torres do Oeste —fortaleza del siglo X que defendía la ría de los ataques normandos— recuerdan que esta vía fluvial fue la original por la que el obispo Teodomiro transportó los restos del Apóstol hasta Compostela en el año 830. La etapa termina en Padrón, donde la barca con el cuerpo de Santiago amarró según la tradición y el Pedrón —la argolla de piedra— es el primer gran destino jacobeo.',
     descripcion_gl:'Etapa suave polo Val do Ulla por Catoira —Torres do Oeste, defensas do século X— ata Padrón, onde atracou a barca con Santiago e onde o Pedrón é o primeiro grande destino xacobeo.',
     descripcion_en:'A gentle stage through the Ulla Valley past Catoira\'s Torres do Oeste — defending the same river used in 830 AD to bring the Apostle\'s remains to Compostela — ending at Padrón, where Santiago\'s boat moored and the Pedrón stone ring marks the first great Jacobean destination.',
@@ -3278,7 +3280,7 @@ var PUNTOS = [
 
   { id:'etapa-tui-6', orden:6, nombre:'Etapa 6 · Padrón → Santiago de Compostela', nombre_gl:'Etapa 6 · Padrón → Santiago de Compostela', nombre_en:'Stage 6 · Padrón → Santiago de Compostela',
     categoria:'etapa', variante:'interior', km:25, desnivel_pos:380, desnivel_neg:210, dificultad:'Media',
-    lat:42.7500, lng:-8.6460,
+    lat:42.738912, lng:-8.661597,
     descripcion:'La etapa final del Camino Portugués Interior. Desde Padrón el camino asciende por Iria Flavia —sede episcopal donde el obispo Teodomiro descubrió el sepulcro apostólico en el siglo IX— y el Santuario da Escravitude, cuya imagen de la Virgen fue hallada por un esclavo que aquí recobró milagrosamente la libertad. La subida final por Teo y A Concheira culmina en la Plaza del Obradoiro. Ultreia et Suseia.',
     descripcion_gl:'A etapa final. Desde Padrón por Iria Flavia —onde Teodomiro descubriu o sepulcro apostólico— e o Santuario da Escravitude ata a Praza do Obradoiro de Santiago. Ultreia et Suseia.',
     descripcion_en:'The final stage. From Padrón through Iria Flavia — where Bishop Teodomiro discovered the apostolic tomb — and the Sanctuary of A Escravitude before the final ascent to Santiago\'s Plaza del Obradoiro. Ultreia et Suseia.',
@@ -3286,7 +3288,7 @@ var PUNTOS = [
 
   { id:'etapa-tui-7', orden:7, nombre:'Etapa 7 · Llegada a Santiago de Compostela', nombre_gl:'Etapa 7 · Chegada a Santiago de Compostela', nombre_en:'Stage 7 · Arrival in Santiago de Compostela',
     categoria:'etapa', variante:'interior', km:0, desnivel_pos:0, desnivel_neg:0, dificultad:'Fácil',
-    lat:42.880688, lng:-8.544395,
+    lat:42.880599, lng:-8.543658,
     subtitulo:'El final del camino interior gallego', subtitulo_gl:'O final do camiño interior galego', subtitulo_en:'The end of the inland Galician way',
     descripcion:'El Camino Portugués Interior culmina, como todas las rutas jacobeas, en la Praza do Obradoiro. Desde la catedral-fortaleza de Tui hasta la fachada barroca compostelana, el peregrino completa un itinerario que atraviesa el interior de Galicia lejos del bullicio de la costa.',
     descripcion_gl:'O Camiño Portugués Interior culmina, como todas as rutas xacobeas, na Praza do Obradoiro. Desde a catedral-fortaleza de Tui até a fachada barroca compostelá, o peregrino completa un itinerario que atravesa o interior de Galicia lonxe do bulicio da costa.',
@@ -3340,7 +3342,7 @@ var PUNTOS = [
 
   { id:'etapa-frances-6', orden:6, nombre:'Etapa 6 · Estella → Los Arcos', nombre_gl:'Etapa 6 · Estella → Los Arcos', nombre_en:'Stage 6 · Estella → Los Arcos',
     categoria:'etapa', variante:'frances', km:21, desnivel_pos:310, desnivel_neg:360, dificultad:'Media',
-    lat:42.6717, lng:-2.0321,
+    lat:42.669141, lng:-2.029479,
     descripcion:'La etapa sale de Estella pasando junto al monasterio de Irache y su célebre fuente del vino, donde la bodega ofrece vino gratuito a los peregrinos desde tiempos medievales. El camino discurre por páramos y pequeños pueblos navarros —Azqueta, Villamayor de Monjardín— antes de alcanzar Los Arcos, villa amurallada cuyo rollo gótico en la plaza mayor marcaba el centro de la vida medieval de la comarca.',
     descripcion_gl:'A etapa sae de Estella xunto ao mosteiro de Irache e a súa célebre fonte do viño, onde a adega ofrece viño gratuíto aos peregrinos. O camiño pasa por páramos e pequenos pobos antes de alcanzar Los Arcos, vila amurallada co seu rollo gótico na praza maior.',
     descripcion_en:'The stage leaves Estella past the Irache monastery and its famous wine fountain, where the winery has offered free wine to pilgrims since medieval times. The route crosses páramo and small Navarrese villages before reaching Los Arcos, a walled town whose Gothic pillory in the main square marked the centre of medieval community life.',
@@ -3348,7 +3350,7 @@ var PUNTOS = [
 
   { id:'etapa-frances-7', orden:7, nombre:'Etapa 7 · Los Arcos → Logroño', nombre_gl:'Etapa 7 · Los Arcos → Logroño', nombre_en:'Stage 7 · Los Arcos → Logroño',
     categoria:'etapa', variante:'frances', km:28, desnivel_pos:240, desnivel_neg:340, dificultad:'Media',
-    lat:42.5687, lng:-2.1930,
+    lat:42.56883, lng:-2.193616,
     descripcion:'La etapa cruza Torres del Río —con su iglesia románica de planta octogonal de raíz templaria— y Viana, donde murió en 1507 César Borgia, el célebre condotiero italiano de la familia de los Borgia, enterrado ante la portada de la iglesia de Santa María. Tras cruzar el Ebro, Logroño, capital de La Rioja, recibe al caminante con su calle Laurel, sus bares de pinchos y el vino más joven de una de las denominaciones de origen más célebres de España.',
     descripcion_gl:'A etapa cruza Torres del Río —coa súa igrexa románica octogonal— e Viana, onde morreu en 1507 César Borxia, o célebre condotiero italiano da familia dos Borgia, enterrado ante a portada da igrexa de Santa María. Tras cruzar o Ebro, Logroño recibe ao camiñante coa rúa Laurel e o viño novo da Rioxa.',
     descripcion_en:'The stage crosses Torres del Río — with its octagonal Romanesque church of Templar roots — and Viana, where César Borgia —the famous Italian condottiero of the Borgia family— died in 1507, buried before the doorway of the church of Santa María. After crossing the Ebro, Logroño welcomes the pilgrim with its famous Laurel Street tapas bars and the young wine of one of Spain\'s most celebrated appellations.',
@@ -3356,7 +3358,7 @@ var PUNTOS = [
 
   { id:'etapa-frances-8', orden:8, nombre:'Etapa 8 · Logroño → Nájera', nombre_gl:'Etapa 8 · Logroño → Nájera', nombre_en:'Stage 8 · Logroño → Nájera',
     categoria:'etapa', variante:'frances', km:29, desnivel_pos:320, desnivel_neg:370, dificultad:'Media',
-    lat:42.4627, lng:-2.4449,
+    lat:42.46767, lng:-2.447646,
     descripcion:'La etapa atraviesa la Rioja viñera en toda su extensión: viñedos que alfombran el suelo hasta el horizonte, lagares excavados en la roca, pueblos como Navarrete —con su ermita reconvertida en cementerio medieval— y Ventosa. Nájera, antigua capital del reino de Navarra, guarda bajo su roca rojiza el monasterio de Santa María la Real, panteón de los reyes de Navarra y Castilla donde reposa doña Blanca de Navarra.',
     descripcion_gl:'A etapa atravesa a Rioxa viñateira: viñedos ata o horizonte, lagares escavados na rocha, Navarrete. Nájera, antiga capital do reino de Navarra, garda baixo a súa rocha vermella o mosteiro de Santa María a Real, panteón dos reis de Navarra e Castela.',
     descripcion_en:'The stage crosses the vine-covered Rioja in its full extent: vineyards carpeting the ground to the horizon, wine presses carved in rock, and villages like Navarrete. Nájera, ancient capital of the Kingdom of Navarre, shelters beneath its red rock the monastery of Santa María la Real, royal pantheon of the kings of Navarre and Castile.',
@@ -3364,7 +3366,7 @@ var PUNTOS = [
 
   { id:'etapa-frances-9', orden:9, nombre:'Etapa 9 · Nájera → Santo Domingo de la Calzada', nombre_gl:'Etapa 9 · Nájera → Santo Domingo da Calzada', nombre_en:'Stage 9 · Nájera → Santo Domingo de la Calzada',
     categoria:'etapa', variante:'frances', km:21, desnivel_pos:310, desnivel_neg:290, dificultad:'Fácil',
-    lat:42.4168, lng:-2.7344,
+    lat:42.416629, lng:-2.735173,
     descripcion:'Una jornada llana y acogedora que lleva a uno de los lugares más singulares del Camino. Santo Domingo de la Calzada fue literalmente construida por y para el peregrino: el santo ingeniero del siglo XI desbrozó el bosque, tendió calzadas, levantó un puente sobre el Oja y fundó un hospital. Su catedral guarda en vida, en una jaula de plata, un gallo y una gallina blancos: testimonio vivo del milagro del ahorcado que resucitó por intercesión del Apóstol.',
     descripcion_gl:'Santo Domingo da Calzada foi construída polo e para o peregrino. A súa catedral garda vivos, nunha gaiola de prata, un galo e unha galiña brancos: testemuño vivo do milagre do enforcado que resucitou por intercesión do Apóstolo.',
     descripcion_en:'Santo Domingo de la Calzada was literally built by and for the pilgrim: the 11th-century saint-engineer cleared the forest, laid roads, built a bridge and founded a hospital. Its cathedral houses, alive in a silver cage, a white cockerel and hen — living testimony to the miracle of the hanged man who was revived through the Apostle\'s intercession.',
@@ -3372,7 +3374,7 @@ var PUNTOS = [
 
   { id:'etapa-frances-10', orden:10, nombre:'Etapa 10 · Santo Domingo de la Calzada → Belorado', nombre_gl:'Etapa 10 · Santo Domingo da Calzada → Belorado', nombre_en:'Stage 10 · Santo Domingo de la Calzada → Belorado',
     categoria:'etapa', variante:'frances', km:23, desnivel_pos:190, desnivel_neg:210, dificultad:'Fácil',
-    lat:42.4419, lng:-2.9537,
+    lat:42.440904, lng:-2.95374,
     descripcion:'Una etapa llana por pistas agrícolas que despide La Rioja y da la bienvenida a Castilla. El camino cruza Grañón —última localidad riojana, con su albergue parroquial de gran tradición hospitalaria— y penetra en la provincia de Burgos. Belorado, en el extremo del valle del río Tirón, conserva su plaza porticada medieval y un barrio de cuevas en la roca habitadas desde la prehistoria.',
     descripcion_gl:'Etapa chaira por pistas agrícolas que despide A Rioxa e entra en Castela. Grañón, última localidade rioxana, precede a entrada na provincia de Burgos. Belorado conserva a súa praza porticada medieval e un barrio de covas na rocha.',
     descripcion_en:'A flat stage along farm tracks that bids farewell to La Rioja and enters Castile. Grañón, the last Riojan village with its parish hostel of great hospitality tradition, precedes the entry into Burgos province. Belorado preserves its medieval arcaded square and a neighbourhood of prehistoric cave dwellings carved into the rock.',
@@ -3380,7 +3382,7 @@ var PUNTOS = [
 
   { id:'etapa-frances-11', orden:11, nombre:'Etapa 11 · Belorado → San Juan de Ortega', nombre_gl:'Etapa 11 · Belorado → San Juan de Ortega', nombre_en:'Stage 11 · Belorado → San Juan de Ortega',
     categoria:'etapa', variante:'frances', km:24, desnivel_pos:680, desnivel_neg:490, dificultad:'Media',
-    lat:42.4204, lng:-3.1917,
+    lat:42.420548, lng:-3.192483,
     descripcion:'La etapa adentra al peregrino en los montes de Oca, el tramo más temido del Camino Francés en la Edad Media por sus bandoleros y su espesura. El bosque de pinos y robles de Montes de Oca precede la llegada a San Juan de Ortega, el monasterio fundado por el discípulo de Santo Domingo que continuó la obra de su maestro construyendo puentes y albergues. Su iglesia románica guarda un capitel donde la luz de equinoccio ilumina el misterio de la Anunciación.',
     descripcion_gl:'Os Montes de Oca, o tramo máis temido do Camiño Francés na Idade Media por bandoleiros e espesura, preceden San Juan de Ortega, mosteiro fundado polo discípulo de Santo Domingo. A súa igrexa garda un capitel onde a luz do equinoccio ilumina a Anunciación.',
     descripcion_en:'The stage enters the feared Montes de Oca, the most dreaded stretch of the medieval French Way for its bandits and dense woodland. The forest of pines and oaks precedes San Juan de Ortega, the monastery founded by Santo Domingo\'s disciple who continued his master\'s work building bridges and shelters. Its Romanesque church holds a capital where equinox light illuminates the Annunciation.',
@@ -3388,7 +3390,7 @@ var PUNTOS = [
 
   { id:'etapa-frances-12', orden:12, nombre:'Etapa 12 · San Juan de Ortega → Burgos', nombre_gl:'Etapa 12 · San Juan de Ortega → Burgos', nombre_en:'Stage 12 · San Juan de Ortega → Burgos',
     categoria:'etapa', variante:'frances', km:26, desnivel_pos:130, desnivel_neg:460, dificultad:'Media',
-    lat:42.375855, lng:-3.437519,
+    lat:42.375709, lng:-3.436503,
     descripcion:'El camino desciende desde los montes hacia la gran llanura burgalesa por Atapuerca —yacimiento Patrimonio de la Humanidad donde se encontraron los restos humanos más antiguos de Europa occidental— y Cardeñuela. La entrada en Burgos a través del parque fluvial del Arlanzón conduce a la catedral gótica —declarada Patrimonio de la Humanidad— y al sepulcro del Cid Campeador, el héroe castellano que cabalga aún por el imaginario de España.',
     descripcion_gl:'O camiño baixa por Atapuerca —xacemento Patrimonio da Humanidade con restos humanos dos máis antigos de Europa occidental— cara a Burgos, onde a catedral gótica Patrimonio da Humanidade e o sepulcro do Cid Campeador esperan ao peregrino.',
     descripcion_en:'The route descends through Atapuerca — a UNESCO World Heritage site where the oldest human remains in Western Europe were found — toward Burgos, where the UNESCO Gothic cathedral and the tomb of El Cid Campeador await the pilgrim.',
@@ -3396,7 +3398,7 @@ var PUNTOS = [
 
   { id:'etapa-frances-13', orden:13, nombre:'Etapa 13 · Burgos → Hornillos del Camino', nombre_gl:'Etapa 13 · Burgos → Hornillos do Camiño', nombre_en:'Stage 13 · Burgos → Hornillos del Camino',
     categoria:'etapa', variante:'frances', km:21, desnivel_pos:280, desnivel_neg:200, dificultad:'Fácil',
-    lat:42.3439, lng:-3.6969,
+    lat:42.340525, lng:-3.705434,
     descripcion:'La primera etapa de la Meseta. La ciudad desaparece bruscamente y el peregrino se adentra en un océano de cereal que se extiende hasta el horizonte sin una sola sombra. El silencio es total y el cielo, enorme. Hornillos del Camino, diminuto pueblo de piedra con una sola calle y un albergue parroquial legendario, es la parada que doblega al peregrino orgulloso y reconforta al que camina con humildad.',
     descripcion_gl:'A primeira etapa da Meseta. A cidade desaparece e o peregrino adéntrase nun océano de cereal sen unha soa sombra. Hornillos do Camiño, diminuto pobo de pedra cunha soa rúa, é a parada que dobrega ao peregrino orgulloso.',
     descripcion_en:'The first Meseta stage. The city vanishes abruptly and the pilgrim enters an ocean of cereal stretching to the horizon without a single shade tree. The silence is total and the sky enormous. Hornillos del Camino, a tiny stone village with a single street and a legendary parish hostel, is the stop that humbles the proud pilgrim and comforts the humble one.',
@@ -3428,7 +3430,7 @@ var PUNTOS = [
 
   { id:'etapa-frances-17', orden:17, nombre:'Etapa 17 · Carrión de los Condes → Terradillos de los Templarios', nombre_gl:'Etapa 17 · Carrión dos Condes → Terradillos dos Templarios', nombre_en:'Stage 17 · Carrión de los Condes → Terradillos de los Templarios',
     categoria:'etapa', variante:'frances', km:27, desnivel_pos:120, desnivel_neg:120, dificultad:'Media',
-    lat:42.3380, lng:-4.6015,
+    lat:42.337045, lng:-4.600914,
     descripcion:'Una de las etapas más duras psicológicamente: diecisiete kilómetros sin un solo servicio entre Carrión y Calzadilla de la Cueza, siguiendo la antigua calzada romana. El silencio es absoluto y el cielo se convierte en compañero. El pequeño pueblo de Terradillos de los Templarios, pese a sus apenas quince vecinos, fue durante el medievo encomienda de la Orden del Temple, que protegía esta peligrosa travesía de la Meseta.',
     descripcion_gl:'Dezasete quilómetros sen un só servizo entre Carrión e Calzadilla da Cueza pola antiga calzada romana. O silencio é absoluto. Terradillos dos Templarios, con apenas quince veciños, foi durante o medievo encomienda da Orde do Temple.',
     descripcion_en:'One of the most psychologically demanding stages: seventeen kilometres with no services between Carrión and Calzadilla de la Cueza, following the ancient Roman road. The silence is absolute and the sky becomes your companion. Tiny Terradillos de los Templarios, despite its barely fifteen residents, was in the Middle Ages a Templar Order commandery protecting this perilous Meseta crossing.',
@@ -3436,7 +3438,7 @@ var PUNTOS = [
 
   { id:'etapa-frances-18', orden:18, nombre:'Etapa 18 · Terradillos de los Templarios → El Burgo Ranero', nombre_gl:'Etapa 18 · Terradillos dos Templarios → O Burgo Ranero', nombre_en:'Stage 18 · Terradillos de los Templarios → El Burgo Ranero',
     categoria:'etapa', variante:'frances', km:31, desnivel_pos:160, desnivel_neg:130, dificultad:'Media',
-    lat:42.3631, lng:-4.8903,
+    lat:42.36247, lng:-4.89149,
     descripcion:'La etapa cruza la provincia de Palencia a León por Sahagún, la gran villa cluniacense del Camino. Sahagún fue en los siglos XI y XII el monasterio benedictino más poderoso de la Península, cabeza de la reforma cluniacense impulsada por Alfonso VI. Sus ruinas e iglesias de ladrillo mudéjar son únicas en el Camino. El Burgo Ranero, ya en León, es un discreto pueblo de barro con una paz que invita al reposo.',
     descripcion_gl:'A etapa cruza Sahagún, a gran vila cluniacense do Camiño, onde o mosteiro beneditino foi o máis poderoso da Península nos séculos XI e XII. As súas ruínas e igrexas de ladrillo mudéxar son únicas no Camiño.',
     descripcion_en:'The stage crosses from Palencia into León via Sahagún, the great Cluniac town of the Way. In the 11th and 12th centuries its Benedictine monastery was the most powerful on the Iberian Peninsula, the head of the Cluniac reform championed by Alfonso VI. Its ruins and Mudéjar brick churches are unique on the Way. El Burgo Ranero, already in León, is a quiet clay village that invites rest.',
@@ -3444,7 +3446,7 @@ var PUNTOS = [
 
   { id:'etapa-frances-19', orden:19, nombre:'Etapa 19 · El Burgo Ranero → León', nombre_gl:'Etapa 19 · O Burgo Ranero → León', nombre_en:'Stage 19 · El Burgo Ranero → León',
     categoria:'etapa', variante:'frances', km:37, desnivel_pos:100, desnivel_neg:160, dificultad:'Media',
-    lat:42.4230, lng:-5.2210,
+    lat:42.42251, lng:-5.220265,
     descripcion:'La última gran jornada de la Meseta conduce a la ciudad de la luz. El camino llega a León por Mansilla de las Mulas —villa amurallada con muralla romana conservada— y el río Esla. León aguarda con su catedral de las cien vidrieras, la Pulchra Leonina, donde la piedra desaparece para convertirse en color y luz. El Panteón Real, con sus frescos románicos del siglo XII, ha sido llamado la Capilla Sixtina del arte románico.',
     descripcion_gl:'A última gran xornada da Meseta leva a León por Mansilla das Mulas —vila amurallada— e o río Esla. León agarda coa Pulchra Leonina, onde a pedra convértese en cor e luz, e o Panteón Real cos seus frescos románicos do século XII.',
     descripcion_en:'The last great Meseta stage leads to the city of light. The route arrives at León via walled Mansilla de las Mulas and the Esla river. León awaits with its cathedral of a hundred stained-glass windows, the Pulchra Leonina, where stone dissolves into colour and light. The Royal Pantheon, with its 12th-century Romanesque frescoes, has been called the Sistine Chapel of Romanesque art.',
@@ -3492,7 +3494,7 @@ var PUNTOS = [
 
   { id:'etapa-frances-25', orden:25, nombre:'Etapa 25 · Villafranca del Bierzo → O Cebreiro', nombre_gl:'Etapa 25 · Villafranca do Bierzo → O Cebreiro', nombre_en:'Stage 25 · Villafranca del Bierzo → O Cebreiro',
     categoria:'etapa', variante:'frances', km:29, desnivel_pos:1290, desnivel_neg:130, dificultad:'Muy difícil',
-    lat:42.6077, lng:-6.8108,
+    lat:42.604175, lng:-6.807885,
     descripcion:'El último gran ascenso antes de Galicia: desde los viñedos del Bierzo el camino sube sin tregua por Trabadelo, Vega de Valcarce y La Faba hasta O Cebreiro, a 1.300 metros. La frontera entre León y Galicia es también la frontera entre dos mundos: el sol castellano se apaga en las nieblas gallegas. O Cebreiro, con sus pallozas prerromanas y su iglesia prerrománica de Santa María la Real —donde se venera el Santo Grial de la tradición compostelana—, marca el inicio de la última gran etapa espiritual.',
     descripcion_gl:'O último gran ascenso antes de Galicia: desde os viñedos do Bierzo o camiño sobe sen tregua ata O Cebreiro, a 1.300 metros, onde as pallozas prerromanas e a igrexa de Santa María la Real —co Santo Grial da tradición compostelá— marcan o inicio da derradeira etapa espiritual.',
     descripcion_en:'The last great ascent before Galicia: from the Bierzo vineyards the route climbs relentlessly through Trabadelo, Vega de Valcarce and La Faba to O Cebreiro at 1,300 metres. The border between León and Galicia is also the border between two worlds: the Castilian sun fades into Galician mist. O Cebreiro, with its pre-Roman pallozas and pre-Romanesque church of Santa María la Real — where the Holy Grail of Compostelan tradition is venerated — marks the start of the final great spiritual stage.',
@@ -3500,7 +3502,7 @@ var PUNTOS = [
 
   { id:'etapa-frances-26', orden:26, nombre:'Etapa 26 · O Cebreiro → Triacastela', nombre_gl:'Etapa 26 · O Cebreiro → Triacastela', nombre_en:'Stage 26 · O Cebreiro → Triacastela',
     categoria:'etapa', variante:'frances', km:21, desnivel_pos:390, desnivel_neg:900, dificultad:'Media',
-    lat:42.7077, lng:-7.0432,
+    lat:42.707807, lng:-7.043817,
     descripcion:'La primera etapa gallega recorre las cumbres de la Serra do Cebreiro entre brezo, tojo y niebla. El Alto de San Roque preside el camino con su estatua de peregrino azotado por el viento, imagen que resume la lucha y la perseverancia. Triacastela, en el valle del Navia, recibía su nombre de los tres castillos que la coronaban y fue desde la Edad Media lugar de parada obligatoria donde los peregrinos recogían piedra caliza para acarrearla hasta los hornos de Castañeda y contribuir así a la construcción de la catedral de Santiago.',
     descripcion_gl:'A primeira etapa galega percorre as cumes da Serra do Cebreiro entre uz, toxo e néboa. O Alto de San Roque, coa súa estatua de peregrino azoutado polo vento, preside o camiño. Triacastela foi desde a Idade Media lugar de parada obrigatoria onde os peregrinos recollían pedra caliza para a catedral de Santiago.',
     descripcion_en:'The first Galician stage traverses the Serra do Cebreiro summits through heather, gorse and mist. The Alto de San Roque presides over the route with its statue of a pilgrim buffeted by wind — an image summarising the struggle and perseverance. Triacastela, in the Navia valley, was since the Middle Ages a mandatory stop where pilgrims collected limestone to carry to the Castañeda kilns, contributing to the construction of Santiago cathedral.',
@@ -3508,7 +3510,7 @@ var PUNTOS = [
 
   { id:'etapa-frances-27', orden:27, nombre:'Etapa 27 · Triacastela → Sarria', nombre_gl:'Etapa 27 · Triacastela → Sarria', nombre_en:'Stage 27 · Triacastela → Sarria',
     categoria:'etapa', variante:'frances', km:18, desnivel_pos:470, desnivel_neg:530, dificultad:'Media',
-    lat:42.7565, lng:-7.2405,
+    lat:42.756091, lng:-7.235658,
     descripcion:'El camino ofrece dos variantes desde Triacastela: por Samos, con su monasterio benedictino fundado en el siglo VI —uno de los más grandes de España y de los más antiguos de Occidente— o por San Xil, más corta y con bellos bosques de roble. Ambas confluyen en Sarria, último punto desde el que la Compostela puede obtenerse caminando los cien kilómetros reglamentarios. Desde aquí el Camino se anima visiblemente.',
     descripcion_gl:'Dúas variantes desde Triacastela: por Samos, co seu mosteiro beneditino do século VI, ou por San Xil, máis curta e con fermosos bosques de carballo. Ambas confluén en Sarria, último punto para obter a Compostela cos cen quilómetros regulamentarios.',
     descripcion_en:'The route offers two variants from Triacastela: through Samos, with its Benedictine monastery founded in the 6th century — one of the largest in Spain and among the oldest in the West — or through San Xil, shorter and with beautiful oak forests. Both converge in Sarria, the last point from which the Compostela can be obtained by walking the mandatory hundred kilometres. From here the Way visibly grows livelier.',
@@ -3516,7 +3518,7 @@ var PUNTOS = [
 
   { id:'etapa-frances-28', orden:28, nombre:'Etapa 28 · Sarria → Portomarín', nombre_gl:'Etapa 28 · Sarria → Portomarín', nombre_en:'Stage 28 · Sarria → Portomarín',
     categoria:'etapa', variante:'frances', km:23, desnivel_pos:650, desnivel_neg:730, dificultad:'Media',
-    lat:42.7810, lng:-7.4144,
+    lat:42.777421, lng:-7.414834,
     descripcion:'El Camino se adentra en la Galicia más profunda: caminos de tierra entre eucaliptos y robles, cruceiros en las encrucijadas, aldeas de granito con hórreos y palleiras. Portomarín, a orillas del embalse de Belesar, tiene una historia dramática: en 1962 el pantano inundó la villa medieval y los vecinos trasladaron piedra a piedra su iglesia-fortaleza de San Nicolás —románica, con su gran rosetón— a la colina donde hoy se asienta la nueva población.',
     descripcion_gl:'O Camiño adéntrase na Galicia máis profunda: camiños de terra entre eucaliptos e carballos, cruceiros nas encrucilladas, aldeas de granito con hórreos. Portomarín ten historia dramática: en 1962 o encoro afogou a vila medieval e os veciños trasladaron pedra a pedra a igrexa-fortaleza de San Nicolás.',
     descripcion_en:'The Way enters deepest Galicia: earth paths between eucalyptus and oak, stone crosses at crossroads, granite villages with granaries. Portomarín, on the shores of the Belesar reservoir, has a dramatic history: in 1962 the dam flooded the medieval town and its residents moved their fortress-church of San Nicolás — Romanesque, with its great rose window — stone by stone to the hillside where the new village now stands.',
@@ -3524,7 +3526,7 @@ var PUNTOS = [
 
   { id:'etapa-frances-29', orden:29, nombre:'Etapa 29 · Portomarín → Palas de Rei', nombre_gl:'Etapa 29 · Portomarín → Palas de Rei', nombre_en:'Stage 29 · Portomarín → Palas de Rei',
     categoria:'etapa', variante:'frances', km:25, desnivel_pos:680, desnivel_neg:600, dificultad:'Media',
-    lat:42.8073, lng:-7.6167,
+    lat:42.804966, lng:-7.616855,
     descripcion:'Una etapa de altos y bajos constantes —la topografía gallega no concede tregua— entre aldeas de pizarra y granito, cruceiros y capillas. Ventas de Narón, con su hospital medieval documentado, y Ligonde, antiguo cementerio de peregrinos con lápidas de varios siglos, jalonan el camino. Palas de Rei, capital del municipio, conserva la iglesia románica de San Tirso y la memoria de los reyes suevos que aquí tuvieron su palacio.',
     descripcion_gl:'Etapa de altos e baixos constantes entre aldeas de lousa e granito, cruceiros e capelas. Ventas de Narón, con hospital medieval documentado, e Ligonde, cemiterio de peregrinos con lápidas de varios séculos. Palas de Rei conserva a igrexa románica de San Tirso.',
     descripcion_en:'A stage of constant ups and downs — Galician topography grants no respite — between slate and granite hamlets, stone crosses and chapels. Ventas de Narón, with its documented medieval hospital, and Ligonde, an ancient pilgrim cemetery with headstones spanning several centuries, mark the way. Palas de Rei preserves the Romanesque church of San Tirso and the memory of the Suevian kings who had their palace here.',
@@ -3532,7 +3534,7 @@ var PUNTOS = [
 
   { id:'etapa-frances-30', orden:30, nombre:'Etapa 30 · Palas de Rei → Arzúa', nombre_gl:'Etapa 30 · Palas de Rei → Arzúa', nombre_en:'Stage 30 · Palas de Rei → Arzúa',
     categoria:'etapa', variante:'frances', km:29, desnivel_pos:720, desnivel_neg:720, dificultad:'Media',
-    lat:42.8736, lng:-7.8688,
+    lat:42.873217, lng:-7.868968,
     descripcion:'La etapa conduce al corazón gastronómico del Camino Francés final: Melide, la capital del pulpo a feira, donde el pulpo cocido y aliñado con pimentón de la Vera es el ágape obligado de todo peregrino que se precie. La iglesia de San Roque conserva un cruceiro románico del siglo XIV. Arzúa, en la comarca de A Ulloa, es famosa por su queso de denominación de origen: cremoso, de pasta tierna y corteza natural, hecho con leche de vaca gallega.',
     descripcion_gl:'A etapa leva ao corazón gastronómico do Camiño: Melide, a capital do polbo á feira. A igrexa de San Roque conserva un cruceiro románico do século XIV. Arzúa é famosa polo seu queixo de denominación de orixe.',
     descripcion_en:'The stage leads to the gastronomic heart of the final French Way: Melide, capital of pulpo a feira, where boiled octopus dressed with Vera paprika is every pilgrim\'s obligatory feast. The church of San Roque preserves a 14th-century Romanesque stone cross. Arzúa, in the A Ulloa comarca, is famous for its protected-designation cheese: creamy, with a soft paste and natural rind, made from Galician cow\'s milk.',
@@ -3540,7 +3542,7 @@ var PUNTOS = [
 
   { id:'etapa-frances-31', orden:31, nombre:'Etapa 31 · Arzúa → O Pedrouzo', nombre_gl:'Etapa 31 · Arzúa → O Pedrouzo', nombre_en:'Stage 31 · Arzúa → O Pedrouzo',
     categoria:'etapa', variante:'frances', km:19, desnivel_pos:430, desnivel_neg:430, dificultad:'Fácil',
-    lat:42.9279, lng:-8.1647,
+    lat:42.92624, lng:-8.163854,
     descripcion:'La penúltima jornada es una etapa breve y suave entre eucaliptos y prados gallegos que permite conservar fuerzas para el día grande. El silencio del bosque contrasta con la emoción creciente: falta un solo día. O Pedrouzo, también llamado Arca, es un pueblo moderno sin gran interés monumental pero con una animación de víspera que lo convierte en una pequeña fiesta. Aquí se fraguan las últimas amistades del Camino.',
     descripcion_gl:'A penúltima xornada é unha etapa breve e suave entre eucaliptos e prados galegos que permite conservar forzas. O Pedrouzo, tamén chamado Arca, acolle a emoción de víspera: mañá é o día grande.',
     descripcion_en:'The penultimate stage is a short, gentle stretch through eucalyptus and Galician meadows, allowing energy to be saved for the great final day. The silence of the forest contrasts with growing emotion: one day remains. O Pedrouzo, also called Arca, is a modern town without great monumental interest but with a pre-celebration atmosphere that makes it feel like a small festival. The last friendships of the Way are forged here.',
@@ -3548,7 +3550,7 @@ var PUNTOS = [
 
   { id:'etapa-frances-32', orden:32, nombre:'Etapa 32 · O Pedrouzo → Santiago de Compostela', nombre_gl:'Etapa 32 · O Pedrouzo → Santiago de Compostela', nombre_en:'Stage 32 · O Pedrouzo → Santiago de Compostela',
     categoria:'etapa', variante:'frances', km:20, desnivel_pos:270, desnivel_neg:380, dificultad:'Fácil',
-    lat:42.9040, lng:-8.3648,
+    lat:42.907941, lng:-8.36506,
     descripcion:'El último día del Camino. El bosque de eucaliptos de Santa Irene abre paso al Monte do Gozo —el Monte de la Alegría— desde donde los peregrinos medievales divisaban por primera vez las torres de la catedral y caían de rodillas dando gracias. La entrada en Santiago por Rúa de San Pedro, la Puerta del Camino y la Rúa das Casas Reais conduce, inevitablemente, a la Plaza del Obradoiro. Aquí termina el Camino. Aquí empieza otra cosa.',
     descripcion_gl:'O último día do Camiño. O bosque de Santa Irene abre paso ao Monte do Gozo, desde onde os peregrinos medievais divisaban as torres da catedral e caían de xeonllos. A entrada en Santiago leva, inevitablemente, á Praza do Obradoiro. Aquí remata o Camiño. Aquí comeza outra cousa.',
     descripcion_en:'The last day of the Way. The eucalyptus forest of Santa Irene gives way to the Monte do Gozo — the Hill of Joy — where medieval pilgrims first glimpsed the cathedral towers and fell to their knees in thanks. The entry into Santiago through Rúa de San Pedro and the Porta do Camiño leads, inevitably, to the Plaza del Obradoiro. Here the Way ends. Here something else begins.',
@@ -3556,7 +3558,7 @@ var PUNTOS = [
 
   { id:'etapa-frances-33', orden:33, nombre:'Etapa 33 · Llegada a Santiago de Compostela', nombre_gl:'Etapa 33 · Chegada a Santiago de Compostela', nombre_en:'Stage 33 · Arrival in Santiago de Compostela',
     categoria:'etapa', variante:'frances', km:0, desnivel_pos:0, desnivel_neg:0, dificultad:'Fácil',
-    lat:42.880688, lng:-8.544395,
+    lat:42.880659, lng:-8.54451,
     subtitulo:'El abrazo final, tras casi 800 kilómetros', subtitulo_gl:'O abrazo final, tras case 800 quilómetros', subtitulo_en:'The final embrace, after almost 800 kilometres',
     descripcion:'Tras casi 800 kilómetros desde Saint-Jean-Pied-de-Port, el Camino Francés culmina en la Praza do Obradoiro, ante la fachada barroca de la catedral. El abrazo al Apóstol, la visita a la cripta donde reposan sus restos y, si hay suerte, el vuelo del Botafumeiro en la misa del peregrino cierran un viaje que durante un milenio ha cambiado la vida de quienes lo recorren.',
     descripcion_gl:'Tras case 800 quilómetros desde Saint-Jean-Pied-de-Port, o Camiño Francés culmina na Praza do Obradoiro, perante a fachada barroca da catedral. O abrazo ao Apóstolo, a visita á cripta onde repousan os seus restos e, se hai sorte, o voo do Botafumeiro na misa do peregrino pechan unha viaxe que durante un milenio cambiou a vida de quen o percorre.',
@@ -3738,7 +3740,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-2', orden:2, nombre:'Etapa 2 · San Sebastián → Zarautz', nombre_gl:'Etapa 2 · Donostia → Zarautz', nombre_en:'Stage 2 · San Sebastián → Zarautz',
     categoria:'etapa', variante:'norte', km:22, desnivel_pos:580, desnivel_neg:580, dificultad:'Media',
-    lat:43.3183, lng:-1.9812,
+    lat:43.321331, lng:-1.985632,
     descripcion:'El Camino del Norte dibuja su carácter en esta etapa: costa brava, caseríos vascos entre helechos, olor a mar. El ascenso al monte Igueldo, con vistas panorámicas sobre la bahía donostiarra, abre una ruta que alterna playas solitarias y senderos de monte bajo. Orio, pueblo marinero con una trainera siempre en el agua, precede Zarautz y su kilómetro de playa, la más larga del País Vasco.',
     descripcion_gl:'Costa brava, caseríos vascos, olor a mar. O ascenso ao monte Igueldo precede a ruta cara a Orio, pobo mariñeiro, e Zarautz coa súa praia dun quilómetro.',
     descripcion_en:'Rugged coast, Basque farmhouses and sea air. The climb to Monte Igueldo opens a route of solitary beaches and hillside paths to fishing village Orio and Zarautz with its kilometre-long beach.',
@@ -3746,7 +3748,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-3', orden:3, nombre:'Etapa 3 · Zarautz → Deba', nombre_gl:'Etapa 3 · Zarautz → Deba', nombre_en:'Stage 3 · Zarautz → Deba',
     categoria:'etapa', variante:'norte', km:22, desnivel_pos:720, desnivel_neg:720, dificultad:'Media-Alta',
-    lat:43.2847, lng:-2.1721,
+    lat:43.286074, lng:-2.176149,
     descripcion:'De Zarautz a Deba el camino alterna la costa y el interior verde del País Vasco. Getaria, cuna de Juan Sebastián Elcano —primer marino en circunnavegar el globo— y de Cristóbal Balenciaga, guarda una iglesia gótica plantada sobre el mar. La ruta atraviesa Zumaia, donde los estratos geológicos del flysch forman uno de los acantilados más extraordinarios de Europa.',
     descripcion_gl:'Por Getaria —berce de Elcano e Balenciaga— e Zumaia, cuxo flysch forma un dos cantís máis extraordinarios de Europa, ata Deba.',
     descripcion_en:'Through Getaria — birthplace of Elcano and Balenciaga — and Zumaia, whose flysch cliffs form one of Europe\'s most extraordinary geological formations, to Deba.',
@@ -3754,7 +3756,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-4', orden:4, nombre:'Etapa 4 · Deba → Markina-Xemein', nombre_gl:'Etapa 4 · Deba → Markina-Xemein', nombre_en:'Stage 4 · Deba → Markina-Xemein',
     categoria:'etapa', variante:'norte', km:23, desnivel_pos:520, desnivel_neg:380, dificultad:'Media-Alta',
-    lat:43.2944, lng:-2.3514,
+    lat:43.29431, lng:-2.354545,
     descripcion:'Desde Deba el camino asciende intensamente hacia Olatz por una de las subidas más exigentes del trazado vasco, recompensada con vistas extensas sobre el valle del Deba. La ruta desciende después hacia Markina-Xemein, corazón de la pelota vasca y cuna de campeones, donde la ermita octogonal de San Miguel de Arretxinaga guarda en su interior tres enormes rocas prehistóricas que sostienen el altar, un enigma geológico que la tradición ha convertido en santuario.',
     descripcion_gl:'Desde Deba o camiño ascende con forza cara a Olatz, unha das subidas máis esixentes do trazado vasco. A ruta descende despois a Markina-Xemein, corazón da pelota vasca, onde a ermida octogonal de San Miguel de Arretxinaga garda tres enormes rocas prehistóricas que sustentan o altar.',
     descripcion_en:'From Deba the path climbs steeply toward Olatz, one of the toughest ascents on the Basque stretch, rewarded with wide views over the Deba valley. The route then descends to Markina-Xemein, heartland of Basque pelota, where the octagonal hermitage of San Miguel de Arretxinaga shelters three huge prehistoric boulders supporting its altar — a geological riddle turned sanctuary.',
@@ -3762,7 +3764,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-5', orden:5, nombre:'Etapa 5 · Markina-Xemein → Gernika', nombre_gl:'Etapa 5 · Markina-Xemein → Gernika', nombre_en:'Stage 5 · Markina-Xemein → Gernika',
     categoria:'etapa', variante:'norte', km:25, desnivel_pos:380, desnivel_neg:420, dificultad:'Media',
-    lat:43.267383, lng:-2.498375,
+    lat:43.267106, lng:-2.498266,
     descripcion:'La etapa atraviesa el valle del Artibai y asciende al puerto de Bolibar antes de descender hacia Gernika-Lumo. La villa, arrasada por el bombardeo nazi de 1937 e inmortalizada por Picasso, es hoy símbolo universal de la paz. Bajo su Casa de Juntas crece el centenario Árbol de Gernika, roble sagrado bajo el cual los señores de Vizcaya juraban respetar los fueros vascos.',
     descripcion_gl:'A etapa atravesa o val do Artibai e ascende ao porto de Bolibar antes de descender a Gernika-Lumo, vila arrasada polo bombardeo nazi de 1937 e inmortalizada por Picasso, hoxe símbolo universal da paz. Baixo a súa Casa de Xuntas crece a árbore centenaria de Gernika.',
     descripcion_en:'The stage crosses the Artibai valley and climbs the Bolibar pass before descending to Gernika-Lumo, the town razed by the 1937 Nazi bombing and immortalised by Picasso, today a universal symbol of peace. Beneath its Assembly House grows the age-old Tree of Gernika, the sacred oak under which the lords of Biscay swore to uphold Basque liberties.',
@@ -3770,7 +3772,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-6', orden:6, nombre:'Etapa 6 · Gernika → Lezama', nombre_gl:'Etapa 6 · Gernika → Lezama', nombre_en:'Stage 6 · Gernika → Lezama',
     categoria:'etapa', variante:'norte', km:20, desnivel_pos:450, desnivel_neg:380, dificultad:'Media',
-    lat:43.3153, lng:-2.6792,
+    lat:43.31523, lng:-2.678531,
     descripcion:'El camino deja atrás Gernika por el valle del Oka y se interna en un paisaje de bosques atlánticos y caseríos dispersos camino de Larrabetzu, corazón de la denominación de origen del txakoli vizcaíno. Lezama, pequeña localidad rural a las puertas de Bilbao, ofrece el último respiro verde antes de que el Camino del Norte se enfrente a su primera gran capital.',
     descripcion_gl:'O camiño deixa atrás Gernika polo val do Oka e métese nun paisaxe de bosques atlánticos e caseríos camiño de Larrabetzu, corazón da denominación de orixe do txakoli vizcaíno. Lezama ofrece o último respiro verde antes de Bilbao.',
     descripcion_en:'The way leaves Gernika through the Oka valley into a landscape of Atlantic woods and scattered farmsteads toward Larrabetzu, heartland of Biscay\'s txakoli wine. Lezama, a small rural village, offers the last green breath before the Northern Way meets its first great city.',
@@ -3778,7 +3780,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-7', orden:7, nombre:'Etapa 7 · Lezama → Bilbao', nombre_gl:'Etapa 7 · Lezama → Bilbao', nombre_en:'Stage 7 · Lezama → Bilbao',
     categoria:'etapa', variante:'norte', km:11, desnivel_pos:150, desnivel_neg:280, dificultad:'Fácil',
-    lat:43.2747, lng:-2.8326,
+    lat:43.273471, lng:-2.834747,
     descripcion:'Una etapa corta y urbana que desciende desde las colinas de Lezama hasta el corazón de Bilbao, ciudad que reinventó su identidad industrial transformando los antiguos muelles de la ría en el escaparate del Guggenheim. El Casco Viejo, las Siete Calles y la basílica de Begoña —patrona de Vizcaya— reciben al peregrino con la energía de una metrópoli que nunca dejó de mirar al mar.',
     descripcion_gl:'Unha etapa curta e urbana que descende desde as veigas de Lezama ao corazón de Bilbao, cidade que reinventou a súa identidade industrial coa ría convertida en escaparate do Guggenheim. O Casco Vello e a basílica de Begoña reciben ao peregrino.',
     descripcion_en:'A short urban stage descending from the hills of Lezama into the heart of Bilbao, a city that reinvented its industrial identity by turning the old docks along its estuary into the showcase of the Guggenheim. The Casco Viejo, the Siete Calles and the Basilica of Begoña — patroness of Biscay — welcome the pilgrim with the energy of a metropolis that never stopped facing the sea.',
@@ -3786,7 +3788,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-8', orden:8, nombre:'Etapa 8 · Bilbao → Portugalete', nombre_gl:'Etapa 8 · Bilbao → Portugalete', nombre_en:'Stage 8 · Bilbao → Portugalete',
     categoria:'etapa', variante:'norte', km:19, desnivel_pos:200, desnivel_neg:220, dificultad:'Fácil',
-    lat:43.2630, lng:-2.9350,
+    lat:43.256799, lng:-2.923577,
     descripcion:'El camino sigue la ría de Bilbao en su tramo más industrial, entre astilleros, polígonos y el recuerdo de un pasado siderúrgico que transformó toda una comarca. La llegada a Portugalete está marcada por el Puente Colgante o de Vizcaya, obra de un discípulo de Eiffel inaugurada en 1893, el transbordador más antiguo del mundo en funcionamiento y Patrimonio de la Humanidad desde 2006.',
     descripcion_gl:'O camiño segue a ría de Bilbao no seu tramo máis industrial. A chegada a Portugalete está marcada polo Ponte Colgante ou de Vizcaya, obra dun discípulo de Eiffel inaugurada en 1893, o transbordador máis antigo do mundo en funcionamento, Patrimonio da Humanidade desde 2006.',
     descripcion_en:'The route follows the Bilbao estuary through its most industrial stretch, past shipyards and the memory of a steel-making past that shaped an entire region. The arrival at Portugalete is marked by the Hanging Bridge of Vizcaya, built in 1893 by a disciple of Eiffel — the oldest working transporter bridge in the world and a UNESCO World Heritage Site since 2006.',
@@ -3794,7 +3796,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-9', orden:9, nombre:'Etapa 9 · Portugalete → Castro Urdiales', nombre_gl:'Etapa 9 · Portugalete → Castro Urdiales', nombre_en:'Stage 9 · Portugalete → Castro Urdiales',
     categoria:'etapa', variante:'norte', km:32, desnivel_pos:650, desnivel_neg:600, dificultad:'Difícil',
-    lat:43.3217, lng:-3.0192,
+    lat:43.319886, lng:-3.016347,
     descripcion:'Una de las etapas más duras y solitarias de todo el Camino del Norte. El sendero costero atraviesa playas vírgenes y antiguas minas de hierro a cielo abierto en La Arena y Pobeña, antes de adentrarse en Cantabria por un tramo de fuertes desniveles entre acantilados. Castro Urdiales recompensa el esfuerzo con su iglesia de Santa María de la Asunción —el monumento gótico más importante de Cantabria, levantado bajo Alfonso VIII entre los siglos XIII y XV—, alzada junto al castillo-faro sobre el puerto pesquero.',
     descripcion_gl:'Unha das etapas máis duras de todo o Camiño do Norte. A senda costeira atravesa praias virxes e antigas minas de ferro a ceo aberto en Pobeña, antes de entrar en Cantabria por un tramo de fortes desniveis. Castro Urdiales recompensa o esforzo coa súa igrexa de Santa María da Asunción —o monumento gótico máis importante de Cantabria, levantado baixo Afonso VIII entre os séculos XIII e XV—, alzada xunto ao castelo-faro sobre o porto pesqueiro.',
     descripcion_en:'One of the toughest, most solitary stages on the whole Northern Way. The coastal path crosses unspoiled beaches and former open-pit iron mines at La Arena and Pobeña before entering Cantabria across a stretch of steep climbs along the cliffs. Castro Urdiales rewards the effort with its church of Santa María de la Asunción —the most important Gothic monument in Cantabria, raised under Alfonso VIII between the 13th and 15th centuries—, standing beside the castle-lighthouse above the fishing harbour.',
@@ -3802,7 +3804,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-10', orden:10, nombre:'Etapa 10 · Castro Urdiales → Laredo', nombre_gl:'Etapa 10 · Castro Urdiales → Laredo', nombre_en:'Stage 10 · Castro Urdiales → Laredo',
     categoria:'etapa', variante:'norte', km:30, desnivel_pos:520, desnivel_neg:500, dificultad:'Media-Alta',
-    lat:43.3828, lng:-3.2186,
+    lat:43.384178, lng:-3.216883,
     descripcion:'El camino bordea la costa cántabra entre acantilados y pequeñas calas, dejando atrás Islares y Oriñón antes de cruzar la ría de Agüera. Laredo aparece con su playa de Salvé, casi cinco kilómetros de arena fina que la convierten en una de las más extensas del Cantábrico, y un casco histórico medieval declarado conjunto monumental, vestigio de su pasado como puerto ballenero y villa marinera de realengo.',
     descripcion_gl:'O camiño bordea a costa cántabra entre cantís e pequenas calas, deixando atrás Islares e Oriñón antes de cruzar a ría de Agüera. Laredo aparece coa súa praia de Salvé, case cinco quilómetros de area fina, e un casco histórico medieval declarado conxunto monumental.',
     descripcion_en:'The way skirts the Cantabrian coast between cliffs and small coves, leaving behind Islares and Oriñón before crossing the Agüera estuary. Laredo greets pilgrims with Salvé beach, nearly five kilometres of fine sand making it one of the longest on the Cantabrian coast, and a medieval old town declared a historic monument, a legacy of its past as a royal whaling port.',
@@ -3810,7 +3812,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-11', orden:11, nombre:'Etapa 11 · Laredo → Güemes', nombre_gl:'Etapa 11 · Laredo → Güemes', nombre_en:'Stage 11 · Laredo → Güemes',
     categoria:'etapa', variante:'norte', km:29, desnivel_pos:480, desnivel_neg:460, dificultad:'Media',
-    lat:43.4136, lng:-3.4079,
+    lat:43.413044, lng:-3.411172,
     descripcion:'Tras cruzar en barca la ría de Laredo hasta Santoña —cuyas anchoas en salazón son el lujo frugal del peregrino—, el camino remonta el monte Buciero y recorre playas solitarias hasta Noja y Cantabria interior. Güemes, pequeña parroquia rural, es célebre en el mundo jacobeo por su albergue El Cabo de Hornos, fundado por el legendario hospitalero Ernesto Bustio, símbolo vivo de la hospitalidad peregrina.',
     descripcion_gl:'Tras cruzar en barca a ría de Laredo até Santoña —cuxas anchoas en salgadura son o luxo frugal do peregrino—, o camiño remonta o monte Buciero e percorre praias solitarias até Noja. Güemes é célebre polo seu albergue El Cabo de Hornos, fundado polo lendario hospitaleiro Ernesto Bustio.',
     descripcion_en:'After a short boat crossing of the Laredo estuary to Santoña — famous for its salted anchovies, the pilgrim\'s frugal luxury — the way climbs Monte Buciero and follows solitary beaches to Noja and inland Cantabria. Güemes, a small rural parish, is renowned in pilgrim circles for its hostel El Cabo de Hornos, founded by the legendary hospitalero Ernesto Bustio, a living symbol of pilgrim hospitality.',
@@ -3826,7 +3828,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-13', orden:13, nombre:'Etapa 13 · Santander → Santillana del Mar', nombre_gl:'Etapa 13 · Santander → Santillana do Mar', nombre_en:'Stage 13 · Santander → Santillana del Mar',
     categoria:'etapa', variante:'norte', km:36, desnivel_pos:380, desnivel_neg:360, dificultad:'Difícil',
-    lat:43.4623, lng:-3.8099,
+    lat:43.460719, lng:-3.807786,
     descripcion:'La etapa más larga de todo el Camino del Norte deja Santander por el Sardinero y se adentra en la Cantabria rural a través de Cueto y el valle de Boo de Piélagos. Tras cruzar la ría de Mogro, el camino llega a Santillana del Mar, "la villa de las tres mentiras" —ni es santa, ni es llana, ni tiene mar—, cuya Colegiata románica de Santa Juliana y casas blasonadas conforman uno de los conjuntos medievales mejor conservados de España, a un paso de las cuevas prehistóricas de Altamira.',
     descripcion_gl:'A etapa máis longa de todo o Camiño do Norte deixa Santander e métese na Cantabria rural até cruzar a ría de Mogro. O camiño chega a Santillana do Mar, "a vila das tres mentiras", cuxa Colexiata románica de Santa Xuliana e casas blasonadas conforman un dos conxuntos medievais mellor conservados de España, a un paso das covas de Altamira.',
     descripcion_en:'The longest stage on the entire Northern Way leaves Santander past El Sardinero and heads into rural Cantabria through the Boo de Piélagos valley. After crossing the Mogro estuary, the path reaches Santillana del Mar, \'the town of three lies\' — neither holy, nor flat, nor by the sea — whose Romanesque Collegiate Church of Santa Juliana and crested mansions form one of Spain\'s best-preserved medieval ensembles, a step away from the prehistoric Altamira caves.',
@@ -3834,7 +3836,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-14', orden:14, nombre:'Etapa 14 · Santillana del Mar → Comillas', nombre_gl:'Etapa 14 · Santillana do Mar → Comillas', nombre_en:'Stage 14 · Santillana del Mar → Comillas',
     categoria:'etapa', variante:'norte', km:22, desnivel_pos:280, desnivel_neg:260, dificultad:'Media',
-    lat:43.3897, lng:-4.1099,
+    lat:43.392029, lng:-4.105981,
     descripcion:'Una jornada corta entre acantilados y prados que regala uno de los tramos paisajísticos más fotografiados de Cantabria. Comillas recibe al peregrino con El Capricho, la fantasía modernista que Antoni Gaudí proyectó para los marqueses de Comillas, y la imponente Universidad Pontificia, antiguo seminario que convirtió a esta pequeña villa marinera en un improbable laboratorio del modernismo español de finales del XIX.',
     descripcion_gl:'Unha xornada curta entre cantís e prados que regala un dos tramos paisaxísticos máis fotografados de Cantabria. Comillas recibe ao peregrino con El Capricho, a fantasía modernista que Gaudí proxectou para os marqueses de Comillas, e a Universidade Pontificia.',
     descripcion_en:'A short day through cliffs and meadows offering one of Cantabria\'s most photographed stretches. Comillas welcomes pilgrims with El Capricho, the modernist fantasy Antoni Gaudí designed for the Marquises of Comillas, and the imposing Pontifical University, a former seminary that turned this small fishing town into an unlikely laboratory of late-19th-century Spanish modernism.',
@@ -3858,7 +3860,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-17', orden:17, nombre:'Etapa 17 · Llanes → Ribadesella', nombre_gl:'Etapa 17 · Llanes → Ribadesella', nombre_en:'Stage 17 · Llanes → Ribadesella',
     categoria:'etapa', variante:'norte', km:30, desnivel_pos:380, desnivel_neg:370, dificultad:'Media-Alta',
-    lat:43.4198, lng:-4.7549,
+    lat:43.419616, lng:-4.754333,
     descripcion:'Una etapa exigente que combina playas espectaculares —Toranda, San Antolín, Vidiago— con duros repechos entre acantilados. Ribadesella, dividida por la desembocadura del río Sella, es meta cada agosto del Descenso Internacional en piragua y guarda en la cueva de Tito Bustillo uno de los conjuntos de arte rupestre paleolítico más importantes de Europa, Patrimonio de la Humanidad desde 2008.',
     descripcion_gl:'Unha etapa esixente que combina praias espectaculares con duros repechos entre cantís. Ribadesella, dividida pola desembocadura do río Sella, garda na cova de Tito Bustillo un dos conxuntos de arte rupestre paleolítico máis importantes de Europa, Patrimonio da Humanidade desde 2008.',
     descripcion_en:'A demanding stage combining spectacular beaches — Toranda, San Antolín, Vidiago — with steep climbs along the cliffs. Ribadesella, split by the mouth of the Sella river, hosts every August the International Canoe Descent and holds in the Tito Bustillo cave one of Europe\'s most important Palaeolithic rock-art ensembles, a UNESCO World Heritage Site since 2008.',
@@ -3866,7 +3868,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-18', orden:18, nombre:'Etapa 18 · Ribadesella → Colunga', nombre_gl:'Etapa 18 · Ribadesella → Colunga', nombre_en:'Stage 18 · Ribadesella → Colunga',
     categoria:'etapa', variante:'norte', km:20, desnivel_pos:350, desnivel_neg:330, dificultad:'Media',
-    lat:43.4626, lng:-5.0561,
+    lat:43.46468, lng:-5.069069,
     descripcion:'El camino se interna en el interior asturiano por Berbes y Caravia, donde la Costa de los Dinosaurios guarda en sus acantilados icnitas —huellas fósiles— de gigantes que poblaron esta tierra hace más de 150 millones de años. Una breve variante permite desviarse a Lastres, villa marinera de pescadores aupada sobre un acantilado que sirvió de escenario a la serie "Doctor Mateo". Colunga cierra la jornada entre manzanos y sidrerías.',
     descripcion_gl:'O camiño métese no interior asturiano por Berbes e Caravia, onde a Costa dos Dinosauros garda nos seus cantís icnitas —pegadas fósiles— de xigantes que poboaron esta terra hai máis de 150 millóns de anos. Unha variante permite desviarse a Lastres, vila mariñeira sobre un cantil. Colunga pecha a xornada entre maceiras.',
     descripcion_en:'The way moves into inland Asturias through Berbes and Caravia, where the Dinosaur Coast preserves in its cliffs ichnites — fossilised footprints — of giants that roamed this land over 150 million years ago. A short detour leads to Lastres, a fishing village perched on a cliff that served as the setting for the TV series \'Doctor Mateo\'. Colunga closes the day amid apple orchards and cider houses.',
@@ -3898,7 +3900,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-22', orden:22, nombre:'Etapa 22 · Avilés → Muros de Nalón', nombre_gl:'Etapa 22 · Avilés → Muros de Nalón', nombre_en:'Stage 22 · Avilés → Muros de Nalón',
     categoria:'etapa', variante:'norte', km:21, desnivel_pos:320, desnivel_neg:300, dificultad:'Media',
-    lat:43.5560, lng:-5.9248,
+    lat:43.551439, lng:-5.919142,
     descripcion:'El camino abandona Avilés por su ría y recorre playas atlánticas de gran belleza —Salinas y el cabo de San Agustín— antes de remontar hacia Soto del Barco. Muros de Nalón, asomado sobre el estuario del río Nalón, ofrece desde su faro vistas privilegiadas sobre la costa occidental asturiana y un ambiente marinero apacible tras el bullicio industrial de la ría avilesina.',
     descripcion_gl:'O camiño abandona Avilés pola súa ría e percorre praias atlánticas de gran beleza —Salinas e o cabo de San Agustín— antes de remontar cara a Soto del Barco. Muros de Nalón, asomado sobre o estuario do río Nalón, ofrece desde o seu faro vistas privilexiadas sobre a costa occidental asturiana.',
     descripcion_en:'The way leaves Avilés along its estuary and follows beautiful Atlantic beaches — Salinas and Cabo de San Agustín — before climbing toward Soto del Barco. Muros de Nalón, perched above the Nalón river estuary, offers from its lighthouse splendid views over the western Asturian coast and a peaceful seafaring atmosphere after the industrial bustle of the Avilés estuary.',
@@ -3914,7 +3916,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-24', orden:24, nombre:'Etapa 24 · Soto de Luiña → Cadavedo', nombre_gl:'Etapa 24 · Soto de Luiña → Cadavedo', nombre_en:'Stage 24 · Soto de Luiña → Cadavedo',
     categoria:'etapa', variante:'norte', km:19, desnivel_pos:380, desnivel_neg:380, dificultad:'Media-Alta',
-    lat:43.5610, lng:-6.2305,
+    lat:43.56184, lng:-6.230802,
     descripcion:'El camino alterna pista y monte bajo entre Novellana y Ballota, con continuos descensos a calas escondidas y ascensos a praderías que se asoman al Cantábrico. Cadavedo, elegido en alguna ocasión "el pueblo más bonito de España" por su disposición de huertas y hórreos en torno a la playa de Cabo Vidío, ofrece uno de los remansos más entrañables del Camino del Norte.',
     descripcion_gl:'O camiño alterna pista e monte baixo entre Novellana e Ballota, con continuos descensos a calas escondidas e ascensos a pradarías. Cadavedo, elixido nalgunha ocasión "o pueblo máis bonito de España", ofrece un dos remansos máis entrañables do Camiño do Norte.',
     descripcion_en:'The way alternates between tracks and scrubland between Novellana and Ballota, with constant descents to hidden coves and climbs to meadows overlooking the Cantabrian Sea. Cadavedo, once named \'Spain\'s prettiest village\' for its orchards and hórreos arranged around the Cabo Vidío beach, offers one of the most charming retreats on the entire Northern Way.',
@@ -3922,7 +3924,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-25', orden:25, nombre:'Etapa 25 · Cadavedo → Luarca', nombre_gl:'Etapa 25 · Cadavedo → Luarca', nombre_en:'Stage 25 · Cadavedo → Luarca',
     categoria:'etapa', variante:'norte', km:15, desnivel_pos:220, desnivel_neg:230, dificultad:'Media',
-    lat:43.5457, lng:-6.3875,
+    lat:43.54473, lng:-6.391572,
     descripcion:'Una jornada breve que recorre acantilados y pequeños valles hasta Luarca, "la villa blanca del Cantábrico", construida en un anfiteatro natural alrededor de su puerto pesquero. El cementerio, asomado al mar sobre el promontorio donde se alza la ermita de la Atalaya, y las callejas empinadas del centro histórico hacen de esta villa marinera una de las paradas más fotogénicas de toda la ruta.',
     descripcion_gl:'Unha xornada breve que percorre cantís e pequenos vales até Luarca, "a vila branca do Cantábrico", construída nun anfiteatro natural arredor do seu porto pesqueiro. O cemiterio, asomado ao mar sobre o promontorio da ermida da Atalaya, fai desta vila unha das paradas máis fotoxénicas da ruta.',
     descripcion_en:'A short day through cliffs and small valleys to Luarca, \'the white village of the Cantabrian coast\', built in a natural amphitheatre around its fishing harbour. The cemetery overlooking the sea atop the headland crowned by the Atalaya hermitage, and the steep lanes of the old town, make this fishing village one of the most photogenic stops on the whole route.',
@@ -3930,7 +3932,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-26', orden:26, nombre:'Etapa 26 · Luarca → La Caridad', nombre_gl:'Etapa 26 · Luarca → La Caridad', nombre_en:'Stage 26 · Luarca → La Caridad',
     categoria:'etapa', variante:'norte', km:30, desnivel_pos:480, desnivel_neg:460, dificultad:'Difícil',
-    lat:43.5410, lng:-6.5347,
+    lat:43.549864, lng:-6.532483,
     descripcion:'Una de las etapas más largas y solitarias del tramo asturiano, que atraviesa Canero, Piñera y Tapia de Casariego —antiguo puerto ballenero con playas de surf entre acantilados— antes de llegar a La Caridad, capital del concejo de El Franco. El paisaje combina tramos de monte con descensos a calas vírgenes en una de las costas menos transformadas del Cantábrico occidental.',
     descripcion_gl:'Unha das etapas máis longas e solitarias do tramo asturiano, que atravesa Tapia de Casariego —antigo porto balleneiro con praias de surf entre cantís— antes de chegar a La Caridad, capital do concello de El Franco. A paisaxe combina tramos de monte con descensos a calas virxes.',
     descripcion_en:'One of the longest, most solitary stages on the Asturian stretch, crossing Tapia de Casariego — a former whaling port with surf beaches between cliffs — before reaching La Caridad, capital of the El Franco council. The landscape mixes hillside tracks with descents to unspoiled coves on one of the least developed shores of the western Cantabrian coast.',
@@ -3938,7 +3940,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-27', orden:27, nombre:'Etapa 27 · La Caridad → Ribadeo', nombre_gl:'Etapa 27 · La Caridad → Ribadeo', nombre_en:'Stage 27 · La Caridad → Ribadeo',
     categoria:'etapa', variante:'norte', km:22, desnivel_pos:280, desnivel_neg:270, dificultad:'Media',
-    lat:43.551128, lng:-6.829312,
+    lat:43.550659, lng:-6.827143,
     descripcion:'El camino cruza el río Eo, frontera natural entre Asturias y Galicia, por el puente de los Santos que une la orilla asturiana con la gallega. Ribadeo, primera villa gallega del Camino del Norte, despliega sobre la ría un conjunto de arquitectura modernista de indianos y guarda a pocos kilómetros la Playa de las Catedrales, donde la erosión ha esculpido en la roca arcos que parecen naves góticas.',
     descripcion_gl:'O camiño cruza o río Eo, fronteira natural entre Asturias e Galicia. Ribadeo, primeira vila galega do Camiño do Norte, despregaba sobre a ría un conxunto de arquitectura modernista de indianos e garda a poucos quilómetros a Praia das Catedrais, onde a erosión esculpiu na rocha arcos que parecen naves góticas.',
     descripcion_en:'The way crosses the Eo river, the natural border between Asturias and Galicia, over the Puente de los Santos. Ribadeo, the first Galician town on the Northern Way, displays along its estuary a fine collection of indiano modernist architecture and holds a few kilometres away the Playa de las Catedrales, where erosion has carved rock arches resembling Gothic naves.',
@@ -3946,7 +3948,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-28', orden:28, nombre:'Etapa 28 · Ribadeo → Gondán', nombre_gl:'Etapa 28 · Ribadeo → Gondán', nombre_en:'Stage 28 · Ribadeo → Gondán',
     categoria:'etapa', variante:'norte', km:21, desnivel_pos:380, desnivel_neg:340, dificultad:'Media',
-    lat:43.536218, lng:-7.039531,
+    lat:43.537181, lng:-7.042561,
     descripcion:'El camino abandona la costa y se adentra definitivamente en la Galicia interior, atravesando Vilela y Cubelas entre prados, bosques de eucalipto y pequeños arroyos. Es la primera jornada plenamente rural tras semanas de costa, un anticipo del paisaje íntimo de aldeas y hórreos que acompañará al peregrino hasta Santiago. Gondán, diminuta parroquia del municipio de Barreiros, marca un alto sencillo y silencioso.',
     descripcion_gl:'O camiño abandona a costa e métese definitivamente na Galicia interior, atravesando Vilela e Cubelas entre prados e bosques de eucalipto. É a primeira xornada plenamente rural tras semanas de costa. Gondán, diminuta parroquia do municipio de Barreiros, marca un alto sinxelo e silandeiro.',
     descripcion_en:'The way leaves the coast behind and heads firmly into inland Galicia, crossing Vilela and Cubelas through meadows, eucalyptus woods and small streams. It is the first fully rural day after weeks along the coast, a preview of the intimate landscape of villages and hórreos that will accompany pilgrims all the way to Santiago. Gondán, a tiny parish in the municipality of Barreiros, offers a simple, quiet stop.',
@@ -3970,7 +3972,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-31', orden:31, nombre:'Etapa 31 · Abadín → Vilalba', nombre_gl:'Etapa 31 · Abadín → Vilalba', nombre_en:'Stage 31 · Abadín → Vilalba',
     categoria:'etapa', variante:'norte', km:21, desnivel_pos:220, desnivel_neg:260, dificultad:'Media',
-    lat:43.3622, lng:-7.4734,
+    lat:43.367769, lng:-7.46824,
     descripcion:'Una etapa llana por la Terra Chá, la "tierra llana" de Lugo, entre prados de vacas rubia gallega y aldeas dispersas. Vilalba, capital histórica de los Andrade, uno de los linajes más poderosos de la Galicia medieval, está dominada por la Torre del Homenaje de su castillo, hoy convertida en parador, testimonio de un poder feudal que llegó a desafiar a la propia Corona de Castilla.',
     descripcion_gl:'Unha etapa chá pola Terra Chá de Lugo, entre prados de vacas rubia galega e aldeas dispersas. Vilalba, capital histórica dos Andrade, está dominada pola Torre da Homenaxe do seu castelo, hoxe convertida en parador, testemuño dun poder feudal que chegou a desafiar á propia Coroa de Castela.',
     descripcion_en:'A flat stage across the Terra Chá, Lugo\'s \'flatlands\', through pastures grazed by rubia galega cattle and scattered villages. Vilalba, historic seat of the Andrade family, one of medieval Galicia\'s most powerful lineages, is dominated by the keep of its castle, now a state-run parador hotel, a reminder of a feudal power that once dared to defy the Crown of Castile itself.',
@@ -3978,7 +3980,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-32', orden:32, nombre:'Etapa 32 · Vilalba → Baamonde', nombre_gl:'Etapa 32 · Vilalba → Baamonde', nombre_en:'Stage 32 · Vilalba → Baamonde',
     categoria:'etapa', variante:'norte', km:19, desnivel_pos:180, desnivel_neg:200, dificultad:'Fácil',
-    lat:43.2986, lng:-7.6783,
+    lat:43.298861, lng:-7.681756,
     descripcion:'El camino sigue el curso del río Magdalena entre bosques de ribera y pequeñas aldeas de la Terra Chá lucense. Baamonde, núcleo ferroviario desde el siglo XIX, fue durante generaciones punto de paso obligado entre el interior de Lugo y la costa, y conserva ese carácter de cruce de caminos en un paisaje sereno de prados y robledas que anticipa la Galicia más profunda.',
     descripcion_gl:'O camiño segue o curso do río Magdalena entre bosques de ribeira e pequenas aldeas da Terra Chá lucense. Baamonde, núcleo ferroviario desde o século XIX, foi durante xeracións punto de paso obrigado entre o interior de Lugo e a costa.',
     descripcion_en:'The way follows the Magdalena river through riverside woods and small villages of the Lugo Terra Chá. Baamonde, a railway hub since the 19th century, was for generations an obligatory crossing point between inland Lugo and the coast, and still carries that crossroads character amid a serene landscape of meadows and oak groves heralding the deepest Galicia.',
@@ -3986,7 +3988,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-33', orden:33, nombre:'Etapa 33 · Baamonde → Miraz', nombre_gl:'Etapa 33 · Baamonde → Miraz', nombre_en:'Stage 33 · Baamonde → Miraz',
     categoria:'etapa', variante:'norte', km:16, desnivel_pos:220, desnivel_neg:180, dificultad:'Media',
-    lat:43.176328, lng:-7.756610,
+    lat:43.17442, lng:-7.757313,
     descripcion:'El camino atraviesa el río Parga por un puente medieval y se interna en una carballeira centenaria que guarda la pequeña capilla de San Alberte, antes de ascender suavemente hacia tierras cada vez más solitarias. Miraz, parroquia del municipio de Friol, es célebre entre peregrinos por su albergue gestionado por la Confraternity of Saint James de Londres, modesto refugio rural que ha alojado a generaciones de caminantes en mitad de la nada.',
     descripcion_gl:'O camiño atravesa o río Parga por un ponte medieval e métese nunha carballeira centenaria que garda a pequena capela de San Alberte, antes de ascender suavemente cara a terras cada vez máis solitarias. Miraz é célebre entre peregrinos polo seu albergue xestionado pola Confraternity of Saint James de Londres.',
     descripcion_en:'The way crosses the Parga river over a medieval bridge and enters a centuries-old oak grove sheltering the small chapel of San Alberte, before climbing gently into increasingly solitary land. Miraz, a parish in the municipality of Friol, is well known among pilgrims for its hostel run by the Confraternity of Saint James of London, a modest rural refuge that has sheltered generations of walkers in the middle of nowhere.',
@@ -4002,7 +4004,7 @@ var PUNTOS = [
 
   { id:'etapa-norte-35', orden:35, nombre:'Etapa 35 · Sobrado dos Monxes → Arzúa', nombre_gl:'Etapa 35 · Sobrado dos Monxes → Arzúa', nombre_en:'Stage 35 · Sobrado dos Monxes → Arzúa',
     categoria:'etapa', variante:'norte', km:22, desnivel_pos:280, desnivel_neg:320, dificultad:'Media',
-    lat:43.038986, lng:-8.023210,
+    lat:43.040634, lng:-8.022412,
     descripcion:'La última etapa propia del Camino del Norte desciende entre bosques y praderías hasta Arzúa, donde la ruta que partió de Irún converge finalmente con el Camino Francés. Aquí, a más de 780 kilómetros del punto de partida, los peregrinos del Norte se mezclan con los que llegan de Roncesvalles, León o Sarria, y comparten ya las dos últimas jornadas hasta Santiago: el mismo queso de denominación de origen, los mismos eucaliptos, la misma meta.',
     descripcion_gl:'A última etapa propia do Camiño do Norte descende entre bosques e pradarías até Arzúa, onde a ruta que partiu de Irún converxe finalmente co Camiño Francés. Aquí, a máis de 780 quilómetros do punto de partida, os peregrinos do Norte mestúranse cos que chegan de Roncesvalles, León ou Sarria.',
     descripcion_en:'The last stage belonging exclusively to the Northern Way descends through woods and meadows to Arzúa, where the route that began in Irún finally converges with the Camino Francés. Here, more than 780 kilometres from the starting point, pilgrims from the north mingle with those arriving from Roncesvalles, León or Sarria, sharing the final two days to Santiago: the same protected-designation cheese, the same eucalyptus groves, the same destination.',
@@ -4048,7 +4050,7 @@ var PUNTOS = [
 
   { id:'etapa-primitivo-2', orden:2, nombre:'Etapa 2 · Grado → Salas', nombre_gl:'Etapa 2 · Grao → Salas', nombre_en:'Stage 2 · Grado → Salas',
     categoria:'etapa', variante:'primitivo', km:23, desnivel_pos:380, desnivel_neg:300, dificultad:'Media',
-    lat:43.388, lng:-6.074,
+    lat:43.387093, lng:-6.074512,
     descripcion:'Entre Grado y Salas el camino abandona el valle del Nalón para adentrarse en un paisaje de aldeas y bosques de robles. Cornellana, con su monasterio benedictino del siglo XI fundado por la infanta Cristina, hija de Bermudo II, marca uno de los hitos espirituales del trayecto. Salas, villa señorial dominada por la torre de los Valdés-Salas, debe su prestigio al cardenal Fernando de Valdés, fundador de la Universidad de Oviedo.',
     descripcion_gl:'Entre Grao e Salas o camiño adéntrase nun paisaxe de aldeas e bosques de robles. Cornellana, co seu mosteiro benedictino do século XI, e Salas, vila señorial dominada pola torre dos Valdés-Salas.',
     descripcion_en:'Between Grado and Salas the Way leaves the Nalón valley for a landscape of villages and oak woods. Cornellana, with its 11th-century Benedictine monastery, and Salas, a manorial town dominated by the Valdés-Salas tower.',
@@ -4056,7 +4058,7 @@ var PUNTOS = [
 
   { id:'etapa-primitivo-3', orden:3, nombre:'Etapa 3 · Salas → Tineo', nombre_gl:'Etapa 3 · Salas → Tineo', nombre_en:'Stage 3 · Salas → Tineo',
     categoria:'etapa', variante:'primitivo', km:20, desnivel_pos:520, desnivel_neg:280, dificultad:'Media',
-    lat:43.400, lng:-6.250,
+    lat:43.409261, lng:-6.261706,
     descripcion:'La etapa asciende con firmeza desde Salas hacia La Espina, cruce histórico de caminos ganaderos, antes de afrontar la subida final hacia Tineo, villa amurallada que conserva su trazado medieval y el Palacio de Meras. Tineo, capital del concejo más extenso de Asturias, ha sido durante siglos un punto de paso obligado entre la costa y la montaña occidental asturiana.',
     descripcion_gl:'A etapa ascende desde Salas cara a La Espina, cruce histórico de camiños gandeiros, antes da subida final a Tineo, vila amurallada que conserva o seu trazado medieval e o Pazo de Meras.',
     descripcion_en:'The stage climbs steadily from Salas to La Espina, a historic crossroads of cattle drovers\' roads, before the final ascent to Tineo, a walled town preserving its medieval layout and the Meras Palace.',
@@ -4064,7 +4066,7 @@ var PUNTOS = [
 
   { id:'etapa-primitivo-4', orden:4, nombre:'Etapa 4 · Tineo → Pola de Allande', nombre_gl:'Etapa 4 · Tineo → Pola de Allande', nombre_en:'Stage 4 · Tineo → Pola de Allande',
     categoria:'etapa', variante:'primitivo', km:27, desnivel_pos:610, desnivel_neg:640, dificultad:'Media-Alta',
-    lat:43.336, lng:-6.421,
+    lat:43.33544, lng:-6.415074,
     descripcion:'Una de las etapas más solitarias y bellas del Primitivo. El camino atraviesa Borres, donde la iglesia prerrománica de San Pedro —siglo IX— es uno de los escasos testimonios arquitectónicos asturianos de esa época que aún se mantienen en pie. El descenso final hacia Pola de Allande, villa fundada en el siglo XIII y dominada por el Palacio de los Cienfuegos-Peñalba, atraviesa un paisaje de montes redondeados y aldeas dispersas.',
     descripcion_gl:'Polo prerrománico de San Pedro de Borres —século IX, un dos escasos testemuños astures desa época— ata Pola de Allande, vila fundada no século XIII e dominada polo Pazo dos Cienfuegos-Peñalba.',
     descripcion_en:'Through Borres, with its pre-Romanesque 9th-century church of San Pedro — one of the few surviving Asturian buildings of that era — to Pola de Allande, founded in the 13th century and dominated by the Cienfuegos-Peñalba Palace.',
@@ -4072,7 +4074,7 @@ var PUNTOS = [
 
   { id:'etapa-primitivo-5', orden:5, nombre:'Etapa 5 · Pola de Allande → La Mesa', nombre_gl:'Etapa 5 · Pola de Allande → A Mesa', nombre_en:'Stage 5 · Pola de Allande → La Mesa',
     categoria:'etapa', variante:'primitivo', km:23, desnivel_pos:900, desnivel_neg:550, dificultad:'Difícil',
-    lat:43.267, lng:-6.617,
+    lat:43.271781, lng:-6.611188,
     descripcion:'La etapa reina del Camino Primitivo en su tramo asturiano: la ascensión al Puerto del Palo, a 1.146 metros de altitud, es la cota más alta de toda la ruta. El esfuerzo se ve recompensado por panorámicas de la Cordillera Cantábrica que se extienden hasta perderse de vista. El descenso hacia Berducedo y La Mesa atraviesa praderías de alta montaña batidas por el viento, en uno de los paisajes más sobrecogedores del Camino.',
     descripcion_gl:'A ascensión ao Porto do Palo, a 1.146 metros, é a cota máis alta de toda a ruta. O descenso cara a Berducedo e A Mesa atravesa pradarías de alta montaña nun dos paisaxes máis impactantes do Camiño.',
     descripcion_en:'The Primitive Way\'s defining stage: the climb to Puerto del Palo at 1,146 metres, the highest point of the entire route. The descent towards Berducedo and La Mesa crosses wind-swept high-mountain pastures in one of the most striking landscapes of the Camino.',
@@ -4088,7 +4090,7 @@ var PUNTOS = [
 
   { id:'etapa-primitivo-7', orden:7, nombre:'Etapa 7 · Grandas de Salime → A Fonsagrada', nombre_gl:'Etapa 7 · Grandas de Salime → A Fonsagrada', nombre_en:'Stage 7 · Grandas de Salime → A Fonsagrada',
     categoria:'etapa', variante:'primitivo', km:28, desnivel_pos:850, desnivel_neg:550, dificultad:'Difícil',
-    lat:43.227, lng:-6.886,
+    lat:43.217541, lng:-6.875764,
     descripcion:'La etapa que cruza la frontera entre Asturias y Galicia por el Alto del Acebo, antiguo límite natural entre ambas tierras. El camino atraviesa Castro, Venta do Acevo y Barbeitos antes de llegar a A Fonsagrada, cuyo nombre —Fons Sacrata, fuente sagrada— recuerda la leyenda de la Virgen que convirtió el agua de una fuente en leche para alimentar a una mujer pobre y a sus hijos. La villa ha vivido siempre ligada al Camino y a su antiguo hospital de peregrinos.',
     descripcion_gl:'A etapa que cruza a fronteira entre Asturias e Galicia polo Alto do Acevo. A Fonsagrada, cuxo nome —Fons Sacrata— lembra a lenda da Virxe que converteu a auga dunha fonte en leite para unha muller pobre.',
     descripcion_en:'The stage crossing from Asturias into Galicia over the Alto del Acebo pass. A Fonsagrada, whose name — Fons Sacrata, sacred spring — recalls the legend of the Virgin who turned a spring\'s water into milk to feed a poor woman and her children.',
@@ -4096,7 +4098,7 @@ var PUNTOS = [
 
   { id:'etapa-primitivo-8', orden:8, nombre:'Etapa 8 · A Fonsagrada → O Cádavo', nombre_gl:'Etapa 8 · A Fonsagrada → O Cádavo', nombre_en:'Stage 8 · A Fonsagrada → O Cádavo',
     categoria:'etapa', variante:'primitivo', km:25, desnivel_pos:420, desnivel_neg:480, dificultad:'Media',
-    lat:43.129, lng:-7.062,
+    lat:43.125653, lng:-7.067383,
     descripcion:'El camino discurre por un terreno montañoso de topografía suave, pasando junto a las ruinas del antiguo Hospital de Montouto —a 1.015 metros, fue el hospital de montaña más importante de la Galicia medieval, refugio para los peregrinos sorprendidos por el mal tiempo en este paso elevado—. La etapa concluye en O Cádavo, en el concello de Baleira, segunda comunidad en importancia del Camino Primitivo gallego.',
     descripcion_gl:'O camiño discorre por terreo montañoso pasando polas ruínas do antigo Hospital de Montouto —a 1.015 m, foi o hospital de montaña máis importante da Galicia medieval—. A etapa remata en O Cádavo, concello de Baleira.',
     descripcion_en:'The Way crosses gently rolling mountain terrain past the ruins of the old Hospital de Montouto — at 1,015 metres, the most important mountain hospital of medieval Galicia, sheltering pilgrims caught by bad weather at this high pass. The stage ends at O Cádavo, in the municipality of Baleira.',
@@ -4104,7 +4106,7 @@ var PUNTOS = [
 
   { id:'etapa-primitivo-9', orden:9, nombre:'Etapa 9 · O Cádavo → Lugo', nombre_gl:'Etapa 9 · O Cádavo → Lugo', nombre_en:'Stage 9 · O Cádavo → Lugo',
     categoria:'etapa', variante:'primitivo', km:30, desnivel_pos:380, desnivel_neg:480, dificultad:'Media',
-    lat:43.0163, lng:-7.2459,
+    lat:43.017191, lng:-7.244944,
     descripcion:'Una etapa larga pero de perfil amable que atraviesa Castroverde antes de alcanzar Lugo, la única ciudad del mundo que conserva intacta su muralla romana, declarada Patrimonio de la Humanidad por la UNESCO. El recinto amurallado, de casi dos kilómetros de perímetro y construido en el siglo III, puede recorrerse íntegramente a pie por su adarve. La catedral románica y las termas romanas completan un final de etapa de excepcional riqueza monumental.',
     descripcion_gl:'Etapa longa de perfil amable que atravesa Castroverde antes de Lugo, a única cidade do mundo que conserva intacta a súa muralla romana, Patrimonio da Humanidade pola UNESCO.',
     descripcion_en:'A long stage with a gentle profile through Castroverde before reaching Lugo, the world\'s only city with a fully intact Roman wall, a UNESCO World Heritage Site. The nearly two-kilometre walled perimeter, built in the 3rd century, can be walked along its rampart in its entirety.',
@@ -4112,7 +4114,7 @@ var PUNTOS = [
 
   { id:'etapa-primitivo-10', orden:10, nombre:'Etapa 10 · Lugo → San Román da Retorta', nombre_gl:'Etapa 10 · Lugo → San Román da Retorta', nombre_en:'Stage 10 · Lugo → San Román da Retorta',
     categoria:'etapa', variante:'primitivo', km:20, desnivel_pos:220, desnivel_neg:260, dificultad:'Fácil',
-    lat:43.011, lng:-7.555,
+    lat:43.010431, lng:-7.55369,
     descripcion:'Tras la riqueza monumental de Lugo, el camino discurre por un trazado llano siguiendo en buena parte el recorrido de la antigua calzada romana XIX, que unía Lucus Augusti con Iria Flavia. Es un tramo discreto, de paso por el concello de Guntín, que prepara al peregrino para la confluencia final con el Camino Francés en los días siguientes.',
     descripcion_gl:'Tras a riqueza monumental de Lugo, o camiño discorre por un trazado chairo seguindo a antiga calzada romana XIX, que unía Lucus Augusti con Iria Flavia, polo concello de Guntín.',
     descripcion_en:'After the monumental richness of Lugo, the Way follows a flat route largely tracing the old Roman road XIX, which once linked Lucus Augusti with Iria Flavia, passing through the municipality of Guntín.',
@@ -4120,7 +4122,7 @@ var PUNTOS = [
 
   { id:'etapa-primitivo-11', orden:11, nombre:'Etapa 11 · San Román da Retorta → Melide', nombre_gl:'Etapa 11 · San Román da Retorta → Melide', nombre_en:'Stage 11 · San Román da Retorta → Melide',
     categoria:'etapa', variante:'primitivo', km:28, desnivel_pos:480, desnivel_neg:430, dificultad:'Media',
-    lat:42.946, lng:-7.731,
+    lat:42.955608, lng:-7.737059,
     descripcion:'La etapa que marca el final del Camino Primitivo como ruta independiente: en Melide confluye con el Camino Francés, uniendo en una sola senda a los peregrinos llegados desde Oviedo con los que vienen de Roncesvalles, León o Sarria. Melide es además parada obligada para probar el pulpo á feira, plato emblemático servido en sus tradicionales pulperías.',
     descripcion_gl:'A etapa que marca a fin do Camiño Primitivo como ruta independente: en Melide confúe co Camiño Francés. Melide é parada obrigada para probar o polbo á feira nas súas tradicionais pulpeiras.',
     descripcion_en:'The stage marking the end of the Primitive Way as an independent route: at Melide it merges with the Camino Francés, uniting pilgrims from Oviedo with those arriving from Roncesvalles, León or Sarria. Melide is also an obligatory stop to try pulpo á feira in its traditional pulperías.',
@@ -4128,7 +4130,7 @@ var PUNTOS = [
 
   { id:'etapa-primitivo-12', orden:12, nombre:'Etapa 12 · Melide → Arzúa', nombre_gl:'Etapa 12 · Melide → Arzúa', nombre_en:'Stage 12 · Melide → Arzúa',
     categoria:'etapa', variante:'primitivo', km:14, desnivel_pos:160, desnivel_neg:180, dificultad:'Fácil',
-    lat:42.916, lng:-8.014,
+    lat:42.915147, lng:-8.016532,
     descripcion:'Etapa corta y ya compartida con el Camino Francés, que discurre entre eucaliptales hacia Arzúa, villa que da nombre a una de las denominaciones de origen de queso más prestigiosas de Galicia. El camino pasa por Ribadiso do Baixo, uno de los enclaves más idílicos de toda la ruta jacobea, con su puente medieval sobre el río Iso.',
     descripcion_gl:'Etapa curta xa compartida co Camiño Francés, entre eucaliptais cara a Arzúa, vila que dá nome a unha denominación de orixe de queixo. Pasa por Ribadiso do Baixo, un dos enclaves máis idílicos da ruta.',
     descripcion_en:'A short stage, now shared with the Camino Francés, through eucalyptus groves to Arzúa, a town giving its name to a prestigious cheese designation of origin. The Way passes through Ribadiso do Baixo, one of the most idyllic spots on the whole pilgrim route.',
@@ -4182,7 +4184,7 @@ var PUNTOS = [
 
   { id:'etapa-ingles-3', orden:3, nombre:'Etapa 3 · Pontedeume → Betanzos', nombre_gl:'Etapa 3 · Pontedeume → Betanzos', nombre_en:'Stage 3 · Pontedeume → Betanzos',
     categoria:'etapa', variante:'ingles', km:20, desnivel_pos:390, desnivel_neg:420, dificultad:'Media',
-    lat:43.402, lng:-8.165,
+    lat:43.406263, lng:-8.170978,
     descripcion:'De Pontedeume a Betanzos el camino asciende por el bosque de Breamo, donde el priorato románico de San Miguel —siglo XII— corona un otero con vistas sobre las tres rías de Betanzos, Ares y Ferrol. La bajada hacia Betanzos revela una de las villas medievales mejor conservadas de Galicia, con sus tres iglesias góticas y el río Mandeo reflejando un perfil urbano que parece no haber cambiado desde el siglo XV.',
     descripcion_gl:'Polo bosque de Breamo co priorado románico de San Miguel —século XII— cara a Betanzos, unha das vilas medievais mellor conservadas de Galicia con tres igrexas góticas e o río Mandeo.',
     descripcion_en:'From Pontedeume to Betanzos the Way climbs through Breamo forest, where the 12th-century Romanesque priory of San Miguel crowns a hilltop with views over the three estuaries of Betanzos, Ares and Ferrol. The descent reveals one of Galicia\'s best-preserved medieval towns, with three Gothic churches and the Mandeo river.',
@@ -4190,7 +4192,7 @@ var PUNTOS = [
 
   { id:'etapa-ingles-4', orden:4, nombre:'Etapa 4 · Betanzos → Hospital de Bruma', nombre_gl:'Etapa 4 · Betanzos → Hospital de Bruma', nombre_en:'Stage 4 · Betanzos → Hospital de Bruma',
     categoria:'etapa', variante:'ingles', km:24, desnivel_pos:520, desnivel_neg:380, dificultad:'Media-Alta',
-    lat:43.283, lng:-8.212,
+    lat:43.28034, lng:-8.210285,
     descripcion:'La etapa más exigente del Camino Inglés desde Ferrol: el camino abandona las rías y asciende hacia el interior coruñés por Leiro, dejando atrás definitivamente el paisaje costero. Hospital de Bruma —cuyo topónimo recuerda el albergue medieval que atendía a los peregrinos enfermos en este punto elevado y brumoso— es donde confluye con la variante que llega desde A Coruña, uniendo desde aquí ambos itinerarios en un solo camino hacia Santiago.',
     descripcion_gl:'A etapa máis esixente: o camiño ascende cara ao interior por Leiro. Hospital de Bruma, cuxo topónimo lembra o albergue medieval para peregrinos enfermos, é onde confúe coa variante da Coruña.',
     descripcion_en:'The most demanding stage of the Ferrol route: the Way leaves the estuaries behind and climbs inland through Leiro. Hospital de Bruma — its name recalling the medieval hospital that cared for sick pilgrims at this high, foggy point — is where the route merges with the A Coruña variant into a single path to Santiago.',
@@ -4206,7 +4208,7 @@ var PUNTOS = [
 
   { id:'etapa-ingles-6', orden:6, nombre:'Etapa 6 · Sigüeiro → Santiago de Compostela', nombre_gl:'Etapa 6 · Sigüeiro → Santiago de Compostela', nombre_en:'Stage 6 · Sigüeiro → Santiago de Compostela',
     categoria:'etapa', variante:'ingles', km:17, desnivel_pos:220, desnivel_neg:260, dificultad:'Fácil',
-    lat:42.9688, lng:-8.4417,
+    lat:42.9696, lng:-8.44161,
     descripcion:'La etapa final del Camino Inglés, la más corta y esperada de todas. Desde Sigüeiro el camino entra en el concello compostelano por A Barciela, atravesando un bosque encantado de eucaliptos que muchos peregrinos consideran el tramo final más hermoso de cualquier ruta jacobea. Los peregrinos que llegan por esta vía —la misma que usaban irlandeses e ingleses medievales— convergen con los del Camino Francés a las puertas de Santiago para completar juntos los últimos metros hasta el Obradoiro.',
     descripcion_gl:'A etapa final, a máis curta. Desde Sigüeiro o camiño entra no concello compostelán por A Barciela, atravesando un bosque encantado de eucaliptos até converxer co Camiño Francés ás portas de Santiago.',
     descripcion_en:'The final stage of the English Way, the shortest and most eagerly awaited. From Sigüeiro the Way enters Santiago\'s municipality through A Barciela, crossing an enchanted eucalyptus forest before converging with the Camino Francés at the gates of Santiago for the final stretch to the Obradoiro.',
@@ -4214,7 +4216,7 @@ var PUNTOS = [
 
   { id:'etapa-ingles-7', orden:7, nombre:'Etapa 7 · Llegada a Santiago de Compostela', nombre_gl:'Etapa 7 · Chegada a Santiago de Compostela', nombre_en:'Stage 7 · Arrival in Santiago de Compostela',
     categoria:'etapa', variante:'ingles', km:0, desnivel_pos:0, desnivel_neg:0, dificultad:'Fácil',
-    lat:42.880688, lng:-8.544395,
+    lat:42.880918, lng:-8.544459,
     subtitulo:'El final de la ruta de los peregrinos del mar', subtitulo_gl:'O final da ruta dos peregrinos do mar', subtitulo_en:'The end of the sea pilgrims\' route',
     descripcion:'El Camino Inglés, la ruta más corta y la que siguieron durante siglos los peregrinos llegados por mar desde las Islas Británicas e Irlanda, desemboca en la Praza do Obradoiro. Pocos días de camino bastan para sentir la misma emoción que peregrinos de toda Europa han compartido durante un milenio ante la fachada de la catedral.',
     descripcion_gl:'O Camiño Inglés, a ruta máis curta e a que seguiron durante séculos os peregrinos chegados por mar desde as Illas Británicas e Irlanda, desemboca na Praza do Obradoiro. Poucos días de camiño abondan para sentir a mesma emoción que peregrinos de toda Europa compartiron durante un milenio perante a fachada da catedral.',
@@ -12930,6 +12932,7 @@ function activarNavegacionVoz() {
     );
 
     mostrarToast('🔇 Navegación activa · voz desactivada');
+    // (La vigilancia de desvío vive SOLO en el Modo Ruta Oficial)
   }  // fin _iniciarConPasos
 
   // Usar cache si disponible, si no hacer fetch
@@ -15447,7 +15450,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1428";
+var _APP_VERSION = "v1441";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -16912,6 +16915,7 @@ function _filtrarMapaCat(chip, cat) {
     // Categorías normales
     if (p.categoria === cat) _add(p);
   });
+  if (window.TrazadoRuta) { try { window.TrazadoRuta.aplicar(cat); } catch(e){} }
 }
 
 function _popupVotar(poiId, n) {
@@ -17166,6 +17170,109 @@ function abrirPrivacidad() { document.getElementById('modal-privacidad').classLi
 function abrirSobreNosotros() {
   document.getElementById('modal-sobre-nosotros').classList.add('visible');
 }
+
+/* ============================================================
+   TRAZADO OFICIAL — Xacobeapp
+   Dibuja en el mapa el trazado oficial COMPLETO de TODOS los Caminos
+   a la vez, en color violeta rosáceo, de forma permanente. Se pinta
+   automáticamente al cargar el mapa: no depende de chips ni del Modo
+   Ruta Oficial. Como las rutas comparten tramos al converger en
+   Galicia (la Costa empalma con el Central en Redondela, el Norte y
+   el Primitivo con el Francés cerca de Arzúa…), dibujarlas todas
+   juntas cubre esos tramos compartidos sin huecos.
+   Usa window._INDICE_CAMINOS y los tracks /tracks/*.json (cacheados).
+   No interfiere con _rutaLinea (navegador de POIs) ni con la
+   vigilancia de voz del Modo Ruta Oficial.
+   ============================================================ */
+(function(){
+  'use strict';
+  var COLOR = '#C25FB0';          // violeta rosáceo
+  var BASE = 'tracks/';
+  var capa = null;                // L.layerGroup con todas las polilíneas
+  var cacheTrack = {};            // {id: [[lat,lng],...]}
+  var pintado = false;            // ya se dibujó (evita duplicar)
+  var visible = true;             // estado mostrar/ocultar
+
+  function cargar(meta){
+    if(cacheTrack[meta.id]) return Promise.resolve(cacheTrack[meta.id]);
+    return fetch(BASE+meta.archivo)
+      .then(function(r){ return r.json(); })
+      .then(function(t){
+        var c = (t && t.coords) ? t.coords : [];
+        cacheTrack[meta.id] = c;
+        return c;
+      })
+      .catch(function(){ return []; });
+  }
+
+  function ocultar(){
+    if(capa && typeof mapa!=='undefined' && mapa && mapa.hasLayer(capa)){
+      mapa.removeLayer(capa);
+    }
+    visible = false;
+  }
+
+  // Dibuja (o re-muestra) el trazado de TODAS las rutas del índice.
+  function mostrarTodo(){
+    if(typeof mapa==='undefined' || !mapa || !window.L) return;
+    visible = true;
+    // Si ya está pintado, solo reañadir la capa al mapa.
+    if(pintado && capa){
+      if(!mapa.hasLayer(capa)) capa.addTo(mapa);
+      return;
+    }
+    if(!window._INDICE_CAMINOS) return;
+    pintado = true;
+    capa = L.layerGroup().addTo(mapa);
+    // Cargar cada etapa de cada ruta y dibujarla en cuanto llega.
+    window._INDICE_CAMINOS.forEach(function(meta){
+      cargar(meta).then(function(coords){
+        if(!capa || !coords || coords.length<2) return;
+        L.polyline(coords, {
+          color: COLOR,
+          weight: 4,
+          opacity: 0.9,
+          lineJoin: 'round',
+          lineCap: 'round'
+        }).addTo(capa);
+      });
+    });
+  }
+
+  // Auto-inicio: pinta en cuanto el mapa y el índice estén listos.
+  function autoInit(intentos){
+    intentos = intentos || 0;
+    if(typeof mapa!=='undefined' && mapa && window.L && window._INDICE_CAMINOS){
+      mostrarTodo();
+    } else if(intentos < 60){
+      setTimeout(function(){ autoInit(intentos+1); }, 500);
+    }
+  }
+
+  // API pública
+  window.TrazadoRuta = {
+    color: function(c){
+      if(c){
+        COLOR = c;
+        // Repintar con el nuevo color
+        if(capa){ capa.eachLayer(function(l){ if(l.setStyle) l.setStyle({color:COLOR}); }); }
+      }
+      return COLOR;
+    },
+    mostrar: mostrarTodo,
+    ocultar: ocultar,
+    toggle: function(){ if(visible) ocultar(); else mostrarTodo(); return visible; },
+    visible: function(){ return visible; },
+    // Compat: el antiguo hook de los chips llamaba a aplicar(cat). Ya no
+    // filtra nada (el trazado completo está siempre visible), así que es
+    // un no-op que garantiza que el trazado siga presente.
+    aplicar: function(){ if(!visible) return; if(!pintado) mostrarTodo(); }
+  };
+
+  if(document.readyState!=='loading') autoInit();
+  else document.addEventListener('DOMContentLoaded', function(){ autoInit(); });
+})();
+
 </script>
 
 <!-- MODAL PRIVACIDAD -->
@@ -17225,5 +17332,542 @@ function abrirSobreNosotros() {
   }catch(e){}
 })();
 </script>
+
+<script>
+/* ============================================================
+   XACOBEAPP · Detección de desvío de ruta
+   Datos de trazado: © IGN/CNIG · FEAACS — Licencia CC-BY 4.0
+   Camino Portugués de la Costa · Etapa Vigo (Castrelos)–Redondela
+   ============================================================ */
+window._TRACK_VIGO_REDONDELA = {"id":"pt-costa-vigo-redondela","ruta":"Camino Portugu\u00e9s de la Costa","etapa":"Vigo (Castrelos) \u2013 Redondela","fuente":"IGN/CNIG \u00b7 FEAACS","coords":[[42.138426,-8.797525],[42.138567,-8.797534],[42.138783,-8.797484],[42.138883,-8.797484],[42.138969,-8.797539],[42.139021,-8.797588],[42.139246,-8.797659],[42.13951,-8.797773],[42.139685,-8.797824],[42.139947,-8.798021],[42.140127,-8.798112],[42.140166,-8.798197],[42.140203,-8.798435],[42.140472,-8.798331],[42.140794,-8.798208],[42.140958,-8.798133],[42.141171,-8.797896],[42.141318,-8.797726],[42.141629,-8.797538],[42.141658,-8.797505],[42.141633,-8.797242],[42.141618,-8.797023],[42.141718,-8.796242],[42.141834,-8.796244],[42.14188,-8.796235],[42.141949,-8.796206],[42.142069,-8.796182],[42.142369,-8.796123],[42.142551,-8.796081],[42.142543,-8.795973],[42.142539,-8.795877],[42.142524,-8.79575],[42.142515,-8.795661],[42.142519,-8.795636],[42.142602,-8.795605],[42.142704,-8.795573],[42.142799,-8.795541],[42.142936,-8.79549],[42.143121,-8.795421],[42.143261,-8.795368],[42.14345,-8.79529],[42.143625,-8.79522],[42.143689,-8.795198],[42.14406,-8.795056],[42.144316,-8.794987],[42.14464,-8.794899],[42.144819,-8.794809],[42.145278,-8.794765],[42.145472,-8.794736],[42.145637,-8.794666],[42.145843,-8.794581],[42.146015,-8.794493],[42.146137,-8.794501],[42.146338,-8.794556],[42.146866,-8.794683],[42.147355,-8.794769],[42.147994,-8.794949],[42.148143,-8.794898],[42.14837,-8.794746],[42.148406,-8.794671],[42.148408,-8.794602],[42.148355,-8.794438],[42.148329,-8.794333],[42.148342,-8.794314],[42.148364,-8.794315],[42.148448,-8.794395],[42.14864,-8.794603],[42.14879,-8.794784],[42.14898,-8.794987],[42.149082,-8.795016],[42.149238,-8.795148],[42.14939,-8.795382],[42.149481,-8.795456],[42.149695,-8.795475],[42.149771,-8.795794],[42.14968,-8.796146],[42.149675,-8.796316],[42.149822,-8.796814],[42.149852,-8.797053],[42.149853,-8.797268],[42.149809,-8.797388],[42.149605,-8.797602],[42.149512,-8.797707],[42.149413,-8.797865],[42.149325,-8.798102],[42.149258,-8.798323],[42.14921,-8.798565],[42.149633,-8.798686],[42.149771,-8.798753],[42.149691,-8.799193],[42.150036,-8.799553],[42.150376,-8.799746],[42.150694,-8.800014],[42.151218,-8.800221],[42.151712,-8.800383],[42.152456,-8.800866],[42.152806,-8.801151],[42.153236,-8.801382],[42.153579,-8.801516],[42.153755,-8.801648],[42.15418,-8.80179],[42.154409,-8.801809],[42.154945,-8.801971],[42.155242,-8.80193],[42.155693,-8.80154],[42.156031,-8.801316],[42.156042,-8.801267],[42.156075,-8.80123],[42.156172,-8.801199],[42.156262,-8.801144],[42.156441,-8.801123],[42.156505,-8.801122],[42.156658,-8.801081],[42.156817,-8.80103],[42.156945,-8.801053],[42.157522,-8.801039],[42.157787,-8.801609],[42.15844,-8.801618],[42.158934,-8.801649],[42.159145,-8.801617],[42.159358,-8.801487],[42.159483,-8.801332],[42.159521,-8.801157],[42.159474,-8.801058],[42.159597,-8.800591],[42.159675,-8.800458],[42.159949,-8.800298],[42.160283,-8.800113],[42.160485,-8.80002],[42.160775,-8.800023],[42.16125,-8.80023],[42.161619,-8.80039],[42.161889,-8.800438],[42.16235,-8.800425],[42.162674,-8.800504],[42.162999,-8.800576],[42.16319,-8.800671],[42.163475,-8.800793],[42.163704,-8.8008],[42.163886,-8.800777],[42.164241,-8.80067],[42.164394,-8.800557],[42.164654,-8.800272],[42.164821,-8.80023],[42.165021,-8.800324],[42.165287,-8.800583],[42.1655,-8.800828],[42.165819,-8.801157],[42.166035,-8.801272],[42.166312,-8.801309],[42.16635,-8.801315],[42.166445,-8.801287],[42.166506,-8.801018],[42.166549,-8.800956],[42.166661,-8.800871],[42.166833,-8.800769],[42.166948,-8.800666],[42.167047,-8.800536],[42.167133,-8.800371],[42.167204,-8.800265],[42.167326,-8.800145],[42.167451,-8.800046],[42.167538,-8.800032],[42.167653,-8.799981],[42.167747,-8.799882],[42.167861,-8.799762],[42.167976,-8.799699],[42.16807,-8.799698],[42.168185,-8.799733],[42.168222,-8.799691],[42.16819,-8.799487],[42.168133,-8.79934],[42.168137,-8.799178],[42.168252,-8.799121],[42.168409,-8.799044],[42.168623,-8.798987],[42.168806,-8.798881],[42.168936,-8.798712],[42.169058,-8.798495],[42.169127,-8.798272],[42.169125,-8.798118],[42.169054,-8.798033],[42.168917,-8.797968],[42.168753,-8.797893],[42.168689,-8.797868],[42.168633,-8.797845],[42.168576,-8.797814],[42.168525,-8.797767],[42.168475,-8.797706],[42.168433,-8.797632],[42.168391,-8.797539],[42.168363,-8.79744],[42.168351,-8.797342],[42.16835,-8.797256],[42.168357,-8.797179],[42.168372,-8.797114],[42.168404,-8.797014],[42.168437,-8.796916],[42.168454,-8.796904],[42.168637,-8.796903],[42.168856,-8.796904],[42.168919,-8.796904],[42.16893,-8.796916],[42.168928,-8.796978],[42.16892,-8.797153],[42.168922,-8.797199],[42.168926,-8.797209],[42.170653,-8.796996],[42.170733,-8.796995],[42.170802,-8.796999],[42.170936,-8.797047],[42.170998,-8.797081],[42.171026,-8.797137],[42.171038,-8.797239],[42.171044,-8.797366],[42.17106,-8.797487],[42.171086,-8.797528],[42.17111,-8.797536],[42.171237,-8.79754],[42.171346,-8.797569],[42.171493,-8.797676],[42.171686,-8.797903],[42.171837,-8.798038],[42.17192,-8.798146],[42.171984,-8.798247],[42.172048,-8.798316],[42.172063,-8.798319],[42.172285,-8.797972],[42.172303,-8.797946],[42.172305,-8.797922],[42.172238,-8.79779],[42.172197,-8.797717],[42.172171,-8.797576],[42.172168,-8.797405],[42.172179,-8.797136],[42.17221,-8.796986],[42.172249,-8.796852],[42.172305,-8.796759],[42.172366,-8.796716],[42.172432,-8.796695],[42.172476,-8.796731],[42.172589,-8.796904],[42.172715,-8.797062],[42.172778,-8.797176],[42.172877,-8.797286],[42.172999,-8.797441],[42.173087,-8.797534],[42.1732,-8.797607],[42.173274,-8.797647],[42.173346,-8.797703],[42.173391,-8.797748],[42.173453,-8.797811],[42.173503,-8.797853],[42.173556,-8.797892],[42.17359,-8.797918],[42.173639,-8.797931],[42.173677,-8.797952],[42.173718,-8.797975],[42.173787,-8.798019],[42.173857,-8.798064],[42.17391,-8.798109],[42.173973,-8.798167],[42.17403,-8.798226],[42.174092,-8.798269],[42.174186,-8.798321],[42.174277,-8.798358],[42.174353,-8.79838],[42.174463,-8.798406],[42.174563,-8.798437],[42.174636,-8.798459],[42.174731,-8.798489],[42.174805,-8.798512],[42.174883,-8.798529],[42.175184,-8.798513],[42.175529,-8.798527],[42.175753,-8.798511],[42.175923,-8.798437],[42.176068,-8.798394],[42.176727,-8.79837],[42.176861,-8.798329],[42.17708,-8.798075],[42.177257,-8.797743],[42.17734,-8.797719],[42.177641,-8.797333],[42.177776,-8.797243],[42.177823,-8.79724],[42.178136,-8.797493],[42.178426,-8.797489],[42.178617,-8.79744],[42.178743,-8.797458],[42.178951,-8.797436],[42.179222,-8.797467],[42.179313,-8.797446],[42.179425,-8.797423],[42.179646,-8.797444],[42.17989,-8.797433],[42.180065,-8.797225],[42.180153,-8.796896],[42.180087,-8.796433],[42.180071,-8.796407],[42.180004,-8.796386],[42.179916,-8.796301],[42.179861,-8.796213],[42.17982,-8.796158],[42.179727,-8.795996],[42.179648,-8.795861],[42.1796,-8.795781],[42.179546,-8.795667],[42.179531,-8.795613],[42.179527,-8.79555],[42.179526,-8.795467],[42.179539,-8.79539],[42.179574,-8.795286],[42.179626,-8.795187],[42.179706,-8.795053],[42.179768,-8.794954],[42.179864,-8.794852],[42.179916,-8.794799],[42.179949,-8.794728],[42.180074,-8.794149],[42.180161,-8.793133],[42.180375,-8.792775],[42.180785,-8.792504],[42.181861,-8.791773],[42.18207,-8.791421],[42.182307,-8.790535],[42.182837,-8.789762],[42.18306,-8.789272],[42.183245,-8.788619],[42.183459,-8.78828],[42.186,-8.787239],[42.186341,-8.786754],[42.186706,-8.785443],[42.186742,-8.784717],[42.186264,-8.783663],[42.186142,-8.783199],[42.18581,-8.779695],[42.185994,-8.779088],[42.186515,-8.778656],[42.186739,-8.778417],[42.187474,-8.777085],[42.187958,-8.776744],[42.188452,-8.776529],[42.190821,-8.775956],[42.191026,-8.77583],[42.192516,-8.774294],[42.192711,-8.773917],[42.193645,-8.772261],[42.194036,-8.771513],[42.194347,-8.770727],[42.194574,-8.770087],[42.195004,-8.768328],[42.195209,-8.767882],[42.195623,-8.767272],[42.196253,-8.767508],[42.196533,-8.767673],[42.197214,-8.767646],[42.197926,-8.767684],[42.1982,-8.767542],[42.198276,-8.767628],[42.198484,-8.768256],[42.19868,-8.768318],[42.198988,-8.768292],[42.199735,-8.768151],[42.199969,-8.768627],[42.20022,-8.768474],[42.201043,-8.770072],[42.20126,-8.77018],[42.201256,-8.769927],[42.201131,-8.769372],[42.201125,-8.769227],[42.20105,-8.76862],[42.201025,-8.768229],[42.200992,-8.76763],[42.201035,-8.767122],[42.201195,-8.766609],[42.201358,-8.76632],[42.201588,-8.766554],[42.201854,-8.766145],[42.201882,-8.765937],[42.201775,-8.765338],[42.20162,-8.762831],[42.201636,-8.761075],[42.202053,-8.760121],[42.203485,-8.75739],[42.20493,-8.75484],[42.206109,-8.753106],[42.206243,-8.752827],[42.206289,-8.752544],[42.20623,-8.751717],[42.20629,-8.751369],[42.206222,-8.750813],[42.206284,-8.750379],[42.206537,-8.74962],[42.206888,-8.749117],[42.208259,-8.748108],[42.209062,-8.747474],[42.209596,-8.746602],[42.209798,-8.745911],[42.209909,-8.745284],[42.210223,-8.743139],[42.21046,-8.741733],[42.21084,-8.740577],[42.210731,-8.740241],[42.211038,-8.739197],[42.211379,-8.738163],[42.211692,-8.738017],[42.211808,-8.737251],[42.211815,-8.737132],[42.2121,-8.73674],[42.212181,-8.736422],[42.212099,-8.73637],[42.212131,-8.736208],[42.212142,-8.735919],[42.212097,-8.735521],[42.212165,-8.734058],[42.212192,-8.733873],[42.212419,-8.733584],[42.212546,-8.733241],[42.212563,-8.732852],[42.212696,-8.732636],[42.212703,-8.732315],[42.220203,-8.732634],[42.220253,-8.732521],[42.220336,-8.732396],[42.220425,-8.732313],[42.220553,-8.732232],[42.220661,-8.73222],[42.220766,-8.732252],[42.220862,-8.732302],[42.220924,-8.732354],[42.220987,-8.732451],[42.221034,-8.732541],[42.221064,-8.732575],[42.221088,-8.732572],[42.221163,-8.732507],[42.221304,-8.73239],[42.221414,-8.732304],[42.221576,-8.732182],[42.221667,-8.732147],[42.221757,-8.732132],[42.222055,-8.732169],[42.222277,-8.732193],[42.222437,-8.73225],[42.222636,-8.732346],[42.223012,-8.732574],[42.223994,-8.733186],[42.224331,-8.733351],[42.224611,-8.733487],[42.224842,-8.733415],[42.225204,-8.733143],[42.225698,-8.733245],[42.226394,-8.733585],[42.227757,-8.732655],[42.227706,-8.732383],[42.227899,-8.732319],[42.228069,-8.732215],[42.228308,-8.731957],[42.22862,-8.731681],[42.229282,-8.731518],[42.229595,-8.731375],[42.229872,-8.731347],[42.229941,-8.731267],[42.230415,-8.731096],[42.2311,-8.731015],[42.231548,-8.730619],[42.23169,-8.73058],[42.231709,-8.729972],[42.232242,-8.729976],[42.232562,-8.7301],[42.232868,-8.730011],[42.23357,-8.729412],[42.234107,-8.729292],[42.234717,-8.728753],[42.235813,-8.72854],[42.236844,-8.727868],[42.23708,-8.727902],[42.237649,-8.727688],[42.237935,-8.727315],[42.238182,-8.72686],[42.23829,-8.726766],[42.238497,-8.726574],[42.238602,-8.726599],[42.238721,-8.726738],[42.238886,-8.726767],[42.238895,-8.726646],[42.239164,-8.72657],[42.239212,-8.726278],[42.239396,-8.726264],[42.239456,-8.72551],[42.239343,-8.725144],[42.239,-8.724968],[42.238882,-8.724756],[42.238962,-8.724101],[42.239227,-8.72411],[42.239525,-8.718701],[42.239283,-8.71866],[42.239313,-8.71801],[42.239203,-8.717539],[42.239053,-8.716753],[42.239422,-8.716508],[42.23908,-8.715105],[42.238969,-8.714341],[42.23892,-8.713576],[42.238891,-8.712826],[42.238898,-8.712392],[42.238982,-8.711878],[42.239195,-8.711279],[42.239675,-8.710281],[42.239694,-8.710066],[42.239228,-8.709023],[42.239391,-8.708697],[42.239601,-8.708466],[42.241482,-8.707147],[42.24212,-8.706882],[42.242696,-8.706722],[42.242995,-8.70654],[42.243432,-8.705981],[42.243692,-8.705574],[42.244643,-8.703996],[42.249833,-8.695787],[42.250263,-8.695185],[42.250629,-8.694785],[42.251067,-8.694377],[42.251337,-8.694074],[42.25176,-8.693639],[42.252112,-8.693458],[42.252214,-8.693409],[42.252703,-8.693008],[42.253085,-8.692677],[42.253329,-8.692297],[42.253593,-8.691925],[42.254042,-8.691551],[42.254368,-8.691323],[42.254449,-8.691123],[42.254425,-8.690833],[42.254372,-8.690792],[42.254246,-8.690731],[42.25416,-8.69069],[42.25405,-8.690715],[42.253948,-8.690815],[42.253823,-8.690812],[42.253604,-8.690753],[42.253426,-8.690425],[42.253209,-8.69006],[42.253081,-8.689956],[42.252694,-8.689908],[42.252346,-8.689302],[42.252142,-8.689024],[42.252022,-8.689071],[42.251942,-8.689031],[42.251837,-8.688816],[42.251432,-8.689289],[42.251317,-8.689068],[42.25117,-8.68829],[42.250918,-8.687767],[42.251052,-8.687644],[42.251202,-8.687495],[42.251265,-8.687341],[42.251282,-8.687245],[42.251247,-8.687158],[42.251191,-8.687114],[42.251108,-8.687064],[42.251168,-8.68672],[42.251142,-8.686633],[42.25109,-8.686633],[42.251043,-8.686703],[42.250987,-8.686884],[42.250944,-8.687035],[42.250867,-8.687094],[42.250801,-8.687019],[42.24999,-8.685906],[42.250206,-8.685689],[42.250084,-8.685533],[42.24972,-8.685168],[42.249577,-8.684855],[42.24945,-8.684623],[42.249355,-8.684315],[42.249354,-8.68414],[42.249569,-8.68372],[42.249677,-8.683696],[42.249811,-8.68355],[42.250126,-8.683345],[42.250316,-8.683257],[42.250471,-8.683221],[42.250898,-8.682998],[42.251533,-8.682634],[42.251805,-8.682471],[42.252482,-8.681422],[42.25255,-8.681182],[42.252718,-8.680869],[42.252926,-8.680508],[42.253014,-8.680315],[42.253079,-8.679921],[42.253089,-8.679588],[42.252988,-8.67905],[42.252959,-8.678684],[42.252991,-8.678268],[42.253056,-8.678011],[42.253347,-8.677228],[42.253514,-8.676881],[42.253702,-8.676691],[42.254203,-8.676308],[42.254429,-8.676043],[42.254672,-8.675678],[42.254915,-8.67508],[42.255026,-8.674641],[42.255258,-8.674047],[42.255355,-8.673799],[42.255428,-8.673542],[42.25547,-8.673263],[42.255497,-8.672891],[42.255517,-8.672812],[42.255571,-8.672727],[42.25573,-8.672618],[42.255907,-8.672502],[42.256089,-8.67241],[42.256151,-8.672383],[42.256389,-8.672338],[42.256705,-8.67224],[42.256796,-8.672223],[42.256902,-8.67217],[42.256972,-8.672123],[42.257095,-8.672017],[42.257184,-8.671963],[42.257374,-8.671864],[42.257525,-8.671823],[42.257679,-8.671781],[42.257768,-8.671748],[42.257888,-8.671667],[42.258027,-8.671519],[42.258156,-8.671334],[42.258269,-8.671178],[42.258402,-8.671057],[42.258523,-8.670974],[42.258678,-8.670857],[42.258752,-8.670779],[42.258869,-8.670666],[42.258967,-8.6706],[42.258996,-8.670556],[42.259037,-8.670496],[42.259165,-8.670322],[42.25927,-8.670162],[42.259388,-8.669949],[42.259533,-8.669765],[42.259649,-8.66956],[42.259747,-8.66937],[42.259828,-8.669191],[42.259904,-8.669047],[42.259973,-8.668956],[42.260059,-8.668893],[42.26019,-8.668831],[42.260292,-8.668811],[42.260377,-8.668787],[42.260468,-8.668724],[42.260549,-8.668625],[42.260604,-8.668539],[42.260663,-8.668427],[42.260719,-8.668311],[42.26076,-8.668257],[42.260817,-8.668154],[42.260902,-8.66803],[42.260979,-8.667913],[42.26102,-8.66786],[42.2611,-8.667733],[42.261188,-8.667593],[42.261256,-8.667479],[42.261311,-8.667406],[42.261349,-8.667325],[42.261392,-8.667213],[42.261417,-8.667087],[42.261426,-8.666973],[42.261395,-8.666815],[42.261352,-8.666695],[42.261306,-8.666518],[42.261248,-8.666353],[42.261195,-8.666179],[42.261152,-8.666015],[42.261112,-8.665843],[42.26108,-8.66569],[42.261083,-8.665463],[42.261059,-8.665313],[42.261039,-8.665125],[42.260998,-8.66496],[42.260986,-8.664806],[42.261005,-8.664699],[42.261128,-8.664549],[42.261144,-8.664478],[42.261174,-8.664405],[42.261155,-8.664291],[42.261191,-8.664203],[42.261191,-8.664136],[42.261214,-8.664076],[42.261298,-8.664005],[42.261339,-8.663935],[42.261379,-8.663877],[42.261361,-8.663753],[42.261415,-8.663655],[42.261402,-8.663591],[42.261422,-8.663524],[42.261478,-8.663422],[42.261556,-8.663322],[42.261613,-8.66329],[42.261672,-8.663299],[42.261748,-8.663338],[42.261879,-8.663474],[42.261907,-8.663522],[42.26201,-8.663587],[42.262069,-8.663624],[42.262205,-8.663656],[42.262324,-8.663667],[42.262456,-8.663661],[42.262574,-8.663634],[42.262724,-8.663604],[42.26285,-8.663584],[42.263006,-8.663558],[42.263131,-8.663547],[42.263212,-8.663552],[42.263346,-8.663513],[42.263458,-8.663507],[42.263533,-8.663537],[42.263717,-8.663629],[42.263924,-8.663756],[42.264023,-8.663794],[42.264082,-8.66379],[42.264182,-8.663748],[42.264291,-8.663666],[42.264374,-8.663598],[42.264497,-8.66353],[42.264677,-8.663505],[42.264839,-8.663497],[42.264996,-8.663512],[42.265076,-8.663527],[42.265148,-8.663523],[42.265227,-8.66352],[42.265319,-8.663496],[42.26543,-8.663435],[42.2655,-8.663355],[42.265579,-8.663259],[42.265653,-8.66316],[42.265711,-8.663073],[42.265741,-8.663026],[42.265792,-8.663006],[42.265947,-8.66302],[42.266061,-8.663035],[42.266114,-8.663038],[42.266226,-8.663029],[42.266311,-8.662993],[42.266415,-8.662921],[42.266522,-8.662825],[42.266599,-8.662741],[42.266664,-8.662671],[42.266699,-8.66262],[42.266801,-8.662545],[42.266883,-8.662494],[42.266953,-8.662426],[42.267,-8.662355],[42.267056,-8.662186],[42.26712,-8.662044],[42.26718,-8.661968],[42.267271,-8.661891],[42.26737,-8.661849],[42.267448,-8.66184],[42.267603,-8.66183],[42.267714,-8.661814],[42.267882,-8.661785],[42.268012,-8.661751],[42.268191,-8.661716],[42.26832,-8.661709],[42.268424,-8.661686],[42.268516,-8.661616],[42.268583,-8.661519],[42.268659,-8.661365],[42.268714,-8.661238],[42.26876,-8.661085],[42.268826,-8.660901],[42.268903,-8.660737],[42.268988,-8.660606],[42.269075,-8.660502],[42.269188,-8.660363],[42.269256,-8.660273],[42.269362,-8.660158],[42.269365,-8.660051],[42.269426,-8.659826],[42.269456,-8.659696],[42.269513,-8.659594],[42.269551,-8.659551],[42.26964,-8.659467],[42.269761,-8.659582],[42.269864,-8.65965],[42.26998,-8.659668],[42.270148,-8.659667],[42.270286,-8.659589],[42.270513,-8.659541],[42.27064,-8.659446],[42.271445,-8.659389],[42.271676,-8.659538],[42.272011,-8.659879],[42.272185,-8.659975],[42.272353,-8.660285],[42.272601,-8.660549],[42.273291,-8.660728],[42.273636,-8.660766],[42.274044,-8.660993],[42.274192,-8.661182],[42.27444,-8.661497],[42.274742,-8.661706],[42.27482,-8.66191],[42.274929,-8.662149],[42.274889,-8.662331],[42.274897,-8.662692],[42.274995,-8.662816],[42.275125,-8.662925],[42.275249,-8.662943],[42.275401,-8.662954],[42.275596,-8.662772],[42.275819,-8.662726],[42.275901,-8.662615],[42.276315,-8.661937],[42.27688,-8.661052],[42.276932,-8.66076],[42.27699,-8.660443],[42.277054,-8.660007],[42.277081,-8.659577],[42.277121,-8.658854],[42.277114,-8.658409],[42.277102,-8.657963],[42.277088,-8.657616],[42.277033,-8.657373],[42.276979,-8.65717],[42.276911,-8.65697],[42.276818,-8.656759],[42.276737,-8.656555],[42.276669,-8.656365],[42.276607,-8.656171],[42.276596,-8.656003],[42.2766,-8.655892],[42.276612,-8.655816],[42.276646,-8.655773],[42.276785,-8.655666],[42.27688,-8.655574],[42.276956,-8.655484],[42.277093,-8.655278],[42.277207,-8.655102],[42.277337,-8.654929],[42.277434,-8.65481],[42.277471,-8.654697],[42.277532,-8.654505],[42.277596,-8.654377],[42.277719,-8.654274],[42.277838,-8.654164],[42.277946,-8.654054],[42.278101,-8.653884],[42.278293,-8.653718],[42.278391,-8.653618],[42.278507,-8.653525],[42.278689,-8.653387],[42.278842,-8.653211],[42.278969,-8.653105],[42.279064,-8.653024],[42.279141,-8.652967],[42.279213,-8.652861],[42.279253,-8.652782],[42.279281,-8.652677],[42.279305,-8.652595],[42.27934,-8.652511],[42.279385,-8.652447],[42.279443,-8.652426],[42.279719,-8.652422],[42.279791,-8.652414],[42.280072,-8.652312],[42.280162,-8.652286],[42.280256,-8.652279],[42.280507,-8.652296],[42.280654,-8.652304],[42.280741,-8.652284],[42.280791,-8.65225],[42.280827,-8.652206],[42.280884,-8.652158],[42.280947,-8.652135],[42.280998,-8.652135],[42.281061,-8.652136],[42.281129,-8.652132],[42.281203,-8.652121],[42.281282,-8.652085],[42.281339,-8.652038],[42.281391,-8.65198],[42.28146,-8.651903],[42.281626,-8.651746],[42.281754,-8.651623],[42.281842,-8.651529],[42.281952,-8.651377],[42.282036,-8.651234],[42.282154,-8.651013],[42.282242,-8.650842],[42.282315,-8.650721],[42.282407,-8.650561],[42.282465,-8.650475],[42.282564,-8.650352],[42.282632,-8.65025],[42.282692,-8.650135],[42.28272,-8.650041],[42.28275,-8.649802],[42.282797,-8.649552],[42.282856,-8.649308],[42.282905,-8.649092],[42.28296,-8.648835],[42.283017,-8.648659],[42.283039,-8.648552],[42.283052,-8.648459],[42.2831,-8.648307],[42.283124,-8.648222],[42.283184,-8.648026],[42.283224,-8.647895],[42.28322,-8.647824],[42.283221,-8.647769],[42.283275,-8.647625],[42.283328,-8.64744],[42.283348,-8.647133],[42.283338,-8.646873],[42.283322,-8.646677],[42.283341,-8.646459],[42.283352,-8.646303],[42.283338,-8.646192],[42.283253,-8.646031],[42.283097,-8.645918],[42.283007,-8.645836],[42.28293,-8.645767],[42.28292,-8.645701],[42.282951,-8.645599],[42.282982,-8.645531],[42.283134,-8.645139],[42.28375,-8.643988],[42.283799,-8.643912],[42.283875,-8.643698],[42.284133,-8.64348],[42.28423,-8.643363],[42.284333,-8.643244],[42.284449,-8.643098],[42.284576,-8.642938],[42.284669,-8.642789],[42.284738,-8.64263],[42.284776,-8.642501],[42.284829,-8.642332],[42.28485,-8.642211],[42.284861,-8.642052],[42.284872,-8.641923],[42.284868,-8.641784],[42.284885,-8.641577],[42.284794,-8.641448],[42.284754,-8.641307],[42.284678,-8.641195],[42.284588,-8.641056],[42.284511,-8.640928],[42.284441,-8.640782],[42.284342,-8.640609],[42.284232,-8.640514],[42.284178,-8.640461],[42.284065,-8.640374],[42.283939,-8.64015],[42.2838,-8.640042],[42.283688,-8.639917],[42.283618,-8.639846],[42.283529,-8.639791],[42.283314,-8.639666],[42.283125,-8.639573],[42.282992,-8.639502],[42.282846,-8.63944],[42.28265,-8.639344],[42.282481,-8.639292],[42.282333,-8.639249],[42.282216,-8.639221],[42.28213,-8.639181],[42.282037,-8.639111],[42.281989,-8.639059],[42.281933,-8.638934],[42.281873,-8.63878],[42.281822,-8.638563],[42.28176,-8.638324],[42.281698,-8.6381],[42.281642,-8.637941],[42.281566,-8.637726],[42.281481,-8.637467],[42.281394,-8.637252],[42.281275,-8.636961],[42.281171,-8.636718],[42.281099,-8.636529],[42.28104,-8.636308],[42.280997,-8.636091],[42.280953,-8.635931],[42.280909,-8.635659],[42.280891,-8.635477],[42.280894,-8.635299],[42.280884,-8.635191],[42.280845,-8.635101],[42.2808,-8.635028],[42.280697,-8.634902],[42.280579,-8.634788],[42.280406,-8.634622],[42.280365,-8.63451],[42.280185,-8.634373],[42.280146,-8.634267],[42.280101,-8.634062],[42.280037,-8.63385],[42.279963,-8.633661],[42.279885,-8.633459],[42.279785,-8.633246],[42.279726,-8.633128],[42.279653,-8.632972],[42.279587,-8.632794],[42.279517,-8.632579],[42.279486,-8.632428],[42.279471,-8.632262],[42.279455,-8.632093],[42.279432,-8.631964],[42.279398,-8.631844],[42.279334,-8.63171],[42.279272,-8.631605],[42.279204,-8.6315],[42.279101,-8.631414],[42.279039,-8.631352],[42.278989,-8.63126],[42.278931,-8.63113],[42.278902,-8.631011],[42.2789,-8.630915],[42.27888,-8.630726],[42.278851,-8.630532],[42.278778,-8.63025],[42.278753,-8.630174],[42.278676,-8.63005],[42.278615,-8.629958],[42.278565,-8.629925],[42.278466,-8.62985],[42.278378,-8.629783],[42.278209,-8.629718],[42.278081,-8.629642],[42.277995,-8.629604],[42.277827,-8.629587],[42.277558,-8.629673],[42.277364,-8.629685],[42.277253,-8.629646],[42.277032,-8.629391],[42.276906,-8.629261],[42.276759,-8.629204],[42.276713,-8.629159],[42.276578,-8.629106],[42.276514,-8.629073],[42.276368,-8.629031],[42.276278,-8.629058],[42.276214,-8.629064],[42.276105,-8.629142],[42.276011,-8.629135],[42.275974,-8.629111],[42.275972,-8.629043],[42.276127,-8.628875],[42.276325,-8.628785],[42.276407,-8.628714],[42.276476,-8.628645],[42.276505,-8.62852],[42.276325,-8.628347],[42.276227,-8.628362],[42.276085,-8.628425],[42.276047,-8.628386],[42.276032,-8.628337],[42.276033,-8.628277],[42.276089,-8.628204],[42.276243,-8.628119],[42.276438,-8.628059],[42.276571,-8.628018],[42.276813,-8.627936],[42.277059,-8.627832],[42.27716,-8.627795],[42.277206,-8.627786],[42.277282,-8.627804],[42.277429,-8.627833],[42.277525,-8.627831],[42.277606,-8.627838],[42.278072,-8.627822],[42.2782,-8.627863],[42.278271,-8.627828],[42.278322,-8.627748],[42.278283,-8.627694],[42.278052,-8.6274],[42.277891,-8.627103],[42.277618,-8.626619],[42.277499,-8.626448],[42.277366,-8.626235],[42.277126,-8.62608],[42.276792,-8.625857],[42.276715,-8.625757],[42.276687,-8.625648],[42.276693,-8.625551],[42.276722,-8.62546],[42.276816,-8.625293],[42.276917,-8.625055],[42.276993,-8.62474],[42.277028,-8.624577],[42.277023,-8.624436],[42.276981,-8.624174],[42.276968,-8.62388],[42.276973,-8.623651],[42.277007,-8.623439],[42.277095,-8.623077],[42.277236,-8.62269],[42.277359,-8.62226],[42.277505,-8.621851],[42.277649,-8.621509],[42.277702,-8.621426],[42.277789,-8.621346],[42.277976,-8.621224],[42.278202,-8.621085],[42.278371,-8.621052],[42.278566,-8.621034],[42.278679,-8.620979],[42.278776,-8.620901],[42.278851,-8.620777],[42.278963,-8.620605],[42.279073,-8.620503],[42.279123,-8.620469],[42.279138,-8.620418],[42.279123,-8.620352],[42.279136,-8.620293],[42.279325,-8.620122],[42.27949,-8.619932],[42.279621,-8.619791],[42.279696,-8.619723],[42.279764,-8.619603],[42.279849,-8.619363],[42.279953,-8.619016],[42.280023,-8.618652],[42.280147,-8.618151],[42.280265,-8.617536],[42.280364,-8.616986],[42.280408,-8.616724],[42.280466,-8.616477],[42.280586,-8.61617],[42.280643,-8.616033],[42.280731,-8.615834],[42.28091,-8.615581],[42.281058,-8.615234],[42.281106,-8.614937],[42.281217,-8.614613],[42.281281,-8.614394],[42.281281,-8.614318],[42.281232,-8.61404],[42.281212,-8.613923],[42.281221,-8.613847],[42.281276,-8.613797],[42.281294,-8.61371],[42.281293,-8.61359],[42.281307,-8.613421],[42.28132,-8.613247],[42.28132,-8.613116],[42.281259,-8.613032],[42.281142,-8.613014],[42.280127,-8.612825],[42.278926,-8.612616],[42.278695,-8.612567],[42.278551,-8.612461],[42.278448,-8.61231],[42.278396,-8.61212],[42.278422,-8.611805],[42.278524,-8.611388],[42.278645,-8.611002],[42.278745,-8.610827],[42.278871,-8.61068],[42.278935,-8.61055]],"elevacion":[27.9,28.3,28.7,28.8,29.2,29.7,31.3,32.4,33.3,35.7,37.9,38.6,39.5,39.7,40.1,40.2,40.8,41.1,42.7,42.8,43.8,44.4,45.4,45.2,44.8,44.5,44.1,43.1,43.2,42.7,42.3,42.0,42.0,42.0,41.8,41.9,41.8,41.8,41.9,42.4,42.9,43.6,43.7,44.1,44.5,45.6,46.3,47.6,48.2,49.2,50.3,51.2,51.6,52.2,55.6,58.2,62.2,63.7,65.3,65.8,66.0,66.7,66.8,67.0,67.4,68.4,69.4,70.6,72.4,73.9,76.7,78.0,78.6,81.5,78.0,77.0,76.1,77.5,78.0,77.7,76.5,74.4,73.1,73.2,73.5,73.4,73.2,80.7,84.1,83.7,85.6,92.7,97.1,101.4,109.8,119.9,121.5,124.1,126.6,127.4,128.5,129.7,129.2,130.9,135.4,140.8,141.8,142.7,143.7,146.4,148.3,149.6,152.2,154.8,154.9,154.0,150.5,144.5,139.3,138.3,137.7,137.2,136.5,136.7,136.0,136.1,137.5,139.3,140.8,142.0,142.3,142.5,141.3,141.5,140.9,140.9,140.0,139.3,139.1,138.9,138.0,137.7,136.4,135.9,135.6,134.8,132.8,129.0,127.3,123.8,123.7,123.7,124.6,125.5,127.1,129.6,130.7,132.0,133.6,134.3,135.4,136.5,137.0,138.2,139.7,142.7,145.7,145.8,145.2,146.5,151.2,154.1,157.6,159.6,161.8,164.0,166.0,168.9,170.3,173.5,176.0,178.2,180.6,182.6,183.2,183.6,183.8,184.3,185.0,185.7,186.2,187.0,188.1,189.0,189.6,190.2,191.1,191.8,192.0,193.3,195.2,195.7,195.6,194.7,192.6,192.3,192.2,174.8,173.9,172.6,169.3,168.2,167.8,167.7,166.5,164.5,163.7,163.3,163.1,162.8,159.9,152.6,152.4,153.1,151.0,148.8,148.5,134.6,134.8,135.4,140.1,142.5,144.9,144.3,142.8,145.1,148.1,150.2,151.6,152.7,153.2,151.2,149.1,148.1,147.6,146.4,144.6,143.1,143.0,143.0,142.8,142.2,142.0,142.2,142.3,143.2,143.5,143.7,143.6,143.4,142.8,142.2,141.4,140.8,140.2,139.4,138.7,137.3,135.5,133.8,133.0,132.4,132.0,132.0,131.7,130.6,129.1,128.9,123.4,121.9,120.8,119.3,118.7,114.2,111.8,111.0,107.5,104.4,103.0,102.4,101.0,98.4,97.8,96.6,92.9,86.7,85.9,85.6,84.7,84.6,84.5,84.3,84.0,83.9,83.5,83.0,82.8,82.4,82.2,82.0,82.0,81.9,81.7,81.6,80.8,80.4,80.0,79.7,79.4,77.6,73.6,71.7,69.3,64.0,62.8,59.6,56.4,54.7,52.2,52.1,54.0,54.2,53.3,52.8,51.6,50.9,44.9,44.1,46.3,47.5,47.3,47.6,49.1,39.9,40.1,34.1,32.3,29.7,29.4,29.2,29.4,31.7,31.6,29.9,29.0,26.9,23.2,21.7,20.8,20.3,17.1,15.8,14.2,11.4,10.4,6.8,5.4,4.8,4.2,6.7,6.0,4.9,4.3,4.3,4.6,5.3,6.0,5.1,5.0,5.4,4.2,4.3,4.2,4.7,4.9,6.0,6.9,6.5,6.6,7.3,7.7,6.9,6.4,6.3,6.5,6.8,7.4,8.6,8.0,7.3,7.0,6.7,8.7,9.0,8.7,9.1,9.1,8.8,7.5,8.2,8.0,8.5,7.9,8.5,8.7,9.8,9.3,9.0,9.1,9.3,9.2,10.9,35.1,35.1,35.7,35.8,35.3,35.4,35.6,35.7,35.3,33.2,35.2,35.5,35.6,36.2,36.2,36.3,36.6,36.4,36.1,35.0,35.1,35.4,35.1,34.0,29.2,28.0,25.1,23.7,22.9,23.6,25.3,35.4,39.0,38.9,39.2,41.0,43.6,45.7,47.3,43.9,43.6,42.8,42.0,50.8,51.4,62.6,60.6,58.6,56.9,54.5,51.9,47.3,39.5,39.5,39.1,37.1,35.1,33.7,32.6,30.1,29.0,27.6,26.1,25.7,23.3,23.0,21.4,20.4,18.6,14.1,12.3,8.8,7.9,5.0,5.3,5.3,5.3,4.8,5.0,4.7,4.6,4.5,4.4,3.9,4.1,4.1,4.3,4.4,9.9,11.6,12.0,13.4,13.6,14.3,15.8,19.6,22.0,28.7,54.6,55.4,53.6,51.9,49.3,43.5,40.7,39.9,35.9,33.1,29.9,27.1,23.4,20.4,17.5,15.2,15.2,15.1,15.3,15.8,16.2,16.8,17.6,19.2,22.0,23.2,27.2,33.2,36.1,37.4,38.8,39.8,39.8,40.7,48.4,53.7,54.0,52.4,53.3,53.9,54.5,56.0,58.5,59.0,60.0,60.4,60.7,61.4,62.4,64.5,64.6,81.5,82.9,83.1,91.4,96.1,101.9,108.5,111.9,120.9,121.4,121.9,122.0,121.5,120.7,120.7,115.5,112.9,117.6,121.3,125.1,128.1,129.2,132.9,137.1,144.6,148.7,152.1,153.3,157.7,159.9,158.6,154.5,155.0,155.6,155.6,155.7,155.2,155.3,155.8,155.6,155.2,155.9,156.4,156.3,155.6,155.0,155.4,155.5,155.6,155.9,156.2,156.3,156.4,156.2,155.4,155.4,155.7,155.9,155.7,155.1,155.2,155.4,155.7,155.6,155.4,155.7,155.0,154.3,154.5,154.9,154.2,153.4,155.4,156.4,156.9,156.7,156.6,156.2,155.6,155.9,156.5,155.9,156.4,155.9,156.1,156.4,156.3,156.6,156.7,157.1,157.0,157.7,157.7,158.0,158.2,158.0,157.3,156.9,156.9,156.6,156.4,158.1,157.7,157.1,157.2,156.5,156.4,157.1,156.9,156.2,156.1,155.7,155.6,155.8,156.9,155.3,155.3,154.4,155.8,155.3,155.9,156.4,155.8,156.0,155.6,156.0,154.3,155.4,155.7,155.8,156.1,156.6,156.8,157.0,156.2,155.7,155.8,156.0,156.3,156.5,156.3,156.1,157.2,157.4,158.7,159.9,160.4,162.3,162.6,162.2,160.8,158.5,157.8,157.7,157.1,157.2,157.3,157.9,158.5,158.8,158.2,157.3,157.5,157.6,157.5,157.0,157.1,157.3,157.3,157.5,157.8,157.8,157.8,157.7,157.7,158.0,158.2,158.3,157.1,156.9,157.0,157.2,157.7,157.6,157.6,157.9,157.6,157.4,157.0,157.0,157.6,157.2,155.9,156.3,156.1,156.9,157.8,159.3,159.4,158.9,158.6,158.4,157.9,158.0,157.2,157.8,157.5,157.6,158.3,158.5,157.8,158.3,157.8,157.3,156.3,156.9,159.9,158.2,158.1,158.1,157.6,158.2,158.1,159.2,160.4,159.2,156.8,158.5,158.1,158.3,159.3,159.7,159.4,159.2,159.4,159.9,159.6,159.9,159.2,158.9,158.5,157.8,158.5,159.7,159.8,159.3,159.2,159.0,156.2,158.4,161.2,160.6,158.3,154.2,152.5,155.5,155.1,156.0,157.2,159.1,160.2,160.7,160.6,160.2,159.8,160.6,161.2,161.6,161.1,161.0,161.0,161.1,161.2,161.1,160.5,161.4,163.1,163.3,162.4,162.2,162.3,163.0,162.8,163.3,162.9,162.7,163.6,163.7,163.1,162.6,163.2,163.4,163.5,162.9,162.6,162.2,162.0,161.6,161.6,161.5,161.3,160.5,160.5,160.9,161.2,161.2,161.3,161.8,162.0,161.8,161.5,161.0,160.8,160.5,160.6,160.9,161.0,161.3,161.0,161.1,161.3,161.1,161.1,160.9,160.4,161.0,161.3,161.3,161.3,161.1,161.0,160.7,160.9,161.1,160.9,160.5,160.8,161.0,161.6,160.8,160.9,161.2,161.2,161.7,162.0,162.2,161.3,161.6,161.5,162.0,161.8,161.6,161.6,161.9,161.6,161.2,161.5,161.2,161.1,161.0,161.5,160.1,159.5,161.0,160.8,161.0,160.6,160.6,160.2,160.7,160.7,161.1,160.7,160.6,160.9,161.2,161.6,160.7,161.0,160.9,161.0,161.3,161.4,161.3,161.0,161.5,161.4,161.5,161.1,162.0,161.3,160.7,160.8,160.6,161.8,161.6,161.8,161.2,160.5,161.5,162.1,162.6,162.0,162.0,161.7,161.8,162.1,163.1,163.5,163.2,162.0,162.1,163.4,161.7,161.5,162.8,162.4,161.8,161.7,161.9,162.2,161.7,161.4,161.5,161.8,162.2,162.0,162.9,162.5,162.9,160.8,162.1,162.7,162.7,163.1,162.8,162.8,162.7,161.7,162.5,163.0,162.9,162.0,162.4,163.0,162.1,161.5,161.0,161.9,162.3,161.9,162.0,162.6,162.4,162.8,163.8,163.5,163.2,162.7,161.1,161.3,162.8,164.8,164.2,163.5,163.3,164.1,163.9,164.1,164.4,163.9,163.2,163.5,163.3,163.7,163.4,163.0,163.6,163.2,163.4,162.2,161.6,160.5,156.6,154.4,152.3,150.9,148.6,146.0,144.7,143.5,142.8,141.9,141.0,139.8,138.7,138.0,136.3,132.3,129.3,127.8,127.2,126.4,124.6,122.9,121.5,114.4,112.6,112.1,111.2,109.3,104.1,101.5,96.9,95.4,93.5,91.7,88.7,88.4,88.0,87.5,87.0,86.6,85.8,85.6,86.0,86.1,86.5,85.2,85.3,83.6,82.0,80.5,78.3,76.7,75.4,75.4,75.3,76.2,76.5,77.2,77.4,77.6,77.8,78.1,78.2,78.5,78.5,78.5,78.6,78.6,79.7,79.4,78.7,78.1,77.0,75.5,72.1,69.1,66.4,65.4,65.1,65.1,64.5,62.8,62.5,61.3,59.2,54.4,50.4,44.3,40.1,38.7,34.4,31.7,30.3,29.3,29.5,26.4,24.9,23.2,22.7,22.4,21.7,15.9,11.6,11.2,10.9,10.3,9.8,8.4,7.0,7.1,6.6,6.0,5.7]};
+
+/* ============================================================
+   MOTOR DE DETECCIÓN DE DESVÍO — Xacobeapp
+   Modulo de vigilancia de ruta (integrado).
+   Depende de lo que ya tienes: hablar(texto), variable global "mapa"
+   (Leaflet) y geolocalización. No reescribe nada de eso.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  // ---- CONFIGURACIÓN (ajustable) ----
+  var CFG = {
+    umbralAviso: 40,        // metros: a partir de aquí "te estás alejando"
+    umbralDesvio: 70,       // metros: a partir de aquí "te has salido"
+    umbralVuelta: 25,       // metros: por debajo de aquí, "de vuelta en el Camino"
+    repetirCada: 60000,     // ms entre avisos repetidos si sigue desviado
+    minPrecision: 35        // m: si el GPS es menos preciso que esto, no avisamos
+                            //    (evita falsos positivos por mala señal)
+  };
+
+  // ---- ESTADO ----
+  var TRACK = null;         // {coords:[[lat,lng],...], ...}
+  var polyDesvio = null;    // capa Leaflet del trazado
+  var activo = false;
+  var watchId = null;
+  var estado = 'en-ruta';   // 'en-ruta' | 'alejandose' | 'fuera'
+  var ultimoAviso = 0;
+
+  // ---- GEOMETRÍA ----
+  function rad(d){ return d * Math.PI / 180; }
+
+  // Distancia haversine entre dos [lat,lng] en metros
+  function dist(a, b){
+    var R = 6371000;
+    var dla = rad(b[0]-a[0]), dlo = rad(b[1]-a[1]);
+    var la1 = rad(a[0]), la2 = rad(b[0]);
+    var x = Math.sin(dla/2)*Math.sin(dla/2) +
+            Math.cos(la1)*Math.cos(la2)*Math.sin(dlo/2)*Math.sin(dlo/2);
+    return R * 2 * Math.asin(Math.sqrt(x));
+  }
+
+  // Distancia de un punto P al segmento AB (en metros).
+  // Proyección en plano local equirrectangular: válido a escala de metros.
+  function distSegmento(P, A, B){
+    var latRef = rad(A[0]);
+    var mPorGradoLat = 111320;
+    var mPorGradoLng = 111320 * Math.cos(latRef);
+    var px = P[1]*mPorGradoLng, py = P[0]*mPorGradoLat;
+    var ax = A[1]*mPorGradoLng, ay = A[0]*mPorGradoLat;
+    var bx = B[1]*mPorGradoLng, by = B[0]*mPorGradoLat;
+    var dx = bx-ax, dy = by-ay;
+    var L2 = dx*dx + dy*dy;
+    if (L2 === 0) return Math.hypot(px-ax, py-ay);
+    var t = ((px-ax)*dx + (py-ay)*dy) / L2;
+    t = Math.max(0, Math.min(1, t));
+    var cx = ax + t*dx, cy = ay + t*dy;
+    return Math.hypot(px-cx, py-cy);
+  }
+
+  // Distancia mínima del usuario a TODA la senda.
+  // Optimización: solo evalúa segmentos cuyo punto A está dentro de una
+  // ventana de ~300m, para no recorrer 1000+ puntos en cada tick.
+  function distanciaAlCamino(P){
+    var c = TRACK.coords, min = Infinity;
+    for (var i = 0; i < c.length - 1; i++){
+      // descarte rápido por latitud (1 grado lat ≈ 111km; 0.005 ≈ 550m)
+      if (Math.abs(c[i][0] - P[0]) > 0.005) continue;
+      var d = distSegmento(P, c[i], c[i+1]);
+      if (d < min) min = d;
+    }
+    return min;
+  }
+
+  // ---- VOZ + AVISO VISUAL ----
+  function avisar(texto, tipo){
+    if (typeof hablar === 'function') { try { hablar(texto); } catch(e){} }
+    mostrarBanner(texto, tipo);
+  }
+
+  function mostrarBanner(texto, tipo){
+    var el = document.getElementById('desvio-banner');
+    if (!el){
+      el = document.createElement('div');
+      el.id = 'desvio-banner';
+      el.style.cssText =
+        'position:fixed;left:50%;transform:translateX(-50%);bottom:90px;'+
+        'z-index:9998;padding:12px 20px;border-radius:24px;font-size:14px;'+
+        'font-weight:600;font-family:DM Sans,sans-serif;box-shadow:0 4px 20px '+
+        'rgba(0,0,0,0.25);max-width:90vw;text-align:center;transition:opacity .3s;'+
+        'display:none';
+      document.body.appendChild(el);
+    }
+    var colores = {
+      ok:    'background:#1D9E75;color:#fff',
+      aviso: 'background:#F5C800;color:#1a1a1a',
+      error: 'background:#dc2626;color:#fff'
+    };
+    el.style.cssText = el.style.cssText.replace(/background:[^;]+;color:[^;]+;?/,'');
+    el.setAttribute('style', el.getAttribute('style') + ';' + (colores[tipo]||colores.aviso));
+    el.textContent = texto;
+    el.style.display = 'block';
+    el.style.opacity = '1';
+    clearTimeout(el._t);
+    if (tipo === 'ok'){
+      el._t = setTimeout(function(){ el.style.opacity='0';
+        setTimeout(function(){ el.style.display='none'; }, 300); }, 4000);
+    }
+  }
+
+  // ---- LÓGICA DE ESTADO (con histéresis anti-falsos-positivos) ----
+  function evaluar(P, precision){
+    if (!TRACK || !activo) return;
+    // Si el GPS es impreciso, no decidimos nada (evita gritar por mala señal)
+    if (precision != null && precision > CFG.minPrecision) return;
+
+    var d = distanciaAlCamino(P);
+    var ahora = Date.now();
+
+    if (estado === 'en-ruta'){
+      if (d > CFG.umbralDesvio){
+        estado = 'fuera';
+        ultimoAviso = ahora;
+        avisar('Te has salido del Camino. Vuelve hacia la senda señalizada.', 'error');
+      } else if (d > CFG.umbralAviso){
+        estado = 'alejandose';
+        ultimoAviso = ahora;
+        avisar('Atención: te estás alejando del Camino.', 'aviso');
+      }
+    } else if (estado === 'alejandose'){
+      if (d > CFG.umbralDesvio){
+        estado = 'fuera';
+        ultimoAviso = ahora;
+        avisar('Te has salido del Camino. Vuelve hacia la senda señalizada.', 'error');
+      } else if (d < CFG.umbralVuelta){
+        estado = 'en-ruta';
+        mostrarBanner('De nuevo en el Camino ✓', 'ok');
+      }
+    } else if (estado === 'fuera'){
+      if (d < CFG.umbralVuelta){
+        estado = 'en-ruta';
+        avisar('Has vuelto al Camino.', 'ok');
+      } else if (ahora - ultimoAviso > CFG.repetirCada){
+        ultimoAviso = ahora;
+        avisar('Sigues fuera del Camino. Estás a unos ' +
+               Math.round(d) + ' metros de la senda.', 'error');
+      }
+    }
+  }
+
+  // ---- API PÚBLICA ----
+  window.Desvio = {
+    // Carga un track {coords:[[lat,lng],...]} para la vigilancia de voz
+    // y dibuja la etapa activa en AMARILLO encima del trazado violeta
+    // (que siempre está visible). El amarillo resalta tu etapa actual.
+    cargar: function(track){
+      TRACK = track;
+      if (typeof mapa !== 'undefined' && mapa && window.L){
+        if (polyDesvio) mapa.removeLayer(polyDesvio);
+        polyDesvio = L.polyline(track.coords, {
+          color:'#F5C800', weight:5, opacity:0.95
+        }).addTo(mapa);
+        if (polyDesvio.bringToFront) polyDesvio.bringToFront();
+      }
+      return TRACK.coords.length;
+    },
+
+    // Arranca el seguimiento en vivo.
+    iniciar: function(){
+      if (!TRACK){ console.warn('Desvio: carga un track antes de iniciar'); return; }
+      if (!navigator.geolocation){ avisar('Tu dispositivo no tiene GPS disponible.','error'); return; }
+      activo = true; estado = 'en-ruta';
+      mostrarBanner('Vigilancia de ruta activada ✓','ok');
+      watchId = navigator.geolocation.watchPosition(function(pos){
+        evaluar([pos.coords.latitude, pos.coords.longitude], pos.coords.accuracy);
+      }, function(err){
+        console.warn('Desvio GPS error', err);
+      }, { enableHighAccuracy:true, maximumAge:5000, timeout:15000 });
+    },
+
+    // Detiene el seguimiento.
+    detener: function(){
+      activo = false;
+      if (watchId != null){ navigator.geolocation.clearWatch(watchId); watchId = null; }
+      var b = document.getElementById('desvio-banner');
+      if (b){ b.style.display='none'; }
+      // Quitar el resaltado amarillo de la etapa (el violeta sigue puesto).
+      if (polyDesvio && typeof mapa!=='undefined' && mapa && mapa.hasLayer(polyDesvio)){
+        mapa.removeLayer(polyDesvio); polyDesvio = null;
+      }
+    },
+
+    // Activa la vigilancia SIN abrir su propio watchPosition: la posición
+    // se la suministra otro módulo (p. ej. Ruta Oficial) vía alimentar().
+    // Evita tener dos watch de GPS simultáneos gastando batería.
+    iniciarExterno: function(){
+      if (!TRACK){ console.warn('Desvio: carga un track antes de iniciar'); return; }
+      activo = true; estado = 'en-ruta';
+    },
+
+    // Recibe una posición desde un watch externo y la evalúa.
+    alimentar: function(lat, lng, acc){
+      if (!activo) return;
+      evaluar([lat, lng], acc);
+    },
+
+    // Para depurar sin caminar: simula una posición.
+    // Fuerza estado activo temporalmente para poder probar sin GPS real.
+    _test: function(lat, lng, acc){
+      var prev = activo; activo = true;
+      evaluar([lat,lng], acc==null?10:acc);
+      activo = prev;
+    },
+
+    // Permite ajustar umbrales en caliente.
+    config: function(o){ for (var k in o) if (k in CFG) CFG[k]=o[k]; return CFG; }
+  };
+
+})();
+
+/* ============================================================
+   CONVERSOR GPX → track, en el navegador.
+   Para añadir nuevas etapas sin herramientas externas:
+   fetch('mi_etapa.gpx').then(r=>r.text()).then(gpx=>{
+     var t = Desvio.parseGPX(gpx, 'Mi etapa');
+     Desvio.cargar(t); Desvio.iniciar();
+   });
+   ============================================================ */
+window.Desvio.parseGPX = function(gpxText, nombre){
+  var doc = new DOMParser().parseFromString(gpxText, 'application/xml');
+  var pts = doc.getElementsByTagName('trkpt');
+  if (!pts.length) pts = doc.getElementsByTagName('rtept'); // por si es ruta
+  var coords = [], eles = [];
+  for (var i = 0; i < pts.length; i++){
+    var la = parseFloat(pts[i].getAttribute('lat'));
+    var lo = parseFloat(pts[i].getAttribute('lon'));
+    if (!isNaN(la) && !isNaN(lo)){
+      coords.push([Math.round(la*1e6)/1e6, Math.round(lo*1e6)/1e6]);
+      var e = pts[i].getElementsByTagName('ele')[0];
+      eles.push(e ? Math.round(parseFloat(e.textContent)*10)/10 : null);
+    }
+  }
+  return { id:'gpx', etapa: nombre||'', coords: coords, elevacion: eles };
+};
+
+/* (Auto-carga del track Vigo-Redondela eliminada: el motor de desvío se
+   activa únicamente desde el botón de Ruta Oficial.) */
+</script>
+
+<script>
+/* ============================================================
+   XACOBEAPP · Selector de proximidad + Modo Ruta Oficial
+   Índice de etapas: © IGN/CNIG · FEAACS — CC-BY 4.0
+   80 etapas · 6 rutas. Tracks completos en /tracks/ (carga bajo demanda).
+   ============================================================ */
+window._INDICE_CAMINOS = [{"id":"es01c_05a","ruta":"Camino Francés","slug":"frances","etapa":"Puente La Reina – Estella","bbox":[42.65916,-2.02948,42.68126,-1.81797],"inicio":[42.671477,-1.817969],"fin":[42.669141,-2.029479],"n":358,"archivo":"es01c_05a.json"},{"id":"es01c_06a","ruta":"Camino Francés","slug":"frances","etapa":"Estella – Los Arcos","bbox":[42.56883,-2.19362,42.66914,-2.02951],"inicio":[42.66914,-2.029507],"fin":[42.56883,-2.193616],"n":321,"archivo":"es01c_06a.json"},{"id":"es01c_07a","ruta":"Camino Francés","slug":"frances","etapa":"Los Arcos – Logrono","bbox":[42.46759,-2.44765,42.56884,-2.19365],"inicio":[42.568838,-2.193648],"fin":[42.46767,-2.447646],"n":474,"archivo":"es01c_07a.json"},{"id":"es01c_08a","ruta":"Camino Francés","slug":"frances","etapa":"Logrono – Najera","bbox":[42.41087,-2.73517,42.46766,-2.44764],"inicio":[42.467662,-2.447641],"fin":[42.416629,-2.735173],"n":367,"archivo":"es01c_08a.json"},{"id":"es01c_09a","ruta":"Camino Francés","slug":"frances","etapa":"Najera – Santo Domingo De La Calzada","bbox":[42.41277,-2.95374,42.44095,-2.73518],"inicio":[42.416639,-2.735178],"fin":[42.440904,-2.95374],"n":228,"archivo":"es01c_09a.json"},{"id":"es01c_10a","ruta":"Camino Francés","slug":"frances","etapa":"Santo Domingo De La Calzada – Belorado","bbox":[42.41582,-3.19248,42.45192,-2.95376],"inicio":[42.4409,-2.953759],"fin":[42.420548,-3.192483],"n":211,"archivo":"es01c_10a.json"},{"id":"es01c_11a","ruta":"Camino Francés","slug":"frances","etapa":"Belorado – San Juan De Ortega","bbox":[42.36599,-3.4365,42.42054,-3.19248],"inicio":[42.420536,-3.192483],"fin":[42.375709,-3.436503],"n":304,"archivo":"es01c_11a.json"},{"id":"es01c_12a","ruta":"Camino Francés","slug":"frances","etapa":"San Juan De Ortega – Burgos","bbox":[42.34052,-3.70543,42.38028,-3.43711],"inicio":[42.375793,-3.437112],"fin":[42.340525,-3.705434],"n":360,"archivo":"es01c_12a.json"},{"id":"es01c_13a","ruta":"Camino Francés","slug":"frances","etapa":"Burgos – Hontanas","bbox":[42.31244,-4.04434,42.35339,-3.70546],"inicio":[42.340526,-3.705455],"fin":[42.312774,-4.044345],"n":361,"archivo":"es01c_13a.json"},{"id":"es01c_14a","ruta":"Camino Francés","slug":"frances","etapa":"Hontanas – Boadilla Del Camino","bbox":[42.26062,-4.3472,42.31409,-4.04437],"inicio":[42.312774,-4.044373],"fin":[42.26062,-4.347201],"n":330,"archivo":"es01c_14a.json"},{"id":"es01c_15a","ruta":"Camino Francés","slug":"frances","etapa":"Boadilla Del Camino – Carrion De Los Condes","bbox":[42.25824,-4.60091,42.33744,-4.34722],"inicio":[42.260643,-4.347225],"fin":[42.337045,-4.600914],"n":143,"archivo":"es01c_15a.json"},{"id":"es01c_16a","ruta":"Camino Francés","slug":"frances","etapa":"Carrion De Los Condes – Terradillos De Los Templarios","bbox":[42.32884,-4.89149,42.36599,-4.60168],"inicio":[42.337305,-4.6018],"fin":[42.36247,-4.89149],"n":166,"archivo":"es01c_16a.json"},{"id":"es01c_17a","ruta":"Camino Francés","slug":"frances","etapa":"Terradillos De Los Templarios – El Burgo Ranero","bbox":[42.35877,-5.22027,42.42251,-4.89149],"inicio":[42.362474,-4.891493],"fin":[42.42251,-5.220265],"n":321,"archivo":"es01c_17a.json"},{"id":"es01c_18a","ruta":"Camino Francés","slug":"frances","etapa":"El Burgo Ranero – Mansilla De Las Mulas","bbox":[42.42248,-5.41511,42.49771,-5.22026],"inicio":[42.422483,-5.220258],"fin":[42.497714,-5.41496],"n":102,"archivo":"es01c_18a.json"},{"id":"es01c_19a","ruta":"Camino Francés","slug":"frances","etapa":"Mansilla De Las Mulas – Leon","bbox":[42.49771,-5.57023,42.59895,-5.41497],"inicio":[42.497715,-5.414967],"fin":[42.598945,-5.567437],"n":309,"archivo":"es01c_19a.json"},{"id":"es01c_20a","ruta":"Camino Francés","slug":"frances","etapa":"Leon – San Martin Del Camino","bbox":[42.49387,-5.81054,42.60198,-5.56744],"inicio":[42.598958,-5.56744],"fin":[42.493866,-5.810542],"n":346,"archivo":"es01c_20a.json"},{"id":"es01c_21a","ruta":"Camino Francés","slug":"frances","etapa":"San Martin Del Camino – Astorga","bbox":[42.44634,-6.05744,42.49386,-5.81046],"inicio":[42.49386,-5.810464],"fin":[42.457551,-6.05744],"n":181,"archivo":"es01c_21a.json"},{"id":"es01c_22a","ruta":"Camino Francés","slug":"frances","etapa":"Astorga – Rabanal Del Camino","bbox":[42.45491,-6.28406,42.48228,-6.05745],"inicio":[42.45755,-6.057449],"fin":[42.482281,-6.284056],"n":156,"archivo":"es01c_22a.json"},{"id":"es01c_23a","ruta":"Camino Francés","slug":"frances","etapa":"Rabanal Del Camino – Ponferrada","bbox":[42.48228,-6.59347,42.54625,-6.28404],"inicio":[42.482278,-6.284041],"fin":[42.543444,-6.593144],"n":575,"archivo":"es01c_23a.json"},{"id":"es01c_24a","ruta":"Camino Francés","slug":"frances","etapa":"Ponferrada – Villafranca Del Bierzo","bbox":[42.54335,-6.80788,42.60612,-6.58857],"inicio":[42.543458,-6.593076],"fin":[42.604175,-6.807885],"n":329,"archivo":"es01c_24a.json"},{"id":"es01c_25a","ruta":"Camino Francés","slug":"frances","etapa":"Villafranca Del Bierzo – O Cebreiro","bbox":[42.60411,-7.04382,42.70795,-6.80788],"inicio":[42.604177,-6.80788],"fin":[42.707807,-7.043817],"n":460,"archivo":"es01c_25a.json"},{"id":"es01c_26a","ruta":"Camino Francés","slug":"frances","etapa":"O Cebreiro – Triacastela","bbox":[42.69802,-7.23566,42.75614,-7.04378],"inicio":[42.707835,-7.043783],"fin":[42.756091,-7.235658],"n":764,"archivo":"es01c_26a.json"},{"id":"es01c_27a","ruta":"Camino Francés","slug":"frances","etapa":"Triacastela – Sarria","bbox":[42.75513,-7.41483,42.77742,-7.23566],"inicio":[42.756091,-7.235658],"fin":[42.777421,-7.414834],"n":487,"archivo":"es01c_27a.json"},{"id":"es01c_28a","ruta":"Camino Francés","slug":"frances","etapa":"Sarria – Portomarin","bbox":[42.76592,-7.61716,42.80497,-7.41483],"inicio":[42.777421,-7.414834],"fin":[42.804966,-7.616855],"n":691,"archivo":"es01c_28a.json"},{"id":"es01c_29a","ruta":"Camino Francés","slug":"frances","etapa":"Portomarin – Palas De Rei","bbox":[42.79977,-7.86897,42.87599,-7.61686],"inicio":[42.804966,-7.616855],"fin":[42.873217,-7.868968],"n":538,"archivo":"es01c_29a.json"},{"id":"es01c_30a","ruta":"Camino Francés","slug":"frances","etapa":"Palas De Rei – Arzua","bbox":[42.87016,-8.16385,42.93104,-7.86812],"inicio":[42.87264,-7.86812],"fin":[42.92624,-8.163854],"n":622,"archivo":"es01c_30a.json"},{"id":"es01c_31a","ruta":"Camino Francés","slug":"frances","etapa":"Arzua – O Pedrouzo","bbox":[42.90731,-8.36506,42.92883,-8.16387],"inicio":[42.926239,-8.163872],"fin":[42.907941,-8.36506],"n":372,"archivo":"es01c_31a.json"},{"id":"es01c_32a","ruta":"Camino Francés","slug":"frances","etapa":"O Pedrouzo – Santiago De Compostela","bbox":[42.88066,-8.54451,42.91378,-8.36508],"inicio":[42.907953,-8.365076],"fin":[42.880659,-8.54451],"n":362,"archivo":"es01c_32a.json"},{"id":"es01c_33a","ruta":"Camino Francés","slug":"frances","etapa":"Pedrouzo Arca – O Pino – Santiago De Compostela","bbox":[42.88093,-8.54451,42.91366,-8.35731],"inicio":[42.880928,-8.54447],"fin":[42.899831,-8.446629],"n":759,"archivo":"es01c_33a.json"},{"id":"es18a_01a","ruta":"Camino Portugués de la Costa","slug":"costa","etapa":"A Guarda – Baiona","bbox":[41.88828,-8.89462,42.11828,-8.8502],"inicio":[41.888629,-8.850701],"fin":[42.118241,-8.850196],"n":1822,"archivo":"es18a_01a.json"},{"id":"es18a_02a","ruta":"Camino Portugués de la Costa","slug":"costa","etapa":"Baiona – Castrelos Vigo","bbox":[42.10896,-8.8502,42.23581,-8.72854],"inicio":[42.118241,-8.850196],"fin":[42.235813,-8.72854],"n":929,"archivo":"es18a_02a.json"},{"id":"es18a_03a","ruta":"Camino Portugués de la Costa","slug":"costa","etapa":"Castrelos Vigo – Redondela","bbox":[42.13843,-8.80197,42.28489,-8.61055],"inicio":[42.138426,-8.797525],"fin":[42.278935,-8.61055],"n":1167,"archivo":"es18a_03a.json"},{"id":"es02a_01a","ruta":"Camino Portugués Central","slug":"interior","etapa":"Tui – O Porrino","bbox":[42.03633,-8.64825,42.16279,-8.62001],"inicio":[42.036334,-8.646843],"fin":[42.162788,-8.621624],"n":1015,"archivo":"es02a_01a.json"},{"id":"es02a_02a","ruta":"Camino Portugués Central","slug":"interior","etapa":"O Porrino – Redondela","bbox":[42.16279,-8.6228,42.28233,-8.60573],"inicio":[42.162788,-8.621624],"fin":[42.28233,-8.608567],"n":914,"archivo":"es02a_02a.json"},{"id":"es02a_03a","ruta":"Camino Portugués Central","slug":"interior","etapa":"Redondela – Pontevedra","bbox":[42.28233,-8.63643,42.41956,-8.60311],"inicio":[42.28233,-8.608567],"fin":[42.419556,-8.63643],"n":1238,"archivo":"es02a_03a.json"},{"id":"es02a_04a","ruta":"Camino Portugués Central","slug":"interior","etapa":"Pontevedra – Caldas De Reis","bbox":[42.41956,-8.65121,42.60369,-8.6364],"inicio":[42.419556,-8.63643],"fin":[42.603687,-8.642976],"n":1755,"archivo":"es02a_04a.json"},{"id":"es02a_05a","ruta":"Camino Portugués Central","slug":"interior","etapa":"Caldas De Reis – Padron","bbox":[42.60369,-8.66176,42.73891,-8.63301],"inicio":[42.603687,-8.642976],"fin":[42.738912,-8.661597],"n":1489,"archivo":"es02a_05a.json"},{"id":"es02a_06a","ruta":"Camino Portugués Central","slug":"interior","etapa":"Padron – Santiago De Compostela","bbox":[42.73891,-8.6616,42.8806,-8.54366],"inicio":[42.738912,-8.661597],"fin":[42.880599,-8.543658],"n":1571,"archivo":"es02a_06a.json"},{"id":"es06a_01a","ruta":"Camino Inglés","slug":"ingles","etapa":"Ferrol – Neda","bbox":[43.47723,-8.24382,43.51671,-8.15084],"inicio":[43.478383,-8.243823],"fin":[43.50061,-8.158773],"n":802,"archivo":"es06a_01a.json"},{"id":"es06a_02a","ruta":"Camino Inglés","slug":"ingles","etapa":"Neda – Pontedeume","bbox":[43.40626,-8.17098,43.50088,-8.15677],"inicio":[43.50061,-8.158773],"fin":[43.406263,-8.170978],"n":735,"archivo":"es06a_02a.json"},{"id":"es06a_03a","ruta":"Camino Inglés","slug":"ingles","etapa":"Pontedeume – Betanzos","bbox":[43.28034,-8.21029,43.40626,-8.16895],"inicio":[43.406263,-8.170978],"fin":[43.28034,-8.210285],"n":1246,"archivo":"es06a_03a.json"},{"id":"es06a_04a","ruta":"Camino Inglés","slug":"ingles","etapa":"Betanzos – Hospital De Bruma","bbox":[43.15146,-8.36393,43.28034,-8.21024],"inicio":[43.28034,-8.210285],"fin":[43.151458,-8.363928],"n":1164,"archivo":"es06a_04a.json"},{"id":"es06a_05a","ruta":"Camino Inglés","slug":"ingles","etapa":"Hospital De Bruma – Sigueiro","bbox":[42.9696,-8.44164,43.15146,-8.36355],"inicio":[43.151458,-8.363928],"fin":[42.9696,-8.44161],"n":708,"archivo":"es06a_05a.json"},{"id":"es06a_06a","ruta":"Camino Inglés","slug":"ingles","etapa":"Sigueiro – Santiago De Compostela","bbox":[42.88092,-8.54452,42.9696,-8.44161],"inicio":[42.9696,-8.44161],"fin":[42.880918,-8.544459],"n":367,"archivo":"es06a_06a.json"},{"id":"es03a_01a","ruta":"Camino del Norte","slug":"norte","etapa":"Irun – Sansebastian","bbox":[43.32125,-1.98563,43.36676,-1.78486],"inicio":[43.349948,-1.785468],"fin":[43.321331,-1.985632],"n":2989,"archivo":"es03a_01a.json"},{"id":"es03a_02a","ruta":"Camino del Norte","slug":"norte","etapa":"San Sebastian – Zarautz","bbox":[43.27437,-2.17615,43.32133,-1.98473],"inicio":[43.321331,-1.985632],"fin":[43.286074,-2.176149],"n":2458,"archivo":"es03a_02a.json"},{"id":"es03a_03a","ruta":"Camino del Norte","slug":"norte","etapa":"Zarautz – Deba","bbox":[43.27576,-2.35454,43.30374,-2.17615],"inicio":[43.286074,-2.176149],"fin":[43.29431,-2.354545],"n":2147,"archivo":"es03a_03a.json"},{"id":"es03a_04a","ruta":"Camino del Norte","slug":"norte","etapa":"Deba – Markina","bbox":[43.2555,-2.49827,43.30112,-2.35454],"inicio":[43.29431,-2.354545],"fin":[43.267106,-2.498266],"n":2800,"archivo":"es03a_04a.json"},{"id":"es03a_05a","ruta":"Camino del Norte","slug":"norte","etapa":"Markina – Gernika","bbox":[43.24457,-2.67856,43.31818,-2.49676],"inicio":[43.267165,-2.496765],"fin":[43.31523,-2.678531],"n":578,"archivo":"es03a_05a.json"},{"id":"es03a_06a","ruta":"Camino del Norte","slug":"norte","etapa":"Gernika – Lezama","bbox":[43.25988,-2.83475,43.31519,-2.67857],"inicio":[43.315191,-2.678569],"fin":[43.273471,-2.834747],"n":387,"archivo":"es03a_06a.json"},{"id":"es03a_07a","ruta":"Camino del Norte","slug":"norte","etapa":"Lezama – Bilbao","bbox":[43.2568,-2.92358,43.28317,-2.83478],"inicio":[43.273462,-2.834782],"fin":[43.256799,-2.923577],"n":251,"archivo":"es03a_07a.json"},{"id":"es03a_08a","ruta":"Camino del Norte","slug":"norte","etapa":"Bilbao – Portugalete","bbox":[43.25427,-3.01637,43.31989,-2.92267],"inicio":[43.257164,-2.923223],"fin":[43.319886,-3.016347],"n":1646,"archivo":"es03a_08a.json"},{"id":"es03a_09a","ruta":"Camino del Norte","slug":"norte","etapa":"Portugalete – Castro Urdiales","bbox":[43.31071,-3.2299,43.38418,-3.01635],"inicio":[43.319886,-3.016347],"fin":[43.384178,-3.216883],"n":1826,"archivo":"es03a_09a.json"},{"id":"es03a_10a","ruta":"Camino del Norte","slug":"norte","etapa":"Castro Urdiales – Laredo","bbox":[43.3622,-3.41117,43.41419,-3.21642],"inicio":[43.384172,-3.216831],"fin":[43.413044,-3.411172],"n":473,"archivo":"es03a_10a.json"},{"id":"es03a_11a","ruta":"Camino del Norte","slug":"norte","etapa":"Laredo – Ajo","bbox":[43.41046,-3.61591,43.49516,-3.41103],"inicio":[43.41309,-3.411242],"fin":[43.481575,-3.615905],"n":329,"archivo":"es03a_11a.json"},{"id":"es03a_12a","ruta":"Camino del Norte","slug":"norte","etapa":"Ajo – Santander","bbox":[43.44891,-3.80801,43.48891,-3.61587],"inicio":[43.481667,-3.615869],"fin":[43.460719,-3.807786],"n":187,"archivo":"es03a_12a.json"},{"id":"es03a_13a","ruta":"Camino del Norte","slug":"norte","etapa":"Santander – Santillana Del Mar","bbox":[43.37316,-4.10598,43.46072,-3.80784],"inicio":[43.460718,-3.807836],"fin":[43.392029,-4.105981],"n":355,"archivo":"es03a_13a.json"},{"id":"es03a_14a","ruta":"Camino del Norte","slug":"norte","etapa":"Santillana Del Mar – San Vicente De La Barquera","bbox":[43.37784,-4.40354,43.40351,-4.10593],"inicio":[43.391912,-4.105927],"fin":[43.38399,-4.40354],"n":384,"archivo":"es03a_14a.json"},{"id":"es03a_15a","ruta":"Camino del Norte","slug":"norte","etapa":"San Vicente De La Barquera – Llanes","bbox":[43.35805,-4.75433,43.41962,-4.40054],"inicio":[43.38222,-4.400539],"fin":[43.419616,-4.754333],"n":449,"archivo":"es03a_15a.json"},{"id":"es03a_16a","ruta":"Camino del Norte","slug":"norte","etapa":"Llanes – Ribadesella","bbox":[43.41954,-5.06907,43.46493,-4.75428],"inicio":[43.419545,-4.754277],"fin":[43.46468,-5.069069],"n":571,"archivo":"es03a_16a.json"},{"id":"es03a_17a","ruta":"Camino del Norte","slug":"norte","etapa":"Ribadesella – Sebrayo","bbox":[43.46465,-5.38024,43.50001,-5.06903],"inicio":[43.464652,-5.06903],"fin":[43.500008,-5.380237],"n":269,"archivo":"es03a_17a.json"},{"id":"es03a_18a","ruta":"Camino del Norte","slug":"norte","etapa":"Sebrayo – La Vega","bbox":[43.40429,-5.55814,43.50124,-5.38047],"inicio":[43.499969,-5.380471],"fin":[43.410653,-5.558118],"n":305,"archivo":"es03a_18a.json"},{"id":"es03a_19a","ruta":"Camino del Norte","slug":"norte","etapa":"La Vega – Oviedo","bbox":[43.36078,-5.84409,43.41116,-5.55808],"inicio":[43.410693,-5.558081],"fin":[43.362359,-5.844093],"n":365,"archivo":"es03a_19a.json"},{"id":"es03a_20a","ruta":"Camino del Norte","slug":"norte","etapa":"Oviedo – Aviles","bbox":[43.36237,-5.91914,43.55144,-5.82981],"inicio":[43.362372,-5.843935],"fin":[43.551439,-5.919142],"n":509,"archivo":"es03a_20a.json"},{"id":"es03a_21a","ruta":"Camino del Norte","slug":"norte","etapa":"Aviles – Soto De Luina","bbox":[43.5313,-6.2308,43.56744,-5.91935],"inicio":[43.551342,-5.919346],"fin":[43.56184,-6.230802],"n":562,"archivo":"es03a_21a.json"},{"id":"es03a_22a","ruta":"Camino del Norte","slug":"norte","etapa":"Soto De Luina – Cadavedo","bbox":[43.54358,-6.39157,43.56481,-6.23097],"inicio":[43.561854,-6.23097],"fin":[43.54473,-6.391572],"n":405,"archivo":"es03a_22a.json"},{"id":"es03a_23a","ruta":"Camino del Norte","slug":"norte","etapa":"Cadavedo – Luarca","bbox":[43.5348,-6.53248,43.54986,-6.38959],"inicio":[43.544603,-6.389591],"fin":[43.549864,-6.532483],"n":161,"archivo":"es03a_23a.json"},{"id":"es03a_24a","ruta":"Camino del Norte","slug":"norte","etapa":"Luarca – La Caridad","bbox":[43.53174,-6.82714,43.55066,-6.53165],"inicio":[43.549733,-6.532407],"fin":[43.550659,-6.827143],"n":335,"archivo":"es03a_24a.json"},{"id":"es03a_25a","ruta":"Camino del Norte","slug":"norte","etapa":"La Caridad – Ribadeo","bbox":[43.52847,-7.04262,43.56085,-6.82709],"inicio":[43.55066,-6.82709],"fin":[43.537223,-7.042618],"n":165,"archivo":"es03a_25a.json"},{"id":"es03a_26a","ruta":"Camino del Norte","slug":"norte","etapa":"Ribadeo – Lourenza","bbox":[43.47057,-7.29992,43.5372,-7.04256],"inicio":[43.470573,-7.299569],"fin":[43.537181,-7.042561],"n":764,"archivo":"es03a_26a.json"},{"id":"es03a_27a","ruta":"Camino del Norte","slug":"norte","etapa":"Lourenza – Gontan","bbox":[43.36778,-7.46817,43.47061,-7.29885],"inicio":[43.470577,-7.298852],"fin":[43.367778,-7.468166],"n":289,"archivo":"es03a_27a.json"},{"id":"es03a_28a","ruta":"Camino del Norte","slug":"norte","etapa":"Gontan – Vilalba","bbox":[43.29886,-7.68176,43.36777,-7.46824],"inicio":[43.298861,-7.681756],"fin":[43.367769,-7.46824],"n":690,"archivo":"es03a_28a.json"},{"id":"es03a_29a","ruta":"Camino del Norte","slug":"norte","etapa":"Vilalba – Baamonde","bbox":[43.17442,-7.75731,43.29886,-7.68176],"inicio":[43.17442,-7.757313],"fin":[43.298861,-7.681756],"n":764,"archivo":"es03a_29a.json"},{"id":"es03a_30a","ruta":"Camino del Norte","slug":"norte","etapa":"Baamonde – Sobrado Dos Monxes","bbox":[43.03208,-8.02241,43.17442,-7.75727],"inicio":[43.040634,-8.022412],"fin":[43.17442,-7.757313],"n":1143,"archivo":"es03a_30a.json"},{"id":"es03a_31a","ruta":"Camino del Norte","slug":"norte","etapa":"Sobrado – Arzua","bbox":[42.92716,-8.16086,43.04063,-8.02241],"inicio":[42.927163,-8.160505],"fin":[43.040634,-8.022412],"n":516,"archivo":"es03a_31a.json"},{"id":"es05a_01a","ruta":"Camino Primitivo","slug":"primitivo","etapa":"Oviedo – Grado","bbox":[43.36256,-6.07451,43.40415,-5.84389],"inicio":[43.362555,-5.843888],"fin":[43.387093,-6.074512],"n":884,"archivo":"es05a_01a.json"},{"id":"es05a_02a","ruta":"Camino Primitivo","slug":"primitivo","etapa":"Grado – Salas","bbox":[43.38229,-6.26171,43.4138,-6.07454],"inicio":[43.387102,-6.07454],"fin":[43.409261,-6.261706],"n":292,"archivo":"es05a_02a.json"},{"id":"es05a_03a","ruta":"Camino Primitivo","slug":"primitivo","etapa":"Salas – Tineo","bbox":[43.33544,-6.41507,43.41737,-6.26175],"inicio":[43.409283,-6.261753],"fin":[43.33544,-6.415074],"n":269,"archivo":"es05a_03a.json"},{"id":"es05a_04a","ruta":"Camino Primitivo","slug":"primitivo","etapa":"Tineo – Pola De Allande","bbox":[43.27178,-6.61369,43.34282,-6.41504],"inicio":[43.335426,-6.415044],"fin":[43.271781,-6.611188],"n":416,"archivo":"es05a_04a.json"},{"id":"es05a_05a","ruta":"Camino Primitivo","slug":"primitivo","etapa":"Pola De Allande – A Mesa","bbox":[43.2181,-6.8023,43.29149,-6.61124],"inicio":[43.271829,-6.611241],"fin":[43.218242,-6.802297],"n":217,"archivo":"es05a_05a.json"},{"id":"es05a_06a","ruta":"Camino Primitivo","slug":"primitivo","etapa":"A Mesa – Grandas De Salime","bbox":[43.21681,-6.87576,43.24047,-6.80224],"inicio":[43.218351,-6.802239],"fin":[43.217541,-6.875764],"n":197,"archivo":"es05a_06a.json"},{"id":"es05a_07a","ruta":"Camino Primitivo","slug":"primitivo","etapa":"Grandas De Salime – A Fonsagrada","bbox":[43.12564,-7.06743,43.21762,-6.87557],"inicio":[43.217554,-6.875574],"fin":[43.125653,-7.067383],"n":610,"archivo":"es05a_07a.json"},{"id":"es05a_08a","ruta":"Camino Primitivo","slug":"primitivo","etapa":"A Fonsagrada – O Cadavo","bbox":[43.01719,-7.24494,43.12565,-7.06738],"inicio":[43.125653,-7.067383],"fin":[43.017191,-7.244944],"n":893,"archivo":"es05a_08a.json"},{"id":"es05a_09a","ruta":"Camino Primitivo","slug":"primitivo","etapa":"O Cadavo  – Lugo","bbox":[43.01013,-7.55369,43.03576,-7.24494],"inicio":[43.017191,-7.244944],"fin":[43.010431,-7.55369],"n":1190,"archivo":"es05a_09a.json"},{"id":"es05a_10a","ruta":"Camino Primitivo","slug":"primitivo","etapa":"Lugo – San Roman Da Retorta","bbox":[42.95561,-7.73706,43.01052,-7.55369],"inicio":[43.010431,-7.55369],"fin":[42.955608,-7.737059],"n":451,"archivo":"es05a_10a.json"},{"id":"es05a_11a","ruta":"Camino Primitivo","slug":"primitivo","etapa":"San Roman Da Retorta – Melide","bbox":[42.91515,-8.01695,42.95561,-7.73706],"inicio":[42.955608,-7.737059],"fin":[42.915147,-8.016532],"n":837,"archivo":"es05a_11a.json"}];
+
+/* ============================================================
+   SELECTOR DE PROXIMIDAD — Xacobeapp
+   Decide en qué etapa del Camino está el peregrino y carga su
+   track bajo demanda. Resuelve el caso de rutas que convergen
+   (Galicia) midiendo distancia real al trazado, no solo bbox.
+   Depende de: window.Desvio (motor), índice embebido, fetch de tracks.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var INDICE = null;        // índice ligero embebido
+  var BASE = 'tracks/';     // carpeta de tracks JSON
+  var cacheTrack = {};      // tracks ya cargados {id: track}
+  var etapaActual = null;   // id de la etapa vigilada ahora
+  var rutaPreferida = null; // slug de ruta que el usuario eligió (opcional)
+
+  function rad(d){ return d*Math.PI/180; }
+
+  // Distancia rápida punto→bbox (0 si dentro). Filtro previo barato.
+  function distBBox(p, bb){
+    var dLat = Math.max(bb[0]-p[0], 0, p[0]-bb[2]);
+    var dLng = Math.max(bb[1]-p[1], 0, p[1]-bb[3]);
+    if (dLat===0 && dLng===0) return 0;
+    return Math.hypot(dLat*111320, dLng*111320*Math.cos(rad(p[0])));
+  }
+
+  // Distancia punto→segmento en metros (plano local).
+  function distSeg(P,A,B){
+    var latRef=rad(A[0]), mLat=111320, mLng=111320*Math.cos(latRef);
+    var px=P[1]*mLng,py=P[0]*mLat, ax=A[1]*mLng,ay=A[0]*mLat, bx=B[1]*mLng,by=B[0]*mLat;
+    var dx=bx-ax,dy=by-ay,L2=dx*dx+dy*dy;
+    if(L2===0) return Math.hypot(px-ax,py-ay);
+    var t=Math.max(0,Math.min(1,((px-ax)*dx+(py-ay)*dy)/L2));
+    return Math.hypot(px-(ax+t*dx),py-(ay+t*dy));
+  }
+
+  // Distancia mínima de P a un track completo (lista de coords).
+  function distTrack(P, coords){
+    var min=Infinity;
+    for(var i=0;i<coords.length-1;i++){
+      if(Math.abs(coords[i][0]-P[0])>0.01) continue;
+      var d=distSeg(P,coords[i],coords[i+1]);
+      if(d<min){ min=d; if(min<5) break; }
+    }
+    return min;
+  }
+
+  function cargarTrack(id){
+    if(cacheTrack[id]) return Promise.resolve(cacheTrack[id]);
+    var meta=INDICE.filter(function(e){return e.id===id;})[0];
+    if(!meta) return Promise.reject('no existe '+id);
+    return fetch(BASE+meta.archivo).then(function(r){return r.json();})
+      .then(function(t){ cacheTrack[id]=t; return t; });
+  }
+
+  // Núcleo: dada una posición, decide la etapa más cercana.
+  // 1) filtra candidatas por bbox (barato)
+  // 2) si rutaPreferida está fijada, prioriza esa ruta
+  // 3) carga los tracks candidatos y mide distancia real
+  // 4) devuelve la etapa cuyo trazado pasa más cerca
+  function elegirEtapa(P){
+    if(!INDICE) return Promise.reject('sin índice');
+    var cand=INDICE
+      .map(function(e){ return {e:e, dbb:distBBox(P,e.bbox)}; })
+      .filter(function(o){ return o.dbb < 2000; })  // dentro de 2km del bbox
+      .sort(function(a,b){ return a.dbb-b.dbb; });
+
+    if(rutaPreferida){
+      var pref=cand.filter(function(o){return o.e.slug===rutaPreferida;});
+      if(pref.length) cand=pref;
+    }
+    if(!cand.length) return Promise.resolve(null);
+    cand=cand.slice(0,6); // como mucho 6 candidatas a medir
+
+    return Promise.all(cand.map(function(o){
+      return cargarTrack(o.e.id)
+        .then(function(t){ return {e:o.e, d:distTrack(P,t.coords)}; })
+        .catch(function(){ return {e:o.e, d:Infinity}; });
+    })).then(function(res){
+      res.sort(function(a,b){ return a.d-b.d; });
+      return res[0]; // {e: meta etapa, d: distancia en metros}
+    });
+  }
+
+  window.Selector = {
+    init: function(indice){ INDICE = indice; return INDICE.length; },
+    setBase: function(path){ BASE = path; },
+    // Fija una ruta concreta (slug) o null para automático
+    fijarRuta: function(slug){ rutaPreferida = slug; },
+
+    // Detecta etapa por posición y, si cambia, la carga en el motor de desvío.
+    // Devuelve Promise con {ruta, etapa, distancia} o null.
+    detectar: function(lat, lng){
+      var P=[lat,lng];
+      return elegirEtapa(P).then(function(mejor){
+        if(!mejor || mejor.d===Infinity) return null;
+        // Si la etapa cambió, recargar el track en el motor
+        if(mejor.e.id !== etapaActual){
+          etapaActual = mejor.e.id;
+          return cargarTrack(mejor.e.id).then(function(t){
+            if(window.Desvio) window.Desvio.cargar(t);
+            return {ruta:mejor.e.ruta, etapa:mejor.e.etapa, distancia:Math.round(mejor.d), nueva:true};
+          });
+        }
+        return {ruta:mejor.e.ruta, etapa:mejor.e.etapa, distancia:Math.round(mejor.d), nueva:false};
+      });
+    },
+
+    etapaActual: function(){ return etapaActual; },
+    _debug: function(lat,lng){ return elegirEtapa([lat,lng]); }
+  };
+})();
+
+/* ============================================================
+   MODO RUTA OFICIAL — botón + cartel + magia de detección
+   ============================================================ */
+(function(){
+  'use strict';
+  var activo = false;
+  var watchId = null;
+  var DIST_MAX_CAMINO = 500; // m: si estás a más de esto de todo Camino, no vigila
+  var yaVistoCartel = false;  // para mostrar cartel completo solo la 1ª vez
+
+  // Inicializar selector con el índice embebido
+  function initSelector(){
+    if(window.Selector && window._INDICE_CAMINOS && !window._selectorListo){
+      window.Selector.init(window._INDICE_CAMINOS);
+      window.Selector.setBase('tracks/');
+      window._selectorListo = true;
+    }
+  }
+
+  // --- CARTELES ---
+  function cartelActivar(){
+    return {
+      titulo: '🟡 Modo Ruta Oficial activado',
+      cuerpo: 'Vigilaremos que sigas el trazado señalizado del Camino. '+
+              'Si te alejas de la senda oficial, te avisaremos por voz.\n\n'+
+              '✓ Ideal si caminas en solitario o por tramos despoblados.\n'+
+              '✓ Sigue la flecha amarilla con seguridad.\n\n'+
+              '⚠️ Muchos de nuestros puntos de interés están fuera de la ruta '+
+              'oficial. Si te desvías para visitarlos, recibirás avisos: para '+
+              'explorarlos sin alertas, usa la navegación normal.'
+    };
+  }
+  function cartelDesactivar(){
+    return {
+      titulo: '🟢 Navegación libre',
+      cuerpo: 'Vigilancia de ruta desactivada. Tú decides por dónde vas, '+
+              'sin avisos de desvío.\n\nEl Camino oficial sigue dibujado en el mapa.'
+    };
+  }
+
+  // Mostrar cartel: modal (hoja inferior) la 1ª vez, toast las siguientes
+  function mostrar(cartel, primeraVez){
+    if(primeraVez){ _modalRutaOficial(cartel.titulo, cartel.cuerpo); return; }
+    if(typeof mostrarToast === 'function'){ mostrarToast(cartel.titulo); }
+    else { try{ alert(cartel.titulo+'\n\n'+cartel.cuerpo); }catch(e){} }
+  }
+
+  // Modal propia (no depende de funciones externas inexistentes). Hoja
+  // inferior con título + cuerpo multilínea, coherente con el resto de
+  // modales de la app. Muestra el texto explicativo completo del modo.
+  function _modalRutaOficial(titulo, cuerpo){
+    var prev = document.getElementById('modal-ruta-oficial');
+    if(prev) prev.remove();
+    var overlay = document.createElement('div');
+    overlay.id = 'modal-ruta-oficial';
+    overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.55);z-index:999999;display:flex;align-items:flex-end;justify-content:center;-webkit-tap-highlight-color:transparent;font-family:DM Sans,sans-serif';
+    var panel = document.createElement('div');
+    panel.style.cssText = 'background:#fff;border-radius:20px 20px 0 0;padding:20px 20px 32px;width:100%;max-width:480px;position:relative;box-sizing:border-box;transform:translateY(100%);transition:transform 0.3s cubic-bezier(0.32,0.72,0,1)';
+    function cerrar(){ panel.style.transform='translateY(100%)'; setTimeout(function(){ overlay.remove(); }, 300); }
+    var btnX = document.createElement('button');
+    btnX.textContent = '\u2715';
+    btnX.style.cssText = 'position:absolute;top:12px;right:12px;width:36px;height:36px;background:#f0f0f0;border:none;border-radius:50%;font-size:16px;cursor:pointer;z-index:1;display:flex;align-items:center;justify-content:center;color:#555;-webkit-appearance:none';
+    btnX.addEventListener('click', cerrar);
+    btnX.addEventListener('touchend', function(e){ e.preventDefault(); cerrar(); });
+    var bar = document.createElement('div');
+    bar.style.cssText = 'width:40px;height:4px;background:#e0e0e0;border-radius:2px;margin:0 auto 18px';
+    var h3 = document.createElement('div');
+    h3.style.cssText = 'font-size:18px;font-weight:700;color:#1a1a1a;margin-bottom:10px;font-family:Playfair Display,serif;padding-right:40px';
+    h3.textContent = titulo;
+    var body = document.createElement('div');
+    body.style.cssText = 'font-size:13px;color:#374151;line-height:1.6;white-space:pre-line;margin-bottom:18px';
+    body.textContent = cuerpo;
+    var btnOk = document.createElement('button');
+    btnOk.textContent = 'Entendido';
+    btnOk.style.cssText = 'width:100%;background:#F5C800;color:#1a1a1a;border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif';
+    btnOk.addEventListener('click', cerrar);
+    panel.appendChild(btnX); panel.appendChild(bar); panel.appendChild(h3); panel.appendChild(body); panel.appendChild(btnOk);
+    overlay.appendChild(panel);
+    document.body.appendChild(overlay);
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ panel.style.transform='translateY(0)'; }); });
+    overlay.addEventListener('click', function(e){ if(e.target===overlay) cerrar(); });
+    overlay.addEventListener('touchend', function(e){ if(e.target===overlay){ e.preventDefault(); cerrar(); } });
+  }
+
+  // --- MAGIA: detectar etapa y arrancar vigilancia ---
+  function alMoverse(pos){
+    var lat=pos.coords.latitude, lng=pos.coords.longitude, acc=pos.coords.accuracy;
+    window.Selector.detectar(lat, lng).then(function(res){
+      if(!res || res.distancia > DIST_MAX_CAMINO){
+        // Lejos de todo Camino: no inventamos ruta
+        if(typeof mostrarToast==='function')
+          mostrarToast('No detecto que estés en un Camino ahora mismo');
+        return;
+      }
+      if(res.nueva){
+        // Cambió de etapa: avisar discretamente (el selector ya cargó el track)
+        if(typeof mostrarToast==='function')
+          mostrarToast('Vigilando: '+res.ruta+' · '+res.etapa);
+      }
+      // El selector ya cargó el track en el motor. Activamos la vigilancia
+      // UNA vez (sin abrir un segundo watch) y la alimentamos con esta misma
+      // posición: un único watchPosition para todo el modo.
+      if(window.Desvio){
+        if(!window._desvioVigilando){
+          window.Desvio.iniciarExterno();
+          window._desvioVigilando = true;
+        }
+        window.Desvio.alimentar(lat, lng, acc);
+      }
+    }).catch(function(){});
+  }
+
+  // --- API del botón ---
+  window.RutaOficial = {
+    activar: function(){
+      initSelector();
+      if(!navigator.geolocation){
+        if(typeof mostrarToast==='function') mostrarToast('Tu dispositivo no tiene GPS');
+        return false;
+      }
+      activo = true;
+      mostrar(cartelActivar(), !yaVistoCartel);
+      yaVistoCartel = true;
+      // watchPosition propio del modo (independiente de la navegación normal)
+      watchId = navigator.geolocation.watchPosition(alMoverse, function(){},
+        {enableHighAccuracy:true, maximumAge:5000, timeout:15000});
+      actualizarBoton();
+      return true;
+    },
+    desactivar: function(){
+      activo = false;
+      if(watchId!=null){ navigator.geolocation.clearWatch(watchId); watchId=null; }
+      if(window.Desvio){ window.Desvio.detener(); window._desvioVigilando=false; }
+      mostrar(cartelDesactivar(), false);
+      actualizarBoton();
+      return true;
+    },
+    toggle: function(){ return activo ? this.desactivar() : this.activar(); },
+    estaActivo: function(){ return activo; }
+  };
+
+  function actualizarBoton(){
+    var b=document.getElementById('btn-ruta-oficial');
+    if(!b) return;
+    if(activo){
+      b.classList.add('activo');
+      b.innerHTML='🟡 Ruta oficial: ON';
+    } else {
+      b.classList.remove('activo');
+      b.innerHTML='🗺️ Ruta oficial';
+    }
+  }
+
+  // Auto-init cuando el DOM esté listo
+  if(document.readyState!=='loading') initSelector();
+  else document.addEventListener('DOMContentLoaded', initSelector);
+})();
+</script>
+
+
 </body>
 </html>
