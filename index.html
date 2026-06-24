@@ -1460,7 +1460,7 @@
       <a href="https://xacobeapp.com">xacobeapp.com</a>
     </p>
     <p style="margin-top:12px;font-size:12px;color:#aaa" id="dl-foot-version">
-      App gratuita, sin publicidad. Versión v1475 · Disponible como PWA en iOS y Android
+      App gratuita, sin publicidad. Versión v1479 · Disponible como PWA en iOS y Android
     </p>
   </footer>
 
@@ -1758,6 +1758,11 @@
           <div id='dist-stgo' style='font-size:12px;color:rgba(26,8,0,0.6)'>-- km</div>
         </div>
       </div>
+    </div>
+    <!-- Casco asistente: aviso honesto sobre la dirección vs el trazado -->
+    <div id='brujula-casco-bloque' style='display:flex;align-items:flex-start;gap:10px;margin-top:2px;background:rgba(0,0,0,0.15);border:1px solid #7a5010;border-radius:12px;padding:0.75rem 0.9rem;flex-shrink:0'>
+      <img id='brujula-casco-img' src='https://i.postimg.cc/m2TbCRTs/casc4.png' style='width:34px;height:34px;object-fit:contain;flex-shrink:0;align-self:flex-start' alt=''>
+      <div id='brujula-casco-txt' style='font-size:12px;color:#fff8e8;line-height:1.5;flex:1'>Te oriento, peregrino: esta aguja apunta a Santiago <strong>en línea recta</strong>, pero el Camino no va recto. Fíate de las <strong>flechas amarillas</strong> y del trazado oficial del mapa, que rodean ríos, montes y vías intransitables.</div>
     </div>
     <!-- Botones activar + mensaje -->
     <div style='display:flex;gap:8px;justify-content:center;flex-wrap:wrap;flex-shrink:0;margin-top:4px'>
@@ -6430,7 +6435,56 @@ function _renderAlbumRecuerdos(grid, vacioCont) {
   });
 }
 
-function abrirBrujulaDrawer() { _abrirSlide('brujula-drawer'); cambiarIdioma(idiomaActual); }
+// Efecto typewriter para el casco asistente de la brújula: escribe el aviso
+// letra a letra, anima el casco y reproduce su sonido, igual que el asistente.
+function _brujulaCascoTypewriter() {
+  var el = document.getElementById('brujula-casco-txt');
+  var img = document.getElementById('brujula-casco-img');
+  if (!el) return;
+  var t = (typeof T!=='undefined' && T[idiomaActual]) ? T[idiomaActual] : (typeof T!=='undefined'?T.es:{});
+  var html = t.brujulaAvisoFlechas || el.innerHTML;
+  var text = html.replace(/<[^>]+>/g, '');
+  if (!text) return;
+  // Garantizar que el keyframe de la animación del casco existe
+  if (!document.getElementById('_casc-pulse-style-global')) {
+    var stG = document.createElement('style');
+    stG.id = '_casc-pulse-style-global';
+    stG.textContent = '@keyframes _casc-pulse{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.08) rotate(3deg)}}';
+    document.head.appendChild(stG);
+  }
+  // Cancelar cualquier typewriter previo de este casco
+  if (window._brujulaTwTimer) { clearInterval(window._brujulaTwTimer); window._brujulaTwTimer = null; }
+  var i = 0, speed = 34;
+  function _render() {
+    var vis  = text.slice(0, i);
+    var hide = text.slice(i);
+    el.innerHTML = (vis ? '<span>' + vis.replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</span>' : '')
+                 + (hide ? '<span style="visibility:hidden">' + hide.replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</span>' : '');
+  }
+  _render();
+  // Activar animación y sonido del casco mientras escribe
+  if (img) img.style.animation = '_casc-pulse 2.4s ease-in-out infinite';
+  if (window._cascoSonido) { try{ window._cascoSonido(text.length * speed); }catch(e){} }
+  window._brujulaTwTimer = setInterval(function() {
+    if (i < text.length) {
+      i++;
+      _render();
+      if (text[i-1] !== ' ' && window._cascoTick) window._cascoTick();
+    } else {
+      clearInterval(window._brujulaTwTimer); window._brujulaTwTimer = null;
+      el.innerHTML = html; // restaurar con <strong> y formato
+      if (img) img.style.animation = 'none'; // el casco se detiene al acabar, como el asistente
+      if (window._cascoSonidoStop) { try{ window._cascoSonidoStop(); }catch(e){} }
+    }
+  }, speed);
+}
+
+function abrirBrujulaDrawer() {
+  _abrirSlide('brujula-drawer');
+  cambiarIdioma(idiomaActual);
+  // Lanzar el efecto typewriter del casco tras abrir el panel
+  setTimeout(_brujulaCascoTypewriter, 350);
+}
 function cerrarBrujulaDrawer() { _cerrarSlide('brujula-drawer'); }
 function abrirSOSDrawer() { _abrirSlide('sos-drawer'); cambiarIdioma(idiomaActual); }
 function cerrarSOSDrawer() { _cerrarSlide('sos-drawer'); }
@@ -13932,6 +13986,7 @@ var T={
     brujulaSub:'Norte magnético y rumbo a Santiago',
     brujulaNorte:'Norte',
     brujulaSantiago:'Santiago',
+    brujulaAvisoFlechas:'Te oriento, peregrino: esta aguja apunta a Santiago <strong>en línea recta</strong>, pero el Camino no va recto. Fíate de las <strong>flechas amarillas</strong> y del trazado oficial del mapa, que rodean ríos, montes y vías intransitables.',
     brujulaActivar:'Activar',
     brujulaRecalibrar:'↺ Recalibrar',
     meteoTitulo:'Previsión meteorológica',
@@ -14333,6 +14388,7 @@ var T={
     brujulaSub:'Norte magnético e rumbo a Santiago',
     brujulaNorte:'Norte',
     brujulaSantiago:'Santiago',
+    brujulaAvisoFlechas:'Oriéntote, peregrino: esta agulla apunta a Santiago <strong>en liña recta</strong>, pero o Camiño non vai recto. Fíate das <strong>frechas amarelas</strong> e do trazado oficial do mapa, que rodean ríos, montes e vías intransitables.',
     brujulaActivar:'Activar',
     brujulaRecalibrar:'↺ Recalibrar',
     meteoTitulo:'Previsión meteorolóxica',
@@ -14624,6 +14680,7 @@ var T={
     brujulaSub:'Magnetic north and bearing to Santiago',
     brujulaNorte:'North',
     brujulaSantiago:'Santiago',
+    brujulaAvisoFlechas:'Let me guide you, pilgrim: this needle points to Santiago <strong>in a straight line</strong>, but the Camino does not run straight. Trust the <strong>yellow arrows</strong> and the official track on the map — they go around rivers, hills and impassable roads.',
     brujulaActivar:'Activate',
     brujulaRecalibrar:'↺ Recalibrate',
     meteoTitulo:'Weather forecast',
@@ -15198,6 +15255,7 @@ function cambiarIdioma(lang){
   // Panel Brújula — etiquetas
   el=document.getElementById('brujula-norte-label');if(el)el.textContent=t.brujulaNorte||'Norte';
   el=document.getElementById('brujula-stgo-label');if(el)el.textContent=t.brujulaSantiago||'Santiago';
+  el=document.getElementById('brujula-casco-txt');if(el)el.innerHTML=t.brujulaAvisoFlechas||'La aguja a Santiago marca la <strong>dirección en línea recta</strong>, no el trazado del Camino. Sigue siempre las <strong>flechas amarillas</strong> y el trazado oficial del mapa: rodean ríos, montes y vías intransitables.';
   el=document.getElementById('brujula-h2');if(el)el.textContent=t.brujulaTitulo||'Brújula';
   el=document.getElementById('historia-drawer-title');if(el)el.textContent=t.historiaDrawerTitulo||'Historia Xacobea';
   el=document.getElementById('historia-drawer-sub');if(el)el.textContent=t.historiaDrawerSub||'Vieira, Temple y el Camino de Santiago';
@@ -15723,7 +15781,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1475";
+var _APP_VERSION = "v1479";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
