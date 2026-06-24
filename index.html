@@ -1460,7 +1460,7 @@
       <a href="https://xacobeapp.com">xacobeapp.com</a>
     </p>
     <p style="margin-top:12px;font-size:12px;color:#aaa" id="dl-foot-version">
-      App gratuita, sin publicidad. Versión v1467 · Disponible como PWA en iOS y Android
+      App gratuita, sin publicidad. Versión v1475 · Disponible como PWA en iOS y Android
     </p>
   </footer>
 
@@ -9707,11 +9707,32 @@ function volverARuta(){
     return;
   }
   var pc = window.Desvio.puntoMasCercano(lat, lng);
-  if (!pc){
-    if (typeof mostrarToast==='function') mostrarToast('No detecto un trazado oficial cercano');
+  if (pc){
+    // Caso normal: ya hay un track cargado (estabas cerca). Guiar directo.
+    _volverARutaCon(pc);
     return;
   }
-  if (window.Desvio.cerrarModal) window.Desvio.cerrarModal();
+  // Caso "muy lejos": no hay track cargado en el motor. Buscar en TODO el índice
+  // la etapa más cercana sin límite de distancia, cargarla y guiar hasta ella.
+  if (window.Selector && window.Selector.forzarDeteccion){
+    if (typeof mostrarToast==='function') mostrarToast('Buscando el Camino más cercano…');
+    window.Selector.forzarDeteccion(lat, lng).then(function(res){
+      if (!res || res.lat==null){
+        if (typeof mostrarToast==='function') mostrarToast('No detecto ningún Camino cercano');
+        return;
+      }
+      _volverARutaCon({ lat:res.lat, lng:res.lng, distancia:res.distancia });
+    }).catch(function(){
+      if (typeof mostrarToast==='function') mostrarToast('No detecto ningún Camino cercano');
+    });
+    return;
+  }
+  if (typeof mostrarToast==='function') mostrarToast('No detecto un trazado oficial cercano');
+}
+
+// Inserta el punto de retorno como destino y arranca el ayudante de navegación.
+function _volverARutaCon(pc){
+  if (window.Desvio && window.Desvio.cerrarModal) window.Desvio.cerrarModal();
   // Insertar el punto de retorno como destino (sin duplicar) al principio.
   rutaPuntos = rutaPuntos.filter(function(p){ return p.id !== '_volver_ruta'; });
   rutaPuntos.unshift({ id:'_volver_ruta', nombre:'Volver a la ruta oficial', lat:pc.lat, lng:pc.lng, categoria:'volver' });
@@ -11119,8 +11140,8 @@ function initMapa() {
         statusEl.classList.remove('visible');
         var mt=document.getElementById('map-title');if(mt){mt.style.opacity='0';setTimeout(function(){mt.innerHTML=(T[idiomaActual]||T.es).mapTitle+" <svg width='22' height='30' viewBox='0 0 22 30' fill='none' xmlns='http://www.w3.org/2000/svg' style='animation:bounceDownArrow 1.4s ease-in-out infinite;flex-shrink:0;display:inline-block;vertical-align:middle;'><path d='M11 2 L11 22 M3 15 L11 24 L19 15' stroke='#dc2626' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/></svg>";mt.style.opacity='1';},300);}
         var ms=document.getElementById('map-subtitle');if(ms)ms.textContent=(T[idiomaActual]||T.es).mapSubtitle;
+  if (window._userMarker) { try{ mapa.removeLayer(window._userMarker); }catch(e){} window._userMarker = null; }
   window._userMarker = L.marker([userLat,userLng],{icon:iconoUsuario,zIndexOffset:1000}).addTo(mapa).bindPopup('<strong>'+(T[idiomaActual]||T.es).tuUbicacion+'</strong>');
-        radioKm = 1; aplicarRadio(1); // fitBounds ajusta el zoom al círculo de 1km
         calcularDistancias();
         cargarTiempo(userLat, userLng);
       },
@@ -11134,6 +11155,7 @@ function initMapa() {
     var _watchId = navigator.geolocation.watchPosition(function(pos) {
       if (!userLat) {
         userLat = pos.coords.latitude; userLng = pos.coords.longitude;
+  if (window._userMarker) { try{ mapa.removeLayer(window._userMarker); }catch(e){} window._userMarker = null; }
   window._userMarker = L.marker([userLat,userLng],{icon:iconoUsuario,zIndexOffset:1000}).addTo(mapa).bindPopup('<strong>'+(T[idiomaActual]||T.es).tuUbicacion+'</strong>');
         radioKm = 1; aplicarRadio(1);
         calcularDistancias();
@@ -12563,11 +12585,22 @@ function dibujarLineaEstática() {
   }
   function fallback2() {
     if (_navActiva) return;
-    var coords2 = rutaPuntos.map(function(p){ return [p.lat, p.lng]; });
+    // Sin conexión OSRM: trazar línea recta entre tu posición y los puntos,
+    // pero CON las flechas de colores, para que offline también se vea el rumbo.
+    var coords2 = [];
+    if (userLat && userLng) coords2.push([userLat, userLng]);
+    puntosOrdenados.forEach(function(p){ coords2.push([p.lat, p.lng]); });
+    if (coords2.length < 2) { coords2 = rutaPuntos.map(function(p){ return [p.lat, p.lng]; }); }
     if (_rutaLinea) mapa.removeLayer(_rutaLinea);
-    _rutaLinea = L.polyline(coords2, {color:'#1D9E75',weight:3,opacity:0.7,dashArray:'10 8'}).addTo(mapa);
+    var z = mapa.getZoom();
+    var lineWeight = z >= 17 ? 6 : z >= 15 ? 5 : z >= 13 ? 4 : 3;
+    _rutaLinea = L.polyline(coords2, {color:'#FFD700',weight:lineWeight,opacity:0.85,dashArray:'14 6',lineJoin:'round',lineCap:'round'}).addTo(mapa);
+    // Dibujar las flechas de colores sobre la línea recta
+    if (coords2.length > 1) dibujarFlechas(coords2);
   }
   function intentar2(i) {
+    // Sin conexión: no perder tiempo esperando OSRM, dibujar recta+flechas ya.
+    if (typeof navigator !== 'undefined' && navigator.onLine === false) { fallback2(); return; }
     if (i >= endpoints.length) { fallback2(); return; }
     fetch(endpoints[i]).then(function(r){ return r.json(); })
       .then(function(data) {
@@ -15690,7 +15723,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v1467";
+var _APP_VERSION = "v1475";
 if ('serviceWorker' in navigator) {
   // Limpiar TODAS las cachés y re-registrar si la versión no coincide
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -17990,8 +18023,10 @@ window._INDICE_CAMINOS = [{"id":"es01c_01a","ruta":"Camino Francés","slug":"fra
 
   // Distancia mínima de P a un track completo (lista de coords).
   function distTrack(P, coords){
+    if(!coords || !coords.length) return Infinity;
     var min=Infinity;
     for(var i=0;i<coords.length-1;i++){
+      if(!coords[i] || !coords[i+1]) continue;
       if(Math.abs(coords[i][0]-P[0])>0.01) continue;
       var d=distSeg(P,coords[i],coords[i+1]);
       if(d<min){ min=d; if(min<5) break; }
@@ -18003,8 +18038,17 @@ window._INDICE_CAMINOS = [{"id":"es01c_01a","ruta":"Camino Francés","slug":"fra
     if(cacheTrack[id]) return Promise.resolve(cacheTrack[id]);
     var meta=INDICE.filter(function(e){return e.id===id;})[0];
     if(!meta) return Promise.reject('no existe '+id);
-    return fetch(BASE+meta.archivo).then(function(r){return r.json();})
-      .then(function(t){ cacheTrack[id]=t; return t; });
+    return fetch(BASE+meta.archivo).then(function(r){
+      if(!r || !r.ok) throw new Error('track '+id+' no disponible ('+(r?r.status:'sin respuesta')+')');
+      return r.json();
+    }).then(function(t){
+      // El track debe traer coords válidas; si no, no lo cacheamos como bueno.
+      var coords = (t && t.coords) ? t.coords : (Array.isArray(t) ? t : null);
+      if(!coords || !coords.length) throw new Error('track '+id+' sin coords');
+      var norm = { coords: coords, etapa: (t && t.etapa) || meta.etapa, ruta: (t && t.ruta) || meta.ruta };
+      cacheTrack[id]=norm;
+      return norm;
+    });
   }
 
   // Núcleo: dada una posición, decide la etapa más cercana.
@@ -18064,6 +18108,45 @@ window._INDICE_CAMINOS = [{"id":"es01c_01a","ruta":"Camino Francés","slug":"fra
     // Fuerza que la siguiente llamada a detectar() trate la etapa como nueva,
     // redibujando el trazado amarillo aunque la etapa no haya cambiado.
     resetEtapa: function(){ etapaActual = null; },
+
+    // Como detectar(), pero SIN límite de distancia: mide TODAS las etapas del
+    // índice y elige la más cercana aunque estés a kilómetros. Carga su track en
+    // el motor Desvio (dibuja amarillo) y devuelve {ruta, etapa, distancia, lat, lng}
+    // con el punto exacto del trazado más próximo. Para "Volver a la ruta" desde lejos.
+    forzarDeteccion: function(lat, lng){
+      if(!INDICE) return Promise.resolve(null);
+      var P=[lat,lng];
+      // Ordenar TODAS las etapas por distancia de bbox (sin filtrar por umbral)
+      var cand=INDICE
+        .map(function(e){ return {e:e, dbb:distBBox(P,e.bbox)}; })
+        .sort(function(a,b){ return a.dbb-b.dbb; });
+      if(rutaPreferida){
+        var pref=cand.filter(function(o){return o.e.slug===rutaPreferida;});
+        if(pref.length) cand=pref;
+      }
+      cand=cand.slice(0,6); // medir las 6 etapas con bbox más cercano
+      return Promise.all(cand.map(function(o){
+        return cargarTrack(o.e.id)
+          .then(function(t){ return {e:o.e, t:t, d:distTrack(P,t.coords)}; })
+          .catch(function(){ return {e:o.e, t:null, d:Infinity}; });
+      })).then(function(res){
+        res.sort(function(a,b){ return a.d-b.d; });
+        var mejor=res[0];
+        if(!mejor || !mejor.t || mejor.d===Infinity) return null;
+        // Cargar el track en el motor (dibuja amarillo) y marcar etapa activa
+        etapaActual = mejor.e.id;
+        if(window.Desvio) window.Desvio.cargar(mejor.t);
+        // Buscar el punto exacto del trazado más cercano a P
+        var pc = (window.Desvio && window.Desvio.puntoMasCercano)
+          ? window.Desvio.puntoMasCercano(lat, lng) : null;
+        return {
+          ruta: mejor.e.ruta, etapa: mejor.e.etapa,
+          distancia: Math.round(mejor.d),
+          lat: pc ? pc.lat : null, lng: pc ? pc.lng : null
+        };
+      });
+    },
+
     _debug: function(lat,lng){ return elegirEtapa([lat,lng]); }
   };
 })();
@@ -18153,6 +18236,30 @@ window._INDICE_CAMINOS = [{"id":"es01c_01a","ruta":"Camino Francés","slug":"fra
   }
 
   // --- DETECCIÓN CADA 5 MINUTOS: pide posición puntual y comprueba desvío ---
+  // Pinta de inmediato el AMARILLO de la etapa más cercana a tu posición,
+  // sin esperar al modal de aviso ni importar lo lejos que estés. Se llama al
+  // activar Ruta Oficial para que SIEMPRE veas resaltada tu etapa (también offline).
+  function _pintarEtapaActual(){
+    if(!activo) return;
+    navigator.geolocation.getCurrentPosition(function(pos){
+      if(!activo) return;
+      var lat=pos.coords.latitude, lng=pos.coords.longitude;
+      if(window.Selector && window.Selector.forzarDeteccion){
+        window.Selector.forzarDeteccion(lat, lng).then(function(res){
+          if(res && typeof mostrarToast==='function' && res.distancia!=null){
+            // Confirmación discreta de que la etapa se resaltó.
+            mostrarToast('Etapa: '+res.etapa);
+          }
+        }).catch(function(err){
+          console.warn('RutaOficial _pintarEtapaActual error:', err);
+          if(typeof mostrarToast==='function') mostrarToast('No pude cargar el trazado. ¿Abriste la app con conexión al menos una vez?');
+        });
+      }
+    }, function(err){
+      console.warn('RutaOficial GPS error (pintar):', err);
+    }, {enableHighAccuracy:true, maximumAge:30000, timeout:20000});
+  }
+
   function _comprobarPosicion(){
     if(!activo) return;
     navigator.geolocation.getCurrentPosition(function(pos){
@@ -18177,8 +18284,54 @@ window._INDICE_CAMINOS = [{"id":"es01c_01a","ruta":"Camino Francés","slug":"fra
         if(res.nueva && typeof mostrarToast==='function'){
           mostrarToast('Vigilando: '+res.ruta+' · '+res.etapa);
         }
-      }).catch(function(){});
-    }, function(){}, {enableHighAccuracy:true, maximumAge:0, timeout:20000});
+      }).catch(function(err){
+        // detectar() falló (p. ej. offline sin ese track en cache). En vez de
+        // quedarnos callados, tratamos la situación como "fuera de ruta" y
+        // mostramos el modal de aviso, que es lo que el usuario espera ver.
+        console.warn('RutaOficial detectar() error:', err);
+        if(window.Desvio && window.Desvio.resetModal) window.Desvio.resetModal();
+        if(window.Desvio && window.Desvio.avisoFueraRuta){
+          window.Desvio.avisoFueraRuta(null);
+        } else if(typeof mostrarToast==='function'){
+          mostrarToast('No pude cargar el trazado. ¿Abriste la app con conexión al menos una vez?');
+        }
+      });
+    }, function(err){
+      console.warn('RutaOficial GPS error:', err);
+      // Si el GPS tardó (timeout) o no hay posición nueva, intentar una última
+      // vez aceptando una posición reciente cacheada (offline el fix tarda más).
+      if(err && (err.code===3 || err.code===2) && navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(function(pos){
+          if(!activo) return;
+          var lat=pos.coords.latitude, lng=pos.coords.longitude, acc=pos.coords.accuracy;
+          if(window.Selector && window.Selector.detectar){
+            window.Selector.detectar(lat, lng).then(function(res){
+              if(!res || res.distancia > DIST_MAX_CAMINO){
+                if(window.Desvio && window.Desvio.resetModal) window.Desvio.resetModal();
+                if(window.Desvio && window.Desvio.avisoFueraRuta) window.Desvio.avisoFueraRuta(res ? res.distancia : null);
+                return;
+              }
+              if(window.Desvio){
+                if(window.Desvio.cerrarModal) window.Desvio.cerrarModal();
+                if(!window._desvioVigilando){ window.Desvio.iniciarExterno(); window._desvioVigilando = true; }
+                window.Desvio.alimentar(lat, lng, acc);
+              }
+            }).catch(function(){
+              if(window.Desvio && window.Desvio.resetModal) window.Desvio.resetModal();
+              if(window.Desvio && window.Desvio.avisoFueraRuta) window.Desvio.avisoFueraRuta(null);
+            });
+          }
+        }, function(){
+          if(typeof mostrarToast==='function') mostrarToast('El GPS tarda en responder. Inténtalo en un sitio despejado');
+        }, {enableHighAccuracy:false, maximumAge:120000, timeout:30000});
+        return;
+      }
+      if(typeof mostrarToast==='function'){
+        var msg = (err && err.code===1) ? 'Activa el permiso de ubicación para el modo Ruta Oficial'
+                : 'No consigo tu ubicación GPS';
+        mostrarToast(msg);
+      }
+    }, {enableHighAccuracy:true, maximumAge:15000, timeout:25000});
   }
 
   // --- API del botón ---
@@ -18195,6 +18348,9 @@ window._INDICE_CAMINOS = [{"id":"es01c_01a","ruta":"Camino Francés","slug":"fra
       window._desvioVigilando = false;
       // Mostrar siempre el modal completo al activar
       _modalRutaOficial(cartelActivar().titulo, cartelActivar().cuerpo);
+      // Pintar YA el amarillo de tu etapa (no esperar al modal de aviso de desvío).
+      // Funciona también offline si el track está precacheado.
+      _pintarEtapaActual();
       // Lanzar primera comprobación inmediatamente y luego cada 5 minutos
       _comprobarPosicion();
       if(_intervalId) clearInterval(_intervalId);

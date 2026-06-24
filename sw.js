@@ -1,8 +1,8 @@
-const CACHE_NAME = 'guia-compostelana-v1467';
+const CACHE_NAME = 'guia-compostelana-v1475';
 const TILE_CACHE = 'guia-tiles-v5';
 const IMG_CACHE  = 'guia-imgs-v6';
 const LIB_CACHE  = 'guia-libs-v1';
-const TRACK_CACHE = 'guia-tracks-v2';
+const TRACK_CACHE = 'guia-tracks-v4';
 
 const STATIC_ASSETS = [
   '/',
@@ -26,6 +26,104 @@ const LIB_URLS = [
   'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js'
 ];
 
+// Tracks de TODAS las etapas (trazados oficiales). Se precachean en el
+// install para que el modo Ruta Oficial funcione 100% offline desde el
+// primer momento, sin necesidad de haber visitado antes cada etapa.
+const TRACK_URLS = [
+  'tracks/es01c_05a.json',
+  'tracks/es01c_06a.json',
+  'tracks/es01c_07a.json',
+  'tracks/es01c_08a.json',
+  'tracks/es01c_09a.json',
+  'tracks/es01c_10a.json',
+  'tracks/es01c_11a.json',
+  'tracks/es01c_12a.json',
+  'tracks/es01c_13a.json',
+  'tracks/es01c_14a.json',
+  'tracks/es01c_15a.json',
+  'tracks/es01c_16a.json',
+  'tracks/es01c_17a.json',
+  'tracks/es01c_18a.json',
+  'tracks/es01c_19a.json',
+  'tracks/es01c_20a.json',
+  'tracks/es01c_21a.json',
+  'tracks/es01c_22a.json',
+  'tracks/es01c_23a.json',
+  'tracks/es01c_24a.json',
+  'tracks/es01c_25a.json',
+  'tracks/es01c_26a.json',
+  'tracks/es01c_27a.json',
+  'tracks/es01c_28a.json',
+  'tracks/es01c_29a.json',
+  'tracks/es01c_30a.json',
+  'tracks/es01c_31a.json',
+  'tracks/es01c_32a.json',
+  'tracks/es01c_33a.json',
+  'tracks/es02a_01a.json',
+  'tracks/es02a_02a.json',
+  'tracks/es02a_03a.json',
+  'tracks/es02a_04a.json',
+  'tracks/es02a_05a.json',
+  'tracks/es02a_06a.json',
+  'tracks/es03a_01a.json',
+  'tracks/es03a_02a.json',
+  'tracks/es03a_03a.json',
+  'tracks/es03a_04a.json',
+  'tracks/es03a_05a.json',
+  'tracks/es03a_06a.json',
+  'tracks/es03a_07a.json',
+  'tracks/es03a_08a.json',
+  'tracks/es03a_09a.json',
+  'tracks/es03a_10a.json',
+  'tracks/es03a_11a.json',
+  'tracks/es03a_12a.json',
+  'tracks/es03a_13a.json',
+  'tracks/es03a_14a.json',
+  'tracks/es03a_15a.json',
+  'tracks/es03a_16a.json',
+  'tracks/es03a_17a.json',
+  'tracks/es03a_18a.json',
+  'tracks/es03a_19a.json',
+  'tracks/es03a_20a.json',
+  'tracks/es03a_21a.json',
+  'tracks/es03a_22a.json',
+  'tracks/es03a_23a.json',
+  'tracks/es03a_24a.json',
+  'tracks/es03a_25a.json',
+  'tracks/es03a_26a.json',
+  'tracks/es03a_27a.json',
+  'tracks/es03a_28a.json',
+  'tracks/es03a_29a.json',
+  'tracks/es03a_30a.json',
+  'tracks/es03a_31a.json',
+  'tracks/es05a_01a.json',
+  'tracks/es05a_02a.json',
+  'tracks/es05a_03a.json',
+  'tracks/es05a_04a.json',
+  'tracks/es05a_05a.json',
+  'tracks/es05a_06a.json',
+  'tracks/es05a_07a.json',
+  'tracks/es05a_08a.json',
+  'tracks/es05a_09a.json',
+  'tracks/es05a_10a.json',
+  'tracks/es05a_11a.json',
+  'tracks/es06a_01a.json',
+  'tracks/es06a_02a.json',
+  'tracks/es06a_03a.json',
+  'tracks/es06a_04a.json',
+  'tracks/es06a_05a.json',
+  'tracks/es06a_06a.json',
+  'tracks/es18a_01a.json',
+  'tracks/es18a_02a.json',
+  'tracks/es18a_03a.json',
+  'tracks/es18a_04a.json',
+  'tracks/es18a_05a.json',
+  'tracks/es18a_06a.json',
+  'tracks/es18a_07a.json',
+  'tracks/es18a_08a.json',
+  'tracks/rclone-mount-config.json'
+];
+
 self.addEventListener('install', function(e) {
   e.waitUntil(
     Promise.all([
@@ -37,6 +135,11 @@ self.addEventListener('install', function(e) {
       }),
       caches.open(LIB_CACHE).then(function(c) {
         return Promise.allSettled(LIB_URLS.map(function(url) {
+          return c.add(url).catch(function(){});
+        }));
+      }),
+      caches.open(TRACK_CACHE).then(function(c) {
+        return Promise.allSettled(TRACK_URLS.map(function(url) {
           return c.add(url).catch(function(){});
         }));
       })
@@ -110,7 +213,7 @@ self.addEventListener('fetch', function(e) {
 
   // Tracks de etapas (GPX→JSON) → cache first con auto-cache.
   // Se descargan bajo demanda al caminar y quedan disponibles offline.
-  if (url.includes('/tracks/') && url.endsWith('.json')) {
+  if (url.includes('tracks/') && url.endsWith('.json')) {
     e.respondWith(
       caches.open(TRACK_CACHE).then(function(c) {
         return c.match(e.request).then(function(cached) {
