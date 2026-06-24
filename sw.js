@@ -1,8 +1,8 @@
-const CACHE_NAME = 'guia-compostelana-v1461';
+const CACHE_NAME = 'guia-compostelana-v1467';
 const TILE_CACHE = 'guia-tiles-v5';
 const IMG_CACHE  = 'guia-imgs-v6';
 const LIB_CACHE  = 'guia-libs-v1';
-const TRACK_CACHE = 'guia-tracks-v1';
+const TRACK_CACHE = 'guia-tracks-v2';
 
 const STATIC_ASSETS = [
   '/',
