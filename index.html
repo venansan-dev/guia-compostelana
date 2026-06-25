@@ -12649,7 +12649,11 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 document.addEventListener('keydown', function(e) {
   if (e.ctrlKey && e.shiftKey && e.key === 'M') { e.preventDefault(); abrirAdmin(); }
 });
-window.addEventListener('pageshow', function() { window.scrollTo(0, 0); });
+// Solo reseteamos el scroll en la carga inicial (persisted=true significa
+// que viene del bfcache/background — en ese caso NO tocamos el scroll).
+window.addEventListener('pageshow', function(e) {
+  if (!e.persisted) window.scrollTo(0, 0);
+});
 // Acceso por URL: guiabuencamino.blogspot.com#moderacion
 window.addEventListener('hashchange', function() {
   if (window.location.hash === '#moderacion') { window.location.hash = ''; abrirAdmin(); }
