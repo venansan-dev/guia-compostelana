@@ -12925,14 +12925,14 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v2013";
+var _APP_VERSION = "v2012";
 if ('serviceWorker' in navigator) {
   // Forzar comprobación del SW en cada visita (evita que el navegador cachee sw.js)
   navigator.serviceWorker.getRegistrations().then(function(regs) {
     regs.forEach(function(reg) { reg.update(); });
   });
   // Limpiar cachés de versiones anteriores (solo las antiguas, nunca las activas)
-  var CACHES_ACTIVAS = ['guia-compostelana-v2013', 'guia-tiles-v5', 'guia-imgs-v6', 'guia-libs-v1', 'guia-tracks-v4'];
+  var CACHES_ACTIVAS = ['guia-compostelana-v2012', 'guia-tiles-v5', 'guia-imgs-v6', 'guia-libs-v1', 'guia-tracks-v4'];
   if (window.caches) {
     caches.keys().then(function(keys) {
       keys.forEach(function(key) {
@@ -15639,17 +15639,6 @@ window._INDICE_CAMINOS = [{"id":"es01c_01a","ruta":"Camino Francés","slug":"fra
   // activar Ruta Oficial para que SIEMPRE veas resaltada tu etapa (también offline).
   function _pintarEtapaActual(){
     if(!activo) return;
-    // Pintado inmediato con la última posición conocida: en offline evita
-    // esperar el primer fix GPS de alta precisión (que sin red tarda). El
-    // getCurrentPosition de abajo refinará la etapa al llegar la posición fresca.
-    var _ulat = (typeof userLat!=='undefined' && userLat) ? userLat : null;
-    var _ulng = (typeof userLng!=='undefined' && userLng) ? userLng : null;
-    if(!_ulat || !_ulng){
-      try { var _gp=JSON.parse(localStorage.getItem('_gps_last')||'null'); if(_gp){ _ulat=_gp.lat; _ulng=_gp.lng; } } catch(e){}
-    }
-    if(_ulat && _ulng && window.Selector && window.Selector.forzarDeteccion){
-      window.Selector.forzarDeteccion(_ulat, _ulng).catch(function(){});
-    }
     navigator.geolocation.getCurrentPosition(function(pos){
       if(!activo) return;
       var lat=pos.coords.latitude, lng=pos.coords.longitude;
