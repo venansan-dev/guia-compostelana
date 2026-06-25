@@ -9461,6 +9461,17 @@ function limpiarRuta() {
   var hayActiva = rutaPuntos.length > 0;
   var hayGuardada = false;
   try { hayGuardada = !!localStorage.getItem('rutaGuardadaV2'); } catch(e) {}
+  var hayBusqueda = (window._wizSearchMarkers && window._wizSearchMarkers.length > 0);
+  // Solo hay resultados de búsqueda en el mapa (sin ruta activa ni guardada):
+  // la papelera debe borrarlos directamente, sin modal de confirmación.
+  if (!hayActiva && !hayGuardada && hayBusqueda) {
+    try { window._wizSearchMarkers.forEach(function(m){ try{mapa.removeLayer(m);}catch(e){} }); } catch(e) {}
+    window._wizSearchMarkers = [];
+    try { PUNTOS = PUNTOS.filter(function(p){ return p.categoria !== 'busqueda'; }); } catch(e) {}
+    _actualizarBtnLimpiar();
+    mostrarToast('🗑️ Resultados de búsqueda borrados');
+    return;
+  }
   if (!hayActiva && !hayGuardada) return;
   var tl = T[idiomaActual] || T.es;
   // Sin ruta guardada: pedir confirmación antes de limpiar el mapa
@@ -12937,7 +12948,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v2014";
+var _APP_VERSION = "v2017";
 if ('serviceWorker' in navigator) {
   // Forzar comprobación del SW en cada visita (evita que el navegador cachee sw.js)
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -15162,6 +15173,20 @@ window._TRACK_VIGO_REDONDELA = {"id":"pt-costa-vigo-redondela","ruta":"Camino Po
     resetModal: function(){ modalDescartado = false; },
     cerrarModal: function(){ cerrarModalDesvio(); },
 
+    // ¿Hay actualmente una línea amarilla de etapa pintada en el mapa?
+    hayTrazado: function(){
+      return !!(polyDesvio && typeof mapa!=='undefined' && mapa && mapa.hasLayer(polyDesvio));
+    },
+
+    // Quita solo el resaltado amarillo de la etapa (el trazado violeta general
+    // sigue intacto). Lo usa la descarga de mapa para no dejar pintada la etapa
+    // cuando el usuario únicamente quería precachear las tiles.
+    quitarTrazado: function(){
+      if (polyDesvio && typeof mapa!=='undefined' && mapa && mapa.hasLayer(polyDesvio)){
+        mapa.removeLayer(polyDesvio); polyDesvio = null;
+      }
+    },
+
     // Devuelve el punto más cercano del trazado oficial cargado a una posición:
     // {lat, lng, distancia} o null si no hay track.
     puntoMasCercano: function(lat, lng){
@@ -15539,14 +15564,25 @@ window._INDICE_CAMINOS = [{"id":"es01c_01a","ruta":"Camino Francés","slug":"fra
       if(typeof navigator!=='undefined' && navigator.onLine===false){ _modal(_t('sinRed')); return; }
       ocupado=true;
       _toast(_t('calc'));
+      // ¿Había ya una etapa resaltada en amarillo antes de descargar? Si no la
+      // había (p. ej. el usuario solo pulsó "descargar mapa" sin la Ruta Oficial
+      // activa), la detección interna la pintaría como efecto secundario. La
+      // guardamos para retirarla al terminar y dejar el mapa como estaba.
+      var _habiaTrazado = !!(window.Desvio && window.Desvio.hayTrazado && window.Desvio.hayTrazado());
+      function _restaurarTrazado(){
+        if(!_habiaTrazado && window.Desvio && window.Desvio.quitarTrazado){
+          window.Desvio.quitarTrazado();
+        }
+      }
       resolverEtapaId().then(function(id){
-        if(!id){ ocupado=false; _modal(_t('sinEtapa')); return; }
+        if(!id){ ocupado=false; _restaurarTrazado(); _modal(_t('sinEtapa')); return; }
         return coordsDeEtapa(id).then(function(coords){
           var keys=tilesDeTrazado(coords);
-          if(keys.length>TOPE_TILES){ ocupado=false; _modal(_t('grande')); return; }
-          if(!keys.length){ ocupado=false; _modal(_t('error')); return; }
+          if(keys.length>TOPE_TILES){ ocupado=false; _restaurarTrazado(); _modal(_t('grande')); return; }
+          if(!keys.length){ ocupado=false; _restaurarTrazado(); _modal(_t('error')); return; }
           return descargarTiles(keys).then(function(res){
             ocupado=false;
+            _restaurarTrazado();
             if(res.fallos===0) _modal(_t('listo'));
             else if(res.ok>0) _modal(_t('parcial'));
             else _modal(_t('error'));
@@ -15554,6 +15590,7 @@ window._INDICE_CAMINOS = [{"id":"es01c_01a","ruta":"Camino Francés","slug":"fra
         });
       }).catch(function(err){
         ocupado=false;
+        _restaurarTrazado();
         console.warn('DescargaMapa error:', err);
         _modal(_t('error'));
       });
