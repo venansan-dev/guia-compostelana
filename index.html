@@ -133,7 +133,7 @@
   .map-slide-panel {
     max-width:480px !important;
     width:480px !important;
-    left:auto !important;
+    left:0 !important;
     right:auto !important;
     transform:translateX(100%) !important;
     overflow-y:auto !important;
@@ -3265,6 +3265,11 @@ function _abrirSlide(panelId) {
   // Bloquear scroll horizontal de la barra de chips mientras hay panel activo
   var catBar = document.getElementById('mapa-cat-bar');
   if (catBar) { catBar.style.overflowX = 'hidden'; catBar.style.touchAction = 'none'; }
+  // Forzar recálculo del mapa al abrir cualquier panel para limpiar contextos
+  // de transformación acumulados tras navegar lejos en el mapa (bug drawer descolocado)
+  if (typeof mapa !== 'undefined' && mapa) {
+    setTimeout(function(){ mapa.invalidateSize({pan:false}); }, 20);
+  }
 }
 function _cerrarSlide(panelId) {
   var mapSection = document.querySelector('#map-block .map-section');
