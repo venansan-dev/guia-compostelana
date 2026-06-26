@@ -347,8 +347,8 @@
   /* ─── HEADER ─── */
   .dl-header {
     background:linear-gradient(135deg,#0a1628 0%,#1a3a6e 50%,#0d2149 100%);
-    backdrop-filter:saturate(180%) blur(20px);
-    -webkit-backdrop-filter:saturate(180%) blur(20px);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
     border-bottom:1px solid rgba(255,255,255,0.1);
     position:sticky; top:0; z-index:100;
     padding:0 2rem;
@@ -624,8 +624,9 @@
     background:linear-gradient(145deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02));
     border-radius:18px;
     padding:2rem;
-    border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(10px);
-    transition:box-shadow .25s, transform .25s;
+    border:1px solid rgba(255,255,255,0.08);
+    transition:transform .25s ease, box-shadow .25s ease;
+    will-change:transform;
     flex:0 0 260px;
     scroll-snap-align:start;
   }
@@ -837,7 +838,7 @@
   .dl-orb {
     position:fixed; border-radius:50%;
     pointer-events:none; z-index:0;
-    filter:blur(45px); opacity:0.18;
+    filter:blur(45px); opacity:0.18; will-change:transform; contain:strict;
   }
   .dl-orb-1 {
     width:600px; height:600px;
@@ -944,11 +945,11 @@
 
   /* Feature cards: glassmorphism premium */
   .dl-feature {
-    background:linear-gradient(145deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02)) !important;
+    background:rgba(255,255,255,0.05) !important;
     border:1px solid rgba(255,255,255,0.08) !important;
-    backdrop-filter:blur(16px) !important;
-    transition:all .3s cubic-bezier(0.4,0,0.2,1) !important;
+    transition:transform .25s ease, box-shadow .25s ease !important;
     position:relative; overflow:hidden;
+    will-change:transform;
   }
   .dl-feature::before {
     content:'';
@@ -957,10 +958,10 @@
     opacity:0; transition:opacity .3s;
   }
   .dl-feature:hover {
-    background:linear-gradient(145deg,rgba(99,179,237,0.1),rgba(167,139,250,0.06)) !important;
+    background:rgba(99,179,237,0.07) !important;
     border-color:rgba(99,179,237,0.25) !important;
-    box-shadow:0 8px 32px rgba(0,0,0,0.4),0 0 0 1px rgba(99,179,237,0.15),0 0 40px rgba(99,179,237,0.08) !important;
-    transform:translateY(-4px) !important;
+    box-shadow:0 8px 24px rgba(0,0,0,0.35) !important;
+    transform:translateY(-3px) !important;
   }
   .dl-feature:hover::before { opacity:1; }
 
@@ -972,8 +973,9 @@
   .dl-gallery-item {
     border:1px solid rgba(255,255,255,0.08) !important;
     box-shadow:0 8px 32px rgba(0,0,0,0.3) !important;
-    transition:all .35s cubic-bezier(0.4,0,0.2,1) !important;
+    transition:transform .25s ease, box-shadow .25s ease !important;
     position:relative;
+    will-change:transform;
   }
   .dl-gallery-item::after {
     content:'';
@@ -983,8 +985,8 @@
     opacity:0; transition:opacity .35s; pointer-events:none;
   }
   .dl-gallery-item:hover {
-    transform:scale(1.05) translateY(-6px) !important;
-    box-shadow:0 24px 60px rgba(0,0,0,0.5),0 0 0 1px rgba(99,179,237,0.3),0 0 40px rgba(99,179,237,0.12) !important;
+    transform:translateY(-4px) !important;
+    box-shadow:0 16px 40px rgba(0,0,0,0.45),0 0 0 1px rgba(99,179,237,0.25) !important;
   }
   .dl-gallery-item:hover::after { opacity:1; }
 
@@ -1005,10 +1007,9 @@
 
   /* QR box premium */
   .dl-qr-box {
-    background:linear-gradient(145deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02)) !important;
+    background:rgba(255,255,255,0.04) !important;
     border:1px solid rgba(99,179,237,0.2) !important;
-    box-shadow:0 0 0 1px rgba(99,179,237,0.1),0 24px 60px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.08) !important;
-    backdrop-filter:blur(20px) !important;
+    box-shadow:0 8px 32px rgba(0,0,0,0.35) !important;
   }
 
   /* QR step numbers con glow */
