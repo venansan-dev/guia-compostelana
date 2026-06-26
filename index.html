@@ -14,6 +14,27 @@
     document.head.appendChild(s);
   });
 </script>
+<script>
+/* Fallback WebP para navegadores sin soporte (Safari <14, Android antiguo).
+   Los navegadores modernos cargan el .webp nativo SIN cambios (igual que hoy).
+   Solo cuando una imagen .webp falla al decodificar se reintenta la MISMA
+   imagen vía un proxy que la transcodifica a JPG al vuelo. Cubre las <img>
+   estáticas y las generadas dinámicamente (tarjetas de POIs, galería, etc.).
+   El fondo CSS de la cabecera degrada a cabecera lisa en esos navegadores. */
+(function(){
+  function _jpg(u){
+    return 'https://wsrv.nl/?url=' + encodeURIComponent(u.replace(/^https?:\/\//,'')) + '&output=jpg';
+  }
+  document.addEventListener('error', function(e){
+    var img = e.target;
+    if (img && img.tagName === 'IMG' && img.getAttribute('data-webpfb') !== '1'
+        && /\.webp(\?|$)/i.test(img.currentSrc || img.src || '')) {
+      img.setAttribute('data-webpfb','1');
+      img.src = _jpg(img.currentSrc || img.src);
+    }
+  }, true);
+})();
+</script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 
@@ -626,7 +647,6 @@
     padding:2rem;
     border:1px solid rgba(255,255,255,0.08);
     transition:transform .25s ease, box-shadow .25s ease;
-    will-change:transform;
     flex:0 0 260px;
     scroll-snap-align:start;
   }
@@ -833,12 +853,17 @@
      EFECTOS PREMIUM — brillos, animaciones, cristal
   ══════════════════════════════════════════ */
 
-  /* Fondo animado con orbes de luz */
+  /* Orbes de luz decorativos (estáticos).
+     Antes: position:fixed + filter:blur(45px) → el compositor re-mezclaba
+     3 capas borrosas grandes en cada frame de scroll = jank. Los gradientes
+     radiales ya se desvanecen a transparente, así que el blur era casi
+     redundante. Ahora absolute + sin blur + sin will-change: se pintan una
+     vez y el scroll es fluido. */
   #desktop-landing { position:relative; overflow:hidden; }
   .dl-orb {
-    position:fixed; border-radius:50%;
+    position:absolute; border-radius:50%;
     pointer-events:none; z-index:0;
-    filter:blur(45px); opacity:0.18; will-change:transform; contain:strict;
+    opacity:0.18; contain:strict;
   }
   .dl-orb-1 {
     width:600px; height:600px;
@@ -949,7 +974,6 @@
     border:1px solid rgba(255,255,255,0.08) !important;
     transition:transform .25s ease, box-shadow .25s ease !important;
     position:relative; overflow:hidden;
-    will-change:transform;
   }
   .dl-feature::before {
     content:'';
@@ -975,7 +999,6 @@
     box-shadow:0 8px 32px rgba(0,0,0,0.3) !important;
     transition:transform .25s ease, box-shadow .25s ease !important;
     position:relative;
-    will-change:transform;
   }
   .dl-gallery-item::after {
     content:'';
@@ -1056,7 +1079,7 @@
   /* Noise texture overlay sutil sobre toda la landing */
   #desktop-landing::after {
     content:'';
-    position:fixed; inset:0; z-index:0; pointer-events:none;
+    position:absolute; inset:0; z-index:0; pointer-events:none;
     opacity:0.025;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
   }
@@ -12860,7 +12883,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v2032";
+var _APP_VERSION = "v2034";
 if ('serviceWorker' in navigator) {
   // Forzar comprobación del SW en cada visita (evita que el navegador cachee sw.js)
   navigator.serviceWorker.getRegistrations().then(function(regs) {
