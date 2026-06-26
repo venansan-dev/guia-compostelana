@@ -57,14 +57,8 @@
   <link rel="manifest" href="/manifest.json"/>
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=5"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <!-- Fuentes críticas del hero: carga síncrona para evitar FOUT en el título -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
-  <!-- Fuentes secundarias: diferidas, no bloquean render -->
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@400;500&family=Cinzel:wght@700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
   <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@400;500&family=Cinzel:wght@700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet"/></noscript>
-  <!-- Preload imágenes críticas del hero desktop (evitan layout shift) -->
-  <link rel="preload" as="image" href="https://i.postimg.cc/vTFNbs2Z/logohead.webp"/>
-  <link rel="preload" as="image" href="https://i.postimg.cc/9fmZ7NSx/vieira8.webp"/>
   <link rel="preconnect" href="https://unpkg.com" crossorigin/>
   <link rel="preconnect" href="https://www.gstatic.com" crossorigin/>
   <link rel="preconnect" href="https://i.postimg.cc" crossorigin/>
@@ -347,8 +341,8 @@
   /* ─── HEADER ─── */
   .dl-header {
     background:linear-gradient(135deg,#0a1628 0%,#1a3a6e 50%,#0d2149 100%);
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
+    backdrop-filter:saturate(180%) blur(20px);
+    -webkit-backdrop-filter:saturate(180%) blur(20px);
     border-bottom:1px solid rgba(255,255,255,0.1);
     position:sticky; top:0; z-index:100;
     padding:0 2rem;
@@ -624,9 +618,8 @@
     background:linear-gradient(145deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02));
     border-radius:18px;
     padding:2rem;
-    border:1px solid rgba(255,255,255,0.08);
-    transition:transform .25s ease, box-shadow .25s ease;
-    will-change:transform;
+    border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(10px);
+    transition:box-shadow .25s, transform .25s;
     flex:0 0 260px;
     scroll-snap-align:start;
   }
@@ -838,7 +831,7 @@
   .dl-orb {
     position:fixed; border-radius:50%;
     pointer-events:none; z-index:0;
-    filter:blur(45px); opacity:0.18; will-change:transform; contain:strict;
+    filter:blur(45px); opacity:0.18;
   }
   .dl-orb-1 {
     width:600px; height:600px;
@@ -945,11 +938,11 @@
 
   /* Feature cards: glassmorphism premium */
   .dl-feature {
-    background:rgba(255,255,255,0.05) !important;
+    background:linear-gradient(145deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02)) !important;
     border:1px solid rgba(255,255,255,0.08) !important;
-    transition:transform .25s ease, box-shadow .25s ease !important;
+    backdrop-filter:blur(16px) !important;
+    transition:all .3s cubic-bezier(0.4,0,0.2,1) !important;
     position:relative; overflow:hidden;
-    will-change:transform;
   }
   .dl-feature::before {
     content:'';
@@ -958,10 +951,10 @@
     opacity:0; transition:opacity .3s;
   }
   .dl-feature:hover {
-    background:rgba(99,179,237,0.07) !important;
+    background:linear-gradient(145deg,rgba(99,179,237,0.1),rgba(167,139,250,0.06)) !important;
     border-color:rgba(99,179,237,0.25) !important;
-    box-shadow:0 8px 24px rgba(0,0,0,0.35) !important;
-    transform:translateY(-3px) !important;
+    box-shadow:0 8px 32px rgba(0,0,0,0.4),0 0 0 1px rgba(99,179,237,0.15),0 0 40px rgba(99,179,237,0.08) !important;
+    transform:translateY(-4px) !important;
   }
   .dl-feature:hover::before { opacity:1; }
 
@@ -973,9 +966,8 @@
   .dl-gallery-item {
     border:1px solid rgba(255,255,255,0.08) !important;
     box-shadow:0 8px 32px rgba(0,0,0,0.3) !important;
-    transition:transform .25s ease, box-shadow .25s ease !important;
+    transition:all .35s cubic-bezier(0.4,0,0.2,1) !important;
     position:relative;
-    will-change:transform;
   }
   .dl-gallery-item::after {
     content:'';
@@ -985,8 +977,8 @@
     opacity:0; transition:opacity .35s; pointer-events:none;
   }
   .dl-gallery-item:hover {
-    transform:translateY(-4px) !important;
-    box-shadow:0 16px 40px rgba(0,0,0,0.45),0 0 0 1px rgba(99,179,237,0.25) !important;
+    transform:scale(1.05) translateY(-6px) !important;
+    box-shadow:0 24px 60px rgba(0,0,0,0.5),0 0 0 1px rgba(99,179,237,0.3),0 0 40px rgba(99,179,237,0.12) !important;
   }
   .dl-gallery-item:hover::after { opacity:1; }
 
@@ -1007,9 +999,10 @@
 
   /* QR box premium */
   .dl-qr-box {
-    background:rgba(255,255,255,0.04) !important;
+    background:linear-gradient(145deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02)) !important;
     border:1px solid rgba(99,179,237,0.2) !important;
-    box-shadow:0 8px 32px rgba(0,0,0,0.35) !important;
+    box-shadow:0 0 0 1px rgba(99,179,237,0.1),0 24px 60px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.08) !important;
+    backdrop-filter:blur(20px) !important;
   }
 
   /* QR step numbers con glow */
@@ -1039,19 +1032,19 @@
       0 0 60px rgba(37,99,235,0.15) !important;
   }
 
-  /* Animación entrada suave al cargar — desplazamiento mínimo para evitar CLS */
+  /* Animación entrada suave al cargar */
   @keyframes fadeUp {
-    from { opacity:0; transform:translateY(10px); }
+    from { opacity:0; transform:translateY(24px); }
     to   { opacity:1; transform:translateY(0); }
   }
-  .dl-hero-text > * { animation:fadeUp .45s ease both; }
-  .dl-hero-text > *:nth-child(1){animation-delay:.05s}
-  .dl-hero-text > *:nth-child(2){animation-delay:.1s}
-  .dl-hero-text > *:nth-child(3){animation-delay:.15s}
-  .dl-hero-text > *:nth-child(4){animation-delay:.2s}
-  .dl-hero-text > *:nth-child(5){animation-delay:.25s}
-  .dl-hero-text > *:nth-child(6){animation-delay:.3s}
-  .dl-phone-wrap { animation:fadeUp .5s ease .15s both; }
+  .dl-hero-text > * { animation:fadeUp .7s ease both; }
+  .dl-hero-text > *:nth-child(1){animation-delay:.1s}
+  .dl-hero-text > *:nth-child(2){animation-delay:.2s}
+  .dl-hero-text > *:nth-child(3){animation-delay:.3s}
+  .dl-hero-text > *:nth-child(4){animation-delay:.4s}
+  .dl-hero-text > *:nth-child(5){animation-delay:.5s}
+  .dl-hero-text > *:nth-child(6){animation-delay:.6s}
+  .dl-phone-wrap { animation:fadeUp .9s ease .3s both; }
 
   /* Noise texture overlay sutil sobre toda la landing */
   #desktop-landing::after {
@@ -1098,9 +1091,9 @@
     <div class="dl-hero">
       <div class="dl-hero-text">
         <p class="dl-hero-eyebrow" id="dl-eyebrow"><span class="ey-emoji">🐚</span><span class="ey-text">Guía Xacobea Interactiva</span></p>
-        <img src="https://i.postimg.cc/vTFNbs2Z/logohead.webp" alt="Xacobeapp" style="height:48px;width:auto;display:block;object-fit:contain;margin-bottom:1.25rem;opacity:0.92" fetchpriority="high"/>
+        <img src="https://i.postimg.cc/vTFNbs2Z/logohead.webp" alt="Xacobeapp" style="height:48px;width:auto;display:block;object-fit:contain;margin-bottom:1.25rem;opacity:0.92"/>
         <h1 class="dl-hero-title" id="dl-hero-title">Tu compañera en el <em>Camino</em></h1>
-        <img src="https://i.postimg.cc/9fmZ7NSx/vieira8.webp" alt="Vieira del Camino" style="height:64px;width:auto;display:block;object-fit:contain;margin-bottom:1.25rem" fetchpriority="high"/>
+        <img src="https://i.postimg.cc/9fmZ7NSx/vieira8.webp" alt="Vieira del Camino" style="height:64px;width:auto;display:block;object-fit:contain;margin-bottom:1.25rem"/>
         <p class="dl-hero-desc" id="dl-hero-desc">
           Xacobeapp es una guía completamente gratuita para el Camino de Santiago, intuitiva y de muy fácil manejo, que te mostrará todo el patrimonio xacobeo a tu alrededor. Mapas interactivos con navegación GPS incluso sin cobertura, creador de rutas, etapas diarias, avisos de emergencia en tiempo real, POIs exclusivos con descripciones especializadas, brújula… y otras muchas utilidades pensadas para el peregrino, pero también para todos los que disfrutan conociendo y explorando nuevos espacios. Toda una navaja suiza del peregrino en tu bolsillo, a tu servicio. Xacobeapp no mejora el Camino, pero sí lo hará más seguro, completo e inmersivo.
         </p>
@@ -1296,11 +1289,176 @@
         </div>
       </div>
       <div class="dl-qr-box">
-        <!-- QR con logo — xacobeapp.com -->
+        <!-- QR real generado para https://xacobeapp.com (nivel de corrección M) -->
         <a href="https://xacobeapp.com" style="display:block" aria-label="Abrir xacobeapp.com">
-        <img src="9.png" alt="Código QR para xacobeapp.com" style="width:200px;height:200px;display:block;image-rendering:crisp-edges"/>
+        <svg viewBox="0 0 33 33" xmlns="http://www.w3.org/2000/svg" style="width:180px;height:180px;image-rendering:pixelated" role="img" aria-label="Código QR para xacobeapp.com">
+          <rect width="33" height="33" fill="#ffffff" rx="2"/>
+          <g fill="#1a2340">
+          <rect x="4" y="4" width="7" height="1"/>
+          <rect x="12" y="4" width="1" height="1"/>
+          <rect x="14" y="4" width="3" height="1"/>
+          <rect x="18" y="4" width="1" height="1"/>
+          <rect x="20" y="4" width="1" height="1"/>
+          <rect x="22" y="4" width="7" height="1"/>
+          <rect x="4" y="5" width="1" height="1"/>
+          <rect x="10" y="5" width="1" height="1"/>
+          <rect x="12" y="5" width="4" height="1"/>
+          <rect x="22" y="5" width="1" height="1"/>
+          <rect x="28" y="5" width="1" height="1"/>
+          <rect x="4" y="6" width="1" height="1"/>
+          <rect x="6" y="6" width="3" height="1"/>
+          <rect x="10" y="6" width="1" height="1"/>
+          <rect x="12" y="6" width="2" height="1"/>
+          <rect x="15" y="6" width="1" height="1"/>
+          <rect x="17" y="6" width="1" height="1"/>
+          <rect x="19" y="6" width="2" height="1"/>
+          <rect x="22" y="6" width="1" height="1"/>
+          <rect x="24" y="6" width="3" height="1"/>
+          <rect x="28" y="6" width="1" height="1"/>
+          <rect x="4" y="7" width="1" height="1"/>
+          <rect x="6" y="7" width="3" height="1"/>
+          <rect x="10" y="7" width="1" height="1"/>
+          <rect x="14" y="7" width="1" height="1"/>
+          <rect x="16" y="7" width="2" height="1"/>
+          <rect x="22" y="7" width="1" height="1"/>
+          <rect x="24" y="7" width="3" height="1"/>
+          <rect x="28" y="7" width="1" height="1"/>
+          <rect x="4" y="8" width="1" height="1"/>
+          <rect x="6" y="8" width="3" height="1"/>
+          <rect x="10" y="8" width="1" height="1"/>
+          <rect x="12" y="8" width="1" height="1"/>
+          <rect x="18" y="8" width="1" height="1"/>
+          <rect x="20" y="8" width="1" height="1"/>
+          <rect x="22" y="8" width="1" height="1"/>
+          <rect x="24" y="8" width="3" height="1"/>
+          <rect x="28" y="8" width="1" height="1"/>
+          <rect x="4" y="9" width="1" height="1"/>
+          <rect x="10" y="9" width="1" height="1"/>
+          <rect x="14" y="9" width="2" height="1"/>
+          <rect x="17" y="9" width="1" height="1"/>
+          <rect x="20" y="9" width="1" height="1"/>
+          <rect x="22" y="9" width="1" height="1"/>
+          <rect x="28" y="9" width="1" height="1"/>
+          <rect x="4" y="10" width="7" height="1"/>
+          <rect x="12" y="10" width="1" height="1"/>
+          <rect x="14" y="10" width="1" height="1"/>
+          <rect x="16" y="10" width="1" height="1"/>
+          <rect x="18" y="10" width="1" height="1"/>
+          <rect x="20" y="10" width="1" height="1"/>
+          <rect x="22" y="10" width="7" height="1"/>
+          <rect x="14" y="11" width="2" height="1"/>
+          <rect x="17" y="11" width="1" height="1"/>
+          <rect x="4" y="12" width="1" height="1"/>
+          <rect x="7" y="12" width="7" height="1"/>
+          <rect x="18" y="12" width="2" height="1"/>
+          <rect x="21" y="12" width="1" height="1"/>
+          <rect x="24" y="12" width="1" height="1"/>
+          <rect x="26" y="12" width="3" height="1"/>
+          <rect x="4" y="13" width="1" height="1"/>
+          <rect x="7" y="13" width="3" height="1"/>
+          <rect x="15" y="13" width="1" height="1"/>
+          <rect x="17" y="13" width="3" height="1"/>
+          <rect x="23" y="13" width="5" height="1"/>
+          <rect x="5" y="14" width="2" height="1"/>
+          <rect x="10" y="14" width="2" height="1"/>
+          <rect x="17" y="14" width="1" height="1"/>
+          <rect x="19" y="14" width="4" height="1"/>
+          <rect x="24" y="14" width="2" height="1"/>
+          <rect x="28" y="14" width="1" height="1"/>
+          <rect x="4" y="15" width="5" height="1"/>
+          <rect x="14" y="15" width="2" height="1"/>
+          <rect x="18" y="15" width="1" height="1"/>
+          <rect x="20" y="15" width="1" height="1"/>
+          <rect x="22" y="15" width="1" height="1"/>
+          <rect x="24" y="15" width="5" height="1"/>
+          <rect x="4" y="16" width="3" height="1"/>
+          <rect x="8" y="16" width="1" height="1"/>
+          <rect x="10" y="16" width="2" height="1"/>
+          <rect x="13" y="16" width="1" height="1"/>
+          <rect x="15" y="16" width="2" height="1"/>
+          <rect x="19" y="16" width="2" height="1"/>
+          <rect x="22" y="16" width="1" height="1"/>
+          <rect x="28" y="16" width="1" height="1"/>
+          <rect x="4" y="17" width="1" height="1"/>
+          <rect x="6" y="17" width="1" height="1"/>
+          <rect x="8" y="17" width="1" height="1"/>
+          <rect x="11" y="17" width="1" height="1"/>
+          <rect x="18" y="17" width="3" height="1"/>
+          <rect x="24" y="17" width="1" height="1"/>
+          <rect x="27" y="17" width="1" height="1"/>
+          <rect x="4" y="18" width="2" height="1"/>
+          <rect x="9" y="18" width="2" height="1"/>
+          <rect x="12" y="18" width="8" height="1"/>
+          <rect x="22" y="18" width="1" height="1"/>
+          <rect x="24" y="18" width="5" height="1"/>
+          <rect x="4" y="19" width="1" height="1"/>
+          <rect x="15" y="19" width="1" height="1"/>
+          <rect x="21" y="19" width="1" height="1"/>
+          <rect x="23" y="19" width="1" height="1"/>
+          <rect x="25" y="19" width="2" height="1"/>
+          <rect x="28" y="19" width="1" height="1"/>
+          <rect x="4" y="20" width="1" height="1"/>
+          <rect x="7" y="20" width="1" height="1"/>
+          <rect x="9" y="20" width="2" height="1"/>
+          <rect x="12" y="20" width="3" height="1"/>
+          <rect x="18" y="20" width="7" height="1"/>
+          <rect x="26" y="20" width="2" height="1"/>
+          <rect x="12" y="21" width="6" height="1"/>
+          <rect x="20" y="21" width="1" height="1"/>
+          <rect x="24" y="21" width="1" height="1"/>
+          <rect x="26" y="21" width="2" height="1"/>
+          <rect x="4" y="22" width="7" height="1"/>
+          <rect x="12" y="22" width="1" height="1"/>
+          <rect x="14" y="22" width="2" height="1"/>
+          <rect x="20" y="22" width="1" height="1"/>
+          <rect x="22" y="22" width="1" height="1"/>
+          <rect x="24" y="22" width="1" height="1"/>
+          <rect x="28" y="22" width="1" height="1"/>
+          <rect x="4" y="23" width="1" height="1"/>
+          <rect x="10" y="23" width="1" height="1"/>
+          <rect x="12" y="23" width="2" height="1"/>
+          <rect x="16" y="23" width="1" height="1"/>
+          <rect x="18" y="23" width="3" height="1"/>
+          <rect x="24" y="23" width="1" height="1"/>
+          <rect x="27" y="23" width="2" height="1"/>
+          <rect x="4" y="24" width="1" height="1"/>
+          <rect x="6" y="24" width="3" height="1"/>
+          <rect x="10" y="24" width="1" height="1"/>
+          <rect x="12" y="24" width="1" height="1"/>
+          <rect x="16" y="24" width="9" height="1"/>
+          <rect x="27" y="24" width="2" height="1"/>
+          <rect x="4" y="25" width="1" height="1"/>
+          <rect x="6" y="25" width="3" height="1"/>
+          <rect x="10" y="25" width="1" height="1"/>
+          <rect x="12" y="25" width="2" height="1"/>
+          <rect x="18" y="25" width="1" height="1"/>
+          <rect x="21" y="25" width="2" height="1"/>
+          <rect x="27" y="25" width="2" height="1"/>
+          <rect x="4" y="26" width="1" height="1"/>
+          <rect x="6" y="26" width="3" height="1"/>
+          <rect x="10" y="26" width="1" height="1"/>
+          <rect x="13" y="26" width="2" height="1"/>
+          <rect x="16" y="26" width="1" height="1"/>
+          <rect x="18" y="26" width="2" height="1"/>
+          <rect x="21" y="26" width="1" height="1"/>
+          <rect x="24" y="26" width="5" height="1"/>
+          <rect x="4" y="27" width="1" height="1"/>
+          <rect x="10" y="27" width="1" height="1"/>
+          <rect x="13" y="27" width="2" height="1"/>
+          <rect x="18" y="27" width="1" height="1"/>
+          <rect x="23" y="27" width="2" height="1"/>
+          <rect x="26" y="27" width="3" height="1"/>
+          <rect x="4" y="28" width="7" height="1"/>
+          <rect x="12" y="28" width="1" height="1"/>
+          <rect x="14" y="28" width="1" height="1"/>
+          <rect x="17" y="28" width="2" height="1"/>
+          <rect x="20" y="28" width="1" height="1"/>
+          <rect x="25" y="28" width="1" height="1"/>
+          <rect x="28" y="28" width="1" height="1"/>
+          </g>
+        </svg>
         </a>
-                <div class="dl-qr-url">xacobeapp.com</div>
+        <div class="dl-qr-url">xacobeapp.com</div>
       </div>
     </div>
   </section>
@@ -12676,29 +12834,12 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
-  // Inicialización pesada de la app móvil (mapa Leaflet + cluster + ~300
-  // marcadores, Firebase, POIs, tiempo). En la landing de escritorio la app
-  // está oculta por CSS, pero este trabajo bloqueaba igualmente el hilo
-  // principal durante el primer pintado → secciones lentas y reflows que
-  // hacían saltar el scroll al hero. En escritorio lo diferimos a tiempo de
-  // inactividad; en móvil se ejecuta inmediatamente, como siempre.
-  function _initAppPesada() {
-    renderCarrusel('todos');
-    initMapa();
-    cargarDatosFirebase();
-    cargarPOIsUsuario();
-    cargarPOIsFirebase();
-    iniciarTiempo();
-  }
-  if (window.innerWidth >= 769) {
-    if (window.requestIdleCallback) {
-      requestIdleCallback(_initAppPesada, { timeout: 2500 });
-    } else {
-      setTimeout(_initAppPesada, 1200);
-    }
-  } else {
-    _initAppPesada();
-  }
+  renderCarrusel('todos');
+  initMapa();
+  cargarDatosFirebase();
+  cargarPOIsUsuario();
+  cargarPOIsFirebase();
+  iniciarTiempo();
   iniciarGaleria();
   iniciarPhoneCarrusel();
 
@@ -12860,17 +13001,23 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v2032";
+var _APP_VERSION = "v2031";
 if ('serviceWorker' in navigator) {
   // Forzar comprobación del SW en cada visita (evita que el navegador cachee sw.js)
   navigator.serviceWorker.getRegistrations().then(function(regs) {
     regs.forEach(function(reg) { reg.update(); });
   });
-  // La limpieza de cachés antiguas la hace el propio Service Worker en su
-  // evento 'activate' (conserva CACHE_NAME, TILE/IMG/LIB/TRACK y borra el resto).
-  // Antes había aquí una lista CACHES_ACTIVAS hardcodeada que se quedó
-  // desfasada (v2014/imgs-v6) y en cada carga borraba las cachés ACTIVAS,
-  // obligando a redescargar HTML, pois.js e imágenes → carga lenta y saltos.
+  // Limpiar cachés de versiones anteriores (solo las antiguas, nunca las activas)
+  var CACHES_ACTIVAS = ['guia-compostelana-v2014', 'guia-tiles-v5', 'guia-imgs-v6', 'guia-libs-v1', 'guia-tracks-v4'];
+  if (window.caches) {
+    caches.keys().then(function(keys) {
+      keys.forEach(function(key) {
+        if (CACHES_ACTIVAS.indexOf(key) === -1) {
+          caches.delete(key);
+        }
+      });
+    });
+  }
   window.addEventListener('load', function() {
     // updateViaCache:'none' impide que el navegador sirva sw.js desde su caché HTTP
     navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' }).then(function(reg) {
