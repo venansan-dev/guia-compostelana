@@ -1711,7 +1711,7 @@
     style='display:flex;position:absolute;bottom:124px;right:10px;z-index:400;width:36px;height:36px;background:rgba(255,245,210,0.92);border:1.5px solid #a07828;border-radius:8px;cursor:pointer;align-items:center;justify-content:center;font-size:18px;box-shadow:0 4px 14px rgba(0,0,0,0.28),0 1px 3px rgba(0,0,0,0.18);padding:0'>🏅</button>
   <!-- Botón descargar mapa offline — a la derecha de la base del panel de ruta/navegación -->
   <button id='btn-descargar-mapa' onclick='if(window.DescargaMapa)DescargaMapa.descargarActual()' title='Descargar mapa de esta etapa para usar sin conexión'
-    style='display:flex;position:absolute;bottom:36px;left:64px;z-index:400;width:36px;height:36px;background:rgba(255,245,210,0.92);border:1.5px solid #a07828;border-radius:8px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,0.28),0 1px 3px rgba(0,0,0,0.18);padding:0'><svg width='19' height='19' viewBox='0 0 24 24' fill='none' stroke='#7a5010' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 3v11'/><path d='M7 10l5 5 5-5'/><path d='M5 20h14'/></svg></button>
+    style='display:flex;position:absolute;bottom:36px;left:80px;z-index:400;width:36px;height:36px;background:rgba(255,245,210,0.92);border:1.5px solid #a07828;border-radius:8px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,0.28),0 1px 3px rgba(0,0,0,0.18);padding:0'><svg width='19' height='19' viewBox='0 0 24 24' fill='none' stroke='#7a5010' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 3v11'/><path d='M7 10l5 5 5-5'/><path d='M5 20h14'/></svg></button>
 
 </div>
 
@@ -9347,24 +9347,48 @@ function _modalPergamino(config) {
   handle.style.cssText = 'width:36px;height:3px;background:rgba(139,105,20,0.4);border-radius:2px;margin:0 auto 16px';
   box.appendChild(handle);
 
-  // Casco + título dictado
-  var cascoWrap = document.createElement('div');
-  cascoWrap.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:10px;position:relative;z-index:1';
+  var tieneSub = !!config.subtitulo;
+
+  // Casco animado. Si hay subtítulo, acompaña a ESTE (el texto nace desde su
+  // base); si no, vuelve junto al título con su dictado clásico.
   var cascoImg = document.createElement('img');
   cascoImg.src = 'https://i.postimg.cc/hP2mT0LN/casc6.webp';
   cascoImg.style.cssText = 'width:34px;height:34px;object-fit:contain;flex-shrink:0;animation:_casc-pulse 2.4s ease-in-out infinite';
-  var titEl = document.createElement('div');
-  titEl.style.cssText = 'font-family:DM Sans,sans-serif;font-size:15px;font-weight:500;color:#1a0800;line-height:1.4;flex:1';
-  cascoWrap.appendChild(cascoImg);
-  cascoWrap.appendChild(titEl);
-  box.appendChild(cascoWrap);
 
-  // Subtítulo (opcional)
+  var titEl = document.createElement('div');
+  if (tieneSub) {
+    // Con subtítulo: título solo, sin casco y sin typewriter (texto inmediato).
+    titEl.style.cssText = 'font-family:DM Sans,sans-serif;font-size:15px;font-weight:500;color:#1a0800;line-height:1.4;margin-bottom:24px;position:relative;z-index:1';
+    box.appendChild(titEl);
+  } else {
+    // Sin subtítulo: casco + título dictado (comportamiento clásico).
+    var cascoWrap = document.createElement('div');
+    cascoWrap.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:10px;position:relative;z-index:1';
+    titEl.style.cssText = 'font-family:DM Sans,sans-serif;font-size:15px;font-weight:500;color:#1a0800;line-height:1.4;flex:1';
+    cascoWrap.appendChild(cascoImg);
+    cascoWrap.appendChild(titEl);
+    box.appendChild(cascoWrap);
+  }
+
+  // Subtítulo (opcional): el casco se ancla al COMIENZO con su base en la
+  // primera línea (la línea nace de su base, como el saludo del asistente).
+  // El casco solo reserva el alto de UNA línea: el resto del párrafo fluye
+  // a ancho completo por debajo, sin que el casco abarque dos líneas.
   var subEl = null;
-  if (config.subtitulo) {
+  if (tieneSub) {
+    var subWrap = document.createElement('div');
+    subWrap.style.cssText = 'margin:0 0 14px;position:relative;z-index:1;display:flow-root';
+    // Caja flotante de 1 línea de alto; la imagen desborda hacia ARRIBA
+    // (overflow visible) para verse a tamaño completo apoyada en esa línea.
+    var cascoBox = document.createElement('span');
+    cascoBox.style.cssText = 'float:left;width:30px;height:21px;margin:0 10px 0 0;overflow:visible';
+    cascoImg.style.cssText = 'width:30px;height:30px;object-fit:contain;display:block;margin-top:-9px;animation:_casc-pulse 2.4s ease-in-out infinite';
+    cascoBox.appendChild(cascoImg);
     subEl = document.createElement('p');
-    subEl.style.cssText = 'font-size:15px;font-weight:500;color:rgba(26,8,0,0.82);text-align:left;margin:0 0 14px;position:relative;z-index:1;line-height:1.4';
-    box.appendChild(subEl);
+    subEl.style.cssText = 'font-size:15px;font-weight:500;color:rgba(26,8,0,0.82);text-align:left;margin:0;line-height:1.4';
+    subWrap.appendChild(cascoBox);
+    subWrap.appendChild(subEl);
+    box.appendChild(subWrap);
   }
 
   // extraHtml opcional (bloque entre subtítulo y separador)
@@ -9462,17 +9486,16 @@ function _modalPergamino(config) {
 
   // Título y subtítulo con la misma cadencia pausada, y un respiro entre
   // ambos como si el casco tomara aire antes de seguir.
-  _twGlobal(titEl, config.titulo, 44, function() {
-    if (subEl && config.subtitulo) {
-      setTimeout(function() {
-        _twGlobal(subEl, config.subtitulo, 44, function() {
-          setTimeout(function() { box.appendChild(optsWrap); if (cancelBtn) box.appendChild(cancelBtn); }, 140);
-        });
-      }, 480);
-    } else {
-      setTimeout(function() { box.appendChild(optsWrap); if (cancelBtn) box.appendChild(cancelBtn); }, 140);
-    }
-  });
+  function _mostrarOpts() {
+    setTimeout(function() { box.appendChild(optsWrap); if (cancelBtn) box.appendChild(cancelBtn); }, 140);
+  }
+  if (tieneSub) {
+    // Título inmediato (sin typewriter); el casco dicta el subtítulo.
+    titEl.innerHTML = config.titulo;
+    _twGlobal(subEl, config.subtitulo, 44, _mostrarOpts);
+  } else {
+    _twGlobal(titEl, config.titulo, 44, _mostrarOpts);
+  }
 }
 
 function limpiarRuta() {
@@ -12969,7 +12992,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v2024";
+var _APP_VERSION = "v2030";
 if ('serviceWorker' in navigator) {
   // Forzar comprobación del SW en cada visita (evita que el navegador cachee sw.js)
   navigator.serviceWorker.getRegistrations().then(function(regs) {
