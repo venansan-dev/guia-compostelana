@@ -12676,12 +12676,29 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
-  renderCarrusel('todos');
-  initMapa();
-  cargarDatosFirebase();
-  cargarPOIsUsuario();
-  cargarPOIsFirebase();
-  iniciarTiempo();
+  // Inicialización pesada de la app móvil (mapa Leaflet + cluster + ~300
+  // marcadores, Firebase, POIs, tiempo). En la landing de escritorio la app
+  // está oculta por CSS, pero este trabajo bloqueaba igualmente el hilo
+  // principal durante el primer pintado → secciones lentas y reflows que
+  // hacían saltar el scroll al hero. En escritorio lo diferimos a tiempo de
+  // inactividad; en móvil se ejecuta inmediatamente, como siempre.
+  function _initAppPesada() {
+    renderCarrusel('todos');
+    initMapa();
+    cargarDatosFirebase();
+    cargarPOIsUsuario();
+    cargarPOIsFirebase();
+    iniciarTiempo();
+  }
+  if (window.innerWidth >= 769) {
+    if (window.requestIdleCallback) {
+      requestIdleCallback(_initAppPesada, { timeout: 2500 });
+    } else {
+      setTimeout(_initAppPesada, 1200);
+    }
+  } else {
+    _initAppPesada();
+  }
   iniciarGaleria();
   iniciarPhoneCarrusel();
 
@@ -12843,23 +12860,17 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v2031";
+var _APP_VERSION = "v2032";
 if ('serviceWorker' in navigator) {
   // Forzar comprobación del SW en cada visita (evita que el navegador cachee sw.js)
   navigator.serviceWorker.getRegistrations().then(function(regs) {
     regs.forEach(function(reg) { reg.update(); });
   });
-  // Limpiar cachés de versiones anteriores (solo las antiguas, nunca las activas)
-  var CACHES_ACTIVAS = ['guia-compostelana-v2014', 'guia-tiles-v5', 'guia-imgs-v6', 'guia-libs-v1', 'guia-tracks-v4'];
-  if (window.caches) {
-    caches.keys().then(function(keys) {
-      keys.forEach(function(key) {
-        if (CACHES_ACTIVAS.indexOf(key) === -1) {
-          caches.delete(key);
-        }
-      });
-    });
-  }
+  // La limpieza de cachés antiguas la hace el propio Service Worker en su
+  // evento 'activate' (conserva CACHE_NAME, TILE/IMG/LIB/TRACK y borra el resto).
+  // Antes había aquí una lista CACHES_ACTIVAS hardcodeada que se quedó
+  // desfasada (v2014/imgs-v6) y en cada carga borraba las cachés ACTIVAS,
+  // obligando a redescargar HTML, pois.js e imágenes → carga lenta y saltos.
   window.addEventListener('load', function() {
     // updateViaCache:'none' impide que el navegador sirva sw.js desde su caché HTTP
     navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' }).then(function(reg) {
