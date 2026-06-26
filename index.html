@@ -57,8 +57,14 @@
   <link rel="manifest" href="/manifest.json"/>
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=5"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@400;500&family=Cinzel:wght@700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
+  <!-- Fuentes críticas del hero: carga síncrona para evitar FOUT en el título -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+  <!-- Fuentes secundarias: diferidas, no bloquean render -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
   <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@400;500&family=Cinzel:wght@700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet"/></noscript>
+  <!-- Preload imágenes críticas del hero desktop (evitan layout shift) -->
+  <link rel="preload" as="image" href="https://i.postimg.cc/vTFNbs2Z/logohead.webp"/>
+  <link rel="preload" as="image" href="https://i.postimg.cc/9fmZ7NSx/vieira8.webp"/>
   <link rel="preconnect" href="https://unpkg.com" crossorigin/>
   <link rel="preconnect" href="https://www.gstatic.com" crossorigin/>
   <link rel="preconnect" href="https://i.postimg.cc" crossorigin/>
@@ -1032,19 +1038,19 @@
       0 0 60px rgba(37,99,235,0.15) !important;
   }
 
-  /* Animación entrada suave al cargar */
+  /* Animación entrada suave al cargar — desplazamiento mínimo para evitar CLS */
   @keyframes fadeUp {
-    from { opacity:0; transform:translateY(24px); }
+    from { opacity:0; transform:translateY(10px); }
     to   { opacity:1; transform:translateY(0); }
   }
-  .dl-hero-text > * { animation:fadeUp .7s ease both; }
-  .dl-hero-text > *:nth-child(1){animation-delay:.1s}
-  .dl-hero-text > *:nth-child(2){animation-delay:.2s}
-  .dl-hero-text > *:nth-child(3){animation-delay:.3s}
-  .dl-hero-text > *:nth-child(4){animation-delay:.4s}
-  .dl-hero-text > *:nth-child(5){animation-delay:.5s}
-  .dl-hero-text > *:nth-child(6){animation-delay:.6s}
-  .dl-phone-wrap { animation:fadeUp .9s ease .3s both; }
+  .dl-hero-text > * { animation:fadeUp .45s ease both; }
+  .dl-hero-text > *:nth-child(1){animation-delay:.05s}
+  .dl-hero-text > *:nth-child(2){animation-delay:.1s}
+  .dl-hero-text > *:nth-child(3){animation-delay:.15s}
+  .dl-hero-text > *:nth-child(4){animation-delay:.2s}
+  .dl-hero-text > *:nth-child(5){animation-delay:.25s}
+  .dl-hero-text > *:nth-child(6){animation-delay:.3s}
+  .dl-phone-wrap { animation:fadeUp .5s ease .15s both; }
 
   /* Noise texture overlay sutil sobre toda la landing */
   #desktop-landing::after {
@@ -1091,9 +1097,9 @@
     <div class="dl-hero">
       <div class="dl-hero-text">
         <p class="dl-hero-eyebrow" id="dl-eyebrow"><span class="ey-emoji">🐚</span><span class="ey-text">Guía Xacobea Interactiva</span></p>
-        <img src="https://i.postimg.cc/vTFNbs2Z/logohead.webp" alt="Xacobeapp" style="height:48px;width:auto;display:block;object-fit:contain;margin-bottom:1.25rem;opacity:0.92"/>
+        <img src="https://i.postimg.cc/vTFNbs2Z/logohead.webp" alt="Xacobeapp" style="height:48px;width:auto;display:block;object-fit:contain;margin-bottom:1.25rem;opacity:0.92" fetchpriority="high"/>
         <h1 class="dl-hero-title" id="dl-hero-title">Tu compañera en el <em>Camino</em></h1>
-        <img src="https://i.postimg.cc/9fmZ7NSx/vieira8.webp" alt="Vieira del Camino" style="height:64px;width:auto;display:block;object-fit:contain;margin-bottom:1.25rem"/>
+        <img src="https://i.postimg.cc/9fmZ7NSx/vieira8.webp" alt="Vieira del Camino" style="height:64px;width:auto;display:block;object-fit:contain;margin-bottom:1.25rem" fetchpriority="high"/>
         <p class="dl-hero-desc" id="dl-hero-desc">
           Xacobeapp es una guía completamente gratuita para el Camino de Santiago, intuitiva y de muy fácil manejo, que te mostrará todo el patrimonio xacobeo a tu alrededor. Mapas interactivos con navegación GPS incluso sin cobertura, creador de rutas, etapas diarias, avisos de emergencia en tiempo real, POIs exclusivos con descripciones especializadas, brújula… y otras muchas utilidades pensadas para el peregrino, pero también para todos los que disfrutan conociendo y explorando nuevos espacios. Toda una navaja suiza del peregrino en tu bolsillo, a tu servicio. Xacobeapp no mejora el Camino, pero sí lo hará más seguro, completo e inmersivo.
         </p>
