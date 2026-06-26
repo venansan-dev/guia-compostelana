@@ -10283,6 +10283,15 @@ function activarNavegacionVoz() {
   var origen = (userLat && userLng) ? {lat:userLat, lng:userLng} : {lat:rutaPuntos[0].lat, lng:rutaPuntos[0].lng};
   var ordenados = ordenarRutaPorCercania(origen);
 
+  // Guard: si la ruta quedó vacía o el primer punto es nulo/corrupto
+  // (restauración incompleta, punto sin datos), abortamos limpiamente
+  // ANTES de tocar la UI o activar el GPS. Evita el crash
+  // "undefined is not an object (evaluating 'primerPunto.nombre')".
+  if (!ordenados.length || !ordenados[0] || !ordenados[0].nombre) {
+    mostrarToast((T[idiomaActual]||T.es).navAnnadePunto||'Añade al menos 1 punto a la ruta');
+    return;
+  }
+
   // Construir waypoints para OSRM
   var coords = [];
   if (userLat && userLng) coords.push(userLng + ',' + userLat);
@@ -12992,7 +13001,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v2030";
+var _APP_VERSION = "v2031";
 if ('serviceWorker' in navigator) {
   // Forzar comprobación del SW en cada visita (evita que el navegador cachee sw.js)
   navigator.serviceWorker.getRegistrations().then(function(regs) {
