@@ -5563,12 +5563,21 @@ function initMapa() {
   var _marcadoresCluster = [];
   (function _construirMarcadores() {
     var LOTE = 120;
+    // SNAPSHOT ESTABLE del array. El troceado se reparte en varios frames y,
+    // durante esa ventana, Firebase/alertas/GPS pueden reordenar (PUNTOS.sort)
+    // o ampliar (PUNTOS.push) el array. Si iterábamos PUNTOS por índice vivo,
+    // un sort a mitad hacía que 'idx' recayera sobre POIs ya procesados: se
+    // creaban marcadores DUPLICADOS para unos (el cluster sumaba el doble y al
+    // hacer zoom se apilaban exactos) y se saltaban otros. Iterando una copia
+    // fija, cada POI recibe exactamente un marcador, pase lo que pase con PUNTOS.
+    var _lista = PUNTOS.slice();
     var idx = 0;
     function _tanda() {
-      var fin = Math.min(idx + LOTE, PUNTOS.length);
+      var fin = Math.min(idx + LOTE, _lista.length);
       var nuevos = [];
       for (; idx < fin; idx++) {
-        var p = PUNTOS[idx];
+        var p = _lista[idx];
+        if (p.marker) continue; // ya tiene marcador: nunca duplicar
         var m = L.marker([p.lat,p.lng], { icon:crearIcono(p.emoji, p.categoria==='etapa' ? p.color : null) });
         m.on('click', (function(punto) {
           return function() {
@@ -5581,8 +5590,8 @@ function initMapa() {
         nuevos.push(m);
       }
       // Insertar la tanda en el cluster en cuanto está lista (render progresivo).
-      window._cluster.addLayers(nuevos);
-      if (idx < PUNTOS.length) {
+      if (nuevos.length) window._cluster.addLayers(nuevos);
+      if (idx < _lista.length) {
         (window.requestAnimationFrame || function(f){ setTimeout(f, 16); })(_tanda);
       } else {
         // Todos los marcadores creados e insertados.
