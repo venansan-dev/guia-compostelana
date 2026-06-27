@@ -1,13 +1,5 @@
-const CACHE_NAME = 'guia-compostelana-v2046';
+const CACHE_NAME = 'guia-compostelana-v2044';
 const TILE_CACHE = 'guia-tiles-v5';
-
-// Permite que la página fuerce la activación inmediata del SW nuevo enviando
-// {type:'SKIP_WAITING'}. Junto con el 'controllerchange' del index, hace que
-// una versión nueva se aplique sola en la siguiente apertura, sin tener que
-// cerrar por completo el navegador.
-self.addEventListener('message', function(e) {
-  if (e.data && e.data.type === 'SKIP_WAITING') { self.skipWaiting(); }
-});
 const IMG_CACHE  = 'guia-imgs-v10';
 const LIB_CACHE  = 'guia-libs-v1';
 const TRACK_CACHE = 'guia-tracks-v4';
