@@ -5554,6 +5554,12 @@ function initMapa() {
   // lotes, cediendo el hilo entre cada uno, y los insertamos en el cluster
   // por tandas. chunkedLoading del cluster trocea su cálculo interno; esto
   // trocea además la construcción de los objetos L.marker.
+  // IMPORTANTE: como los marcadores ya no existen todos de golpe, al terminar
+  // marcamos _marcadoresListos y emitimos 'marcadores-listos'. Las funciones
+  // que dependen de TODOS los marcadores (filtro por categoría, sincronización
+  // de ruta) escuchan esa señal y se re-aplican; si no, albergues u otros POIs
+  // de las últimas tandas se quedaban fuera del cluster.
+  window._marcadoresListos = false;
   var _marcadoresCluster = [];
   (function _construirMarcadores() {
     var LOTE = 120;
@@ -5578,6 +5584,10 @@ function initMapa() {
       window._cluster.addLayers(nuevos);
       if (idx < PUNTOS.length) {
         (window.requestAnimationFrame || function(f){ setTimeout(f, 16); })(_tanda);
+      } else {
+        // Todos los marcadores creados e insertados.
+        window._marcadoresListos = true;
+        try { window.dispatchEvent(new CustomEvent('marcadores-listos')); } catch(_) {}
       }
     }
     _tanda();
@@ -7228,6 +7238,15 @@ function actualizarLineaRuta() {
 // burbuja de POIs vecinos cercanos.
 function _sincMarcadoresRuta() {
   if (!window._cluster || typeof mapa === 'undefined' || !mapa || typeof PUNTOS === 'undefined') return;
+  // Si los marcadores aún se están creando (troceado), esperar a que terminen
+  // para no operar sobre un conjunto incompleto y dejar POIs fuera del cluster.
+  if (!window._marcadoresListos) {
+    window.addEventListener('marcadores-listos', function _once(){
+      window.removeEventListener('marcadores-listos', _once);
+      _sincMarcadoresRuta();
+    });
+    return;
+  }
   var idsRuta = {};
   rutaPuntos.forEach(function(p){ idsRuta[p.id] = true; });
   PUNTOS.forEach(function(p) {

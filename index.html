@@ -4089,6 +4089,16 @@ function _filtrarMapaCat(chip, cat) {
     b.style.boxShadow = activo ? '0 1px 4px rgba(0,0,0,0.3)' : 'none';
   });
   if (!window._cluster || typeof PUNTOS === 'undefined') return;
+  // Si los marcadores aún se están creando (troceado), esperar a que terminen.
+  // Si no, clearLayers() vacía el cluster y el bucle solo re-añade los marcadores
+  // ya creados, dejando fuera los de las últimas tandas (p. ej. albergues).
+  if (!window._marcadoresListos) {
+    window.addEventListener('marcadores-listos', function _once(){
+      window.removeEventListener('marcadores-listos', _once);
+      _filtrarMapaCat(chip, cat);
+    });
+    return;
+  }
   window._cluster.clearLayers();
   var idsRuta = {};
   rutaPuntos.forEach(function(p){ idsRuta[p.id] = true; });
