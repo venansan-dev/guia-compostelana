@@ -1259,7 +1259,7 @@
         <div class="dl-gallery-label" id="dl-gal4">Brújula</div>
       </div>
       <div class="dl-gallery-item">
-        <img loading="lazy" src="https://i.postimg.cc/0NmcSJk6/descrip.png" alt="Descripciones especializadas"/>
+        <img loading="lazy" src="https://i.postimg.cc/5yJ2vk9j/descrip.webp" alt="Descripciones especializadas"/>
         <div class="dl-gallery-label" id="dl-gal7">Descripciones especializadas</div>
       </div>
       <div class="dl-gallery-item">
@@ -3395,7 +3395,7 @@ if ('serviceWorker' in navigator) {
         ? '&#10003; '+((T[idiomaActual]||T.es).enRuta||'En ruta').replace('✓ ','')
         : ((T[idiomaActual]||T.es).añadirRuta||'+ Ruta');
       // Siempre imagen genérica hasta que el usuario asigne su propia foto (se sustituye async)
-      var _imgSrc = 'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png';
+      var _imgSrc = '';
       var _fotoOverlay = '<div style="position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:30px;pointer-events:none"><div style="background:rgba(0,0,0,0.55);backdrop-filter:blur(3px);border-radius:10px;padding:4px 8px;font-size:9px;font-weight:600;color:rgba(255,255,255,0.85);text-align:center;font-family:DM Sans,sans-serif;letter-spacing:0.3px;max-width:90%">📷 Añade una foto para tu álbum de recuerdos</div></div>';
       return '<div class="poi-img '+p.color+'" style="position:relative;overflow:hidden" data-cromo-id="'+p.id+'">' +
         '<img id="cromo-img-'+p.id+'" src="'+_imgSrc+'" alt="'+p.nombre+'" class="poi-img-cover" loading="lazy" decoding="async" fetchpriority="low"/>' +
@@ -3425,7 +3425,7 @@ if ('serviceWorker' in navigator) {
       div.style.background = '';
       (function(d,poi){
         window._albumGetFoto(poi.id, function(blob) {
-          var src = blob ? URL.createObjectURL(blob) : 'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png';
+          var src = blob ? URL.createObjectURL(blob) : '';
           var noFoto = !blob; // overlay hasta que usuario asigne foto propia
           var ov = noFoto ? '<div style="position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:30px;pointer-events:none"><div style="background:rgba(0,0,0,0.55);backdrop-filter:blur(3px);border-radius:10px;padding:4px 8px;font-size:9px;font-weight:600;color:rgba(255,255,255,0.85);text-align:center;font-family:DM Sans,sans-serif;letter-spacing:0.3px;max-width:90%">📷 Añade una foto para tu álbum de recuerdos</div></div>' : '';
           d.innerHTML = '<img id="cromo-img-'+poi.id+'" src="'+src+'" alt="'+poi.nombre+'" class="poi-img-cover" loading="lazy" decoding="async"/>' + ov +

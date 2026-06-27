@@ -704,7 +704,7 @@ function _renderAlbumRecuerdos(grid, vacioCont) {
   if (!window._albumGetVisitas || !window._albumGetFoto) {
     vacioCont.style.display = 'block'; return;
   }
-  var GENERIC = 'https://i.postimg.cc/Fsy3DmWJ/Captura-de-pantalla-2026-06-02-a-las-0-05-57.png';
+  var GENERIC = '';
   window._albumGetVisitas(function(visitas) {
     var poiVisitas = visitas.filter(function(v){ return v.poiId && !(v.poiId||'').startsWith('u_'); });
     var contador = document.getElementById('album-rec-contador');
@@ -8040,24 +8040,24 @@ function iniciarRuta() {
 
 // GALERIA HERO
 var GALERIA_IMGS=[
-  {src:'https://i.postimg.cc/D00S3F1Q/graffiticoia.jpg',alt:'Marcas gremiales Coia'},
-  {src:'https://i.postimg.cc/Hnnr1HbB/fortalezacastro.jpg',alt:'Monte do Castro'},
-  {src:'https://i.postimg.cc/1XdXBwx5/IMG-0229.jpg',alt:'Estela Templaria'},
-  {src:'https://i.postimg.cc/rmV1NVKY/bembrive.jpg',alt:'Santiago de Bembrive'},
-  {src:'https://i.postimg.cc/VvhdYTFW/casaceta.jpg',alt:'Casa de Ceta'},
-  {src:'https://i.postimg.cc/x88XVYL3/iglesiateis.jpg',alt:'Iglesia Teis'},
-  {src:'https://i.postimg.cc/yxxDCB0Z/escudoamorcortes.jpg',alt:'Escudo Amor Cortés'},
+  {src:'https://i.postimg.cc/T1x3mHdk/graffiticoia.webp',alt:'Marcas gremiales Coia'},
+  {src:'https://i.postimg.cc/nzBLXtx8/fortalezacastro.webp',alt:'Monte do Castro'},
+  {src:'https://i.postimg.cc/RFK0WzBw/IMG-0229.webp',alt:'Estela Templaria'},
+  {src:'https://i.postimg.cc/Kjb8LscZ/bembrive.webp',alt:'Santiago de Bembrive'},
+  {src:'https://i.postimg.cc/zvNGWPz6/casaceta.webp',alt:'Casa de Ceta'},
+  {src:'https://i.postimg.cc/D0hwsYfv/iglesiateis.webp',alt:'Iglesia Teis'},
+  {src:'https://i.postimg.cc/nrxh7wVC/escudoamorcortes.webp',alt:'Escudo Amor Cortés'},
   {src:'https://i.postimg.cc/MHCNTPDJ/balaidos.jpg',alt:'Puente de Balaidos'},
-  {src:'https://i.postimg.cc/W3NGwNdL/concatedral.jpg',alt:'Concatedral de Santa María'},
-  {src:'https://i.postimg.cc/ZnG2R7cm/iglesiacastrelos.jpg',alt:'Santa María de Castrelos'},
-  {src:'https://i.postimg.cc/6p1S2PqR/losaestrelladavid.jpg',alt:'Losa Estrella de David'},
-  {src:'https://i.postimg.cc/JhxGVc20/IMG-4705.png',alt:'Cruz Paté Figueirido'},
-  {src:'https://i.postimg.cc/xThPVV4d/olivo.jpg',alt:'Olivo Templario'},
-  {src:'https://i.postimg.cc/gJzVHzxW/laxe.jpg',alt:'Petroglifos Da Laxe'},
-  {src:'https://i.postimg.cc/7ZQcGRh2/freixo.jpg',alt:'Ermita San Xoan do Freixo'},
-  {src:'https://i.postimg.cc/j22DYKyM/iglesiabembrive.jpg',alt:'Iglesia de Bembrive'},
-  {src:'https://i.postimg.cc/Hnnjb3Nk/IMG-1179.jpg',alt:'Concatedral'},
-  {src:'https://i.postimg.cc/qqFzkYGD/IMG-E1212.jpg',alt:'Patrimonio templario'}
+  {src:'https://i.postimg.cc/L5S8f09r/concatedral.webp',alt:'Concatedral de Santa María'},
+  {src:'https://i.postimg.cc/qqrvnZBT/iglesiacastrelos.webp',alt:'Santa María de Castrelos'},
+  {src:'https://i.postimg.cc/vBfm4dsN/losaestrelladavid.webp',alt:'Losa Estrella de David'},
+  {src:'https://i.postimg.cc/Bb3nDwZj/IMG-4705.webp',alt:'Cruz Paté Figueirido'},
+  {src:'https://i.postimg.cc/Hnmk5PWk/olivo.webp',alt:'Olivo Templario'},
+  {src:'https://i.postimg.cc/XqWYFDN4/laxe.webp',alt:'Petroglifos Da Laxe'},
+  {src:'https://i.postimg.cc/rsTwWYVf/freixo.webp',alt:'Ermita San Xoan do Freixo'},
+  {src:'https://i.postimg.cc/J08zJd7W/iglesiabembrive.webp',alt:'Iglesia de Bembrive'},
+  {src:'https://i.postimg.cc/63nQ8NXh/IMG-1179.webp',alt:'Concatedral'},
+  {src:'https://i.postimg.cc/DZLzSKTR/IMG-E1212.webp',alt:'Patrimonio templario'}
 ];
 var galeria_idx = 0;   // siguiente imagen a cargar
 var galeria_slot = 0;  // slot que cambia en este turno (0, 1 o 2)
