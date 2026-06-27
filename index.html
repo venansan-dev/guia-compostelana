@@ -2655,18 +2655,41 @@
 <script>
 var _APP_VERSION = "v2035";
 if ('serviceWorker' in navigator) {
+  // ── Auto-actualización del Service Worker ──
+  // Cuando se sube una versión nueva de la app, el SW nuevo entra en estado
+  // "waiting" mientras el viejo sigue controlando la página y sirviendo el
+  // app.js/HTML antiguos desde caché. Resultado: subías cambios y "seguía
+  // igual". Este bloque hace que, en cuanto el SW nuevo toma el control,
+  // la página se recargue UNA sola vez para aplicar el código nuevo.
+  var _swRecargando = false;
+  navigator.serviceWorker.addEventListener('controllerchange', function() {
+    if (_swRecargando) return;
+    _swRecargando = true;
+    window.location.reload();
+  });
+
   // Forzar comprobación del SW en cada visita (evita que el navegador cachee sw.js)
   navigator.serviceWorker.getRegistrations().then(function(regs) {
     regs.forEach(function(reg) { reg.update(); });
   });
   // La limpieza de cachés antiguas la hace el propio Service Worker en su
   // evento 'activate' (conserva CACHE_NAME, TILE/IMG/LIB/TRACK y borra el resto).
-  // Antes había aquí una lista CACHES_ACTIVAS hardcodeada que se quedó
-  // desfasada (v2014/imgs-v6) y en cada carga borraba las cachés ACTIVAS,
-  // obligando a redescargar HTML, pois.js e imágenes → carga lenta y saltos.
   window.addEventListener('load', function() {
     // updateViaCache:'none' impide que el navegador sirva sw.js desde su caché HTTP
     navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' }).then(function(reg) {
+      // Si al registrar ya hay un SW esperando, pídele que tome el control ya.
+      if (reg.waiting) { try { reg.waiting.postMessage({ type: 'SKIP_WAITING' }); } catch(e){} }
+      // Cuando se detecte un SW nuevo instalándose, en cuanto quede "installed"
+      // y haya un controlador previo, le decimos que active sin esperar.
+      reg.addEventListener('updatefound', function() {
+        var nuevo = reg.installing;
+        if (!nuevo) return;
+        nuevo.addEventListener('statechange', function() {
+          if (nuevo.state === 'installed' && navigator.serviceWorker.controller) {
+            try { nuevo.postMessage({ type: 'SKIP_WAITING' }); } catch(e){}
+          }
+        });
+      });
     }).catch(function(err) {
       console.warn('SW error:', err);
     });

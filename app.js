@@ -5610,10 +5610,16 @@ function initMapa() {
         if (saved) {
           var p = JSON.parse(saved);
           if (p && p.lat && p.lng) {
+            // Posición PROVISIONAL de sesiones anteriores: pinta el punto al
+            // instante (también offline), pero NO la tratamos como buena. La
+            // primera lectura GPS real la reemplaza siempre. La marca
+            // _posProvisional evita que esNuevo quede en false y, además, hace
+            // que el punto se muestre semitransparente hasta tener fix real.
+            window._posProvisional = true;
             userLat = p.lat; userLng = p.lng;
             _lastKnownLat = p.lat; _lastKnownLng = p.lng;
             if (window._userMarker) { try{ mapa.removeLayer(window._userMarker); }catch(e){} window._userMarker = null; }
-            window._userMarker = L.marker([userLat,userLng],{icon:iconoUsuario,zIndexOffset:1000}).addTo(mapa).bindPopup('<strong>'+(T[idiomaActual]||T.es).tuUbicacion+'</strong>');
+            window._userMarker = L.marker([userLat,userLng],{icon:iconoUsuario,zIndexOffset:1000,opacity:0.45}).addTo(mapa).bindPopup('<strong>'+(T[idiomaActual]||T.es).tuUbicacion+'</strong>');
             mapa.setView([userLat, userLng], 15, {animate:false});
             statusEl.classList.remove('visible');
             calcularDistancias();
@@ -5628,11 +5634,36 @@ function initMapa() {
     // guarda la última posición para centrar el mapa en el próximo arranque.
     var _watchId = navigator.geolocation.watchPosition(function(pos) {
       var lat = pos.coords.latitude, lng = pos.coords.longitude;
-      var esNuevo = !userLat;
+      var acc = (typeof pos.coords.accuracy === 'number') ? pos.coords.accuracy : 9999;
+
+      // ── Estrategia "la MEJOR lectura gana" ──
+      // Antes nos quedábamos con la PRIMERA lectura y bloqueábamos el resto con
+      // un filtro fijo de 100 m. Problema: en interior/arranque en frío la
+      // primera lectura suele venir por WiFi (~100 m); el GPS satelital bueno
+      // (~10-20 m) llega segundos después, pero el filtro ya lo rechazaba y el
+      // punto se quedaba clavado en la posición mala. Ahora comparamos la
+      // precisión: una lectura se acepta si es la primera, si mejora la mejor
+      // precisión vista, o si el último buen fix ya ha caducado (>15 s) por si
+      // el usuario se mueve y no queremos quedarnos pegados a un fix viejo.
+      var mejorPrev = (typeof window._mejorAcc === 'number') ? window._mejorAcc : Infinity;
+      var fixCaducado = window._ultimoFixTs && (Date.now() - window._ultimoFixTs > 15000);
+      var aceptar = !window._fixRealObtenido || acc <= mejorPrev || fixCaducado;
+
+      if (!aceptar) return; // hay un fix mejor y reciente; ignoramos este peor
+
+      window._mejorAcc = acc;
+      window._ultimoFixTs = Date.now();
+
+      var esNuevo = !window._fixRealObtenido;
+      window._fixRealObtenido = true;
+      window._posProvisional = false;
       userLat = lat; userLng = lng;
       _lastKnownLat = lat; _lastKnownLng = lng;
-      // Persistir para el próximo arranque (clave del mecanismo offline)
-      try { localStorage.setItem('_gps_last', JSON.stringify({lat:lat,lng:lng})); } catch(e) {}
+      // Persistir SOLO fixes razonables (≤80 m): así una lectura mala no se
+      // convierte en la posición provisional del próximo arranque.
+      if (acc <= 80) {
+        try { localStorage.setItem('_gps_last', JSON.stringify({lat:lat,lng:lng})); } catch(e) {}
+      }
       statusEl.classList.remove('visible');
       if (esNuevo) {
         // Primera posición real: actualizar título y crear/mover marcador
@@ -5640,6 +5671,7 @@ function initMapa() {
         var ms=document.getElementById('map-subtitle');if(ms)ms.textContent=(T[idiomaActual]||T.es).mapSubtitle;
         if (window._userMarker) { try{ mapa.removeLayer(window._userMarker); }catch(e){} window._userMarker = null; }
         window._userMarker = L.marker([lat,lng],{icon:iconoUsuario,zIndexOffset:1000}).addTo(mapa).bindPopup('<strong>'+(T[idiomaActual]||T.es).tuUbicacion+'</strong>');
+        mapa.setView([lat, lng], 16, {animate:true}); // recentrar en la posición REAL
         radioKm = 1; aplicarRadio(1);
         calcularDistancias();
         cargarTiempo(lat, lng);
@@ -5647,6 +5679,7 @@ function initMapa() {
         // Actualización continua: mover marcador y círculo sin cambiar vista
         if (window._albumCheckProximidad) window._albumCheckProximidad(lat, lng, pos.coords.accuracy);
         if (window._userMarker) {
+          window._userMarker.setOpacity(1); // por si venía provisional semitransparente
           window._userMarker.setLatLng([lat, lng]);
           if (!window._orientacionActiva) window._userMarker.setIcon(crearIconoUsuario(null));
         }
@@ -5657,7 +5690,7 @@ function initMapa() {
         }).addTo(mapa);
         calcularDistancias();
       }
-    }, _gpsErrorHandler, { enableHighAccuracy:true, maximumAge:5000, timeout:30000 });
+    }, _gpsErrorHandler, { enableHighAccuracy:true, maximumAge:0, timeout:30000 });
 
     // Escuchar orientación para rotar la flecha
     // Android — activar orientación directamente
@@ -5742,6 +5775,10 @@ function toggleSeguimiento() {
     if (!window._seguimientoId && navigator.geolocation) {
       window._seguimientoId = navigator.geolocation.watchPosition(function(pos) {
         if (!_modoSeguimiento) return;
+        // Mismo filtro de precisión que el watch principal: en seguimiento ya
+        // hay fix previo, así que descartamos lecturas WiFi/torre imprecisas
+        // que harían saltar el punto y el paneo del mapa.
+        if (typeof pos.coords.accuracy === 'number' && pos.coords.accuracy > 100) return;
         userLat = pos.coords.latitude;
         userLng = pos.coords.longitude;
         _lastKnownLat = userLat; _lastKnownLng = userLng;
