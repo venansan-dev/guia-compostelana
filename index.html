@@ -14,27 +14,6 @@
     document.head.appendChild(s);
   });
 </script>
-<script>
-/* Fallback WebP para navegadores sin soporte (Safari <14, Android antiguo).
-   Los navegadores modernos cargan el .webp nativo SIN cambios (igual que hoy).
-   Solo cuando una imagen .webp falla al decodificar se reintenta la MISMA
-   imagen vía un proxy que la transcodifica a JPG al vuelo. Cubre las <img>
-   estáticas y las generadas dinámicamente (tarjetas de POIs, galería, etc.).
-   El fondo CSS de la cabecera degrada a cabecera lisa en esos navegadores. */
-(function(){
-  function _jpg(u){
-    return 'https://wsrv.nl/?url=' + encodeURIComponent(u.replace(/^https?:\/\//,'')) + '&output=jpg';
-  }
-  document.addEventListener('error', function(e){
-    var img = e.target;
-    if (img && img.tagName === 'IMG' && img.getAttribute('data-webpfb') !== '1'
-        && /\.webp(\?|$)/i.test(img.currentSrc || img.src || '')) {
-      img.setAttribute('data-webpfb','1');
-      img.src = _jpg(img.currentSrc || img.src);
-    }
-  }, true);
-})();
-</script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 
@@ -12883,7 +12862,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-var _APP_VERSION = "v2034";
+var _APP_VERSION = "v2035";
 if ('serviceWorker' in navigator) {
   // Forzar comprobación del SW en cada visita (evita que el navegador cachee sw.js)
   navigator.serviceWorker.getRegistrations().then(function(regs) {
