@@ -4716,7 +4716,7 @@ function iniciarProximidad() {
           var t = (T[idiomaActual]||T.es);
           new Notification('📍 ' + (idiomaActual==='gl'&&p.nombre_gl?p.nombre_gl:idiomaActual==='en'&&p.nombre_en?p.nombre_en:p.nombre), {
             body: p.subtitulo || t.mapSubtitle,
-            icon: 'https://i.postimg.cc/rm387xgK/IMG-0201.jpg'
+            icon: ''
           });
         }
       });
