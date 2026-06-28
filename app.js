@@ -2381,6 +2381,11 @@ function abrirHeroModal() {
     inner.style.cssText = 'position:relative;z-index:1;flex:1;min-height:0;display:flex;flex-direction:column;padding:0 20px 40px;box-sizing:border-box';
     inner.innerHTML = '';
 
+    // A más de 200 km del Camino oficial no tiene sentido el flujo de etapa /
+    // lugares cercanos (daría distancias absurdas). Mostramos una vista propia
+    // con solo acciones que NO dependen de la ruta.
+    if (typeof _lejosDelCamino === 'function' && _lejosDelCamino()) { _renderLejos(); return; }
+
     // Casco solo, centrado, con pulso suave
     var cascoWrap = document.createElement('div');
     cascoWrap.style.cssText = 'display:flex;align-items:flex-end;gap:10px;margin-bottom:10px';
@@ -2880,6 +2885,74 @@ function abrirHeroModal() {
     inner.appendChild(btnAtras);
   }
 
+  // ── VISTA "LEJOS DEL CAMINO" ───────────────────────────────────
+  // Se muestra cuando el usuario está a >200 km del Camino oficial. En vez
+  // del flujo de etapa/cercanos (distancias absurdas), ofrece solo acciones
+  // que no dependen de la ruta: brújula, historia, añadir punto, emergencias.
+  function _renderLejos() {
+    if (panel._sugerenciasWrap) { panel._sugerenciasWrap.remove(); panel._sugerenciasWrap = null; }
+    inner.style.cssText = 'position:relative;z-index:1;flex:1;min-height:0;display:flex;flex-direction:column;padding:0 20px 40px;box-sizing:border-box';
+    inner.innerHTML = '';
+
+    var header = document.createElement('div');
+    header.style.cssText = 'flex-shrink:0';
+    _cascoTypewriter(header, _t.asistLejosTit || 'Estás lejos del Camino');
+
+    var msg = document.createElement('p');
+    msg.style.cssText = 'font-size:14px;color:#3d1f00;line-height:1.5;margin:8px 0 14px;opacity:0.9';
+    msg.textContent = _t.asistLejosMsg || 'Esta guía cubre las rutas de Galicia y el norte de Portugal. Aún puedes usar estas funciones:';
+    header.appendChild(msg);
+    inner.appendChild(header);
+
+    var lista = document.createElement('div');
+    lista.style.cssText = 'display:flex;flex-direction:column;gap:8px;margin-bottom:14px;flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:4px 2px;overscroll-behavior:contain';
+
+    var opciones = [
+      { emoji:'🧪', tit:_t.asistSimTit||'Simular recorrido',        desc:_t.asistSimDesc||'Coloca una posición ficticia sobre el Camino y pruébalo todo.', accion:function(){ cerrar(); setTimeout(function(){ _irAlMapa(); setTimeout(function(){ if (typeof _iniciarSimulacion==='function') _iniciarSimulacion(); }, 400); }, 340); } },
+      { emoji:'🧭', tit:_t.asistBtnBrujula||'Usar la brújula',        desc:_t.asistBtnBrujulaDesc||'Oriéntate con la brújula digital del Camino', accion:function(){ _renderBrujulaModal(); } },
+      { emoji:'🐚', tit:_t.asistOp2Tit||'Historia Compostelana',       desc:_t.asistOp2Desc||'El Camino, los templarios, las rutas históricas…', accion:function(){ cerrar(); setTimeout(function(){ _irAlMapa(); setTimeout(abrirHistoriaDrawer, 400); }, 340); } },
+      { emoji:'📍', tit:_t.asistBtnAnadirPunto||'Añadir punto o alerta', desc:_t.asistBtnAnadirDesc||'Recomienda un lugar, añade una alerta o un punto de interés', accion:function(){ cerrar(); setTimeout(function(){ _irAlMapa(); setTimeout(abrirFormPOI, 400); }, 340); } },
+      { emoji:'🆘', tit:_t.asistOp5Tit||'Emergencias y seguridad',     desc:_t.asistOp5Desc||'Teléfonos útiles y recursos para el Camino.', accion:function(){ cerrar(); setTimeout(function(){ _irAlMapa(); setTimeout(abrirSOSDrawer, 400); }, 340); } }
+    ];
+
+    opciones.forEach(function(op) {
+      var fila = document.createElement('button');
+      fila.style.cssText = 'display:flex;align-items:center;gap:12px;background:rgba(0,0,0,0.2);border:1.5px solid #7a5010;border-radius:10px;padding:13px 14px;cursor:pointer;transition:background 0.15s;width:100%;box-sizing:border-box;text-align:left;flex-shrink:0';
+      fila.addEventListener('click', op.accion);
+
+      var em = document.createElement('div');
+      em.style.cssText = 'font-size:26px;flex-shrink:0;width:34px;text-align:center';
+      em.textContent = op.emoji;
+      fila.appendChild(em);
+
+      var info = document.createElement('div');
+      info.style.cssText = 'flex:1;min-width:0';
+      var titEl = document.createElement('div');
+      titEl.style.cssText = 'font-family:DM Sans,sans-serif;font-size:15px;color:#1a0800;margin-bottom:2px;line-height:1.3';
+      titEl.textContent = op.tit.replace(/^[\u{1F000}-\u{1FFFF}\u{2600}-\u{27FF}\uFE0F\s]+/u, '').trim();
+      var descEl = document.createElement('div');
+      descEl.style.cssText = 'font-size:13px;color:#3d1f00;line-height:1.3;opacity:0.85';
+      descEl.textContent = op.desc;
+      info.appendChild(titEl);
+      info.appendChild(descEl);
+      fila.appendChild(info);
+
+      var arr = document.createElement('div');
+      arr.style.cssText = 'color:#7a5010;font-size:20px;flex-shrink:0';
+      arr.textContent = '›';
+      fila.appendChild(arr);
+
+      lista.appendChild(fila);
+    });
+    inner.appendChild(lista);
+
+    var btnCerrar = document.createElement('button');
+    btnCerrar.textContent = _t.asistCerrar||'Cerrar';
+    btnCerrar.style.cssText = 'width:100%;background:rgba(0,0,0,0.2);color:#fff8e8;border:1px solid #7a5010;border-radius:8px;padding:11px;font-size:15px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;flex-shrink:0';
+    btnCerrar.addEventListener('click', function(){ _renderDespedida(); });
+    inner.appendChild(btnCerrar);
+  }
+
   function _renderMenuPrincipal() {
     inner.innerHTML = '';
 
@@ -2902,6 +2975,7 @@ function abrirHeroModal() {
 
     var opciones = [
       { emoji:'🔍', tit:_t.asistBtnBuscar||'🔍 Buscar algo próximo',          desc:_t.asistBuscarSub||'Busca cualquier lugar o servicio en un radio de 1 km.',       accion:function(){ _abrirBusquedaProxima(); } },
+      { emoji:'🧪', tit:_t.asistSimTit||'Simular recorrido',                   desc:_t.asistSimDesc||'Coloca una posición ficticia sobre el Camino y pruébalo todo.', accion:function(){ cerrar(); setTimeout(function(){ _irAlMapa(); setTimeout(function(){ if (typeof _iniciarSimulacion==='function') _iniciarSimulacion(); }, 400); }, 340); } },
       { emoji:'🐚', tit:_t.asistOp2Tit||'Historia Compostelana',               desc:_t.asistOp2Desc||'El Camino, los templarios, las rutas históricas…',              accion:function(){ cerrar(); setTimeout(function(){ _irAlMapa(); setTimeout(abrirHistoriaDrawer, 400); }, 340); } },
       { emoji:'🗺️', tit:_t.rofTutBtn||'Mapa de trazados oficiales',             desc:_t.rofTutSub||'Cómo ver los Caminos y usar el modo Ruta Oficial',          accion:function(){ cerrar(); setTimeout(function(){ _irAlMapa(); setTimeout(function(){ if(window.abrirTutorialRutaOficial) window.abrirTutorialRutaOficial(); }, 400); }, 340); } },
       { emoji:'📍', tit:_t.asistBtnAnadirPunto||'📍 Añadir punto o alerta',    desc:_t.asistBtnAnadirDesc||'Recomienda un lugar, añade una alerta o un punto de interés', accion:function(){ cerrar(); setTimeout(function(){ _irAlMapa(); setTimeout(abrirFormPOI, 400); }, 340); } },
@@ -3256,6 +3330,7 @@ function abrirHeroModal() {
             if (typeof rutaPuntos === 'undefined') return;
             var yaEsta = rutaPuntos.some(function(x){ return x.id === poi.id; });
             if (!yaEsta) {
+              if(_bloquearSiLejos())return;
               rutaPuntos.push({id: poi.id, nombre: poi.nombre, lat: poi.lat, lng: poi.lng});
               try { actualizarRuta(); } catch(e){}
               // Marcar el check en la fila de la lista de selección
@@ -3888,7 +3963,7 @@ function añadirMarcadorAlerta(a) {
   a._marker = m;
   m.on('click', (function(alerta) {
     return function() {
-      if (window._navBloqPopups) return;
+      if (window._navBloqPopups || window._simEsperandoUbicacion) return;
       mapa.openPopup(L.popup({ className:'poi-popup', maxWidth:260 })
         .setLatLng([alerta.lat, alerta.lng])
         .setContent(buildAlertaPopup(alerta)));
@@ -4090,7 +4165,7 @@ function añadirMarcadorUsuario(p) {
   p._marker = m;
   m.on('click', (function(punto) {
     return function() {
-      if (window._navBloqPopups) return;
+      if (window._navBloqPopups || window._simEsperandoUbicacion) return;
       var popupId = 'popup-del-' + punto.id;
       var esMiPunto = punto.deviceId === DEVICE_ID ||
         PUNTOS_USUARIO.find(function(x){ return x.id === punto.id; });
@@ -4129,6 +4204,7 @@ function volverARuta(){
     if (typeof mostrarToast==='function') mostrarToast('Necesito tu ubicación GPS para guiarte');
     return;
   }
+  if(_bloquearSiLejos())return;
   if (!window.Desvio || !window.Desvio.puntoMasCercano){
     if (typeof mostrarToast==='function') mostrarToast('No hay trazado oficial cargado todavía');
     return;
@@ -5312,6 +5388,147 @@ function crearIconoUsuario(heading) {
 
 var iconoUsuario = crearIconoUsuario(null);
 
+// ── MODO SIMULACIÓN ───────────────────────────────────────────────
+// Coloca una posición ficticia (marcador rojo arrastrable) que sustituye al
+// punto azul del GPS. Con userLat/userLng apuntando ahí, TODA la app funciona
+// (distancias, ruta, navegación, asistente). El GPS real queda suspendido vía
+// window._simulacion (guards en los dos watchPosition). Pensado para planificar
+// o demostrar el Camino sin estar físicamente sobre él.
+var _simClickHandler = null;
+
+function crearIconoSimulado(heading) {
+  var rot = (heading !== null && heading !== undefined) ? heading : 0;
+  var hasHeading = (heading !== null && heading !== undefined);
+  return L.divIcon({
+    className: '',
+    html: hasHeading
+      ? '<div style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;transform:rotate('+rot+'deg);transition:transform 0.3s ease">' +
+        '<svg width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">' +
+        '<circle cx="18" cy="18" r="17" fill="rgba(220,38,38,0.2)" stroke="rgba(220,38,38,0.4)" stroke-width="1"/>' +
+        '<polygon points="18,4 24,28 18,23 12,28" fill="#DC2626" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>' +
+        '</svg></div>'
+      : '<div style="width:18px;height:18px;background:#DC2626;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 5px rgba(220,38,38,0.3)"></div>',
+    iconSize: hasHeading ? [36,36] : [18,18],
+    iconAnchor: hasHeading ? [18,18] : [9,9]
+  });
+}
+
+function _iniciarSimulacion() {
+  if (typeof mapa === 'undefined' || !mapa) return;
+  window._simulacion = true;
+  // Quitar el marcador azul real si lo hubiera
+  if (window._userMarker) { try { mapa.removeLayer(window._userMarker); } catch(e){} window._userMarker = null; }
+  // Volar al Camino: encuadrar los POIs oficiales para que el usuario coloque
+  // su posición sobre una ruta.
+  try {
+    var pts = [];
+    (typeof PUNTOS !== 'undefined' ? PUNTOS : []).forEach(function(p){
+      if (!p || p.lat == null || p.lng == null) return;
+      if (p.categoria === 'busqueda' || p.categoria === 'volver' || p.esUsuario) return;
+      if (typeof p.id === 'string' && (p.id.indexOf('_busq_') === 0 || p.id.indexOf('u_') === 0)) return;
+      pts.push([p.lat, p.lng]);
+    });
+    if (pts.length) mapa.fitBounds(L.latLngBounds(pts), { padding:[40,40] });
+  } catch(e){}
+  var _t = (typeof T !== 'undefined' && T[idiomaActual]) ? T[idiomaActual] : (typeof T !== 'undefined' ? T.es : {});
+  // Fase de espera: hasta colocar el punto rojo, los handlers de click de los
+  // marcadores (que comprueban esta bandera, igual que _navBloqPopups) no
+  // abren ningún popup, de modo que no se puede añadir un POI a la ruta.
+  window._simEsperandoUbicacion = true;
+  _simMostrarHint(_t.simHint || 'Toca el mapa para colocar tu posición simulada');
+  _simClickHandler = function(ev) { _simColocar(ev.latlng.lat, ev.latlng.lng); };
+  mapa.on('click', _simClickHandler);
+}
+
+function _simColocar(lat, lng, silencioso) {
+  window._simulacion = true;
+  // Ya hay ubicación: se vuelven a permitir los popups de los POI.
+  window._simEsperandoUbicacion = false;
+  if (_simClickHandler) { try { mapa.off('click', _simClickHandler); } catch(e){} _simClickHandler = null; }
+  _simQuitarHint();
+  if (window._userMarker) { try { mapa.removeLayer(window._userMarker); } catch(e){} window._userMarker = null; }
+  userLat = lat; userLng = lng;
+  if (window._simMarker) { try { mapa.removeLayer(window._simMarker); } catch(e){} window._simMarker = null; }
+  var _t = (typeof T !== 'undefined' && T[idiomaActual]) ? T[idiomaActual] : (typeof T !== 'undefined' ? T.es : {});
+  window._simMarker = L.marker([lat,lng], { icon: crearIconoSimulado(null), draggable:true, zIndexOffset:1100 })
+    .addTo(mapa)
+    .bindPopup('<strong>🧪 '+(_t.simBanner||'Simulación activa')+'</strong>');
+  window._simMarker.on('drag', function(e){
+    var ll = e.target.getLatLng();
+    userLat = ll.lat; userLng = ll.lng;
+    if (circuloRadio) { try{ mapa.removeLayer(circuloRadio); }catch(_){} circuloRadio = L.circle([userLat,userLng],{radius:radioKm*1000,color:'#DC2626',fillColor:'#DC2626',fillOpacity:0.07,weight:2,dashArray:'6 4'}).addTo(mapa); }
+  });
+  window._simMarker.on('dragend', function(){
+    if (typeof calcularDistancias === 'function') calcularDistancias();
+    if (typeof actualizarRuta === 'function') actualizarRuta();
+    // Si el trazado de flechas está visible, lo redibujamos desde la nueva
+    // posición del punto rojo (mismo trazado que el botón "ver ruta"). Solo en
+    // dragend, no durante el arrastre, para no spamear OSRM.
+    if (typeof _verRutaMapa !== 'undefined' && _verRutaMapa && typeof dibujarLineaEstática === 'function') dibujarLineaEstática();
+  });
+  radioKm = 1;
+  if (typeof aplicarRadio === 'function') aplicarRadio(1);
+  if (circuloRadio) { try { mapa.removeLayer(circuloRadio); } catch(_){} }
+  circuloRadio = L.circle([lat,lng],{radius:radioKm*1000,color:'#DC2626',fillColor:'#DC2626',fillOpacity:0.07,weight:2,dashArray:'6 4'}).addTo(mapa);
+  mapa.setView([lat,lng], 14, {animate:true});
+  if (typeof calcularDistancias === 'function') calcularDistancias();
+  _simMostrarBanner();
+  if (!silencioso && typeof mostrarToast === 'function') mostrarToast('🧪 '+(_t.simListo||'Posición simulada colocada. Arrástrala para moverte.'));
+}
+
+function _salirSimulacion() {
+  window._simulacion = false;
+  window._simEsperandoUbicacion = false;
+  if (_simClickHandler) { try { mapa.off('click', _simClickHandler); } catch(e){} _simClickHandler = null; }
+  _simQuitarHint();
+  _simQuitarBanner();
+  if (window._simMarker) { try { mapa.removeLayer(window._simMarker); } catch(e){} window._simMarker = null; }
+  if (circuloRadio) { try { mapa.removeLayer(circuloRadio); } catch(e){} circuloRadio = null; }
+  // Al salir de la simulación, borrar de la ruta los POIs seleccionados
+  // (vacía rutaPuntos, línea, flechas y resetea botones, sin tocar la ruta
+  // guardada en memoria). Silencioso para no mostrar un toast extra.
+  try { if (typeof _ejecutarLimpiarRutaSoloMapa === 'function') _ejecutarLimpiarRutaSoloMapa(true); } catch(e){}
+  // Volver a la realidad: restaurar la última posición REAL conocida. Como los
+  // guards impidieron que el GPS real tocara _lastKnownLat durante la sim, aquí
+  // recuperamos la posición física previa (reactivando el geofence si procede).
+  userLat = _lastKnownLat || null;
+  userLng = _lastKnownLng || null;
+  if (userLat && userLng && typeof mapa !== 'undefined' && mapa) {
+    if (window._userMarker) { try{ mapa.removeLayer(window._userMarker); }catch(e){} window._userMarker = null; }
+    var _t = (typeof T !== 'undefined' && T[idiomaActual]) ? T[idiomaActual] : (typeof T !== 'undefined' ? T.es : {});
+    window._userMarker = L.marker([userLat,userLng],{icon:crearIconoUsuario(null),zIndexOffset:1000}).addTo(mapa).bindPopup('<strong>'+(_t.tuUbicacion||'Tu ubicación')+'</strong>');
+    mapa.setView([userLat,userLng], 13, {animate:true});
+    if (typeof calcularDistancias === 'function') calcularDistancias();
+  }
+}
+
+function _simMostrarHint(txt) {
+  _simQuitarHint();
+  var h = document.createElement('div');
+  h.id = 'sim-hint';
+  h.textContent = txt;
+  h.style.cssText = 'position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:1000001;background:rgba(0,0,0,0.82);color:#fff;font:600 13px/1.4 DM Sans,sans-serif;padding:9px 16px;border-radius:20px;box-shadow:0 4px 16px rgba(0,0,0,0.3);text-align:center;max-width:88vw;pointer-events:none';
+  document.body.appendChild(h);
+}
+function _simQuitarHint(){ var h=document.getElementById('sim-hint'); if(h) h.remove(); }
+
+function _simMostrarBanner() {
+  _simQuitarBanner();
+  var _t = (typeof T !== 'undefined' && T[idiomaActual]) ? T[idiomaActual] : (typeof T !== 'undefined' ? T.es : {});
+  var b = document.createElement('div');
+  b.id = 'sim-banner';
+  b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:1000001;background:#DC2626;color:#fff;font:600 13px/1.4 DM Sans,sans-serif;display:flex;align-items:center;justify-content:center;gap:14px;padding:7px 12px';
+  var txt = document.createElement('span');
+  txt.textContent = '🧪 ' + (_t.simBanner || 'Simulación activa');
+  var btn = document.createElement('button');
+  btn.textContent = _t.simSalir || 'Salir';
+  btn.style.cssText = 'background:#fff;color:#DC2626;border:none;border-radius:14px;padding:4px 14px;font:700 13px DM Sans,sans-serif;cursor:pointer;-webkit-appearance:none';
+  btn.addEventListener('click', _salirSimulacion);
+  b.appendChild(txt); b.appendChild(btn);
+  document.body.appendChild(b);
+}
+function _simQuitarBanner(){ var b=document.getElementById('sim-banner'); if(b) b.remove(); }
+
 var _COLOR_MAP = {
   'verde':  '#1D9E75',
   'azul':   '#2563EB',
@@ -5455,7 +5672,12 @@ function initMapa() {
   // Ocultar botón ➕ cuando se abre un popup, restaurar al cerrar
   var _popupAbierto = false;
 
-  var _mapBtns = ['btn-add-poi-map','btn-poi-drawer-mapa','btn-alertas-toggle','btn-brujula-mapa','btn-sos-mapa','btn-buscar-mapa','btn-ruta-oficial','btn-descargar-mapa','map-ruta-panel','map-radio-control'];
+  var _mapBtns = ['btn-add-poi-map','btn-poi-drawer-mapa','btn-alertas-toggle','btn-brujula-mapa','btn-sos-mapa','btn-buscar-mapa','btn-ruta-oficial','btn-descargar-mapa','btn-simular-mapa','map-ruta-panel','map-radio-control'];
+  // Red de seguridad: si por cualquier vía se abriera un popup durante la fase
+  // de simulación en la que aún no se ha colocado el punto rojo, lo cerramos.
+  mapa.on('popupopen', function(e) {
+    if (window._simEsperandoUbicacion) { try { mapa.closePopup(e.popup); } catch(_) {} }
+  });
   // Actualizar botón añadir/quitar en popups de resultados de búsqueda al abrirlos
   mapa.on('popupopen', function(e) {
     var container = e.popup.getElement();
@@ -5500,6 +5722,7 @@ function initMapa() {
     b=document.getElementById('btn-poi-drawer-mapa'); if(b) b.style.display='flex';
     b=document.getElementById('btn-ruta-oficial'); if(b) b.style.display='';
     b=document.getElementById('btn-descargar-mapa'); if(b) b.style.display='flex';
+    b=document.getElementById('btn-simular-mapa'); if(b) b.style.display='flex';
     b=document.getElementById('btn-asistente-mapa'); if(b&&!_navActiva) b.style.display='flex';
     // Restaurar panel ruta siempre visible
     b=document.getElementById('map-ruta-panel'); if(b){b.style.display='flex';b.style.flexDirection='column';}
@@ -5538,7 +5761,7 @@ function initMapa() {
     });
     var mf = L.marker([p.lat, p.lng], { icon: iconFiesta, zIndexOffset: 500 }).addTo(mapa);
     mf.on('click', function() {
-      if (window._navBloqPopups) return;
+      if (window._navBloqPopups || window._simEsperandoUbicacion) return;
       var content = '<div style="font-family:DM Sans,sans-serif;min-width:190px;max-width:260px">' +
         '<strong style="font-size:16px;color:#1D9E75">' + p.nombre + '</strong><br>' +
         '<small style="color:#6b7280;text-transform:uppercase;letter-spacing:1px">FIESTA HOY 🎉</small>' +
@@ -5581,7 +5804,7 @@ function initMapa() {
         var m = L.marker([p.lat,p.lng], { icon:crearIcono(p.emoji, p.categoria==='etapa' ? p.color : null) });
         m.on('click', (function(punto) {
           return function() {
-            if (window._navBloqPopups) return;
+            if (window._navBloqPopups || window._simEsperandoUbicacion) return;
             _abrirModalPOI(punto);
           };
         })(p));
@@ -5636,6 +5859,7 @@ function initMapa() {
     // al peregrino sin desfase. El GPS funciona sin conexión; localStorage
     // guarda la última posición para centrar el mapa en el próximo arranque.
     var _watchId = navigator.geolocation.watchPosition(function(pos) {
+      if (window._simulacion) return; // en simulación, el GPS real no manda
       var lat = pos.coords.latitude, lng = pos.coords.longitude;
       var esNuevo = !userLat;
       userLat = lat; userLng = lng;
@@ -5750,6 +5974,7 @@ function toggleSeguimiento() {
     // watchPosition seguimiento
     if (!window._seguimientoId && navigator.geolocation) {
       window._seguimientoId = navigator.geolocation.watchPosition(function(pos) {
+        if (window._simulacion) return; // en simulación, el GPS real no manda
         if (!_modoSeguimiento) return;
         userLat = pos.coords.latitude;
         userLng = pos.coords.longitude;
@@ -6488,6 +6713,7 @@ function _toggleBusquedaRuta(btn, nombreEnc, lat, lng) {
     if (btn) { btn.textContent = '➕ Añadir a ruta'; btn.style.background = '#E1F5EE'; btn.style.color = '#0F6E56'; btn.style.borderColor = 'rgba(29,158,117,0.4)'; }
   } else {
     // Añadir a la ruta
+    if(_bloquearSiLejos())return;
     PUNTOS = PUNTOS.filter(function(p){ return p.id !== tmpId; });
     PUNTOS.push({ id:tmpId, nombre:nombre, lat:lat, lng:lng, categoria:'busqueda', emoji:'📍' });
     addToRoute(tmpId);
@@ -6556,6 +6782,7 @@ function _mostrarEnMapaConRuta(lat, lng, nombre) {
 }
 
 function irACoordenadasNav(lat,lng) {
+  if(_bloquearSiLejos())return;
   mapa.closePopup();
   var tmpId = '_busqueda_tmp';
   PUNTOS = PUNTOS.filter(function(p){ return p.id !== tmpId; });
@@ -6619,12 +6846,99 @@ function copiarCripto(el){
 }
 
 // GENERADOR DE RUTA
+// ── GEOFENCE DE RUTA ──────────────────────────────────────────────
+// Si el usuario está a más de UMBRAL_LEJOS_KM del punto oficial del Camino
+// más cercano, cualquier acción de ruta (añadir, navegar, modo oficial) se
+// bloquea con un aviso flotante, para no dibujar trazados intercontinentales
+// absurdos cuando se abre la app lejos de Galicia (p. ej. desde Australia).
+var UMBRAL_LEJOS_KM = 200;
+
+// true si hay posición GPS conocida y el Camino oficial más cercano queda a
+// más de UMBRAL_LEJOS_KM. Sin GPS devuelve false (no podemos medir → no
+// bloqueamos). Mide solo contra POIs del Camino real: excluye búsquedas OSM,
+// el destino temporal y el punto sintético "volver a la ruta".
+function _lejosDelCamino() {
+  if (typeof userLat === 'undefined' || !userLat || typeof userLng === 'undefined' || !userLng) return false;
+  if (typeof PUNTOS === 'undefined' || !PUNTOS.length) return false;
+  var min = Infinity;
+  for (var i = 0; i < PUNTOS.length; i++) {
+    var p = PUNTOS[i];
+    if (!p || p.lat == null || p.lng == null) continue;
+    if (p.categoria === 'busqueda' || p.categoria === 'volver') continue;
+    if (p.esUsuario) continue; // puntos del usuario: no cuentan como Camino oficial
+    if (p.id === '_busqueda_tmp' || p.id === '_volver_ruta') continue;
+    if (typeof p.id === 'string' && (p.id.indexOf('_busq_') === 0 || p.id.indexOf('u_') === 0)) continue;
+    var d = haversine(userLat, userLng, p.lat, p.lng);
+    if (d < min) min = d;
+    if (min <= UMBRAL_LEJOS_KM) return false; // Camino cerca: salida rápida
+  }
+  return min > UMBRAL_LEJOS_KM;
+}
+
+// Modal flotante de aviso. Idempotente: nunca se apila.
+function _avisoLejosCamino() {
+  if (document.getElementById('aviso-lejos-camino')) return;
+  var t = (typeof T !== 'undefined' && T[idiomaActual]) ? T[idiomaActual] : (typeof T !== 'undefined' ? T.es : {});
+  var titulo = t.lejosTitulo || 'Estás muy lejos del Camino';
+  var msg    = t.lejosMsg    || 'Estás demasiado lejos del Camino para trazar la ruta.';
+  var preg   = t.lejosSimPregunta || '¿Quieres explorar el Camino en modo simulación?';
+  var siTxt  = t.lejosSimSi  || 'Sí, simular';
+  var noTxt  = t.lejosSimNo  || 'No, gracias';
+
+  if (!document.getElementById('_lejosKeyframes')) {
+    var st = document.createElement('style');
+    st.id = '_lejosKeyframes';
+    st.textContent = '@keyframes _lejosPop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}';
+    document.head.appendChild(st);
+  }
+
+  var ov = document.createElement('div');
+  ov.id = 'aviso-lejos-camino';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:1000000;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;padding:1.2rem;box-sizing:border-box;font-family:DM Sans,sans-serif;-webkit-tap-highlight-color:transparent';
+
+  var card = document.createElement('div');
+  card.style.cssText = 'background:#fff;border-radius:18px;max-width:340px;width:100%;padding:26px 22px 20px;text-align:center;box-shadow:0 18px 50px rgba(0,0,0,0.35);animation:_lejosPop .22s ease-out';
+  card.innerHTML =
+    '<div style="font-size:44px;line-height:1;margin-bottom:12px">🧭</div>' +
+    '<div style="font-size:18px;font-weight:700;color:#0F6E56;margin-bottom:8px">' + titulo + '</div>' +
+    '<div style="font-size:14px;line-height:1.5;color:#555;margin-bottom:6px">' + msg + '</div>' +
+    '<div style="font-size:14px;line-height:1.5;color:#1a1a1a;font-weight:600;margin-bottom:20px">' + preg + '</div>';
+
+  function _cerrarAviso(){ try { document.body.removeChild(ov); } catch(e){} }
+
+  var btnSim = document.createElement('button');
+  btnSim.type = 'button';
+  btnSim.textContent = '🧪 ' + siTxt;
+  btnSim.style.cssText = 'width:100%;background:#DC2626;color:#fff;border:none;border-radius:12px;padding:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;-webkit-appearance:none;margin-bottom:8px';
+  btnSim.addEventListener('click', function(){ _cerrarAviso(); if (typeof _iniciarSimulacion === 'function') _iniciarSimulacion(); });
+
+  var btnNo = document.createElement('button');
+  btnNo.type = 'button';
+  btnNo.textContent = noTxt;
+  btnNo.style.cssText = 'width:100%;background:#f0f0f0;color:#555;border:none;border-radius:12px;padding:12px;font-size:15px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;-webkit-appearance:none';
+  btnNo.addEventListener('click', _cerrarAviso);
+
+  ov.addEventListener('click', function(e){ if (e.target === ov) _cerrarAviso(); });
+
+  card.appendChild(btnSim);
+  card.appendChild(btnNo);
+  ov.appendChild(card);
+  document.body.appendChild(ov);
+}
+
+// Devuelve true (y muestra el aviso) si hay que BLOQUEAR la acción de ruta.
+function _bloquearSiLejos() {
+  if (_lejosDelCamino()) { _avisoLejosCamino(); return true; }
+  return false;
+}
+
 function addToRoute(id) {
   var todos = PUNTOS.concat(typeof PUNTOS_USUARIO !== 'undefined' ? PUNTOS_USUARIO : []);
   var p = todos.find(function(x){return x.id===id;});
   if(!p) return;
   var yaEsta=rutaPuntos.find(function(x){return x.id===id;});
   if(yaEsta){quitarDeRuta(id);return;}
+  if(_bloquearSiLejos())return;
   rutaPuntos.push({id:p.id,nombre:p.nombre,lat:p.lat,lng:p.lng});
   actualizarRuta();
   actualizarBtnMapa(id, true);
@@ -7428,7 +7742,14 @@ function irAlMapaConRuta() {
 function guardarRuta() {
   if (rutaPuntos.length === 0) return;
   try {
-    localStorage.setItem('rutaGuardadaV2', JSON.stringify(rutaPuntos));
+    // Formato nuevo: { puntos, sim }. Si la ruta se está creando en modo
+    // simulación, guardamos también el punto rojo de origen, para poder
+    // regenerarla luego desde el mismo lugar.
+    var payload = { puntos: rutaPuntos, sim: null };
+    if (window._simulacion && typeof userLat !== 'undefined' && userLat && typeof userLng !== 'undefined' && userLng) {
+      payload.sim = { lat: userLat, lng: userLng };
+    }
+    localStorage.setItem('rutaGuardadaV2', JSON.stringify(payload));
     _actualizarBtnRestauraRuta();
     var btn = document.getElementById('btn-guardar-restaurar');
     if (btn) { btn.style.background='#4f46e5'; btn.textContent='✅'; }
@@ -7449,12 +7770,25 @@ function guardarRuta() {
   } catch(e) { mostrarToast('\u26a0\ufe0f No se pudo guardar'); }
 }
 
-function cargarRutaGuardada() {
+function cargarRutaGuardada(restaurarSim) {
   try {
     var saved = localStorage.getItem('rutaGuardadaV2');
     if (!saved) return;
-    var puntos = JSON.parse(saved);
+    var parsed = JSON.parse(saved);
+    // Compatibilidad: formato antiguo = array suelto; nuevo = { puntos, sim }
+    var puntos, simOrigen = null;
+    if (Array.isArray(parsed)) { puntos = parsed; }
+    else { puntos = parsed.puntos || []; simOrigen = parsed.sim || null; }
     if (!puntos || puntos.length === 0) return;
+    // Si la ruta se guardó en simulación y se pide restaurar su contexto
+    // (restauración explícita con el botón ↩), recolocamos el punto rojo de
+    // origen ANTES de dibujar la ruta, para que se regenere desde el mismo
+    // lugar donde se creó. En el arranque normal (restaurarSim falsy) NO se
+    // entra en simulación: solo se cargan los puntos.
+    if (restaurarSim && simOrigen && simOrigen.lat != null && simOrigen.lng != null
+        && typeof _simColocar === 'function' && typeof mapa !== 'undefined' && mapa) {
+      _simColocar(simOrigen.lat, simOrigen.lng, true);
+    }
     // Enriquecer con datos actuales del array PUNTOS si están disponibles
     rutaPuntos = puntos.map(function(p) {
       var full = PUNTOS.find(function(x){ return x.id === p.id; });
@@ -7524,7 +7858,7 @@ function _restaurarRutaGuardada() {
   if (typeof rutaPuntos !== 'undefined' && rutaPuntos.length > 0) {
     _ejecutarLimpiarRutaSoloMapa();
   }
-  cargarRutaGuardada();
+  cargarRutaGuardada(true); // true → si la ruta era simulada, recoloca el punto rojo
   _actualizarBtnRestauraRuta();
 }
 function _ejecutarLimpiarRutaSoloMapa(silencioso) {
@@ -7614,6 +7948,7 @@ function distanciaTexto(m) {
 }
 
 function activarNavegacionVoz() {
+  if(_bloquearSiLejos())return;
   if (typeof _ocultarBtnComenzarNav==='function') _ocultarBtnComenzarNav();
   if (rutaPuntos.length < 1) { mostrarToast((T[idiomaActual]||T.es).navAnnadePunto||'Añade al menos 1 punto a la ruta'); return; }
   // --- Sin motor de routing offline ---
@@ -7706,7 +8041,7 @@ function activarNavegacionVoz() {
     if (btnOrMap) btnOrMap.style.display = 'none';
     var btnOrPanel = document.getElementById('ruta-nav-orientacion');
     if (btnOrPanel) btnOrPanel.style.display = 'block';
-    ['btn-add-poi-map','map-radio-control','btn-alertas-toggle','btn-sos-mapa','btn-meteo-mapa','btn-buscar-mapa','btn-poi-drawer-mapa','btn-expandir-mapa','btn-ruta-oficial','btn-descargar-mapa'].forEach(function(id){
+    ['btn-add-poi-map','map-radio-control','btn-alertas-toggle','btn-sos-mapa','btn-meteo-mapa','btn-buscar-mapa','btn-poi-drawer-mapa','btn-expandir-mapa','btn-ruta-oficial','btn-descargar-mapa','btn-simular-mapa'].forEach(function(id){
       var el=document.getElementById(id); if(el) el.style.display='none';
     });
 
@@ -7984,7 +8319,7 @@ function detenerNavegacionVoz() {
   if (searchUnder && searchUnder._origDisplay !== undefined) searchUnder.style.display = searchUnder._origDisplay;
 
   // Restaurar botones del mapa
-  ['btn-add-poi-map','map-radio-control','btn-alertas-toggle','btn-descargar-mapa'].forEach(function(id){
+  ['btn-add-poi-map','map-radio-control','btn-alertas-toggle','btn-descargar-mapa','btn-simular-mapa'].forEach(function(id){
     var el=document.getElementById(id); if(el) el.style.display='flex';
   });
   var _btnRofRst=document.getElementById('btn-ruta-oficial'); if(_btnRofRst) _btnRofRst.style.display='';

@@ -1575,6 +1575,8 @@
   <!-- Botón descargar mapa offline — a la derecha de la base del panel de ruta/navegación -->
   <button id='btn-descargar-mapa' onclick='if(window.DescargaMapa)DescargaMapa.descargarActual()' title='Descargar mapa de esta etapa para usar sin conexión'
     style='display:flex;position:absolute;bottom:36px;left:80px;z-index:400;width:36px;height:36px;background:rgba(255,245,210,0.92);border:1.5px solid #a07828;border-radius:8px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,0.28),0 1px 3px rgba(0,0,0,0.18);padding:0'><svg width='19' height='19' viewBox='0 0 24 24' fill='none' stroke='#7a5010' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 3v11'/><path d='M7 10l5 5 5-5'/><path d='M5 20h14'/></svg></button>
+  <button id='btn-simular-mapa' onclick='if(typeof _iniciarSimulacion==="function")_iniciarSimulacion()' title='Modo simulación'
+    style='display:flex;position:absolute;bottom:36px;left:124px;z-index:400;width:36px;height:36px;background:rgba(255,245,210,0.92);border:1.5px solid #a07828;border-radius:8px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,0.28),0 1px 3px rgba(0,0,0,0.18);padding:0'><svg width='18' height='18' viewBox='0 0 24 24'><circle cx='12' cy='12' r='7' fill='#DC2626' stroke='#fff' stroke-width='2'/></svg></button>
 
 </div>
 
@@ -2672,7 +2674,7 @@
      Se extrajo de app.js para corregir 'Can't find variable: T' en Safari. -->
 <script src="i18n.js"></script>
 <script>
-var _APP_VERSION = "v2052";
+var _APP_VERSION = "v2059";
 if ('serviceWorker' in navigator) {
   // Forzar comprobación del SW en cada visita (evita que el navegador cachee sw.js)
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -5550,6 +5552,10 @@ window._INDICE_CAMINOS = [{"id":"es01c_01a","ruta":"Camino Francés","slug":"fra
   // --- API del botón ---
   window.RutaOficial = {
     activar: function(){
+      // Geofence: a más de 200 km del Camino oficial no tiene sentido activar
+      // la vigilancia de ruta. Avisamos con el modal y no activamos. En
+      // simulación userLat está sobre el Camino, así que ahí sí se activa.
+      if (typeof _bloquearSiLejos === 'function' && _bloquearSiLejos()) return false;
       initSelector();
       if(!navigator.geolocation){
         if(typeof mostrarToast==='function') mostrarToast('Tu dispositivo no tiene GPS');
