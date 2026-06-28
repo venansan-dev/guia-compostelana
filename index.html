@@ -3,14 +3,33 @@
 <head>
 <!-- Google tag (gtag.js) — cargado tras 'load' para no bloquear el render -->
 <script>
+  var _GA_ID = 'G-7FH29XPZX0';
+  // ── Opt-out de Analytics para dispositivos propios ──────────────────────
+  // Abre  xacobeapp.com/?notrack=1  UNA vez en cada dispositivo tuyo para
+  // dejar de contar tus visitas (  ?notrack=0  lo revierte). Es por
+  // dispositivo (vive en localStorage), no afecta al resto de visitantes y
+  // funciona también en la PWA del móvil, donde el filtro por IP de GA falla.
+  try {
+    var _qs = new URLSearchParams(location.search);
+    if (_qs.has('notrack')) {
+      if (_qs.get('notrack') === '0') { localStorage.removeItem('_ga_optout'); }
+      else { localStorage.setItem('_ga_optout', '1'); }
+    }
+    if (localStorage.getItem('_ga_optout') === '1') {
+      window['ga-disable-' + _GA_ID] = true; // gtag no enviará nada en este dispositivo
+      console.log('[Xacobeapp] Analytics DESACTIVADO en este dispositivo (opt-out propio).');
+    }
+  } catch (e) {}
+
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-7FH29XPZX0');
+  gtag('config', _GA_ID);
   window.addEventListener('load', function(){
+    if (window['ga-disable-' + _GA_ID]) return; // opt-out: ni siquiera cargamos el script
     var s=document.createElement('script');
     s.async=true;
-    s.src='https://www.googletagmanager.com/gtag/js?id=G-7FH29XPZX0';
+    s.src='https://www.googletagmanager.com/gtag/js?id=' + _GA_ID;
     document.head.appendChild(s);
   });
 </script>
@@ -2653,7 +2672,7 @@
      Se extrajo de app.js para corregir 'Can't find variable: T' en Safari. -->
 <script src="i18n.js"></script>
 <script>
-var _APP_VERSION = "v2051";
+var _APP_VERSION = "v2052";
 if ('serviceWorker' in navigator) {
   // Forzar comprobación del SW en cada visita (evita que el navegador cachee sw.js)
   navigator.serviceWorker.getRegistrations().then(function(regs) {
