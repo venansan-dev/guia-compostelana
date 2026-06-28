@@ -7948,6 +7948,28 @@ function distanciaTexto(m) {
 }
 
 function activarNavegacionVoz() {
+  // En modo simulación la navegación por voz real (GPS) no tiene sentido: el
+  // usuario está sobre un punto ficticio. Avisamos con un modal y ofrecemos
+  // salir de la simulación. Cubre TODAS las vías de entrada a la navegación.
+  if (window._simulacion) {
+    var _ts = T[idiomaActual] || T.es;
+    _modalPergamino({
+      id: 'modal-nav-en-simulacion',
+      titulo: _ts.navSimTit || 'La navegación por voz no está disponible mientras simulas tu posición. Sal de la simulación para iniciar la navegación real con tu GPS.',
+      cancelTxt: _ts.navSimOk || 'Entendido',
+      opciones: [
+        { emoji:'🧪', tit: _ts.navSimSalir || 'Salir de la simulación',
+          sub: _ts.navSimSalirSub || 'Vuelve a tu posición real',
+          colorTit:'#7a1a1a', colorSub:'rgba(140,50,50,0.85)',
+          estilo:'background:rgba(120,30,30,0.18);border:1.5px solid rgba(160,60,60,0.6);',
+          accion: function(){
+            var ov = document.getElementById('modal-nav-en-simulacion'); if (ov) ov.remove();
+            if (typeof _salirSimulacion === 'function') _salirSimulacion();
+          } }
+      ]
+    });
+    return;
+  }
   if(_bloquearSiLejos())return;
   if (typeof _ocultarBtnComenzarNav==='function') _ocultarBtnComenzarNav();
   if (rutaPuntos.length < 1) { mostrarToast((T[idiomaActual]||T.es).navAnnadePunto||'Añade al menos 1 punto a la ruta'); return; }
@@ -8516,6 +8538,7 @@ window._dlT = {
     statPoi:'Puntos de interés especializados', statEtapas:'Etapas diarias de los 6 principales caminos', statCoste:'Coste para el peregrino',
     featTitle:'Todo lo que necesitas en el Camino', featSub:'Diseñada para usarse en el móvil mientras caminas',
     f0badge:'Nuevo',f0t:'Mapa de trazados oficiales',f0d:'Todos los Caminos oficiales (Francés, Norte, Inglés, Primitivo, Portugués…) dibujados sobre el mapa con los trazados certificados del CNIG. Activa el modo Ruta Oficial y la guía vigila por voz que no te salgas de la senda.',
+    fsimbadge:'Nuevo',fsimt:'Simulador de posición',fsimd:'Coloca un punto ficticio en cualquier lugar del Camino y muévete por él como si estuvieras allí. Planifica etapas desde casa, comprueba distancias y tiempos, descubre qué lugares te quedan cerca de cada tramo y prueba toda la app sin moverte del sofá.',
     f1t:'Mapa interactivo offline',f1d:'Tiles de OpenStreetMap cacheadas. Navega sin conexión a lo largo de toda la ruta, con tu posición GPS en tiempo real.',
     f2t:'Navegación por voz',f2d:'Indicaciones habladas en gallego, español e inglés. El móvil te avisa de cada giro sin tener que mirar la pantalla.',
     f3t:'Patrimonio jacobeo',f3d:'Iglesias, monasterios, castros y vestigios arqueológicos documentados con textos históricos y POIs exclusivos especializados en el patrimonio xacobeo.',
@@ -8553,6 +8576,7 @@ window._dlT = {
     statPoi:'Puntos de interese especializados', statEtapas:'Etapas diarias dos 6 camiños principais', statCoste:'Custo para o peregrino',
     featTitle:'Todo o que precisas no Camiño', featSub:'Deseñada para usarse no móbil mentres camiñas',
     f0badge:'Novo',f0t:'Mapa de trazados oficiais',f0d:'Todos os Camiños oficiais (Francés, Norte, Inglés, Primitivo, Portugués…) debuxados sobre o mapa cos trazados certificados do CNIG. Activa o modo Ruta Oficial e a guía vixía por voz que non te saias da senda.',
+    fsimbadge:'Novo',fsimt:'Simulador de posición',fsimd:'Coloca un punto ficticio en calquera lugar do Camiño e móvete por el coma se estiveses alí. Planifica etapas desde a casa, comproba distancias e tempos, descobre que lugares che quedan preto de cada tramo e proba toda a app sen moverte do sofá.',
     f1t:'Mapa interactivo sen conexión',f1d:'Tiles de OpenStreetMap en caché. Navega sen conexión ao longo de toda a ruta, coa túa posición GPS en tempo real.',
     f2t:'Navegación por voz',f2d:'Indicacións faladas en galego, español e inglés. O móbil avísate de cada xiro sen ter que mirar a pantalla.',
     f3t:'Patrimonio xacobeo',f3d:'Igrexas, mosteiros, castros e vestixios arqueolóxicos documentados con textos históricos e POIs exclusivos especializados no patrimonio xacobeo.',
@@ -8590,6 +8614,7 @@ window._dlT = {
     statPoi:'Specialised points of interest', statEtapas:'Daily stages across the 6 main routes', statCoste:'Cost for the pilgrim',
     featTitle:'Everything you need on the Camino', featSub:'Designed to be used on your phone while you walk',
     f0badge:'New',f0t:'Official route map',f0d:'All the official Ways (French, Northern, English, Primitive, Portuguese…) drawn on the map with CNIG-certified tracks. Turn on Official Route mode and the guide watches by voice that you stay on the path.',
+    fsimbadge:'New',fsimt:'Position simulator',fsimd:'Drop a fictitious point anywhere on the Camino and move around it as if you were there. Plan stages from home, check distances and times, see which places lie near each section and try the whole app without leaving your sofa.',
     f1t:'Offline interactive map',f1d:'Cached OpenStreetMap tiles. Navigate without a connection along the entire route, with your GPS position in real time.',
     f2t:'Voice navigation',f2d:'Spoken directions in Galician, Spanish and English. Your phone alerts you to every turn without needing to look at the screen.',
     f3t:'Jacobean heritage',f3d:'Churches, monasteries, hillforts and archaeological remains documented with historical texts and exclusive POIs specialising in Jacobean heritage.',
@@ -8952,6 +8977,7 @@ function cambiarIdioma(lang){
     _s('dl-feat-title',    dl.featTitle);
     _s('dl-feat-sub',      dl.featSub);
     _s('dl-f0-t',dl.f0t);_s('dl-f0-d',dl.f0d);_s('dl-f0-badge',dl.f0badge);
+    _s('dl-fsim-t',dl.fsimt);_s('dl-fsim-d',dl.fsimd);_s('dl-fsim-badge',dl.fsimbadge);
     _s('dl-f1-t',dl.f1t);_s('dl-f1-d',dl.f1d);
     _s('dl-f2-t',dl.f2t);_s('dl-f2-d',dl.f2d);
     _s('dl-f3-t',dl.f3t);_s('dl-f3-d',dl.f3d);
