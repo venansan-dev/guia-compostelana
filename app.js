@@ -5017,11 +5017,11 @@ function cargarPendientes() {
         var item = document.createElement('div');
         item.style.cssText = 'background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:12px;margin-bottom:10px';
         item.innerHTML =
-          '<div style="font-size:13px;color:#6b7280;margin-bottom:4px">📍 '+poiNombre+'</div>'+
+          '<div style="font-size:13px;color:#6b7280;margin-bottom:4px">📍 '+esc(poiNombre)+'</div>'+
           '<div style="font-size:15px;color:#1a1a1a;margin-bottom:8px"><strong>'+esc(op.autor)+':</strong> '+esc(op.texto)+'</div>'+
           '<div style="display:flex;gap:8px">'+
-          '<button class="mod-aprobar" data-poi="'+poiId+'" data-key="'+opKey+'" style="flex:1;background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:8px;font-size:15px;cursor:pointer">✓ Aprobar</button>'+
-          '<button class="mod-rechazar" data-poi="'+poiId+'" data-key="'+opKey+'" style="flex:1;background:#EF4444;color:#fff;border:none;border-radius:8px;padding:8px;font-size:15px;cursor:pointer">✗ Rechazar</button>'+
+          '<button class="mod-aprobar" data-poi="'+esc(poiId)+'" data-key="'+esc(opKey)+'" style="flex:1;background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:8px;font-size:15px;cursor:pointer">✓ Aprobar</button>'+
+          '<button class="mod-rechazar" data-poi="'+esc(poiId)+'" data-key="'+esc(opKey)+'" style="flex:1;background:#EF4444;color:#fff;border:none;border-radius:8px;padding:8px;font-size:15px;cursor:pointer">✗ Rechazar</button>'+
           '</div>';
         lista.appendChild(item);
       });
@@ -5234,15 +5234,15 @@ function cargarErrores() {
       item.style.cssText = 'background:#fdf4ff;border:1px solid #e9d5ff;border-radius:10px;padding:12px;margin-bottom:10px';
       item.innerHTML =
         '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px">' +
-          '<strong style="font-size:14px;color:#7c3aed;word-break:break-word">🐛 ' + (er.contexto||'(sin contexto)') + '</strong>' +
+          '<strong style="font-size:14px;color:#7c3aed;word-break:break-word">🐛 ' + esc(er.contexto||'(sin contexto)') + '</strong>' +
           '<span style="font-size:12px;color:#9ca3af;flex-shrink:0;white-space:nowrap">' + fechaStr + '</span>' +
         '</div>' +
-        '<div style="font-size:14px;color:#374151;margin-bottom:6px;word-break:break-word">' + (er.mensaje||'') + '</div>' +
+        '<div style="font-size:14px;color:#374151;margin-bottom:6px;word-break:break-word">' + esc(er.mensaje||'') + '</div>' +
         '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">' +
-          '<span style="font-size:11px;background:#f3f4f6;color:#374151;border-radius:8px;padding:2px 8px">v' + (er.version||'?') + '</span>' +
-          (er.idioma ? '<span style="font-size:11px;background:#f3f4f6;color:#374151;border-radius:8px;padding:2px 8px">' + er.idioma + '</span>' : '') +
+          '<span style="font-size:11px;background:#f3f4f6;color:#374151;border-radius:8px;padding:2px 8px">v' + esc(er.version||'?') + '</span>' +
+          (er.idioma ? '<span style="font-size:11px;background:#f3f4f6;color:#374151;border-radius:8px;padding:2px 8px">' + esc(er.idioma) + '</span>' : '') +
         '</div>' +
-        '<button class="error-mod-eliminar" data-key="' + key + '" style="background:none;border:1px solid #fca5a5;color:#dc2626;border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer">🗑 Descartar</button>';
+        '<button class="error-mod-eliminar" data-key="' + esc(key) + '" style="background:none;border:1px solid #fca5a5;color:#dc2626;border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer">🗑 Descartar</button>';
       lista.appendChild(item);
     });
     lista.onclick = function(e) {
@@ -5288,7 +5288,7 @@ function cargarPOIsPendientes() {
         'edificación religiosa':'⛪ Religioso','mirador':'🔭 Mirador',
         'albergue':'🏠 Albergue','localización histórica':'📜 Histórico',
         'vestigio arqueológico':'🔍 Arqueológico'
-      }[p.categoria] || p.categoria;
+      }[p.categoria] || esc(p.categoria);
 
       var fecha = p.ts ? new Date(p.ts).toLocaleDateString('es-ES') : '';
 
@@ -5301,8 +5301,8 @@ function cargarPOIsPendientes() {
         (p.descripcion ? '<div style="font-size:15px;color:#374151;margin-bottom:6px;line-height:1.4">' + esc(p.descripcion) + '</div>' : '') +
         '<div style="font-size:13px;color:#9ca3af;margin-bottom:10px">📌 ' + (p.lat||'').toFixed(5) + ', ' + (p.lng||'').toFixed(5) + '</div>' +
         '<div style="display:flex;gap:8px">' +
-          '<button class="poi-mod-aprobar" data-key="' + key + '" style="flex:1;background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:9px;font-size:15px;font-weight:600;cursor:pointer">✓ Aprobar</button>' +
-          '<button class="poi-mod-rechazar" data-key="' + key + '" style="flex:1;background:#ef4444;color:#fff;border:none;border-radius:8px;padding:9px;font-size:15px;font-weight:600;cursor:pointer">✗ Rechazar</button>' +
+          '<button class="poi-mod-aprobar" data-key="' + esc(key) + '" style="flex:1;background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:9px;font-size:15px;font-weight:600;cursor:pointer">✓ Aprobar</button>' +
+          '<button class="poi-mod-rechazar" data-key="' + esc(key) + '" style="flex:1;background:#ef4444;color:#fff;border:none;border-radius:8px;padding:9px;font-size:15px;font-weight:600;cursor:pointer">✗ Rechazar</button>' +
         '</div>';
 
       lista.appendChild(item);
