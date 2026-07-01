@@ -1406,7 +1406,7 @@
   <div class='hero-grid'></div>
   <!-- Banderas móvil: position:absolute esquina inferior derecha, solo visible en móvil -->
   <div class='lang-switcher lang-switcher-mobile'>
-    <button class='lang-btn activo' id='btn-gl-m' onclick='cambiarIdioma(&quot;gl&quot;)' title='Galego'><svg viewBox='0 0 36 36' xmlns='http://www.w3.org/2000/svg'><clipPath id='c-gl'><circle cx='18' cy='18' r='18'></circle></clipPath><g clip-path='url(#c-gl)'><rect fill='#ffffff' height='36' width='36'></rect><polygon fill='#003DA5' points='36,7 29,0 0,29 7,36'></polygon></g></svg></button>
+    <button class='lang-btn activo' id='btn-gl-m' onclick='cambiarIdioma(&quot;gl&quot;)' title='Galego'><svg viewBox='0 0 36 36' xmlns='http://www.w3.org/2000/svg'><clipPath id='c-gl-m'><circle cx='18' cy='18' r='18'></circle></clipPath><g clip-path='url(#c-gl-m)'><rect fill='#ffffff' height='36' width='36'></rect><polygon fill='#003DA5' points='36,7 29,0 0,29 7,36'></polygon></g></svg></button>
     <button class='lang-btn' id='btn-en-m' onclick='cambiarIdioma(&quot;en&quot;)' title='English'><svg viewBox='0 0 36 36' xmlns='http://www.w3.org/2000/svg'><clipPath id='c-en-m'><circle cx='18' cy='18' r='18'></circle></clipPath><g clip-path='url(#c-en)'><rect fill='#012169' height='36' width='36'></rect><line stroke='#fff' stroke-width='7' x1='0' x2='36' y1='0' y2='36'></line><line stroke='#fff' stroke-width='7' x1='36' x2='0' y1='0' y2='36'></line><line stroke='#CF142B' stroke-width='4' x1='0' x2='36' y1='0' y2='36'></line><line stroke='#CF142B' stroke-width='4' x1='36' x2='0' y1='0' y2='36'></line><rect fill='#fff' height='36' width='8' x='14' y='0'></rect><rect fill='#fff' height='8' width='36' y='14'></rect><rect fill='#CF142B' height='36' width='5' x='15.5' y='0'></rect><rect fill='#CF142B' height='5' width='36' y='15.5'></rect></g></svg></button>
     <button class='lang-btn' id='btn-es-m' onclick='cambiarIdioma(&quot;es&quot;)' title='Espanol'><svg viewBox='0 0 36 36' xmlns='http://www.w3.org/2000/svg'><clipPath id='c-es-m'><circle cx='18' cy='18' r='18'></circle></clipPath><g clip-path='url(#c-es)'><rect fill='#c60b1e' height='9' width='36'></rect><rect fill='#ffc300' height='18' width='36' y='9'></rect><rect fill='#c60b1e' height='9' width='36' y='27'></rect></g></svg></button>
   </div>
@@ -2479,12 +2479,12 @@
           btn.querySelector('#brujula-drawer-label').textContent = 'Desactivar';
           var ol = btn.querySelector('#brujula-drawer-offline'); if(ol) ol.style.display='none';
           if (btnRef) btnRef.style.display = 'inline-block';
-          msg.textContent = '✅ Brújula activa';
+          msg.textContent = (T[idiomaActual]||T.es).brujulaActivaTxt||'✅ Brújula activa';
         } else {
-          msg.textContent = '⚠️ Permiso denegado · ve a Ajustes > Safari > Movimiento y orientación';
+          msg.textContent = (T[idiomaActual]||T.es).brujulaPermisoDenegado||'⚠️ Permiso denegado · ve a Ajustes > Safari > Movimiento y orientación';
         }
       }).catch(function() {
-        msg.textContent = '⚠️ Error al solicitar permiso de orientación';
+        msg.textContent = (T[idiomaActual]||T.es).brujulaErrorPermiso||'⚠️ Error al solicitar permiso de orientación';
       });
     } else if (typeof DeviceOrientationEvent !== 'undefined') {
       // Android y otros navegadores
@@ -2499,9 +2499,9 @@
       btn.querySelector('#brujula-drawer-label').textContent = 'Desactivar';
       var ol2 = btn.querySelector('#brujula-drawer-offline'); if(ol2) ol2.style.display='none';
       if (btnRef) btnRef.style.display = 'inline-block';
-      msg.textContent = '✅ Brújula activa';
+      msg.textContent = (T[idiomaActual]||T.es).brujulaActivaTxt||'✅ Brújula activa';
     } else {
-      msg.textContent = '⚠️ Brújula no disponible en este dispositivo';
+      msg.textContent = (T[idiomaActual]||T.es).brujulaNoDisponible||'⚠️ Brújula no disponible en este dispositivo';
     }
   };
 
@@ -2517,7 +2517,7 @@
       btn.querySelector('#brujula-drawer-label').textContent = 'Desactivar';
       var ol = btn.querySelector('#brujula-drawer-offline'); if (ol) ol.style.display = 'none';
       if (btnRef) btnRef.style.display = 'inline-block';
-      if (msg && !msg.textContent) msg.textContent = '✅ Brújula activa';
+      if (msg && !msg.textContent) msg.textContent = (T[idiomaActual]||T.es).brujulaActivaTxt||'✅ Brújula activa';
     } else {
       btn.querySelector('#brujula-drawer-label').textContent = 'Activar';
       var ol2 = btn.querySelector('#brujula-drawer-offline'); if (ol2) ol2.style.display = 'inline';
@@ -2531,11 +2531,11 @@
       navigator.geolocation.getCurrentPosition(function(pos) {
         userLat2 = pos.coords.latitude;
         userLng2 = pos.coords.longitude;
-        document.getElementById('msg-brujula').textContent = '✅ Posición actualizada';
+        document.getElementById('msg-brujula').textContent = (T[idiomaActual]||T.es).posicionActualizadaTxt||'✅ Posición actualizada';
         setTimeout(function() { document.getElementById('msg-brujula').textContent = ''; }, 2000);
       }, function(){}, { enableHighAccuracy: true });
     }
-    document.getElementById('msg-brujula').textContent = '↺ Recalibrando...';
+    document.getElementById('msg-brujula').textContent = (T[idiomaActual]||T.es).recalibrandoTxt||'↺ Recalibrando...';
   };
 
   window.addEventListener('load', function() {
@@ -2680,7 +2680,7 @@
      Se extrajo de app.js para corregir 'Can't find variable: T' en Safari. -->
 <script src="i18n.js"></script>
 <script>
-var _APP_VERSION = "v2060";
+var _APP_VERSION = "v2062";
 if ('serviceWorker' in navigator) {
   // Forzar comprobación del SW en cada visita (evita que el navegador cachee sw.js)
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -2761,7 +2761,7 @@ if ('serviceWorker' in navigator) {
         if (window._albumRefrescarImgCard) window._albumRefrescarImgCard(poi.id);
         if (esCreado) {
           // Punto creado por el usuario — toast neutro, sin logros
-          mostrarToast('📌 Punto añadido a tu álbum');
+          mostrarToast((T[idiomaActual]||T.es).tOcaPuntoAnadidoAlbum||'📌 Punto añadido a tu álbum');
         } else {
           // Visita GPS — sistema de cromos
           _albumComprobarLogros();
@@ -3141,7 +3141,7 @@ if ('serviceWorker' in navigator) {
             if (b.test(visitas)) {
               var txW = db.transaction('logros', 'readwrite');
               txW.objectStore('logros').put({ badgeId: b.id, fecha: Date.now() });
-              mostrarToast('🎖️ Logro desbloqueado: ' + b.emoji + ' ' + b.label);
+              mostrarToast(((T[idiomaActual]||T.es).tOcaLogroDesbloqueado||'🎖️ Logro desbloqueado: ') + b.emoji + ' ' + b.label);
             }
           });
         };
@@ -3171,7 +3171,7 @@ if ('serviceWorker' in navigator) {
     var pct = nextRango ? Math.min(Math.round((n - rango.min) / (nextRango.min - rango.min) * 100), 99) : 100;
     var siguienteTexto = nextRango
       ? (nextRango.min - n) + ' visita' + (nextRango.min - n !== 1 ? 's' : '') + ' para ' + nextRango.emoji + ' ' + nextRango.label
-      : '🌟 ¡Rango máximo alcanzado!';
+      : ((T[idiomaActual]||T.es).rangoMaximoTxt||'🌟 ¡Rango máximo alcanzado!');
     card.innerHTML =
       '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">'
       + '<div style="font-size:32px;line-height:1">'+rango.emoji+'</div>'
@@ -3235,7 +3235,7 @@ if ('serviceWorker' in navigator) {
         if (elSig) elSig.textContent = (nextRango.min - n) + ' más para ' + nextRango.emoji + ' ' + nextRango.label;
       } else {
         if (elBarra) elBarra.style.width = '100%';
-        if (elSig) elSig.textContent = '🌟 ¡Rango máximo alcanzado!';
+        if (elSig) elSig.textContent = (T[idiomaActual]||T.es).rangoMaximoTxt||'🌟 ¡Rango máximo alcanzado!';
       }
       // Logros especiales
       _albumGetLogros(function(logros) {
@@ -3295,7 +3295,7 @@ if ('serviceWorker' in navigator) {
           var btnFoto = document.createElement('button');
           btnFoto.style.cssText = 'position:absolute;top:6px;right:6px;z-index:3;background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.3);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;backdrop-filter:blur(4px)';
           btnFoto.innerHTML = '📷';
-          btnFoto.title = 'Añadir foto';
+          btnFoto.title = (T[idiomaActual]||T.es).tituloAnadirFoto||'Añadir foto';
           btnFoto.onclick = function(e) { e.stopPropagation(); _albumPedirFoto(v.poiId, card); };
           card.appendChild(btnFoto);
           // Si ya tiene foto usuario, mostrarlo
@@ -3359,7 +3359,7 @@ if ('serviceWorker' in navigator) {
           canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
           canvas.toBlob(function(blob) {
             _albumGuardarFoto(poiId, blob, function() {
-              mostrarToast('📷 Foto guardada en tu álbum');
+              mostrarToast((T[idiomaActual]||T.es).tFotoGuardadaAlbum||'📷 Foto guardada en tu álbum');
               // Actualizar la card directamente
               var url = URL.createObjectURL(blob);
               var imgWrap = card.querySelector('div');
@@ -3482,11 +3482,11 @@ if ('serviceWorker' in navigator) {
           canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
           canvas.toBlob(function(blob) {
             _albumGuardarFoto(poiId, blob, function() {
-              mostrarToast('📷 Foto guardada');
+              mostrarToast((T[idiomaActual]||T.es).tFotoGuardada||'📷 Foto guardada');
               // Sustituir imagen en todas las tarjetas de este POI
               var url = URL.createObjectURL(blob);
               document.querySelectorAll('#cromo-img-'+poiId).forEach(function(el){ el.src = url; });
-              document.querySelectorAll('#foto-btn-'+poiId).forEach(function(el){ el.innerHTML = '✏️ cambiar'; });
+              document.querySelectorAll('#foto-btn-'+poiId).forEach(function(el){ el.innerHTML = (T[idiomaActual]||T.es).btnCambiarFoto||'✏️ cambiar'; });
             });
           }, 'image/jpeg', 0.82);
         };
@@ -4003,27 +4003,27 @@ function _abrirModalCasilla(num,casilla,entradas){
   var btn=box.querySelector('#oca-btn-cerrar');if(btn)btn.addEventListener('click',cerrar);
   btn=box.querySelector('#oca-btn-resolver');if(btn)btn.addEventListener('click',function(){marcarResueltos(function(){cerrar();});});
   btn=box.querySelector('#oca-btn-oca');
-  if(btn)btn.addEventListener('click',function(){_ocaAnadirAlMazo(1,poiId,function(){marcarResueltos(function(){cerrar();mostrarToast('🪷 +1 cromo añadido al mazo');});});});
+  if(btn)btn.addEventListener('click',function(){_ocaAnadirAlMazo(1,poiId,function(){marcarResueltos(function(){cerrar();mostrarToast((T[idiomaActual]||T.es).tCromoAnadidoMazo||'🪷 +1 cromo añadido al mazo');});});});
   btn=box.querySelector('#oca-btn-puente');
   if(btn)btn.addEventListener('click',function(){
-    if(Math.random()<0.5){_ocaAnadirAlMazo(1,poiId,function(){marcarResueltos(function(){cerrar();mostrarToast('🌉 Suerte: +1 cromo al mazo');});});}
-    else{_ocaSelectorRetirar(1,'puente',function(eli){marcarResueltos(function(){cerrar();if(eli>0)mostrarToast('🌉 Mala suerte: −1 cromo normal retirado');});});}
+    if(Math.random()<0.5){_ocaAnadirAlMazo(1,poiId,function(){marcarResueltos(function(){cerrar();mostrarToast((T[idiomaActual]||T.es).tSuerteCromoMazo||'🌉 Suerte: +1 cromo al mazo');});});}
+    else{_ocaSelectorRetirar(1,'puente',function(eli){marcarResueltos(function(){cerrar();if(eli>0)mostrarToast((T[idiomaActual]||T.es).tMalaSuerteCromoRetirado||'🌉 Mala suerte: −1 cromo normal retirado');});});}
   });
   btn=box.querySelector('#oca-btn-posada');
-  if(btn)btn.addEventListener('click',function(){marcarResueltos(function(){cerrar();_ocaSelectorRetirar(1,'posada',function(eli){if(eli>0)mostrarToast('🏨 1 cromo entregado en la posada');});});});
+  if(btn)btn.addEventListener('click',function(){marcarResueltos(function(){cerrar();_ocaSelectorRetirar(1,'posada',function(eli){if(eli>0)mostrarToast((T[idiomaActual]||T.es).tCromoEntregadoPosada||'🏨 1 cromo entregado en la posada');});});});
   btn=box.querySelector('#oca-btn-dados');
   if(btn)btn.addEventListener('click',function(){
-    if(Math.random()<0.5){_ocaAnadirAlMazo(2,poiId,function(){marcarResueltos(function(){cerrar();mostrarToast('🎲 Suerte: +2 cromos al mazo');});});}
-    else{_ocaSelectorRetirar(2,'dados',function(eli){marcarResueltos(function(){cerrar();if(eli>0)mostrarToast('🎲 Mala suerte: −'+eli+' cromo(s) retirado(s)');});});}
+    if(Math.random()<0.5){_ocaAnadirAlMazo(2,poiId,function(){marcarResueltos(function(){cerrar();mostrarToast((T[idiomaActual]||T.es).tSuerteDosCromos||'🎲 Suerte: +2 cromos al mazo');});});}
+    else{_ocaSelectorRetirar(2,'dados',function(eli){marcarResueltos(function(){cerrar();if(eli>0)mostrarToast(((T[idiomaActual]||T.es).tMalaSuerteDados||'🎲 Mala suerte: −{n} cromo(s) retirado(s)').replace('{n}',eli));});});}
   });
   btn=box.querySelector('#oca-btn-perder2c');
-  if(btn)btn.addEventListener('click',function(){_ocaSelectorRetirar(2,tipo,function(eli){marcarResueltos(function(){cerrar();if(eli>0)mostrarToast((tipo==='laberinto'?'🌀':'⛓️')+' '+eli+' cromo(s) retirado(s)');});});});
+  if(btn)btn.addEventListener('click',function(){_ocaSelectorRetirar(2,tipo,function(eli){marcarResueltos(function(){cerrar();if(eli>0)mostrarToast((tipo==='laberinto'?((T[idiomaActual]||T.es).tCromosRetiradosLab||'🌀 {n} cromo(s) retirado(s)'):((T[idiomaActual]||T.es).tCromosRetiradosCad||'⛓️ {n} cromo(s) retirado(s)')).replace('{n}',eli));});});});
   btn=box.querySelector('#oca-btn-muerte');
   if(btn)btn.addEventListener('click',function(){
     window._ocaGetCromosConKeys(function(entries){
       var aMatar=entries.filter(function(e){return e.item.num!==58;});
       function next(){if(!aMatar.length){marcarResueltos(function(){
-        _ocaSetDeuda({},function(){cerrar();mostrarToast('💀 Todos los cromos perdidos — la Muerte permanece');});
+        _ocaSetDeuda({},function(){cerrar();mostrarToast((T[idiomaActual]||T.es).tTodosCromosPerdidos||'💀 Todos los cromos perdidos — la Muerte permanece');});
       });return;}window._ocaEliminarCromo(aMatar.shift().key,next);}
       next();
     });
@@ -4185,7 +4185,7 @@ function _popupEnviarOp(poiId) {
     if (!opiniones[poiId]) opiniones[poiId] = [];
     opiniones[poiId].push({autor:'Tú',texto:texto,ts:Date.now()});
   }
-  mostrarToast('💬 Comentario enviado');
+  mostrarToast((T[idiomaActual]||T.es).tComentarioEnviado||'💬 Comentario enviado');
 }
 
 function _abrirModalPOI(punto) {
@@ -5473,11 +5473,11 @@ window._INDICE_CAMINOS = [{"id":"es01c_01a","ruta":"Camino Francés","slug":"fra
         window.Selector.forzarDeteccion(lat, lng).then(function(res){
           if(res && typeof mostrarToast==='function' && res.distancia!=null){
             // Confirmación discreta de que la etapa se resaltó.
-            mostrarToast('Etapa: '+res.etapa);
+            mostrarToast(((T[idiomaActual]||T.es).tEtapaPrefix||'Etapa: ')+res.etapa);
           }
         }).catch(function(err){
           console.warn('RutaOficial _pintarEtapaActual error:', err);
-          if(typeof mostrarToast==='function') mostrarToast('No pude cargar el trazado. ¿Abriste la app con conexión al menos una vez?');
+          if(typeof mostrarToast==='function') mostrarToast((T[idiomaActual]||T.es).tNoPudeTrazado||'No pude cargar el trazado. ¿Abriste la app con conexión al menos una vez?');
         });
       }
     }, function(err){
@@ -5513,7 +5513,7 @@ window._INDICE_CAMINOS = [{"id":"es01c_01a","ruta":"Camino Francés","slug":"fra
           window.Desvio.alimentar(lat, lng, acc);
         }
         if(res.nueva && typeof mostrarToast==='function'){
-          mostrarToast('Vigilando: '+res.ruta+' · '+res.etapa);
+          mostrarToast(((T[idiomaActual]||T.es).tVigilandoPrefix||'Vigilando: ')+res.ruta+' · '+res.etapa);
         }
       }).catch(function(err){
         // detectar() falló (p. ej. offline sin ese track en cache). En vez de
@@ -5524,7 +5524,7 @@ window._INDICE_CAMINOS = [{"id":"es01c_01a","ruta":"Camino Francés","slug":"fra
         if(window.Desvio && window.Desvio.avisoFueraRuta){
           window.Desvio.avisoFueraRuta(null);
         } else if(typeof mostrarToast==='function'){
-          mostrarToast('No pude cargar el trazado. ¿Abriste la app con conexión al menos una vez?');
+          mostrarToast((T[idiomaActual]||T.es).tNoPudeTrazado||'No pude cargar el trazado. ¿Abriste la app con conexión al menos una vez?');
         }
       });
     }, function(err){
@@ -5551,7 +5551,7 @@ window._INDICE_CAMINOS = [{"id":"es01c_01a","ruta":"Camino Francés","slug":"fra
           if(window.Desvio && window.Desvio.avisoFueraRuta) window.Desvio.avisoFueraRuta(null);
         });
       } else if(err && err.code===1 && typeof mostrarToast==='function'){
-        mostrarToast('Activa el permiso de ubicación para el modo Ruta Oficial');
+        mostrarToast((T[idiomaActual]||T.es).tActivaPermisoUbicacion||'Activa el permiso de ubicación para el modo Ruta Oficial');
       }
     }, {enableHighAccuracy:true, maximumAge:15000, timeout:25000});
   }
@@ -5565,7 +5565,7 @@ window._INDICE_CAMINOS = [{"id":"es01c_01a","ruta":"Camino Francés","slug":"fra
       if (typeof _bloquearSiLejos === 'function' && _bloquearSiLejos()) return false;
       initSelector();
       if(!navigator.geolocation){
-        if(typeof mostrarToast==='function') mostrarToast('Tu dispositivo no tiene GPS');
+        if(typeof mostrarToast==='function') mostrarToast((T[idiomaActual]||T.es).tSinGPS||'Tu dispositivo no tiene GPS');
         return false;
       }
       activo = true;
