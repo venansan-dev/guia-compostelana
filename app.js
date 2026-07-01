@@ -1481,6 +1481,7 @@ var _OVERPASS_TAGS = {
   'pension':      '[tourism=guest_house]',
   'supermercado': '[shop=supermarket]',
   'supermercados':'[shop=supermarket]',
+  'supermarket':  '[shop=supermarket]',
   'mercadona':    '[shop=supermarket]',
   'tienda':       '[shop]',
   'tiendas':      '[shop]',
@@ -1490,6 +1491,7 @@ var _OVERPASS_TAGS = {
   'cafe':         '[amenity=cafe]',
   'restaurante':  '[amenity=restaurant]',
   'restaurantes': '[amenity=restaurant]',
+  'restaurant':   '[amenity=restaurant]',
   'bar':          '[amenity=bar]',
   'bares':        '[amenity=bar]',
   'cajero':       '[amenity=atm]',
@@ -1497,18 +1499,28 @@ var _OVERPASS_TAGS = {
   'atm':          '[amenity=atm]',
   'banco':        '[amenity=bank]',
   'bancos':       '[amenity=bank]',
+  'bank':         '[amenity=bank]',
   'gasolinera':   '[amenity=fuel]',
   'gasolineras':  '[amenity=fuel]',
+  'gasolineira':  '[amenity=fuel]',
+  'gasolineiras': '[amenity=fuel]',
+  'gas station':  '[amenity=fuel]',
   'parking':      '[amenity=parking]',
   'aparcamiento': '[amenity=parking]',
   'iglesia':      '[amenity=place_of_worship][religion=christian]',
   'iglesias':     '[amenity=place_of_worship][religion=christian]',
+  'igrexa':       '[amenity=place_of_worship][religion=christian]',
+  'igrexas':      '[amenity=place_of_worship][religion=christian]',
+  'church':       '[amenity=place_of_worship][religion=christian]',
   'correos':      '[amenity=post_office]',
   'lavandería':   '[shop=laundry]',
   'lavanderia':   '[shop=laundry]',
   'agua':         '[amenity=drinking_water]',
   'fuente':       '[amenity=drinking_water]',
   'fuentes':      '[amenity=drinking_water]',
+  'fonte':        '[amenity=drinking_water]',
+  'fontes':       '[amenity=drinking_water]',
+  'fountain':     '[amenity=drinking_water]',
   'baños':        '[amenity=toilets]',
   'aseos':        '[amenity=toilets]',
   'wc':           '[amenity=toilets]',
@@ -2660,7 +2672,7 @@ function abrirHeroModal() {
     box.appendChild(inputWrap);
 
     // Sugerencias rápidas
-    var sugs = ['albergue','farmacia','supermercado','restaurante','café','fuente','iglesia','hospital','banco','gasolinera'];
+    var sugs = _t.asistSugs || ['albergue','farmacia','supermercado','restaurante','café','fuente','iglesia','hospital','banco','gasolinera'];
     var sugWrap = document.createElement('div');
     sugWrap.style.cssText = 'display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px';
     sugs.forEach(function(s) {
@@ -2695,7 +2707,7 @@ function abrirHeroModal() {
       estado.style.display = 'none';
       input.style.borderColor = '#a07828';
       input.style.animation = '_input-blink 0.9s ease-in-out infinite';
-      input.setAttribute('placeholder', '⏳ Buscando ' + q + '…');
+      input.setAttribute('placeholder', (_t.asistBuscando||'⏳ Buscando ') + q + '…');
       input.value = '';
       input.disabled = true;
 
@@ -2718,7 +2730,7 @@ function abrirHeroModal() {
         if (!items || items.length === 0) {
           input.style.borderColor = '#7a5010'; input.style.animation = ''; input.disabled = false; input.setAttribute('placeholder', _t.asistBuscarPh||'albergue, farmacia, fuente, café…');
           estado.style.display = 'block';
-          estado.textContent = '🔍 Sin resultados para "' + q + '" en 1 km.';
+          estado.textContent = (_t.asistSinResultados||'🔍 Sin resultados para "{q}" en 1 km.').replace('{q}', q);
           return;
         }
         if (!window._wizSearchMarkers) window._wizSearchMarkers = [];
@@ -2779,7 +2791,7 @@ function abrirHeroModal() {
         xhr.open('GET', 'https://overpass-api.de/api/interpreter?data=' + encodeURIComponent(query), true);
         xhr.timeout = 12000;
         function _fallbackNominatim() {
-          estado.textContent = '⏳ Buscando en fuente alternativa…';
+          estado.textContent = _t.asistFuenteAlt||'⏳ Buscando en fuente alternativa…';
           var d = 0.009;
           var xhr2 = new XMLHttpRequest();
           xhr2.open('GET', 'https://nominatim.openstreetmap.org/search?format=json&limit=10&q=' + encodeURIComponent(q) + '&accept-language=es&viewbox=' + (refLng-d) + ',' + (refLat+d) + ',' + (refLng+d) + ',' + (refLat-d) + '&bounded=1', true);
@@ -3631,7 +3643,7 @@ function abrirBuscadorAsistente() {
   box.appendChild(inputWrap);
 
   // Chips de sugerencias rápidas
-  var sugs = ['albergue','farmacia','supermercado','restaurante','café','fuente','iglesia','hospital','banco','gasolinera'];
+  var sugs = _t.asistSugs || ['albergue','farmacia','supermercado','restaurante','café','fuente','iglesia','hospital','banco','gasolinera'];
   var sugWrap = document.createElement('div');
   sugWrap.style.cssText = 'display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px';
   sugs.forEach(function(s) {
@@ -3666,7 +3678,7 @@ function abrirBuscadorAsistente() {
     estado.style.display = 'none';
     input.style.borderColor = '#a07828';
     input.style.animation = '_input-blink 0.9s ease-in-out infinite';
-    input.setAttribute('placeholder', '⏳ Buscando ' + q + '…');
+    input.setAttribute('placeholder', (_t.asistBuscando||'⏳ Buscando ') + q + '…');
     input.value = '';
     input.disabled = true;
 
@@ -3687,7 +3699,7 @@ function abrirBuscadorAsistente() {
       resultados.innerHTML = '';
       if (!items || items.length === 0) {
         estado.style.display = 'block';
-        estado.textContent = '🔍 Sin resultados para "' + q + '" en 1 km.';
+        estado.textContent = (_t.asistSinResultados||'🔍 Sin resultados para "{q}" en 1 km.').replace('{q}', q);
         return;
       }
       if (!window._wizSearchMarkers) window._wizSearchMarkers = [];
@@ -3753,7 +3765,7 @@ function abrirBuscadorAsistente() {
       xhr.open('GET', 'https://overpass-api.de/api/interpreter?data=' + encodeURIComponent(query), true);
       xhr.timeout = 12000;
       function _fallbackNominatimLupa() {
-        estado.textContent = '⏳ Buscando en fuente alternativa…';
+        estado.textContent = _t.asistFuenteAlt||'⏳ Buscando en fuente alternativa…';
         var d = 0.009;
         var xhr2 = new XMLHttpRequest();
         xhr2.open('GET', 'https://nominatim.openstreetmap.org/search?format=json&limit=10&q=' + encodeURIComponent(q) + '&accept-language=es&viewbox=' + (refLng-d) + ',' + (refLat+d) + ',' + (refLng+d) + ',' + (refLat-d) + '&bounded=1', true);

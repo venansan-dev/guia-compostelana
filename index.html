@@ -2680,7 +2680,7 @@
      Se extrajo de app.js para corregir 'Can't find variable: T' en Safari. -->
 <script src="i18n.js"></script>
 <script>
-var _APP_VERSION = "v2059";
+var _APP_VERSION = "v2060";
 if ('serviceWorker' in navigator) {
   // Forzar comprobación del SW en cada visita (evita que el navegador cachee sw.js)
   navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -4406,9 +4406,10 @@ function mostrarBannerRed() {
     b = document.createElement('div');
     b.id = 'offline-red-banner';
     b.style.cssText = 'position:fixed;top:70px;left:50%;transform:translateX(-50%);background:#dc2626;color:#fff;border-radius:20px;padding:8px 16px;font-size:12px;font-family:DM Sans,sans-serif;font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,0.2);z-index:9999;display:flex;align-items:center;gap:6px;white-space:nowrap';
-    b.innerHTML = '📡 Sin conexión · mostrando datos en caché';
     document.body.appendChild(b);
   }
+  var _tt = (typeof T !== 'undefined' && typeof idiomaActual !== 'undefined' && T[idiomaActual]) ? T[idiomaActual] : (typeof T !== 'undefined' ? T.es : null);
+  b.innerHTML = (_tt && _tt.bannerOffline) || '📡 Sin conexión · mostrando datos en caché';
   b.style.display = 'flex';
 }
 
