@@ -4272,13 +4272,13 @@ function _mostrarBtnComenzarNav(){
       'background:#1D9E75;color:#fff;border:none;border-radius:24px;padding:13px 22px;'+
       'font-size:15px;font-weight:700;font-family:DM Sans,sans-serif;cursor:pointer;'+
       'box-shadow:0 6px 22px rgba(0,0,0,0.32);display:flex;align-items:center;gap:8px';
-    b.innerHTML = '<span style="font-size:17px;line-height:1">▶</span> Comenzar navegación';
     b.addEventListener('click', function(){
       _ocultarBtnComenzarNav();
       if (typeof activarNavegacionVoz==='function') activarNavegacionVoz();
     });
     document.body.appendChild(b);
   }
+  b.innerHTML = '<span style="font-size:17px;line-height:1">▶</span> ' + ((T[idiomaActual]||T.es).btnComenzarNav||'Comenzar navegación');
   b.style.display = 'flex';
 }
 function _ocultarBtnComenzarNav(){
@@ -4306,7 +4306,7 @@ function _ponerMarkerVolver(lat, lng){
     }),
     zIndexOffset: 1000
   }).addTo(mapa);
-  try{ window._volverMarker.bindPopup('Pulsa aquí para volver al trazado amarillo'); }catch(e){}
+  try{ window._volverMarker.bindPopup((T[idiomaActual]||T.es).popupVolverTrazado||'Pulsa aquí para volver al trazado amarillo'); }catch(e){}
 }
 
 // Borra el ayudante "volver a la ruta": botón Comenzar, chincheta y, si existe,

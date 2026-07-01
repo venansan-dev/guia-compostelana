@@ -1,15 +1,19 @@
-const CACHE_NAME = 'guia-compostelana-v2062';
+const CACHE_NAME = 'guia-compostelana-v2064';
 const TILE_CACHE = 'guia-tiles-v5';
 const IMG_CACHE  = 'guia-imgs-v10';
 const LIB_CACHE  = 'guia-libs-v1';
 const TRACK_CACHE = 'guia-tracks-v4';
+// pois.js (1+ MB) va en su propia caché con versión independiente de CACHE_NAME.
+// Así, subir versión por un cambio en app.js/i18n.js/index.html NO obliga a
+// redescargar pois.js entero si los datos de POIs no han cambiado. Solo sube
+// POIS_CACHE cuando de verdad edites pois.js.
+const POIS_CACHE = 'guia-pois-v1';
 
 const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/app.js',
   '/i18n.js',
-  '/pois.js',
   '/manifest.json'
 ];
 
@@ -144,6 +148,13 @@ self.addEventListener('install', function(e) {
         return Promise.allSettled(LIB_URLS.map(function(url) {
           return c.add(url).catch(function(){});
         }));
+      }),
+      caches.open(POIS_CACHE).then(function(c) {
+        return c.match('/pois.js').then(function(cached) {
+          // Si ya está en su caché (no cambió de versión), no lo reescribimos.
+          if (cached) return;
+          return c.add('/pois.js').catch(function(){});
+        });
       })
     ]).then(function() { return self.skipWaiting(); })
   );
@@ -165,7 +176,7 @@ self.addEventListener('activate', function(e) {
   e.waitUntil(
     caches.keys().then(function(keys) {
       return Promise.all(keys.map(function(key) {
-        if (key !== CACHE_NAME && key !== TILE_CACHE && key !== IMG_CACHE && key !== LIB_CACHE && key !== TRACK_CACHE) {
+        if (key !== CACHE_NAME && key !== TILE_CACHE && key !== IMG_CACHE && key !== LIB_CACHE && key !== TRACK_CACHE && key !== POIS_CACHE) {
           return caches.delete(key);
         }
       }));
@@ -286,10 +297,27 @@ self.addEventListener('fetch', function(e) {
     return;
   }
 
-  // pois.js y app.js (datos + lógica de la app) → cache first con
+  // pois.js (datos de POIs) → su propia caché versionada independiente, para
+  // no redescargar 1+ MB cada vez que sube de versión app.js/i18n.js.
+  if (url.endsWith('/pois.js')) {
+    e.respondWith(
+      caches.open(POIS_CACHE).then(function(c) {
+        return c.match(e.request).then(function(cached) {
+          var red = fetch(e.request).then(function(res) {
+            if (res && res.status === 200) c.put(e.request, res.clone());
+            return res;
+          }).catch(function() { return cached; });
+          return cached || red;
+        });
+      })
+    );
+    return;
+  }
+
+  // app.js e i18n.js (lógica y traducciones) → cache first con
   // actualización en segundo plano. Carga instantánea desde caché; si hay
   // red, refresca para la próxima vez.
-  if (url.endsWith('/pois.js') || url.endsWith('/app.js') || url.endsWith('/i18n.js')) {
+  if (url.endsWith('/app.js') || url.endsWith('/i18n.js')) {
     e.respondWith(
       caches.open(CACHE_NAME).then(function(c) {
         return c.match(e.request).then(function(cached) {
