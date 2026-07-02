@@ -7,7 +7,7 @@ const TRACK_CACHE = 'guia-tracks-v4';
 // Así, subir versión por un cambio en app.js/i18n.js/index.html NO obliga a
 // redescargar pois.js entero si los datos de POIs no han cambiado. Solo sube
 // POIS_CACHE cuando de verdad edites pois.js.
-const POIS_CACHE = 'guia-pois-v2';
+const POIS_CACHE = 'guia-pois-v3';
 
 const STATIC_ASSETS = [
   '/',
