@@ -5631,8 +5631,13 @@ var FIESTAS_PUNTOS = [
     lat:42.4306, lng:-8.6435, mesIni:9, diaIni:3, mesFin:9, diaFin:6 },
 ];
 
+// ── INTERRUPTOR GLOBAL DE FIESTAS ───────────────────────────────────────────
+// Ponlo a true para volver a activar los marcadores de fiestas por fechas.
+var FIESTAS_ACTIVAS = false;
+
 // Comprobar si una fiesta es visible hoy (incluyendo día previo)
 function fiestaActivaHoy(f) {
+  if (!FIESTAS_ACTIVAS) return false; // fiestas anuladas globalmente
   var ahora = new Date();
   var mes = ahora.getMonth() + 1; // 1-12
   var dia  = ahora.getDate();
