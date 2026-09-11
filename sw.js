@@ -1,13 +1,13 @@
-const CACHE_NAME = 'guia-compostelana-v2067';
+const CACHE_NAME = 'guia-compostelana-v2068';
 const TILE_CACHE = 'guia-tiles-v5';
-const IMG_CACHE  = 'guia-imgs-v10';
+const IMG_CACHE  = 'guia-imgs-v11';
 const LIB_CACHE  = 'guia-libs-v1';
 const TRACK_CACHE = 'guia-tracks-v4';
 // pois.js (1+ MB) va en su propia caché con versión independiente de CACHE_NAME.
 // Así, subir versión por un cambio en app.js/i18n.js/index.html NO obliga a
 // redescargar pois.js entero si los datos de POIs no han cambiado. Solo sube
 // POIS_CACHE cuando de verdad edites pois.js.
-const POIS_CACHE = 'guia-pois-v3';
+const POIS_CACHE = 'guia-pois-v4';
 
 const STATIC_ASSETS = [
   '/',
@@ -17,8 +17,11 @@ const STATIC_ASSETS = [
   '/manifest.json'
 ];
 
-// Imágenes POIs (sincronizado con las imágenes referenciadas en index.html)
-const POI_IMAGES = ['https://i.postimg.cc/MHq8dzB5/hero8.png', 'https://i.postimg.cc/5yJ2vk9j/descrip.webp', 'https://i.postimg.cc/mkf5BspB/historia2.webp', 'https://i.postimg.cc/RFK0WzBw/IMG-0229.webp', 'https://i.postimg.cc/0jRBPsX9/historia3.webp', 'https://i.postimg.cc/Fz5BN4W2/brujula2.webp', 'https://i.postimg.cc/vBfm4dsN/losaestrelladavid.webp', 'https://i.postimg.cc/Bb9V407s/brujula3-2.webp', 'https://i.postimg.cc/rsTwWYVf/freixo.webp', 'https://i.postimg.cc/1twz8ZQr/IMG-0859.webp', 'https://i.postimg.cc/Bb9V407S/etapas3.webp', 'https://i.postimg.cc/Fz5BN4C5/asis3.webp', 'https://i.postimg.cc/T1x3mHdk/graffiticoia.webp', 'https://i.postimg.cc/ZntM4SsR/etapas2.webp', 'https://i.postimg.cc/4ykSsgLD/asistente2.webp', 'https://i.postimg.cc/Sx0rth1M/headr4.webp', 'https://i.postimg.cc/nzBLXtx8/fortalezacastro.webp', 'https://i.postimg.cc/brPwbFyF/santamariadeguizan.webp', 'https://i.postimg.cc/Bb3nDwZj/IMG-4705.webp', 'https://i.postimg.cc/wvLB1dpf/IMG-1026.webp', 'https://i.postimg.cc/Y06ySsT2/principal2.webp', 'https://i.postimg.cc/MHCNTPDJ/balaidos.jpg', 'https://i.postimg.cc/mkY6r5Kb/mipunto3.webp', 'https://i.postimg.cc/J0Ndh2SM/mipunto2.webp', 'https://i.postimg.cc/T1x3mHdB/santacristinalavadores.webp', 'https://i.postimg.cc/d39t9mDw/coiai.webp', 'https://i.postimg.cc/NMm0Kwc7/IMG-1120.webp', 'https://i.postimg.cc/XJpbp4gp/alertas2.webp', 'https://i.postimg.cc/RhmZfbSk/torrelavandeira.webp', 'https://i.postimg.cc/zvNGWPz6/casaceta.webp', 'https://i.postimg.cc/L5S8f09r/concatedral.webp', 'https://i.postimg.cc/TwgPKX6N/IMG-2940.webp', 'https://i.postimg.cc/qqrvnZBT/iglesiacastrelos.webp', 'https://i.postimg.cc/XqWYFDN4/laxe.webp', 'https://i.postimg.cc/vTFNbs2Z/logohead.webp', 'https://i.postimg.cc/hP2mT0LN/casc6.webp', 'https://i.postimg.cc/kGCg8hM7/torrepadin.webp', 'https://i.postimg.cc/Kjb8LscZ/bembrive.webp', 'https://i.postimg.cc/j20Ftb3V/alertas3.webp', 'https://i.postimg.cc/90BFBtzW/bouzas.webp', 'https://i.postimg.cc/9fmZ7NSx/vieira8.webp', 'https://i.postimg.cc/tJzCzt7q/escudos.webp', 'https://i.postimg.cc/prBXBYyr/real.webp', 'https://i.postimg.cc/D0hwsYfv/iglesiateis.webp', 'https://i.postimg.cc/Hnmk5PWk/olivo.webp', 'https://i.postimg.cc/nrxh7wVC/escudoamorcortes.webp', 'https://i.postimg.cc/nr1c1YMZ/santiagodeparada.webp'];
+// Imágenes POIs, ahora servidas desde el propio repo en img/ (mismo origen).
+// Rutas RELATIVAS, como TRACK_URLS: así funcionan tanto en un dominio propio
+// como en un repositorio de proyecto de GitHub Pages (/usuario/repo/).
+// Sincronizado con las imágenes referenciadas en index.html.
+const POI_IMAGES = ['img/hero8.png', 'img/descrip.webp', 'img/historia2.webp', 'img/IMG-0229.webp', 'img/historia3.webp', 'img/brujula2.webp', 'img/losaestrelladavid.webp', 'img/brujula3-2.webp', 'img/freixo.webp', 'img/IMG-0859.webp', 'img/etapas3.webp', 'img/asis3.webp', 'img/graffiticoia.webp', 'img/etapas2.webp', 'img/asistente2.webp', 'img/headr4.webp', 'img/fortalezacastro.webp', 'img/santamariadeguizan.webp', 'img/IMG-4705.webp', 'img/IMG-1026.webp', 'img/principal2.webp', 'img/balaidos.jpg', 'img/mipunto3.webp', 'img/mipunto2.webp', 'img/santacristinalavadores.webp', 'img/coiai.webp', 'img/IMG-1120.webp', 'img/alertas2.webp', 'img/torrelavandeira.webp', 'img/casaceta.webp', 'img/concatedral.webp', 'img/IMG-2940.webp', 'img/iglesiacastrelos.webp', 'img/laxe.webp', 'img/logohead.webp', 'img/casc6.webp', 'img/torrepadin.webp', 'img/bembrive.webp', 'img/alertas3.webp', 'img/bouzas.webp', 'img/vieira8.webp', 'img/escudos.webp', 'img/real.webp', 'img/iglesiateis.webp', 'img/olivo.webp', 'img/escudoamorcortes.webp', 'img/santiagodeparada.webp'];
 
 // Librerías externas (Leaflet, markercluster, Firebase) necesarias para que
 // el mapa y la app funcionen sin conexión tras la primera carga.
@@ -202,7 +205,26 @@ self.addEventListener('fetch', function(e) {
     return;
   }
 
-  // Imágenes postimg → cache first.
+  // Imágenes propias en img/ → cache first con auto-cache al vuelo.
+  // Al ser mismo origen no hay respuestas opacas ni redirecciones de CDN:
+  // basta con guardar el 200 y servirlo desde IMG_CACHE mientras exista.
+  if (url.indexOf('/img/') !== -1 && /\.(webp|png|jpe?g|gif|svg)$/i.test(url.split('?')[0])) {
+    e.respondWith(
+      caches.open(IMG_CACHE).then(function(c) {
+        return c.match(e.request).then(function(cached) {
+          if (cached) return cached;
+          return fetch(e.request).then(function(res) {
+            if (res && res.status === 200) c.put(e.request, res.clone()).catch(function(){});
+            return res;
+          }).catch(function() { return Response.error(); });
+        });
+      })
+    );
+    return;
+  }
+
+  // Imágenes postimg → cache first. Ya no queda ninguna referencia a
+  // postimg.cc en el proyecto; este bloque se puede borrar cuando quieras.
   // postimg.cc sirve desde una CDN que puede responder con redirecciones o
   // respuestas opacas (type:'opaque', status 0) en peticiones cross-origin.
   // Antes solo cacheábamos status===200, así que esas respuestas válidas no

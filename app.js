@@ -2071,7 +2071,7 @@ function abrirHeroModal() {
     var wrap = document.createElement('div');
     wrap.style.cssText = 'display:flex;align-items:flex-end;gap:10px;margin-bottom:10px' + (extraCss ? ';' + extraCss : '');
     var img = document.createElement('img');
-    img.src = 'https://i.postimg.cc/hP2mT0LN/casc6.webp';
+    img.src = 'img/casc6.webp';
     img.style.cssText = 'width:36px;height:36px;object-fit:contain;flex-shrink:0;animation:_casc-pulse 2.4s ease-in-out infinite';
     var txt = document.createElement('div');
     txt.style.cssText = 'font-family:DM Sans,sans-serif;font-size:15px;font-weight:500;color:#1a0800;line-height:1;flex:1;margin-bottom:0';
@@ -2402,7 +2402,7 @@ function abrirHeroModal() {
     var cascoWrap = document.createElement('div');
     cascoWrap.style.cssText = 'display:flex;align-items:flex-end;gap:10px;margin-bottom:10px';
     var cascoImg = document.createElement('img');
-    cascoImg.src = 'https://i.postimg.cc/hP2mT0LN/casc6.webp';
+    cascoImg.src = 'img/casc6.webp';
     cascoImg.style.cssText = 'width:38px;height:38px;object-fit:contain;flex-shrink:0;animation:_casc-pulse 2.4s ease-in-out infinite';
     if (!document.getElementById('_casc-pulse-style')) {
       var st = document.createElement('style');
@@ -7044,7 +7044,7 @@ function _modalPergamino(config) {
   // Casco animado. Si hay subtítulo, acompaña a ESTE (el texto nace desde su
   // base); si no, vuelve junto al título con su dictado clásico.
   var cascoImg = document.createElement('img');
-  cascoImg.src = 'https://i.postimg.cc/hP2mT0LN/casc6.webp';
+  cascoImg.src = 'img/casc6.webp';
   cascoImg.style.cssText = 'width:34px;height:34px;object-fit:contain;flex-shrink:0;animation:_casc-pulse 2.4s ease-in-out infinite';
 
   var titEl = document.createElement('div');
@@ -8425,24 +8425,24 @@ function iniciarRuta() {
 
 // GALERIA HERO
 var GALERIA_IMGS=[
-  {src:'https://i.postimg.cc/T1x3mHdk/graffiticoia.webp',alt:'Marcas gremiales Coia'},
-  {src:'https://i.postimg.cc/nzBLXtx8/fortalezacastro.webp',alt:'Monte do Castro'},
-  {src:'https://i.postimg.cc/RFK0WzBw/IMG-0229.webp',alt:'Estela Templaria'},
-  {src:'https://i.postimg.cc/Kjb8LscZ/bembrive.webp',alt:'Santiago de Bembrive'},
-  {src:'https://i.postimg.cc/zvNGWPz6/casaceta.webp',alt:'Casa de Ceta'},
-  {src:'https://i.postimg.cc/D0hwsYfv/iglesiateis.webp',alt:'Iglesia Teis'},
-  {src:'https://i.postimg.cc/nrxh7wVC/escudoamorcortes.webp',alt:'Escudo Amor Cortés'},
-  {src:'https://i.postimg.cc/MHCNTPDJ/balaidos.jpg',alt:'Puente de Balaidos'},
-  {src:'https://i.postimg.cc/L5S8f09r/concatedral.webp',alt:'Concatedral de Santa María'},
-  {src:'https://i.postimg.cc/qqrvnZBT/iglesiacastrelos.webp',alt:'Santa María de Castrelos'},
-  {src:'https://i.postimg.cc/vBfm4dsN/losaestrelladavid.webp',alt:'Losa Estrella de David'},
-  {src:'https://i.postimg.cc/Bb3nDwZj/IMG-4705.webp',alt:'Cruz Paté Figueirido'},
-  {src:'https://i.postimg.cc/Hnmk5PWk/olivo.webp',alt:'Olivo Templario'},
-  {src:'https://i.postimg.cc/XqWYFDN4/laxe.webp',alt:'Petroglifos Da Laxe'},
-  {src:'https://i.postimg.cc/rsTwWYVf/freixo.webp',alt:'Ermita San Xoan do Freixo'},
-  {src:'https://i.postimg.cc/J08zJd7W/iglesiabembrive.webp',alt:'Iglesia de Bembrive'},
-  {src:'https://i.postimg.cc/63nQ8NXh/IMG-1179.webp',alt:'Concatedral'},
-  {src:'https://i.postimg.cc/DZLzSKTR/IMG-E1212.webp',alt:'Patrimonio templario'}
+  {src:'img/graffiticoia.webp',alt:'Marcas gremiales Coia'},
+  {src:'img/fortalezacastro.webp',alt:'Monte do Castro'},
+  {src:'img/IMG-0229.webp',alt:'Estela Templaria'},
+  {src:'img/bembrive.webp',alt:'Santiago de Bembrive'},
+  {src:'img/casaceta.webp',alt:'Casa de Ceta'},
+  {src:'img/iglesiateis.webp',alt:'Iglesia Teis'},
+  {src:'img/escudoamorcortes.webp',alt:'Escudo Amor Cortés'},
+  {src:'img/balaidos.jpg',alt:'Puente de Balaidos'},
+  {src:'img/concatedral.webp',alt:'Concatedral de Santa María'},
+  {src:'img/iglesiacastrelos.webp',alt:'Santa María de Castrelos'},
+  {src:'img/losaestrelladavid.webp',alt:'Losa Estrella de David'},
+  {src:'img/IMG-4705.webp',alt:'Cruz Paté Figueirido'},
+  {src:'img/olivo.webp',alt:'Olivo Templario'},
+  {src:'img/laxe.webp',alt:'Petroglifos Da Laxe'},
+  {src:'img/freixo.webp',alt:'Ermita San Xoan do Freixo'},
+  {src:'img/iglesiabembrive.webp',alt:'Iglesia de Bembrive'},
+  {src:'img/IMG-1179.webp',alt:'Concatedral'},
+  {src:'img/IMG-E1212.webp',alt:'Patrimonio templario'}
 ];
 var galeria_idx = 0;   // siguiente imagen a cargar
 var galeria_slot = 0;  // slot que cambia en este turno (0, 1 o 2)
